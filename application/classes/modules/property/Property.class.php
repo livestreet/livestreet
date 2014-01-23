@@ -30,6 +30,12 @@ class ModuleProperty extends ModuleORM {
 	const PROPERTY_TYPE_TAGS='tags';
 	const PROPERTY_TYPE_VIDEO_LINK='video_link';
 	const PROPERTY_TYPE_SELECT='select';
+	/**
+	 * Список состояний типов объектов
+ 	 */
+	const TARGET_STATE_ACTIVE=1;
+	const TARGET_STATE_NOT_ACTIVE=2;
+	const TARGET_STATE_REMOVE=3;
 
 	protected $oMapper=null;
 	/**
@@ -54,6 +60,15 @@ class ModuleProperty extends ModuleORM {
 	public function Init() {
 		parent::Init();
 		$this->oMapper=Engine::GetMapper(__CLASS__);
+
+		/**
+		 * Получаем типы из БД и активируем их
+		 */
+		if ($aTargetItems=$this->GetTargetItemsByFilter(array('state'=>self::TARGET_STATE_ACTIVE))) {
+			foreach($aTargetItems as $oTarget) {
+				$this->Property_AddTargetType($oTarget->getType(),$oTarget->getParams());
+			}
+		}
 	}
 	/**
 	 * Возвращает список типов объектов
@@ -259,6 +274,13 @@ class ModuleProperty extends ModuleORM {
 	 * @return array
 	 */
 	public function GetEntityPropertyList($oTarget) {
+		$sTargetType=$oTarget->getPropertyTargetType();
+		/**
+		 * Проверяем зарегистрирован ли такой тип
+		 */
+		if (!$this->IsAllowTargetType($sTargetType)) {
+			return array();
+		}
 		if (!$oTarget->getPropertyIsLoadAll()) {
 			$aProperties=$this->oMapper->GetPropertiesValueByTarget($oTarget->getPropertyTargetType(),$oTarget->getId());
 			$this->AttachPropertiesForTarget($oTarget,$aProperties);
@@ -606,5 +628,68 @@ class ModuleProperty extends ModuleORM {
 			'ModuleProperty_EntityValueSelect_save',
 			'ModuleProperty_EntityValueTag_save',
 		));
+	}
+	/**
+	 * Создает новый тип объекта в БД для дополнительных полей
+	 *
+	 * @param string $sType
+	 * @param array  $aParams
+	 * @param bool $bRewrite
+	 *
+	 * @return bool|ModuleProperty_EntityTarget
+	 */
+	public function CreateTargetType($sType,$aParams,$bRewrite=false) {
+		/**
+		 * Проверяем есть ли уже такой тип
+		 */
+		if ($oTarget=$this->GetTargetByType($sType)) {
+			if (!$bRewrite) {
+				return false;
+			}
+		} else {
+			$oTarget=Engine::GetEntity('ModuleProperty_EntityTarget');
+			$oTarget->setType($sType);
+		}
+		$oTarget->setState(self::TARGET_STATE_ACTIVE);
+		$oTarget->setParams($aParams);
+		if ($oTarget->Save()) {
+			return $oTarget;
+		}
+		return false;
+	}
+	/**
+	 * Отключает тип объекта для дополнительных полей
+	 *
+	 * @param string $sType
+	 * @param int $iState self::TARGET_STATE_NOT_ACTIVE или self::TARGET_STATE_REMOVE
+	 */
+	public function RemoveTargetType($sType,$iState=self::TARGET_STATE_NOT_ACTIVE) {
+		if ($oTarget=$this->GetTargetByType($sType)) {
+			$oTarget->setState($iState);
+			$oTarget->Save();
+		}
+	}
+
+	/**
+	 * Возвращает набор полей/свойств для показа их на форме редактирования
+	 *
+	 * @param $sTargetType
+	 * @param $iTargetId
+	 *
+	 * @return mixed
+	 */
+	public function GetPropertiesForUpdate($sTargetType,$iTargetId) {
+		/**
+		 * Проверяем зарегистрирован ли такой тип
+		 */
+		if (!$this->IsAllowTargetType($sTargetType)) {
+			return array();
+		}
+		/**
+		 * Получаем набор свойств
+		 */
+		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType,'#order'=>array('sort'=>'desc')));
+		$this->Property_AttachValueForProperties($aProperties,$sTargetType,$iTargetId);
+		return $aProperties;
 	}
 }

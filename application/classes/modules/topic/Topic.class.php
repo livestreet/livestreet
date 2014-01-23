@@ -1631,6 +1631,11 @@ class ModuleTopic extends Module {
 			$oType->setId($sId);
 			//чистим зависимые кеши
 			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_type_new'));
+			/**
+			 * Регистрируем новый тип в дополнительных полях
+			 * todo: fix lang text
+			 */
+			$this->Property_CreateTargetType('topic_'.$oType->getCode(),array('entity'=>'ModuleTopic_EntityTopic','name'=>'Топик - '.$oType->getName()),true);
 			return $oType;
 		}
 		return false;

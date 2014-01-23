@@ -225,3 +225,22 @@ ADD INDEX ( `sort` ) ;
 
 -- 12.01.2014
 ALTER TABLE `prefix_property` ADD `description` VARCHAR( 500 ) NOT NULL AFTER `title` ;
+
+--23.01.2014
+--
+-- Структура таблицы `prefix_property_target`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_property_target` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `state` tinyint(4) NOT NULL DEFAULT '1',
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `date_create` (`date_create`),
+  KEY `date_update` (`date_update`),
+  KEY `state` (`state`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

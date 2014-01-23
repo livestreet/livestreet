@@ -545,7 +545,7 @@ class ModuleMedia extends ModuleORM {
 	public function CheckTargetComment($iTargetId) {
 		if ($oComment=$this->Comment_GetCommentById($iTargetId)) {
 			/**
-			 * Проверяем права на редактирование топика
+			 * Проверяем права на редактирование комментария
 			 */
 			if ($this->ACL_IsAllowEditComment($oComment,$this->oUserCurrent)) {
 				return true;

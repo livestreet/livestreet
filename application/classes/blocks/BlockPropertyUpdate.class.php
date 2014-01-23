@@ -31,8 +31,7 @@ class BlockPropertyUpdate extends Block {
 		/**
 		 * Получаем набор свойств
 		 */
-		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType,'#order'=>array('sort'=>'desc')));
-		$this->Property_AttachValueForProperties($aProperties,$sTargetType,$iTargetId);
+		$aProperties=$this->Property_GetPropertiesForUpdate($sTargetType,$iTargetId);
 		$this->Viewer_Assign('aProperties',$aProperties);
 	}
 }
