@@ -669,7 +669,6 @@ class ModuleProperty extends ModuleORM {
 			$oTarget->Save();
 		}
 	}
-
 	/**
 	 * Возвращает набор полей/свойств для показа их на форме редактирования
 	 *
@@ -691,5 +690,43 @@ class ModuleProperty extends ModuleORM {
 		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType,'#order'=>array('sort'=>'desc')));
 		$this->Property_AttachValueForProperties($aProperties,$sTargetType,$iTargetId);
 		return $aProperties;
+	}
+	/**
+	 * Автоматическое создание дополнительного поля
+	 * TODO: учитывать $aAdditional для создание вариантов в типе select
+	 *
+	 * @param string  $sTargetType	Тип объекта дял которого добавляем поле
+	 * @param array $aData	Данные поля: array('type'=>'int','title'=>'Название','code'=>'newfield','description'=>'Описание поля','sort'=>100);
+	 * @param bool  $bSkipErrorUniqueCode	Пропускать ошибку при дублировании кода поля (такое поле уже существует)
+	 * @param array $aValidateRules	Данные валидатора поля, зависят от конкретного типа поля: array('allowEmpty'=>true,'max'=>1000)
+	 * @param array $aParams	Дополнительные параметры поля, зависят от типа поля
+	 * @param array $aAdditional	Дополнительные данные, которые нужно учитывать при создании поля, зависят от типа поля
+	 *
+	 * @return bool|ModuleProperty_EntityProperty
+	 */
+	public function CreateTargetProperty($sTargetType,$aData,$bSkipErrorUniqueCode=true,$aValidateRules=array(),$aParams=array(),$aAdditional=array()) {
+		/**
+		 * Если необходимо и поле уже существует, то пропускаем создание
+		 */
+		if ($bSkipErrorUniqueCode and isset($aData['code']) and $this->GetPropertyByTargetTypeAndCode($sTargetType,$aData['code'])) {
+			return true;
+		}
+
+		$oProperty=Engine::GetEntity('ModuleProperty_EntityProperty');
+		$oProperty->_setValidateScenario('auto');
+		$oProperty->_setDataSafe($aData);
+		$oProperty->setValidateRulesRaw($aValidateRules);
+		$oProperty->setParamsRaw($aParams);
+		$oProperty->setTargetType($sTargetType);
+		if ($oProperty->_Validate()) {
+			if ($oProperty->Add()) {
+				return $oProperty;
+			} else {
+				return 'Возникла ошибка при добавлении поля';
+			}
+		} else {
+			return $oProperty->_getValidateError();
+		}
+		return false;
 	}
 }

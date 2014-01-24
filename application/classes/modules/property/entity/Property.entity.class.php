@@ -22,15 +22,16 @@
 class ModuleProperty_EntityProperty extends EntityORM {
 
 	protected $aValidateRules=array(
-		array('type','check_type','on'=>array('create')),
-		array('code','regexp','allowEmpty'=>false,'pattern'=>'#^[a-z0-9\_]+$#i','on'=>array('create','update')),
-		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250,'on'=>array('create','update')),
-		array('description','string','allowEmpty'=>true,'max'=>500,'on'=>array('update')),
-		array('sort','number','allowEmpty'=>false,'integerOnly'=>true,'min'=>0,'on'=>array('update')),
-		array('validate_rules_raw','check_validate_rules_raw','on'=>array('create','update')),
-		array('params_raw','check_params_raw','on'=>array('update')),
-		array('title','check_title','on'=>array('create','update')),
-		array('description','check_description','on'=>array('update')),
+		array('type','check_type','on'=>array('create','auto')),
+		array('code','regexp','allowEmpty'=>false,'pattern'=>'#^[a-z0-9\_]+$#i','on'=>array('create','update','auto')),
+		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250,'on'=>array('create','update','auto')),
+		array('description','string','allowEmpty'=>true,'max'=>500,'on'=>array('update','auto')),
+		array('sort','number','allowEmpty'=>false,'integerOnly'=>true,'min'=>0,'on'=>array('auto')),
+		array('validate_rules_raw','check_validate_rules_raw','on'=>array('create','update','auto')),
+		array('params_raw','check_params_raw','on'=>array('update','auto')),
+		array('code','check_code','on'=>array('create','update','auto')),
+		array('title','check_title','on'=>array('create','update','auto')),
+		array('description','check_description','on'=>array('update','auto')),
 	);
 
 	protected $aRelations=array(
@@ -42,6 +43,15 @@ class ModuleProperty_EntityProperty extends EntityORM {
 			return true;
 		}
 		return 'Неверный тип поля';
+	}
+
+	public function ValidateCheckCode() {
+		if ($oProperty=$this->Property_GetPropertyByTargetTypeAndCode($this->getTargetType(),$this->getCode())) {
+			if ($this->getId()!=$oProperty->getId()) {
+				return 'Код поля должен быть уникальным';
+			}
+		}
+		return true;
 	}
 
 	public function ValidateCheckTitle() {
