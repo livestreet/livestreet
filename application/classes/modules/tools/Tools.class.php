@@ -75,9 +75,8 @@ class ModuleTools extends Module {
 	 * @return string
 	 */
 	public function Urlspecialchars($sText) {
-		$aTable=get_html_translation_table();
-		unset($aTable['&']);
-		return strtr($sText,$aTable);
+		func_urlspecialchars($sText);
+		return $sText;
 	}
 	/**
 	 * Обработка тега ls в тексте
