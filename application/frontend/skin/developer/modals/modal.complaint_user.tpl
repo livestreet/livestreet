@@ -33,7 +33,7 @@
 
 		{* Каптча *}
 		{if Config::Get('module.user.complaint_captcha')}
-			{include file='forms/fields/form.field.captcha_new.tpl'
+			{include file='forms/fields/form.field.captcha.tpl'
 			sCaptchaName   = 'complaint_user'
 			sFieldName   = 'captcha'
 			sFieldLabel  = $aLang.registration_captcha}
