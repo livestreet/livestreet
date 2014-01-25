@@ -1824,7 +1824,7 @@ class ActionBlog extends Action {
 		/**
 		 * если блог найден, то возвращаем описание
 		 */
-		if ($oBlog) {
+		if (isset($oBlog)) {
 			$sText=$oBlog->getDescription();
 			
 			/**
