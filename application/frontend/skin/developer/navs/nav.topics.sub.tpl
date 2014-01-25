@@ -27,7 +27,7 @@
 		{hook run='nav_topics_sub_item' sMenuSubItemSelect=$sMenuSubItemSelect sNavTopicsSubUrl=$sNavTopicsSubUrl}
 	</ul>
 
-	{include file='dropdown.timespan.tpl'}
+	{include file='sort.timespan.tpl'}
 {/if}
 
 {hook run='nav_topics_sub_after' sMenuSubItemSelect=$sMenuSubItemSelect sNavTopicsSubUrl=$sNavTopicsSubUrl}

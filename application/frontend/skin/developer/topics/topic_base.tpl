@@ -27,15 +27,15 @@
 				{block name='topic_icon'}{/block}
 
 				{if $bTopicList}
-					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+					<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape}</a>
 				{else}
-					{$oTopic->getTitle()|escape:'html'}
+					{$oTopic->getTitle()|escape}
 				{/if}
 			</h1>
 
 			{* Информация *}
 			<div class="topic-info">
-				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape:'html'}</a>
+				<a href="{$oBlog->getUrlFull()}" class="topic-blog">{$oBlog->getTitle()|escape}</a>
 
 				<time datetime="{date_format date=$oTopic->getDateAdd() format='c'}" title="{date_format date=$oTopic->getDateAdd() format='j F Y, H:i'}">
 					{date_format date=$oTopic->getDateAdd() format="j F Y, H:i"}
@@ -203,18 +203,15 @@
 
 				{* Автор топика *}
 				<li class="topic-info-item topic-info-item-author">
-					<a href="{$oUser->getUserWebPath()}" class="topic-info-item-author-avatar-link">
-						<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="topic-info-item-author-avatar" />
-					</a>
-					<a rel="author" href="{$oUser->getUserWebPath()}" class="topic-info-item-author-login">{$oUser->getDisplayName()}</a>
+					{include 'user_item.tpl' oUser=$oUser iUserItemAvatarSize=48 sUserItemStyle='rounded'}
 				</li>
 
 				{if ! $bTopicList}
 					{* Избранное *}
-					<li class="topic-info-item topic-info-item-favourite favourite js-favourite" data-favourite-type="topic" data-favourite-id="{$oTopic->getId()}">
-						<div class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oTopic->getIsFavourite()}active{/if}"
-							 title="{if $oTopic->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
-						<span class="favourite-count js-favourite-count" {if ! $oTopic->getCountFavourite()}style="display: none"{/if}>{$oTopic->getCountFavourite()}</span>
+					<li class="topic-info-item topic-info-item-favourite">
+						{include 'favourite.tpl' 
+								 sFavouriteType   = 'topic'
+								 oFavouriteObject = $oTopic}
 					</li>
 
 					{* Поделиться *}
@@ -238,7 +235,7 @@
 			<div class="tooltip" id="topic_share_{$oTopic->getId()}">
 				<div class="tooltip-content js-tooltip-content">
 					{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape:'html'}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+						<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
 					{/hookb}
 				</div>
 			</div>

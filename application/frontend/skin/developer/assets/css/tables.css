@@ -18,43 +18,11 @@
 
 
 /**
- * Список блогов
- */
-.table.table-blogs .cell-name .avatar 	{ float: left; margin-right: 10px; clear: right; }
-.table.table-blogs .cell-name p		 	{ overflow: hidden; }
-.table.table-blogs .cell-rating 		{ width: 70px; font-weight: bold; }
-.table.table-blogs .cell-readers 		{ width: 70px; text-align: center; vertical-align: middle; }
-.table.table-blogs .cell-join 			{ width: 130px; text-align: center; vertical-align: middle; }
-.table.table-blogs .cell-rating 		{ text-align: center; vertical-align: middle; }
-
-
-/**
- * Список заметок
- */
-.table.table-profile-notes 					{ border-top: 1px solid #eee; }
-.table.table-profile-notes td 				{ vertical-align: top; }
-.table.table-profile-notes .cell-username 	{ width: 20%; font-weight: bold; }
-.table.table-profile-notes .cell-note 		{ width: 50%; }
-.table.table-profile-notes .cell-date 		{ text-align: right; }
-
-
-/**
  * Информация о пользователе
  */
 .table.table-profile-info 				{ margin-bottom: 40px; }
 .table.table-profile-info td 			{ vertical-align: top; }
 .table.table-profile-info .cell-label 	{ width: 30%; color: #777; }
-
-
-/**
- * Список пользователей
- */
-.table.table-users th 					{ font-size: 11px; }
-.table.table-users .cell-name 			{ font-weight: bold; }
-.table.table-users .cell-name img 		{ float: left; }
-.table.table-users .cell-name .username { margin-left: 32px; width: 120px; position: relative; top: 1px; }
-.table.table-users tbody .cell-date 	{ font-size: 11px; }
-.table.table-users .cell-rating         { text-align: center; width: 50px; }
 
 
 /**

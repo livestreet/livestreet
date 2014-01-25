@@ -8,7 +8,7 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}{$aLang.search}{/block}
+{block name='layout_page_title'}{$aLang.search.search}{/block}
 
 {block name='layout_content'}
 	{include file='forms/form.search.main.tpl'}

@@ -20,7 +20,7 @@
 {block name='search_input_name'}user_login{/block}
 {block name='search_input_attributes'}
 	id="search-user-login"
-	onkeyup="ls.timer.run(ls.user.searchUsers,'users_search',['form-users-search'],1000);"
+	onkeyup="ls.timer.run(ls.user.searchUsers,'users_search',['#form-users-search'],500);"
 {/block}
 
 {* Алфавитный указатель *}

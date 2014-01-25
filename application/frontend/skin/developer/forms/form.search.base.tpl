@@ -1,4 +1,4 @@
-{**
+﻿{**
  * Базовый шаблоны формы поиска
  *
  * bNoSubmitButton   Не показывать кнопку Искать
@@ -21,13 +21,13 @@
 				   name="{block name='search_input_name'}q{/block}" 
 				   value="{block name='search_input_value'}{$aReq.q|escape:'html'}{/block}" 
 				   autocomplete="off" 
-				   placeholder="{block name='search_input_placeholder'}{$aLang.search}{/block}"
+				   placeholder="{block name='search_input_placeholder'}{$aLang.search.search}{/block}"
 				   {block name='search_input_attributes'}{/block}>
 
 			{if ! $bNoSubmitButton}
 				<input type="submit" 
 					   value="{block name='search_submit_value'}{/block}" 
-					   title="{block name='search_submit_title'}{$aLang.search_submit}{/block}" 
+					   title="{block name='search_submit_title'}{$aLang.search.find}{/block}" 
 					   class="search-form-submit icon-search" 
 					   {block name='search_submit_attributes'}{/block}>
 			{/if}
