@@ -75,7 +75,7 @@
 
 	<script>
 		ls.lang.load({json var = $aLangJs});
-		ls.lang.load({lang_load name="blog, talk_favourite_add, talk_favourite_del, topic_question_create_answers_error_max, geo_select_city, geo_select_region, blog_create_type_open_notice, blog_create_type_close_notice"});
+		ls.lang.load({lang_load name="blog.blog, favourite.add, favourite.remove, topic_question_create_answers_error_max, geo_select_city, geo_select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close"});
 
 		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
 		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
@@ -192,7 +192,7 @@
 				{/if}
 
 				<form action="{router page='search'}topics/" class="search-form">
-					<input type="text" placeholder="{$aLang.search}" maxlength="255" name="q" class="search-form-input width-full">
+					<input type="text" placeholder="{$aLang.search.search}" maxlength="255" name="q" class="search-form-input width-full">
 					<input type="submit" value="" title="{$aLang.search_submit}" class="search-form-submit icon-search">
 				</form>
 			</nav>
@@ -218,7 +218,7 @@
 		<nav class="grid-row grid-role-nav">
 			<ul class="nav nav-main">
 				<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a></li>
-				<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blogs}</a></li>
+				<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blog.blogs}</a></li>
 				<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
 				<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
 

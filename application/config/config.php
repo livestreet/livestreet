@@ -414,7 +414,17 @@ $config['block']['rule_profile'] = array(
 		)
 	)
 );
-
+$config['block']['rule_blog'] = array(
+	'action' => array('blog' => array('{blog}')),
+	'blocks' => array(
+		'right' => array( 
+			'blocks/block.blogActions.tpl' => array('priority'=>300),
+			'blocks/block.blogUsers.tpl'   => array('priority'=>300),
+			'blocks/block.blogAdmins.tpl'  => array('priority'=>300)
+		)
+	),
+	'clear' => true
+);
 
 
 $config['head']['default']['js'] = array(

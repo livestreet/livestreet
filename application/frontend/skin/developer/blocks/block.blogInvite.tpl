@@ -5,41 +5,39 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'blocks/block.aside.base.tpl'}
 
-{block name='block_title'}{$aLang.blog_admin_user_add_header}{/block}
-{block name='block_type'}blog-invite{/block}
+{block 'block_title'}{$aLang.blog.invite.invite_users}{/block}
+{block 'block_type'}blog-invite{/block}
 
-{block name='block_content'}
-	<form onsubmit="return ls.blog.addInvite({$oBlogEdit->getId()});">
-		<p>
-			<label for="blog_admin_user_add">{$aLang.blog_admin_user_add_label}:</label>
-			<input type="text" id="blog_admin_user_add" name="add" class="input-text width-full autocomplete-users-sep" />
-		</p>
+{block 'block_content'}
+	{* Форма добавления *}
+	<form class="js-blog-invite-form mb-20" data-blog-id="{$oBlogEdit->getId()}">
+		{include 'forms/fields/form.field.text.tpl'
+				 sFieldName    = 'add'
+				 sFieldClasses = 'width-full autocomplete-users-sep js-blog-invite-form-users'
+				 sFieldLabel   = $aLang.blog.invite.form.users_label}
+
+		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-blog-invite-form-submit'}
 	</form>
 
-	<br />
-	<h3>{$aLang.blog_admin_user_invited}:</h3>
+	{* Список приглашенных *}
+	<div class="js-blog-invite-container" {if ! $aBlogUsersInvited}style="display: none"{/if}>
+		<h3>{$aLang.blog.invite.users_title}</h3>
 
-	<div id="invited_list_block">
-		{if $aBlogUsersInvited}
-			<ul id="invited_list">
-				{foreach $aBlogUsersInvited as $oBlogUser}
-					{$oUser = $oBlogUser->getUser()}
+		<ul class="user-list-small js-blog-invite-users">
+			{foreach $aBlogUsersInvited as $oBlogUser}
+				{$oUser = $oBlogUser->getUser()}
+				
+				<li class="user-list-small-item js-blog-invite-user" data-blog-id="{$oBlogEdit->getId()}" data-user-id="{$oUser->getId()}">
+					{include 'user_item.tpl' oUser=$oUser}
 					
-					<li id="blog-invite-remove-item-{$oBlogEdit->getId()}-{$oUser->getId()}">
-						<a href="{$oUser->getUserWebPath()}" class="user">{$oUser->getDisplayName()}</a> -
-						<a href="#" onclick="return ls.blog.repeatInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_readd}</a>
-						<a href="#" onclick="return ls.blog.removeInvite({$oUser->getId()}, {$oBlogEdit->getId()});">{$aLang.blog_user_invite_remove}</a>
-					</li>						
-				{/foreach}
-			</ul>
-		{/if}
-
-		{include file='alert.tpl'
-		         mAlerts          = $aLang.user_note_list_empty
-		         sAlertStyle      = 'info'
-		         bAlertVisible    = ! count($aBlogUsersInvited)
-		         sAlertAttributes = 'id="blog-invite-empty"'}
+					<div class="user-list-small-item-actions">
+						<a href="#" class="icon-repeat js-blog-invite-user-repeat" title="{$aLang.blog.invite.repeat}"></a>
+						<a href="#" class="icon-remove js-blog-invite-user-remove" title="{$aLang.common.remove}"></a>
+					</div>
+				</li>						
+			{/foreach}
+		</ul>
 	</div>
 {/block}

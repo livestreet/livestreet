@@ -2,23 +2,13 @@
  * Список пользователей которые подключены к блогу
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_page_title'}
-	{$aLang.blog_user_readers_all} ({$iCountBlogUsers}): 
-	<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
+{block'layout_page_title'}
+	{$aLang.blog.users.readers_all} ({$iCountBlogUsers}): 
+	<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>
 {/block}
 
-{block name='layout_content'}
-	{if $aBlogUsers}
-		{$aUsersList = []}
-
-		{foreach $aBlogUsers as $oBlogUser}
-			{$aUsersList[] = $oBlogUser->getUser()}
-		{/foreach}
-
-		{include file='user_list.tpl' aUsersList=$aUsersList bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
-	{else}
-		{$aLang.blog_user_readers_empty}
-	{/if}
+{block'layout_content'}
+	{include 'user_list.tpl' aUsersList=$aBlogUsers bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
 {/block}

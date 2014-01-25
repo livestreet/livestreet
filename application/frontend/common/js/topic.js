@@ -66,6 +66,8 @@ ls.topic = (function ($) {
 		$(this.options.selectors.addTopicTitle).on('change', function (e) {
 			ls.blog.loadInfo($(this).val());
 		});
+
+		ls.blog.loadInfo($(this.options.selectors.addTopicTitle).val());
 	};
 
 	/**

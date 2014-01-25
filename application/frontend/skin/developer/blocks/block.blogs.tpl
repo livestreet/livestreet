@@ -4,12 +4,12 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'blocks/block.aside.base.tpl'}
 
-{block name='block_title'}{$aLang.block_blogs}{/block}
-{block name='block_type'}blogs{/block}
+{block 'block_title'}{$aLang.block_blogs}{/block}
+{block 'block_type'}blogs{/block}
 
-{block name='block_nav'}
+{block 'block_nav'}
 	<ul class="nav nav-pills js-block-nav" data-type="tabs">
 		<li data-type="tab" data-tab-url="{router page='ajax'}blogs/top" data-tab-target="js-tab-pane-blogs" class="active"><a href="#">{$aLang.block_blogs_top}</a></li>
 
@@ -20,12 +20,12 @@
 	</ul>
 {/block}
 
-{block name='block_content'}
+{block 'block_content'}
 	<div id="js-tab-pane-blogs">
 		{$sBlogsTop}
 	</div>
 {/block}
 
-{block name='block_footer'}
+{block 'block_footer'}
 	<a href="{router page='blogs'}">{$aLang.block_blogs_all}</a>
 {/block}
