@@ -167,7 +167,7 @@ ls.vote = (function ($) {
 
 			if (result.iRating > 0) {
 				oVars.vote.addClass(this.options.classes.positive);
-				oVars.rating.text('+' + result.iRating);
+				oVars.rating.text(result.iRating);
 			} else if (result.iRating < 0) {
 				oVars.vote.addClass(this.options.classes.negative);
 				oVars.rating.text(result.iRating);
