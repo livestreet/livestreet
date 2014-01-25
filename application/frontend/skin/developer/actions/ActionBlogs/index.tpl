@@ -2,16 +2,16 @@
  * Список блогов
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$sMenuHeadItemSelect = 'blogs'}
 {/block}
 
-{block name='layout_page_title'}{$aLang.blogs}{/block}
+{block 'layout_page_title'}{$aLang.blog.blogs}{/block}
 
-{block name='layout_content'}
-	{include file='forms/form.search.blogs.tpl'}
+{block 'layout_content'}
+	{include 'forms/form.search.blogs.tpl'}
 
 	<div id="blogs-list-search" style="display:none;"></div>
 
@@ -20,7 +20,7 @@
 			{router page='blogs' assign=sBlogsRootPage}
 		{/if}
 
-		{include file='actions/ActionBlogs/blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
-		{include file='pagination.tpl' aPaging=$aPaging}
+		{include 'actions/ActionBlogs/blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
+		{include 'pagination.tpl' aPaging=$aPaging}
 	</div>
 {/block}

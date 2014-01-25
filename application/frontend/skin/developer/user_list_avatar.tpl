@@ -1,24 +1,27 @@
 {**
  * Список пользователей (аватары)
+ *
+ * @param array $aUsersList      Список пользователей
+ * @param array $bShowPagination Показывать или нет пагинацию (false)
  *}
 
 {if $aUsersList}
 	<ul class="user-list-avatar">
-		{foreach $aUsersList as $oUserList}
-			{$oSession = $oUserList->getSession()}
+		{foreach $aUsersList as $oUser}
+			{* TODO: Костыль для блогов *}
+			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
 			
-			<li>
-				<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(64)}" alt="avatar" class="avatar" /></a>
-				<a href="{$oUserList->getUserWebPath()}">{$oUserList->getDisplayName()}</a>
-			</li>
+			<li>{include 'user_item.tpl' oUser=$oUser iUserItemAvatarSize=64}</li>
 		{/foreach}
 	</ul>
 {else}
 	{if $sUserListEmpty}
-		{include file='alert.tpl' mAlerts=$sUserListEmpty sAlertStyle='empty'}
+		{include 'alert.tpl' mAlerts=$sUserListEmpty sAlertStyle='empty'}
 	{else}
-		{include file='alert.tpl' mAlerts=$aLang.user_empty sAlertStyle='empty'}
+		{include 'alert.tpl' mAlerts=$aLang.user_empty sAlertStyle='empty'}
 	{/if}
 {/if}
 
-{include file='pagination.tpl' aPaging=$aPaging}
+{if isset($bShowPagination) && bShowPagination === true}
+	{include 'pagination.tpl' aPaging=$aPaging}
+{/if}

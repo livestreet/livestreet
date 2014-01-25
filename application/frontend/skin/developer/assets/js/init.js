@@ -177,6 +177,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Blog
+	 */
+	ls.blog.init();
+
+
+	/**
 	 * Topic
 	 */
 	ls.topic.init();
@@ -193,12 +199,6 @@ jQuery(document).ready(function($){
 	 * Pagination
 	 */
 	ls.pagination.init();
-
-
-	/**
-	 * Blog
-	 */
-	ls.blog.init();
 
 
 	/**

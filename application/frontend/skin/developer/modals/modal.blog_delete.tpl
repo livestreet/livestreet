@@ -8,26 +8,26 @@
 
 {block name='modal_id'}modal-blog-delete{/block}
 {block name='modal_class'}modal-blog-delete js-modal-default{/block}
-{block name='modal_title'}{$aLang.blog_admin_delete_title}{/block}
+{block name='modal_title'}{$aLang.blog.remove.title}{/block}
 
 {block name='modal_content'}
-	<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-delete-form">
+	<form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-remove-form">
 		{* Переместить топики в блог *}
 		{$aBlogsCustom = [
-			[ 'value' => -1, 'text' => $aLang.blog_delete_clear ]
+			[ 'value' => -1, 'text' => $aLang.blog.remove.remove_topics ]
 		]}
 
 		{foreach $aBlogs as $oBlog}
 			{$aBlogsCustom[] = [
 				'value' => $oBlog->getId(),
-				'text' => $oBlog->getTitle()|escape:'html'
+				'text' => $oBlog->getTitle()|escape
 			]}
 		{/foreach}
 
 		{include file='forms/fields/form.field.select.tpl'
-				 sFieldName          = 'topic_move_to'
-				 sFieldLabel         = $aLang.blog_admin_delete_move
-				 aFieldItems         = $aBlogsCustom}
+				 sFieldName  = 'topic_move_to'
+				 sFieldLabel = $aLang.blog.remove.move_to
+				 aFieldItems = $aBlogsCustom}
 
 
 		{* Скрытые поля *}
@@ -36,5 +36,8 @@
 {/block}
 
 {block name='modal_footer_begin'}
-	<button type="submit" class="button button-primary" onclick="jQuery('#js-blog-delete-form').submit()">{$aLang.blog_delete}</button>
+	{include file='forms/fields/form.field.button.tpl'
+			 sFieldAttributes = 'data-button-submit-form="js-blog-remove-form"'
+			 sFieldText       = $aLang.common.remove
+			 sFieldStyle      = 'primary'}
 {/block}

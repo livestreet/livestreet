@@ -9,28 +9,34 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.blog { margin-bottom: 15px; overflow: hidden; }
+.blog { 
+	width: 100%;
+	padding: 40px;
+	margin: -40px 0 15px -40px;
+	overflow: hidden;
+	background: #222;
+	color: rgba(255, 255, 255, .7);
+}
 
 /* Хидер */
-.blog-header               { position: relative; padding: 0 130px 15px 68px; }
+.blog-header               { position: relative; padding: 0 0 15px 0; }
 
-.blog-header .blog-title   {  margin-bottom: 7px; }
+.blog-header .blog-title   {  margin-bottom: 7px; color: #fff; }
 .blog-header .blog-title i { position: relative; top: -2px; vertical-align: middle; }
 
-.blog-header .avatar       { position: absolute; top: 4px; left: 0; }
+.blog-header .vote { position: absolute; top: -15px; right: 0; }
 
-.blog-header .vote                                 { position: absolute; top: 0; right: 0; }
-.blog-header .vote .vote-count                     { padding-left: 25px; display: block; color: #333; }
-.blog-header .vote .vote-up                        { position: absolute; top: 22px; left: 0; }
-.blog-header .vote .vote-down                      { position: absolute; top: 35px; left: 0; }
-.blog-header .vote.vote-count-positive .vote-count { color: #5055B2; }
-.blog-header .vote-label                           { text-transform: uppercase; text-align: right; font-size: 11px; color: #aaa; }
-.blog-header .count                                { font-size: 34px; line-height: 1em; font-weight: bold; text-align: right; }
+.blog .actions { margin-bottom: 0; background: #444; border-color: #555; margin-top: 30px; margin-bottom: 0; }
+.blog .actions a { color: #ddd; }
 
-.blog-header .actions { margin-bottom: 0; }
+.blog-description { margin-bottom: 20px; }
 
-/* Информация о блоге */
-.blog-info { padding: 15px 0; line-height: 20px; }
+.blog-info-item            { margin-bottom: 5px; }
+.blog-info-item:last-child { margin-bottom: 0; }
+.blog-info-item-label      { opacity: .6; }
 
-/* Кнопка показывающая/скрывающая информацию о блоге */
-.blog .get-more { margin-top: 0; }
+
+/**
+ * Список блогов
+ */
+.blog-list-item-join { position: absolute; top: 0; right: 0; }

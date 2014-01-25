@@ -703,14 +703,14 @@ class ActionAjax extends Action {
 		 * Голосует за свой блог?
 		 */
 		if ($oBlog->getOwnerId()==$this->oUserCurrent->getId()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog_vote_error_self'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_self'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Уже голосовал?
 		 */
 		if ($oBlogVote=$this->Vote_GetVote($oBlog->getId(),'blog',$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog_vote_error_already'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_already'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -732,7 +732,7 @@ class ActionAjax extends Action {
 					if ($this->Vote_AddVote($oBlogVote) and $this->Blog_UpdateBlog($oBlog)) {
 						$this->Viewer_AssignAjax('iCountVote',$oBlog->getCountVote());
 						$this->Viewer_AssignAjax('iRating',$oBlog->getRating());
-						$this->Message_AddNoticeSingle($this->Lang_Get('blog_vote_ok'),$this->Lang_Get('attention'));
+						$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 						/**
 						 * Добавляем событие в ленту
 						 */
@@ -747,13 +747,13 @@ class ActionAjax extends Action {
 				}
 				break;
 			case ModuleACL::CAN_VOTE_BLOG_ERROR_CLOSE:
-				$this->Message_AddErrorSingle($this->Lang_Get('blog_vote_error_close'),$this->Lang_Get('attention'));
+				$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_close'),$this->Lang_Get('attention'));
 				return;
 				break;
 
 			default:
 			case ModuleACL::CAN_VOTE_BLOG_FALSE:
-				$this->Message_AddErrorSingle($this->Lang_Get('blog_vote_error_acl'),$this->Lang_Get('attention'));
+				$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_acl'),$this->Lang_Get('attention'));
 				return;
 				break;
 		}
@@ -1312,7 +1312,7 @@ class ActionAjax extends Action {
 			}
 			$this->Viewer_AssignAjax('aBlogs',$aResult);
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog_by_category_empty'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('blog.categories.empty'),$this->Lang_Get('attention'));
 			return;
 		}
 	}

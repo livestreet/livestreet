@@ -1,30 +1,35 @@
 {**
  * Управление пользователями блога
+ *
+ * @param object oBlogEdit  Блог
+ * @param array  aBlogUsers Список пользователей
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
+	{if $oBlogEdit->getType() != 'close'}
+		{$bNoSidebar = true}
+	{/if}
+
 	{$sNav = 'blog.edit'}
 {/block}
 
-{block name='layout_page_title'}
-	{$aLang.blog_admin}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape:'html'}</a>
+{block 'layout_page_title'}
+	{$aLang.blog.admin.title}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape}</a>
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	{if $aBlogUsers}
-		<form method="post" enctype="multipart/form-data" class="mb-20">
-			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-			
-			<table class="table table-users">
+		<form method="post" enctype="multipart/form-data">
+			<table class="table">
 				<thead>
 					<tr>
-						<th class="cell-name">{$aLang.blog_admin_users}</th>
-						<th class="ta-c">{$aLang.blog_admin_users_administrator}</th>
-						<th class="ta-c">{$aLang.blog_admin_users_moderator}</th>
-						<th class="ta-c">{$aLang.blog_admin_users_reader}</th>
-						<th class="ta-c">{$aLang.blog_admin_users_bun}</th>
+						<th class="cell-name"></th>
+						<th class="ta-c">{$aLang.blog.admin.role_administrator}</th>
+						<th class="ta-c">{$aLang.blog.admin.role_moderator}</th>
+						<th class="ta-c">{$aLang.blog.admin.role_reader}</th>
+						<th class="ta-c">{$aLang.blog.admin.role_banned}</th>
 					</tr>
 				</thead>
 				
@@ -34,28 +39,31 @@
 						
 						<tr>
 							<td class="cell-name">
-								<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-								<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
+								{include 'user_item.tpl' oUser=$oUser}
 							</td>
 							
-							{if $oUser->getId()==$oUserCurrent->getId()}
-								<td colspan="10" class="ta-c">{$aLang.blog_admin_users_current_administrator}</td>
+							{if $oUser->getId() == $oUserCurrent->getId()}
+								<td colspan="10" class="ta-c">&mdash;</td>
 							{else}
 								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="administrator" {if $oBlogUser->getIsAdministrator()}checked{/if} /></td>
 								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="moderator" {if $oBlogUser->getIsModerator()}checked{/if} /></td>
-								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="reader" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_USER}checked{/if} /></td>
-								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="ban" {if $oBlogUser->getUserRole()==$BLOG_USER_ROLE_BAN}checked{/if} /></td>
+								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="reader" {if $oBlogUser->getUserRole() == $BLOG_USER_ROLE_USER}checked{/if} /></td>
+								<td class="ta-c"><input type="radio" name="user_rank[{$oUser->getId()}]" value="ban" {if $oBlogUser->getUserRole() == $BLOG_USER_ROLE_BAN}checked{/if} /></td>
 							{/if}
 						</tr>
 					{/foreach}
 				</tbody>
 			</table>
 
-			<button type="submit" name="submit_blog_admin" class="button button-primary">{$aLang.blog_admin_users_submit}</button>
+			{* Скрытые поля *}
+			{include 'forms/fields/form.field.hidden.security_key.tpl'}
+
+			{* Кнопки *}
+			{include 'forms/fields/form.field.button.tpl' sFieldName='submit_blog_admin' sFieldText=$aLang.common.save sFieldStyle='primary'}
 		</form>
 
-		{include file='pagination.tpl' aPaging=$aPaging}
+		{include 'pagination.tpl' aPaging=$aPaging}
 	{else}
-		{$aLang.blog_admin_users_empty}
+		{include 'alert.tpl' mAlerts=$aLang.blog.admin.alerts.empty sAlertStyle='empty'}
 	{/if}
 {/block}

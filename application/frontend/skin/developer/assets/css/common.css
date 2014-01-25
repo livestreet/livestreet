@@ -8,6 +8,8 @@
 
 /**
  * Голосование 
+ *
+ * @template vote.tpl
  */
 .vote .vote-count 							{ display: inline-block; font-weight: bold; color: #aaa; font-size: 14px; }
 .vote .vote-count a 						{ text-decoration: none; color: #999; outline: none; }
@@ -15,16 +17,9 @@
 .vote.vote-count-positive .vote-count 		{ color: #390; }
 .vote.vote-count-negative .vote-count 		{ color: #f00; }
 
-.vote .vote-item {
-	float: left;
-	cursor: pointer;
-	padding-left: 5px;
-}
+.vote .vote-item { float: left; cursor: pointer; padding-left: 5px; }
 .vote .vote-up,
-.vote .vote-down {
-	opacity: .3;
-	filter: alpha(opacity=30);
-}
+.vote .vote-down { opacity: .3; filter: alpha(opacity=30); cursor: pointer; display: inline-block; }
 .vote .vote-up i,
 .vote .vote-down i {
 	display: inline-block;
@@ -43,11 +38,23 @@
 .vote.voted.voted-up 	.vote-down:hover 	{ opacity: .3; filter: alpha(opacity=30); }
 .vote.voted.voted-down 	.vote-up:hover 		{ opacity: .3; filter: alpha(opacity=30); }
 
+/* Large */
+.vote.vote-large              { display: inline-block; }
+.vote.vote-large .vote-count  { padding-left: 55px; display: block; color: #fff; color: rgba(255, 255, 255, .9); }
+.vote.vote-large .vote-up     { position: absolute; top: 25px; left: 0; }
+.vote.vote-large .vote-down   { position: absolute; top: 25px; left: 30px; }
+.vote.vote-large .vote-up i,
+.vote.vote-large .vote-down i { background-image: url(../images/icons-white.png); }
+.vote.vote-large .vote-label  { text-transform: uppercase; text-align: right; font-size: 11px; color: rgba(255, 255, 255, .3); }
+.vote.vote-large .count       { font-size: 30px; line-height: 1em; font-weight: 300; text-align: right; font-family: 'Open Sans' }
+
 
 /**
- * Избранное 
+ * Избранное
+ *
+ * @template favourite.tpl
  */
-.favourite { cursor: pointer; }
+.favourite { cursor: pointer; display: inline-block; }
 .favourite-toggle { 
 	display: inline-block; 
 	width: 14px; 
@@ -93,16 +100,6 @@
 
 
 /**
- * Список пользователей 
- * 
- * @template user_list_avatar.tpl
- */
-.user-list-avatar 			{ overflow: hidden; zoom: 1; }
-.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; font-size: 11px; }
-.user-list-avatar li img	{ margin-bottom: 2px; display: block; }
-
-
-/**
  * Accordion
  */
 .accordion { margin-bottom: 15px; }
@@ -111,6 +108,7 @@
 .accordion-header:hover { color: #f00; }
 
 .accordion-content { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #eee; }
+
 
 /**
  * Item List 
@@ -126,20 +124,50 @@
 
 
 /**
- * Разное
+ * Список объектов
  */
-.user, .ls-user 	{ font-weight: bold; color: #333; }
-.ls-user 	        { display: inline-block; }
-.ls-user:before 	{
-	content: '';
-	display: inline-block;
-	width: 14px;
-	height: 14px;
-	margin-right: 3px;
-	background: url(../images/icons.png) -168px 0 no-repeat;
-	vertical-align: middle;
-}
-.user.inactive 		{ color: #aaa; cursor: help; }
+.object-list                  { margin-bottom: 20px; border-bottom: 1px solid #eee; }
+.object-list-item             { border-top: 1px solid #eee; padding: 15px 0 15px 120px; position: relative; min-height: 100px; }
+.object-list-item-image       { position: absolute; top: 17px; left: 0; }
+.object-list-item-title       { font-size: 24px; line-height: 1.1em; margin-bottom: 10px; }
+.object-list-item-description { margin-bottom: 15px; }
+.object-list-item-info li     { margin-bottom: 3px; }
+.object-list-item-actions     { position: absolute; top: 15px; right: 0; width: 150px; text-align: right; }
+
+.object-list.object-list-actions .object-list-item { padding-right: 170px; }
+
+
+/**
+ * Блок с аватарой и логином пользователя
+ *
+ * @template user_item.tpl
+ */
+.user-item { display: inline-block; }
+.user-item-avatar { vertical-align: middle; margin-right: 2px; }
+.user-item-name { font-weight: bold; }
+
+.user-item-rounded .user-item-avatar { border-radius: 50%; }
+
+
+/**
+ * Список пользователей 
+ * 
+ * @template user_list_avatar.tpl
+ */
+.user-list-avatar 			{ overflow: hidden; zoom: 1; }
+.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; }
+.user-list-avatar .user-item-avatar	{ margin-bottom: 2px; margin-right: 0; display: block; }
+.user-list-avatar .user-item-name	{ font-size: 11px; font-weight: normal; }
+
+
+/**
+ * Список пользователей
+ */
+.user-list-small                 { margin-bottom: 15px; }
+.user-list-small:last-child      { margin-bottom: 0; }
+.user-list-small-item            { background: #fafafa; padding: 10px 55px 10px 10px; margin-bottom: 1px; position: relative; }
+.user-list-small-item:last-child { margin-bottom: 0; }
+.user-list-small-item-actions    { position: absolute; top: 50%; right: 13px; margin-top: -8px; }
 
 
 /**
@@ -216,3 +244,28 @@
 .tag-size-8  { font-size: 20px; }
 .tag-size-9  { font-size: 22px; }
 .tag-size-10 { font-size: 22px; }
+
+
+/**
+ * Заметка
+ */
+.user-note                 { background: #F1F7AF; padding: 20px; }
+.user-note .user-note-text { margin-bottom: 10px; }
+.user-note .actions        { margin-bottom: 0; }
+
+
+/**
+ * Разное
+ */
+.user, .ls-user 	{ font-weight: bold; color: #333; }
+.ls-user 	        { display: inline-block; }
+.ls-user:before 	{
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 3px;
+	background: url(../images/icons.png) -168px 0 no-repeat;
+	vertical-align: middle;
+}
+.user.inactive 		{ color: #aaa; cursor: help; }

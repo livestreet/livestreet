@@ -1,94 +1,64 @@
 {**
  * Список блогов
  *
- * @styles css/tables.css
+ * @styles css/blog.css
+ * @scripts <frontend>/common/js/blog.js
  *}
 
-<table class="table table-blogs">
-	{if $bBlogsUseOrder}
-		<thead>
-			<tr>
-				<th class="cell-name"><a href="{$sBlogsRootPage}?order=blog_title&order_way={if $sBlogOrder=='blog_title'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_title'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_title}</a></th>
 
-				{if $oUserCurrent}
-					<th class="cell-join">{$aLang.blog_join_leave}</th>
-				{/if}
+{* Список блогов *}
+{if $aBlogs}
+	{* Сортировка *}
+	{include 'sort.tpl'
+			 sSortName     = 'sort-blog-list'
+			 aSortList     = [ [ name => 'blog_title',      text => $aLang.sort.by_name ],
+							   [ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
+							   [ name => 'blog_rating',     text => $aLang.sort.by_rating ] ]
+			 sSortUrl      = $sBlogsRootPage
+			 sSortOrder    = $sBlogOrder
+			 sSortOrderWay = $sBlogOrderWay}
 
-				<th class="cell-readers">
-					<a href="{$sBlogsRootPage}?order=blog_count_user&order_way={if $sBlogOrder=='blog_count_user'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_count_user'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_readers}</a>
-				</th>
-				<th class="cell-rating align-center"><a href="{$sBlogsRootPage}?order=blog_rating&order_way={if $sBlogOrder=='blog_rating'}{$sBlogOrderWayNext}{else}{$sBlogOrderWay}{/if}" {if $sBlogOrder=='blog_rating'}class="{$sBlogOrderWay}"{/if}>{$aLang.blogs_rating}</a></th>
-			</tr>
-		</thead>
+	{* Список блогов *}
+	<ul class="object-list object-list-actions blog-list">
+		{foreach $aBlogs as $oBlog}
+			<li class="object-list-item">
+				{* Аватар *}
+				<a href="{$oBlog->getUrlFull()}">
+					<img src="{$oBlog->getAvatarPath(100)}" width="100" height="100" alt="{$oBlog->getTitle()|escape}" class="object-list-item-image" />
+				</a>
+				
+				{* Заголовок *}
+				<h2 class="object-list-item-title">
+					{if $oBlog->getType() == 'close'}
+						<i title="{$aLang.blog.private}" class="icon-lock"></i>
+					{/if}
+
+					<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>
+				</h2>
+
+				{* Описание *}
+				<p class="object-list-item-description">{$oBlog->getDescription()|strip_tags|truncate:120}</p>
+
+				{* Информация *}
+				<ul class="object-list-item-info">
+					<li>{$aLang.blog.users.readers_total}: <strong class="js-blog-users-number" data-blog-id="{$oBlog->getId()}">{$oBlog->getCountUser()}</strong></li>
+					<li>{$aLang.vote.rating}: <strong>{$oBlog->getRating()}</strong></li>
+					<li>{$aLang.blog.topics_total}: <strong>{$oBlog->getCountTopic()}</strong></li>
+				</ul>
+
+				{* Действия *}
+				<div class="object-list-item-actions">
+					{* Вступить/покинуть блог *}
+					{include 'actions/ActionBlog/button_join.tpl'}
+				</div>
+			</li>
+		{/foreach}
+	</ul>
+{else}
+	{* TODO: Fix error message *}
+	{if $sBlogsEmptyList}
+		{$sBlogsEmptyList}
 	{else}
-		<thead>
-			<tr>
-				<th class="cell-name">{$aLang.blogs_title}</th>
-
-				{if $oUserCurrent}
-					<th class="cell-join">{$aLang.blog_join_leave}</th>
-				{/if}
-
-				<th class="cell-readers">{$aLang.blogs_readers}</th>
-				<th class="cell-rating align-center">{$aLang.blogs_rating}</th>
-			</tr>
-		</thead>
+		{include 'alert.tpl' mAlerts=$aLang.blog.alerts.empty sAlertStyle='empty'}
 	{/if}
-	
-	
-	<tbody>
-		{if $aBlogs}
-			{foreach $aBlogs as $oBlog}
-				{$oUserOwner = $oBlog->getOwner()}
-
-				<tr>
-					<td class="cell-name">
-						<a href="{$oBlog->getUrlFull()}">
-							<img src="{$oBlog->getAvatarPath(48)}" width="48" height="48" alt="avatar" class="avatar" />
-						</a>
-						
-						<h4>
-							{if $oBlog->getType() == 'close'}
-								<i title="{$aLang.blog_closed}" class="icon-lock"></i>
-							{/if}
-							<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape:'html'}</a>
-						</h4>
-						<p>{$oBlog->getDescription()|strip_tags|truncate:120}</p>
-					</td>
-
-					{if $oUserCurrent}
-						<td class="cell-join">
-							{if $oUserCurrent->getId() != $oBlog->getOwnerId() and $oBlog->getType() == 'open'}
-								<a href="#" onclick="ls.blog.toggleJoin(this, {$oBlog->getId()}); return false;" class="button">
-									{if $oBlog->getUserIsJoin()}
-										{$aLang.blog_leave}
-									{else}
-										{$aLang.blog_join}
-									{/if}
-								</a>
-							{else}
-								&mdash;
-							{/if}
-						</td>
-					{/if}
-
-					<td class="cell-readers" id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</td>
-					<td class="cell-rating align-center">{$oBlog->getRating()}</td>
-				</tr>
-			{/foreach}
-		{else}
-			<tr>
-				<td colspan="4">
-					{* TODO: Fix error message *}
-					{if $sBlogsEmptyList}
-						{$sBlogsEmptyList}
-					{/if}
-
-					{if !$aBlogs && !$sBlogsEmptyList}
-						{$aLang.blog_by_category_empty}
-					{/if}
-				</td>
-			</tr>
-		{/if}
-	</tbody>
-</table>
+{/if}

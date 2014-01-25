@@ -12,7 +12,24 @@
 
 {block name='block_content'}
 	<div class="profile-photo-wrapper">
-		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
+		{* Статус онлайн\оффлайн *}
+		{if $oSession}
+			{if $oUserProfile->isOnline() &&  $smarty.now - strtotime($oSession->getDateLast()) < 60*5}
+				<div class="status status-online">{$aLang.user_status_online}</div>
+			{else}
+				<div class="status status-offline">
+
+				{if $oUserProfile->getProfileSex() != 'woman'}
+					{$aLang.user_status_was_online_male}
+				{else}
+					{$aLang.user_status_was_online_female}
+				{/if}
+				 
+				{date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" day_back="8" now="60*5" day="day H:i" format="j F в G:i"}</div>
+			{/if}
+		{/if}
+
+		{* Фото *}
 		<a href="{$oUserProfile->getUserWebPath()}">
 			<img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="profile-photo js-ajax-image-upload-image" />
 		</a>

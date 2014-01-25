@@ -32,13 +32,13 @@ ls.favourite = (function ($) {
 		// Типы избранного
 		type: {
 			topic: {
-				url:         aRouter['ajax'] + 'favourite/topic/'
+				url: aRouter['ajax'] + 'favourite/topic/'
 			},
 			talk: {
-				url:         aRouter['ajax'] + 'favourite/talk/'
+				url: aRouter['ajax'] + 'favourite/talk/'
 			},
 			comment: {
-				url:         aRouter['ajax'] + 'favourite/comment/'
+				url: aRouter['ajax'] + 'favourite/comment/'
 			}
 		}
 	};
@@ -94,10 +94,10 @@ ls.favourite = (function ($) {
 				data.toggle.removeClass(ls.options.classes.states.active);
 
 				if (result.bState) {
-					data.toggle.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('talk_favourite_del'));
+					data.toggle.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
 					ls.tags && ls.tags.showPersonalTags(data.type, data.targetId);
 				} else {
-					data.toggle.attr('title', ls.lang.get('talk_favourite_add'));
+					data.toggle.attr('title', ls.lang.get('favourite.add'));
 					ls.tags && ls.tags.hidePersonalTags(data.type, data.targetId);
 				}
 

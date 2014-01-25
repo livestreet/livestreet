@@ -4,24 +4,24 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'blocks/block.aside.base.tpl'}
 
-{block name='block_type'}blog-add{/block}
+{block 'block_type'}blog-add{/block}
 
-{block name='block_options'}
+{block 'block_options'}
 	{if ! $oUserCurrent}
 		{$bBlockNotShow = true}
 	{/if}
 {/block}
 
-{block name='block_content'}
+{block 'block_content'}
 	{if $oUserCurrent and ($oUserCurrent->getRating() > {cfg name='acl.create.blog.rating'} or $oUserCurrent->isAdministrator())}
-		<p>{$aLang.blog_can_add}</p>
+		<p>{$aLang.blog.can_add}</p>
 
-		<a href="{router page='blog'}add/" class="button button-primary button-large">{$aLang.blog_add}</a>
+		<a href="{router page='blog'}add/" class="button button-primary button-large">{$aLang.blog.create_blog}</a>
 	{else}
-		<p>{$aLang.blog_cant_add|ls_lang:"rating%%`$oConfig->get('acl.create.blog.rating')`"}</p>
+		<p>{$aLang.blog.cant_add|ls_lang:"rating%%`$oConfig->get('acl.create.blog.rating')`"}</p>
 
-		<button class="button button-primary button-large" disabled>{$aLang.blog_add}</button>
+		<button class="button button-primary button-large" disabled>{$aLang.blog.create_blog}</button>
 	{/if}
 {/block}

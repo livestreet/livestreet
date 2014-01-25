@@ -15,30 +15,9 @@
 		{hook run='profile_top_begin' oUserProfile=$oUserProfile}
 		
 		<a href="{$oUserProfile->getUserWebPath()}"><img src="{$oUserProfile->getProfileAvatarPath(48)}" alt="avatar" class="avatar" itemprop="photo" /></a>
-		
-		<div data-vote-type="user"
-			 data-vote-id="{$oUserProfile->getId()}"
-			 class="vote js-vote
-			 	{if $oUserProfile->getRating() >= 0}
-			 		vote-count-positive
-			 	{else}
-			 		vote-count-negative
-			 	{/if} 
 
-			 	{if $oVote}
-			 		voted 
-
-			 		{if $oVote->getDirection() > 0}
-			 			voted-up
-			 		{elseif $oVote->getDirection() < 0}
-			 			voted-down
-			 		{/if}
-			 	{/if}">
-			<div class="vote-label">{$aLang.user_rating}</div>
-			<a href="#" class="vote-up js-vote-up"><i></i></a>
-			<a href="#" class="vote-down js-vote-down"><i></i></a>
-			<div class="vote-count count js-vote-rating" title="{$aLang.user_vote_count}: {$oUserProfile->getCountVote()}">{if $oUserProfile->getRating() > 0}+{/if}{$oUserProfile->getRating()}</div>
-		</div>
+		{* Голосование *}
+		{include 'vote.tpl' sVoteType='user' sVoteStyle='large' oVoteObject=$oUserProfile}
 		
 		<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getDisplayName()}</h2>
 		

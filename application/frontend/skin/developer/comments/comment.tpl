@@ -11,7 +11,6 @@
  *}
 
 {$oUser = $oComment->getUser()}
-{$oVote = $oComment->getVote()}
 
 
 {* Выводим ссылки на блог и топик в котором находится комментарий (только в списках) *}
@@ -20,8 +19,8 @@
 	{$oBlog = $oTopic->getBlog()}
 
 	<div class="comment-path">
-		<a href="{$oBlog->getUrlFull()}" class="comment-path-blog">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
-		<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+		<a href="{$oBlog->getUrlFull()}" class="comment-path-blog">{$oBlog->getTitle()|escape}</a> &rarr;
+		<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape}</a>
 		<a href="{$oTopic->getUrl()}#comments">({$oTopic->getCountComment()})</a>
 	</div>
 {/if}
@@ -79,37 +78,16 @@
 			 * Блок голосования
 			 * Не выводим блок голосования в личных сообщениях и списках
 			 *}
-			{if $oComment->getTargetType() != 'talk'}						
-				<li data-vote-type="comment"
-					data-vote-id="{$oComment->getId()}"
-					class="vote js-vote
-						{if $oComment->getRating() > 0}
-							vote-count-positive
-						{elseif $oComment->getRating() < 0}
-							vote-count-negative
-						{/if}    
-						
-						{if $oVote} 
-							voted 
-							
-							{if $oVote->getDirection() > 0}
-								voted-up
-							{else}
-								voted-down
-							{/if}
-						{/if}">
-					<div class="vote-item vote-down js-vote-down"><i></i></div>
-					<span class="vote-item vote-count js-vote-rating">{$oComment->getRating()}</span>
-					<div class="vote-item vote-up js-vote-up"><i></i></div>
-				</li>
+			{if $oComment->getTargetType() != 'talk'}	
+				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment}</li>
 			{/if}
 			
 			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li class="favourite comment-favourite js-favourite" data-favourite-type="comment" data-favourite-id="{$oComment->getId()}">
-					<div class="favourite-toggle js-favourite-toggle {if $oUserCurrent && $oComment->getIsFavourite()}active{/if} js-favourite"
-						 title="{if $oComment->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></div>
-					<span class="favourite-count js-favourite-count">{if $oComment->getCountFavourite() > 0}{$oComment->getCountFavourite()}{/if}</span>
+				<li>
+					{include 'favourite.tpl' 
+							 sFavouriteType   = 'comment'
+							 oFavouriteObject = $oComment}
 				</li>
 			{/if}
 		</ul>

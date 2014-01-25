@@ -47,7 +47,7 @@
 
 {* Контент *}
 {block name='block_content_after'}
-	<div id="js-tab-pane-stream">
+	<div class="tab-pane" id="js-tab-pane-stream" style="display: block">
 		{$sStreamComments}
 	</div>
 {/block}

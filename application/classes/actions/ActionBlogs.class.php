@@ -34,7 +34,7 @@ class ActionBlogs extends Action {
 		 * Загружаем в шаблон JS текстовки
 		 */
 		$this->Lang_AddLangJs(array(
-								  'blog_join','blog_leave'
+								  'blog.join.join','blog.join.leave'
 							  ));
 		$this->sPageRoot=Router::GetPath('blogs');
 		/**

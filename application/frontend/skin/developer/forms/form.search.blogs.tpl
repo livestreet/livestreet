@@ -1,4 +1,4 @@
-{**
+﻿{**
  * Форма поиска блогов
  *
  * @styles css/forms.css
@@ -16,8 +16,8 @@
 {block name='search_attributes'}id="form-blogs-search" onsubmit="return false;"{/block}
 
 {* Поле ввода *}
-{block name='search_input_placeholder'}{$aLang.blogs_search_title_hint}{/block}
+{block name='search_input_placeholder'}{$aLang.blog.search.placeholder}{/block}
 {block name='search_input_name'}blog_title{/block}
 {block name='search_input_attributes'}
-	onkeyup="ls.timer.run(ls.blog.searchBlogs,'blogs_search',['form-blogs-search'],1000);"
+	onkeyup="ls.timer.run(ls.blog.searchBlogs,'blogs_search',['#form-blogs-search'],500);"
 {/block}

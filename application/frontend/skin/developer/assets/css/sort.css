@@ -1,0 +1,25 @@
+/**
+ * Блок сортировки
+ *
+ * @template sort.tpl
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.sort { padding: 15px 0; margin-bottom: 20px; overflow: hidden; border-radius: 3px; }
+.sort .dropdown { float: left; margin: 0; }
+
+.sort-label {
+	float: left;
+	background: rgba(40, 145, 211, 0.78);
+	color: #FFF;
+	padding: 7px 13px 7px 13px;
+}
+
+
+/**
+ * Inline
+ */
+.sort-inline { display: inline; margin-right: 10px; }
