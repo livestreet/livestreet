@@ -202,21 +202,27 @@ ls.user = (function ($) {
 	/**
 	 * Поиск пользователей
 	 */
-	this.searchUsers = function(form) {
-		var url = aRouter['people']+'ajax-search/';
-		var inputSearch=$('#'+form).find('input');
-		inputSearch.addClass('loader');
+	this.searchUsers = function(sFormSelector) {
+		var url = aRouter['people']+'ajax-search/',
+			oInputSearch = $(sFormSelector).find('input'),
+			oOriginalContainer = $('#users-list-original'),
+			oSearchContainer = $('#users-list-search');
+
+		oInputSearch.addClass(ls.options.classes.states.loading);
 
 		ls.hook.marker('searchUsersBefore');
-		ls.ajax.submit(url, form, function(result){
-			inputSearch.removeClass('loader');
+
+		ls.ajax.submit(url, sFormSelector, function(result) {
+			oInputSearch.removeClass(ls.options.classes.states.loading);
+
 			if (result.bStateError) {
-				$('#users-list-search').hide();
-				$('#users-list-original').show();
+				oSearchContainer.hide();
+				oOriginalContainer.show();
 			} else {
-				$('#users-list-original').hide();
-				$('#users-list-search').html(result.sText).show();
-				ls.hook.run('ls_user_search_users_after',[form, result]);
+				oOriginalContainer.hide();
+				oSearchContainer.html(result.sText).show();
+
+				ls.hook.run('ls_user_search_users_after', [sFormSelector, result]);
 			}
 		});
 	};

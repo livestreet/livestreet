@@ -1,58 +1,57 @@
 {**
- * Список пользователей (таблица)
+ * Список пользователей
  *}
 
-<table class="table table-users">
-	{if $bUsersUseOrder}
-		<thead>
-			<tr>
-				<th class="cell-name"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}>{$aLang.user}</a></th>
-				<th>{$aLang.user_date_last}</th>
-				<th><a href="{$sUsersRootPage}?order=user_date_register&order_way={if $sUsersOrder=='user_date_register'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_date_register'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_date_registration}</a></th>
-				<th class="cell-rating"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_rating'}class="{$sUsersOrderWay}"{/if}>{$aLang.user_rating}</a></th>
-			</tr>
-		</thead>
-	{else}
-		<thead>
-			<tr>
-				<th class="cell-name">{$aLang.user}</th>
-				<th class="cell-date">{$aLang.user_date_last}</th>
-				<th class="cell-date">{$aLang.user_date_registration}</th>
-				<th class="cell-rating">{$aLang.user_rating}</th>
-			</tr>
-		</thead>
-	{/if}
+{if $aUsersList}
+	{* Сортировка *}
+	{include 'sort.tpl'
+			 sSortName     = 'sort-user-list'
+			 aSortList     = [ [ name => 'user_login',         text => $aLang.sort.by_name ],
+							   [ name => 'user_date_register', text => $aLang.user_date_registration ],
+							   [ name => 'user_rating',        text => $aLang.user_rating ] ]
+			 sSortUrl      = $sUsersRootPage
+			 sSortOrder    = $sUsersOrder
+			 sSortOrderWay = $sUsersOrderWay}
 
-	<tbody>
-		{foreach $aUsersList as $oUserList}
-			{$oSession = $oUserList->getSession()}
-			{$oUserNote = $oUserList->getUserNote()}
+	{* Список пользователей *}
+	<ul class="object-list user-list">
+		{foreach $aUsersList as $oUser}
+			{* TODO: Убрать костыль для блогов *}
+			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
 
-			<tr>
-				<td class="cell-name">
-					<a href="{$oUserList->getUserWebPath()}"><img src="{$oUserList->getProfileAvatarPath(24)}" alt="avatar" class="avatar" /></a>
-					<p class="username word-wrap"><a href="{$oUserList->getUserWebPath()}">{$oUserList->getDisplayName()}</a>
-						{if $oUserNote}
-							<i class="icon-comment js-tooltip" title="{$oUserNote->getText()|escape:'html'}"></i>
-						{/if}
-					</p>
-				</td>
-				<td class="cell-date">{if $oSession}{date_format date=$oSession->getDateLast() format="d.m.y, H:i"}{/if}</td>
-				<td class="cell-date">{date_format date=$oUserList->getDateRegister() format="d.m.y, H:i"}</td>
-				<td class="cell-rating"><strong>{$oUserList->getRating()}</strong></td>
-			</tr>
-		{foreachelse}
-			<tr>
-				<td colspan="5">
-					{if $sUserListEmpty}
-						{$sUserListEmpty}
-					{else}
-						{$aLang.user_empty}
+			{$oSession = $oUser->getSession()}
+			{$oUserNote = $oUser->getUserNote()}
+
+			<li class="object-list-item">
+				{* Аватар *}
+				<a href="{$oUser->getUserWebPath()}">
+					<img src="{$oUser->getProfileAvatarPath(100)}" width="100" height="100" alt="{$oUser->getLogin()}" class="object-list-item-image" />
+				</a>
+
+				{* Заголовок *}
+				<h2 class="object-list-item-title">
+					<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
+				</h2>
+
+				{* Заметка *}
+				{if $oUserNote}
+					<p class="object-list-item-description user-note">{$oUserNote->getText()|escape}</p>
+				{/if}
+
+				{* Информация *}
+				<ul class="object-list-item-info">
+					{if $oSession}
+						<li>{$aLang.user_date_last}: <strong>{date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</strong></li>
 					{/if}
-				</td>
-			</tr>
-		{/foreach}
-	</tbody>
-</table>
 
-{include file='pagination.tpl' aPaging=$aPaging}
+					<li>{$aLang.user_date_registration}: <strong>{date_format date=$oUser->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</strong></li>
+					<li>{$aLang.vote.rating}: <strong>{$oUser->getRating()}</strong></li>
+				</ul>
+			</li>
+		{/foreach}
+	</ul>
+{else}
+	{include 'alert.tpl' mAlerts=$aLang.user_empty sAlertStyle='empty'}
+{/if}
+
+{include 'pagination.tpl' aPaging=$aPaging}
