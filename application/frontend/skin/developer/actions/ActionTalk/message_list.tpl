@@ -24,10 +24,9 @@
 					<td class="cell-checkbox"><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
 				{/if}
 				<td class="cell-favourite">
-					<div class="favourite js-favourite" data-favourite-type="talk" data-favourite-id="{$oTalk->getId()}">
-						<div class="favourite-toggle js-favourite-toggle {if $oTalk->getIsFavourite()}active{/if}" 
-						     title="{if $oTalk->getIsFavourite()}{$aLang.talk_favourite_del}{else}{$aLang.talk_favourite_add}{/if}"></a>
-					</div>
+					{include 'favourite.tpl' 
+							 sFavouriteType   = 'talk'
+							 oFavouriteObject = $oTalk}
 				</td>
 				<td>
 					{strip}
