@@ -39,6 +39,7 @@
     {* Каптча *}
     {include file='forms/fields/form.field.captcha.tpl'
              sFieldName   = 'captcha'
+			 sCaptchaName   = 'user_signup'
              sFieldLabel  = $aLang.registration_captcha}
 
 	{hook run='form_registration_end' isPopup=$isModal}

@@ -29,11 +29,11 @@ class ModuleUser_EntityUser extends Entity {
 	 */
 	public function __construct($aParam = false) {
 		if (Config::Get('module.user.captcha_use_registration')) {
-			$this->aValidateRules[] = array('captcha', 'captcha', 'on' => array('registration'));
+			$this->aValidateRules[] = array('captcha', 'captcha', 'name'=>'user_signup', 'on' => array('registration'));
 		}
 
 		if (Config::Get('general.login.captcha')){
-			$this->aValidateRules[] = array('captcha', 'captcha', 'on' => array('signIn'));
+			$this->aValidateRules[] = array('captcha', 'captcha', 'name'=>'user_auth', 'on' => array('signIn'));
 		}
 
 		parent::__construct($aParam);

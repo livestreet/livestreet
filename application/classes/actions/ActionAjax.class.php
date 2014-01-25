@@ -88,6 +88,8 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^media$/i','/^save-data-file$/','/^$/','EventMediaSaveDataFile');
 
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
+
+		$this->AddEventPreg('/^validate$/i','/^captcha$/','/^$/','EventValidateCaptcha');
 	}
 
 
@@ -96,6 +98,24 @@ class ActionAjax extends Action {
 	 **********************************************************************************
 	 */
 
+	/**
+	 * Ajax валидация каптчи
+	 */
+	protected function EventValidateCaptcha() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+
+		$sName=isset($_REQUEST['params']['name']) ? $_REQUEST['params']['name'] : '';
+		$sValue=isset($_REQUEST['fields'][0]['value']) ? $_REQUEST['fields'][0]['value'] : '';
+		$sField=isset($_REQUEST['fields'][0]['field']) ? $_REQUEST['fields'][0]['field'] : '';
+
+		if (!$this->Validate_Validate('captcha',$sValue,array('name'=>$sName))) {
+			$aErrors=$this->Validate_GetErrors();
+			$this->Viewer_AssignAjax('aErrors',array(htmlspecialchars($sField)=>array(reset($aErrors))));
+		}
+	}
 
 	protected function EventPropertyTagsAutocompleter() {
 		/**

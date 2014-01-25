@@ -26,6 +26,7 @@
 	{if $oConfig->GetValue('general.login.captcha')}
 		{include file='forms/fields/form.field.captcha.tpl'
 				sFieldName   = 'captcha'
+				sCaptchaName   = 'user_auth'
 				sFieldLabel  = $aLang.registration_captcha}
 	{/if}
 	

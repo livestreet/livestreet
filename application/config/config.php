@@ -133,6 +133,13 @@ $config['module']['user']['userfield_max_identical'] = 2; 	// Максималь
 $config['module']['user']['profile_photo_width'] = 250; 	  // ширина квадрата фотографии в профиле, px
 $config['module']['user']['name_max'] = 30; 			  // максимальная длинна имени в профиле пользователя
 $config['module']['user']['captcha_use_registration'] = true;  // проверять поле капчи при регистрации пользователя
+$config['module']['user']['complaint_captcha'] = true;  // Использовать или нет каптчу при написании жалобы
+$config['module']['user']['complaint_notify_by_mail'] = true;  // Уведомлять администратора на емайл о поступлении новой жалобы
+$config['module']['user']['complaint_text_required'] = true;  // Обязательно указывать текст при жалобе
+$config['module']['user']['complaint_text_max'] = 2000;  // Максимальный размер текста жалобы
+$config['module']['user']['complaint_type'] = array(	// Список типов жалоб на пользователя
+	'spam','obscene','other'
+);
 
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
@@ -275,6 +282,7 @@ $config['db']['table']['user_field_value']    = '___db.table.prefix___user_field
 $config['db']['table']['subscribe']           = '___db.table.prefix___subscribe';
 $config['db']['table']['wall']                = '___db.table.prefix___wall';
 $config['db']['table']['user_note']           = '___db.table.prefix___user_note';
+$config['db']['table']['user_complaint']           = '___db.table.prefix___user_complaint';
 $config['db']['table']['geo_country']         = '___db.table.prefix___geo_country';
 $config['db']['table']['geo_region']          = '___db.table.prefix___geo_region';
 $config['db']['table']['geo_city']            = '___db.table.prefix___geo_city';
@@ -464,6 +472,7 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/ui/autocomplete.js",
 	"___path.framework.frontend.web___/js/ui/notification.js",
 	"___path.framework.frontend.web___/js/ui/alert.js",
+	"___path.framework.frontend.web___/js/ui/captcha.js",
 
 	/* LiveStreet */
 	"___path.application.web___/frontend/common/js/favourite.js",

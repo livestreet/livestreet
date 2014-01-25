@@ -39,6 +39,11 @@ jQuery(document).ready(function($){
 	 */
 	$('[data-type=tab]').tab();
 
+	/**
+	 * Captcha
+	 */
+	$('[data-type=captcha]').captcha();
+
 
 	/**
 	 * Alerts
