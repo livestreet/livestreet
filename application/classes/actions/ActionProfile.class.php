@@ -63,6 +63,8 @@ class ActionProfile extends Action {
 		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
 		$this->AddEvent('ajax-note-save', 'EventAjaxNoteSave');
 		$this->AddEvent('ajax-note-remove', 'EventAjaxNoteRemove');
+		$this->AddEvent('ajax-modal-complaint', 'EventAjaxModalComplaint');
+		$this->AddEvent('ajax-complaint-add', 'EventAjaxComplaintAdd');
 
 		$this->AddEventPreg('/^.+$/i','/^(whois)?$/i','EventWhois');
 
@@ -105,6 +107,61 @@ class ActionProfile extends Action {
 			return false;
 		}
 		return true;
+	}
+	/**
+	 * Показывает модальное окно для жалобы
+	 */
+	protected function EventAjaxModalComplaint() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("modals/modal.complaint_user.tpl"));
+	}
+	/**
+	 * Показывает модальное окно для жалобы
+	 */
+	protected function EventAjaxComplaintAdd() {
+		/**
+		 * Устанавливаем формат Ajax ответа
+		 */
+		$this->Viewer_SetResponseAjax('json');
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Создаем жалобу и проводим валидацию
+		 */
+		$oComplaint=Engine::GetEntity('ModuleUser_EntityComplaint');
+		$oComplaint->setTargetUserId(getRequestStr('user_id'));
+		$oComplaint->setUserId($this->oUserCurrent->getId());
+		$oComplaint->setText(getRequestStr('text'));
+		$oComplaint->setType(getRequestStr('type'));
+		$oComplaint->setCaptcha(getRequestStr('captcha'));
+
+		if ($oComplaint->_Validate()) {
+			/**
+			 * Экранируем текст и добавляем запись в БД
+			 */
+			$oComplaint->setText(htmlspecialchars($oComplaint->getText()));
+			if ($this->User_AddComplaint($oComplaint)) {
+				/**
+				 * Убиваем каптчу
+				 */
+				$this->Message_AddNotice($this->Lang_Get('user_complaint_submit_result'),$this->Lang_Get('attention'));
+				unset($_SESSION['captcha_keystring_complaint_user']);
+				return true;
+			} else {
+				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($oComplaint->_getValidateError(),$this->Lang_Get('error'));
+		}
 	}
 	/**
 	 * Чтение активности пользователя (stream)

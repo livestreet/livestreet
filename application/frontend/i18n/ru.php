@@ -585,6 +585,20 @@ return array(
 	'user_note_target_error' => 'Неверный пользователь для заметки',
 	'user_note_list_empty' => 'Тут ничего нет',
 	/**
+	 * Жалобы на пользователя
+	 */
+	'user_complaint_title' => 'Пожаловаться',
+	'user_complaint_type_title' => 'Причина',
+	'user_complaint_text_title' => 'Текст жалобы',
+	'user_complaint_target_error' => 'Неверный пользователь для жалобы',
+	'user_complaint_type_error' => 'Неверный тип жалобы',
+	'user_complaint_submit_result' => 'Ваша жалоба отправлена администрации',
+	'user_complaint_type_list' => array(
+		'spam'=>'Спам',
+		'obscene'=>'Непристойное поведение',
+		'other'=>'Другое',
+	),
+	/**
 	 * Стена
 	 */
 	'wall_add_pid_error' => 'На данное сообщение невозможно ответить',

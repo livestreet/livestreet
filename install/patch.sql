@@ -226,7 +226,7 @@ ADD INDEX ( `sort` ) ;
 -- 12.01.2014
 ALTER TABLE `prefix_property` ADD `description` VARCHAR( 500 ) NOT NULL AFTER `title` ;
 
---23.01.2014
+-- 23.01.2014
 --
 -- Структура таблицы `prefix_property_target`
 --
@@ -244,3 +244,33 @@ CREATE TABLE IF NOT EXISTS `prefix_property_target` (
   KEY `date_update` (`date_update`),
   KEY `state` (`state`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 25.01.2014
+--
+-- Структура таблицы `prefix_user_complaint`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_user_complaint` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`target_user_id` int(11) unsigned NOT NULL,
+	`user_id` int(11) unsigned NOT NULL,
+	`type` varchar(50) NOT NULL,
+	`text` text NOT NULL,
+	`date_add` datetime NOT NULL,
+	PRIMARY KEY (`id`),
+	KEY `user_id` (`user_id`),
+	KEY `target_user_id` (`target_user_id`),
+	KEY `type` (`type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_user_complaint`
+--
+ALTER TABLE `prefix_user_complaint`
+ADD CONSTRAINT `prefix_user_complaint_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `prefix_user_complaint_ibfk_1` FOREIGN KEY (`target_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;

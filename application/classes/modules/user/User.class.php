@@ -1482,6 +1482,17 @@ class ModuleUser extends Module {
 		}
 		return false;
 	}
+	public function AddComplaint($oComplaint) {
+		if (!$oComplaint->getDateAdd()) {
+			$oComplaint->setDateAdd(date("Y-m-d H:i:s"));
+		}
+
+		if ($iId=$this->oMapper->AddComplaint($oComplaint)) {
+			$oComplaint->setId($iId);
+			return $oComplaint;
+		}
+		return false;
+	}
 	/**
 	 * Возвращает список префиксов логинов пользователей (для алфавитного указателя)
 	 *

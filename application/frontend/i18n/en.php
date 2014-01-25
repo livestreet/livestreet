@@ -583,6 +583,20 @@ return array(
 	'user_note_target_error' => 'Bad user for note',
 	'user_note_list_empty' => 'Nothing here',
 	/**
+	 * User complaint
+	 */
+	'user_complaint_title' => 'Complain',
+	'user_complaint_type_title' => 'Reason',
+	'user_complaint_text_title' => 'Description of complaint',
+	'user_complaint_target_error' => 'Wrong user to complain',
+	'user_complaint_type_error' => 'Wrong type of complaint',
+	'user_complaint_submit_result' => 'Your complaint is sent to the Administration',
+	'user_complaint_type_list' => array(
+		'spam'=>'Spam',
+		'obscene'=>'Obscene',
+		'other'=>'Other',
+	),
+	/**
 	 * Wall
 	 */
 	'wall_add_pid_error' => 'Can not reply to this message',

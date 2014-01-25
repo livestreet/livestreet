@@ -395,6 +395,11 @@ ls.user = (function ($) {
 		return false;
 	};
 
+	this.addComplaint = function(form) {
+		ls.ajax.submit(aRouter.profile+'ajax-complaint-add/', form, function(result){
+			$('#modal-complaint-user').modal('hide');
+		});
+	};
 
 	return this;
 }).call(ls.user || {},jQuery);

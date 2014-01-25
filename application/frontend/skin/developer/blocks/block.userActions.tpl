@@ -29,6 +29,9 @@
 			<a href="#" onclick="ls.user.followToggle(this, {$oUserProfile->getId()}); return false;" class="{if $oUserProfile->isFollow()}followed{/if}">
 				{if $oUserProfile->isFollow()}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
 			</a>
-		</li>						
+		</li>
+		<li>
+			<a href="#" data-type="modal-toggle" data-modal-url="{router page='profile/ajax-modal-complaint'}" data-param-user_id="{$oUserProfile->getId()}">{$aLang.user_complaint_title}</a>
+		</li>
 	</ul>
 {/block}
