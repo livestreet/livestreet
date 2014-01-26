@@ -92,6 +92,10 @@ class ActionLogin extends Action {
 					}
 					$bRemember=getRequest('remember',false) ? true : false;
 					/**
+					 * Убиваем каптчу
+					 */
+					unset($_SESSION['captcha_keystring_user_auth']);
+					/**
 					 * Авторизуем
 					 */
 					$this->User_Authorization($oUser,$bRemember);

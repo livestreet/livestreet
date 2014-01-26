@@ -177,7 +177,7 @@ class ActionRegistration extends Action {
 				/**
 				 * Убиваем каптчу
 				 */
-				unset($_SESSION['captcha_keystring']);
+				unset($_SESSION['captcha_keystring_user_signup']);
 				/**
 				 * Подписываем пользователя на дефолтные события в ленте активности
 				 */
