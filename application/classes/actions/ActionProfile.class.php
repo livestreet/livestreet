@@ -150,11 +150,17 @@ class ActionProfile extends Action {
 			 */
 			$oComplaint->setText(htmlspecialchars($oComplaint->getText()));
 			if ($this->User_AddComplaint($oComplaint)) {
+				$this->Message_AddNotice($this->Lang_Get('user_complaint_submit_result'),$this->Lang_Get('attention'));
 				/**
 				 * Убиваем каптчу
 				 */
-				$this->Message_AddNotice($this->Lang_Get('user_complaint_submit_result'),$this->Lang_Get('attention'));
 				unset($_SESSION['captcha_keystring_complaint_user']);
+				/**
+				 * Отправляем уведомление админу
+				 */
+				if (Config::Get('module.user.complaint_notify_by_mail')) {
+					$this->Notify_SendUserComplaint($oComplaint);
+				}
 				return true;
 			} else {
 				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));

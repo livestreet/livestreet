@@ -407,6 +407,23 @@ class ModuleNotify extends Module {
 		);
 	}
 	/**
+	 * Уведомление администрации о новой жалобе
+	 *
+	 * @param $oComplaint
+	 */
+	public function SendUserComplaint($oComplaint) {
+		$this->Send(
+			Config::Get('general.admin_mail'),
+			$this->sPrefix.'.user_complaint.tpl',
+			$this->Lang_Get('notify_subject_user_complaint'),
+			array(
+				'oUserTarget' => $oComplaint->getTargetUser(),
+				'oUserFrom' => $oComplaint->getUser(),
+				'oComplaint' => $oComplaint,
+			)
+		);
+	}
+	/**
 	 * Универсальный метод отправки уведомлений на email
 	 *
 	 * @param ModuleUser_EntityUser|string $oUserTo Кому отправляем (пользователь или email)

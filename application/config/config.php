@@ -71,6 +71,7 @@ $config['general']['rss_editor_mail']   = '___sys.mail.from_email___'; // мыл
 $config['general']['reg']['invite']     = false; // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 $config['general']['reg']['activation'] = false; // использовать активацию при регистрации или нет
 $config['general']['login']['captcha']  = false; // использовать каптчу при входе или нет
+$config['general']['admin_mail']  = 'admin@admin.adm'; // email администратора
 
 /**
  * Настройки ACL(Access Control List — список контроля доступа)

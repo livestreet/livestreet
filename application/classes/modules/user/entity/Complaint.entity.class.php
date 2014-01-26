@@ -70,4 +70,22 @@ class ModuleUser_EntityComplaint extends Entity {
 		return $this->Lang_Get('user_complaint_type_error');
 	}
 
+
+	public function getUser() {
+		if (!$this->_getDataOne('user')) {
+			$this->_aData['user']=$this->User_GetUserById($this->getUserId());
+		}
+		return $this->_getDataOne('user');
+	}
+
+	public function getTargetUser() {
+		if (!$this->_getDataOne('target_user')) {
+			$this->_aData['target_user']=$this->User_GetUserById($this->getTargetUserId());
+		}
+		return $this->_getDataOne('target_user');
+	}
+
+	public function getTypeTitle() {
+		return $this->Lang_Get('user_complaint_type_list.'.$this->getType());
+	}
 }
