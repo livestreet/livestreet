@@ -295,8 +295,12 @@ $config['db']['table']['property_select'] 	  = '___db.table.prefix___property_se
 $config['db']['table']['property_value'] 	  = '___db.table.prefix___property_value';
 $config['db']['table']['property_value_tag']  = '___db.table.prefix___property_value_tag';
 $config['db']['table']['property_value_select']  = '___db.table.prefix___property_value_select';
-$config['db']['table']['media']  = '___db.table.prefix___media';
-$config['db']['table']['media_target']  = '___db.table.prefix___media_target';
+$config['db']['table']['media']  			  = '___db.table.prefix___media';
+$config['db']['table']['media_target']  	  = '___db.table.prefix___media_target';
+$config['db']['table']['rbac_role'] 		  = '___db.table.prefix___rbac_role';
+$config['db']['table']['rbac_permission'] 	  = '___db.table.prefix___rbac_permission';
+$config['db']['table']['rbac_role_permission']= '___db.table.prefix___rbac_role_permission';
+$config['db']['table']['rbac_user_role'] 	  = '___db.table.prefix___rbac_user_role';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 

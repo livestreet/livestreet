@@ -274,3 +274,100 @@ CREATE TABLE IF NOT EXISTS `prefix_user_complaint` (
 ALTER TABLE `prefix_user_complaint`
 ADD CONSTRAINT `prefix_user_complaint_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `prefix_user_complaint_ibfk_1` FOREIGN KEY (`target_user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- 27.01.2014
+--
+-- Структура таблицы `prefix_rbac_permission`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_rbac_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `msg_error` varchar(250) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`),
+  KEY `date_create` (`date_create`),
+  KEY `state` (`state`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_rbac_role`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_rbac_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT NULL,
+  `code` varchar(50) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `state` (`state`),
+  KEY `date_create` (`date_create`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_rbac_role`
+--
+
+INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES
+(1, NULL, 'guest', 'Гость', '2014-01-27 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_rbac_role_permission`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_rbac_role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  `date_create` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `permission_id` (`permission_id`),
+  KEY `date_create` (`date_create`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_rbac_user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_rbac_user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `date_create` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `role_id` (`role_id`),
+  KEY `date_create` (`date_create`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_rbac_role_permission`
+--
+ALTER TABLE `prefix_rbac_role_permission`
+  ADD CONSTRAINT `prefix_rbac_role_permission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `prefix_rbac_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_rbac_user_role`
+--
+ALTER TABLE `prefix_rbac_user_role`
+  ADD CONSTRAINT `prefix_rbac_user_role_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_rbac_user_role_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `prefix_rbac_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
