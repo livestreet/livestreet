@@ -48,25 +48,8 @@
 }
 .block-update.active { background-position: -16px 0; }
 
-
-/**
- * Прямой эфир
- * 
- * @modifier stream
- * @template blocks/block.stream.tpl
- * @template blocks/block.stream_comment.tpl
- * @template blocks/block.stream_topic.tpl
- */
-.block-type-stream .block-content { padding: 0; }
-
-
-/**
- * Список блогов
- * 
- * @modifier blogs
- * @template blocks/block.blogs.tpl
- */
-.block-type-blogs .block-content { padding: 0; }
+/* Блок без отступов у контента */
+.block.block-nopadding .block-content { padding: 0; }
 
 
 /**
@@ -127,15 +110,6 @@
 
 
 /**
- * Заметка о пользователе
- * 
- * @modifier profile-note
- * @template blocks/block.profileNote.tpl
- */
-.block-type-profile-note { border: none; padding: 0; }
-
-
-/**
  * Навигация по профилю пользователя
  * 
  * @modifier profile-nav
@@ -150,11 +124,11 @@
  * @modifier profile-actions
  * @template blocks/block.profileActions.tpl
  */
-.block-type-profile-actions { border: none; }
+.block-type-profile-actions                  { border: none; }
 .block-type-profile-actions .block-content   { padding: 0; }
 .block-type-profile-actions ul li            { margin-bottom: 0; }
-.block-type-profile-actions ul li a { display: block; padding: 10px 15px; }
-.block-type-profile-actions ul li a:hover { background: #fafafa; }
+.block-type-profile-actions ul li a          { display: block; padding: 10px 15px; }
+.block-type-profile-actions ul li a:hover    { background: #fafafa; }
 .block-type-profile-actions ul li a.followed { color: #f00; }
 
 

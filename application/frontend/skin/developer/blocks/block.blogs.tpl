@@ -8,6 +8,7 @@
 
 {block 'block_title'}{$aLang.block_blogs}{/block}
 {block 'block_type'}blogs{/block}
+{block 'block_class'}block-nopadding{/block}
 
 {block 'block_nav'}
 	<ul class="nav nav-pills js-block-nav" data-type="tabs">
