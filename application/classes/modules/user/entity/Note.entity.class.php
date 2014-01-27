@@ -49,7 +49,7 @@ class ModuleUser_EntityNote extends Entity {
 		if ($oUserTarget=$this->User_GetUserById($sValue) and $this->getUserId()!=$oUserTarget->getId()) {
 			return true;
 		}
-		return $this->Lang_Get('user_note_target_error');
+		return $this->Lang_Get('user_note.notices.target_error');
 	}
 }
 ?>

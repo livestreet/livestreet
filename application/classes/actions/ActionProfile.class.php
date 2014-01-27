@@ -163,7 +163,7 @@ class ActionProfile extends Action {
 				}
 				return true;
 			} else {
-				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
 			}
 		} else {
 			$this->Message_AddError($oComplaint->_getValidateError(),$this->Lang_Get('error'));
@@ -686,7 +686,7 @@ class ActionProfile extends Action {
 			if ($this->User_SaveNote($oNote)) {
 				$this->Viewer_AssignAjax('sText',$oNote->getText());
 			} else {
-				$this->Message_AddError($this->Lang_Get('user_note_save_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
 			}
 		} else {
 			$this->Message_AddError($oNote->_getValidateError(),$this->Lang_Get('error'));

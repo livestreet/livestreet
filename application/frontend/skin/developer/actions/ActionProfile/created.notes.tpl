@@ -26,12 +26,12 @@
 					</h2>
 
 					{* Заметка *}
-					<p class="object-list-item-description user-note">{$oNote->getText()|escape}</p>
+					{include 'user_note.tpl' oUserNote=$oNote iUserNoteId=$oUser->getId()}
 				</li>
 			{/foreach}
 		</ul>
 	{else}
-		{include file='alert.tpl' mAlerts=$aLang.user_note_list_empty sAlertStyle='empty'}
+		{include file='alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
 	{/if}
 
 	{include file='pagination.tpl' aPaging=$aPaging}

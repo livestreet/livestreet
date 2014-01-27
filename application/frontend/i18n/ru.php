@@ -27,6 +27,14 @@ return array(
 		'edit'   => 'Редактировать',
 		'save'   => 'Сохранить',
 		'create' => 'Создать',
+		'cancel' => 'Отменить',
+		'empty'  => 'Тут ничего нет',
+		'error'  => array(
+			'save'  => 'Ошибка сохранения',
+		),
+		'success'  => array(
+			'save'  => 'Успешно сохранено',
+		)
 	),
 
 	/**
@@ -74,10 +82,32 @@ return array(
 	 * Сортировка
 	 */
 	'sort' => array(
-		'label'   => 'Сортировать',
+		'label'     => 'Сортировать',
 		'by_name'   => 'по имени',
 		'by_date'   => 'по дате',
 		'by_rating' => 'по рейтингу',
+	),
+
+	/**
+	 * Заметка пользователя
+	 */
+	'user_note' => array(
+		'add'          => 'Написать заметку',
+
+		// Всплывающие сообщения
+		'notices' => array(
+			'target_error' => 'Неверный пользователь для заметки', // TODO: Remove?
+		),
+	),
+
+	/**
+	 * Жалобы
+	 */
+	'report' => array(
+		// Всплывающие сообщения
+		'notices' => array(
+			
+		),
 	),
 
 	/**
@@ -440,22 +470,6 @@ return array(
 	'topic_delete' => 'Удалить',
 	'topic_delete_confirm' => 'Вы действительно хотите удалить топик?',
 	/**
-	 * Топик-ссылка
-	 */
-	'topic_link' => 'топик-ссылка',
-	'topic_link_title' => 'Ссылки',
-	'topic_link_title_edit' => 'Редактирование ссылки',
-	'topic_link_title_create' => 'Добавление ссылки',
-	'topic_link_create' => 'Создание топика-ссылки',
-	'topic_link_edit' => 'Редактирование топика-ссылки',
-	'topic_link_count_jump' => 'переходов по ссылке',
-	'topic_link_create_url' => 'Ссылка',
-	'topic_link_create_url_notice' => 'Например, http://livestreet.ru/blog/dev_livestreet/113.html',
-	'topic_link_create_url_error' => 'Ссылка должна быть от 2 до 200 символов',
-	'topic_link_create_text' => 'Краткое описание (максимум 500 символов)',
-	'topic_link_create_text_notice' => 'HTML-теги запрещены',
-	'topic_link_create_text_error' => 'Описание ссылки должно быть от 10 до 500 символов',
-	/**
 	 * Топик-опрос
 	 */
 	'topic_question_title' => 'Опросы',
@@ -733,17 +747,6 @@ return array(
 	'user_field_error_add_no_name' => 'Необходимо указать название поля',
 	'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
 	'user_field_error_name_exists' => 'Поле с таким именем уже существует',
-	/**
-	 * Заметка пользователя
-	 */
-	'user_note_form_edit' => 'Редактировать',
-	'user_note_form_delete' => 'Удалить',
-	'user_note_form_save' => 'Сохранить',
-	'user_note_form_cancel' => 'Отмена',
-	'user_note_add' => 'Написать заметку',
-	'user_note_save_error' => 'Ошибка сохранения заметки',
-	'user_note_target_error' => 'Неверный пользователь для заметки',
-	'user_note_list_empty' => 'Тут ничего нет',
 	/**
 	 * Жалобы на пользователя
 	 */

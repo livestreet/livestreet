@@ -249,9 +249,9 @@
 /**
  * Заметка
  */
-.user-note                 { background: #F1F7AF; padding: 20px; }
-.user-note .user-note-text { margin-bottom: 10px; }
-.user-note .actions        { margin-bottom: 0; }
+.user-note                 { background: #F1F7AF; padding: 20px; margin-bottom: 15px; }
+.user-note:last-child      { margin-bottom: 0; }
+.actions.user-note-actions { margin: 10px 0 0 0; padding: 0; background: none; border: none; }
 
 
 /**

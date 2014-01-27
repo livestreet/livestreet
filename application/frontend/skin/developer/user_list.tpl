@@ -35,7 +35,7 @@
 
 				{* Заметка *}
 				{if $oUserNote}
-					<p class="object-list-item-description user-note">{$oUserNote->getText()|escape}</p>
+					{include 'user_note.tpl' oUserNote=$oUserNote iUserNoteId=$oUser->getId()}
 				{/if}
 
 				{* Информация *}
