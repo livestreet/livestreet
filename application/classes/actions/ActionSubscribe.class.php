@@ -101,8 +101,7 @@ class ActionSubscribe extends Action {
 		 */
 		$sTargetType=getRequestStr('target_type');
 		if (!$this->Subscribe_IsAllowTargetType($sTargetType)) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return ;
+			return $this->EventErrorDebug();
 		}
 		$sTargetId=getRequestStr('target_id') ? getRequestStr('target_id') : null;
 		$iValue=getRequest('value') ? 1 : 0;
@@ -119,8 +118,7 @@ class ActionSubscribe extends Action {
 		 * Проверка объекта подписки
 		 */
 		if (!$this->Subscribe_CheckTarget($sTargetType,$sTargetId,$iValue)) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return ;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Если подписка еще не существовала, то создаем её
@@ -131,8 +129,6 @@ class ActionSubscribe extends Action {
 			$this->Message_AddNotice($this->Lang_Get('subscribe_change_ok'),$this->Lang_Get('attention'));
 			return ;
 		}
-		$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-		return ;
+		return $this->EventErrorDebug();
 	}
 }
-?>

@@ -97,14 +97,14 @@ class ActionSettings extends Action {
 		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['foto']['tmp_name'])) {
-			return false;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Копируем загруженный файл
 		 */
 		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
 		if (!move_uploaded_file($_FILES['foto']['tmp_name'],$sFileTmp)) {
-			return false;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Ресайзим и сохраняем именьшенную копию
@@ -140,8 +140,7 @@ class ActionSettings extends Action {
 		$sFile=$this->Session_Get('sFotoFileTmp');
 		$sFilePreview=$this->Session_Get('sFotoFilePreviewTmp');
 		if (!file_exists($sFile)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Определяем размер большого фото для подсчета множителя пропорции
@@ -238,14 +237,14 @@ class ActionSettings extends Action {
 		$this->Viewer_SetResponseAjax('jsonIframe',false);
 
 		if(!isset($_FILES['avatar']['tmp_name'])) {
-			return false;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Копируем загруженный файл
 		 */
 		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
 		if (!move_uploaded_file($_FILES['avatar']['tmp_name'],$sFileTmp)) {
-			return false;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Ресайзим и сохраняем уменьшенную копию
@@ -275,8 +274,7 @@ class ActionSettings extends Action {
 		 */
 		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
 		if (!file_exists($sFileAvatar)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Получаем размер области из параметров
@@ -725,4 +723,3 @@ class ActionSettings extends Action {
 		$this->Hook_Run('action_shutdown_settings');
 	}
 }
-?>

@@ -1283,15 +1283,13 @@ class ActionBlog extends Action {
 		 */
 		$idTopic=getRequestStr('idTarget',null,'post');
 		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Есть доступ к комментариям этого топика? Закрытый блог?
 		 */
 		if (!$this->ACL_IsAllowShowBlog($oTopic->getBlog(),$this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 
 		$idCommentLast=getRequestStr('idCommentLast',null,'post');
@@ -1368,8 +1366,7 @@ class ActionBlog extends Action {
 		 * Проверяем существование блога
 		 */
 		if(!$oBlog=$this->Blog_GetBlogById($sBlogId) or !is_string($sUsers)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
@@ -1377,8 +1374,7 @@ class ActionBlog extends Action {
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Получаем список пользователей блога (любого статуса)
@@ -1516,15 +1512,13 @@ class ActionBlog extends Action {
 		 * Проверяем существование блога
 		 */
 		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Пользователь существует и активен?
 		 */
 		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
@@ -1532,8 +1526,7 @@ class ActionBlog extends Action {
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
@@ -1541,7 +1534,7 @@ class ActionBlog extends Action {
 			$this->SendBlogInvite($oBlog,$oUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog.invite.notices.add',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -1566,15 +1559,13 @@ class ActionBlog extends Action {
 		 * Проверяем существование блога
 		 */
 		if(!$oBlog=$this->Blog_GetBlogById($sBlogId)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Пользователь существует и активен?
 		 */
 		if (!$oUser=$this->User_GetUserById($sUserId) or $oUser->getActivate()!=1) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
@@ -1582,8 +1573,7 @@ class ActionBlog extends Action {
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
 		$bIsAdministratorBlog=$oBlogUser ? $oBlogUser->getIsAdministrator() : false;
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
@@ -1594,7 +1584,7 @@ class ActionBlog extends Action {
 			$this->Blog_DeleteRelationBlogUser($oBlogUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog.invite.notices.remove',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -1834,6 +1824,8 @@ class ActionBlog extends Action {
 				$sText = $this->Lang_Get('blog.personal_description');
 			}
 			$this->Viewer_AssignAjax('sText',$sText);
+		} else {
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -1857,8 +1849,7 @@ class ActionBlog extends Action {
 		 */
 		$idBlog=getRequestStr('idBlog',null,'post');
 		if (!($oBlog=$this->Blog_GetBlogById($idBlog))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем тип блога
@@ -1934,8 +1925,7 @@ class ActionBlog extends Action {
 				 */
 				$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_BLOG, $oBlog->getId());
 			} else {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return;
+				return $this->EventErrorDebug();
 			}
 		}
 	}
@@ -1967,4 +1957,3 @@ class ActionBlog extends Action {
 		$this->Viewer_Assign('BLOG_USER_ROLE_BAN', ModuleBlog::BLOG_USER_ROLE_BAN);
 	}
 }
-?>

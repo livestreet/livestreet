@@ -505,10 +505,10 @@ class ActionProfile extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		if (!$this->CheckUserProfile()) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Создаем запись
@@ -561,16 +561,16 @@ class ActionProfile extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		if (!$this->CheckUserProfile()) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Получаем запись
 		 */
 		if (!($oWall=$this->Wall_GetWallById(getRequestStr('iId')))) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Если разрешено удаление - удаляем
@@ -579,7 +579,7 @@ class ActionProfile extends Action {
 			$this->Wall_DeleteWall($oWall);
 			return;
 		}
-		return parent::EventNotFound();
+		return $this->EventErrorDebug();
 	}
 	/**
 	 * Ajax подгрузка сообщений стены
@@ -590,7 +590,7 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->CheckUserProfile()) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Формируем фильтр для запроса к БД
@@ -626,10 +626,10 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->CheckUserProfile()) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		if (!($oWall=$this->Wall_GetWallById(getRequestStr('iPid'))) or $oWall->getPid()) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Формируем фильтр для запроса к БД
@@ -643,8 +643,7 @@ class ActionProfile extends Action {
 		} elseif (is_numeric(getRequest('iIdMore'))) {
 			$aFilter['id_more']=getRequest('iIdMore');
 		} else {
-			$this->Message_AddError($this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Получаем сообщения и формируем ответ
@@ -668,7 +667,7 @@ class ActionProfile extends Action {
 		 * Пользователь авторизован?
 		 */
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Создаем заметку и проводим валидацию
@@ -701,14 +700,14 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 
 		if (!($oUserTarget=$this->User_GetUserById(getRequestStr('iUserId')))) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		if (!($oNote=$this->User_GetUserNote($oUserTarget->getId(),$this->oUserCurrent->getId()))) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		$this->User_DeleteUserNoteById($oNote->getId());
 	}
@@ -907,19 +906,12 @@ class ActionProfile extends Action {
 				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
 
 			} else {
-				$this->Message_AddErrorSingle(
-					$this->Lang_Get('system_error'),
-					$this->Lang_Get('error')
-				);
+				return $this->EventErrorDebug();
 			}
 			return;
 		}
 
-		$this->Message_AddErrorSingle(
-			$this->Lang_Get('system_error'),
-			$this->Lang_Get('error')
-		);
-		return;
+		return $this->EventErrorDebug();
 	}
 	/**
 	 * Отправляет пользователю Talk уведомление о принятии или отклонении его заявки
@@ -1056,10 +1048,7 @@ class ActionProfile extends Action {
 					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
 
 				} else {
-					$this->Message_AddErrorSingle(
-						$this->Lang_Get('system_error'),
-						$this->Lang_Get('error')
-					);
+					return $this->EventErrorDebug();
 				}
 				return;
 			} else {
@@ -1259,8 +1248,7 @@ class ActionProfile extends Action {
 			}
 			return;
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -1369,4 +1357,3 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('USER_FRIEND_DELETE',ModuleUser::USER_FRIEND_DELETE);
 	}
 }
-?>

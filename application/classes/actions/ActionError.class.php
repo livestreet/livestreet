@@ -31,6 +31,12 @@ class ActionError extends Action {
 		'404' => array(
 			'header' => '404 Not Found',
 		),
+		'403' => array(
+			'header' => '403 Forbidden',
+		),
+		'500' => array(
+			'header' => '500 Internal Server Error',
+		),
 	);
 	/**
 	 * Инициализация экшена
@@ -64,7 +70,12 @@ class ActionError extends Action {
 		 * Например, для 404 в хидере будет послан браузеру заголовок HTTP/1.1 404 Not Found
 		 */
 		if (array_key_exists($this->sCurrentEvent,$this->aHttpErrors)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$this->sCurrentEvent),$this->sCurrentEvent);
+			/**
+			 * Смотрим есть ли сообщения об ошибках
+			 */
+			if (!$this->Message_GetError()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('common.error.system.code.'.$this->sCurrentEvent),$this->sCurrentEvent);
+			}
 			$aHttpError=$this->aHttpErrors[$this->sCurrentEvent];
 			if (isset($aHttpError['header'])) {
 				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';

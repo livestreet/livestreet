@@ -551,12 +551,10 @@ class ActionTalk extends Action {
 		 * Проверяем разговор
 		 */
 		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('idTarget')))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Получаем комментарии
@@ -614,12 +612,10 @@ class ActionTalk extends Action {
 		 * Проверяем разговор
 		 */
 		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('cmt_target_id')))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем разрешено ли отправлять инбокс по времени
@@ -641,8 +637,7 @@ class ActionTalk extends Action {
 		 */
 		$sParentId=(int)getRequest('reply');
 		if (!func_check($sParentId,'id')) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		$oCommentParent=null;
 		if ($sParentId!=0) {
@@ -650,15 +645,13 @@ class ActionTalk extends Action {
 			 * Проверяем существует ли комментарий на который отвечаем
 			 */
 			if (!($oCommentParent=$this->Comment_GetCommentById($sParentId))) {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return;
+				return $this->EventErrorDebug();
 			}
 			/**
 			 * Проверяем из одного топика ли новый коммент и тот на который отвечаем
 			 */
 			if ($oCommentParent->getTargetId()!=$oTalk->getId()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-				return;
+				return $this->EventErrorDebug();
 			}
 		} else {
 			/**
@@ -714,7 +707,7 @@ class ActionTalk extends Action {
 			 */
 			$this->Talk_increaseCountCommentNew($oTalk->getId(),$oCommentNew->getUserId());
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -861,11 +854,7 @@ class ActionTalk extends Action {
 		 * Производим удаление пользователя из блекслиста
 		 */
 		if(!$this->Talk_DeleteUserFromBlacklist($idTarget,$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle(
-				$this->Lang_Get('system_error'),
-				$this->Lang_Get('error')
-			);
-			return;
+			return $this->EventErrorDebug();
 		}
 		$this->Message_AddNoticeSingle(
 			$this->Lang_Get(
@@ -939,11 +928,7 @@ class ActionTalk extends Action {
 		 * Удаляем пользователя из разговора,  если удаление прошло неудачно - возвращаем системную ошибку
 		 */
 		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,ModuleTalk::TALK_USER_DELETE_BY_AUTHOR)) {
-			$this->Message_AddErrorSingle(
-				$this->Lang_Get('system_error'),
-				$this->Lang_Get('error')
-			);
-			return;
+			return $this->EventErrorDebug();
 		}
 		$this->Message_AddNoticeSingle(
 			$this->Lang_Get(
@@ -1196,4 +1181,3 @@ class ActionTalk extends Action {
 		$this->Viewer_Assign('TALK_USER_DELETE_BY_AUTHOR',ModuleTalk::TALK_USER_DELETE_BY_AUTHOR);
 	}
 }
-?>
