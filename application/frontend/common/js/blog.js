@@ -189,6 +189,8 @@ ls.blog = (function ($) {
 	 * Отображение информации о блоге
 	 */
 	this.loadInfo = function(iBlogId) {
+		if ( ! this.elements.info.length ) return;
+
 		var url = this.options.routers.info,
 			params = { idBlog: iBlogId };
 
