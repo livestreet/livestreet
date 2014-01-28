@@ -80,7 +80,8 @@ class ActionPeople extends Action {
 		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
 			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
 		} else {
-			return $this->EventErrorDebug();
+			$this->Viewer_AssignAjax('bShowOriginal',true);
+			return;
 		}
 		/**
 		 * Как именно искать: совпадение в любой частилогина, или только начало или конец логина

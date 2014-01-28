@@ -215,7 +215,7 @@ ls.user = (function ($) {
 		ls.ajax.submit(url, sFormSelector, function(result) {
 			oInputSearch.removeClass(ls.options.classes.states.loading);
 
-			if (result.bStateError) {
+			if (result.bShowOriginal) {
 				oSearchContainer.hide();
 				oOriginalContainer.show();
 			} else {
