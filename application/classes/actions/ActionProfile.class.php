@@ -732,7 +732,7 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем список заметок
 		 */
-		$aResult=$this->User_GetUserNotesByUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.user.usernote_per_page'));
+		$aResult=$this->User_GetUsersByNoteAndUserId($this->oUserProfile->getId(),$iPage,Config::Get('module.user.usernote_per_page'));
 		$aNotes=$aResult['collection'];
 		/**
 		 * Формируем постраничность
@@ -742,7 +742,7 @@ class ActionProfile extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aNotes',$aNotes);
+		$this->Viewer_Assign('aUsersList',$aNotes);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_notes'));
 		/**

@@ -9,30 +9,5 @@
 {block name='layout_content'}
 	{include file='navs/nav.user.created.tpl'}
 
-	{if $aNotes}
-		<ul class="object-list user-list">
-			{foreach $aNotes as $oNote}
-				{$oUser = $oNote->getTargetUser()}
-
-				<li class="object-list-item">
-					{* Аватар *}
-					<a href="{$oUser->getUserWebPath()}">
-						<img src="{$oUser->getProfileAvatarPath(100)}" width="100" height="100" alt="{$oUser->getLogin()}" class="object-list-item-image" />
-					</a>
-
-					{* Заголовок *}
-					<h2 class="object-list-item-title">
-						<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
-					</h2>
-
-					{* Заметка *}
-					{include 'user_note.tpl' oUserNote=$oNote iUserNoteId=$oUser->getId()}
-				</li>
-			{/foreach}
-		</ul>
-	{else}
-		{include file='alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
-	{/if}
-
-	{include file='pagination.tpl' aPaging=$aPaging}
+	{include file='user_list.tpl'}
 {/block}

@@ -1391,6 +1391,20 @@ class ModuleUser extends Module {
 		return array('collection'=>$aResult,'count'=>$iCount);
 	}
 	/**
+	 * Возвращает список пользователей к которым юзер оставлял заметку
+	 *
+	 * @param int $iUserId	ID пользователя
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 *
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetUsersByNoteAndUserId($iUserId,$iCurrPage,$iPerPage) {
+		$aUsersId=$this->oMapper->GetUsersByNoteAndUserId($iUserId,$iCount,$iCurrPage,$iPerPage);
+		$aResult=$this->GetUsersAdditionalData($aUsersId);
+		return array('collection'=>$aResult,'count'=>$iCount);
+	}
+	/**
 	 * Возвращает количество заметок у пользователя
 	 *
 	 * @param int $iUserId	ID пользователя

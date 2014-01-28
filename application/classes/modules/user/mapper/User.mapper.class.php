@@ -984,6 +984,32 @@ class ModuleUser_MapperUser extends Mapper {
 		return $aReturn;
 	}
 	/**
+	 * Возвращает список ID пользователей к которым юзер оставлял заметки
+	 *
+	 * @param int $iUserId	ID пользователя
+	 * @param int $iCount	Возвращает общее количество элементов
+	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPerPage	Количество элементов на страницу
+	 * @return array
+	 */
+	public function GetUsersByNoteAndUserId($iUserId,&$iCount,$iCurrPage,$iPerPage) {
+		$sql = "
+			SELECT target_user_id
+			FROM
+				".Config::Get('db.table.user_note')."
+			WHERE
+				user_id = ?d
+			ORDER BY id DESC
+			LIMIT ?d, ?d ";
+		$aReturn=array();
+		if ($aRows=$this->oDb->selectPage($iCount,$sql,$iUserId,($iCurrPage-1)*$iPerPage, $iPerPage)) {
+			foreach ($aRows as $aRow) {
+				$aReturn[]=$aRow['target_user_id'];
+			}
+		}
+		return $aReturn;
+	}
+	/**
 	 * Возвращает количество заметок у пользователя
 	 *
 	 * @param int $iUserId	ID пользователя
