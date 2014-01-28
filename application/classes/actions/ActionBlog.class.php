@@ -1528,8 +1528,12 @@ class ActionBlog extends Action {
 		if ($oBlog->getOwnerId()!=$this->oUserCurrent->getId()  and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
 			return $this->EventErrorDebug();
 		}
-
-		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+		/**
+		 * Попытка отправить инвайт пользователю, который не состоит в данном блоге
+		 */
+		if (!($oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId()))) {
+			return $this->EventErrorDebug();
+		}
 		if ($oBlogUser->getUserRole()==ModuleBlog::BLOG_USER_ROLE_INVITE) {
 			$this->SendBlogInvite($oBlog,$oUser);
 			$this->Message_AddNoticeSingle($this->Lang_Get('blog.invite.notices.add',array('login'=>$oUser->getLogin())),$this->Lang_Get('attention'));
