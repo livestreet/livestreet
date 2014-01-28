@@ -1131,7 +1131,7 @@ class ModuleUser_MapperUser extends Mapper {
 	 */
 	public function AddComplaint($oComplaint) {
 		$sql = "INSERT INTO ".Config::Get('db.table.user_complaint')." SET ?a ";
-		if ($iId=$this->oDb->query($sql,$oComplaint->_getData(array('type','target_user_id','user_id','text','date_add')))) {
+		if ($iId=$this->oDb->query($sql,$oComplaint->_getData(array('type','target_user_id','user_id','text','date_add','state')))) {
 			return $iId;
 		}
 		return false;

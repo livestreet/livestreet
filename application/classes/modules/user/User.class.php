@@ -31,6 +31,11 @@ class ModuleUser extends Module {
 	const USER_FRIEND_REJECT = 8;
 	const USER_FRIEND_NULL   = 16;
 	/**
+	 * Статусы жалобы на пользователя
+	 */
+	const COMPLAINT_STATE_NEW = 1;
+	const COMPLAINT_STATE_READ = 2;
+	/**
 	 * Объект маппера
 	 *
 	 * @var ModuleUser_MapperUser

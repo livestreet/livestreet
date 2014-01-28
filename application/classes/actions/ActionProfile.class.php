@@ -143,6 +143,7 @@ class ActionProfile extends Action {
 		$oComplaint->setText(getRequestStr('text'));
 		$oComplaint->setType(getRequestStr('type'));
 		$oComplaint->setCaptcha(getRequestStr('captcha'));
+		$oComplaint->setState(ModuleUser::COMPLAINT_STATE_NEW);
 
 		if ($oComplaint->_Validate()) {
 			/**

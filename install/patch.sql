@@ -371,3 +371,8 @@ ALTER TABLE `prefix_rbac_role_permission`
 ALTER TABLE `prefix_rbac_user_role`
   ADD CONSTRAINT `prefix_rbac_user_role_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `prefix_rbac_user_role_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `prefix_rbac_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- 28.01.2014
+ALTER TABLE `prefix_user_complaint` ADD `state` TINYINT NOT NULL DEFAULT '1',
+ADD INDEX ( `state` ) ;
