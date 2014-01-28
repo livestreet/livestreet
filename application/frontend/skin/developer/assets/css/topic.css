@@ -59,29 +59,6 @@
 /* Голосование */
 .topic-info-item.topic-info-item-vote { padding: 0; }
 
-.topic .vote { border-radius: 3px; overflow: hidden; }
-
-.topic .vote .vote-up,
-.topic .vote .vote-down { opacity: 1; filter: alpha(opacity=100); }
-
-.topic .vote-locked .vote-up,
-.topic .vote-locked .vote-down { display: none; }
-
-.topic .vote .vote-item i { background-image: url(../images/icons-white.png); opacity: 1; }
-.topic .vote .vote-item { background: #ac90df; padding: 8px 10px; }
-.topic .vote .vote-item:hover { opacity: .9; }
-
-.topic .vote.voted.voted-up .vote-down { display: none; }
-.topic .vote.voted.voted-down .vote-up { display: none; }
-
-.topic .vote .vote-count { color: #fff; padding-right: 13px; padding-left: 13px; opacity: .9; }
-.topic .vote .vote-count a { color: #fff; }
-.topic .vote .vote-count a:hover { text-decoration: none; }
-.topic .vote.vote-count-positive .vote-count { color: #fff; }
-.topic .vote.vote-count-negative .vote-count { color: #fff; }
-
-.topic .vote.vote-count-negative .vote-item { background: #DA3A3A; }
-
 
 /**
  * Предпросмотр топика

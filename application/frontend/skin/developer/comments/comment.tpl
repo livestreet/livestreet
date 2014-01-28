@@ -79,16 +79,12 @@
 			 * Не выводим блок голосования в личных сообщениях и списках
 			 *}
 			{if $oComment->getTargetType() != 'talk'}	
-				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment}</li>
+				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment bVoteIsLocked=($oUserCurrent->getId() == $oUser->getId())}</li>
 			{/if}
 			
 			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li>
-					{include 'favourite.tpl' 
-							 sFavouriteType   = 'comment'
-							 oFavouriteObject = $oComment}
-				</li>
+				<li>{include 'favourite.tpl' sFavouriteType='comment' oFavouriteObject=$oComment}</li>
 			{/if}
 		</ul>
 		

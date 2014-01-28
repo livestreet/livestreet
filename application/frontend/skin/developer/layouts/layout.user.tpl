@@ -17,7 +17,12 @@
 		<a href="{$oUserProfile->getUserWebPath()}"><img src="{$oUserProfile->getProfileAvatarPath(48)}" alt="avatar" class="avatar" itemprop="photo" /></a>
 
 		{* Голосование *}
-		{include 'vote.tpl' sVoteType='user' sVoteStyle='large' oVoteObject=$oUserProfile}
+		{include 'vote.tpl' 
+				 sVoteType      = 'user'
+				 sVoteClasses   = 'vote-large'
+				 oVoteObject    = $oUserProfile
+				 bVoteIsLocked  = $oUserCurrent->getId() == $oUserProfile->getId()
+				 bVoteShowLabel = true}
 		
 		<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getDisplayName()}</h2>
 		

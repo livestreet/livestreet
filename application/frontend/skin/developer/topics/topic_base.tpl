@@ -157,48 +157,13 @@
 			{* Информация *}
 			<ul class="topic-info clearfix">
 				{* Голосование *}
-				{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-					{$bShowVoteInfo = true}
-				{/if}
-
-				<li data-type="tooltip-toggle"
-					data-param-i-topic-id="{$oTopic->getId()}"
-					data-tooltip-url="{router page='ajax'}vote/get/info/"
-					data-vote-type="topic"
-					data-vote-id="{$oTopic->getId()}"
-					class="topic-info-item topic-info-item-vote vote js-vote
-							{if $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now-$oConfig->GetValue('acl.vote.topic.limit_time')}
-								{if $oTopic->getRating() > 0}
-									vote-count-positive
-								{elseif $oTopic->getRating() < 0}
-									vote-count-negative
-								{/if}
-							{/if}
-
-							{if $oVote}
-								voted
-
-								{if $oVote->getDirection() > 0}
-									voted-up
-								{elseif $oVote->getDirection() < 0}
-									voted-down
-								{/if}
-							{/if}
-
-							{if ! $oUserCurrent || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId())}
-								vote-locked
-							{/if}
-
-							{if $bShowVoteInfo}js-tooltip-vote-topic{/if}">
-					<div class="vote-item vote-count js-vote-rating {if ! $bShowVoteInfo}js-vote-abstain{/if}" {if ! $bShowVoteInfo}title="{$aLang.topic_vote_abstain}"{/if}>
-						{if $bShowVoteInfo}
-							{$oTopic->getRating()}
-						{else}
-							?
-						{/if}
-					</div>
-					<div class="vote-item vote-up js-vote-up"><i></i></div>
-					<div class="vote-item vote-down js-vote-down"><i></i></div>
+				<li class="topic-info-item topic-info-item-vote">
+					{include 'vote.tpl' 
+							 sVoteType       = 'topic' 
+							 oVoteObject     = $oTopic 
+							 sVoteClasses    = 'vote-small vote-white'
+							 bVoteIsLocked   = $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()
+							 bVoteShowRating = $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - $oConfig->GetValue('acl.vote.topic.limit_time')}
 				</li>
 
 				{* Автор топика *}
@@ -209,9 +174,7 @@
 				{if ! $bTopicList}
 					{* Избранное *}
 					<li class="topic-info-item topic-info-item-favourite">
-						{include 'favourite.tpl' 
-								 sFavouriteType   = 'topic'
-								 oFavouriteObject = $oTopic}
+						{include 'favourite.tpl' sFavouriteType='topic' oFavouriteObject=$oTopic}
 					</li>
 
 					{* Поделиться *}

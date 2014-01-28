@@ -24,11 +24,19 @@
 		{include 'modals/modal.blog_delete.tpl'}
 	{/if}
 
+	{* Является ли пользователь администратором или управляющим блога *}
+	{$bUserIsAdministrator = $oUserCurrent->getId() == $oBlog->getOwnerId() || $oUserCurrent->isAdministrator() || $oBlog->getUserIsAdministrator()}
+
 
 	<div class="blog">
 		<header class="blog-header">
 			{* Голосование *}
-			{include 'vote.tpl' sVoteType='blog' sVoteStyle='large' oVoteObject=$oBlog bVoteShowLabel=true}
+			{include 'vote.tpl' 
+					 sVoteType      = 'blog'
+					 sVoteClasses   = 'vote-large vote-white'
+					 oVoteObject    = $oBlog
+					 bVoteIsLocked  = $bUserIsAdministrator
+					 bVoteShowLabel = true}
 
 			{* Заголовок *}
 			<h2 class="page-header blog-title">
@@ -62,7 +70,7 @@
 
 
 		{* Управление *}
-		{if $oUserCurrent && ($oUserCurrent->getId() == $oBlog->getOwnerId() || $oUserCurrent->isAdministrator() || $oBlog->getUserIsAdministrator() )}
+		{if $oUserCurrent && $bUserIsAdministrator}
 			<ul class="actions">
 				<li>
 					<i class="icon-edit icon-white"></i>

@@ -32,13 +32,13 @@ ls.vote = (function ($) {
 
 		// Классы
 		classes : {
-			voted: 		'voted',
-			plus: 		'voted-up',
-			minus:  	'voted-down',
-			positive:	'vote-count-positive',
-			negative:  	'vote-count-negative',
-			voted_zero: 'voted-zero',
-			zero: 	 	'vote-count-zero',
+			voted:      'vote-voted',
+			voted_up:   'vote-voted-up',
+			voted_down: 'vote-voted-down',
+			voted_zero: 'vote-voted-zero',
+			positive:   'vote-count-positive',
+			negative:   'vote-count-negative',
+			zero:       'vote-count-zero',
 			not_voted:  'not-voted'
 		},
 
@@ -152,9 +152,9 @@ ls.vote = (function ($) {
 				.removeClass(this.options.classes.negative + ' ' + this.options.classes.positive + ' ' + this.options.classes.not_voted + ' ' + this.options.classes.zero);
 
 			if (iValue > 0) {
-				oVars.vote.addClass(this.options.classes.plus);
+				oVars.vote.addClass(this.options.classes.voted_up);
 			} else if (iValue < 0) {
-				oVars.vote.addClass(this.options.classes.minus);
+				oVars.vote.addClass(this.options.classes.voted_down);
 			} else if (iValue == 0) {
 				oVars.vote.addClass(this.options.classes.voted_zero);
 			}

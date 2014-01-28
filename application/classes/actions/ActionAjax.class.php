@@ -430,7 +430,7 @@ class ActionAjax extends Action {
 		$oViewer->Assign('oTopic', $oTopic);
 		$oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
-		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("topics/tooltip.topic_vote_info.tpl"));
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("vote.info.tpl"));
 	}
 
 	/**
