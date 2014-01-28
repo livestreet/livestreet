@@ -10,8 +10,6 @@
  *
  * @styles assets/css/common.css
  * @scripts <common>/js/vote.js
- *
- * TODO: Сделать универсальный вывод инфы о голосовании
  *}
 
 {$oVote = $oVoteObject->getVote()}
@@ -22,11 +20,10 @@
 	 data-vote-id="{$oVoteObject->getId()}"
 
 	 {* Параметры тултипа с инфой о голосовании *}
-	 {if $sVoteType == 'topic'}
-		data-type="tooltip-toggle"
-		data-param-i-topic-id="{$oTopic->getId()}"
-		data-tooltip-url="{router page='ajax'}vote/get/info/"
-	 {/if}
+	 data-type="tooltip-toggle"
+	 data-param-type="{$sVoteType}"
+	 data-param-id="{$oVoteObject->getId()}"
+	 data-tooltip-url="{router page='ajax'}vote/get/info/{$sVoteType}"
 
 	 class="vote {if $sVoteType}vote-{$sVoteType}{/if} {$sVoteClasses} js-vote
 		{if $bVoteShowRating}
