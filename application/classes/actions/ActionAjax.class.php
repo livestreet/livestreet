@@ -51,7 +51,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
 		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
-		$this->AddEventPreg('/^vote$/i','/^get$/','/^info$/','EventVoteGetInfo');
+		$this->AddEventPreg('/^vote$/i','/^get$/','/^info$/','/^topic$/','EventVoteGetInfoTopic');
 
 		$this->AddEventPreg('/^favourite$/i','/^save-tags/','EventFavouriteSaveTags');
 		$this->AddEventPreg('/^favourite$/i','/^topic$/','EventFavouriteTopic');
@@ -412,16 +412,12 @@ class ActionAjax extends Action {
 	/**
 	 * Получение информации о голосовании за топик
 	 */
-	protected function EventVoteGetInfo() {
-		if ( ! is_string(getRequest('iTopicId')) ) {
+	protected function EventVoteGetInfoTopic() {
+		if (!($oTopic = $this->Topic_GetTopicById(getRequestStr('id', null, 'post'))) ) {
 			return $this->EventErrorDebug();
 		}
 
-		if ( ! ($oTopic = $this->Topic_GetTopicById(getRequestStr('iTopicId', null, 'post'))) ) {
-			return $this->EventErrorDebug();
-		}
-
-		if ( ! $oTopic->getVote() && ($this->oUserCurrent && $oTopic->getUserId() != $this->oUserCurrent->getId()) && (strtotime($oTopic->getDateAdd()) + Config::Get('acl.vote.topic.limit_time') > time())) {
+		if (!$oTopic->getVote() && ($this->oUserCurrent && $oTopic->getUserId() != $this->oUserCurrent->getId()) && (strtotime($oTopic->getDateAdd()) + Config::Get('acl.vote.topic.limit_time') > time())) {
 			return $this->EventErrorDebug();
 		}
 
