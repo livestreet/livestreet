@@ -58,7 +58,7 @@ return array(
 	'start_paragraph'=>'<p>Welcome to LiveStreet &copy; 1.0.1 installation. </p><p><b>Notice:</b> You have to rename file - /config/config.local.php.dist to /config/config.local.php and apply read-write (rw) permision to it.</p><p><b>Notice:</b> Make sure that the following directories have rw permissions: /tmp, /logs, /uploads, /templates/compiled, /templates/cache</p>',
 
 	'php_params'=>'General PHP Configuration',
-	'php_params_version'=>'PHP ver. 5.2.0 or higher',
+	'php_params_version'=>'PHP ver. 5.3.2 or higher',
 	'php_params_safe_mode'=>'Safe mode is on',
 	'php_params_utf8'=>'UTF8 support in PCRE',
 	'php_params_mbstring'=>'Mbstring support',
