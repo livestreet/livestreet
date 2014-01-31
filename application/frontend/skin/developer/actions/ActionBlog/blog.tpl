@@ -25,7 +25,7 @@
 	{/if}
 
 	{* Является ли пользователь администратором или управляющим блога *}
-	{$bUserIsAdministrator = $oUserCurrent->getId() == $oBlog->getOwnerId() || $oUserCurrent->isAdministrator() || $oBlog->getUserIsAdministrator()}
+	{$bUserIsAdministrator = $oUserCurrent && ($oUserCurrent->getId() == $oBlog->getOwnerId() || $oUserCurrent->isAdministrator() || $oBlog->getUserIsAdministrator())}
 
 
 	<div class="blog">

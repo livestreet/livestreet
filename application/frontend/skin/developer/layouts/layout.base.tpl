@@ -127,7 +127,7 @@
 	{$sBodyClasses = $sBodyClasses|cat:' ls-user-role-guest'}
 {/if}
 
-{if !$oUserCurrent or ($oUserCurrent and ! $oUserCurrent->isAdministrator())}
+{if !$oUserCurrent or !$oUserCurrent->isAdministrator()}
 	{$sBodyClasses = $sBodyClasses|cat:' ls-user-role-not-admin'}
 {/if}
 

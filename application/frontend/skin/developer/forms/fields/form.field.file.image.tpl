@@ -14,10 +14,12 @@
 			<label for="{$sFieldName}" class="form-input-file">
 				{strip}
 					<span class="link-dotted js-ajax-image-upload-choose">
-						{if $oUserCurrent->getProfileAvatar()}
-							{$aLang.settings_profile_avatar_change}
-						{else}
-							{$aLang.settings_profile_avatar_upload}
+						{if $oUserCurrent} {* TODO: переделать на универсальный *}
+							{if $oUserCurrent->getProfileAvatar()}
+								{$aLang.settings_profile_avatar_change}
+							{else}
+								{$aLang.settings_profile_avatar_upload}
+							{/if}
 						{/if}
 					</span>
 				{/strip}

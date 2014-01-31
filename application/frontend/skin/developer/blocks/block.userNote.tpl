@@ -7,7 +7,7 @@
 {extends 'blocks/block.aside.base.tpl'}
 
 {block 'block_options'}
-	{if ! $oUserCurrent or ( $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId() )}
+	{if ! $oUserCurrent or ( $oUserCurrent->getId() == $oUserProfile->getId() )}
 		{$bBlockNotShow = true}
 	{/if}
 {/block}

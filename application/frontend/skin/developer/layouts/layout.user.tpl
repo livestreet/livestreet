@@ -21,7 +21,7 @@
 				 sVoteType      = 'user'
 				 sVoteClasses   = 'vote-large'
 				 oVoteObject    = $oUserProfile
-				 bVoteIsLocked  = $oUserCurrent->getId() == $oUserProfile->getId()
+				 bVoteIsLocked  = $oUserCurrent &&  $oUserCurrent->getId() == $oUserProfile->getId()
 				 bVoteShowLabel = true}
 		
 		<h2 class="page-header user-login word-wrap {if !$oUserProfile->getProfileName()}no-user-name{/if}" itemprop="nickname">{$oUserProfile->getDisplayName()}</h2>
