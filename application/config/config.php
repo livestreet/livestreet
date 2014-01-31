@@ -38,7 +38,7 @@ $config['path']['offset_request_url']	= 0;
 /**
  * Настройки HTML вида
  */
-$config['view']['skin']        = 'synio';		// Название текущего шаблона
+$config['view']['skin']        = 'developer';		// Название текущего шаблона
 $config['view']['theme'] = 'default';			// тема оформления шаблона (шаблон должен поддерживать темы)
 $config['view']['name']        = 'Your Site';                   // название сайта
 $config['view']['description'] = 'Description your site'; // seo description
