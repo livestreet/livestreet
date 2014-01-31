@@ -38,7 +38,8 @@ $config['path']['offset_request_url']	= 0;
 /**
  * Настройки HTML вида
  */
-$config['view']['skin']        = 'synio';                                                              // шаблон(скин)
+$config['view']['skin']        = 'synio';		// Название текущего шаблона
+$config['view']['theme'] = 'default';			// тема оформления шаблона (шаблон должен поддерживать темы)
 $config['view']['name']        = 'Your Site';                   // название сайта
 $config['view']['description'] = 'Description your site'; // seo description
 $config['view']['keywords']    = 'site, google, internet';      // seo keywords
@@ -301,6 +302,7 @@ $config['db']['table']['rbac_role'] 		  = '___db.table.prefix___rbac_role';
 $config['db']['table']['rbac_permission'] 	  = '___db.table.prefix___rbac_permission';
 $config['db']['table']['rbac_role_permission']= '___db.table.prefix___rbac_role_permission';
 $config['db']['table']['rbac_user_role'] 	  = '___db.table.prefix___rbac_user_role';
+$config['db']['table']['storage']			  = '___db.table.prefix___storage';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 

@@ -2,7 +2,6 @@
 
 $config = array();
 
-$config['view']['theme'] = 'default';
 $config['module']['user']['profile_photo_width'] = 300;
 
 /** 
@@ -23,7 +22,8 @@ $config['view']['grid']['fixed_width'] = 1000;
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.skin.assets.web___/js/init.js';
 
-$config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), array(
+
+$aCss=array(
 	// Template styles
 	"___path.skin.assets.web___/css/base.css",
 	"___path.framework.frontend.web___/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
@@ -54,10 +54,13 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.skin.assets.web___/css/poll.css",
 	"___path.skin.assets.web___/css/messages.css",
 	"___path.skin.assets.web___/css/sort.css",
-	"___path.skin.web___/themes/___view.theme___/style.css",
 	"___path.skin.assets.web___/css/print.css",
-));
+);
+
+if (Config::Get('view.theme')) {
+	$aCss[]="___path.skin.web___/themes/___view.theme___/style.css";
+}
+$config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),$aCss);
 
 
 return $config;
-?>
