@@ -79,7 +79,7 @@
 			 * Не выводим блок голосования в личных сообщениях и списках
 			 *}
 			{if $oComment->getTargetType() != 'talk'}	
-				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment bVoteIsLocked=($oUserCurrent->getId() == $oUser->getId())}</li>
+				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment bVoteIsLocked=($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}</li>
 			{/if}
 			
 			{* Избранное *}
