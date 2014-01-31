@@ -392,3 +392,10 @@ CREATE TABLE IF NOT EXISTS `prefix_storage` (
   UNIQUE KEY `key_instance` (`key`,`instance`),
   KEY `instance` (`instance`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_property_target`
+--
+
+INSERT INTO `prefix_property_target` ( `type`, `date_create`, `date_update`, `state`, `params`) VALUES
+('topic_topic', '2014-01-31 12:01:34', NULL, 1, 'a:2:{s:6:"entity";s:23:"ModuleTopic_EntityTopic";s:4:"name";s:35:"Топик - Стандартный";}');
