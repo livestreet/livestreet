@@ -44,10 +44,15 @@ ls.poll = (function ($) {
 
 		// Html варианта ответа
 		sAddItemHtml: '<li class="poll-add-item js-poll-add-item">' +
-					      '<input type="text" name="answer[]" class="poll-add-item-input js-poll-add-item-input">' +
+					      '<input type="checkbox" disabled="disabled">' +
+					      '<input type="hidden" name="answers[_NUMBER_][id]" value="_ANSWER_ID_">' +
+					      '<input type="text" name="answers[_NUMBER_][title]" class="poll-add-item-input js-poll-add-item-input" value="_ANSWER_TITLE_">' +
 					      '<i class="icon-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
 					  '</li>'
 	};
+
+	this.aAnswersInit=[];
+	this.iCountAnswers=0;
 
 	/**
 	 * Инициализация
@@ -58,30 +63,6 @@ ls.poll = (function ($) {
 		var self = this;
 
 		this.options = $.extend({}, defaults, options);
-
-		// Добавление
-		$(this.options.sAddSelector).each(function () {
-			var oPollAdd = $(this);
-
-			// Добавление варианта
-			oPollAdd.find(self.options.sAddButtonSelector).on('click', function () {
-				self.addItem(oPollAdd);
-			}.bind(self));
-
-			// Добавление варианта по нажатию Ctrl + Enter
-			oPollAdd.on('keyup', self.options.sAddItemInputSelector, function (e) {
-				var key = e.keyCode || e.which;
-
-				if (e.ctrlKey && key == 13) {
-					self.addItem(oPollAdd);
-				}
-			});
-
-			// Удаление
-			oPollAdd.on('click', self.options.sAddItemRemoveSelector, function () {
-				self.removeItem(this);
-			});
-		});
 
 		// Голосование
 		$(this.options.sPollSelector).each(function () {
@@ -111,22 +92,119 @@ ls.poll = (function ($) {
 		});
 	};
 
+	this.initFormUpdate = function() {
+		this.initFormCreate();
+	};
+
+	this.initFormCreate = function() {
+		var self = this;
+
+		var oPollAdd=$('#form-poll-create').find(self.options.sAddSelector);
+		$.each(self.aAnswersInit,function(k,v){
+			self.addItem(oPollAdd,v);
+		});
+
+
+		$(this.options.sAddSelector).each(function () {
+			var oPollAdd = $(this);
+
+			// Добавление варианта
+			oPollAdd.find(self.options.sAddButtonSelector).on('click', function () {
+				self.addItem(oPollAdd);
+			}.bind(self));
+
+			// Добавление варианта по нажатию Ctrl + Enter
+			oPollAdd.on('keyup', self.options.sAddItemInputSelector, function (e) {
+				var key = e.keyCode || e.which;
+
+				if (e.ctrlKey && key == 13) {
+					self.addItem(oPollAdd);
+				}
+			});
+
+			// Удаление
+			oPollAdd.on('click', self.options.sAddItemRemoveSelector, function () {
+				self.removeItem(this);
+			});
+		});
+	};
+
+	this.createPoll = function(form,button) {
+		ls.ajax.submit(aRouter.ajax+'poll/create/', form, function(result){
+			$('#poll-form-items').append(result.sPollItem);
+
+			$('#modal-poll-create').modal('hide');
+		},{ submitButton: $(button) });
+	};
+
+	this.updatePoll = function(form,button) {
+		ls.ajax.submit(aRouter.ajax+'poll/update/', form, function(result){
+			$('#poll-form-item-'+result.iPollId).replaceWith(result.sPollItem);
+
+			$('#modal-poll-create').modal('hide');
+		},{ submitButton: $(button) });
+	};
+
+	this.removePoll = function(id,tmp) {
+		ls.ajax.load(aRouter.ajax+'poll/remove/', { id: id, tmp: tmp }, function(result){
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$('#poll-form-item-'+id).fadeOut('slow', function() {
+					$(this).remove();
+				});
+			}
+		});
+		return false;
+	};
+
 	/**
 	 * Добавляет вариант ответа
 	 * 
 	 * @param  {Object} oPollAdd Блок добавления опроса
 	 */
-	this.addItem = function(oPollAdd) {
+	this.addItem = function(oPollAdd,params) {
+		var defaults = {
+			number: "0",
+			answer_id: '',
+			answer_title: '',
+			disable_remove: false,
+			disable_update: false
+		}
+		params = $.extend({}, defaults, params);
+
 		if(oPollAdd.find(this.options.sAddItemSelector).length == this.options.iMaxItems) {
 			ls.msg.error(null, ls.lang.get('topic_question_create_answers_error_max'));
 			return false;
 		}
 
 		var self = this,
-			oNewItem = $(this.options.sAddItemHtml);
+			sTpl = this.options.sAddItemHtml;
+
+		sTpl = sTpl.replace(/_NUMBER_/g, this.iCountAnswers);
+		sTpl = sTpl.replace(/_ANSWER_ID_/g, params.answer_id);
+		sTpl = sTpl.replace(/_ANSWER_TITLE_/g, params.answer_title);
+
+
+		oNewItem = $(sTpl);
+		if (params.disable_remove) {
+			oNewItem.find(this.options.sAddItemRemoveSelector).remove();
+		}
+		if (params.disable_update) {
+			oNewItem.find(this.options.sAddItemInputSelector).attr('disabled','disabled');
+		}
 
 		oPollAdd.find(this.options.sAddListSelector).append(oNewItem);
 		oNewItem.find('input[type=text]').focus();
+		this.iCountAnswers++;
+	};
+
+	this.addItemInit = function(params) {
+		this.aAnswersInit.push(params);
+	};
+
+	this.clearItemInit = function() {
+		this.aAnswersInit=[];
 	};
 	
 	/**

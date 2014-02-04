@@ -399,3 +399,82 @@ CREATE TABLE IF NOT EXISTS `prefix_storage` (
 
 INSERT INTO `prefix_property_target` ( `type`, `date_create`, `date_update`, `state`, `params`) VALUES
 ('topic_topic', '2014-01-31 12:01:34', NULL, 1, 'a:2:{s:6:"entity";s:23:"ModuleTopic_EntityTopic";s:4:"name";s:35:"Топик - Стандартный";}');
+
+
+-- 04.02.2014
+--
+-- Структура таблицы `prefix_poll`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_poll` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `target_type` varchar(50) NOT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `target_tmp` varchar(50) DEFAULT NULL,
+  `title` varchar(500) NOT NULL,
+  `count_answer_max` tinyint(4) NOT NULL DEFAULT '1',
+  `count_vote` int(11) NOT NULL DEFAULT '0',
+  `count_abstain` int(11) NOT NULL DEFAULT '0',
+  `date_create` datetime NOT NULL,
+  `date_end` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `target_type_target_id` (`target_type`,`target_id`),
+  KEY `target_tmp` (`target_tmp`),
+  KEY `count_vote` (`count_vote`),
+  KEY `count_abstain` (`count_abstain`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_poll_answer`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_poll_answer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `title` varchar(500) CHARACTER SET utf8 NOT NULL,
+  `count_vote` int(11) NOT NULL DEFAULT '0',
+  `date_create` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `poll_id` (`poll_id`),
+  KEY `count_vote` (`count_vote`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_poll_vote`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_poll_vote` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poll_id` int(11) NOT NULL,
+  `answer_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `date_create` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `poll_id` (`poll_id`),
+  KEY `answer_id` (`answer_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_poll_answer`
+--
+ALTER TABLE `prefix_poll_answer`
+  ADD CONSTRAINT `prefix_poll_answer_ibfk_1` FOREIGN KEY (`poll_id`) REFERENCES `prefix_poll` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `prefix_poll_vote`
+--
+ALTER TABLE `prefix_poll_vote`
+  ADD CONSTRAINT `prefix_poll_vote_ibfk_1` FOREIGN KEY (`poll_id`) REFERENCES `prefix_poll` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prefix_poll_vote_ibfk_2` FOREIGN KEY (`answer_id`) REFERENCES `prefix_poll_answer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+

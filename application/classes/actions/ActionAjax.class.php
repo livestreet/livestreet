@@ -90,6 +90,12 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
 
 		$this->AddEventPreg('/^validate$/i','/^captcha$/','/^$/','EventValidateCaptcha');
+
+		$this->AddEventPreg('/^poll$/i','/^modal-create$/','/^$/','EventPollModalCreate');
+		$this->AddEventPreg('/^poll$/i','/^modal-update/','/^$/','EventPollModalUpdate');
+		$this->AddEventPreg('/^poll$/i','/^create$/','/^$/','EventPollCreate');
+		$this->AddEventPreg('/^poll$/i','/^update$/','/^$/','EventPollUpdate');
+		$this->AddEventPreg('/^poll$/i','/^remove$/','/^$/','EventPollRemove');
 	}
 
 
@@ -97,6 +103,179 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+
+	protected function EventPollCreate() {
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+		/**
+		 * Создаем
+		 */
+		$oPoll=Engine::GetEntity('ModulePoll_EntityPoll');
+		$oPoll->_setValidateScenario('create');
+		$oPoll->_setDataSafe(getRequest('poll'));
+		$oPoll->setAnswersRaw(getRequest('answers'));
+		$oPoll->setTargetRaw(getRequest('target'));
+		$oPoll->setUserId($this->oUserCurrent->getId());
+
+		if ($oPoll->_Validate()) {
+			if ($oPoll->Add()) {
+				$oViewer=$this->Viewer_GetLocalViewer();
+				$oViewer->Assign('oPoll',$oPoll);
+				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("polls/poll.form.item.tpl"));
+				return true;
+			} else {
+				$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($oPoll->_getValidateError(),$this->Lang_Get('error'));
+		}
+	}
+
+	protected function EventPollUpdate() {
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('poll_id'))) {
+			return $this->EventErrorDebug();
+		}
+
+		/**
+		 * Проверяем корректность target'а
+		 */
+		if ($oPoll->getTargetId()) {
+			if (!$this->Poll_CheckTarget($oPoll->getTargetType(),$oPoll->getTargetId())) {
+				return $this->EventErrorDebug();
+			}
+		} else {
+			$sTarget=isset($_REQUEST['target']['tmp']) ? $_REQUEST['target']['tmp'] : '';
+			if (!$this->Poll_IsAllowTargetType($oPoll->getTargetType()) or $oPoll->getTargetTmp()!=$sTarget) {
+				return $this->EventErrorDebug();
+			}
+		}
+		/**
+		 * Обновляем
+		 */
+		$oPoll->_setValidateScenario('update');
+		$oPoll->_setDataSafe(getRequest('poll'));
+		$oPoll->setAnswersRaw(getRequest('answers'));
+
+		if ($oPoll->_Validate()) {
+			if ($oPoll->Update()) {
+				$oViewer=$this->Viewer_GetLocalViewer();
+				$oViewer->Assign('oPoll',$oPoll);
+				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("polls/poll.form.item.tpl"));
+				$this->Viewer_AssignAjax('iPollId',$oPoll->getId());
+				return true;
+			} else {
+				$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
+			}
+		} else {
+			$this->Message_AddError($oPoll->_getValidateError(),$this->Lang_Get('error'));
+		}
+	}
+
+	protected function EventPollRemove() {
+		if (!$this->oUserCurrent) {
+			return parent::EventNotFound();
+		}
+
+		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('id'))) {
+			return $this->EventErrorDebug();
+		}
+
+		/**
+		 * Проверяем корректность target'а
+		 */
+		if ($oPoll->getTargetId()) {
+			if (!$this->Poll_CheckTarget($oPoll->getTargetType(),$oPoll->getTargetId())) {
+				return $this->EventErrorDebug();
+			}
+		} else {
+			if (!$this->Poll_IsAllowTargetType($oPoll->getTargetType()) or $oPoll->getTargetTmp()!=getRequestStr('tmp')) {
+				return $this->EventErrorDebug();
+			}
+		}
+
+		if (!$oPoll->isAllowRemove()) {
+			$this->Message_AddError('Этот опрос уже нельзя удалить');
+		}
+
+		/**
+		 * Удаляем
+		 */
+		if ($oPoll->Delete()) {
+			return true;
+		} else {
+			$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
+		}
+	}
+
+	protected function EventPollModalCreate() {
+		if (!$this->oUserCurrent) {
+			return $this->EventErrorDebug();
+		}
+
+		/**
+		 * Проверяем корректность target'а
+		 */
+		$sTargetType=getRequestStr('target_type');
+		$sTargetId=getRequestStr('target_id');
+
+		$sTargetTmp=empty($_COOKIE['poll_target_tmp_'.$sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['poll_target_tmp_'.$sTargetType];
+		if ($sTargetId) {
+			$sTargetTmp=null;
+			if (!$this->Poll_CheckTarget($sTargetType,$sTargetId)) {
+				return $this->EventErrorDebug();
+			}
+		} else {
+			$sTargetId=null;
+			if (!$this->Poll_IsAllowTargetType($sTargetType)) {
+				return $this->EventErrorDebug();
+			}
+			if (!$sTargetTmp) {
+				$sTargetTmp=func_generator();
+				setcookie('poll_target_tmp_'.$sTargetType,$sTargetTmp, time()+24*3600,Config::Get('sys.cookie.path'),Config::Get('sys.cookie.host'));
+			}
+		}
+
+
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('sTargetType',$sTargetType);
+		$oViewer->Assign('sTargetId',$sTargetId);
+		$oViewer->Assign('sTargetTmp',$sTargetTmp);
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("modals/modal.poll_create.tpl"));
+	}
+
+	protected function EventPollModalUpdate() {
+		if (!$this->oUserCurrent) {
+			return $this->EventErrorDebug();
+		}
+
+		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('id'))) {
+			return $this->EventErrorDebug();
+		}
+
+		/**
+		 * Проверяем корректность target'а
+		 */
+		if ($oPoll->getTargetId()) {
+			if (!$this->Poll_CheckTarget($oPoll->getTargetType(),$oPoll->getTargetId())) {
+				return $this->EventErrorDebug();
+			}
+		} else {
+			if (!$this->Poll_IsAllowTargetType($oPoll->getTargetType()) or $oPoll->getTargetTmp()!=getRequestStr('target_tmp')) {
+				return $this->EventErrorDebug();
+			}
+		}
+
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('oPoll',$oPoll);
+		$oViewer->Assign('sTargetTmp',getRequestStr('target_tmp'));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("modals/modal.poll_create.tpl"));
+	}
 
 	/**
 	 * Ajax валидация каптчи

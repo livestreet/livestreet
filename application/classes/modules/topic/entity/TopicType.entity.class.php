@@ -32,9 +32,20 @@ class ModuleTopic_EntityTopicType extends Entity {
 		array('name, name_many','string','max'=>200,'min'=>1,'allowEmpty'=>false),
 		array('code','regexp','pattern'=>"#^[a-z0-9_]{1,30}$#",'allowEmpty'=>false),
 		array('code','code_unique'),
+		array('params','check_params'),
 		array('name','check_name'),
 		array('name_many','check_name_many'),
 	);
+
+	public function ValidateCheckParams() {
+		$aParamsResult=array();
+		$aParams=$this->getParamsArray();
+
+		$aParamsResult['allow_poll']=(isset($aParams['allow_poll']) and $aParams['allow_poll']) ? true : false;
+
+		$this->setParams($aParamsResult);
+		return true;
+	}
 
 	public function ValidateCheckName() {
 		$this->setName(htmlspecialchars($this->getName()));
@@ -82,7 +93,7 @@ class ModuleTopic_EntityTopicType extends Entity {
 	 * @return null
 	 */
 	public function getParam($sName) {
-		$aParams=$this->getParams();
+		$aParams=$this->getParamsArray();
 		return isset($aParams[$sName]) ? $aParams[$sName] : null;
 	}
 

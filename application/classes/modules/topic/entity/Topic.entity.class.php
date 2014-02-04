@@ -463,6 +463,17 @@ class ModuleTopic_EntityTopic extends Entity {
 	public function getPropertyTargetType() {
 		return 'topic_'.$this->getType();
 	}
+	/**
+	 * Возвращает объект типа топика
+	 *
+	 * @return ModuleTopic_EntityTopicType|null
+	 */
+	public function getTypeObject() {
+		if (!$this->_getDataOne('type_object')) {
+			$this->_aData['type_object']=$this->Topic_GetTopicTypeByCode($this->getType());
+		}
+		return $this->_getDataOne('type_object');
+	}
 
 	/***************************************************************************************************************************************************
 	 * методы расширения типов топика

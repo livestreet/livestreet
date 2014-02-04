@@ -70,6 +70,17 @@ class ModuleTopic extends Module {
 	public function GetTopicTypes($bOnlyCode=false) {
 		return $bOnlyCode ? array_keys($this->aTopicTypes) : $this->aTopicTypes;
 	}
+
+	/**
+	 * Возвращает объект типа топика, поиск только среди активных типов
+	 *
+	 * @param string $sType
+	 *
+	 * @return null
+	 */
+	public function GetTopicType($sType) {
+		return isset($this->aTopicTypes[$sType]) ? $this->aTopicTypes[$sType] : null;
+	}
 	/**
 	 * Проверяет разрешен ли данный тип топика
 	 *

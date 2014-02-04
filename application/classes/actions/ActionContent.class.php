@@ -159,7 +159,7 @@ class ActionContent extends Action {
 		/**
 		 * Проверяем тип топика
 		 */
-		if (!$this->Topic_IsAllowTopicType($oTopic->getType())) {
+		if (!$oTopicType=$this->Topic_GetTopicType($oTopic->getType())) {
 			return parent::EventNotFound();
 		}
 		/**
@@ -176,7 +176,7 @@ class ActionContent extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
-		$this->Viewer_Assign('sTopicType',$oTopic->getType());
+		$this->Viewer_Assign('oTopicType',$oTopicType);
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_edit'));
 
 		$this->Viewer_Assign('oTopicEdit', $oTopic);
@@ -189,7 +189,7 @@ class ActionContent extends Action {
 	 */
 	protected function EventAdd() {
 		$sTopicType=$this->GetParam(0);
-		if (!$this->Topic_IsAllowTopicType($sTopicType)) {
+		if (!$oTopicType=$this->Topic_GetTopicType($sTopicType)) {
 			return parent::EventNotFound();
 		}
 		$this->sMenuSubItemSelect=$sTopicType;
@@ -200,7 +200,7 @@ class ActionContent extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('sTopicType',$sTopicType);
+		$this->Viewer_Assign('oTopicType',$oTopicType);
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_create'));
 		$this->SetTemplateAction('add');
@@ -211,12 +211,10 @@ class ActionContent extends Action {
 
 		$aTopicRequest=getRequest('topic');
 		if (!(isset($aTopicRequest['id']) and $oTopic=$this->Topic_GetTopicById($aTopicRequest['id']))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		if (!$this->Topic_IsAllowTopicType($oTopic->getType())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем разрешено ли постить топик по времени
@@ -230,8 +228,7 @@ class ActionContent extends Action {
 		 * Если права на редактирование
 		 */
 		if (!$this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Сохраняем старое значение идентификатора блога
@@ -341,9 +338,8 @@ class ActionContent extends Action {
 		 * TODO: Здесь нужна проверка прав на создание топика
 		 */
 		$sTopicType=getRequestStr('topic_type');
-		if (!$this->Topic_IsAllowTopicType($sTopicType)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
-			return;
+		if (!$oTopicType=$this->Topic_GetTopicType($sTopicType)) {
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Проверяем разрешено ли постить топик по времени
@@ -421,6 +417,12 @@ class ActionContent extends Action {
 				 * Фиксируем ID у media файлов топика
 				 */
 				$this->Media_ReplaceTargetTmpById('topic',$oTopic->getId());
+				/**
+				 * Фиксируем ID у опросов
+				 */
+				if ($oTopicType->getParam('allow_poll')) {
+					$this->Poll_ReplaceTargetTmpById('topic',$oTopic->getId());
+				}
 				/**
 				 * Добавляем автора топика в подписчики на новые комментарии к этому топику
 				 */
