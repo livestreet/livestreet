@@ -16,7 +16,7 @@ ls.poll = (function ($) {
 	 */
 	var defaults = {
 		// Роутер голосования
-		sRouterVoteUrl: aRouter['ajax'] + 'vote/question/',
+		sRouterVoteUrl: aRouter['ajax'] + 'poll/vote/',
 
 		// Максимальное кол-во вариантов ответов
 		iMaxItems: 20,
@@ -31,8 +31,6 @@ ls.poll = (function ($) {
 
 		// Селекторы опроса
 		sPollSelector:              '.js-poll',
-		sPollListSelector:          '.js-poll-list',
-		sPollItemSelector:          '.js-poll-item',
 		sPollItemOptionSelector:    '.js-poll-item-option',
 		sPollButtonVoteSelector:    '.js-poll-button-vote',
 		sPollButtonAbstainSelector: '.js-poll-button-abstain',
@@ -64,28 +62,23 @@ ls.poll = (function ($) {
 
 		this.options = $.extend({}, defaults, options);
 
-		// Голосование
 		$(this.options.sPollSelector).each(function () {
 			var oPoll = $(this),
 				iPollId = oPoll.data('poll-id');
 
 			// Голосование за вариант
 			oPoll.find(self.options.sPollButtonVoteSelector).on('click', function () {
-				var iCheckedItemId = oPoll.find(self.options.sPollItemOptionSelector + ':checked').val();
+				var form = oPoll.find('form');
 
-				if (iCheckedItemId) {
-					self.vote(iPollId, iCheckedItemId);
-				} else {
-					return false;
-				}
+				self.vote(form,this);
 			});
-
 			// Воздержаться
 			oPoll.find(self.options.sPollButtonAbstainSelector).on('click', function () {
-				self.vote(iPollId, -1);
-			});
+				var form = oPoll.find('form');
 
-			// Воздержаться
+				self.vote(form,this,true);
+			});
+			// Сортировка
 			oPoll.on('click', self.options.sPollResultButtonSortSelector, function () {
 				self.toggleSort(oPoll);
 			});
@@ -219,29 +212,21 @@ ls.poll = (function ($) {
 	/**
 	 * Голосование в опросе
 	 * 
-	 * @param  {Number} iPollId ID опроса
-	 * @param  {Number} iItemId ID выбранного пункта
+	 * @param  {Object} form Форма с данными опроса
+	 * @param  {Object} button Копка для анимации загрузки
 	 */
-	this.vote = function(iPollId, iItemId) {
-		var oParams = {
-			idTopic: iPollId, 
-			idAnswer: iItemId
-		};
+	this.vote = function(form,button,abstain) {
+		form=$(form);
+		var formData=form.serializeJSON();
 
 		ls.hook.marker('voteBefore');
 
-		ls.ajax.load(this.options.sRouterVoteUrl, oParams, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				var oPoll = $('[data-poll-id=' + iPollId + ']');
-				oPoll.html(result.sText);
+		ls.ajax.submit(this.options.sRouterVoteUrl, form, function(result){
+			var oPoll = $('[data-poll-id=' + formData.id + ']');
+			oPoll.html(result.sText);
 
-				ls.msg.notice(null, result.sMsg);
-
-				ls.hook.run('ls_pool_vote_after', [iPollId, iItemId, result], oPoll);
-			}
-		});
+			ls.hook.run('ls_pool_vote_after', [form, result], oPoll);
+		}, { submitButton: $(button), params: { abstain: abstain ? 1 : 0 } });
 	};
 
 	/**

@@ -271,7 +271,6 @@ $config['db']['table']['talk_user']           = '___db.table.prefix___talk_user'
 $config['db']['table']['talk_blacklist']      = '___db.table.prefix___talk_blacklist';
 $config['db']['table']['friend']              = '___db.table.prefix___friend';
 $config['db']['table']['topic_content']       = '___db.table.prefix___topic_content';
-$config['db']['table']['topic_question_vote'] = '___db.table.prefix___topic_question_vote';
 $config['db']['table']['user_administrator']  = '___db.table.prefix___user_administrator';
 $config['db']['table']['comment_online']      = '___db.table.prefix___comment_online';
 $config['db']['table']['invite']              = '___db.table.prefix___invite';
@@ -307,6 +306,9 @@ $config['db']['table']['rbac_permission'] 	  = '___db.table.prefix___rbac_permis
 $config['db']['table']['rbac_role_permission']= '___db.table.prefix___rbac_role_permission';
 $config['db']['table']['rbac_user_role'] 	  = '___db.table.prefix___rbac_user_role';
 $config['db']['table']['storage']			  = '___db.table.prefix___storage';
+$config['db']['table']['poll']			  = '___db.table.prefix___poll';
+$config['db']['table']['poll_answer']			  = '___db.table.prefix___poll_answer';
+$config['db']['table']['poll_vote']			  = '___db.table.prefix___poll_vote';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 

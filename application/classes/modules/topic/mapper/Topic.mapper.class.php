@@ -693,55 +693,6 @@ class ModuleTopic_MapperTopic extends Mapper {
 		return $aReads;
 	}
 	/**
-	 * Добавляет факт голосования за топик-вопрос
-	 *
-	 * @param ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote	Объект голосования в топике-опросе
-	 * @return bool
-	 */
-	public function AddTopicQuestionVote(ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote) {
-		$sql = "INSERT INTO ".Config::Get('db.table.topic_question_vote')." 
-			(topic_id,
-			user_voter_id,
-			answer		
-			)
-			VALUES(?d,  ?d,	?f)
-		";
-		if ($this->oDb->query($sql,$oTopicQuestionVote->getTopicId(),$oTopicQuestionVote->getVoterId(),$oTopicQuestionVote->getAnswer())===0)
-		{
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * Получить список голосований в топике-опросе по списку айдишников
-	 *
-	 * @param array $aArrayId	Список ID топиков
-	 * @param int $sUserId	ID пользователя
-	 * @return array
-	 */
-	public function GetTopicsQuestionVoteByArray($aArrayId,$sUserId) {
-		if (!is_array($aArrayId) or count($aArrayId)==0) {
-			return array();
-		}
-
-		$sql = "SELECT 
-					v.*							 
-				FROM 
-					".Config::Get('db.table.topic_question_vote')." as v 
-				WHERE 
-					v.topic_id IN(?a)
-					AND	
-					v.user_voter_id = ?d 				 									
-				";
-		$aVotes=array();
-		if ($aRows=$this->oDb->select($sql,$aArrayId,$sUserId)) {
-			foreach ($aRows as $aRow) {
-				$aVotes[]=Engine::GetEntity('Topic_TopicQuestionVote',$aRow);
-			}
-		}
-		return $aVotes;
-	}
-	/**
 	 * Перемещает топики в другой блог
 	 *
 	 * @param  array  $aTopics	Список ID топиков

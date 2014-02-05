@@ -106,6 +106,13 @@
 				{/if}
 			{/block}
 
+			{* Опросы *}
+			{block name='topic_content_polls'}
+				{if ! $bTopicList}
+					{include file='polls/poll.list.tpl' aPollItems=$oTopic->getPolls()}
+				{/if}
+			{/block}
+
 			{hook run='topic_content_end' topic=$oTopic bTopicList=$bTopicList}
 		</div>
 	{/block}

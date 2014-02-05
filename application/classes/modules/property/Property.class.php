@@ -336,11 +336,32 @@ class ModuleProperty extends ModuleORM {
 	/**
 	 * Переопределяем метод для возможности цеплять свои кастомные данные при ORM запросах - свойства
 	 *
-	 * @param array $aEntitiesWork
+	 * @param array $aResult
 	 * @param array $aFilter
 	 * @param null|string  $sEntityFull
 	 */
-	public function RewriteGetItemsByFilter($aEntitiesWork,$aFilter=array(),$sEntityFull=null) {
+	public function RewriteGetItemsByFilter($aResult,$aFilter=array(),$sEntityFull=null) {
+		if (!$aResult) {
+			return;
+		}
+		/**
+		 * Список на входе может быть двух видом:
+		 * 1 - одномерный массив
+		 * 2 - двумерный, если применялась группировка (использование '#index-group')
+		 *
+		 * Поэтому сначала сформируем линейный список
+		 */
+		if (isset($aFilter['#index-group']) and $aFilter['#index-group']) {
+			$aEntitiesWork=array();
+			foreach($aResult as $aItems) {
+				foreach($aItems as $oItem) {
+					$aEntitiesWork[]=$oItem;
+				}
+			}
+		} else {
+			$aEntitiesWork=$aResult;
+		}
+
 		if (!$aEntitiesWork) {
 			return;
 		}

@@ -50,7 +50,6 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^vote$/i','/^topic$/','EventVoteTopic');
 		$this->AddEventPreg('/^vote$/i','/^blog$/','EventVoteBlog');
 		$this->AddEventPreg('/^vote$/i','/^user$/','EventVoteUser');
-		$this->AddEventPreg('/^vote$/i','/^question$/','EventVoteQuestion');
 		$this->AddEventPreg('/^vote$/i','/^get$/','/^info$/','/^topic$/','EventVoteGetInfoTopic');
 
 		$this->AddEventPreg('/^favourite$/i','/^save-tags/','EventFavouriteSaveTags');
@@ -96,6 +95,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^poll$/i','/^create$/','/^$/','EventPollCreate');
 		$this->AddEventPreg('/^poll$/i','/^update$/','/^$/','EventPollUpdate');
 		$this->AddEventPreg('/^poll$/i','/^remove$/','/^$/','EventPollRemove');
+		$this->AddEventPreg('/^poll$/i','/^vote$/','/^$/','EventPollVote');
 	}
 
 
@@ -104,9 +104,76 @@ class ActionAjax extends Action {
 	 **********************************************************************************
 	 */
 
+	protected function EventPollVote() {
+		if (!$this->oUserCurrent) {
+			return $this->EventErrorDebug();
+		}
+
+		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('id'))) {
+			return $this->EventErrorDebug();
+		}
+		/**
+		 * Истекло время голосования?
+		 */
+		if (!$oPoll->isAllowVote()) {
+			$this->Message_AddErrorSingle('В этом опросе уже нельзя голосовать');
+			return;
+		}
+		/**
+		 * Пользователь уже голосовал?
+		 */
+		if ($this->Poll_GetVoteByUserIdAndPollId($this->oUserCurrent->getId(),$oPoll->getId())) {
+			$this->Message_AddErrorSingle('Вы уже голосовали');
+			return;
+		}
+
+		$aAnswerIds=array();
+		$aAnswerItems=array();
+		if (!getRequest('abstain')) {
+			/**
+			 * Проверяем варианты ответов
+			 */
+			if (!$aAnswer=(array)getRequest('answers')) {
+				$this->Message_AddErrorSingle('Необходимо выбрать вариант');
+				return;
+			}
+
+			foreach($aAnswer as $iAnswerId) {
+				if (!is_numeric($iAnswerId)) {
+					return $this->EventErrorDebug();
+				}
+				$aAnswerIds[]=$iAnswerId;
+			}
+			/**
+			 * Корректность ID вариантов
+			 */
+			$aAnswerItems=$this->Poll_GetAnswerItemsByFilter(array('id in'=>$aAnswerIds,'poll_id'=>$oPoll->getId()));
+			if (count($aAnswerItems)!=count($aAnswerIds)) {
+				return $this->EventErrorDebug();
+			}
+		}
+
+		/**
+		 * Голосуем
+		 */
+		$oVote=Engine::GetEntity('ModulePoll_EntityVote');
+		$oVote->setPollId($oPoll->getId());
+		$oVote->setPoll($oPoll); // для быстродействия/оптимизации
+		$oVote->setUserId($this->oUserCurrent->getId());
+		$oVote->setAnswers($aAnswerIds);
+		$oVote->setAnswersObject($aAnswerItems); // передаем для быстродействия, чтобы не запрашивать варианты еще раз после сохранения голоса
+		if ($oVote->Add()) {
+			$oViewer=$this->Viewer_GetLocalViewer();
+			$oViewer->Assign('oPoll',$oPoll);
+			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("polls/poll.result.tpl"));
+		} else {
+			return $this->EventErrorDebug();
+		}
+	}
+
 	protected function EventPollCreate() {
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Создаем
@@ -134,7 +201,7 @@ class ActionAjax extends Action {
 
 	protected function EventPollUpdate() {
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 
 		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('poll_id'))) {
@@ -178,7 +245,7 @@ class ActionAjax extends Action {
 
 	protected function EventPollRemove() {
 		if (!$this->oUserCurrent) {
-			return parent::EventNotFound();
+			return $this->EventErrorDebug();
 		}
 
 		if (!$oPoll=$this->Poll_GetPollById(getRequestStr('id'))) {
@@ -986,73 +1053,6 @@ class ActionAjax extends Action {
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
-		}
-	}
-	/**
-	 * Голосование за вариант ответа в опросе
-	 *
-	 */
-	protected function EventVoteQuestion() {
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
-			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Параметры голосования
-		 */
-		$idAnswer=getRequestStr('idAnswer',null,'post');
-		$idTopic=getRequestStr('idTopic',null,'post');
-		/**
-		 * Топик существует?
-		 */
-		if (!($oTopic=$this->Topic_GetTopicById($idTopic))) {
-			return $this->EventErrorDebug();
-		}
-		/**
-		 * Тип топика - опрос?
-		 */
-		if ($oTopic->getType()!='question') {
-			return $this->EventErrorDebug();
-		}
-		/**
-		 * Уже голосовал?
-		 */
-		if ($oTopicQuestionVote=$this->Topic_GetTopicQuestionVote($oTopic->getId(),$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_question_vote_already'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Вариант ответа
-		 */
-		$aAnswer=$oTopic->getQuestionAnswers();
-		if (!isset($aAnswer[$idAnswer]) and $idAnswer!=-1) {
-			return $this->EventErrorDebug();
-		}
-
-		if ($idAnswer==-1) {
-			$oTopic->setQuestionCountVoteAbstain($oTopic->getQuestionCountVoteAbstain()+1);
-		} else {
-			$oTopic->increaseQuestionAnswerVote($idAnswer);
-		}
-		$oTopic->setQuestionCountVote($oTopic->getQuestionCountVote()+1);
-		/**
-		 * Голосуем(отвечаем на опрос)
-		 */
-		$oTopicQuestionVote=Engine::GetEntity('Topic_TopicQuestionVote');
-		$oTopicQuestionVote->setTopicId($oTopic->getId());
-		$oTopicQuestionVote->setVoterId($this->oUserCurrent->getId());
-		$oTopicQuestionVote->setAnswer($idAnswer);
-
-		if ($this->Topic_AddTopicQuestionVote($oTopicQuestionVote) and $this->Topic_updateTopic($oTopic)) {
-			$this->Message_AddNoticeSingle($this->Lang_Get('topic_question_vote_ok'),$this->Lang_Get('attention'));
-			$oViewer=$this->Viewer_GetLocalViewer();
-			$oViewer->Assign('oTopic',$oTopic);
-			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("topics/poll_result.tpl"));
-		} else {
-			return $this->EventErrorDebug();
 		}
 	}
 	/**

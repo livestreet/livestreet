@@ -114,7 +114,6 @@ class ModuleTopic extends Module {
 		 */
 		$aUserId=array();
 		$aBlogId=array();
-		$aTopicIdQuestion=array();
 		foreach ($aTopics as $oTopic) {
 			if (isset($aAllowData['user'])) {
 				$aUserId[]=$oTopic->getUserId();
@@ -122,22 +121,17 @@ class ModuleTopic extends Module {
 			if (isset($aAllowData['blog'])) {
 				$aBlogId[]=$oTopic->getBlogId();
 			}
-			if ($oTopic->getType()=='question')	{
-				$aTopicIdQuestion[]=$oTopic->getId();
-			}
 		}
 		/**
 		 * Получаем дополнительные данные
 		 */
 		$aTopicsVote=array();
 		$aFavouriteTopics=array();
-		$aTopicsQuestionVote=array();
 		$aTopicsRead=array();
 		$aUsers=isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,$aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
 		$aBlogs=isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,$aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);
 		if (isset($aAllowData['vote']) and $this->oUserCurrent) {
 			$aTopicsVote=$this->Vote_GetVoteByArray($aTopicId,'topic',$this->oUserCurrent->getId());
-			$aTopicsQuestionVote=$this->GetTopicsQuestionVoteByArray($aTopicIdQuestion,$this->oUserCurrent->getId());
 		}
 		if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
 			$aFavouriteTopics=$this->GetFavouriteTopicsByArray($aTopicId,$this->oUserCurrent->getId());
@@ -168,11 +162,6 @@ class ModuleTopic extends Module {
 				$oTopic->setFavourite($aFavouriteTopics[$oTopic->getId()]);
 			} else {
 				$oTopic->setFavourite(null);
-			}
-			if (isset($aTopicsQuestionVote[$oTopic->getId()])) {
-				$oTopic->setUserQuestionIsVote(true);
-			} else {
-				$oTopic->setUserQuestionIsVote(false);
 			}
 			if (isset($aTopicsRead[$oTopic->getId()]))	{
 				$oTopic->setCountCommentNew($oTopic->getCountComment()-$aTopicsRead[$oTopic->getId()]->getCommentCountLast());
@@ -1364,121 +1353,6 @@ class ModuleTopic extends Module {
 			return $aTopicsRead;
 		}
 		return $data;
-	}
-	/**
-	 * Проверяет голосовал ли юзер за топик-вопрос
-	 *
-	 * @param int $sTopicId	ID топика
-	 * @param int $sUserId	ID пользователя
-	 * @return ModuleTopic_EntityTopicQuestionVote|null
-	 */
-	public function GetTopicQuestionVote($sTopicId,$sUserId) {
-		$data=$this->GetTopicsQuestionVoteByArray($sTopicId,$sUserId);
-		if (isset($data[$sTopicId])) {
-			return $data[$sTopicId];
-		}
-		return null;
-	}
-	/**
-	 * Получить список голосований в топике-опросе по списку айдишников
-	 *
-	 * @param array $aTopicId	Список ID топиков
-	 * @param int $sUserId	ID пользователя
-	 * @return array
-	 */
-	public function GetTopicsQuestionVoteByArray($aTopicId,$sUserId) {
-		if (!$aTopicId) {
-			return array();
-		}
-		if (Config::Get('sys.cache.solid')) {
-			return $this->GetTopicsQuestionVoteByArraySolid($aTopicId,$sUserId);
-		}
-		if (!is_array($aTopicId)) {
-			$aTopicId=array($aTopicId);
-		}
-		$aTopicId=array_unique($aTopicId);
-		$aTopicsQuestionVote=array();
-		$aTopicIdNotNeedQuery=array();
-		/**
-		 * Делаем мульти-запрос к кешу
-		 */
-		$aCacheKeys=func_build_cache_keys($aTopicId,'topic_question_vote_','_'.$sUserId);
-		if (false !== ($data = $this->Cache_Get($aCacheKeys))) {
-			/**
-			 * проверяем что досталось из кеша
-			 */
-			foreach ($aCacheKeys as $sValue => $sKey ) {
-				if (array_key_exists($sKey,$data)) {
-					if ($data[$sKey]) {
-						$aTopicsQuestionVote[$data[$sKey]->getTopicId()]=$data[$sKey];
-					} else {
-						$aTopicIdNotNeedQuery[]=$sValue;
-					}
-				}
-			}
-		}
-		/**
-		 * Смотрим каких топиков не было в кеше и делаем запрос в БД
-		 */
-		$aTopicIdNeedQuery=array_diff($aTopicId,array_keys($aTopicsQuestionVote));
-		$aTopicIdNeedQuery=array_diff($aTopicIdNeedQuery,$aTopicIdNotNeedQuery);
-		$aTopicIdNeedStore=$aTopicIdNeedQuery;
-		if ($data = $this->oMapperTopic->GetTopicsQuestionVoteByArray($aTopicIdNeedQuery,$sUserId)) {
-			foreach ($data as $oTopicVote) {
-				/**
-				 * Добавляем к результату и сохраняем в кеш
-				 */
-				$aTopicsQuestionVote[$oTopicVote->getTopicId()]=$oTopicVote;
-				$this->Cache_Set($oTopicVote, "topic_question_vote_{$oTopicVote->getTopicId()}_{$oTopicVote->getVoterId()}", array(), 60*60*24*4);
-				$aTopicIdNeedStore=array_diff($aTopicIdNeedStore,array($oTopicVote->getTopicId()));
-			}
-		}
-		/**
-		 * Сохраняем в кеш запросы не вернувшие результата
-		 */
-		foreach ($aTopicIdNeedStore as $sId) {
-			$this->Cache_Set(null, "topic_question_vote_{$sId}_{$sUserId}", array(), 60*60*24*4);
-		}
-		/**
-		 * Сортируем результат согласно входящему массиву
-		 */
-		$aTopicsQuestionVote=func_array_sort_by_keys($aTopicsQuestionVote,$aTopicId);
-		return $aTopicsQuestionVote;
-	}
-	/**
-	 * Получить список голосований в топике-опросе по списку айдишников, но используя единый кеш
-	 *
-	 * @param array $aTopicId	Список ID топиков
-	 * @param int $sUserId	ID пользователя
-	 * @return array
-	 */
-	public function GetTopicsQuestionVoteByArraySolid($aTopicId,$sUserId) {
-		if (!is_array($aTopicId)) {
-			$aTopicId=array($aTopicId);
-		}
-		$aTopicId=array_unique($aTopicId);
-		$aTopicsQuestionVote=array();
-		$s=join(',',$aTopicId);
-		if (false === ($data = $this->Cache_Get("topic_question_vote_{$sUserId}_id_{$s}"))) {
-			$data = $this->oMapperTopic->GetTopicsQuestionVoteByArray($aTopicId,$sUserId);
-			foreach ($data as $oTopicVote) {
-				$aTopicsQuestionVote[$oTopicVote->getTopicId()]=$oTopicVote;
-			}
-			$this->Cache_Set($aTopicsQuestionVote, "topic_question_vote_{$sUserId}_id_{$s}", array("topic_question_vote_user_{$sUserId}"), 60*60*24*1);
-			return $aTopicsQuestionVote;
-		}
-		return $data;
-	}
-	/**
-	 * Добавляет факт голосования за топик-вопрос
-	 *
-	 * @param ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote	Объект голосования в топике-опросе
-	 * @return bool
-	 */
-	public function AddTopicQuestionVote(ModuleTopic_EntityTopicQuestionVote $oTopicQuestionVote) {
-		$this->Cache_Delete("topic_question_vote_{$oTopicQuestionVote->getTopicId()}_{$oTopicQuestionVote->getVoterId()}");
-		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("topic_question_vote_user_{$oTopicQuestionVote->getVoterId()}"));
-		return $this->oMapperTopic->AddTopicQuestionVote($oTopicQuestionVote);
 	}
 	/**
 	 * Получает топик по уникальному хешу(текст топика)

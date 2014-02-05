@@ -32,6 +32,7 @@ class ModulePoll_EntityPoll extends EntityORM {
 
 	protected $aRelations=array(
 		'answers' => array(self::RELATION_TYPE_HAS_MANY,'ModulePoll_EntityAnswer','poll_id'),
+		'vote_current' => array(self::RELATION_TYPE_HAS_ONE,'ModulePoll_EntityVote','poll_id'),
 	);
 
 	protected function beforeSave() {
@@ -198,5 +199,39 @@ class ModulePoll_EntityPoll extends EntityORM {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Проверяет возможность голосования в опросе, не пользователем, а в принципе
+	 * Важно понимать, что здесь нет проверки на права доступа
+	 *
+	 * @return bool
+	 */
+	public function isAllowVote() {
+		$sDateEnd=$this->getDateEnd();
+		if ($sDateEnd and (time()-strtotime($sDateEnd))>0) {
+			return false;
+		}
+		return true;
+	}
+
+	public function getAnswerPercent($oAnswer) {
+		$iCountAll=$this->getCountVote();
+		if ($iCountAll==0) {
+			return 0;
+		} else {
+			return number_format(round($oAnswer->getCountVote()*100/$iCountAll,1), 1, '.', '');
+		}
+	}
+
+	public function getCountVoteAnswerMax() {
+		$iMax=0;
+		$aAnswers=$this->getAnswers();
+		foreach($aAnswers as $oAnswer) {
+			if ($oAnswer->getCountVote()>$iMax) {
+				$iMax=$oAnswer->getCountVote();
+			}
+		}
+		return $iMax;
 	}
 }

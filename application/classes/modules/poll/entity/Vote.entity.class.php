@@ -26,7 +26,7 @@ class ModulePoll_EntityVote extends EntityORM {
 	);
 
 	protected $aRelations=array(
-
+		'poll' => array(self::RELATION_TYPE_BELONGS_TO,'ModulePoll_EntityPoll','poll_id'),
 	);
 
 	protected function beforeSave() {
@@ -36,4 +36,44 @@ class ModulePoll_EntityVote extends EntityORM {
 		return true;
 	}
 
+	protected function afterSave() {
+		if ($this->_isNew()) {
+			/**
+			 * Отмечаем факт голосования в опросе и вариантах
+			 */
+			$oPoll=$this->getPoll();
+			$aAnswerItems=$this->getAnswersObject();
+			if ($aAnswerItems) {
+				foreach($aAnswerItems as $oAnswer) {
+					$oAnswer->setCountVote($oAnswer->getCountVote()+1);
+					$oAnswer->Update();
+				}
+				$oPoll->setCountVote($oPoll->getCountVote()+1);
+			} else {
+				$oPoll->setCountAbstain($oPoll->getCountAbstain()+1);
+			}
+			$oPoll->Update(0);
+		}
+	}
+
+	/**
+	 * Возвращает список вариантов, за которые голосовали
+	 *
+	 * @return array|mixed
+	 */
+	public function getAnswers() {
+		$aData=@unserialize($this->_getDataOne('answers'));
+		if (!$aData) {
+			$aData=array();
+		}
+		return $aData;
+	}
+	/**
+	 * Устанавливает список вариантов, за которые голосовали
+	 *
+	 * @param $aParams
+	 */
+	public function setAnswers($aParams) {
+		$this->_aData['answers']=@serialize($aParams);
+	}
 }

@@ -100,7 +100,6 @@ class ModulePoll extends ModuleORM {
 		}
 		return false;
 	}
-
 	/**
 	 * Заменяет временный идентификатор на необходимый ID объекта
 	 *
@@ -123,6 +122,29 @@ class ModulePoll extends ModuleORM {
 			}
 		}
 	}
+	/**
+	 * Возвращает список опросов для объекта
+	 *
+	 * @param string $sTargetType
+	 * @param string $sTargetId
+	 *
+	 * @return mixed
+	 */
+	public function GetPollItemsByTarget($sTargetType,$sTargetId) {
+		$aFilter=array(
+			'target_type'=>$sTargetType,
+			'target_id'=>$sTargetId,
+			'#with'=>array('answers')
+		);
+		if ($this->oUserCurrent) {
+			$aFilter['#with']['vote_current']=array('user_id'=>$this->oUserCurrent->getId(),'#value-default'=>false);
+		} else {
+			$aFilter['#with']['vote_current']=array('#value-set'=>false);
+		}
+		$aPollItems=$this->Poll_GetPollItemsByFilter($aFilter);
+		return $aPollItems;
+	}
+
 
 
 
