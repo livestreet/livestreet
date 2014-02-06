@@ -90,6 +90,8 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
 
 		$this->AddEventPreg('/^validate$/i','/^captcha$/','/^$/','EventValidateCaptcha');
+		
+		$this->AddEvent('modal-friend-list', 'EventModalFriendList');
 	}
 
 
@@ -97,6 +99,34 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
+	
+	/**
+	 * Показывает модальное окно с друзьями
+	 */
+	protected function EventModalFriendList() {
+		// Устанавливаем формат Ajax ответа
+		$this->Viewer_SetResponseAjax('json');
+
+		if ( ! $this->oUserCurrent ) {
+			return parent::EventNotFound();
+		}
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+
+		// Получаем переменные
+		$bSelectable = getRequest('selectable');
+
+		// Получаем список друзей
+		$aUsersFriend = $this->User_GetUsersFriend($this->oUserCurrent->getId());
+
+		if ($aUsersFriend['collection']) {
+			$oViewer->Assign('aUserList', $aUsersFriend['collection']);
+		}
+
+		$oViewer->Assign('bSelectable', $bSelectable);
+
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.user_list.tpl"));
+	}
 
 	/**
 	 * Ajax валидация каптчи
@@ -1100,23 +1130,26 @@ class ActionAjax extends Action {
 												 )
 			);
 			if ($this->Talk_AddFavouriteTalk($oFavouriteTalkNew)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('talk_favourite_add_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',true);
 			} else {
 				return $this->EventErrorDebug();
 			}
 		}
+
+		// Этого письма нет в вашем избранном
 		if (!$oFavouriteTalk and !$iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk_favourite_add_no'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
+
+		// Это письмо уже есть в вашем избранном
 		if ($oFavouriteTalk and $iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk_favourite_add_already'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
+		
 		if ($oFavouriteTalk and !$iType) {
 			if ($this->Talk_DeleteFavouriteTalk($oFavouriteTalk)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('talk_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',false);
 			} else {
 				return $this->EventErrorDebug();
