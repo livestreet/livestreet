@@ -40,11 +40,13 @@
 				<p class="object-list-item-description">{$oBlog->getDescription()|strip_tags|truncate:120}</p>
 
 				{* Информация *}
-				<ul class="object-list-item-info">
-					<li>{$aLang.blog.users.readers_total}: <strong class="js-blog-users-number" data-blog-id="{$oBlog->getId()}">{$oBlog->getCountUser()}</strong></li>
-					<li>{$aLang.vote.rating}: <strong>{$oBlog->getRating()}</strong></li>
-					<li>{$aLang.blog.topics_total}: <strong>{$oBlog->getCountTopic()}</strong></li>
-				</ul>
+				{$aBlogInfo = [
+					[ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => $oBlog->getCountUser() ],
+					[ 'label' => "{$aLang.vote.rating}:",              'content' => $oBlog->getRating() ],
+					[ 'label' => "{$aLang.blog.topics_total}:",        'content' => $oBlog->getCountTopic() ]
+				]}
+
+				{include 'info_list.tpl' aInfoList=$aBlogInfo sInfoListClasses='object-list-item-info'}
 
 				{* Действия *}
 				<div class="object-list-item-actions">

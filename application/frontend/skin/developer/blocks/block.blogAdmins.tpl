@@ -10,32 +10,12 @@
 {block 'block_type'}blog-admins{/block}
 
 {block 'block_content'}
-	{**
-	 * Функции
-	 *}
-
-	{* Список пользователей *}
-	{function blog_user_list}
-		{if $aUsers}
-			<h3>{$sTitle}</h3>
-
-			<ul class="user-list-small">
-				{foreach $aUsers as $oUser}
-					{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
-
-					<li class="user-list-small-item">{include 'user_item.tpl' oUser=$oUser}</li>
-				{/foreach}
-			</ul>
-		{/if}
-	{/function}
-
-
 	{* Создатель *}
-	{blog_user_list sTitle="{$aLang.blog.owner}" aUsers=[ $oBlog->getOwner() ]}
+	{include 'user_list_small.tpl' aUserList=[ $oBlog->getOwner() ] sUserListSmallTitle=$aLang.blog.owner}
 
 	{* Администраторы *}
-	{blog_user_list sTitle="{$aLang.blog.administrators} ({$iCountBlogAdministrators})" aUsers=$aBlogAdministrators}
+	{include 'user_list_small.tpl' aUserList=$aBlogAdministrators sUserListSmallTitle="{$aLang.blog.administrators} ({$iCountBlogAdministrators})"}
 
 	{* Модераторы *}
-	{blog_user_list sTitle="{$aLang.blog.moderators} ({$iCountBlogModerators})" aUsers=$aBlogModerators}
+	{include 'user_list_small.tpl' aUserList=$aBlogModerators sUserListSmallTitle="{$aLang.blog.moderators} ({$iCountBlogModerators})"}
 {/block}

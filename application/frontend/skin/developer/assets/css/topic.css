@@ -27,9 +27,8 @@
 .topic-header .topic-title a:visited  { color: #000; }
 .topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
 
-.topic-header .topic-info             { color: #777; margin-bottom: 15px; }
-.topic-header .topic-info time        { margin-right: 15px; }
-.topic-header .topic-info .topic-blog { margin-right: 15px; }
+.topic-header .topic-info             { color: #777; margin-bottom: 15px; overflow: hidden; }
+.topic-header .topic-info-item        { float: left; margin-right: 15px; }
 
 
 /**

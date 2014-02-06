@@ -21,7 +21,7 @@
 		</p>
 		
 		{if $bUserNoteEditable}
-			<ul class="actions user-note-actions js-user-note-actions" {if ! $oUserNote}style="display: none;"{/if}>
+			<ul class="user-note-actions js-user-note-actions" {if ! $oUserNote}style="display: none;"{/if}>
 				<li><a href="#" class="link-dotted js-user-note-edit-button">{$aLang.common.edit}</a></li>
 				<li><a href="#" class="link-dotted js-user-note-remove-button">{$aLang.common.remove}</a></li>
 			</ul>

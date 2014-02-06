@@ -8,6 +8,5 @@
 
 {block name='layout_content'}
 	{include file='navs/nav.user.created.tpl'}
-
 	{include file='user_list.tpl'}
 {/block}

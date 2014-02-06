@@ -39,14 +39,14 @@
 				{/if}
 
 				{* Информация *}
-				<ul class="object-list-item-info">
-					{if $oSession}
-						<li>{$aLang.user_date_last}: <strong>{date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</strong></li>
-					{/if}
+				{$aUserInfo = [
+					[ 'label' => "{$aLang.user_date_last}:", 
+					  'content' => ($oSession) ? {date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} : '&mdash;' ],
+					[ 'label' => "{$aLang.user_date_registration}:", 'content' => {date_format date=$oUser->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ],
+					[ 'label' => "{$aLang.vote.rating}:",            'content' => $oUser->getRating() ]
+				]}
 
-					<li>{$aLang.user_date_registration}: <strong>{date_format date=$oUser->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</strong></li>
-					<li>{$aLang.vote.rating}: <strong>{$oUser->getRating()}</strong></li>
-				</ul>
+				{include 'info_list.tpl' aInfoList=$aUserInfo sInfoListClasses='object-list-item-info'}
 			</li>
 		{/foreach}
 	</ul>

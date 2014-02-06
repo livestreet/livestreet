@@ -9,17 +9,21 @@
 {block name='block_title'}{$aLang.user_stats}{/block}
 
 {block name='block_content'}
-	<ul>
-		<li>{$aLang.user_stats_all}: <strong>{$aStat.count_all}</strong></li>
-		<li>{$aLang.user_stats_active}: <strong>{$aStat.count_active}</strong></li>
-		<li>{$aLang.user_stats_noactive}: <strong>{$aStat.count_inactive}</strong></li>
-	</ul>
+	{* Кол-во пользователей *}
+	{$aUsersInfo = [
+		[ 'label' => "{$aLang.user_stats_all}:",      'content' => $aStat.count_all ],
+		[ 'label' => "{$aLang.user_stats_active}:",   'content' => $aStat.count_active ],
+		[ 'label' => "{$aLang.user_stats_noactive}:", 'content' => $aStat.count_inactive ]
+	]}
 
-	<br />
+	{include 'info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
 
-	<ul>
-		<li>{$aLang.user_stats_sex_man}: <strong>{$aStat.count_sex_man}</strong></li>
-		<li>{$aLang.user_stats_sex_woman}: <strong>{$aStat.count_sex_woman}</strong></li>
-		<li>{$aLang.user_stats_sex_other}: <strong>{$aStat.count_sex_other}</strong></li>
-	</ul>
+	{* Пол *}
+	{$aUsersInfo = [
+		[ 'label' => "{$aLang.user_stats_sex_man}:",   'content' => $aStat.count_sex_man ],
+		[ 'label' => "{$aLang.user_stats_sex_woman}:", 'content' => $aStat.count_sex_woman ],
+		[ 'label' => "{$aLang.user_stats_sex_other}:", 'content' => $aStat.count_sex_other ]
+	]}
+
+	{include 'info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
 {/block}

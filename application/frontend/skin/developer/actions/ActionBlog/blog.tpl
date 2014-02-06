@@ -53,40 +53,34 @@
 
 			{* Информация *}
 			{$aBlogInfo = [
-				$aLang.blog.date_created => "{date_format date=$oBlog->getDateAdd() hours_back='12' minutes_back='60' now='60' day='day H:i' format='j F Y'}",
-				$aLang.blog.topics_total => $oBlog->getCountTopic(),
-				$aLang.blog.rating_limit => $oBlog->getLimitRatingTopic()
+				[ 'label' => $aLang.blog.date_created, 'content' => "{date_format date=$oBlog->getDateAdd() hours_back='12' minutes_back='60' now='60' day='day H:i' format='j F Y'}" ],
+				[ 'label' => $aLang.blog.topics_total, 'content' => $oBlog->getCountTopic() ],
+				[ 'label' => $aLang.blog.rating_limit, 'content' => $oBlog->getLimitRatingTopic() ]
 			]}
 
-			<ul class="blog-info">
-				{foreach $aBlogInfo as $aBlogInfoItem}
-					<li class="blog-info-item">
-						<span class="blog-info-item-label">{$aBlogInfoItem@key}:</span>
-						<strong class="blog-info-item-content">{$aBlogInfoItem@value}</strong>
-					</li>
-				{/foreach}
-			</ul>
+			{include 'info_list.tpl' aInfoList=$aBlogInfo}
 		</div>
-
 
 		{* Управление *}
 		{if $oUserCurrent && $bUserIsAdministrator}
-			<ul class="actions">
-				<li>
-					<i class="icon-edit icon-white"></i>
-					<a href="{router page='blog'}edit/{$oBlog->getId()}/">{$aLang.common.edit}</a>
-				</li>
+			{$aActionbarItems = [ [ 'icon' => 'icon-edit icon-white', 'url' => "{router page='blog'}edit/{$oBlog->getId()}/", 'text' => $aLang.common.edit ] ]}
 
-				<li>
-					<i class="icon-trash icon-white"></i>
+			{if $oUserCurrent->isAdministrator()}
+				{$aActionbarItems[] = [
+					'icon'       => 'icon-trash icon-white', 
+					'attributes' => 'data-type="modal-toggle" data-modal-target="modal-blog-delete"', 
+					'text'       => $aLang.common.remove
+				]}
+			{else}
+				{$aActionbarItems[] = [
+					'icon'    => 'icon-trash icon-white', 
+					'url'     => "{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}", 
+					'classes' => 'js-blog-remove',
+					'text'    => $aLang.common.remove 
+				]}
+			{/if}
 
-					{if $oUserCurrent->isAdministrator()}
-						<a href="#" data-type="modal-toggle" data-modal-target="modal-blog-delete">{$aLang.common.remove}</a>
-					{else}
-						<a href="{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="js-blog-remove">{$aLang.common.remove}</a>
-					{/if}
-				</li>
-			</ul>
+			{include 'actionbar.tpl' aActionbarItems=$aActionbarItems}
 		{/if}
 	</div>
 

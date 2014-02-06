@@ -26,8 +26,9 @@
 
 .blog-header .vote { position: absolute; top: -15px; right: 0; }
 
-.blog .actions { margin-bottom: 0; background: #444; border-color: #555; margin-top: 30px; margin-bottom: 0; }
-.blog .actions a { color: #ddd; }
+.blog .actionbar { margin-bottom: 0; background: #444; border-color: #555; margin-top: 30px; margin-bottom: 0; }
+.blog .actionbar-item-link { color: #ddd; }
+.blog .actionbar-item-link:hover { background: #555; }
 
 .blog-description { margin-bottom: 20px; }
 

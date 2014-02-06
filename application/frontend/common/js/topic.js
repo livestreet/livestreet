@@ -24,8 +24,6 @@ ls.topic = (function ($) {
 
 		// Селекторы
 		selectors: {
-			previewImage:               '.js-topic-preview-image',
-			previewImageLoader:         '.js-topic-preview-loader',
 			previewTopicTextButton:     '.js-topic-preview-text-button',
 			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
 			addTopicTitle:              '.js-topic-add-title'
@@ -41,16 +39,6 @@ ls.topic = (function ($) {
 		var self = this;
 
 		this.options = $.extend({}, defaults, options);
-
-		// Подгрузка избражений-превью
-		$(this.options.selectors.previewImage).each(function () {
-			$(this).imagesLoaded(function () {
-				var $this = $(this),
-					$preview = $this.closest(self.options.selectors.previewImageLoader).removeClass('loading');
-
-				$this.height() < $preview.height() && $this.css('top', ($preview.height() - $this.height()) / 2 );
-			});
-		});
 
 		// Превью текста
 		$(this.options.selectors.previewTopicTextButton).on('click', function (e) {
