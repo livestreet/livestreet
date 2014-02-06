@@ -47,14 +47,14 @@
 
 
 /**
- * Actions 
+ * Экшнбар 
  */
-.actions 						{ overflow: hidden; zoom: 1; padding: 10px 15px; background: #fafafa; margin-bottom: 15px; border: 1px solid #eee; }
-.actions li 					{ float: left; margin-right: 20px; white-space: nowrap; }
-.actions li a 					{ color: #333; }
-.actions li a:hover 			{ text-decoration: underline; }
-.actions li a.link-dotted 		{ border-color: #f00; }
-.actions li a.link-dotted:hover { border-color: #06e; color: #06e; text-decoration: none; }
+.actionbar                             { background: #fafafa; border: 1px solid #eee; margin-bottom: 2px; }
+.actionbar-item                        { float: left; white-space: nowrap; }
+.actionbar-item-link                   { float: left; padding: 10px 15px; color: #333; }
+.actionbar-item-link:hover             { text-decoration: none; background: #eee; color: #000; }
+.actionbar-item-link.link-dotted       { border-color: #f00; }
+.actionbar-item-link.link-dotted:hover { border-color: #06e; color: #06e; text-decoration: none; }
 
 
 /**
@@ -89,7 +89,6 @@
 .object-list-item-image       { position: absolute; top: 17px; left: 0; }
 .object-list-item-title       { font-size: 24px; line-height: 1.1em; margin-bottom: 10px; }
 .object-list-item-description { margin-bottom: 15px; }
-.object-list-item-info li     { margin-bottom: 3px; }
 .object-list-item-actions     { position: absolute; top: 15px; right: 0; width: 150px; text-align: right; }
 
 .object-list.object-list-actions .object-list-item { padding-right: 170px; }
@@ -106,6 +105,8 @@
 
 .user-item-rounded .user-item-avatar { border-radius: 50%; }
 
+.user-item.inactive { opacity: .5; }
+
 
 /**
  * Список пользователей 
@@ -121,11 +122,29 @@
 /**
  * Список пользователей
  */
-.user-list-small                 { margin-bottom: 15px; }
+.user-list-small                 { margin-bottom: 15px; max-height: 440px; overflow: auto; }
 .user-list-small:last-child      { margin-bottom: 0; }
+
 .user-list-small-item            { background: #fafafa; padding: 10px 55px 10px 10px; margin-bottom: 1px; position: relative; }
 .user-list-small-item:last-child { margin-bottom: 0; }
-.user-list-small-item-actions    { position: absolute; top: 50%; right: 13px; margin-top: -8px; }
+.user-list-small-item input      { vertical-align: middle; }
+
+.user-list-small-item-actions          { position: absolute; top: 50%; right: 13px; margin-top: -8px; }
+.user-list-small-item-actions li       { cursor: pointer; opacity: .7; }
+.user-list-small-item-actions li:hover { opacity: 1; }
+
+
+/**
+ * Список пользователей
+ */
+.user-list-add                 { margin-bottom: 15px; }
+.user-list-add:last-child      { margin-bottom: 0; }
+
+.user-list-add-title { font-size: 18px; margin-bottom: 15px; }
+
+.user-list-add-form { padding: 20px; margin-bottom: 5px; background: #f7f7f7; border: 1px solid #eee; }
+
+.user-list-add-note { margin-bottom: 20px; color: #aaa; font-size: 13px; }
 
 
 /**
@@ -207,9 +226,20 @@
 /**
  * Заметка
  */
-.user-note                 { background: #F1F7AF; padding: 20px; margin-bottom: 15px; }
-.user-note:last-child      { margin-bottom: 0; }
-.actions.user-note-actions { margin: 10px 0 0 0; padding: 0; background: none; border: none; }
+.user-note            { background: #F1F7AF; padding: 20px; margin-bottom: 15px; }
+.user-note:last-child { margin-bottom: 0; }
+.user-note-actions    { margin: 10px 0 0 0; overflow: hidden; }
+.user-note-actions li { float: left; margin-right: 15px; }
+
+
+/**
+ * Список с информацией
+ */
+.info-list                 { margin-bottom: 20px; }
+.info-list:last-child      { margin-bottom: 0; }
+.info-list-item            { margin-bottom: 5px; overflow: hidden; }
+.info-list-item:last-child { margin-bottom: 0; }
+.info-list-item-label      { opacity: .6; float: left; width: 130px; }
 
 
 /**
