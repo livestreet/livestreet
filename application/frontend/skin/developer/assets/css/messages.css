@@ -9,18 +9,6 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.topic-type-talk .topic-header              { background: #f7f7f7; padding: 10px 15px 15px; border-top: 1px solid #dfdfdf; border-bottom: 1px solid #eee; }
-.topic-type-talk .topic-header .topic-title { margin-bottom: 13px; font-size: 20px; }
+.topic-type-talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
 
-.topic-type-talk .topic-header .topic-info                         { margin-bottom: 0; position: relative; min-height: 30px; padding-left: 40px; line-height: 14px; }
-.topic-type-talk .topic-header .topic-info .avatar                 { position: absolute; top: 0; left: 0; }
-.topic-type-talk .topic-header .topic-info .author-wrapper         { margin-bottom: 4px; position: relative; top: -2px; }
-.topic-type-talk .topic-header .topic-info .author-wrapper .author { font-weight: bold; margin-right: 15px; }
-.topic-type-talk .topic-header .topic-info .recipient              { margin-right: 10px; }
-
-.topic-type-talk .topic-content { font-size: 13px; padding: 15px; background: #fafafa; margin-bottom: 1px; border-top: 1px solid #fff; }
-
-.topic-type-talk .topic-footer .topic-info { border-radius: 0; background: #fafafa; }
-
-.topic-type-talk .talk-recipients    { padding: 15px; background: #fafafa; display: none; border-top: 1px solid #fff; border-bottom: 1px solid #eee; }
-.topic-type-talk .talk-recipients h3 { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
+.message-user-list { background: #fafafa; padding: 20px; border-top: 1px solid #eee; }

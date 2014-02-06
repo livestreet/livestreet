@@ -29,8 +29,11 @@ return array(
 		'create' => 'Создать',
 		'cancel' => 'Отменить',
 		'empty'  => 'Тут ничего нет',
+		'form_reset'  => 'Очистить форму',
 		'error'  => array(
 			'save'  => 'Ошибка сохранения',
+			'add'  => 'Произошла ошибка при добавлении',
+			'remove'  => 'Произошла ошибка при удалении',
 			'system' => array(
 				'code' => array(
 					'404' => 'К сожалению, такой страницы не существует. Вероятно, она была удалена с сервера, либо ее здесь никогда не было.',
@@ -41,6 +44,8 @@ return array(
 		),
 		'success'  => array(
 			'save'  => 'Успешно сохранено',
+			'add'  => 'Успешно добавлено',
+			'remove'  => 'Успешно удалено',
 		)
 	),
 
@@ -63,12 +68,15 @@ return array(
 	 * Избранное
 	 */
 	'favourite' => array(
-		'add'     => 'Добавить в избранное',
+		'favourite' => 'Избранное',
+
+		'add'      => 'Добавить в избранное',
 		'remove'   => 'Удалить из избранного',
 
 		// Всплывающие сообщения
 		'notices' => array(
-			
+			'add_success' => 'Добавлено в избранное',
+			'remove_success' => 'Удалено из избранного'
 		),
 	),
 
@@ -157,13 +165,15 @@ return array(
 		 */
 		'invite' => array(
 			'invite_users' => 'Пригласить пользователей',
-			'users_title'  => 'Список приглашенных',
 			'repeat'       => 'Повторить',
 			'empty'        => 'Нет приглашенных пользователей',
 
-			// Форма добавления
-			'form' => array(
-				'users_label' => 'Список пользователей',
+			// Поля
+			'fields' => array(
+				'add' => array(
+					'label' => 'Список пользователей',
+					'note'  => 'Введите один или несколько логинов'
+				),
 			),
 
 			// Письмо с приглашением
@@ -342,7 +352,128 @@ return array(
 			'by_users' => 'по кол-ву читателей',
 		),
 	),
-	
+
+	/**
+	 * Личные сообщения
+	 */
+	'messages' => array(
+
+		// Форма поиска
+		'search' => array(
+			'title' => 'Поиск по сообщениям',
+
+			// Поля
+			'fields' => array(
+				'sender' => array(
+					'label' => 'Отправитель',
+					'note'  => 'Укажите логин отправителя'
+				),
+				'keyword' => array(
+					'label' => 'Искать в заголовке',
+				),
+				'keyword_text' => array(
+					'label' => 'Искать в тексте',
+				),
+				'start' => array(
+					'label'       => 'Ограничения по дате',
+					'placeholder' => 'С числа'
+				),
+				'end' => array(
+					'placeholder' => 'По число'
+				),
+				'favourite' => array(
+					'label' => 'Искать только в избранном'
+				),
+			)
+		),
+		
+		// Черный список
+		'blacklist' => array(
+			// Поля
+			'fields' => array(
+				'talk_blacklist_add' => array(
+					'label' => 'Список пользователей',
+					'note'  => 'Введите один или несколько логинов'
+				),
+			),
+
+			// Сообщения
+			'alerts' => array(
+				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем'
+			),
+		),
+		
+		// Всплывающие сообщения
+		'notices' => array(
+			
+		),
+
+		// Сообщения
+		'alerts' => array(
+			'empty' => 'Нет писем'
+		),
+	),
+
+	/**
+	 * Почта
+	 */
+	'talk_filter_error' => 'Ошибка фильтрации',
+	'talk_filter_error_date_format' => 'Указан неверный формат даты',
+	'talk_filter_result_count' => 'Найдено писем: %%count%%',
+	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
+
+	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
+	'talk_blacklist_user_already_have' => 'Пользователь <b>%%login%%</b> есть в вашем black list`е',
+	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
+	'talk_blacklist_add_self' => 'Нельзя добавлять в black list себя',
+
+	'talk_favourite_inbox' => 'Избранные письма',
+
+	'talk_menu_inbox' => 'Сообщения',
+	'talk_menu_inbox_new' => 'Только новые',
+	'talk_menu_inbox_list' => 'Переписка',
+	'talk_menu_inbox_create' => 'Новое письмо',
+	'talk_menu_inbox_favourites' => 'Избранное',
+	'talk_menu_inbox_blacklist' => 'Блокировать',
+
+	'talk_inbox' => 'Почтовый ящик',
+	'talk_inbox_target' => 'Адресаты',
+	'talk_inbox_title' => 'Тема',
+	'talk_inbox_date' => 'Дата',
+	'talk_inbox_make_read' => 'Отметить как прочитанное',
+	'talk_inbox_delete' => 'Удалить выделенное',
+	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
+
+	'talk_comments' => 'Переписка',
+	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов',
+
+	'talk_create' => 'Новое письмо',
+	'talk_create_users' => 'Кому',
+	'talk_create_users_error' => 'Необходимо указать, кому вы хотите отправить сообщение',
+	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином',
+	'talk_create_users_error_many' => 'Слишком много адресатов',
+	'talk_create_title' => 'Заголовок',
+	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
+	'talk_create_text' => 'Сообщение',
+	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
+	'talk_create_submit' => 'Отправить',
+
+	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
+
+	'talk_speaker_title' => 'Участники разговора',
+	'talk_speaker_edit' => 'Редактировать список',
+	'talk_speaker_add_label' => 'Добавить пользователя',
+	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
+	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
+	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
+	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
+	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
+	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
+	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
+
+	'talk_not_found' => 'Разговор не найден',
+	'talk_deleted' => 'Отправитель удалил сообщение',
+
 	/**
 	 * Блоги
 	 */
@@ -937,84 +1068,6 @@ return array(
 	'block_blog_navigator_button' => 'Смотреть',
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
-	/**
-	 * Почта
-	 */
-	'talk_menu_inbox' => 'Сообщения',
-	'talk_menu_inbox_new' => 'Только новые',
-	'talk_menu_inbox_list' => 'Переписка',
-	'talk_menu_inbox_create' => 'Новое письмо',
-	'talk_menu_inbox_favourites' => 'Избранное',
-	'talk_menu_inbox_blacklist' => 'Блокировать',
-	'talk_inbox' => 'Почтовый ящик',
-	'talk_inbox_empty' => 'Тут ничего нет',
-	'talk_inbox_target' => 'Адресаты',
-	'talk_inbox_title' => 'Тема',
-	'talk_inbox_date' => 'Дата',
-	'talk_inbox_make_read' => 'Отметить как прочитанное',
-	'talk_inbox_delete' => 'Удалить выделенное',
-	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
-	'talk_comments' => 'Переписка',
-	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов',
-	'talk_create' => 'Новое письмо',
-	'talk_create_users' => 'Кому',
-	'talk_create_users_error' => 'Необходимо указать, кому вы хотите отправить сообщение',
-	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином',
-	'talk_create_users_error_many' => 'Слишком много адресатов',
-	'talk_create_title' => 'Заголовок',
-	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
-	'talk_create_text' => 'Сообщение',
-	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
-	'talk_create_submit' => 'Отправить',
-	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
-	'talk_favourite_inbox' => 'Избранные письма',
-	'talk_favourite_add' => 'Добавить в избранное',
-	'talk_favourite_add_ok' => 'Письмо добавлено в избранное',
-	'talk_favourite_add_no' => 'Этого письма нет в вашем избранном',
-	'talk_favourite_add_already' => 'Это письмо уже есть в вашем избранном',
-	'talk_favourite_del' => 'Удалить из избранного',
-	'talk_favourite_del_ok' => 'Письмо удалено из избранного',
-	'talk_favourite_empty' => 'Нет писем в избранном',
-	'talk_filter_title' => 'Поиск сообщений',
-	'talk_filter_erase' => 'Сбросить фильтр',
-	'talk_filter_erase_form' => 'Очистить форму',
-	'talk_filter_label_sender' => 'Отправитель',
-	'talk_filter_label_keyword' => 'Искать в заголовке',
-	'talk_filter_label_keyword_text' => 'Искать в тексте',
-	'talk_filter_label_favourite' => 'Искать только в избранном',
-	'talk_filter_label_date' => 'Ограничения по дате',
-	'talk_filter_notice_sender' => 'Укажите логин отправителя',
-	'talk_filter_notice_keyword' => 'Введите одно или несколько слов',
-	'talk_filter_notice_date' => 'Дата вводится в формате 25.12.2008',
-	'talk_filter_submit' => 'Отфильтровать',
-	'talk_filter_submit_clear' => 'Очистить',
-	'talk_filter_error' => 'Ошибка фильтрации',
-	'talk_filter_error_date_format' => 'Указан неверный формат даты',
-	'talk_filter_result_count' => 'Найдено писем: %%count%%',
-	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
-	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
-	'talk_blacklist_title' => 'Не принимать писем от:',
-	'talk_blacklist_empty' => 'Принимать от всех',
-	'talk_balcklist_add_label' => 'Добавить пользователей',
-	'talk_balcklist_add_notice' => 'Введите один или несколько логинов',
-	'talk_balcklist_add_submit' => 'Не принимать',
-	'talk_blacklist_add_ok' => 'Пользователь <b>%%login%%</b> успешно добавлен',
-	'talk_blacklist_user_already_have' => 'Пользователь <b>%%login%%</b> есть в вашем black list`е',
-	'talk_blacklist_delete_ok' => 'Пользователь <b>%%login%%</b> успешно удален',
-	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
-	'talk_blacklist_add_self' => 'Нельзя добавлять в black list себя',
-	'talk_speaker_title' => 'Участники разговора',
-	'talk_speaker_edit' => 'Редактировать список',
-	'talk_speaker_add_label' => 'Добавить пользователя',
-	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
-	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
-	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
-	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
-	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
-	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
-	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
-	'talk_not_found' => 'Разговор не найден',
-	'talk_deleted' => 'Отправитель удалил сообщение',
 	/**
 	 * Userfeed
 	 */
