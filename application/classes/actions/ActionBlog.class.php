@@ -1441,6 +1441,7 @@ class ActionBlog extends Action {
 				if($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
 					$oViewer = $this->Viewer_GetLocalViewer();
 					$oViewer->Assign('oUser', $oUser);
+					$oViewer->Assign('bUserListSmallShowActions', true);
 
 					$aResult[]=array(
 						'bStateError'=>false,

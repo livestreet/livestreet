@@ -762,6 +762,7 @@ class ActionTalk extends Action {
 					if($this->Talk_AddUserToBlackList($oUser->getId(),$this->oUserCurrent->getId())) {
 						$oViewer = $this->Viewer_GetLocalViewer();
 						$oViewer->Assign('oUser', $oUser);
+						$oViewer->Assign('bUserListSmallShowActions', true);
 
 						$aResult[]=array(
 							'bStateError'=>false,
@@ -1034,6 +1035,7 @@ class ActionTalk extends Action {
 
 									$oViewer = $this->Viewer_GetLocalViewer();
 									$oViewer->Assign('oUser', $oUser);
+									$oViewer->Assign('bUserListSmallShowActions', true);
 
 									$aResult[]=array(
 										'bStateError'=>false,
