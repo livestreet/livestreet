@@ -16,7 +16,7 @@ ls.poll = (function ($) {
 	 */
 	var defaults = {
 		// Роутер голосования
-		sRouterVoteUrl: aRouter['ajax'] + 'vote/question/',
+		sRouterVoteUrl: aRouter['ajax'] + 'poll/vote/',
 
 		// Максимальное кол-во вариантов ответов
 		iMaxItems: 20,
@@ -31,8 +31,6 @@ ls.poll = (function ($) {
 
 		// Селекторы опроса
 		sPollSelector:              '.js-poll',
-		sPollListSelector:          '.js-poll-list',
-		sPollItemSelector:          '.js-poll-item',
 		sPollItemOptionSelector:    '.js-poll-item-option',
 		sPollButtonVoteSelector:    '.js-poll-button-vote',
 		sPollButtonAbstainSelector: '.js-poll-button-abstain',
@@ -44,10 +42,15 @@ ls.poll = (function ($) {
 
 		// Html варианта ответа
 		sAddItemHtml: '<li class="poll-add-item js-poll-add-item">' +
-					      '<input type="text" name="answer[]" class="poll-add-item-input js-poll-add-item-input">' +
+					      '<input type="checkbox" disabled="disabled">' +
+					      '<input type="hidden" name="answers[_NUMBER_][id]" value="_ANSWER_ID_">' +
+					      '<input type="text" name="answers[_NUMBER_][title]" class="poll-add-item-input js-poll-add-item-input" value="_ANSWER_TITLE_">' +
 					      '<i class="icon-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
 					  '</li>'
 	};
+
+	this.aAnswersInit=[];
+	this.iCountAnswers=0;
 
 	/**
 	 * Инициализация
@@ -59,7 +62,42 @@ ls.poll = (function ($) {
 
 		this.options = $.extend({}, defaults, options);
 
-		// Добавление
+		$(this.options.sPollSelector).each(function () {
+			var oPoll = $(this),
+				iPollId = oPoll.data('poll-id');
+
+			// Голосование за вариант
+			oPoll.find(self.options.sPollButtonVoteSelector).on('click', function () {
+				var form = oPoll.find('form');
+
+				self.vote(form,this);
+			});
+			// Воздержаться
+			oPoll.find(self.options.sPollButtonAbstainSelector).on('click', function () {
+				var form = oPoll.find('form');
+
+				self.vote(form,this,true);
+			});
+			// Сортировка
+			oPoll.on('click', self.options.sPollResultButtonSortSelector, function () {
+				self.toggleSort(oPoll);
+			});
+		});
+	};
+
+	this.initFormUpdate = function() {
+		this.initFormCreate();
+	};
+
+	this.initFormCreate = function() {
+		var self = this;
+
+		var oPollAdd=$('#form-poll-create').find(self.options.sAddSelector);
+		$.each(self.aAnswersInit,function(k,v){
+			self.addItem(oPollAdd,v);
+		});
+
+
 		$(this.options.sAddSelector).each(function () {
 			var oPollAdd = $(this);
 
@@ -82,33 +120,35 @@ ls.poll = (function ($) {
 				self.removeItem(this);
 			});
 		});
+	};
 
-		// Голосование
-		$(this.options.sPollSelector).each(function () {
-			var oPoll = $(this),
-				iPollId = oPoll.data('poll-id');
+	this.createPoll = function(form,button) {
+		ls.ajax.submit(aRouter.ajax+'poll/create/', form, function(result){
+			$('#poll-form-items').append(result.sPollItem);
 
-			// Голосование за вариант
-			oPoll.find(self.options.sPollButtonVoteSelector).on('click', function () {
-				var iCheckedItemId = oPoll.find(self.options.sPollItemOptionSelector + ':checked').val();
+			$('#modal-poll-create').modal('hide');
+		},{ submitButton: $(button) });
+	};
 
-				if (iCheckedItemId) {
-					self.vote(iPollId, iCheckedItemId);
-				} else {
-					return false;
-				}
-			});
+	this.updatePoll = function(form,button) {
+		ls.ajax.submit(aRouter.ajax+'poll/update/', form, function(result){
+			$('#poll-form-item-'+result.iPollId).replaceWith(result.sPollItem);
 
-			// Воздержаться
-			oPoll.find(self.options.sPollButtonAbstainSelector).on('click', function () {
-				self.vote(iPollId, -1);
-			});
+			$('#modal-poll-create').modal('hide');
+		},{ submitButton: $(button) });
+	};
 
-			// Воздержаться
-			oPoll.on('click', self.options.sPollResultButtonSortSelector, function () {
-				self.toggleSort(oPoll);
-			});
+	this.removePoll = function(id,tmp) {
+		ls.ajax.load(aRouter.ajax+'poll/remove/', { id: id, tmp: tmp }, function(result){
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$('#poll-form-item-'+id).fadeOut('slow', function() {
+					$(this).remove();
+				});
+			}
 		});
+		return false;
 	};
 
 	/**
@@ -116,17 +156,48 @@ ls.poll = (function ($) {
 	 * 
 	 * @param  {Object} oPollAdd Блок добавления опроса
 	 */
-	this.addItem = function(oPollAdd) {
+	this.addItem = function(oPollAdd,params) {
+		var defaults = {
+			number: "0",
+			answer_id: '',
+			answer_title: '',
+			disable_remove: false,
+			disable_update: false
+		}
+		params = $.extend({}, defaults, params);
+
 		if(oPollAdd.find(this.options.sAddItemSelector).length == this.options.iMaxItems) {
 			ls.msg.error(null, ls.lang.get('topic_question_create_answers_error_max'));
 			return false;
 		}
 
 		var self = this,
-			oNewItem = $(this.options.sAddItemHtml);
+			sTpl = this.options.sAddItemHtml;
+
+		sTpl = sTpl.replace(/_NUMBER_/g, this.iCountAnswers);
+		sTpl = sTpl.replace(/_ANSWER_ID_/g, params.answer_id);
+		sTpl = sTpl.replace(/_ANSWER_TITLE_/g, params.answer_title);
+
+
+		oNewItem = $(sTpl);
+		if (params.disable_remove) {
+			oNewItem.find(this.options.sAddItemRemoveSelector).remove();
+		}
+		if (params.disable_update) {
+			oNewItem.find(this.options.sAddItemInputSelector).attr('disabled','disabled');
+		}
 
 		oPollAdd.find(this.options.sAddListSelector).append(oNewItem);
 		oNewItem.find('input[type=text]').focus();
+		this.iCountAnswers++;
+	};
+
+	this.addItemInit = function(params) {
+		this.aAnswersInit.push(params);
+	};
+
+	this.clearItemInit = function() {
+		this.aAnswersInit=[];
 	};
 	
 	/**
@@ -141,29 +212,21 @@ ls.poll = (function ($) {
 	/**
 	 * Голосование в опросе
 	 * 
-	 * @param  {Number} iPollId ID опроса
-	 * @param  {Number} iItemId ID выбранного пункта
+	 * @param  {Object} form Форма с данными опроса
+	 * @param  {Object} button Копка для анимации загрузки
 	 */
-	this.vote = function(iPollId, iItemId) {
-		var oParams = {
-			idTopic: iPollId, 
-			idAnswer: iItemId
-		};
+	this.vote = function(form,button,abstain) {
+		form=$(form);
+		var formData=form.serializeJSON();
 
 		ls.hook.marker('voteBefore');
 
-		ls.ajax.load(this.options.sRouterVoteUrl, oParams, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				var oPoll = $('[data-poll-id=' + iPollId + ']');
-				oPoll.html(result.sText);
+		ls.ajax.submit(this.options.sRouterVoteUrl, form, function(result){
+			var oPoll = $('[data-poll-id=' + formData.id + ']');
+			oPoll.html(result.sText);
 
-				ls.msg.notice(null, result.sMsg);
-
-				ls.hook.run('ls_pool_vote_after', [iPollId, iItemId, result], oPoll);
-			}
-		});
+			ls.hook.run('ls_pool_vote_after', [form, result], oPoll);
+		}, { submitButton: $(button), params: { abstain: abstain ? 1 : 0 } });
 	};
 
 	/**

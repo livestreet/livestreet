@@ -104,12 +104,20 @@
 
 		{* Показывает дополнительные поля *}
 		{$aBlockParams = []}
-		{$aBlockParams.target_type = 'topic_'|cat:$sTopicType}
+		{$aBlockParams.target_type = 'topic_'|cat:$oTopicType->getCode()}
 		{if $oTopicEdit}
 			{$aBlockParams.target_id = $oTopicEdit->getId()}
 		{/if}
 
 		{insert name="block" block="propertyUpdate" params=$aBlockParams}
+
+		{* Вставка опросов *}
+		{if $oTopicType->getParam('allow_poll')}
+			{include file='polls/poll.form.inject.tpl'
+				sTargetType  = 'topic'
+				sTargetId = {($oTopicEdit) ? $oTopicEdit->getId() : '' }
+			}
+		{/if}
 
 		{* Запретить комментарии *}
 		{include file='forms/fields/form.field.checkbox.tpl'
@@ -134,7 +142,7 @@
 
 
 		{* Скрытые поля *}
-		{include file='forms/fields/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$sTopicType}
+		{include file='forms/fields/form.field.hidden.tpl' sFieldName='topic_type' sFieldValue=$oTopicType->getCode()}
 
 
 		{* Кнопки *}

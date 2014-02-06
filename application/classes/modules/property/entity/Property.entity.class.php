@@ -95,6 +95,30 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		return true;
 	}
 	/**
+	 * Выполняется перед удалением сущности
+	 *
+	 * @return bool
+	 */
+	protected function beforeDelete() {
+		/**
+		 * Сначала удаляем стандартные значения
+		 */
+		$this->Property_RemoveValueByPropertyId($this->getId());
+		/**
+		 * Удаляем значения тегов
+		 */
+		$this->Property_RemoveValueTagByPropertyId($this->getId());
+		/**
+		 * Удаляем значения селектов
+		 */
+		$this->Property_RemoveValueSelectByPropertyId($this->getId());
+		/**
+		 * Удаляем сами варианты селектов
+		 */
+		$this->Property_RemoveSelectByPropertyId($this->getId());
+		return true;
+	}
+	/**
 	 * Возвращает правила валидации поля
 	 *
 	 * @return array

@@ -75,8 +75,7 @@ class ModuleTools extends Module {
 	 * @return string
 	 */
 	public function Urlspecialchars($sText) {
-		func_urlspecialchars($sText);
-		return $sText;
+		return func_urlspecialchars($sText);
 	}
 	/**
 	 * Обработка тега ls в тексте

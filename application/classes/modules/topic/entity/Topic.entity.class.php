@@ -384,14 +384,6 @@ class ModuleTopic_EntityTopic extends Entity {
 		return $this->_getDataOne('vote');
 	}
 	/**
-	 * Возвращает статус голосовал ли пользователь в топике-опросе
-	 *
-	 * @return bool|null
-	 */
-	public function getUserQuestionIsVote() {
-		return $this->_getDataOne('user_question_is_vote');
-	}
-	/**
 	 * Проверяет находится ли данный топик в избранном у текущего пользователя
 	 *
 	 * @return bool
@@ -462,6 +454,29 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function getPropertyTargetType() {
 		return 'topic_'.$this->getType();
+	}
+	/**
+	 * Возвращает объект типа топика
+	 *
+	 * @return ModuleTopic_EntityTopicType|null
+	 */
+	public function getTypeObject() {
+		if (!$this->_getDataOne('type_object')) {
+			$this->_aData['type_object']=$this->Topic_GetTopicTypeByCode($this->getType());
+		}
+		return $this->_getDataOne('type_object');
+	}
+
+	/**
+	 * Возвращает список опросов, которые есть у топика
+	 *
+	 * @return array|null
+	 */
+	public function getPolls() {
+		if (!$this->_getDataOne('polls')) {
+			$this->_aData['polls']=$this->Poll_GetPollItemsByTarget('topic',$this->getId());
+		}
+		return $this->_getDataOne('polls');
 	}
 
 	/***************************************************************************************************************************************************
@@ -565,141 +580,6 @@ class ModuleTopic_EntityTopic extends Entity {
 			return;
 		}
 		$this->setExtraValue('count_jump',$data);
-	}
-
-	/**
-	 * Добавляет вариант ответа в топик-опрос
-	 *
-	 * @param string $data
-	 */
-	public function addQuestionAnswer($data) {
-		if ($this->getType()!='question') {
-			return;
-		}
-		$this->extractExtra();
-		$this->aExtra['answers'][]=array('text'=>$data,'count'=>0);
-		$this->setExtra($this->aExtra);
-	}
-	/**
-	 * Очищает варианты ответа в топике-опрос
-	 */
-	public function clearQuestionAnswer() {
-		if ($this->getType()!='question') {
-			return;
-		}
-		$this->setExtraValue('answers',array());
-	}
-	/**
-	 * Возвращает варианты ответа в топике-опрос
-	 *
-	 * @param bool $bSortVote
-	 * @return array|null
-	 */
-	public function getQuestionAnswers($bSortVote=false) {
-		if ($this->getType()!='question') {
-			return null;
-		}
-
-		if ($this->getExtraValue('answers')) {
-			$aAnswers=$this->getExtraValue('answers');
-			if ($bSortVote) {
-				uasort($aAnswers, create_function('$a,$b',"if (\$a['count'] == \$b['count']) { return 0; } return (\$a['count'] < \$b['count']) ? 1 : -1;"));
-			}
-			return $aAnswers;
-		}
-		return array();
-	}
-	/**
-	 * Увеличивает количество ответов на данный вариант в топике-опросе
-	 *
-	 * @param int $sIdAnswer  ID варианта ответа
-	 */
-	public function increaseQuestionAnswerVote($sIdAnswer) {
-		if ($aAnswers=$this->getQuestionAnswers()) {
-			if (isset($aAnswers[$sIdAnswer])) {
-				$aAnswers[$sIdAnswer]['count']++;
-				$this->aExtra['answers']=$aAnswers;
-				$this->setExtra($this->aExtra);
-			}
-		}
-	}
-	/**
-	 * Возвращает максимально количество ответов на вариант в топике-опросе
-	 *
-	 * @return int
-	 */
-	public function getQuestionAnswerMax() {
-		$aAnswers=$this->getQuestionAnswers();
-		$iMax=0;
-		foreach ($aAnswers as $aAns) {
-			if ($aAns['count']>$iMax) {
-				$iMax=$aAns['count'];
-			}
-		}
-		return $iMax;
-	}
-	/**
-	 * Возвращает в процентах количество проголосовавших за конкретный вариант
-	 *
-	 * @param int $sIdAnswer ID варианта
-	 * @return int|string
-	 */
-	public function getQuestionAnswerPercent($sIdAnswer) {
-		if ($aAnswers=$this->getQuestionAnswers()) {
-			if (isset($aAnswers[$sIdAnswer])) {
-				$iCountAll=$this->getQuestionCountVote()-$this->getQuestionCountVoteAbstain();
-				if ($iCountAll==0) {
-					return 0;
-				} else {
-					return number_format(round($aAnswers[$sIdAnswer]['count']*100/$iCountAll,1), 1, '.', '');
-				}
-			}
-		}
-	}
-	/**
-	 * Возвращает общее число принявших участие в опросе в топике-опросе
-	 *
-	 * @return int|null
-	 */
-	public function getQuestionCountVote() {
-		if ($this->getType()!='question') {
-			return null;
-		}
-		return (int)$this->getExtraValue('count_vote');
-	}
-	/**
-	 * Устанавливает общее число принявших участие в опросе в топике-опросе
-	 *
-	 * @param int $data
-	 */
-	public function setQuestionCountVote($data) {
-		if ($this->getType()!='question') {
-			return;
-		}
-		$this->setExtraValue('count_vote',$data);
-	}
-	/**
-	 * Возвращает число воздержавшихся от участия в опросе в топике-опросе
-	 *
-	 * @return int|null
-	 */
-	public function getQuestionCountVoteAbstain() {
-		if ($this->getType()!='question') {
-			return null;
-		}
-		return (int)$this->getExtraValue('count_vote_abstain');
-	}
-	/**
-	 * Устанавливает число воздержавшихся от участия в опросе в топике-опросе
-	 *
-	 * @param int $data
-	 * @return mixed
-	 */
-	public function setQuestionCountVoteAbstain($data) {
-		if ($this->getType()!='question') {
-			return;
-		}
-		$this->setExtraValue('count_vote_abstain',$data);
 	}
 
 
