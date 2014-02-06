@@ -499,7 +499,7 @@ class ActionTalk extends Action {
 						str_replace(
 							'login',
 							$oUser->getLogin(),
-							$this->Lang_Get('talk_user_in_blacklist',array('login'=>htmlspecialchars($oUser->getLogin())))
+							$this->Lang_Get('messages.blacklist.alerts.blocked',array('login'=>htmlspecialchars($oUser->getLogin())))
 						),
 						$this->Lang_Get('error')
 					);
@@ -719,7 +719,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequestStr('users',null,'post');
+		$sUsers=getRequestStr('sUserList',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -760,14 +760,18 @@ class ActionTalk extends Action {
 			if ($oUser=$this->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
 				if(!isset($aUserBlacklist[$oUser->getId()])) {
 					if($this->Talk_AddUserToBlackList($oUser->getId(),$this->oUserCurrent->getId())) {
+						$oViewer = $this->Viewer_GetLocalViewer();
+						$oViewer->Assign('oUser', $oUser);
+
 						$aResult[]=array(
 							'bStateError'=>false,
 							'sMsgTitle'=>$this->Lang_Get('attention'),
-							'sMsg'=>$this->Lang_Get('talk_blacklist_add_ok',array('login'=>htmlspecialchars($sUser))),
+							'sMsg'=>$this->Lang_Get('common.success.add',array('login'=>htmlspecialchars($sUser))),
 							'sUserId'=>$oUser->getId(),
 							'sUserLogin'=>htmlspecialchars($sUser),
 							'sUserWebPath'=>$oUser->getUserWebPath(),
-							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
+							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
+							'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
 						);
 					} else {
 						$aResult[]=array(
@@ -812,7 +816,7 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=getRequestStr('idTarget',null,'post');
+		$iUserId=getRequestStr('iUserId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -826,9 +830,9 @@ class ActionTalk extends Action {
 		/**
 		 * Если пользователь не существуем, возращаем ошибку
 		 */
-		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
+		if (!$oUserTarget=$this->User_GetUserById($iUserId)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($idTarget))),
+				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -853,12 +857,12 @@ class ActionTalk extends Action {
 		/**
 		 * Производим удаление пользователя из блекслиста
 		 */
-		if(!$this->Talk_DeleteUserFromBlacklist($idTarget,$this->oUserCurrent->getId())) {
+		if(!$this->Talk_DeleteUserFromBlacklist($iUserId,$this->oUserCurrent->getId())) {
 			return $this->EventErrorDebug();
 		}
 		$this->Message_AddNoticeSingle(
 			$this->Lang_Get(
-				'talk_blacklist_delete_ok',
+				'common.success.remove',
 				array('login'=>$oUserTarget->getLogin())
 			),
 			$this->Lang_Get('attention')
@@ -873,8 +877,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$idTarget=getRequestStr('idTarget',null,'post');
-		$idTalk=getRequestStr('idTalk',null,'post');
+		$iUserId=getRequestStr('iUserId',null,'post');
+		$iTalkId=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -888,9 +892,9 @@ class ActionTalk extends Action {
 		/**
 		 * Если удаляемый участник не существует в базе данных, возвращаем ошибку
 		 */
-		if (!$oUserTarget=$this->User_GetUserById($idTarget)) {
+		if (!$oUserTarget=$this->User_GetUserById($iUserId)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($idTarget))),
+				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -898,7 +902,7 @@ class ActionTalk extends Action {
 		/**
 		 * Если разговор не найден, или пользователь не является его автором (либо админом), возвращаем ошибку
 		 */
-		if((!$oTalk=$this->Talk_GetTalkById($idTalk))
+		if((!$oTalk=$this->Talk_GetTalkById($iTalkId))
 			|| ( ($oTalk->getUserId()!=$this->oUserCurrent->getId()) && !$this->oUserCurrent->isAdministrator() ) ) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get('talk_not_found'),
@@ -913,8 +917,8 @@ class ActionTalk extends Action {
 		/**
 		 * Если пользователь не является участником разговора или удалил себя самостоятельно  возвращаем ошибку
 		 */
-		if(!isset($aTalkUsers[$idTarget])
-			|| $aTalkUsers[$idTarget]->getUserActive()==ModuleTalk::TALK_USER_DELETE_BY_SELF) {
+		if(!isset($aTalkUsers[$iUserId])
+			|| $aTalkUsers[$iUserId]->getUserActive()==ModuleTalk::TALK_USER_DELETE_BY_SELF) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get(
 					'talk_speaker_user_not_found',
@@ -927,7 +931,7 @@ class ActionTalk extends Action {
 		/**
 		 * Удаляем пользователя из разговора,  если удаление прошло неудачно - возвращаем системную ошибку
 		 */
-		if(!$this->Talk_DeleteTalkUserByArray($idTalk,$idTarget,ModuleTalk::TALK_USER_DELETE_BY_AUTHOR)) {
+		if(!$this->Talk_DeleteTalkUserByArray($iTalkId,$iUserId,ModuleTalk::TALK_USER_DELETE_BY_AUTHOR)) {
 			return $this->EventErrorDebug();
 		}
 		$this->Message_AddNoticeSingle(
@@ -947,8 +951,8 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequestStr('users',null,'post');
-		$idTalk=getRequestStr('idTalk',null,'post');
+		$sUsers=getRequestStr('sUserList',null,'post');
+		$idTalk=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -1027,6 +1031,10 @@ class ActionTalk extends Action {
 									)
 								) {
 									$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
+
+									$oViewer = $this->Viewer_GetLocalViewer();
+									$oViewer->Assign('oUser', $oUser);
+
 									$aResult[]=array(
 										'bStateError'=>false,
 										'sMsgTitle'=>$this->Lang_Get('attention'),
@@ -1035,7 +1043,8 @@ class ActionTalk extends Action {
 										'sUserLogin'=>$oUser->getLogin(),
 										'sUserLink'=>$oUser->getUserWebPath(),
 										'sUserWebPath'=>$oUser->getUserWebPath(),
-										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
+										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
+										'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
 									);
 									$bState=true;
 								} else {
@@ -1112,7 +1121,7 @@ class ActionTalk extends Action {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
-						'sMsg'=>$this->Lang_Get('talk_user_in_blacklist',array('login'=>htmlspecialchars($sUser)))
+						'sMsg'=>$this->Lang_Get('messages.blacklist.alerts.blocked',array('login'=>htmlspecialchars($sUser)))
 					);
 				}
 			} else {

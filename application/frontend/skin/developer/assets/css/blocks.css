@@ -130,14 +130,3 @@
 .block-type-profile-actions ul li a          { display: block; padding: 10px 15px; }
 .block-type-profile-actions ul li a:hover    { background: #fafafa; }
 .block-type-profile-actions ul li a.followed { color: #f00; }
-
-
-/**
- * Настройки персональной активности
- * 
- * @modifier activity
- * @template blocks/block.activity*.tpl
- */
-.block-type-activity p     { margin-bottom: 15px; }
-.block-type-activity ul li { margin-bottom: 5px; }
-.block-type-activity .note { display: block; margin-bottom: 15px; color: #aaa; }

@@ -251,6 +251,12 @@ jQuery(document).ready(function($){
 	 * Стена
 	 */
 	ls.wall.init();
+
+
+	/**
+	 * Блок добавления пользователей
+	 */
+	ls.user_list_add.init();
 	
 
 	// Временный костыль для сабмита форм

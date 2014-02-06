@@ -394,7 +394,6 @@ $config['block']['userfeedUsers'] = array(
 	'action'  => array('feed'),
 	'blocks'  => array(
 		'right' => array(
-			'userfeedFriends'=> array(),
 			'userfeedUsers'=> array()
 		)
 	)
@@ -517,6 +516,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/media.js",
 	"___path.application.web___/frontend/common/js/tags.js",
 	"___path.application.web___/frontend/common/js/content.js",
+	"___path.application.web___/frontend/common/js/user_list_add.js",
 	"___path.application.web___/frontend/common/js/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),

@@ -26,8 +26,6 @@ ls.blog = (function ($) {
 			info:       aRouter['blog'] + 'ajaxbloginfo/',
 			search:     aRouter['blogs'] + 'ajax-search/',
 			invite: {
-				add:    aRouter['blog'] + 'ajaxaddbloginvite/',
-				remove: aRouter['blog'] + 'ajaxremovebloginvite/',
 				repeat: aRouter['blog'] + 'ajaxrebloginvite/',
 			}
 		},
@@ -40,37 +38,12 @@ ls.blog = (function ($) {
 			info: '.js-blog-info',
 			blog_add_type_note: '#blog_type_note',
 			invite: {
-				form: {
-					self:   '.js-blog-invite-form',
-					users:  '.js-blog-invite-form-users',
-					submit: '.js-blog-invite-form-submit',
-				},
-				container:   '.js-blog-invite-container',
-				user_list:   '.js-blog-invite-users',
-				user:        '.js-blog-invite-user',
-				user_remove: '.js-blog-invite-user-remove',
 				user_repeat: '.js-blog-invite-user-repeat',
 			},
 			nav: {
 				categories: '.js-blog-nav-categories',
 				blogs:      '.js-blog-nav-blogs',
 				submit:     '.js-blog-nav-submit',
-			}
-		},
-
-		// HTML
-		html: {
-			invite_item: function(iBlogId, aUser) {
-				return '<li class="user-list-small-item js-blog-invite-user" data-blog-id="' + iBlogId + '" data-user-id="' + aUser.iUserId + '">' +
-							'<div class="user-item">' +
-								'<a href="' + aUser.sUserWebPath + '" class="user-item-avatar-link"><img src="' + aUser.sUserAvatar48 + '" class="user-item-avatar" width="24" /></a> ' +
-								'<a href="' + aUser.sUserWebPath + '" class="user-item-name">' + aUser.sUserLogin + '</a> ' +
-							'</div>' +
-							'<div class="user-list-small-item-actions">' +
-								'<a href="#" class="icon-repeat js-blog-invite-user-repeat" title=""></a> ' +
-								'<a href="#" class="icon-remove js-blog-invite-user-remove" title=""></a>' +
-							'</div>' +
-						'</li>';
 			}
 		}
 	};
@@ -86,16 +59,6 @@ ls.blog = (function ($) {
 		this.options = $.extend({}, _defaults, options);
 
 		this.elements = {
-			invite: {
-				form: {
-					self:   $(this.options.selectors.invite.form.self),
-					users:  $(this.options.selectors.invite.form.users),
-					submit: $(this.options.selectors.invite.form.submit),
-				},
-				container: $(this.options.selectors.invite.container),
-				user_list: $(this.options.selectors.invite.user_list),
-				user:      $(this.options.selectors.invite.user),
-			},
 			nav: {
 				categories: $(this.options.selectors.nav.categories),
 				blogs:      $(this.options.selectors.nav.blogs),
@@ -121,25 +84,14 @@ ls.blog = (function ($) {
 		 * Инвайты
 		 */
 
-		// Добавить инвайт
-		this.elements.invite.form.self.on('submit', function (e) {
-			_this.invite.add($(this).data('blog-id'), _this.elements.invite.form.users.val());
-			e.preventDefault();
-		});
-
-		// Удалить инвайт
-		$(document).on('click', this.options.selectors.invite.user_remove, function (e) {
-			var oElement = $(this).closest(_this.options.selectors.invite.user);
-
-			_this.invite.remove(oElement.data('user-id'), oElement.data('blog-id'));
-			e.preventDefault();
-		});
-
 		// Повторно отправить инвайт
 		$(document).on('click', this.options.selectors.invite.user_repeat, function (e) {
-			var oElement = $(this).closest(_this.options.selectors.invite.user);
+			var oButton = $(this),
+				oContainer = oButton.closest(ls.user_list_add.options.selectors.container),
+				oUserList = oContainer.find(ls.user_list_add.options.selectors.user_list);
 
-			_this.invite.repeat(oElement.data('user-id'), oElement.data('blog-id'));
+			_this.invite.repeat(oButton.data('user-id'), oContainer.data('target-id'));
+
 			e.preventDefault();
 		});
 
@@ -292,77 +244,6 @@ ls.blog = (function ($) {
 	 * Приглашения
 	 */
 	this.invite = function(_this) {
-		/**
-		 * Отправляет приглашение вступить в блог
-		 */
-		this.add = function(iBlogId, sUsers) {
-			if( ! sUsers ) return false;
-
-			var sUrl = _this.options.routers.invite.add,
-				oParams = { users: sUsers, idBlog: iBlogId };
-
-			_this.elements.invite.form.submit.prop('disabled', true).addClass(ls.options.classes.states.loading);
-			_this.elements.invite.form.users.autocomplete('disable');
-
-			ls.hook.marker('addInviteBefore');
-
-			ls.ajax.load(sUrl, oParams, function(result) {
-				_this.elements.invite.form.submit.prop('disabled', false).removeClass(ls.options.classes.states.loading);
-
-				if (result.bStateError) {
-					ls.msg.error(null, result.sMsg);
-				} else {
-					_this.elements.invite.form.users.val('');
-
-					$($.map(result.aUsers, function(value, index) {
-						if (value.bStateError) {
-							ls.msg.error(null, value.sMsg);
-						} else {
-							ls.msg.notice(null, value.sMsg);
-							_this.elements.invite.container.show();
-
-							var oItem = _this.options.html.invite_item(iBlogId, value);
-
-							ls.hook.run('ls_blog_add_invite_user_after', [iBlogId, value], oItem);
-
-							return oItem;
-						}
-					}).join('')).appendTo(_this.elements.invite.user_list);
-
-					ls.hook.run('ls_blog_add_invite_after', [iBlogId, sUsers, result]);
-				}
-			});
-
-			return false;
-		};
-
-		/**
-		 * Удаляет приглашение в блог
-		 */
-		this.remove = function(iUserId, iBlogId) {
-			var sUrl = _this.options.routers.invite.remove,
-				oParams = { idUser: iUserId, idBlog: iBlogId };
-
-			ls.hook.marker('removeInviteBefore');
-
-			ls.ajax.load(sUrl, oParams, function(result) {
-				if (result.bStateError) {
-					ls.msg.error(null, result.sMsg);
-				} else {
-					ls.msg.notice(null, result.sMsg);
-
-					$(this.options.selectors.invite.user + '[data-user-id=' + iUserId + ']').fadeOut('slow', function() {
-						$(this).remove();
-						if ($(_this.options.selectors.invite.user).length === 0) _this.elements.invite.container.hide();
-
-						ls.hook.run('ls_blog_remove_invite_after', [iUserId, iBlogId, result]);
-					});
-				}
-			}.bind(_this));
-
-			return false;
-		};
-
 		/**
 		 * Повторно отправляет приглашение
 		 */

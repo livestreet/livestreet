@@ -1352,8 +1352,8 @@ class ActionBlog extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequest('users',null,'post');
-		$sBlogId=getRequestStr('idBlog',null,'post');
+		$sUsers=getRequest('sUserList',null,'post');
+		$sBlogId=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -1439,6 +1439,9 @@ class ActionBlog extends Action {
 				$oBlogUserNew->setUserRole(ModuleBlog::BLOG_USER_ROLE_INVITE);
 
 				if($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
+					$oViewer = $this->Viewer_GetLocalViewer();
+					$oViewer->Assign('oUser', $oUser);
+
 					$aResult[]=array(
 						'bStateError'=>false,
 						'sMsgTitle'=>$this->Lang_Get('attention'),
@@ -1446,7 +1449,8 @@ class ActionBlog extends Action {
 						'sUserLogin'=>htmlspecialchars($sUser),
 						'sUserWebPath'=>$oUser->getUserWebPath(),
 						'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-						'iUserId'=>$oUser->getId()
+						'iUserId'=>$oUser->getId(),
+						'sUserHtml'=>$oViewer->Fetch("user_list_small_item.blog_invite.tpl")
 					);
 					$this->SendBlogInvite($oBlog,$oUser);
 				} else {
@@ -1549,8 +1553,8 @@ class ActionBlog extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUserId=getRequestStr('idUser',null,'post');
-		$sBlogId=getRequestStr('idBlog',null,'post');
+		$sUserId=getRequestStr('iUserId',null,'post');
+		$sBlogId=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */

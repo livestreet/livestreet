@@ -10,127 +10,33 @@
 
 var ls = ls || {};
 
-ls.stream =( function ($) {
+ls.stream = (function ($) {
+	"use strict";
+
 	this.isBusy = false;
 	this.sDateLast = null;
 
-	this.options = {
+	/**
+	 * Дефолтные опции
+	 */
+	var defaults = {
 		selectors: {
-			userList:       'js-activity-block-users',
-			getMoreButton:  'activity-get-more',
-			userListId:     'activity-block-users',
-			inputId:        'activity-block-users-input',
-			noticeId:       'activity-block-users-notice',
-			userListItemId: 'activity-block-users-item-'
-		},
-		elements: {
-			userItem: function (element) {
-				return $('<li id="' + ls.stream.options.selectors.userListItemId + element.uid + '">' +
-							 '<input type="checkbox" ' + 
-							        'class="input-checkbox" ' +
-							        'data-user-id="' + element.uid + '" ' +
-							        'checked="checked" />' +
-							        '<a href="' + element.user_web_path + '">' + element.user_login + '</a>' +
-						 '</li>');
-			}
+			getMoreButton:  '#activity-get-more',
 		}
-	}
+	};
 
 	/**
-	 * Init
+	 * Инициализация
+	 *
+	 * @param  {Object} options Опции
 	 */
-	this.init = function () {
+	this.init = function(options) {
+		this.options = $.extend({}, defaults, options);
+		
 		var self = this;
 
-		$('.' + this.options.selectors.userList).on('change', 'input[type=checkbox]', function () {
-			var userId = $(this).data('user-id');
-
-			$(this).prop('checked') ? self.subscribe(userId) : self.unsubscribe(userId);	
-		});
-
-		$('#' + this.options.selectors.getMoreButton).on('click', function () {
+		$(this.options.selectors.getMoreButton).on('click', function () {
 			self.getMore(this);
-		});
-
-		$('#' + this.options.selectors.inputId).keydown(function (event) {
-			event.which == 13 && ls.stream.appendUser();
-		});
-	};
-
-	/**
-	 * Подписаться на пользователя
-	 * @param  {Number} iUserId ID пользователя
-	 */
-	this.subscribe = function (iUserId) {
-		var self = this,
-			url = aRouter['stream'] + 'subscribe/',
-			params = { 'id': iUserId };
-
-		ls.hook.marker('subscribeBefore');
-
-		ls.ajax.load(url, params, function(data) {
-			if (data.bStateError) {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
-			} else {
-				ls.msg.notice(data.sMsgTitle,data.sMsg);
-				ls.hook.run('ls_stream_subscribe_after',[params,data]);
-			}
-		});
-	};
-
-	/**
-	 * Отписаться от пользователя
-	 * @param  {Number} iUserId ID пользователя
-	 */
-	this.unsubscribe = function (iUserId) {
-		var self = this,
-			url = aRouter['stream'] + 'unsubscribe/',
-			params = { 'id': iUserId };
-
-		ls.hook.marker('unsubscribeBefore');
-
-		ls.ajax.load(url, params, function(data) {
-			if (!data.bStateError) {
-				ls.msg.notice(data.sMsgTitle,data.sMsg);
-				ls.hook.run('ls_stream_unsubscribe_after',[params,data]);
-			}
-		});
-	};
-
-	/**
-	 * Подписаться на пользователя
-	 */
-	this.appendUser = function() {
-		var self = this,
-			sLogin = $('#' + self.options.selectors.inputId).val();
-
-		if ( ! sLogin ) return;
-
-		ls.hook.marker('appendUserBefore');
-
-		ls.ajax.load(aRouter['stream'] + 'subscribeByLogin/', { 'login' : sLogin }, function(data) {
-			if ( ! data.bStateError ) {
-				var checkbox = $('.' + self.options.selectors.userList).find('input[data-user-id=' + data.uid + ']');
-
-				$('#' + self.options.selectors.noticeId).remove();
-
-				if (checkbox.length) {
-					if (checkbox.prop("checked")) {
-						ls.msg.error(ls.lang.get('error'), ls.lang.get('stream_subscribes_already_subscribed'));
-					} else {
-						checkbox.prop("checked", true);
-						ls.msg.notice(data.sMsgTitle,data.sMsg);
-					}
-				} else {
-					$('#' + self.options.selectors.inputId).autocomplete('close').val('');
-					$('#' + self.options.selectors.userListId).show().append(self.options.elements.userItem(data));
-					ls.msg.notice(data.sMsgTitle,data.sMsg);
-				}
-
-				ls.hook.run('ls_stream_append_user_after',[checkbox.length,data]);
-			} else {
-				ls.msg.error(data.sMsgTitle, data.sMsg);
-			}
 		});
 	};
 

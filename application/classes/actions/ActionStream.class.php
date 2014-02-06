@@ -87,7 +87,6 @@ class ActionStream extends Action {
 			return parent::EventNotFound();
 		}
 		$this->Viewer_AddBlock('right','activitySettings');
-		$this->Viewer_AddBlock('right','activityFriends');
 		$this->Viewer_AddBlock('right','activityUsers');
 		
 		/**
