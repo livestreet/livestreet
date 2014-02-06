@@ -1543,6 +1543,16 @@ class ModuleTopic extends Module {
 	public function UpdateTopicType($oType) {
 		return $this->oMapperTopic->UpdateTopicType($oType);
 	}
+	/**
+	 * Удаляет тип топика из БД
+	 *
+	 * @param $sTypeId
+	 *
+	 * @return bool
+	 */
+	public function DeleteTopicType($sTypeId) {
+		return $this->oMapperTopic->DeleteTopicType($sTypeId);
+	}
 
 	public function UpdateTopicByType($sType,$sTypeNew) {
 		$res=$this->oMapperTopic->UpdateTopicByType($sType,$sTypeNew);

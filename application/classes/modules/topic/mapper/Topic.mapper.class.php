@@ -864,18 +864,25 @@ class ModuleTopic_MapperTopic extends Mapper {
 	}
 
 	public function GetTopicTypeItems($aFilter=array()) {
+		if (isset($aFilter['code_not']) and !is_array($aFilter['code_not'])) {
+			$aFilter['code_not']=array($aFilter['code_not']);
+		}
 		$sql = "SELECT
 				*
 			FROM
 				".Config::Get('db.table.topic_type')."
 			WHERE
 				1 = 1
-				{ and state = ?d }
+				{ and `state` = ?d }
+				{ and `code` not IN (?a) }
 			ORDER BY sort desc
 			LIMIT 0, 500
 				";
 		$aReturn=array();
-		if ($aRows=$this->oDb->select($sql,isset($aFilter['state']) ? $aFilter['state'] : DBSIMPLE_SKIP)) {
+		if ($aRows=$this->oDb->select($sql,
+									  		isset($aFilter['state']) ? $aFilter['state'] : DBSIMPLE_SKIP,
+									  		(isset($aFilter['code_not']) and $aFilter['code_not']) ? $aFilter['code_not'] : DBSIMPLE_SKIP
+		)) {
 			foreach ($aRows as $aRow) {
 				$aReturn[]=Engine::GetEntity('ModuleTopic_EntityTopicType',$aRow);
 			}
@@ -896,6 +903,15 @@ class ModuleTopic_MapperTopic extends Mapper {
 				id = ?d
 		";
 		$res=$this->oDb->query($sql,$oType->getName(),$oType->getNameMany(),$oType->getCode(),$oType->getState(),$oType->getSort(),$oType->getParams(),$oType->getId());
+		return $res===false or is_null($res) ? false : true;
+	}
+
+	public function DeleteTopicType($sTypeId) {
+		$sql = "DELETE FROM ".Config::Get('db.table.topic_type')."
+			WHERE
+				id = ?d
+		";
+		$res=$this->oDb->query($sql,$sTypeId);
 		return $res===false or is_null($res) ? false : true;
 	}
 
