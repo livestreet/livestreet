@@ -134,6 +134,54 @@ class ModuleProperty_MapperProperty extends Mapper {
 		return false;
 	}
 
+	public function RemoveValueByPropertyId($iPropertyId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.property_value')."
+                WHERE
+                	property_id = ?d
+                	";
+		if ($this->oDb->query($sql,$iPropertyId)!==false) {
+			return true;
+		}
+		return false;
+	}
+
+	public function RemoveValueTagByPropertyId($iPropertyId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.property_value_tag')."
+                WHERE
+                	property_id = ?d
+                	";
+		if ($this->oDb->query($sql,$iPropertyId)!==false) {
+			return true;
+		}
+		return false;
+	}
+
+	public function RemoveValueSelectByPropertyId($iPropertyId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.property_value_select')."
+                WHERE
+                	property_id = ?d
+                	";
+		if ($this->oDb->query($sql,$iPropertyId)!==false) {
+			return true;
+		}
+		return false;
+	}
+
+	public function RemoveSelectByPropertyId($iPropertyId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.property_select')."
+                WHERE
+                	property_id = ?d
+                	";
+		if ($this->oDb->query($sql,$iPropertyId)!==false) {
+			return true;
+		}
+		return false;
+	}
+
 	public function GetPropertyTagsByLike($sTag,$iPropertyId,$iLimit) {
 		$sTag=mb_strtolower($sTag,"UTF-8");
 		$sql = "SELECT

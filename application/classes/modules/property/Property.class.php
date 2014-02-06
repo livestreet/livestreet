@@ -750,4 +750,29 @@ class ModuleProperty extends ModuleORM {
 		}
 		return false;
 	}
+
+	public function RemoveValueByPropertyId($iPropertyId) {
+		$bRes=$this->oMapper->RemoveValueByPropertyId($iPropertyId);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntityValue_delete'));
+		return $bRes;
+	}
+
+	public function RemoveValueTagByPropertyId($iPropertyId) {
+		$bRes=$this->oMapper->RemoveValueTagByPropertyId($iPropertyId);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntityValueTag_delete'));
+		return $bRes;
+	}
+
+	public function RemoveValueSelectByPropertyId($iPropertyId) {
+		$bRes=$this->oMapper->RemoveValueSelectByPropertyId($iPropertyId);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntityValueSelect_delete'));
+		return $bRes;
+	}
+
+	public function RemoveSelectByPropertyId($iPropertyId) {
+		$bRes=$this->oMapper->RemoveSelectByPropertyId($iPropertyId);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('ModuleProperty_EntitySelect_delete'));
+		return $bRes;
+	}
+
 }
