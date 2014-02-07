@@ -372,7 +372,7 @@ class ActionStream extends Action {
 		/**
 		 * Отписываем
 		 */
-		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequestStr('id'));
+		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequestStr('iUserId'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**
