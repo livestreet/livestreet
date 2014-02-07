@@ -5,7 +5,7 @@
  *}
 
 {* Форма добавления *}
-<div class="user-list-add js-user-list-add" data-type="{$sUserListType}" data-target-id="{$iUserListId}">
+<div class="user-list-add js-user-list-add" data-type="{$sUserListType}" data-target-id="{$iUserListId}" {$sUserListAddAttributes}>
 	{* Заголовок *}
 	{if $sUserListTitle}
 		<h3 class="user-list-add-title">{$sUserListTitle}</h3>

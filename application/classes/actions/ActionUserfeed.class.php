@@ -243,10 +243,8 @@ class ActionUserfeed extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		if (!getRequest('id')) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
+		$sId=getRequestStr('id');
+
 		$sType = getRequestStr('type');
 		$iType = null;
 		/**
@@ -258,15 +256,20 @@ class ActionUserfeed extends Action {
 				break;
 			case 'users':
 				$iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
+				$sId=getRequestStr('iUserId');
 				break;
 			default:
 				$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 				return;
 		}
+		if (!$sId) {
+			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			return;
+		}
 		/**
 		 * Отписываем пользователя
 		 */
-		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, getRequestStr('id'));
+		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, $sId);
 		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
 	}
 	/**

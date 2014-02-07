@@ -14,5 +14,6 @@
 			 iUserListId = $oUserCurrent->getId()
 			 sUserListType = 'userfeed'
 			 aUserList = $aUserfeedSubscribedUsers
+			 sUserListAddAttributes = 'data-param-type="users"'
 			 sUserListNote = $aLang.userfeed_settings_note_follow_user}
 {/block}

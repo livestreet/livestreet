@@ -67,7 +67,7 @@ ls.user_list_add = (function ($) {
 			userfeed: {
 				url: {
 					add:    aRouter['feed'] + 'ajaxadduser/',
-					remove: aRouter['feed'] + 'ajaxremoveuser/'
+					remove: aRouter['feed'] + 'unsubscribe/'
 				}
 			}
 		}
@@ -131,7 +131,7 @@ ls.user_list_add = (function ($) {
 				oUserList   = oContainer.find(_this.options.selectors.user_list),
 				oEmptyAlert = oContainer.find(_this.options.selectors.user_list_empty);
 
-			_this.remove(oContainer.data('type'), oContainer.data('target-id'), oButton.data('user-id'), function (oResponse, iUserId) {
+			_this.remove(oContainer.data('type'), oContainer.data('target-id'), oButton.data('user-id'), oContainer, function (oResponse, iUserId) {
 				oContainer.find(this.options.selectors.user_item + '[data-user-id=' + iUserId + ']').fadeOut(300, function () {
 					$(this).remove();
 
@@ -183,12 +183,14 @@ ls.user_list_add = (function ($) {
 	/**
 	 * Удаление пользователя
 	 */
-	this.remove = function(sType, iTargetId, iUserId, fCallbackSuccess) {
+	this.remove = function(sType, iTargetId, iUserId, oContainer,fCallbackSuccess) {
 		var sUrl = this.options.type[sType].url.remove,
 			oParams = {
 				iTargetId: iTargetId,
 				iUserId: iUserId
 			};
+
+		oParams = $.extend({}, oParams, ls.utilities.getDataOptions(oContainer, 'param'));
 
 		ls.ajax.load(sUrl, oParams, function(oResponse) {
 			if (oResponse.bStateError) {
