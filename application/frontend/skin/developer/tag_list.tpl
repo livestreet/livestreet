@@ -20,7 +20,7 @@
 		{/foreach}
 
 		{* Персональные теги *}
-		{if $oUserCurrent && bTagsUseFavourite}
+		{if $oUserCurrent && $bTagsUseFavourite}
 			{foreach $aTagsFavourite as $sTag}
 				<li class="tag-list-item tag-list-item-tag tag-list-item-tag-personal js-tag-list-item-tag-personal">
 					, <a href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/" 

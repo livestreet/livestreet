@@ -68,7 +68,7 @@
 		{include 'tag_list.tpl'
 				 aTags = $oTopic->getTagsArray()
 				 bTagsUseFavourite = true
-				 aTagsFavourite = $oFavourite->getTagsArray()
+				 aTagsFavourite = ($oFavourite) ? $oFavourite->getTagsArray() : []
 				 sTagsFavouriteType = 'topic'
 				 iTagsFavouriteId = $oTopic->getId()}
 	{/if}
