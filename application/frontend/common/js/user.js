@@ -98,6 +98,27 @@ ls.user = (function ($) {
 			$('#modal-login').modal('show');
 			e.preventDefault();
 		});
+
+		// Добавление пользователя в свою активность
+		$('.js-user-follow').on('click', function (e) {
+			var oElement = $(this);
+
+			if (oElement.hasClass(ls.options.classes.states.active)) {
+				// Удаляем
+				ls.user_list_add.remove('activity', null, oElement.data('user-id'), function (oResponse, iUserId) {
+					oElement.removeClass(ls.options.classes.states.active).text(ls.lang.get('profile_user_follow'));
+				});
+			} else {
+				// Добавляем
+				ls.user_list_add.add('activity', null, oElement.data('user-id'), {
+					add_success: function (oResponse) {
+						oElement.addClass(ls.options.classes.states.active).text(ls.lang.get('profile_user_unfollow'));
+					}
+				});
+			}
+
+			e.preventDefault();
+		});
 	};
 
 	/**

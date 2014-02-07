@@ -26,7 +26,7 @@
 		
 		<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
 		<li>
-			<a href="#" onclick="ls.user.followToggle(this, {$oUserProfile->getId()}); return false;" class="{if $oUserProfile->isFollow()}followed{/if}">
+			<a href="#" class="js-user-follow {if $oUserProfile->isFollow()}active{/if}" data-user-id="{$oUserProfile->getId()}">
 				{if $oUserProfile->isFollow()}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
 			</a>
 		</li>
