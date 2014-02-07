@@ -61,7 +61,7 @@ ls.stream = (function ($) {
 		if (this.isBusy) return;
 
 		var $oGetMoreButton = $(oGetMoreButton),
-			$oLastId = $('#activity-last-id');
+			$oLastId = $('#activity-last-id'),
 			iLastId = $oLastId.val();
 
 		if ( ! iLastId ) return;

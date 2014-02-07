@@ -52,7 +52,7 @@ class ActionUserfeed extends Action {
 	protected function RegisterEvent() {
 		$this->AddEvent('index', 'EventIndex');
 		$this->AddEvent('subscribe', 'EventSubscribe');
-		$this->AddEvent('subscribeByLogin', 'EventSubscribeByLogin');
+		$this->AddEvent('ajaxadduser', 'EventAjaxAddUser');
 		$this->AddEvent('unsubscribe', 'EventUnSubscribe');
 		$this->AddEvent('get_more', 'EventGetMore');
 	}
@@ -176,47 +176,63 @@ class ActionUserfeed extends Action {
 	 * Подписка на пользвователя по логину
 	 *
 	 */
-	protected function EventSubscribeByLogin() {
+	protected function EventAjaxAddUser() {
 		/**
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
+		$sUsers=getRequestStr('sUserList',null,'post');
 		/**
-		 * Передан ли логин
+		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
-		if (!getRequest('login') or !is_string(getRequest('login'))) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+		if (!$this->User_IsAuthorization()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
+		$aUsers=explode(',',$sUsers);
+
+		$aResult=array();
 		/**
-		 * Проверяем существование прользователя
+		 * Обрабатываем добавление по каждому из переданных логинов
 		 */
-		$oUser = $this->User_getUserByLogin(getRequestStr('login'));
-		if (!$oUser) {
-			$this->Message_AddError($this->Lang_Get('user_not_found',array('login'=>htmlspecialchars(getRequestStr('login')))),$this->Lang_Get('error'));
-			return;
+		foreach ($aUsers as $sUser) {
+			$sUser=trim($sUser);
+			if ($sUser=='') {
+				continue;
+			}
+			/**
+			 * Если пользователь не найден или неактивен, возвращаем ошибку
+			 */
+			if ($oUser=$this->User_GetUserByLogin($sUser) and $oUser->getActivate()==1) {
+				$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
+
+				$oViewer = $this->Viewer_GetLocalViewer();
+				$oViewer->Assign('oUser', $oUser);
+				$oViewer->Assign('bUserListSmallShowActions', true);
+
+				$aResult[]=array(
+					'bStateError'=>false,
+					'sMsgTitle'=>$this->Lang_Get('attention'),
+					'sMsg'=>$this->Lang_Get('common.success.add',array('login'=>htmlspecialchars($sUser))),
+					'sUserId'=>$oUser->getId(),
+					'sUserLogin'=>htmlspecialchars($sUser),
+					'sUserWebPath'=>$oUser->getUserWebPath(),
+					'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
+					'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
+				);
+			} else {
+				$aResult[]=array(
+					'bStateError'=>true,
+					'sMsgTitle'=>$this->Lang_Get('error'),
+					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser))),
+					'sUserLogin'=>htmlspecialchars($sUser)
+				);
+			}
 		}
 		/**
-		 * Не даем подписаться на самого себя
+		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
 		 */
-		if ($this->oUserCurrent->getId() == $oUser->getId()) {
-			$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Подписываем
-		 */
-		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER, $oUser->getId());
-		/**
-		 * Загружаем данные ajax ответ
-		 */
-		$this->Viewer_AssignAjax('uid', $oUser->getId());
-		$this->Viewer_AssignAjax('user_login', $oUser->getLogin());
-		$this->Viewer_AssignAjax('user_web_path', $oUser->getUserWebPath());
-		$this->Viewer_AssignAjax('user_avatar_48', $oUser->getProfileAvatarPath(48));
-		$this->Viewer_AssignAjax('lang_error_msg', $this->Lang_Get('userfeed_subscribes_already_subscribed'));
-		$this->Viewer_AssignAjax('lang_error_title', $this->Lang_Get('error'));
-		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+		$this->Viewer_AssignAjax('aUsers',$aResult);
 	}
 	/**
 	 * Отписка от блога или пользователя

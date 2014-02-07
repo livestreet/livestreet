@@ -69,7 +69,7 @@ ls.user_list_add = (function ($) {
 					add:    aRouter['feed'] + 'ajaxadduser/',
 					remove: aRouter['feed'] + 'ajaxremoveuser/'
 				}
-			},
+			}
 		}
 	};
 
