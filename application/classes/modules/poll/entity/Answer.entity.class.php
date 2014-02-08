@@ -37,16 +37,6 @@ class ModulePoll_EntityAnswer extends EntityORM {
 		return true;
 	}
 
-	protected function afterDelete() {
-		/**
-		 * Удаляем голосования
-		 */
-		$aVoteItems=$this->Poll_GetVoteItemsByAnswerId($this->getId());
-		foreach($aVoteItems as $oVote) {
-			$oVote->Delete();
-		}
-	}
-
 	public function ValidateCheckTitle() {
 		$this->setTitle(htmlspecialchars($this->getTitle()));
 		return true;

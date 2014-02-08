@@ -70,6 +70,13 @@ class ModulePoll_EntityPoll extends EntityORM {
 		foreach($aAnswerItems as $oAnswer) {
 			$oAnswer->Delete();
 		}
+		/**
+		 * Удаляем голосования
+		 */
+		$aVoteItems=$this->Poll_GetVoteItemsByPollId($this->getId());
+		foreach($aVoteItems as $oVote) {
+			$oVote->Delete();
+		}
 	}
 
 	public function ValidateCheckTitle() {
