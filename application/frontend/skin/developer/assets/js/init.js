@@ -266,7 +266,7 @@ jQuery(document).ready(function($){
 
 	// Временный костыль для сабмита форм
 	// TODO: Перенести в плагин button
-	$('button[data-button-submit-form]').on('click', function () {
+	$(document).on('click', 'button[data-button-submit-form]', function () {
 		$( '#' + $(this).data('button-submit-form') ).submit();
 	});
 

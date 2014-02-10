@@ -415,6 +415,36 @@ return array(
 	),
 
 	/**
+	 * Опросы
+	 */
+	'poll' => array(
+		'vote' => 'Голосовать',
+		'abstain' => 'Воздержаться',
+
+		// Результат
+		'result' => array(
+			'voted_total'     => 'Проголосовало',
+			'abstained_total' => 'Воздержалось',
+			'sort'            => 'Включить\выключить сортировку',
+		),
+
+		// Форма добавления
+		'form' => array(
+			'title' => array(
+				'add'  => 'Добавление опроса',
+				'edit' => 'Редактирование опроса',
+			),
+			'answers_title' => 'Варианты ответов',
+		),
+		
+		// Всплывающие сообщения
+		'notices' => array(
+			// TODO: Fix max number
+			'error_answers_max' => 'Максимально возможное число вариантов ответа 20',
+		),
+	),
+
+	/**
 	 * Почта
 	 */
 	'talk_filter_error' => 'Ошибка фильтрации',
@@ -607,33 +637,6 @@ return array(
 	'topic_preview' => 'Предпросмотр',
 	'topic_delete' => 'Удалить',
 	'topic_delete_confirm' => 'Вы действительно хотите удалить топик?',
-	/**
-	 * Топик-опрос
-	 */
-	'topic_question_title' => 'Опросы',
-	'topic_question_title_edit' => 'Редактирование опроса',
-	'topic_question_title_create' => 'Добавление опроса',
-	'topic_question_vote' => 'Голосовать',
-	'topic_question_vote_ok' => 'Ваш голос учтен.',
-	'topic_question_vote_already' => 'Ваш голос уже учтен!',
-	'topic_question_vote_result' => 'Проголосовало',
-	'topic_question_vote_result_sort' => 'Включить\выключить сортировку',
-	'topic_question_abstain' => 'Воздержаться',
-	'topic_question_abstain_result' => 'Воздержалось',
-	'topic_question_create' => 'Создание топика-опроса',
-	'topic_question_edit' => 'Редактирование топика-опроса',
-	'topic_question_create_title' => 'Вопрос',
-	'topic_question_create_title_notice' => 'Вопрос должен быть наполнен смыслом, чтобы можно было понять, о чем будет опрос.',
-	'topic_question_create_title_error' => 'Вопрос должен быть от 2 до 200 символов',
-	'topic_question_create_answers' => 'Варианты ответов',
-	'topic_question_create_answers_add' => 'Добавить вариант',
-	'topic_question_create_answers_delete' => 'Удалить',
-	'topic_question_create_answers_error' => 'Ответ должен быть от 1 до 100 символов',
-	'topic_question_create_answers_error_min' => 'Вариантов ответа должно быть как минимум два',
-	'topic_question_create_answers_error_max' => 'Максимально возможное число вариантов ответа 20',
-	'topic_question_create_text' => 'Краткое описание (максимум 500 символов)',
-	'topic_question_create_text_notice' => 'HTML-теги запрещены',
-	'topic_question_create_text_error' => 'Описание опроса должно быть не более 500 символов',
 	/**
 	 * Голосование за топик
 	 */
