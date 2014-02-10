@@ -15,42 +15,54 @@ ls.poll = (function ($) {
 	 * Дефолтные опции
 	 */
 	var defaults = {
-		// Роутер голосования
-		sRouterVoteUrl: aRouter['ajax'] + 'poll/vote/',
+		// Роутеры
+		routers: {
+			vote:   aRouter['ajax'] + 'poll/vote/',
+			add:    aRouter['ajax'] + 'poll/create/',
+			update: aRouter['ajax'] + 'poll/update/',
+			remove: aRouter['ajax'] + 'poll/remove/',
+		},
+
+		// Селекторы
+		selectors: {
+			modal: '#modal-poll-create',
+			
+			poll: {
+				poll:      '.js-poll',
+				vote_form: '.js-poll-vote-form',
+				vote:      '.js-poll-vote',
+				abstain:   '.js-poll-abstain',
+			},
+
+			form: {
+				list:        '.js-poll-form-list',
+				item:        '.js-poll-form-list-item',
+				item_remove: '.js-poll-form-list-item-remove',
+				submit:      '.js-poll-form-submit'
+			},
+
+			answer: {
+				list: '.js-poll-form-answer-list',
+				add:  '.js-poll-form-answer-add',
+				item: {
+					item:   '.js-poll-form-answer-item',
+					text:   '.js-poll-form-answer-item-text',
+					id:     '.js-poll-form-answer-item-id',
+					remove: '.js-poll-form-answer-item-remove',
+				}
+			},
+
+			// Селекторы результата опроса
+			result: {
+				container: '.js-poll-result',
+				item:      '.js-poll-result-item',
+				sort:      '.js-poll-result-sort',
+			}
+		},
 
 		// Максимальное кол-во вариантов ответов
-		iMaxItems: 20,
-
-		// Селекторы добавления опроса
-		sAddSelector:           '.js-poll-add',
-		sAddListSelector:       '.js-poll-add-list',
-		sAddItemSelector:       '.js-poll-add-item',
-		sAddItemRemoveSelector: '.js-poll-add-item-remove',
-		sAddItemInputSelector:  '.js-poll-add-item-input',
-		sAddButtonSelector:     '.js-poll-add-button',
-
-		// Селекторы опроса
-		sPollSelector:              '.js-poll',
-		sPollItemOptionSelector:    '.js-poll-item-option',
-		sPollButtonVoteSelector:    '.js-poll-button-vote',
-		sPollButtonAbstainSelector: '.js-poll-button-abstain',
-
-		// Селекторы результата опроса
-		sPollResultSelector:           '.js-poll-result',
-		sPollResultItemSelector:       '.js-poll-result-item',
-		sPollResultButtonSortSelector: '.js-poll-result-button-sort',
-
-		// Html варианта ответа
-		sAddItemHtml: '<li class="poll-add-item js-poll-add-item">' +
-					      '<input type="checkbox" disabled="disabled">' +
-					      '<input type="hidden" name="answers[_NUMBER_][id]" value="_ANSWER_ID_">' +
-					      '<input type="text" name="answers[_NUMBER_][title]" class="poll-add-item-input js-poll-add-item-input" value="_ANSWER_TITLE_">' +
-					      '<i class="icon-remove poll-add-item-remove js-poll-add-item-remove" title="' + ls.lang.get('delete') + '"></i>' +
-					  '</li>'
+		iMaxAnswers: 20,
 	};
-
-	this.aAnswersInit=[];
-	this.iCountAnswers=0;
 
 	/**
 	 * Инициализация
@@ -58,175 +70,167 @@ ls.poll = (function ($) {
 	 * @param  {Object} options Опции
 	 */
 	this.init = function(options) {
-		var self = this;
+		var _this = this;
 
 		this.options = $.extend({}, defaults, options);
 
-		$(this.options.sPollSelector).each(function () {
+		/**
+		 * Форма добавления
+		 */
+
+		// Сабмит формы
+		$(document).on('submit', '#form-poll-create', function (e) {
+			var oForm = $(this);
+
+			_this[ oForm.data('action') == 'add' ? 'add' : 'update' ](oForm, $(_this.options.selectors.form.submit));
+
+			e.preventDefault();
+		});
+
+		// Добавление варианта
+		$(document).on('click', this.options.selectors.answer.add, function () {
+			_this.answerAdd($(_this.options.selectors.answer.list));
+		});
+
+		// Добавление варианта по нажатию Ctrl + Enter
+		$(document).on('keyup', this.options.selectors.answer.text, function (e) {
+			var key = e.keyCode || e.which;
+
+			if (e.ctrlKey && key == 13) {
+				_this.answerAdd($(_this.options.selectors.answer.list));
+			}
+		});
+
+		// Удаление варианта
+		$(document).on('click', this.options.selectors.answer.item.remove, function () {
+			_this.answerRemove($(this));
+		});
+
+		// Удаление опроса
+		$(document).on('click', this.options.selectors.form.item_remove, function () {
+			var oButton = $(this),
+				oItem = oButton.closest(_this.options.selectors.form.item);
+
+			_this.remove(oItem.data('poll-id'), oItem.data('poll-target-tmp'));
+		});
+
+
+		/**
+		 * Опрос
+		 */
+
+		$(this.options.selectors.poll.poll).each(function () {
 			var oPoll = $(this),
 				iPollId = oPoll.data('poll-id');
 
 			// Голосование за вариант
-			oPoll.find(self.options.sPollButtonVoteSelector).on('click', function () {
+			oPoll.find(_this.options.selectors.poll.vote).on('click', function () {
 				var form = oPoll.find('form');
 
-				self.vote(form,this);
+				_this.vote(form, $(this));
 			});
+
 			// Воздержаться
-			oPoll.find(self.options.sPollButtonAbstainSelector).on('click', function () {
+			oPoll.find(_this.options.selectors.poll.abstain).on('click', function () {
 				var form = oPoll.find('form');
 
-				self.vote(form,this,true);
+				_this.vote(form, $(this), true);
 			});
+
 			// Сортировка
-			oPoll.on('click', self.options.sPollResultButtonSortSelector, function () {
-				self.toggleSort(oPoll);
+			oPoll.on('click', _this.options.selectors.result.sort, function () {
+				_this.toggleSort(oPoll);
 			});
 		});
 	};
 
-	this.initFormUpdate = function() {
-		this.initFormCreate();
+	/**
+	 * Добавление опроса
+	 */
+	this.add = function(oForm, oButton) {
+		ls.ajax.submit(this.options.routers.add, oForm, function(result) {
+			$(this.options.selectors.form.list).append(result.sPollItem);
+			$(this.options.selectors.modal).modal('hide');
+		}.bind(this), { submitButton: oButton });
 	};
 
-	this.initFormCreate = function() {
-		var self = this;
-
-		var oPollAdd=$('#form-poll-create').find(self.options.sAddSelector);
-		$.each(self.aAnswersInit,function(k,v){
-			self.addItem(oPollAdd,v);
-		});
-
-
-		$(this.options.sAddSelector).each(function () {
-			var oPollAdd = $(this);
-
-			// Добавление варианта
-			oPollAdd.find(self.options.sAddButtonSelector).on('click', function () {
-				self.addItem(oPollAdd);
-			}.bind(self));
-
-			// Добавление варианта по нажатию Ctrl + Enter
-			oPollAdd.on('keyup', self.options.sAddItemInputSelector, function (e) {
-				var key = e.keyCode || e.which;
-
-				if (e.ctrlKey && key == 13) {
-					self.addItem(oPollAdd);
-				}
-			});
-
-			// Удаление
-			oPollAdd.on('click', self.options.sAddItemRemoveSelector, function () {
-				self.removeItem(this);
-			});
-		});
+	/**
+	 * Обновление опроса
+	 */
+	this.update = function(oForm, oButton) {
+		ls.ajax.submit(this.options.routers.update, oForm, function(result) {
+			$(this.options.selectors.form.item + '[data-poll-id=' + result.iPollId + ']').replaceWith(result.sPollItem);
+			$(this.options.selectors.modal).modal('hide');
+		}.bind(this), { submitButton: oButton });
 	};
 
-	this.createPoll = function(form,button) {
-		ls.ajax.submit(aRouter.ajax+'poll/create/', form, function(result){
-			$('#poll-form-items').append(result.sPollItem);
-
-			$('#modal-poll-create').modal('hide');
-		},{ submitButton: $(button) });
-	};
-
-	this.updatePoll = function(form,button) {
-		ls.ajax.submit(aRouter.ajax+'poll/update/', form, function(result){
-			$('#poll-form-item-'+result.iPollId).replaceWith(result.sPollItem);
-
-			$('#modal-poll-create').modal('hide');
-		},{ submitButton: $(button) });
-	};
-
-	this.removePoll = function(id,tmp) {
-		ls.ajax.load(aRouter.ajax+'poll/remove/', { id: id, tmp: tmp }, function(result){
+	/**
+	 * Удаление опроса
+	 */
+	this.remove = function(iId, tmp) {
+		ls.ajax.load(this.options.routers.remove, { id: iId, tmp: tmp }, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				$('#poll-form-item-'+id).fadeOut('slow', function() {
+				$(this.options.selectors.form.item + '[data-poll-id=' + iId + ']').fadeOut('slow', function() {
 					$(this).remove();
 				});
 			}
-		});
-		return false;
+		}.bind(this));
 	};
 
 	/**
 	 * Добавляет вариант ответа
 	 * 
-	 * @param  {Object} oPollAdd Блок добавления опроса
+	 * @param {Object} oAnswerList Блок с ответами
 	 */
-	this.addItem = function(oPollAdd,params) {
-		var defaults = {
-			number: "0",
-			answer_id: '',
-			answer_title: '',
-			disable_remove: false,
-			disable_update: false
-		}
-		params = $.extend({}, defaults, params);
+	this.answerAdd = function(oAnswerList) {
+		var iAnswersCount = oAnswerList.find(this.options.selectors.answer.item.item).length;
 
-		if(oPollAdd.find(this.options.sAddItemSelector).length == this.options.iMaxItems) {
-			ls.msg.error(null, ls.lang.get('topic_question_create_answers_error_max'));
+		if (iAnswersCount == this.options.iMaxAnswers) {
+			ls.msg.error(null, ls.lang.get('poll.notices.error_answers_max'));
 			return false;
 		}
 
-		var self = this,
-			sTpl = this.options.sAddItemHtml;
+		var oAnswerItem     = $(this.options.selectors.answer.item.item + '[data-is-template=true]').clone().removeAttr('data-is-template').show(),
+			oAnswerItemText = oAnswerItem.find(this.options.selectors.answer.item.text),
+			oAnswerItemId   = oAnswerItem.find(this.options.selectors.answer.item.id);
 
-		sTpl = sTpl.replace(/_NUMBER_/g, this.iCountAnswers);
-		sTpl = sTpl.replace(/_ANSWER_ID_/g, params.answer_id);
-		sTpl = sTpl.replace(/_ANSWER_TITLE_/g, params.answer_title);
-
-
-		oNewItem = $(sTpl);
-		if (params.disable_remove) {
-			oNewItem.find(this.options.sAddItemRemoveSelector).remove();
-		}
-		if (params.disable_update) {
-			oNewItem.find(this.options.sAddItemInputSelector).attr('disabled','disabled');
-		}
-
-		oPollAdd.find(this.options.sAddListSelector).append(oNewItem);
-		oNewItem.find('input[type=text]').focus();
-		this.iCountAnswers++;
+		oAnswerList.append(oAnswerItem);
+		oAnswerItemId.attr('name', 'answers[' + iAnswersCount + '][id]');
+		oAnswerItemText.attr('name', 'answers[' + iAnswersCount + '][title]').focus();
 	};
 
-	this.addItemInit = function(params) {
-		this.aAnswersInit.push(params);
-	};
-
-	this.clearItemInit = function() {
-		this.aAnswersInit=[];
-	};
-	
 	/**
 	 * Удаляет вариант ответа
 	 * 
-	 * @param  {Number} oRemoveButton Кнопка удаления
+	 * @param  {Object} oRemoveButton Кнопка удаления
 	 */
-	this.removeItem = function(oRemoveButton) {
-		$(oRemoveButton).closest(this.options.sAddItemSelector).remove();
+	this.answerRemove = function(oRemoveButton) {
+		oRemoveButton.closest(this.options.selectors.answer.item.item).fadeOut(200, function () {
+			$(this).remove();
+		});
 	};
-	
+
 	/**
 	 * Голосование в опросе
 	 * 
-	 * @param  {Object} form Форма с данными опроса
-	 * @param  {Object} button Копка для анимации загрузки
+	 * @param  {Object}  oForm     Форма с данными опроса
+	 * @param  {Object}  oButton   Копка для анимации загрузки
+	 * @param  {Boolean} bAbstain  Воздержаться при голосовании
 	 */
-	this.vote = function(form,button,abstain) {
-		form=$(form);
-		var formData=form.serializeJSON();
+	this.vote = function(oForm, oButton, bAbstain) {
+		var oFormData = oForm.serializeJSON();
 
 		ls.hook.marker('voteBefore');
 
-		ls.ajax.submit(this.options.sRouterVoteUrl, form, function(result){
-			var oPoll = $('[data-poll-id=' + formData.id + ']');
+		ls.ajax.submit(this.options.routers.vote, oForm, function(result) {
+			var oPoll = $(this.options.selectors.poll.poll + '[data-poll-id=' + oFormData.id + ']').find(this.options.selectors.poll.vote_form);
+
 			oPoll.html(result.sText);
 
-			ls.hook.run('ls_pool_vote_after', [form, result], oPoll);
-		}, { submitButton: $(button), params: { abstain: abstain ? 1 : 0 } });
+			ls.hook.run('ls_pool_vote_after', [oForm, result], oPoll);
+		}.bind(this), { submitButton: oButton, params: { abstain: bAbstain ? 1 : 0 } });
 	};
 
 	/**
@@ -235,10 +239,10 @@ ls.poll = (function ($) {
 	 * @param  {Object} oPoll Блок опроса
 	 */
 	this.toggleSort = function(oPoll) {
-		var oButton     = oPoll.find(this.options.sPollResultButtonSortSelector),
-			oPollResult = oPoll.find(this.options.sPollResultSelector),
-			aItems      = oPollResult.find(this.options.sPollResultItemSelector),
-			sSortType   = oButton.hasClass('active') ? 'poll-item-pos' : 'poll-item-count';
+		var oButton     = oPoll.find(this.options.selectors.result.sort),
+			oPollResult = oPoll.find(this.options.selectors.result.container),
+			aItems      = oPollResult.find(this.options.selectors.result.item),
+			sSortType   = oButton.hasClass(ls.options.classes.states.active) ? 'poll-item-pos' : 'poll-item-count';
 
 		aItems.sort(function (a, b) {
 			a = $(a).data(sSortType);
@@ -253,7 +257,7 @@ ls.poll = (function ($) {
 		    }
 		});
 
-		oButton.toggleClass('active');
+		oButton.toggleClass(ls.options.classes.states.active);
 		oPollResult.empty().append(aItems);
 	};
 	

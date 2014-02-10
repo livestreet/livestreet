@@ -1,26 +1,28 @@
 /**
  * Опросы
  *
- * @template topics/topic.question.tpl
+ * @template polls/*.tpl
  * 
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.poll                 { margin-bottom: 15px; background: #fafafa; padding: 15px; }
+.poll { margin-bottom: 15px; background: #fafafa; padding: 15px; }
 
-.poll-list            { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.poll-title { font-size: 20px; margin-bottom: 10px; }
 
-.poll-item            { margin-bottom: 10px; }
-.poll-item:last-child { margin-bottom: 0; }
-.poll-item label      { display: inline; }
+.poll-answer-list            { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+
+.poll-answer-list-item            { margin-bottom: 10px; }
+.poll-answer-list-item:last-child { margin-bottom: 0; }
+.poll-answer-list-item label      { display: inline; }
 
 
 /**
  * Результат опроса
  *
- * @template topics/poll_result.tpl
+ * @template polls/poll.result.tpl
  */
 .poll-result                   { margin-bottom: 10px; padding: 15px 15px 0; background: #fff; border: 1px solid #eee; }
 .poll-result-item              { margin-bottom: 20px; overflow: hidden; zoom: 1; }
@@ -38,9 +40,11 @@
 /**
  * Создание опроса
  *
- * @template actions/ActionQuestion/add.tpl
+ * @template polls/poll.form.tpl
  */
-.poll-add-item            { margin-bottom: 10px; padding-right: 25px; position: relative; }
-.poll-add-item:last-child { margin-bottom: 0; }
-.poll-add-item-input      { width: 100%; }
-.poll-add-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }
+.poll-form-answer-item            { margin-bottom: 10px; padding-right: 25px; position: relative; }
+.poll-form-answer-item:last-child { margin-bottom: 0; }
+.poll-form-answer-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }
+
+.poll-form-list { }
+.poll-form-list-item { padding: 10px 70px 10px 15px; background: #fff; margin-bottom: 1px; position: relative; }

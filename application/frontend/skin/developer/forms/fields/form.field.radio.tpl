@@ -1,5 +1,5 @@
 {**
- * Чекбокс
+ * 
  *}
 
 {extends file='forms/fields/form.field.base.tpl'}
@@ -10,7 +10,7 @@
 
 {block name='field_holder' prepend}
 	{if $sFieldLabel}<label>{/if}
-	<input type="checkbox"
+	<input type="radio"
 		   id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}"
 		   name="{$sFieldName}"
 		   value="{if $sFieldValue}{$sFieldValue}{else}1{/if}"
