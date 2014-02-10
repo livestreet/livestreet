@@ -299,6 +299,7 @@ class ActionAjax extends Action {
 
 		if (!$oPoll->isAllowRemove()) {
 			$this->Message_AddError('Этот опрос уже нельзя удалить');
+			return;
 		}
 
 		/**

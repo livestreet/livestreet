@@ -55,7 +55,7 @@
 							 oPollItem          = $oAnswer
 							 iPollItemIndex     = $oAnswer@index
 							 bPollIsAllowUpdate = $oPoll->isAllowUpdate()
-							 bPollIsAllowRemove = $oPoll->isAllowUpdate() || ! $oAnswer->getCountVote()}
+							 bPollIsAllowRemove = $oPoll->isAllowUpdate() && ! $oAnswer->getCountVote()}
 				{/foreach}
 			{else}
 				{include 'polls/poll.form.answers.item.tpl'}

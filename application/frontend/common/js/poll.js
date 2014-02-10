@@ -20,7 +20,7 @@ ls.poll = (function ($) {
 			vote:   aRouter['ajax'] + 'poll/vote/',
 			add:    aRouter['ajax'] + 'poll/create/',
 			update: aRouter['ajax'] + 'poll/update/',
-			remove: aRouter['ajax'] + 'poll/remove/',
+			remove: aRouter['ajax'] + 'poll/remove/'
 		},
 
 		// Селекторы
@@ -31,7 +31,7 @@ ls.poll = (function ($) {
 				poll:      '.js-poll',
 				vote_form: '.js-poll-vote-form',
 				vote:      '.js-poll-vote',
-				abstain:   '.js-poll-abstain',
+				abstain:   '.js-poll-abstain'
 			},
 
 			form: {
@@ -48,7 +48,7 @@ ls.poll = (function ($) {
 					item:   '.js-poll-form-answer-item',
 					text:   '.js-poll-form-answer-item-text',
 					id:     '.js-poll-form-answer-item-id',
-					remove: '.js-poll-form-answer-item-remove',
+					remove: '.js-poll-form-answer-item-remove'
 				}
 			},
 
@@ -56,12 +56,12 @@ ls.poll = (function ($) {
 			result: {
 				container: '.js-poll-result',
 				item:      '.js-poll-result-item',
-				sort:      '.js-poll-result-sort',
+				sort:      '.js-poll-result-sort'
 			}
 		},
 
 		// Максимальное кол-во вариантов ответов
-		iMaxAnswers: 20,
+		iMaxAnswers: 20
 	};
 
 	/**
