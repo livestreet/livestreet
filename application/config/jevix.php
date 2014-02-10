@@ -25,6 +25,10 @@ return array(
 				'gallery',
 				array('items'=>'#text','nav'=>array('thumbs'),'caption'=>array('0','1'))
 			),
+			array(
+				'a',
+				array('data-rel'=>'#text', 'class'=>array('js-lbx'))
+			),
 		),
 		'cfgSetTagCallbackFull' => array(
 			array(

@@ -555,6 +555,12 @@ class ActionAjax extends Action {
 			'align'=>getRequestStr('align'),
 			'size'=>getRequestStr('size')
 		);
+		/**
+		 * Если изображений несколько, то генерируем идентификатор группы для лайтбокса
+		 */
+		if (count($aMediaItems)>1) {
+			$aParams['lbx_group']=rand(1,100);
+		}
 
 		$sTextResult='';
 		foreach($aMediaItems as $oMedia) {

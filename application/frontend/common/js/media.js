@@ -264,7 +264,11 @@ ls.media = (function ($) {
 			e.preventDefault();
 		}.bind(this));
 
-		this.loadImageList();
+		// После показа модального подгружаем контент
+		this.elements.modal.on('modalaftershow',function(){
+			this.loadImageList();
+		}.bind(this));
+
 		this.bindFileEvents();
 	};
 

@@ -35,6 +35,7 @@ $aCss=array(
 	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.css",
 	"___path.framework.frontend.web___/js/vendor/fotorama/fotorama.css",
 	"___path.framework.frontend.web___/js/vendor/nprogress/nprogress.css",
+	"___path.framework.frontend.web___/js/vendor/colorbox/colorbox.css",
 	"___path.skin.assets.web___/css/grid.css",
 	"___path.skin.assets.web___/css/forms.css",
 	"___path.skin.assets.web___/css/common.css",

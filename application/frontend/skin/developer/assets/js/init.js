@@ -257,7 +257,12 @@ jQuery(document).ready(function($){
 	 * Блок добавления пользователей
 	 */
 	ls.user_list_add.init();
-	
+
+	/**
+	 * Лайтбокс
+	 */
+	$('a.js-lbx').colorbox({ width:"100%", height:"100%" });
+
 
 	// Временный костыль для сабмита форм
 	// TODO: Перенести в плагин button

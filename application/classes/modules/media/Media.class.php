@@ -366,7 +366,11 @@ class ModuleMedia extends ModuleORM {
 			}
 			if ($bNeedHref) {
 				$sCode.=' />';
-				$sCode='<a href="'.$oMedia->getFileWebPath().'" '.$sDataParams.'>'.$sCode.'</a>';
+				$sLbxGroup='';
+				if (isset($aParams['lbx_group'])) {
+					$sLbxGroup=' data-rel="'.htmlspecialchars($aParams['lbx_group']).'"';
+				}
+				$sCode='<a class="js-lbx" '.$sLbxGroup.' href="'.$oMedia->getFileWebPath().'" '.$sDataParams.'>'.$sCode.'</a>';
 			} else {
 				$sCode.=$sDataParams.' />';
 			}
