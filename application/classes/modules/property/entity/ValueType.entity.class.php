@@ -22,6 +22,7 @@
 class ModuleProperty_EntityValueType extends Entity {
 
 	public function getValueForDisplay() {
+		// TODO: getValue() всегда вернет null
 		return $this->getValueObject()->getValue();
 	}
 
@@ -33,7 +34,7 @@ class ModuleProperty_EntityValueType extends Entity {
 		return 'Неверное значение';
 	}
 
-	protected function validateStandart($sTypeValidator,$aParamsAdditional=array()) {
+	protected function validateStandart($sTypeValidator,$aParamsAdditional=array(),$sFieldForValidate='value_for_validate') {
 		$oProperty=$this->getValueObject()->getProperty();
 		/**
 		 * Получаем параметры валидации
@@ -45,7 +46,7 @@ class ModuleProperty_EntityValueType extends Entity {
 		$aParams=array_merge($aParams,$aParamsAdditional);
 
 		$oValidator=$this->Validate_CreateValidator($sTypeValidator,$this,null,$aParams);
-		$oValidator->fields=array('value_for_validate');
+		$oValidator->fields=array($sFieldForValidate);
 		$oValidator->validateEntity($this);
 		if ($this->_hasValidateErrors()) {
 			return $this->_getValidateError();
@@ -64,6 +65,7 @@ class ModuleProperty_EntityValueType extends Entity {
 		$oValue->setValueFloat(null);
 		$oValue->setValueVarchar(null);
 		$oValue->setValueText(null);
+		$oValue->setValueDate(null);
 		$oValue->setData(null);
 		/**
 		 * Удаляем из таблицы тегов
@@ -79,7 +81,15 @@ class ModuleProperty_EntityValueType extends Entity {
 		return array();
 	}
 
+	public function getValidateRulesDefault() {
+		return array();
+	}
+
 	public function prepareParamsRaw($aParamsRaw) {
+		return array();
+	}
+
+	public function getParamsDefault() {
 		return array();
 	}
 

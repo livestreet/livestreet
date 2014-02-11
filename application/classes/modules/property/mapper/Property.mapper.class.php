@@ -36,7 +36,8 @@ class ModuleProperty_MapperProperty extends Mapper {
                     p.code  as prop_code,
                     p.title  as prop_title,
                     p.date_create  as prop_date_create,
-                    p.sort  as prop_sort
+                    p.sort  as prop_sort,
+                    p.params  as prop_params
                 FROM ".Config::Get('db.table.property')." AS p
                 	 LEFT JOIN ".Config::Get('db.table.property_value')." as v on ( v.property_id=p.id and v.target_id = ?d )
                 WHERE
@@ -87,7 +88,8 @@ class ModuleProperty_MapperProperty extends Mapper {
                     p.code  as prop_code,
                     p.title  as prop_title,
                     p.date_create  as prop_date_create,
-                    p.sort  as prop_sort
+                    p.sort  as prop_sort,
+                    p.params  as prop_params
                 FROM ".Config::Get('db.table.property')." AS p
                 	 LEFT JOIN ".Config::Get('db.table.property_value')." as v on ( v.property_id=p.id and v.target_id IN ( ?a ) )
                 WHERE

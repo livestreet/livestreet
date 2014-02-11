@@ -483,3 +483,9 @@ ALTER TABLE `prefix_poll_vote`
 ALTER TABLE `prefix_poll_vote` DROP FOREIGN KEY `prefix_poll_vote_ibfk_2` ;
 ALTER TABLE `prefix_poll_vote` DROP `answer_id` ;
 ALTER TABLE `prefix_poll_vote` ADD `answers` VARCHAR( 500 ) NOT NULL AFTER `user_id` ;
+
+
+-- 11.02.2014
+ALTER TABLE `prefix_property` CHANGE `type` `type` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text';
+ALTER TABLE `prefix_property_value` ADD `value_date` DATETIME NULL DEFAULT NULL AFTER `value_varchar` ,
+ADD INDEX ( `value_date` ) ;

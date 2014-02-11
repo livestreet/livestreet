@@ -88,9 +88,25 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		return true;
 	}
 
+	/**
+	 * Выполняется перед сохранением сущности
+	 *
+	 * @return bool
+	 */
 	protected function beforeSave() {
 		if ($this->_isNew()) {
 			$this->setDateCreate(date("Y-m-d H:i:s"));
+
+			$oValue=Engine::GetEntity('ModuleProperty_EntityValue',array('property_type'=>$this->getType(),'property_id'=>$this->getId(),'target_type'=>$this->getTargetType(),'target_id'=>$this->getId()));
+			$oValueType=$oValue->getValueTypeObject();
+			/**
+			 * Выставляем дефолтные значения параметров
+			 */
+			$this->setParams($oValueType->getParamsDefault());
+			/**
+			 * Выставляем дефолтные значения параметров валидации
+			 */
+			$this->setValidateRules($oValueType->getValidateRulesDefault());
 		}
 		return true;
 	}
@@ -131,6 +147,16 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		return $aData;
 	}
 	/**
+	 * Возвращает экранированный список правил валидации
+	 *
+	 * @return array
+	 */
+	public function getValidateRulesEscape() {
+		$aRules=$this->getValidateRules();
+		func_htmlspecialchars($aRules);
+		return $aRules;
+	}
+	/**
 	 * Возвращает конкретное правило валидации
 	 *
 	 * @param string $sRule
@@ -163,6 +189,16 @@ class ModuleProperty_EntityProperty extends EntityORM {
 			$aData=array();
 		}
 		return $aData;
+	}
+	/**
+	 * Возвращает экранированный список параметров
+	 *
+	 * @return array
+	 */
+	public function getParamsEscape() {
+		$aParams=$this->getParams();
+		func_htmlspecialchars($aParams);
+		return $aParams;
 	}
 	/**
 	 * Устанавливает список дополнительных параметров поля
