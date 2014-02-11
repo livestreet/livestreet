@@ -272,6 +272,19 @@ class ModuleProperty_MapperProperty extends Mapper {
 		return false;
 	}
 
+	public function UpdatePropertyTargetByTargetType($sTargetType,$sTargetTypeNew) {
+		$sql = "UPDATE
+                 ".Config::Get('db.table.property_target')."
+                SET type = ?
+                WHERE
+                	type = ?
+                	";
+		if ($this->oDb->query($sql,$sTargetTypeNew, $sTargetType)!==false) {
+			return true;
+		}
+		return false;
+	}
+
 	public function UpdatePropertySelectByTargetType($sTargetType,$sTargetTypeNew) {
 		$sql = "UPDATE
                  ".Config::Get('db.table.property_select')."

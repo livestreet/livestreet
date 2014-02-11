@@ -30,6 +30,7 @@ class ModuleProperty extends ModuleORM {
 	const PROPERTY_TYPE_TAGS='tags';
 	const PROPERTY_TYPE_VIDEO_LINK='video_link';
 	const PROPERTY_TYPE_SELECT='select';
+	const PROPERTY_TYPE_DATE='date';
 	/**
 	 * Список состояний типов объектов
  	 */
@@ -44,7 +45,9 @@ class ModuleProperty extends ModuleORM {
 	 * @var array
 	 */
 	protected $aPropertyTypes=array(
-		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK,self::PROPERTY_TYPE_SELECT
+		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,
+		self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK,self::PROPERTY_TYPE_SELECT,
+		self::PROPERTY_TYPE_DATE
 	);
 	/**
 	 * Список разрешенных типов
@@ -635,6 +638,7 @@ class ModuleProperty extends ModuleORM {
 	 */
 	public function ChangeTargetType($sType,$sTypeNew) {
 		$this->oMapper->UpdatePropertyByTargetType($sType,$sTypeNew);
+		$this->oMapper->UpdatePropertyTargetByTargetType($sType,$sTypeNew);
 		$this->oMapper->UpdatePropertySelectByTargetType($sType,$sTypeNew);
 		$this->oMapper->UpdatePropertyValueByTargetType($sType,$sTypeNew);
 		$this->oMapper->UpdatePropertyValueSelectByTargetType($sType,$sTypeNew);
@@ -644,6 +648,7 @@ class ModuleProperty extends ModuleORM {
 		 */
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array(
 			'ModuleProperty_EntityProperty_save',
+			'ModuleProperty_EntityTarget_save',
 			'ModuleProperty_EntitySelect_save',
 			'ModuleProperty_EntityValue_save',
 			'ModuleProperty_EntityValueSelect_save',
