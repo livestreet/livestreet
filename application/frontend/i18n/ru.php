@@ -422,6 +422,7 @@ return array(
 		'answer' => 'Вопрос',
 		'vote' => 'Голосовать',
 		'abstain' => 'Воздержаться',
+		'only_auth' => 'Голосование доступно только авторизованным пользователям',
 
 		// Результат
 		'result' => array(
@@ -601,10 +602,6 @@ return array(
 	 * Меню топиков
 	 */
 	'topic_menu_add' => 'Топик',
-	'topic_menu_add_topic' => 'Текстовый',
-	'topic_menu_add_question' => 'Опрос',
-	'topic_menu_add_link' => 'Ссылка',
-	'topic_menu_add_photoset' => 'Фотосет',
 	'topic_menu_drafts' => 'Черновики',
 	'topic_menu_published' => 'Опубликованные',
 	/**
@@ -1327,9 +1324,6 @@ return array(
 	 */
 	'block_create' => 'Создать',
 	'block_create_topic_topic' => 'Топик',
-	'block_create_topic_question' => 'Опрос',
-	'block_create_topic_link' => 'Ссылка',
-	'block_create_topic_photoset' => 'Фотосет',
 	'block_create_blog' => 'Блог',
 	'block_create_talk' => 'Сообщение',
 	/**

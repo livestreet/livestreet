@@ -28,8 +28,12 @@
 
 			{include file='forms/fields/form.field.hidden.tpl' sFieldName='id' sFieldValue=$oPoll->getId()}
 
-			<button class="button button-primary js-poll-vote">{$aLang.poll.vote}</button>
-			<button class="button js-poll-abstain">{$aLang.poll.abstain}</button>
+			{if $oUserCurrent}
+				<button class="button button-primary js-poll-vote">{$aLang.poll.vote}</button>
+				<button class="button js-poll-abstain">{$aLang.poll.abstain}</button>
+			{else}
+				{$aLang.poll.only_auth}
+			{/if}
 		</form>
 	{else}
 		{include file='polls/poll.result.tpl' oPoll=$oPoll}
