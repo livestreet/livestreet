@@ -183,6 +183,13 @@ class ActionAjax extends Action {
 			if (count($aAnswerItems)!=count($aAnswerIds)) {
 				return $this->EventErrorDebug();
 			}
+			/**
+			 * Ограничение на максимальное число ответов
+			 */
+			if (count($aAnswerIds)>$oPoll->getCountAnswerMax()) {
+				$this->Message_AddErrorSingle('Максимум можно выбрать вариантов: '.$oPoll->getCountAnswerMax());
+				return;
+			}
 		}
 
 		/**

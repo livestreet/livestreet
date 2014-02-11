@@ -9,7 +9,7 @@
 	<h3 class="poll-title">{$oPoll->getTitle()}</h3>
 
 	{if ! $oPoll->getVoteCurrent()}
-		<form action="" method="post" class="js-poll-vote-form">
+		<form action="" method="post" class="js-poll-vote-form" onsubmit="return false;">
 			<ul class="poll-answer-list">
 				{foreach $oPoll->getAnswers() as $oAnswer}
 					<li class="poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$oAnswer->getId()}">
