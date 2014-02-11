@@ -46,5 +46,4 @@
 .poll-form-answer-item:last-child { margin-bottom: 0; }
 .poll-form-answer-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }
 
-.poll-form-list { }
 .poll-form-list-item { padding: 10px 70px 10px 15px; background: #fff; margin-bottom: 1px; position: relative; }

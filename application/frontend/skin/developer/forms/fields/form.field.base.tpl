@@ -23,7 +23,7 @@
 
 {block name='field_before'}{/block}
 
-<div class="form-field {if $bFieldInline}form-field-inline{/if} {block name='field_classes'}{/block} {if $bFieldNoMargin}m-0{/if}">
+<div class="form-field {if $bFieldDisplayInline}form-field-display-inline{/if} {if $bFieldInline}form-field-inline{/if} {block name='field_classes'}{/block} {if $bFieldNoMargin}m-0{/if}">
     {if $sFieldLabel && ! $bFieldNoLabel}
         <label for="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" class="form-field-label">{$sFieldLabel}:</label>
     {/if}

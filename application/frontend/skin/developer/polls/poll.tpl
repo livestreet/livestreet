@@ -9,15 +9,15 @@
 	<h3 class="poll-title">{$oPoll->getTitle()}</h3>
 
 	{if ! $oPoll->getVoteCurrent()}
-		<form action="" method="post" onsubmit="return false;" class="js-poll-vote-form">
+		<form action="" method="post" class="js-poll-vote-form">
 			<ul class="poll-answer-list">
 				{foreach $oPoll->getAnswers() as $oAnswer}
-					<li class="poll-answer-list-item">
+					<li class="poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$oAnswer->getId()}">
 						<label>
 							{if $oPoll->getCountAnswerMax()>1}
-								<input type="checkbox" name="answers[]" value="{$oAnswer->getId()}" />
+								<input type="checkbox" name="answers[]" value="{$oAnswer->getId()}" class="js-poll-answer-checkbox" />
 							{else}
-								<input type="radio" name="answers[]" value="{$oAnswer->getId()}" />
+								<input type="radio" name="answers[]" value="{$oAnswer->getId()}" class="js-poll-answer-radio" />
 							{/if}
 
 							{$oAnswer->getTitle()}
@@ -25,11 +25,11 @@
 					</li>
 				{/foreach}
 			</ul>
-			
+
 			{include file='forms/fields/form.field.hidden.tpl' sFieldName='id' sFieldValue=$oPoll->getId()}
-			
-			<button type="submit" class="button button-primary js-poll-vote">{$aLang.poll.vote}</button>
-			<button type="submit" class="button js-poll-abstain">{$aLang.poll.abstain}</button>
+
+			<button class="button button-primary js-poll-vote">{$aLang.poll.vote}</button>
+			<button class="button js-poll-abstain">{$aLang.poll.abstain}</button>
 		</form>
 	{else}
 		{include file='polls/poll.result.tpl' oPoll=$oPoll}

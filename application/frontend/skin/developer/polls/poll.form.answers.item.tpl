@@ -9,9 +9,9 @@
 	<input type="hidden" name="answers[{$iPollItemIndex|default:0}][id]" value="{if $oPollItem}{$oPollItem->getId()}{/if}" class="js-poll-form-answer-item-id">
 
 	<input type="text"
-		   name="answers[{$iPollItemIndex|default:0}][title]" 
-		   class="width-full js-poll-form-answer-item-text" 
-		   value="{if $oPollItem}{$oPollItem->getTitle()}{/if}" 
+		   name="answers[{$iPollItemIndex|default:0}][title]"
+		   class="width-full js-poll-form-answer-item-text"
+		   value="{if $oPollItem}{$oPollItem->getTitle()}{/if}"
 		   {if ! $bPollIsAllowUpdate|default:true}disabled{/if}>
 
 	{if $bPollIsAllowRemove|default:true}

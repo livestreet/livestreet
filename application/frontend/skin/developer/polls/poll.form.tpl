@@ -5,12 +5,12 @@
  * @scripts <common>/js/poll.js
  *}
 
-<form action="" method="post" id="form-poll-create" data-action="{if $oPoll}update{else}add{/if}">
+<form action="" method="post" id="js-poll-form" data-action="{if $oPoll}update{else}add{/if}">
 	{* Заголовок топика *}
 	{include file='forms/fields/form.field.text.tpl'
 			 sFieldName  = 'poll[title]'
 			 sFieldValue = {($oPoll) ? $oPoll->getTitle() : '' }
-			 sFieldLabel = 'Вопрос'}
+			 sFieldLabel = $aLang.poll.answer}
 
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
@@ -18,53 +18,62 @@
 		{$bDisableChangeType = true}
 	{/if}
 
-	Пользователь может выбрать:
+	<p class="mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
 	{include file='forms/fields/form.field.radio.tpl'
 			 sFieldName  = 'poll[type]'
 			 sFieldValue = 'one'
-			 sFieldLabel = 'Один вариант'
+			 sFieldLabel = $aLang.poll.form.fields.type.label_one
 			 bFieldChecked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
 			 bFieldIsDisabled = $bDisableChangeType}
 
 	{include file='forms/fields/form.field.radio.tpl'
-			 sFieldName  = 'poll[type]'
-			 sFieldValue = 'many'
-			 sFieldLabel = 'Несколько вариантов'
-			 bFieldChecked = $oPoll and $oPoll->getCountAnswerMax() > 1
-			 bFieldIsDisabled = $bDisableChangeType}
+			 bFieldDisplayInline = true
+			 sFieldName          = 'poll[type]'
+			 sFieldValue         = 'many'
+			 sFieldLabel         = $aLang.poll.form.fields.type.label_many
+			 bFieldChecked       = $oPoll and $oPoll->getCountAnswerMax() > 1
+			 bFieldIsDisabled    = $bDisableChangeType}
 
 	{include file='forms/fields/form.field.text.tpl'
-			 sFieldName       = 'poll[count_answer_max]'
-			 sFieldValue      = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
-			 bFieldIsDisabled = $bDisableChangeType}
+			 bFieldDisplayInline = true
+			 sFieldName          = 'poll[count_answer_max]'
+			 sFieldValue         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
+			 sFieldClasses       = 'width-50'
+			 bFieldIsDisabled    = $bDisableChangeType}
 
 
 	{* Варианты ответов *}
-	<div class="fieldset js-poll-add">
+	<div class="fieldset m-0">
 		<header class="fieldset-header">
 			<h3 class="fieldset-title">{$aLang.poll.form.answers_title}</h3>
 		</header>
 
-		<ul class="fieldset-body poll-form-answer-list js-poll-form-answer-list">
-			{if $oPoll}
-				{$aAnswers = $oPoll->getAnswers()}
+		<div class="fieldset-body">
+			<ul class="poll-form-answer-list js-poll-form-answer-list">
+				{if $oPoll}
+					{$aAnswers = $oPoll->getAnswers()}
 
-				{foreach $aAnswers as $oAnswer}
-					{include 'polls/poll.form.answers.item.tpl'
-							 oPollItem          = $oAnswer
-							 iPollItemIndex     = $oAnswer@index
-							 bPollIsAllowUpdate = $oPoll->isAllowUpdate()
-							 bPollIsAllowRemove = $oPoll->isAllowUpdate() && ! $oAnswer->getCountVote()}
-				{/foreach}
-			{else}
-				{include 'polls/poll.form.answers.item.tpl'}
-			{/if}
-		</ul>
+					{foreach $aAnswers as $oAnswer}
+						{include 'polls/poll.form.answers.item.tpl'
+								 oPollItem          = $oAnswer
+								 iPollItemIndex     = $oAnswer@index
+								 bPollIsAllowUpdate = $oPoll->isAllowUpdate()
+								 bPollIsAllowRemove = $oPoll->isAllowUpdate() && ! $oAnswer->getCountVote()}
+					{/foreach}
+				{else}
+					{include 'polls/poll.form.answers.item.tpl'}
+				{/if}
+			</ul>
+		</div>
 
 		{if ! $oPoll or $oPoll->isAllowUpdate()}
 			<footer class="fieldset-footer">
-				<button type="button" class="button js-poll-form-answer-add" title="[Ctrl + Enter]">{$aLang.common.add}</button>
+				{include file='forms/fields/form.field.button.tpl'
+						 sFieldType       = 'button'
+						 sFieldText       = $aLang.common.add
+						 sFieldAttributes = 'title="[Ctrl + Enter]"'
+						 sFieldClasses    = 'js-poll-form-answer-add'}
 			</footer>
 		{/if}
 	</div>

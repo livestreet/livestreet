@@ -121,7 +121,7 @@ return array(
 	'report' => array(
 		// Всплывающие сообщения
 		'notices' => array(
-			
+
 		),
 	),
 
@@ -386,7 +386,7 @@ return array(
 				),
 			)
 		),
-		
+
 		// Черный список
 		'blacklist' => array(
 			// Поля
@@ -402,10 +402,10 @@ return array(
 				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем'
 			),
 		),
-		
+
 		// Всплывающие сообщения
 		'notices' => array(
-			
+
 		),
 
 		// Сообщения
@@ -418,6 +418,8 @@ return array(
 	 * Опросы
 	 */
 	'poll' => array(
+		'polls' => 'Опросы',
+		'answer' => 'Вопрос',
 		'vote' => 'Голосовать',
 		'abstain' => 'Воздержаться',
 
@@ -435,8 +437,17 @@ return array(
 				'edit' => 'Редактирование опроса',
 			),
 			'answers_title' => 'Варианты ответов',
+
+			// Поля
+			'fields' => array(
+				'type' => array(
+					'label'      => 'Пользователь может выбрать',
+					'label_one'  => 'Один вариант',
+					'label_many' => 'Несколько вариантов'
+				),
+			),
 		),
-		
+
 		// Всплывающие сообщения
 		'notices' => array(
 			// TODO: Fix max number
@@ -522,7 +533,7 @@ return array(
 	/**
 	 * Declensions
 	 */
-	
+
 	'topic_declension' => 'топик;топика;топиков',
 	'draft_declension' => 'черновик;черновика;черновиков',
 	/**

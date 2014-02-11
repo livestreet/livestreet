@@ -35,6 +35,7 @@ ls.poll = (function ($) {
 			},
 
 			form: {
+				form:        '#js-poll-form',
 				list:        '.js-poll-form-list',
 				item:        '.js-poll-form-list-item',
 				item_remove: '.js-poll-form-list-item-remove',
@@ -70,7 +71,8 @@ ls.poll = (function ($) {
 	 * @param  {Object} options Опции
 	 */
 	this.init = function(options) {
-		var _this = this;
+		var _this = this,
+			oDocument = $(document);
 
 		this.options = $.extend({}, defaults, options);
 
@@ -79,7 +81,7 @@ ls.poll = (function ($) {
 		 */
 
 		// Сабмит формы
-		$(document).on('submit', '#form-poll-create', function (e) {
+		oDocument.on('submit', this.options.selectors.form.form, function (e) {
 			var oForm = $(this);
 
 			_this[ oForm.data('action') == 'add' ? 'add' : 'update' ](oForm, $(_this.options.selectors.form.submit));
@@ -88,12 +90,12 @@ ls.poll = (function ($) {
 		});
 
 		// Добавление варианта
-		$(document).on('click', this.options.selectors.answer.add, function () {
+		oDocument.on('click', this.options.selectors.answer.add, function () {
 			_this.answerAdd($(_this.options.selectors.answer.list));
 		});
 
 		// Добавление варианта по нажатию Ctrl + Enter
-		$(document).on('keyup', this.options.selectors.answer.text, function (e) {
+		oDocument.on('keyup', this.options.selectors.answer.text, function (e) {
 			var key = e.keyCode || e.which;
 
 			if (e.ctrlKey && key == 13) {
@@ -102,12 +104,12 @@ ls.poll = (function ($) {
 		});
 
 		// Удаление варианта
-		$(document).on('click', this.options.selectors.answer.item.remove, function () {
+		oDocument.on('click', this.options.selectors.answer.item.remove, function () {
 			_this.answerRemove($(this));
 		});
 
 		// Удаление опроса
-		$(document).on('click', this.options.selectors.form.item_remove, function () {
+		oDocument.on('click', this.options.selectors.form.item_remove, function () {
 			var oButton = $(this),
 				oItem = oButton.closest(_this.options.selectors.form.item);
 
@@ -146,31 +148,44 @@ ls.poll = (function ($) {
 
 	/**
 	 * Добавление опроса
+	 *
+	 * @param {Object} oForm    Форма добавления опроса
+	 * @param {Object} oButton  Кнопка добавления
 	 */
 	this.add = function(oForm, oButton) {
-		ls.ajax.submit(this.options.routers.add, oForm, function(result) {
-			$(this.options.selectors.form.list).append(result.sPollItem);
+		this.answerIndex(oForm);
+
+		ls.ajax.submit(this.options.routers.add, oForm, function(oResponse) {
+			$(this.options.selectors.form.list).append(oResponse.sPollItem);
 			$(this.options.selectors.modal).modal('hide');
 		}.bind(this), { submitButton: oButton });
 	};
 
 	/**
 	 * Обновление опроса
+	 *
+	 * @param {Object} oForm    Форма добавления опроса
+	 * @param {Object} oButton  Кнопка сохранения
 	 */
 	this.update = function(oForm, oButton) {
-		ls.ajax.submit(this.options.routers.update, oForm, function(result) {
-			$(this.options.selectors.form.item + '[data-poll-id=' + result.iPollId + ']').replaceWith(result.sPollItem);
+		this.answerIndex(oForm);
+
+		ls.ajax.submit(this.options.routers.update, oForm, function(oResponse) {
+			$(this.options.selectors.form.item + '[data-poll-id=' + oResponse.iPollId + ']').replaceWith(oResponse.sPollItem);
 			$(this.options.selectors.modal).modal('hide');
 		}.bind(this), { submitButton: oButton });
 	};
 
 	/**
 	 * Удаление опроса
+	 *
+	 * @param {Number} iId       ID ответа
+	 * @param {String} sTempHash Хэш объекта
 	 */
-	this.remove = function(iId, tmp) {
-		ls.ajax.load(this.options.routers.remove, { id: iId, tmp: tmp }, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
+	this.remove = function(iId, sTempHash) {
+		ls.ajax.load(this.options.routers.remove, { id: iId, tmp: sTempHash }, function (oResponse) {
+			if (oResponse.bStateError) {
+				ls.msg.error(null, oResponse.sMsg);
 			} else {
 				$(this.options.selectors.form.item + '[data-poll-id=' + iId + ']').fadeOut('slow', function() {
 					$(this).remove();
@@ -185,31 +200,43 @@ ls.poll = (function ($) {
 	 * @param {Object} oAnswerList Блок с ответами
 	 */
 	this.answerAdd = function(oAnswerList) {
-		var iAnswersCount = oAnswerList.find(this.options.selectors.answer.item.item).length;
-
-		if (iAnswersCount == this.options.iMaxAnswers) {
+		// Ограничиваем кол-во добавляемых ответов
+		if (oAnswerList.find(this.options.selectors.answer.item.item).length == this.options.iMaxAnswers) {
 			ls.msg.error(null, ls.lang.get('poll.notices.error_answers_max'));
 			return false;
 		}
 
-		var oAnswerItem     = $(this.options.selectors.answer.item.item + '[data-is-template=true]').clone().removeAttr('data-is-template').show(),
-			oAnswerItemText = oAnswerItem.find(this.options.selectors.answer.item.text),
-			oAnswerItemId   = oAnswerItem.find(this.options.selectors.answer.item.id);
+		var oAnswerItem = $(this.options.selectors.answer.item.item + '[data-is-template=true]').clone().removeAttr('data-is-template').show();
 
 		oAnswerList.append(oAnswerItem);
-		oAnswerItemId.attr('name', 'answers[' + iAnswersCount + '][id]');
-		oAnswerItemText.attr('name', 'answers[' + iAnswersCount + '][title]').focus();
+		oAnswerItem.find(this.options.selectors.answer.item.text).focus();
 	};
 
 	/**
 	 * Удаляет вариант ответа
 	 * 
-	 * @param  {Object} oRemoveButton Кнопка удаления
+	 * @param {Object} oRemoveButton Кнопка удаления
 	 */
 	this.answerRemove = function(oRemoveButton) {
 		oRemoveButton.closest(this.options.selectors.answer.item.item).fadeOut(200, function () {
 			$(this).remove();
 		});
+	};
+
+	/**
+	 * Проставляет индексы инпутам ответа
+	 *
+	 * @param {Object} oForm Форма добавления опроса
+	 */
+	this.answerIndex = function(oForm) {
+		oForm.find(this.options.selectors.answer.item.item).each(function (iIndex, oElement) {
+			var oAnswerItem     = $(oElement),
+				oAnswerItemId   = oAnswerItem.find(this.options.selectors.answer.item.id),
+				oAnswerItemText = oAnswerItem.find(this.options.selectors.answer.item.text);
+
+			oAnswerItemId.attr('name', 'answers[' + iIndex + '][id]');
+			oAnswerItemText.attr('name', 'answers[' + iIndex + '][title]');
+		}.bind(this));
 	};
 
 	/**
