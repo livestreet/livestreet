@@ -214,17 +214,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Photoset
-	 */
-	$('.js-photoset-type-default-image').prettyPhoto({
-		social_tools: '',
-		show_title:   false,
-		slideshow:    false,
-		deeplinking:  false
-	});
-
-
-	/**
 	 * Form validate
 	 */
 	$('.js-form-validate').parsley({

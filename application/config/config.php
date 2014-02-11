@@ -468,7 +468,6 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/jquery.fileupload.js",
 	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
 	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
-	"___path.framework.frontend.web___/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
 	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",
 	"___path.framework.frontend.web___/js/vendor/parsley/i18n/messages.ru.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.livequery.js",

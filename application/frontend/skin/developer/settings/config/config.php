@@ -31,7 +31,6 @@ $aCss=array(
 	"___path.framework.frontend.web___/js/vendor/markitup/sets/synio/style.css",
 	"___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.css",
 	"___path.framework.frontend.web___/js/vendor/prettify/prettify.css",
-	"___path.framework.frontend.web___/js/vendor/prettyphoto/css/prettyphoto.css",
 	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.css",
 	"___path.framework.frontend.web___/js/vendor/fotorama/fotorama.css",
 	"___path.framework.frontend.web___/js/vendor/nprogress/nprogress.css",

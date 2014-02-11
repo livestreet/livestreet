@@ -517,70 +517,6 @@ class ModuleTopic_EntityTopic extends Entity {
 		return null;
 	}
 
-	/**
-	 * Возвращает URL для топика-ссылки
-	 *
-	 * @param bool $bShort	Укарачивать урл или нет
-	 * @return null|string
-	 */
-	public function getLinkUrl($bShort=false) {
-		if ($this->getType()!='link') {
-			return null;
-		}
-
-		if ($this->getExtraValue('url')) {
-			if ($bShort) {
-				$sUrl=htmlspecialchars($this->getExtraValue('url'));
-				if (preg_match("/^https?:\/\/(.*)$/i",$sUrl,$aMatch)) {
-					$sUrl=$aMatch[1];
-				}
-				$sUrlShort=substr($sUrl,0,30);
-				if (strlen($sUrlShort)!=strlen($sUrl)) {
-					return $sUrlShort.'...';
-				}
-				return $sUrl;
-			}
-			$sUrl=$this->getExtraValue('url');
-			if (!preg_match("/^https?:\/\/(.*)$/i",$sUrl,$aMatch)) {
-				$sUrl='http://'.$sUrl;
-			}
-			return $sUrl;
-		}
-		return null;
-	}
-	/**
-	 * Устанавливает URL для топика-ссылки
-	 *
-	 * @param string $data
-	 */
-	public function setLinkUrl($data) {
-		if ($this->getType()!='link') {
-			return;
-		}
-		$this->setExtraValue('url',$data);
-	}
-	/**
-	 * Возвращает количество переходов по ссылке в топике-ссылке
-	 *
-	 * @return int|null
-	 */
-	public function getLinkCountJump() {
-		if ($this->getType()!='link') {
-			return null;
-		}
-		return (int)$this->getExtraValue('count_jump');
-	}
-	/**
-	 * Устанавливает количество переходов по ссылке в топике-ссылке
-	 *
-	 * @param string $data
-	 */
-	public function setLinkCountJump($data) {
-		if ($this->getType()!='link') {
-			return;
-		}
-		$this->setExtraValue('count_jump',$data);
-	}
 
 
 	//*************************************************************************************************************************************************
@@ -850,4 +786,3 @@ class ModuleTopic_EntityTopic extends Entity {
 		$this->_aData['topic_count_favourite']=$data;
 	}
 }
-?>
