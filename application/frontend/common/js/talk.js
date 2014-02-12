@@ -1,8 +1,8 @@
 /**
  * Личные сообщения
- * 
+ *
  * @module ls/talk
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -27,18 +27,6 @@ ls.talk = (function ($) {
 	 */
 	this.init = function(options) {
 		this.options = $.extend({}, defaults, options);
-	};
-	
-	/**
-	* Добавляет или удаляет друга из списка получателей
-	*/
-	this.toggleRecipient = function(login, add) {
-		var to = $.map($('#talk_users').val().split(','), function(item, index){
-			item = $.trim(item);
-			return item != '' ? item : null;
-		});
-		if (add) { to.push(login); to = $.richArray.unique(to); } else { to = $.richArray.without(to, login); }
-		$('#talk_users').val(to.join(', '));
 	};
 
 	/**
@@ -66,6 +54,6 @@ ls.talk = (function ($) {
 		$('#form_talks_list').submit();
 		return false;
 	};
-	
+
 	return this;
 }).call(ls.talk || {},jQuery);

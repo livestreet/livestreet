@@ -7,12 +7,12 @@
 <li class="user-list-small-item js-user-list-small-item {$sUserListSmallItemClasses}" data-user-id="{$iUserId}">
 	{* Чекбокс *}
 	{if $bUserListSmallSelectable}
-		<input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$iUserId}" data-user-login="{$oUser->getLogin()}" /> 
+		<input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$iUserId}" data-user-login="{$oUser->getLogin()}" />
 	{/if}
 
 	{* Пользователь *}
 	{include 'user_item.tpl' oUser=$oUser}
-	
+
 	{* Действия *}
 	{if $bUserListSmallShowActions}
 		<ul class="user-list-small-item-actions js-user-list-small-actions">

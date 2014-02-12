@@ -96,7 +96,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^poll$/i','/^update$/','/^$/','EventPollUpdate');
 		$this->AddEventPreg('/^poll$/i','/^remove$/','/^$/','EventPollRemove');
 		$this->AddEventPreg('/^poll$/i','/^vote$/','/^$/','EventPollVote');
-		
+
 		$this->AddEvent('modal-friend-list', 'EventModalFriendList');
 	}
 
@@ -105,7 +105,7 @@ class ActionAjax extends Action {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-	
+
 	/**
 	 * Показывает модальное окно с друзьями
 	 */
@@ -121,6 +121,7 @@ class ActionAjax extends Action {
 
 		// Получаем переменные
 		$bSelectable = getRequest('selectable');
+		$sTarget = getRequest('target');
 
 		// Получаем список друзей
 		$aUsersFriend = $this->User_GetUsersFriend($this->oUserCurrent->getId());
@@ -130,6 +131,7 @@ class ActionAjax extends Action {
 		}
 
 		$oViewer->Assign('bSelectable', $bSelectable);
+		$oViewer->Assign('sTarget', $sTarget);
 
 		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.user_list.tpl"));
 	}

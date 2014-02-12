@@ -1,8 +1,8 @@
 /**
  * Управление пользователями
- * 
+ *
  * @module ls/user
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -118,6 +118,28 @@ ls.user = (function ($) {
 			}
 
 			e.preventDefault();
+		});
+
+		// Добавление выбранных пользователей
+		$(document).on('click', '.js-user-list-select-add', function (e) {
+			var aCheckboxes = $('.js-user-list-select').find('.js-user-list-small-checkbox'),
+				oInput      = $( $(this).data('target') ),
+				oInputValue = oInput.val();
+
+			// Получаем логины для добавления
+			var aLoginsAdd = $.map(aCheckboxes, function(oElement, iIndex) {
+				return $(oElement).data('user-login');
+			});
+
+			// Получаем логины которые уже прописаны
+			var aLoginsOld = $.map(oInputValue.split(','), function(sLogin, iIndex) {
+				return $.trim(sLogin) || null;
+			});
+
+			// Мержим логины
+			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
+
+			$('#modal-users-select').modal('hide');
 		});
 	};
 

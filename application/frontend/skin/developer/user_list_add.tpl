@@ -18,11 +18,13 @@
 
 	{* Форма добавления *}
 	<form class="user-list-add-form js-user-list-add-form">
+		{$sClass = 'js-user-list-add-form-users'}
+
 		{include 'forms/fields/form.field.text.tpl'
 				 sFieldName    = 'add'
-				 sFieldClasses = 'width-full autocomplete-users-sep js-user-list-add-form-users'
+				 sFieldClasses = "width-full autocomplete-users-sep {$sClass}"
 				 sFieldLabel   = $aLang.blog.invite.fields.add.label
-				 sFieldNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\">Выбрать из списка друзей</a>"}
+				 sFieldNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
 
 		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-user-list-add-form-submit'}
 	</form>

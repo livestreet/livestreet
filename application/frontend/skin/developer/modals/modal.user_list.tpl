@@ -20,9 +20,15 @@
 	{/if}
 
 	{* Список *}
-	{include 'user_list_small.tpl' aUserList=$aUserList bUserListSmallSelectable=$bSelectable bUserListSmallShowEmpty=true}
+	{include 'user_list_small.tpl' aUserList=$aUserList bUserListSmallSelectable=$bSelectable bUserListSmallShowEmpty=true sUserListSmallClasses='js-user-list-select'}
 {/block}
 
 {block name='modal_footer_begin'}
-	{include file='forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary'}
+	{if $aUserList && $bSelectable}
+		{include 'forms/fields/form.field.button.tpl'
+				 sFieldText = $aLang.common.add
+				 sFieldStyle = 'primary'
+				 sFieldClasses = 'js-user-list-select-add'
+				 sFieldAttributes = "data-target=\"{$sTarget}\""}
+	{/if}
 {/block}

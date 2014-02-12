@@ -12,7 +12,7 @@
 	<ul class="user-list-small js-user-list-small {$sUserListSmallClasses}" {if ! $bUserListDisplay|default:true}style="display: none"{/if}>
 		{foreach $aUserList as $oUser}
 			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
-			
+
 			{if ! $aUserListSmallExclude || ! in_array($oUser->getId(), $aUserListSmallExclude)}
 				{include $sUserListSmallItemPath|default:'user_list_small_item.tpl' bUserListItemShowRemove=! $aUserListSmallExcludeRemove || ! in_array($iUserId, $aUserListSmallExcludeRemove)}
 			{/if}
