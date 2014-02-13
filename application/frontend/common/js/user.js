@@ -122,7 +122,7 @@ ls.user = (function ($) {
 
 		// Добавление выбранных пользователей
 		$(document).on('click', '.js-user-list-select-add', function (e) {
-			var aCheckboxes = $('.js-user-list-select').find('.js-user-list-small-checkbox'),
+			var aCheckboxes = $('.js-user-list-select').find('.js-user-list-small-checkbox:checked'),
 				oInput      = $( $(this).data('target') ),
 				oInputValue = oInput.val();
 
