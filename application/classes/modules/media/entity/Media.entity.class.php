@@ -36,14 +36,9 @@ class ModuleMedia_EntityMedia extends EntityORM {
 		return true;
 	}
 
-	public function getFileWebPath($sWidth = null) {
+	public function getFileWebPath($sWidth=null) {
 		if ($this->getFilePath()) {
-			if ($sWidth) {
-				$aPathInfo=pathinfo($this->getFilePath());
-				return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sWidth.'.'.$aPathInfo['extension'];
-			} else {
-				return $this->getFilePath();
-			}
+			return $this->Media_GetImageWebPath($this->getFilePath(),$sWidth);
 		} else {
 			return null;
 		}

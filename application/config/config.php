@@ -163,32 +163,7 @@ $config['module']['notify']['insert_single'] = false;    // Если опция 
 $config['module']['notify']['per_process']   = 10;       // Количество отложенных заданий, обрабатываемых одним крон-процессом
 $config['module']['notify']['dir']           = 'emails'; // Путь до папки с емэйлами относительно шаблона
 $config['module']['notify']['prefix']        = 'email';  // Префикс шаблонов емэйлов
-// Модуль Image
-$config['module']['image']['default']['watermark_use']        = false;
-$config['module']['image']['default']['watermark_type']       = 'text';
-$config['module']['image']['default']['watermark_position']   = '0,24';
-$config['module']['image']['default']['watermark_text']       = '(c) LiveStreet';
-$config['module']['image']['default']['watermark_font']       = 'arial';
-$config['module']['image']['default']['watermark_font_color'] = '255,255,255';
-$config['module']['image']['default']['watermark_font_size']  = '10';
-$config['module']['image']['default']['watermark_font_alfa']  = '0';
-$config['module']['image']['default']['watermark_back_color'] = '0,0,0';
-$config['module']['image']['default']['watermark_back_alfa']  = '40';
-$config['module']['image']['default']['watermark_image']      = false;
-$config['module']['image']['default']['watermark_min_width']  = 200;
-$config['module']['image']['default']['watermark_min_height'] = 130;
-$config['module']['image']['default']['round_corner']         = false;
-$config['module']['image']['default']['round_corner_radius']  = '18';
-$config['module']['image']['default']['round_corner_rate']    = '40';
-$config['module']['image']['default']['path']['watermarks']   = '___path.framework.libs_vendor.server___/LiveImage/watermarks/';
-$config['module']['image']['default']['path']['fonts']        = '___path.framework.libs_vendor.server___/LiveImage/fonts/';
-$config['module']['image']['default']['jpg_quality']          = 95;  // Число от 0 до 100
 
-$config['module']['image']['foto']['watermark_use']  = false;
-$config['module']['image']['foto']['round_corner']   = false;
-
-$config['module']['image']['topic']['watermark_use']  = false;
-$config['module']['image']['topic']['round_corner']   = false;
 // Модуль Security
 $config['module']['security']['hash']  = "livestreet_security_key"; // "примесь" к строке, хешируемой в качестве security-кода
 

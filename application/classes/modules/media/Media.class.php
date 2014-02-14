@@ -231,62 +231,56 @@ class ModuleMedia extends ModuleORM {
 	public function ProcessingFileImage($sFileTmp,$sTargetType,$sTargetId,$sTargetTmp=null) {
 		$aPathInfo=pathinfo($sFileTmp);
 		$aParams=$this->Image_BuildParams('media.'.$sTargetType);
-		$oImage =$this->Image_CreateImageObject($sFileTmp);
 		/**
 		 * Если объект изображения не создан, возвращаем ошибку
 		 */
-		if($sError=$oImage->get_last_error()) {
-			@unlink($sFileTmp);
-			return $sError;
+		if(!$oImage=$this->Image_Open($sFileTmp,$aParams)) {
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			return $this->Image_GetLastError();
 		}
-		/**
-		 * Превышает максимальные размеры из конфига
-		 */
-		if (($oImage->get_image_params('width')>Config::Get('module.media.image_max_width')) or ($oImage->get_image_params('height')>Config::Get('module.media.image_max_height'))) {
-			@unlink($sFileTmp);
-			return 'Превышен максимальный размер изображения';
-		}
-		$iWidth=$oImage->get_image_params('width');
-		$iHeight=$oImage->get_image_params('height');
+		$iWidth=$oImage->getWidth();
+		$iHeight=$oImage->getHeight();
+
 		$sPath=$this->GetSaveDir($sTargetType,$sTargetId);
-		if (!is_dir(Config::Get('path.root.server').$sPath)) {
-			@mkdir(Config::Get('path.root.server').$sPath,0777,true);
-		}
 		/**
-		 * Копируем файл в нужный каталог
+		 * Уникальное имя файла
 		 */
 		$sFileName=func_generator(20);
-		$sFilePath=Config::Get('path.root.server').$sPath.$sFileName.'.'.$oImage->get_image_params('format');
-		rename($sFileTmp,$sFilePath);
+		/**
+		 * Сохраняем оригинальную копию
+		 */
+		if (!$sFileResult=$oImage->saveSmart($sPath,$sFileName)) {
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			return $this->Image_GetLastError();
+		}
 
 		$aSizes=Config::Get("module.media.type.{$sTargetType}.image_sizes");
 		if (!$aSizes) {
 			$aSizes=Config::Get("module.media.image_sizes");
 		}
-		foreach ($aSizes as $aSize) {
-			/**
-			 * Для каждого указанного в конфиге размера генерируем картинку
-			 */
-			$sNewFileName = $sFileName.'_'.$aSize['w'];
-			$oImage = $this->Image_CreateImageObject($sFilePath);
-			if ($aSize['crop']) {
-				$this->Image_CropProportion($oImage, $aSize['w'], $aSize['h'], true);
-				$sNewFileName .= 'crop';
-			}
-			$this->Image_Resize($sFilePath,$sPath,$sNewFileName,Config::Get('module.media.image_max_width'),Config::Get('module.media.image_max_height'),$aSize['w'],$aSize['h'],true,$aParams,$oImage);
-		}
+		/**
+		 * Генерируем варианты с необходимыми размерами
+		 */
+		$this->GenerateImageBySizes($sFileTmp,$sPath,$sFileName,$aSizes,$aParams);
 		/**
 		 * Сохраняем медиа
 		 */
 		$oMedia=Engine::GetEntity('ModuleMedia_EntityMedia');
 		$oMedia->setUserId($this->oUserCurrent ? $this->oUserCurrent->getId() : null);
 		$oMedia->setType(self::TYPE_IMAGE);
-		$oMedia->setFilePath($this->Image_GetWebPath($sFilePath));
+		$oMedia->setFilePath($this->Fs_GetPathRelative($sFileResult,true));
 		$oMedia->setFileName($aPathInfo['filename']);
-		$oMedia->setFileSize(filesize($sFilePath));
+		$oMedia->setFileSize(filesize($sFileTmp));
 		$oMedia->setWidth($iWidth);
 		$oMedia->setHeight($iHeight);
 		$oMedia->setDataOne('image_sizes',$aSizes);
+		/**
+		 * Теперь можно удалить временный файл
+		 */
+		$this->Fs_RemoveFileLocal($sFileTmp);
+		/**
+		 * Добавляем в БД
+		 */
 		if ($oMedia->Add()) {
 			/**
 			 * Создаем связь с владельцем
@@ -301,6 +295,35 @@ class ModuleMedia extends ModuleORM {
 			}
 		}
 		return false;
+	}
+	/**
+	 * Создает набор отресайзанных изображений
+	 *
+	 * @param      $sFileSource
+	 * @param      $sDirDist
+	 * @param      $sFileName
+	 * @param      $aSizes
+	 * @param null $aParams
+	 */
+	public function GenerateImageBySizes($sFileSource,$sDirDist,$sFileName,$aSizes,$aParams=null) {
+		if (!$aSizes) {
+			return;
+		}
+		foreach ($aSizes as $aSize) {
+			/**
+			 * Для каждого указанного в конфиге размера генерируем картинку
+			 */
+			$sNewFileName = $sFileName.'_'.$aSize['w'];
+			if($oImage=$this->Image_Open($sFileSource,$aParams)) {
+				if ($aSize['crop']) {
+					$oImage->cropProportion($aSize['w']/$aSize['h'],'center');
+					$sNewFileName .= 'crop';
+				}
+				if (!$oImage->resize($aSize['w'],$aSize['h'],true)->saveSmart($sDirDist,$sNewFileName)) {
+					// TODO: прерывать и возвращать false?
+				}
+			}
+		}
 	}
 	/**
 	 * Возвращает каталог для сохранения контента медиа
@@ -422,8 +445,12 @@ class ModuleMedia extends ModuleORM {
 				if ($aSize['crop']) {
 					$sSize.='crop';
 				}
-				$this->Image_RemoveFile($this->Image_GetServerPath($oMedia->getFileWebPath($sSize)));
+				$this->Image_RemoveFile($this->GetImagePathBySize($oMedia->getFilePath(),$sSize));
 			}
+			/**
+			 * Удаляем оригинал
+			 */
+			$this->Image_RemoveFile($oMedia->getFilePath());
 		}
 		/**
 		 * Удаляем все связи
@@ -518,7 +545,18 @@ class ModuleMedia extends ModuleORM {
 			}
 		}
 	}
-
+	public function GetImageWebPath($sPath,$sWidth=null) {
+		$sPath=$this->Fs_GetPathWeb($sPath);
+		if ($sWidth) {
+			return $this->GetImagePathBySize($sPath,$sWidth);
+		} else {
+			return $sPath;
+		}
+	}
+	public function GetImagePathBySize($sPath,$sSize) {
+		$aPathInfo=pathinfo($sPath);
+		return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sSize.'.'.$aPathInfo['extension'];
+	}
 
 
 	/**
