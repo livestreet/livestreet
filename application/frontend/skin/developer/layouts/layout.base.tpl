@@ -153,7 +153,7 @@
 								{$oUserCurrent->getDisplayName()}
 							</a>
 						</li>
-						<li><a href="{router page='topic'}add/" data-modal-target="modal-write">{$aLang.block_create}</a></li>
+						<li><a href="{router page='content'}add/topic" data-modal-target="modal-write">{$aLang.block_create}</a></li>
 
 						{if $iUserCurrentCountTalkNew} 
 							<li class="new-messages"><a href="{router page='talk'}" title="{if $iUserCurrentCountTalkNew}{$aLang.user_privat_messages_new}{/if}">{$aLang.user_privat_messages} +{$iUserCurrentCountTalkNew}</a></li>
