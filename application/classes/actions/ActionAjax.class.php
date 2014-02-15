@@ -508,7 +508,7 @@ class ActionAjax extends Action {
 		}
 		$sId=getRequestStr('id');
 		if ($oMedia=$this->Media_GetMediaByIdAndUserId($sId,$this->oUserCurrent->getId())) {
-			$this->Media_DeleteFile($oMedia);
+			$oMedia->Delete();
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 		}

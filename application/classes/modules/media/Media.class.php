@@ -433,8 +433,12 @@ class ModuleMedia extends ModuleORM {
 	public function GetMediaByTargetTmp($sTargetTmp,$iUserId=null) {
 		return $this->oMapper->GetMediaByTargetTmp($sTargetTmp,$iUserId);
 	}
-
-	public function DeleteFile($oMedia) {
+	/**
+	 * Выполняет удаление файлов медиа-объекта
+	 *
+	 * @param $oMedia
+	 */
+	public function DeleteFiles($oMedia) {
 		/**
 		 * Сначала удаляем все файлы
 		 */
@@ -452,17 +456,7 @@ class ModuleMedia extends ModuleORM {
 			 */
 			$this->Image_RemoveFile($oMedia->getFilePath());
 		}
-		/**
-		 * Удаляем все связи
-		 */
-		$aTargets=$oMedia->getTargets();
-		foreach($aTargets as $oTarget) {
-			$oTarget->Delete();
-		}
-
-		return $oMedia->Delete();
 	}
-
 	/**
 	 * Возвращает список media с учетов прав доступа текущего пользователя
 	 *
@@ -485,7 +479,6 @@ class ModuleMedia extends ModuleORM {
 		}
 		return array();
 	}
-
 	/**
 	 * Обработка тега gallery в тексте
 	 * <pre>
@@ -544,6 +537,51 @@ class ModuleMedia extends ModuleORM {
 				$oTarget->Update();
 			}
 		}
+	}
+	/**
+	 * Удаляет связь с медиа данными + при необходимости удаляет сами медиа данные
+	 *
+	 * @param string $sTargetType
+	 * @param int $sTargetId
+	 * @param bool $bMediaRemove	Удалять медиа данные оставшиеся без связей
+	 */
+	public function RemoveTarget($sTargetType,$sTargetId,$bMediaRemove=true) {
+		/**
+		 * Получаем прикрепленные медиа
+		 */
+		$aMediaItems=$this->GetMediaByTarget($sTargetType,$sTargetId);
+		/**
+		 * Удаляем все связи текущего таргета
+		 */
+		$this->RemoveTargetByTypeAndId($sTargetType,$sTargetId);
+		if ($bMediaRemove) {
+			/**
+			 * Проверяем с какими медиа данными еще остались связи
+			 */
+			$aMediaIds=array();
+			foreach($aMediaItems as $oMediaItem) {
+				$aMediaIds[]=$oMediaItem->getId();
+			}
+			$aTargetItems=$this->GetTargetItemsByFilter(array('media_id in'=>$aMediaIds,'#index-group'=>'media_id'));
+			/**
+			 * Удаляем медиа данные без оставшихся связей
+			 */
+			foreach($aMediaItems as $oMediaItem) {
+				if (!isset($aTargetItems[$oMediaItem->getId()])) {
+					$oMediaItem->Delete();
+				}
+			}
+		}
+	}
+	public function RemoveTargetByTypeAndId($sTargetType,$iTargetId) {
+		$bRes=$this->oMapper->RemoveTargetByTypeAndId($sTargetType,$iTargetId);
+		/**
+		 * Сбрасываем кеши
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array(
+			'ModuleMedia_EntityTarget_delete'
+		));
+		return $bRes;
 	}
 	public function GetImageWebPath($sPath,$sWidth=null) {
 		$sPath=$this->Fs_GetPathWeb($sPath);

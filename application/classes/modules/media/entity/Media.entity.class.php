@@ -36,6 +36,21 @@ class ModuleMedia_EntityMedia extends EntityORM {
 		return true;
 	}
 
+	protected function beforeDelete() {
+		/**
+		 * Удаляем все связи
+		 */
+		$aTargets=$this->getTargets();
+		foreach($aTargets as $oTarget) {
+			$oTarget->Delete();
+		}
+		/**
+		 * Удаляем все файлы медиа
+		 */
+		$this->Media_DeleteFiles($this);
+		return true;
+	}
+
 	public function getFileWebPath($sWidth=null) {
 		if ($this->getFilePath()) {
 			return $this->Media_GetImageWebPath($this->getFilePath(),$sWidth);

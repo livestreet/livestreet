@@ -68,4 +68,18 @@ class ModuleMedia_MapperMedia extends Mapper {
 		}
 		return $aResult;
 	}
+
+	public function RemoveTargetByTypeAndId($sTargetType,$iTargetId) {
+		$sql = "DELETE
+                FROM ".Config::Get('db.table.media_target')."
+                WHERE
+                	target_id = ?d
+                	AND
+                	target_type = ?
+                	";
+		if ($this->oDb->query($sql,$iTargetId,$sTargetType)!==false) {
+			return true;
+		}
+		return false;
+	}
 }

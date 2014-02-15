@@ -279,6 +279,10 @@ class ModuleTopic extends Module {
 		 */
 		$this->DeleteTopicContentByTopicId($iTopicId);
 		/**
+		 * Удаляем медиа данные топика
+		 */
+		$this->Media_RemoveTarget('topic',$iTopicId,true);
+		/**
 		 * Удаляем комментарии к топику.
 		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
 		 */
