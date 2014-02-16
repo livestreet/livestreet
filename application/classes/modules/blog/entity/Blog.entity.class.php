@@ -176,7 +176,7 @@ class ModuleBlog_EntityBlog extends Entity {
 	 */
 	public function getAvatarPath($iSize=48) {
 		if ($sPath=$this->getAvatar()) {
-			return preg_replace("#_\d{1,3}x\d{1,3}(\.\w{3,4})$#", ((($iSize==0)?"":"_{$iSize}x{$iSize}") . "\\1"),$sPath);
+			return $this->Media_GetImageWebPath($sPath,$iSize.'crop');
 		} else {
 			return Config::Get('path.skin.assets.web').'/images/avatars/avatar_blog_'.$iSize.'x'.$iSize.'.png';
 		}

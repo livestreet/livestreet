@@ -859,47 +859,37 @@ class ModuleBlog extends Module {
 			return false;
 		}
 
-		$sPath=$this->Image_GetIdDir($oBlog->getOwnerId());
-		$aParams=$this->Image_BuildParams('avatar');
-
-		$oImage=$this->Image_CreateImageObject($sFileTmp);
+		$aParams=$this->Image_BuildParams('blog_avatar');
 		/**
-		 * Если объект изображения не создан,
-		 * возвращаем ошибку
+		 * Если объект изображения не создан, возвращаем ошибку
 		 */
-		if($sError=$oImage->get_last_error()) {
-			// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
-			// $this->Message_AddError($sError,$this->Lang_Get('error'));
-			@unlink($sFileTmp);
-			return false;
+		if(!$oImage=$this->Image_Open($sFileTmp,$aParams)) {
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			return $this->Image_GetLastError();
 		}
+		$sPath=$this->Image_GetIdDir($oBlog->getOwnerId(),'users');
 		/**
-		 * Срезаем квадрат
+		 * Имя файла для сохранения
 		 */
-		$oImage = $this->Image_CropSquare($oImage);
-
-		$aSize=Config::Get('module.blog.avatar_size');
-		rsort($aSize,SORT_NUMERIC);
-		$sSizeBig=array_shift($aSize);
-		if ($oImage && $sFileAvatar=$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_{$sSizeBig}x{$sSizeBig}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$sSizeBig,$sSizeBig,false,$aParams,$oImage)) {
-			foreach ($aSize as $iSize) {
-				if ($iSize==0) {
-					$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),null,null,false,$aParams,$oImage);
-				} else {
-					$this->Image_Resize($sFileTmp,$sPath,"avatar_blog_{$oBlog->getUrl()}_{$iSize}x{$iSize}",Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),$iSize,$iSize,false,$aParams,$oImage);
-				}
-			}
-			@unlink($sFileTmp);
-			/**
-			 * Если все нормально, возвращаем расширение загруженного аватара
-			 */
-			return $this->Image_GetWebPath($sFileAvatar);
+		$sFileName='avatar_blog_'.$oBlog->getId();
+		/**
+		 * Сохраняем оригинальную копию
+		 */
+		if (!$sFileResult=$oImage->saveSmart($sPath,$sFileName)) {
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			return $this->Image_GetLastError();
 		}
-		@unlink($sFileTmp);
+		$aSizes=Config::Get('module.blog.avatar_size');
 		/**
-		 * В случае ошибки, возвращаем false
+		 * Генерируем варианты с необходимыми размерами
 		 */
-		return false;
+		$this->Media_GenerateImageBySizes($sFileTmp,$sPath,$sFileName,$aSizes,$aParams);
+		/**
+		 * Теперь можно удалить временный файл
+		 */
+		$this->Fs_RemoveFileLocal($sFileTmp);
+		$oBlog->setAvatar($this->Fs_GetPathRelative($sFileResult,true));
+		return true;
 	}
 	/**
 	 * Удаляет аватар блога с сервера
@@ -911,10 +901,7 @@ class ModuleBlog extends Module {
 		 * Если аватар есть, удаляем его и его рейсайзы
 		 */
 		if($oBlog->getAvatar()) {
-			$aSize=array_merge(Config::Get('module.blog.avatar_size'),array(48));
-			foreach ($aSize as $iSize) {
-				$this->Image_RemoveFile($this->Image_GetServerPath($oBlog->getAvatarPath($iSize)));
-			}
+			$this->Media_RemoveImageBySizes($oBlog->getAvatar(),Config::Get('module.blog.avatar_size'));
 		}
 	}
 	/**

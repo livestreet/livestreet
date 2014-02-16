@@ -232,10 +232,8 @@ class ActionBlog extends Action {
 		 * Загрузка аватара, делаем ресайзы
 		 */
 		if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-			if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-				$oBlog->setAvatar($sPath);
-			} else {
-				$this->Message_AddError($this->Lang_Get('blog.add.fields.avatar.error'),$this->Lang_Get('error'));
+			if (true!==$sResult=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+				$this->Message_AddError(is_bool($sResult) ? $this->Lang_Get('blog.add.fields.avatar.error') : $sResult,$this->Lang_Get('error'));
 				return false;
 			}
 		}
@@ -372,10 +370,8 @@ class ActionBlog extends Action {
 			 * Загрузка аватара, делаем ресайзы
 			 */
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-				if ($sPath=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
-					$oBlog->setAvatar($sPath);
-				} else {
-					$this->Message_AddError($this->Lang_Get('blog.add.fields.avatar.error'),$this->Lang_Get('error'));
+				if (true!==$sResult=$this->Blog_UploadBlogAvatar($_FILES['avatar'],$oBlog)) {
+					$this->Message_AddError(is_bool($sResult) ? $this->Lang_Get('blog.add.fields.avatar.error') : $sResult,$this->Lang_Get('error'));
 					return false;
 				}
 			}

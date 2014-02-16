@@ -309,6 +309,19 @@ class ModuleMedia extends ModuleORM {
 		if (!$aSizes) {
 			return;
 		}
+		/**
+		 * Преобразуем упрощенную запись списка размеров в полную
+		 */
+		foreach($aSizes as $k=>$v) {
+			if (is_numeric($v)) {
+				$aSizes[$k]=array(
+					'w' => $v,
+					'h' => $v,
+					'crop' => true,
+				);
+			}
+		}
+
 		foreach ($aSizes as $aSize) {
 			/**
 			 * Для каждого указанного в конфиге размера генерируем картинку
@@ -323,6 +336,35 @@ class ModuleMedia extends ModuleORM {
 					// TODO: прерывать и возвращать false?
 				}
 			}
+		}
+	}
+	public function RemoveImageBySizes($sPath,$aSizes,$bRemoveOriginal=true) {
+		if ($aSizes) {
+			/**
+			 * Преобразуем упрощенную запись списка размеров в полную
+			 */
+			foreach($aSizes as $k=>$v) {
+				if (is_numeric($v)) {
+					$aSizes[$k]=array(
+						'w' => $v,
+						'h' => $v,
+						'crop' => true,
+					);
+				}
+			}
+			foreach($aSizes as $aSize) {
+				$sSize = $aSize['w'];
+				if ($aSize['crop']) {
+					$sSize.='crop';
+				}
+				$this->Image_RemoveFile($this->GetImagePathBySize($sPath,$sSize));
+			}
+		}
+		/**
+		 * Удаляем оригинал
+		 */
+		if ($bRemoveOriginal) {
+			$this->Image_RemoveFile($sPath);
 		}
 	}
 	/**
@@ -444,17 +486,7 @@ class ModuleMedia extends ModuleORM {
 		 */
 		if ($oMedia->getType()==self::TYPE_IMAGE) {
 			$aSizes=$oMedia->getDataOne('image_sizes');
-			foreach($aSizes as $aSize) {
-				$sSize = $aSize['w'];
-				if ($aSize['crop']) {
-					$sSize.='crop';
-				}
-				$this->Image_RemoveFile($this->GetImagePathBySize($oMedia->getFilePath(),$sSize));
-			}
-			/**
-			 * Удаляем оригинал
-			 */
-			$this->Image_RemoveFile($oMedia->getFilePath());
+			$this->RemoveImageBySizes($oMedia->getFilePath(),$aSizes);
 		}
 	}
 	/**
@@ -591,6 +623,14 @@ class ModuleMedia extends ModuleORM {
 			return $sPath;
 		}
 	}
+	/**
+	 * Возвращает путь до изображения конкретного размера
+	 *
+	 * @param string $sPath
+	 * @param string $sSize
+	 *
+	 * @return string
+	 */
 	public function GetImagePathBySize($sPath,$sSize) {
 		$aPathInfo=pathinfo($sPath);
 		return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sSize.'.'.$aPathInfo['extension'];
