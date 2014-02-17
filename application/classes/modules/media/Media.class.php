@@ -186,7 +186,7 @@ class ModuleMedia extends ModuleORM {
 			return 'Не удалось загрузить файл';
 		}
 
-		$iMaxSizeKb=Config::Get('module.media.image_max_size_url');
+		$iMaxSizeKb=Config::Get('module.media.image.max_size_url');
 		$iSizeKb=0;
 		$sContent='';
 		while (!feof($rFile) and $iSizeKb<$iMaxSizeKb) {
@@ -198,7 +198,7 @@ class ModuleMedia extends ModuleORM {
 		 * значит файл имеет недопустимый размер
 		 */
 		if(!feof($rFile)) {
-			return 'Превышен максимальный размер файла: '.Config::Get('module.media.image_max_size_url').'Kb';
+			return 'Превышен максимальный размер файла: '.Config::Get('module.media.image.max_size_url').'Kb';
 		}
 		fclose($rFile);
 		/**
@@ -256,7 +256,7 @@ class ModuleMedia extends ModuleORM {
 
 		$aSizes=Config::Get("module.media.type.{$sTargetType}.image_sizes");
 		if (!$aSizes) {
-			$aSizes=Config::Get("module.media.image_sizes");
+			$aSizes=Config::Get("module.media.image.sizes");
 		}
 		/**
 		 * Генерируем варианты с необходимыми размерами

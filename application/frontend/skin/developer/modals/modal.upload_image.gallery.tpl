@@ -52,7 +52,7 @@
 
 	            {* Размер *}
 	            {$aSelectImageSizes = [ [ 'value' => 'original', 'text' => 'Оригинал' ] ]}
-				{$aImageSizes = Config::Get('module.media.image_sizes')}
+				{$aImageSizes = Config::Get('module.media.image.sizes')}
 
 				{foreach $aImageSizes as $aSize}
 					{$aSelectImageSizes[] = [

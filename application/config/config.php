@@ -192,10 +192,8 @@ $config['module']['image']['params']['blog_avatar']['size_max_height']=500;
 /**
  * Модуль Media
  */
-$config['module']['media']['image_max_width'] = 5000; // Максимальный размер изображения по ширине
-$config['module']['media']['image_max_height'] = 5000; // Максимальный размер изображения по высоте
-$config['module']['media']['image_max_size_url'] = 1024; // Максимальный размер изображения в kB для загрузки по URL
-$config['module']['media']['image_sizes'] = array(  // список размеров, которые необходимо делать при загрузке изображения
+$config['module']['media']['image']['max_size_url'] = 1024; // Максимальный размер изображения в kB для загрузки по URL
+$config['module']['media']['image']['sizes'] = array(  // список размеров, которые необходимо делать при загрузке изображения
 	array(
 		'w' => 1000,
 		'h' => null,
