@@ -807,28 +807,27 @@ class ActionAjax extends Action {
 		 * Голосует автор комментария?
 		 */
 		if ($oComment->getUserId()==$this->oUserCurrent->getId()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_self'),$this->Lang_Get('attention'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Пользователь уже голосовал?
 		 */
 		if ($oTopicCommentVote=$this->Vote_GetVote($oComment->getId(),'comment',$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_already'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_already_voted'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Время голосования истекло?
 		 */
 		if (strtotime($oComment->getDate())<=time()-Config::Get('acl.vote.comment.limit_time')) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_time'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_time'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Пользователь имеет право голоса?
 		 */
 		if (!$this->ACL_CanVoteComment($this->oUserCurrent,$oComment)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error_acl'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_acl'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -852,15 +851,14 @@ class ActionAjax extends Action {
 
 		$oComment->setCountVote($oComment->getCountVote()+1);
 		if ($this->Vote_AddVote($oTopicCommentVote) and $this->Comment_UpdateComment($oComment)) {
-			$this->Message_AddNoticeSingle($this->Lang_Get('comment_vote_ok'),$this->Lang_Get('attention'));
+			$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			$this->Viewer_AssignAjax('iRating',$oComment->getRating());
 			/**
 			 * Добавляем событие в ленту
 			 */
 			$this->Stream_write($oTopicCommentVote->getVoterId(), 'vote_comment', $oComment->getId());
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_vote_error'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 	}
 	/**
@@ -1262,7 +1260,7 @@ class ActionAjax extends Action {
 			);
 			$oComment->setCountFavourite($oComment->getCountFavourite()+1);
 			if ($this->Comment_AddFavouriteComment($oFavouriteCommentNew) and $this->Comment_UpdateComment($oComment)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_add_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',true);
 				$this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
 			} else {
@@ -1270,17 +1268,15 @@ class ActionAjax extends Action {
 			}
 		}
 		if (!$oFavouriteComment and !$iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_favourite_add_no'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		if ($oFavouriteComment and $iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('comment_favourite_add_already'),$this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
 		if ($oFavouriteComment and !$iType) {
 			$oComment->setCountFavourite($oComment->getCountFavourite()-1);
 			if ($this->Comment_DeleteFavouriteComment($oFavouriteComment) and $this->Comment_UpdateComment($oComment)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('comment_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',false);
 				$this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
 			} else {
@@ -1606,11 +1602,11 @@ class ActionAjax extends Action {
 		 * Формируем текст ответа
 		 */
 		if ($bState=(bool)$oComment->getDelete()) {
-			$sMsg=$this->Lang_Get('comment_delete_ok');
-			$sTextToggle=$this->Lang_Get('comment_repair');
+			$sMsg=$this->Lang_Get('common.success.remove');
+			$sTextToggle=$this->Lang_Get('comments.comment.restore');
 		} else {
-			$sMsg=$this->Lang_Get('comment_repair_ok');
-			$sTextToggle=$this->Lang_Get('comment_delete');
+			$sMsg=$this->Lang_Get('comments.notices.success_restore');
+			$sTextToggle=$this->Lang_Get('common.remove');
 		}
 		/**
 		 * Обновление события в ленте активности

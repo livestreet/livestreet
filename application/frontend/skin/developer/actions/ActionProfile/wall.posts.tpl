@@ -14,7 +14,7 @@
 		{* Кнопка подгрузки комментариев *}
 		{if count($aPostComments) < $oPost->getCountReply()}
 			<div class="get-more get-more-wall-comments js-wall-get-more" data-id="{$oPost->getId()}">
-				{$aLang.wall_load_reply_more} <span class="js-wall-get-more-count">{$oPost->getCountReply()}</span> {$oPost->getCountReply()|declension:$aLang.comment_declension}
+				{$aLang.wall_load_reply_more} <span class="js-wall-get-more-count">{$oPost->getCountReply()}</span> {$oPost->getCountReply()|declension:$aLang.comments.comments_declension}
 			</div>
 		{/if}
 

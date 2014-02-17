@@ -3,7 +3,7 @@
  *
  * @template comments/*.tpl
  * @scripts <frontend>/common/js/comments.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -15,21 +15,20 @@
  */
 .comments { margin-bottom: 30px; }
 
-.comments-header    { margin-bottom: 20px; }
-.comments-header h3 { font-size: 24px; margin-bottom: 5px; }
+.comments-header { margin-bottom: 20px; }
+.comments-title  { font-size: 24px; margin-bottom: 5px; }
 
 
 /**
  * Вспомогательный блок-обертка
  */
-.comment-wrapper                  { position: relative; }
 .comment-wrapper .comment-wrapper { padding-left: 25px; }
 
 
 /**
  * Предпросмотр текста комментария
  */
-.comment-preview                  { padding: 15px; margin: 0 0 10px 0; font-size: 13px; line-height: 18px; border: 1px solid #eee; }
+.comment-preview                  { padding: 15px; margin: 0 0 10px 0; border: 1px solid #eee; }
 .comment-wrapper .comment-preview { margin-left: 25px; }
 
 
@@ -44,8 +43,8 @@
  *
  * @template comments/comment.tpl
  */
-.comment { 
-	min-height: 48px; 
+.comment {
+	min-height: 48px;
 	padding: 10px 10px 10px 68px;
 	position: relative;
 	border-top: 1px solid #eee;
@@ -72,12 +71,12 @@
 .comment-avatar { position: absolute; top: 10px; left: 10px; }
 
 /* Информация */
-.comment-info                       { padding: 0 70px 0 0; margin-bottom: 10px; line-height: 1.3em; position: relative; overflow: hidden; }
-.comment-info li                    { float: left; margin-right: 10px; }
-.comment-info a                     { text-decoration: none; }
-.comment-info .comment-date a       { color: #999; border-color: #999; }
-.comment-info .comment-goto-child   { display: none; }
-.comment-info .vote                 { position: absolute; top: 0; right: 0; margin: 0; }
+.comment-info              { padding: 0 70px 0 0; margin-bottom: 10px; line-height: 1.3em; position: relative; overflow: hidden; }
+.comment-info li           { float: left; margin-right: 10px; }
+.comment-info a            { text-decoration: none; }
+.comment-date a            { color: #999; border-color: #999; }
+.comment-info .vote        { position: absolute; top: 0; right: 0; margin: 0; }
+.comment-scroll-to-child   { display: none; }
 .comment-username          { font-weight: bold; }
 .comment-username-author   { background: #2891D3; padding: 0 3px; }
 .comment-username-author a { color: #fff; }
@@ -87,21 +86,25 @@
 .comment-content.text blockquote { background: #fff; border-color: #ccc; padding: 5px 10px; margin-bottom: 5px; }
 
 /* Кнопки */
-.comment-actions { margin-top: 10px; }
+.comment-actions    { margin-top: 10px; }
 .comment-actions li { display: inline; margin-right: 10px; }
+
+/* Сворачивание */
+.comment-fold      { background: #CBCBF3; }
+.comment-fold.open { background: transparent; }
 
 
 /**
  * Форма комментирования
  *
- * @template comments/comment_tree.tpl
+ * @template comments/comment.form.tpl
  */
-.comment-reply          { padding-bottom: 10px; }
-.comment-reply textarea { height: 150px; }
+.comment-form          { padding: 15px; background: #fafafa; }
+.comment-form textarea { height: 150px; }
 
-.comment-wrapper .comment-reply { margin-left: 25px; }
+.comment-wrapper .comment-form { margin-left: 25px; }
 
-.comment-reply-header { font-size: 20px; margin-bottom: 15px; }
+.comment-reply-root { font-size: 20px; margin-bottom: 15px; }
 
 
 /**

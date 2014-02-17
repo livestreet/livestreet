@@ -103,7 +103,7 @@
 							{* Ссылка на комментарии *}
 							{if $bTopicList}
 								<li class="topic-info-item topic-info-item-comments">
-									<a href="{$oEntry->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oEntry->getCountComment()} {$oEntry->getCountComment()|declension:$aLang.comment_declension}</a>
+									<a href="{$oEntry->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oEntry->getCountComment()} {$oEntry->getCountComment()|declension:$aLang.comments.comments_declension}</a>
 									{if $oEntry->getCountCommentNew()}<span>+{$oEntry->getCountCommentNew()}</span>{/if}
 								</li>
 							{/if}

@@ -135,9 +135,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Comments
 	 */
-	ls.comments.init({
-		folding: false
-	});
+	ls.comments.init();
 
 
 	/**

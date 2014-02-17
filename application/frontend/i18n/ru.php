@@ -30,6 +30,7 @@ return array(
 		'cancel' => 'Отменить',
 		'empty'  => 'Тут ничего нет',
 		'form_reset'  => 'Очистить форму',
+		'preview_text'  => 'Предпросмотр',
 		'error'  => array(
 			'add'  => 'При добавлении возникла ошибка',
 			'save'  => 'Ошибка сохранения',
@@ -60,7 +61,10 @@ return array(
 
 		// Всплывающие сообщения
 		'notices' => array(
-			'success' => 'Ваш голос учтен',
+			'success'             => 'Ваш голос учтен',
+			'error_time'          => 'Срок голосования истёк!',
+			'error_already_voted' => 'Вы уже голосовали!',
+			'error_acl'           => 'У вас не хватает рейтинга для голосования!',
 		),
 	),
 
@@ -457,6 +461,45 @@ return array(
 	),
 
 	/**
+	 * Комментарии
+	 */
+	'comments' => array(
+		'comments_declension' => 'комментарий;комментария;комментариев',
+		'count_new'          => 'Число новых комментариев',
+		'title'              => 'Комментарии',
+		'subscribe'          => 'Подписаться на новые комментарии',
+
+		// Комментарий
+		'comment' => array(
+			'deleted'          => 'Комментарий был удален',
+			'restore'          => 'Восстановить',
+			'reply'            => 'Ответить',
+			'scroll_to_parent' => 'Ответ на',
+			'scroll_to_child'  => 'Обратно к ответу',
+			'target_author'    => 'Автор',
+			'url'              => 'Ссылка на комментарий',
+		),
+
+		// Сворачивание
+		'folding' => array(
+			'fold'       => 'Свернуть',
+			'unfold'     => 'Развернуть',
+			'fold_all'   => 'Свернуть все',
+			'unfold_all' => 'Развернуть все',
+		),
+
+		// Всплывающие сообщения
+		'notices' => array(
+			'success_restore' => 'Комментарий восстановлен',
+		),
+
+		// Сообщения
+		'alerts' => array(
+			'unregistered' => 'Только зарегистрированные и авторизованные пользователи могут оставлять комментарии'
+		),
+	),
+
+	/**
 	 * Почта
 	 */
 	'talk_filter_error' => 'Ошибка фильтрации',
@@ -660,44 +703,6 @@ return array(
 	'topic_vote_ok' => 'Ваш голос учтен',
 	'topic_vote_ok_abstain' => 'Вы воздержались для просмотра рейтинга топика',
 	'topic_vote_count' => 'всего проголосовало',
-	/**
-	 * Комментарии
-	 */
-	'comment_title' => 'Комментарии',
-	'comment_target_author' => 'автор',
-	'comment_count_new' => 'Число новых комментариев',
-	'comment_url_notice' => 'Ссылка на комментарий',
-	'comment_collapse' => 'свернуть',
-	'comment_expand' => 'развернуть',
-	'comment_goto_parent' => 'Ответ на',
-	'comment_goto_child' => 'Обратно к ответу',
-	'comment_bad_open' => 'раскрыть комментарий',
-	'comment_answer' => 'Ответить',
-	'comment_delete' => 'Удалить',
-	'comment_delete_ok' => 'Комментарий удален',
-	'comment_repair' => 'Восстановить',
-	'comment_repair_ok' => 'Комментарий восстановлен',
-	'comment_was_delete' => 'комментарий был удален',
-	'comment_add' => 'Добавить',
-	'comment_preview' => 'Предпросмотр',
-	'comment_unregistered' => 'Только зарегистрированные и авторизованные пользователи могут оставлять комментарии.',
-	'comment_subscribe' => 'подписаться на новые комментарии',
-	'comment_declension' => 'комментарий;комментария;комментариев',
-	/**
-	 * Голосование за комментарий
-	 */
-	'comment_vote_error' => 'Попробуйте проголосовать позже',
-	'comment_vote_error_acl' => 'У вас не хватает рейтинга и силы для голосования!',
-	'comment_vote_error_already' => 'Вы уже голосовали за этот комментарий!',
-	'comment_vote_error_time' => 'Срок голосования за комментарий истёк!',
-	'comment_vote_error_self' => 'Вы не можете голосовать за свой комментарий!',
-	'comment_vote_ok' => 'Ваш голос учтен',
-	'comment_favourite_add' => 'добавить в избранное',
-	'comment_favourite_add_ok' => 'Комментарий добавлен в избранное',
-	'comment_favourite_add_no' => 'Этого комментария нет в вашем избранном',
-	'comment_favourite_add_already' => 'Этот комментарий уже есть в вашем избранном',
-	'comment_favourite_del' => 'удалить из избранного',
-	'comment_favourite_del_ok' => 'Комментарий удален из избранного',
 	/**
 	 * Люди
 	 */

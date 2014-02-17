@@ -20,7 +20,7 @@
 
 				<p>
 					<time datetime="{date_format date=$oTopic->getDate() format='c'}">{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time> |
-					{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comment_declension}
+					{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comments.comments_declension}
 				</p>
 			</li>
 		{/foreach}

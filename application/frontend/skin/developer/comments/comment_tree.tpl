@@ -6,37 +6,41 @@
 
 {* Добавляем в тулбар кнопку обновления комментариев *}
 {add_block group='toolbar' name='toolbar/toolbar.comment.tpl'
-	aPagingCmt=$aPagingCmt
-	iTargetId=$iTargetId
-	sTargetType=$sTargetType
-	iMaxIdComment=$iMaxIdComment
-}
+	aPagingCmt = $aPagingCmt
+	iTargetId = $iTargetId
+	sTargetType = $sTargetType
+	iMaxIdComment = $iMaxIdComment}
 
 
 {hook run='comment_tree_begin' iTargetId=$iTargetId sTargetType=$sTargetType}
 
 
-<div class="comments" id="comments">
+{**
+ * Комментарии
+ *}
+<div class="comments js-comments" id="comments">
+	{**
+	 * Хидер
+	 *}
 	<header class="comments-header">
-		<h3>
-			<span id="count-comments">{$iCountComment}</span>
-			{$iCountComment|declension:$aLang.comment_declension}
-		</h3>
+		<h3 class="comments-title js-comments-title">{$iCountComment} {$iCountComment|declension:$aLang.comments.comments_declension}</h3>
 
 		{* Подписка на комментарии *}
 		{if $bAllowSubscribe and $oUserCurrent}
-			<label class="comments-subscribe">
+			<p><label class="comments-subscribe">
 				<input
 					type="checkbox"
 					id="comment_subscribe"
 					class="input-checkbox"
 					onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"
 					{if $oSubscribeComment and $oSubscribeComment->getStatus()}checked{/if}>
-				{$aLang.comment_subscribe}
-			</label>
+				{$aLang.comments.subscribe}
+			</label></p><br>
 		{/if}
 
-		<a name="comments"></a>
+		{* Свернуть/развернуть все *}
+		<a href="#" class="link-dotted js-comments-fold-all">{$aLang.comments.folding.fold_all}</a> |
+		<a href="#" class="link-dotted js-comments-unfold-all">{$aLang.comments.folding.unfold_all}</a>
 	</header>
 
 	{**
@@ -58,9 +62,9 @@
 			</div>
 		{/if}
 
-		<div class="comment-wrapper" id="comment_wrapper_id_{$oComment->getId()}">
+		<div class="comment-wrapper js-comment-wrapper" data-id="{$oComment->getId()}">
 
-		{include file='comments/comment.tpl'}
+		{include 'comments/comment.tpl'}
 
 		{$iCurrentLevel = $iCommentLevel}
 
@@ -74,7 +78,7 @@
 {**
  * Пагинация
  *}
-{include file='comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt}
+{include 'comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt}
 
 {hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
@@ -83,37 +87,16 @@
  * Форма добавления комментария
  *}
 {if $bAllowNewComment}
-	{include file='alert.tpl' sAlertStyle='info' mAlerts=$sNoticeNotAllow}
+	{include 'alert.tpl' sAlertStyle='info' mAlerts=$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
-		{* Подключение редактора *}
-		{include file='forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='comment' }
-
 		{* Ссылка открывающая форму *}
-		<h4 class="comment-reply-header" id="comment_id_0">
-			<a href="#" class="link-dotted" onclick="ls.comments.toggleCommentForm(0); return false;">{$sNoticeCommentAdd}</a>
+		<h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
+			<a href="#" class="link-dotted">{$sNoticeCommentAdd}</a>
 		</h4>
 
-		{* Форма *}
-		<div id="reply" class="comment-reply">
-			<form method="post" id="form_comment" onsubmit="return false;" enctype="multipart/form-data">
-				{hook run='form_add_comment_begin'}
-
-				<textarea name="comment_text" id="form_comment_text" class="js-editor width-full"></textarea>
-
-				{hook run='form_add_comment_end'}
-
-				<input type="hidden" name="reply" value="0" id="form_comment_reply" />
-				<input type="hidden" name="cmt_target_id" value="{$iTargetId}" />
-
-				<button type="submit" name="submit_comment"
-						id="comment-button-submit"
-						onclick="ls.comments.add('form_comment',{$iTargetId},'{$sTargetType}'); return false;"
-						class="button button-primary">{$aLang.comment_add}</button>
-				<button type="button" onclick="ls.comments.preview();" class="button">{$aLang.comment_preview}</button>
-			</form>
-		</div>
+		{include 'comments/comment.form.tpl'}
 	{else}
-		{include file='alert.tpl' sAlertStyle='info' mAlerts=$aLang.comment_unregistered}
+		{include 'alert.tpl' sAlertStyle='info' mAlerts=$aLang.comments.alerts.unregistered}
 	{/if}
 {/if}

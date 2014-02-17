@@ -27,7 +27,7 @@
 
 
 {* Комментарий *}
-<section id="comment_id_{$oComment->getId()}" class="comment
+<section data-id="{$oComment->getId()}" id="comment{$oComment->getId()}" class="js-comment comment open
 														{if ! $bList}
 															{if $oComment->isBad()}
 																comment-bad
@@ -35,59 +35,52 @@
 
 															{if $oComment->getDelete()}
 																comment-deleted
-															{elseif $oUserCurrent and $oComment->getUserId() == $oUserCurrent->getId()} 
+															{elseif $oUserCurrent and $oComment->getUserId() == $oUserCurrent->getId()}
 																comment-self
-															{elseif $sDateReadLast <= $oComment->getDate()} 
+															{elseif $sDateReadLast <= $oComment->getDate()}
 																comment-new
 															{/if}
 														{else}
 															comment-list-item
 														{/if}">
 	{if ! $oComment->getDelete() or ($oUserCurrent and $oUserCurrent->isAdministrator())}
-		<a name="comment{$oComment->getId()}"></a>
-		
 		{* Аватар пользователя *}
 		<a href="{$oUser->getUserWebPath()}">
 			<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="comment-avatar" />
 		</a>
-		
+
 		{* Информация *}
 		<ul class="comment-info">
 			{* Автор комментария *}
 			<li class="comment-username {if $iAuthorId == $oUser->getId()}comment-username-author{/if}" title="{if $sAuthorNotice}{$sAuthorNotice}{/if}">
 				<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
 			</li>
-			
+
 			{* Дата *}
 			<li class="comment-date">
-				<a href="{if $oConfig->GetValue('module.comment.nested_per_page')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comment_url_notice}">
+				<a href="{if $oConfig->GetValue('module.comment.use_nested')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comments.comment.url}">
 					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 				</a>
 			</li>
-			
-			{* Ссылки на родительские/дочерние комментарии *}
+
+			{* Прокрутка к родительскии/дочернии комментариям *}
 			{if ! $bList and $oComment->getPid()}
-				<li class="comment-goto comment-goto-parent">
-					<a href="#" onclick="ls.comments.goToParentComment({$oComment->getId()},{$oComment->getPid()}); return false;" title="{$aLang.comment_goto_parent}">↑</a>
-				</li>
+				<li class="comment-scroll-to comment-scroll-to-parent js-comment-scroll-to-parent" title="{$aLang.comments.comment.scroll_to_parent}" data-id="{$oComment->getId()}" data-parent-id="{$oComment->getPid()}">↑</li>
 			{/if}
 
-			<li class="comment-goto comment-goto-child"><a href="#" title="{$aLang.comment_goto_child}">↓</a></li>
-			
-			{**
-			 * Блок голосования
-			 * Не выводим блок голосования в личных сообщениях и списках
-			 *}
-			{if $oComment->getTargetType() != 'talk'}	
+			<li class="comment-scroll-to comment-scroll-to-child js-comment-scroll-to-child" title="{$aLang.comments.comment.scroll_to_child}">↓</li>
+
+			{* Голосование *}
+			{if $oComment->getTargetType() != 'talk'}
 				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment bVoteIsLocked=($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}</li>
 			{/if}
-			
+
 			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
 				<li>{include 'favourite.tpl' sFavouriteType='comment' oFavouriteObject=$oComment}</li>
 			{/if}
 		</ul>
-		
+
 
 		{* Текст комментария *}
 		<div id="comment_content_id_{$oComment->getId()}" class="comment-content text">
@@ -99,21 +92,19 @@
 		{if $oUserCurrent}
 			<ul class="comment-actions">
 				{if ! $bList and ! $oComment->getDelete() and ! $bAllowNewComment}
-					<li><a href="#" onclick="ls.comments.toggleCommentForm({$oComment->getId()}); return false;" class="reply-link link-dotted">{$aLang.comment_answer}</a></li>
+					<li><a href="#" class="link-dotted js-comment-reply" data-id="{$oComment->getId()}">{$aLang.comments.comment.reply}</a></li>
 				{/if}
-					
-				{if ! $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}
-					<li><a href="#" class="comment-delete link-dotted" onclick="ls.comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_delete}</a></li>
+
+				<li class="link-dotted comment-fold js-comment-fold open" data-id="{$oComment->getId()}" style="display: none"><a href="#">{$aLang.comments.folding.fold}</a></li>
+
+				{if $oUserCurrent and $oUserCurrent->isAdministrator()}
+					<li><a href="#" class="link-dotted js-comment-remove" data-id="{$oComment->getId()}">{($oComment->getDelete()) ? $aLang.comments.comment.restore : $aLang.common.remove}</a></li>
 				{/if}
-				
-				{if $oComment->getDelete() and $oUserCurrent and $oUserCurrent->isAdministrator()}   										
-					<li><a href="#" class="comment-repair link-dotted" onclick="ls.comments.toggle(this,{$oComment->getId()}); return false;">{$aLang.comment_repair}</a></li>
-				{/if}
-				
+
 				{hook run='comment_action' comment=$oComment}
 			</ul>
 		{/if}
-	{else}				
-		{$aLang.comment_was_delete}
-	{/if}	
+	{else}
+		{$aLang.comments.comment.deleted}
+	{/if}
 </section>
