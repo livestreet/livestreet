@@ -363,7 +363,7 @@ ls.media = (function ($) {
 				/* Расчитываем пропорциональную высоту изображения */
 				var height = v.h || parseInt(v.w * item.data('mediaHeight') / item.data('mediaWidth'));
 
-				return '<option value="'+ v.w + (v.crop ? 'crop' : '') + '">' + v.w + ' × ' + height + '</option>';
+				return '<option value="'+ v.w + 'x' + (v.h ? v.h : '') + (v.crop ? 'crop' : '') + '">' + v.w + ' × ' + height + '</option>';
 			}).join(''));
 		}
 	};

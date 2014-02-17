@@ -56,7 +56,7 @@
 
 				{foreach $aImageSizes as $aSize}
 					{$aSelectImageSizes[] = [
-						'value' => "{$aSize.w}{if $aSize.crop}crop{/if}",
+						'value' => "{$aSize.w}x{$aSize.h}{if $aSize.crop}crop{/if}",
 						'text' => "{$aSize.w} × {if $aSize.h}{$aSize.h}{else}*{/if}"
 					]}
 				{/foreach}

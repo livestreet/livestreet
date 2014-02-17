@@ -298,6 +298,11 @@ class ModuleMedia extends ModuleORM {
 	}
 	/**
 	 * Создает набор отресайзанных изображений
+	 * Варианты наименований результирующих файлов в зависимости от размеров:
+	 * 	file_100x150 - w=100 h=150 crop=false
+	 * 	file_100x150crop - w=100 h=150 crop=true
+	 * 	file_x150 - w=null h=150 crop=false
+	 * 	file_100x - w=100 h=null crop=false
 	 *
 	 * @param      $sFileSource
 	 * @param      $sDirDist
@@ -326,7 +331,7 @@ class ModuleMedia extends ModuleORM {
 			/**
 			 * Для каждого указанного в конфиге размера генерируем картинку
 			 */
-			$sNewFileName = $sFileName.'_'.$aSize['w'];
+			$sNewFileName = $sFileName.'_'.$aSize['w'].'x'.$aSize['h'];
 			if($oImage=$this->Image_Open($sFileSource,$aParams)) {
 				if ($aSize['crop']) {
 					$oImage->cropProportion($aSize['w']/$aSize['h'],'center');
@@ -353,7 +358,7 @@ class ModuleMedia extends ModuleORM {
 				}
 			}
 			foreach($aSizes as $aSize) {
-				$sSize = $aSize['w'];
+				$sSize = $aSize['w'].'x'.$aSize['h'];
 				if ($aSize['crop']) {
 					$sSize.='crop';
 				}
@@ -391,7 +396,7 @@ class ModuleMedia extends ModuleORM {
 			 * Проверяем корректность размера
 			 */
 			foreach($aSizes as $aSizeAllow) {
-				$sSizeKey=$aSizeAllow['w'].($aSizeAllow['crop'] ? 'crop' : '');
+				$sSizeKey=$aSizeAllow['w'].'x'.$aSizeAllow['h'].($aSizeAllow['crop'] ? 'crop' : '');
 				if ($sSizeKey==$sSizeParam) {
 					$sSize=$sSizeKey;
 					/**
@@ -625,6 +630,13 @@ class ModuleMedia extends ModuleORM {
 	}
 	/**
 	 * Возвращает путь до изображения конкретного размера
+	 * Варианты преобразования размеров в имя файла:
+	 * 	100 - file_100x100
+	 * 	100crop - file_100x100crop
+	 * 	100x150 - file_100x150
+	 *  100x150crop - file_100x150crop
+	 *  x150 - file_x150
+	 *  100x - file_100x
 	 *
 	 * @param string $sPath
 	 * @param string $sSize
@@ -633,6 +645,12 @@ class ModuleMedia extends ModuleORM {
 	 */
 	public function GetImagePathBySize($sPath,$sSize) {
 		$aPathInfo=pathinfo($sPath);
+		if (preg_match('#^(\d+)([a-z]{2,10})?$#i',$sSize,$aMatch)) {
+			$sSize=$aMatch[1].'x'.$aMatch[1];
+			if (isset($aMatch[2])) {
+				$sSize.=strtolower($aMatch[2]);
+			}
+		}
 		return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sSize.'.'.$aPathInfo['extension'];
 	}
 
