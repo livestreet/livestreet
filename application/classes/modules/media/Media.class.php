@@ -268,7 +268,8 @@ class ModuleMedia extends ModuleORM {
 		$oMedia=Engine::GetEntity('ModuleMedia_EntityMedia');
 		$oMedia->setUserId($this->oUserCurrent ? $this->oUserCurrent->getId() : null);
 		$oMedia->setType(self::TYPE_IMAGE);
-		$oMedia->setFilePath($this->Fs_GetPathRelative($sFileResult,true));
+		$oMedia->setTargetType($sTargetType);
+		$oMedia->setFilePath($sFileResult);
 		$oMedia->setFileName($aPathInfo['filename']);
 		$oMedia->setFileSize(filesize($sFileTmp));
 		$oMedia->setWidth($iWidth);
@@ -596,10 +597,43 @@ class ModuleMedia extends ModuleORM {
 		));
 		return $bRes;
 	}
-	public function GetImageWebPath($sPath,$sWidth=null) {
+
+	public function GetFileWebPath($oMedia,$sSize=null) {
+		if ($oMedia->getType()==self::TYPE_IMAGE) {
+			/**
+			 * Проверяем необходимость автоматического создания превью нужного размера - если разрешено настройками и файл НЕ существует
+			 */
+			if (Config::Get('module.media.image.autoresize') and !$this->Image_IsExistsFile($this->GetImagePathBySize($oMedia->getFilePath(),$sSize))) {
+				/**
+				 * Запускаем генерацию изображения нужного размера
+				 */
+				$aSize=$this->ParsedImageSize($sSize);
+
+				$aParams=$this->Image_BuildParams('media.'.$oMedia->getTargetType());
+				$sNewFileName=$this->GetImagePathBySize($oMedia->getFilePath(),$sSize);
+				if($oImage=$this->Image_OpenFrom($oMedia->getFilePath(),$aParams)) {
+					if ($aSize['crop']) {
+						$oImage->cropProportion($aSize['w']/$aSize['h'],'center');
+					}
+					$oImage->resize($aSize['w'],$aSize['h'],true)->save($sNewFileName);
+					/**
+					 * Обновляем список размеров
+					 */
+					$aSizeOld=(array)$oMedia->getDataOne('image_sizes');
+					$aSizeOld[]=$aSize;
+					$oMedia->setDataOne('image_sizes',$aSizeOld);
+					$oMedia->Update();
+				}
+			}
+			return $this->GetImageWebPath($oMedia->getFilePath(),$sSize);
+		}
+		return null;
+	}
+
+	public function GetImageWebPath($sPath,$sSize=null) {
 		$sPath=$this->Fs_GetPathWeb($sPath);
-		if ($sWidth) {
-			return $this->GetImagePathBySize($sPath,$sWidth);
+		if ($sSize) {
+			return $this->GetImagePathBySize($sPath,$sSize);
 		} else {
 			return $sPath;
 		}
@@ -630,6 +664,44 @@ class ModuleMedia extends ModuleORM {
 		return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sSize.'.'.$aPathInfo['extension'];
 	}
 
+	/**
+	 * Парсит строку с размером изображения
+	 * Варианты входной строки:
+	 * 100
+	 * 100crop
+	 * 100x150
+	 * 100x150crop
+	 * x150
+	 * 100x
+	 *
+	 * @param string $sSize
+	 *
+	 * @return array	Массив вида array('w'=>100,'h'=>150,'crop'=>true)
+	 */
+	public function ParsedImageSize($sSize) {
+		$aSize=array(
+			'w'=>null,
+			'h'=>null,
+			'crop'=>false,
+		);
+
+		if (preg_match('#^(\d+)?(x)?(\d+)?([a-z]{2,10})?$#Ui',$sSize,$aMatch)) {
+			$iW=(isset($aMatch[1]) and $aMatch[1]) ? $aMatch[1] : null;
+			$iH=(isset($aMatch[3]) and $aMatch[3]) ? $aMatch[3] : null;
+			$bDelim=(isset($aMatch[2]) and $aMatch[2]) ? true : false;
+			$sMod=(isset($aMatch[4]) and $aMatch[4]) ? $aMatch[4] : '';
+
+			if (!$bDelim) {
+				$iW=$iH;
+			}
+			$aSize['w']=$iW;
+			$aSize['h']=$iH;
+			if ($sMod) {
+				$aSize[$sMod]=true;
+			}
+		}
+		return $aSize;
+	}
 
 	/**
 	 * Проверка владельца с типом "topic"

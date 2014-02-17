@@ -51,9 +51,16 @@ class ModuleMedia_EntityMedia extends EntityORM {
 		return true;
 	}
 
-	public function getFileWebPath($sWidth=null) {
+	/**
+	 * Возвращает URL до файла нужного размера, в основном используется для изображений
+	 *
+	 * @param null $sSize
+	 *
+	 * @return null
+	 */
+	public function getFileWebPath($sSize=null) {
 		if ($this->getFilePath()) {
-			return $this->Media_GetImageWebPath($this->getFilePath(),$sWidth);
+			return $this->Media_GetFileWebPath($this,$sSize);
 		} else {
 			return null;
 		}

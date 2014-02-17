@@ -192,6 +192,7 @@ $config['module']['image']['params']['blog_avatar']['size_max_height']=500;
 /**
  * Модуль Media
  */
+$config['module']['media']['image']['autoresize'] = true; // Разрешает автоматическое создание изображений нужного размера при их запросе
 $config['module']['media']['image']['max_size_url'] = 1024; // Максимальный размер изображения в kB для загрузки по URL
 $config['module']['media']['image']['sizes'] = array(  // список размеров, которые необходимо делать при загрузке изображения
 	array(

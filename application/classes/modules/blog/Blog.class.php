@@ -888,7 +888,7 @@ class ModuleBlog extends Module {
 		 * Теперь можно удалить временный файл
 		 */
 		$this->Fs_RemoveFileLocal($sFileTmp);
-		$oBlog->setAvatar($this->Fs_GetPathRelative($sFileResult,true));
+		$oBlog->setAvatar($sFileResult);
 		return true;
 	}
 	/**

@@ -489,3 +489,8 @@ ALTER TABLE `prefix_poll_vote` ADD `answers` VARCHAR( 500 ) NOT NULL AFTER `user
 ALTER TABLE `prefix_property` CHANGE `type` `type` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text';
 ALTER TABLE `prefix_property_value` ADD `value_date` DATETIME NULL DEFAULT NULL AFTER `value_varchar` ,
 ADD INDEX ( `value_date` ) ;
+
+
+-- 17.02.2014
+ALTER TABLE `prefix_media` ADD `target_type` VARCHAR( 50 ) NOT NULL AFTER `type` ,
+ADD INDEX ( `target_type` ) ;
