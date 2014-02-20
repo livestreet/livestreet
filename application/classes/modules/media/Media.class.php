@@ -132,6 +132,21 @@ class ModuleMedia extends ModuleORM {
 		}
 		return false;
 	}
+	/**
+	 * Возвращает параметр конфига с учетом текущего target_type
+	 *
+	 * @param string $sParam Ключ конфига относительно module.media
+	 * @param string $sTargetType Тип
+	 *
+	 * @return mixed
+	 */
+	public function GetConfigParam($sParam,$sTargetType) {
+		$mValue=Config::Get("module.media.type.{$sTargetType}.{$sParam}");
+		if (!$mValue) {
+			$mValue=Config::Get("module.media.{$sParam}");
+		}
+		return $mValue;
+	}
 
 	public function Upload($aFile,$sTargetType,$sTargetId,$sTargetTmp=null) {
 		if (is_string($aFile)) {
@@ -186,7 +201,7 @@ class ModuleMedia extends ModuleORM {
 			return 'Не удалось загрузить файл';
 		}
 
-		$iMaxSizeKb=Config::Get('module.media.image.max_size_url');
+		$iMaxSizeKb=$this->GetConfigParam('image.max_size_url',$sTargetType);
 		$iSizeKb=0;
 		$sContent='';
 		while (!feof($rFile) and $iSizeKb<$iMaxSizeKb) {
@@ -198,7 +213,7 @@ class ModuleMedia extends ModuleORM {
 		 * значит файл имеет недопустимый размер
 		 */
 		if(!feof($rFile)) {
-			return 'Превышен максимальный размер файла: '.Config::Get('module.media.image.max_size_url').'Kb';
+			return 'Превышен максимальный размер файла: '.$this->GetConfigParam('image.max_size_url',$sTargetType).'Kb';
 		}
 		fclose($rFile);
 		/**
@@ -254,10 +269,7 @@ class ModuleMedia extends ModuleORM {
 			return $this->Image_GetLastError();
 		}
 
-		$aSizes=Config::Get("module.media.type.{$sTargetType}.image.sizes");
-		if (!$aSizes) {
-			$aSizes=Config::Get("module.media.image.sizes");
-		}
+		$aSizes=$this->GetConfigParam('image.sizes',$sTargetType);
 		/**
 		 * Генерируем варианты с необходимыми размерами
 		 */
@@ -603,7 +615,7 @@ class ModuleMedia extends ModuleORM {
 			/**
 			 * Проверяем необходимость автоматического создания превью нужного размера - если разрешено настройками и файл НЕ существует
 			 */
-			if (Config::Get('module.media.image.autoresize') and !$this->Image_IsExistsFile($this->GetImagePathBySize($oMedia->getFilePath(),$sSize))) {
+			if ($this->GetConfigParam('image.autoresize',$oMedia->getTargetType()) and !$this->Image_IsExistsFile($this->GetImagePathBySize($oMedia->getFilePath(),$sSize))) {
 				/**
 				 * Запускаем генерацию изображения нужного размера
 				 */
