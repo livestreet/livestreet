@@ -50,42 +50,6 @@ ls.user = (function ($) {
             ls.hook.run('ls_user_reactivation_after', [form, result]);
 		});
 
-		/* Аякс загрузка изображений */
-		this.ajaxUploadImageInit({
-			selectors: {
-				element: '.js-ajax-avatar-upload'
-			},
-			cropOptions: {
-				aspectRatio: 1
-			},
-			urls: {
-				upload: aRouter['settings'] + 'profile/upload-avatar/',
-				remove: aRouter['settings'] + 'profile/remove-avatar/',
-				cancel: aRouter['settings'] + 'profile/cancel-avatar/',
-				crop:   aRouter['settings'] + 'profile/resize-avatar/'
-			}
-		});
-
-		this.ajaxUploadImageInit({
-			selectors: {
-				element: '.js-ajax-photo-upload'
-			},
-			urls: {
-				upload: aRouter['settings'] + 'profile/upload-foto/',
-				remove: aRouter['settings'] + 'profile/remove-foto/',
-				cancel: aRouter['settings'] + 'profile/cancel-foto/',
-				crop:   aRouter['settings'] + 'profile/resize-foto/'
-			}
-		});
-
-		$('.js-ajax-image-upload-crop-cancel').on('click', function (e) {
-			self.ajaxUploadImageCropCancel();
-		});
-
-		$('.js-ajax-image-upload-crop-submit').on('click', function (e) {
-			self.ajaxUploadImageCropSubmit();
-		});
-
 		$('.js-modal-toggle-registration').on('click', function (e) {
 			$('[data-tab-target=tab-pane-registration]').tab('activate');
 			ls.captcha.update();
@@ -140,6 +104,16 @@ ls.user = (function ($) {
 			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
 
 			$('#modal-users-select').modal('hide');
+		});
+
+		// Загрузка фотографии в профиль
+		$('.js-ajax-user-photo-upload').on('change', function () {
+			self.uploadProfilePhoto($(this));
+		});
+		// Удаление фотографии профиля
+		$('.js-ajax-user-photo-upload-remove').on('click', function () {
+			self.removeProfilePhoto($(this).data('userId'));
+			return false;
 		});
 	};
 
@@ -271,183 +245,44 @@ ls.user = (function ($) {
 	};
 
 
-
-	/**
-	 * Загрузка временной аватарки
-	 * @param form
-	 * @param input
-	 */
-	this.ajaxUploadImageInit = function(options) {
-		var self = this;
-
-		var defaults = {
-			cropOptions: {
-				minSize: [32, 32]
-			},
-			selectors: {
-				element: '.js-ajax-image-upload',
-				image: '.js-ajax-image-upload-image',
-				image_crop: '.js-image-crop',
-				remove_button: '.js-ajax-image-upload-remove',
-				choose_button: '.js-ajax-image-upload-choose',
-				input_file: '.js-ajax-image-upload-file',
-				crop_cancel_button: '.js-ajax-image-upload-crop-cancel',
-				crop_submit_button: '.js-ajax-image-upload-crop-submit'
-			},
-			urls: {
-				upload: aRouter['settings'] + 'profile/upload-avatar/',
-				remove: aRouter['settings'] + 'profile/remove-avatar/',
-				cancel: aRouter['settings'] + 'profile/cancel-avatar/',
-				crop:   aRouter['settings'] + 'profile/resize-avatar/'
-			}
-		};
-
-		var options = $.extend(true, {}, defaults, options);
-
-		$(options.selectors.element).each(function () {
-			var $element = $(this);
-
-			var elements = {
-				element: $element,
-				remove_button:  $element.find(options.selectors.remove_button),
-				choose_button:  $element.find(options.selectors.choose_button),
-				image:  $element.find(options.selectors.image),
-				image_crop:  $element.find(options.selectors.image_crop)
-			};
-
-			$element.find(options.selectors.input_file).on('change', function () {
-				self.currentElements = elements;
-				self.currentOptions = options;
-				self.ajaxUploadImage(null, $(this), options);
-			});
-
-			elements.remove_button.on('click', function (e) {
-				self.ajaxUploadImageRemove(options, elements);
-				e.preventDefault();
-			});
+	this.addComplaint = function(form) {
+		ls.ajax.submit(aRouter.profile+'ajax-complaint-add/', form, function(result){
+			$('#modal-complaint-user').modal('hide');
 		});
 	};
 
-	/**
-	 * Загрузка временной аватарки
-	 * @param form
-	 * @param input
-	 */
-	this.ajaxUploadImage = function(form, input, options) {
-		if ( ! form && input ) {
-			var form = $('<form method="post" enctype="multipart/form-data"></form>').hide().appendTo('body');
 
-			input.clone(true).insertAfter(input);
-			input.appendTo(form);
-		}
+	this.uploadProfilePhoto = function(input) {
+		var form = $('<form method="post" enctype="multipart/form-data"></form>').hide().appendTo('body');
+		input.clone(true).insertAfter(input);
+		input.appendTo(form);
+		$('<input type="hidden" name="user_id" value="'+input.data('userId')+'" >').appendTo(form);
 
-		ls.ajax.submit(options.urls.upload, form, function (data) {
+		ls.ajax.submit(aRouter.settings+'ajax-upload-photo/', form, function (data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
-				this.ajaxUploadImageModalCrop(data.sTmpFile, options);
+				$('.js-ajax-user-photo-image').attr('src',data.sFile);
+				$('.js-ajax-user-photo-upload-choose').html(data.sChooseText);
+				$('.js-ajax-user-photo-upload-remove').show();
 			}
 			form.remove();
 		}.bind(this));
 	};
 
-	/**
-	 * Показывает форму для ресайза аватарки
-	 * @param sImgFile
-	 */
-	this.ajaxUploadImageModalCrop = function(sImgFile, options) {
-		var self = this;
+	this.removeProfilePhoto = function(idUser) {
+		var params = {user_id: idUser};
 
-		this.jcropImage && this.jcropImage.destroy();
-
-		$('.js-image-crop').attr('src', sImgFile + '?' + Math.random()).css({
-			'width': 'auto',
-			'height': 'auto'
-		});
-
-		if ($('#modal-image-crop').length)
-			$('#modal-image-crop').modal('show');
-		else {
-			ls.debug('Error [Ajax Image Upload]:\nМодальное окно ресайза изображения не найдено');
-		}
-
-		$('.js-image-crop').Jcrop(options.cropOptions, function () {
-			self.jcropImage = this;
-			this.setSelect([0, 0, 500, 500]);
-		});
-	};
-
-	/**
-	 * Удаление аватарки
-	 */
-	this.ajaxUploadImageRemove = function(options, elements) {
-		ls.hook.marker('removeAvatarBefore');
-
-		ls.ajax.load(options.urls.remove, {}, function(result) {
+		ls.ajax.load(aRouter.settings+'ajax-remove-photo/', params, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
-				elements.image.attr('src', result.sFile + '?' + Math.random());
-				elements.remove_button.hide();
-				elements.choose_button.text(result.sTitleUpload);
-
-				ls.hook.run('ls_user_remove_avatar_after', [result]);
+				$('.js-ajax-user-photo-image').attr('src',result.sFile);
+				$('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
+				$('.js-ajax-user-photo-upload-remove').hide();
 			}
 		});
-	};
-
-	/**
-	 * Отмена ресайза аватарки, подчищаем временный данные
-	 */
-	this.ajaxUploadImageCropCancel = function() {
-		ls.hook.marker('cancelAvatarBefore');
-
-		ls.ajax.load(this.currentOptions.urls.cancel, {}, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				$('#modal-image-crop').modal('hide');
-				ls.hook.run('ls_user_cancel_avatar_after', [result]);
-			}
-		});
-	};
-
-	/**
-	 * Выполняет ресайз аватарки
-	 */
-	this.ajaxUploadImageCropSubmit = function() {
-		var self = this;
-
-		if ( ! this.jcropImage ) {
-			return false;
-		}
-
-		var params = {
-			size: this.jcropImage.tellSelect()
-		};
-
-		ls.hook.marker('resizeAvatarBefore');
-
-		ls.ajax.load(self.currentOptions.urls.crop, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				self.currentElements.image.attr('src',result.sFile+'?'+Math.random());
-				$('#modal-image-crop').modal('hide');
-				self.currentElements.remove_button.show();
-				self.currentElements.choose_button.text(result.sTitleUpload);
-
-				ls.hook.run('ls_user_resize_avatar_after', [params, result]);
-			}
-		});
-
 		return false;
-	};
-
-	this.addComplaint = function(form) {
-		ls.ajax.submit(aRouter.profile+'ajax-complaint-add/', form, function(result){
-			$('#modal-complaint-user').modal('hide');
-		});
 	};
 
 	return this;

@@ -380,7 +380,7 @@ class ModuleUser_EntityUser extends Entity {
 	 */
 	public function getProfileFotoPath() {
 		if ($this->getProfileFoto()) {
-			return $this->getProfileFoto();
+			return $this->Media_GetImageWebPath($this->getProfileFoto());
 		}
 		return $this->getProfileFotoDefault();
 	}
@@ -462,6 +462,19 @@ class ModuleUser_EntityUser extends Entity {
 	 */
 	public function getDisplayName() {
 		return $this->getLogin();
+	}
+	/**
+	 * Проверяем возможность редактирования пользователя текущим юзером
+	 *
+	 * @return bool
+	 */
+	public function isAllowEdit() {
+		if ($oUser=$this->User_GetUserCurrent()) {
+			if ($oUser->getId()==$this->getId() or $oUser->isAdministrator()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 

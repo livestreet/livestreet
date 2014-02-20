@@ -1169,84 +1169,57 @@ class ModuleUser extends Module {
 		}
 	}
 	/**
-	 * загрузка фотографии пользователя
+	 * Загрузка фото в профиль пользователя
 	 *
-	 * @param  string	$sFileTmp	Серверный путь до временной фотографии
-	 * @param  ModuleUser_EntityUser $oUser	Объект пользователя
-	 * @param  array $aSize Размер области из которой нужно вырезать картинку - array('x1'=>0,'y1'=>0,'x2'=>100,'y2'=>100)
-	 * @return string|bool
+	 * @param $aFile
+	 * @param $oUser
+	 *
+	 * @return bool
 	 */
-	public function UploadFoto($sFileTmp,$oUser,$aSize=array()) {
-		if (!file_exists($sFileTmp)) {
+	public function UploadProfilePhoto($aFile,$oUser) {
+		if(!is_array($aFile) || !isset($aFile['tmp_name'])) {
 			return false;
 		}
-		$sDirUpload=$this->Image_GetIdDir($oUser->getId());
-		$aParams=$this->Image_BuildParams('foto');
 
-
-		if ($aSize) {
-			$oImage = $this->Image_CreateImageObject($sFileTmp);
-			/**
-			 * Если объект изображения не создан,
-			 * возвращаем ошибку
-			 */
-			if($sError=$oImage->get_last_error()) {
-				// Вывод сообщения об ошибки, произошедшей при создании объекта изображения
-				// $this->Message_AddError($sError,$this->Lang_Get('error'));
-				@unlink($sFileTmp);
-				return false;
-			}
-
-			$iWSource=$oImage->get_image_params('width');
-			$iHSource=$oImage->get_image_params('height');
-			/**
-			 * Достаем переменные x1 и т.п. из $aSize
-			 */
-			extract($aSize,EXTR_PREFIX_SAME,'ops');
-			if ($x1>$x2) {
-				// меняем значения переменных
-				$x1 = $x1 + $x2;
-				$x2 = $x1 - $x2;
-				$x1 = $x1 - $x2;
-			}
-			if ($y1>$y2) {
-				$y1 = $y1 + $y2;
-				$y2 = $y1 - $y2;
-				$y1 = $y1 - $y2;
-			}
-			if ($x1<0) {
-				$x1=0;
-			}
-			if ($y1<0) {
-				$y1=0;
-			}
-			if ($x2>$iWSource) {
-				$x2=$iWSource;
-			}
-			if ($y2>$iHSource) {
-				$y2=$iHSource;
-			}
-
-			$iW=$x2-$x1;
-			// Допускаем минимальный клип в 32px (исключая маленькие изображения)
-			if ($iW<32 && $x1+32<=$iWSource) {
-				$iW=32;
-			}
-			$iH=$y2-$y1;
-			$oImage->crop($iW,$iH,$x1,$y1);
-			$oImage->output(null,$sFileTmp);
+		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
+		if (!move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
+			return false;
 		}
 
-		if ($sFileFoto=$this->Image_Resize($sFileTmp,$sDirUpload,func_generator(6),Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),Config::Get('module.user.profile_photo_width'),null,true,$aParams)) {
-			@unlink($sFileTmp);
-			/**
-			 * удаляем старое фото
-			 */
-			$this->DeleteFoto($oUser);
-			return $this->Image_GetWebPath($sFileFoto);
+		$aParams=$this->Image_BuildParams('profile_photo');
+		/**
+		 * Если объект изображения не создан, возвращаем ошибку
+		 */
+		if(!$oImage=$this->Image_Open($sFileTmp,$aParams)) {
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			return $this->Image_GetLastError();
 		}
-		@unlink($sFileTmp);
-		return false;
+		$sPath=$this->Image_GetIdDir($oUser->getId(),'users');
+		/**
+		 * Имя файла для сохранения
+		 */
+		$sFileName=func_generator(8);
+		/**
+		 * Сохраняем копию нужного размера
+		 */
+		$aSize=$this->Media_ParsedImageSize(Config::Get('module.user.profile_photo_size'));
+		if ($aSize['crop']) {
+			$oImage->cropProportion($aSize['w']/$aSize['h'],'center');
+		}
+		if (!$sFileResult=$oImage->resize($aSize['w'],$aSize['h'],true)->saveSmart($sPath,$sFileName)) {
+			return $this->Image_GetLastError();
+		}
+		/**
+		 * Теперь можно удалить временный файл
+		 */
+		$this->Fs_RemoveFileLocal($sFileTmp);
+		/**
+		 * Если было старое фото, то удаляем
+		 */
+		$this->DeleteFoto($oUser);
+		$oUser->setProfileFoto($sFileResult);
+		$this->User_Update($oUser);
+		return true;
 	}
 	/**
 	 * Удаляет фото пользователя
@@ -1254,7 +1227,10 @@ class ModuleUser extends Module {
 	 * @param ModuleUser_EntityUser $oUser
 	 */
 	public function DeleteFoto($oUser) {
-		$this->Image_RemoveFile($this->Image_GetServerPath($oUser->getProfileFoto()));
+		if ($oUser->getProfileFoto()) {
+			$this->Image_RemoveFile($oUser->getProfileFoto());
+			$oUser->setProfileFoto(null);
+		}
 	}
 	/**
 	 * Проверяет логин на корректность

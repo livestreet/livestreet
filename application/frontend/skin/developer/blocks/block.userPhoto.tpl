@@ -31,18 +31,18 @@
 
 		{* Фото *}
 		<a href="{$oUserProfile->getUserWebPath()}">
-			<img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="profile-photo js-ajax-image-upload-image" />
+			<img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="profile-photo js-ajax-user-photo-image" />
 		</a>
 	</div>
 	
-	{if $sAction=='settings' and $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+	{if $oUserProfile->isAllowEdit()}
 		<p class="upload-photo">
-			<label for="foto" class="form-input-file">
-                <span class="js-ajax-image-upload-choose link-dotted">{if $oUserCurrent->getProfileFoto()}{$aLang.settings_profile_photo_change}{else}{$aLang.settings_profile_photo_upload}{/if}</span>
-                <input type="file" name="foto" id="foto" class="js-ajax-image-upload-file">
+			<label for="photo" class="form-input-file">
+                <span class="js-ajax-user-photo-upload-choose link-dotted">{if $oUserProfile->getProfileFoto()}{$aLang.settings_profile_photo_change}{else}{$aLang.settings_profile_photo_upload}{/if}</span>
+                <input type="file" name="photo" id="photo" class="js-ajax-user-photo-upload" data-user-id="{$oUserProfile->getId()}">
             </label>
             &nbsp;&nbsp;&nbsp;
-			<a href="#" class="js-ajax-image-upload-remove link-dotted" style="{if ! $oUserCurrent->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
+			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-photo-upload-remove link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
 		</p>
 	{/if}
 {/block}

@@ -123,14 +123,6 @@
 			{/if}
 		</fieldset>
 
-
-        {* Аватар *}
-		{include file='forms/fields/form.field.file.image.tpl'
-                 sFieldName      = 'avatar'
-                 sFieldImagePath = $oUserCurrent->getProfileAvatarPath(100)
-                 bFieldIsImage   = $oUserCurrent->getProfileAvatar()}
-
-
         {hook run='form_settings_profile_end'}
 
         {* Скрытые поля *}

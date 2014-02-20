@@ -2,8 +2,6 @@
 
 $config = array();
 
-$config['module']['user']['profile_photo_width'] = 300;
-
 /** 
  * Grid type:
  * 
