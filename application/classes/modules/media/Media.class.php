@@ -29,7 +29,11 @@ class ModuleMedia extends ModuleORM {
 	 */
 	const TYPE_IMAGE=1;
 	const TYPE_VIDEO=2;
-
+	/**
+	 * Список типов для проверки доступа
+	 */
+	const TYPE_CHECK_ALLOW_ADD='add';
+	const TYPE_CHECK_ALLOW_REMOVE='remove';
 	/**
 	 * Объект текущего пользователя
 	 *
@@ -120,15 +124,17 @@ class ModuleMedia extends ModuleORM {
 	 *
 	 * @param string $sTargetType	Тип
 	 * @param int $iTargetId	 ID владельца
+	 * @param string $sAllowType
+	 * @param array $aParams
 	 * @return bool
 	 */
-	public function CheckTarget($sTargetType,$iTargetId) {
+	public function CheckTarget($sTargetType,$iTargetId=null,$sAllowType=null,$aParams=array()) {
 		if (!$this->IsAllowTargetType($sTargetType)) {
 			return false;
 		}
 		$sMethod = 'CheckTarget'.func_camelize($sTargetType);
 		if (method_exists($this,$sMethod)) {
-			return $this->$sMethod($iTargetId);
+			return $this->$sMethod($iTargetId,$sAllowType,$aParams);
 		}
 		return false;
 	}
@@ -719,15 +725,34 @@ class ModuleMedia extends ModuleORM {
 	 * Проверка владельца с типом "topic"
 	 * Название метода формируется автоматически
 	 *
-	 * @param int $iTargetId	ID владельца
+	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
+	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
+	 * @param array $aParams	Дополнительные параметры
+	 *
 	 * @return bool
 	 */
-	public function CheckTargetTopic($iTargetId) {
-		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+	public function CheckTargetTopic($iTargetId,$sAllowType,$aParams) {
+		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
+			if (is_null($iTargetId)) {
+				/**
+				 * Разрешаем для всех новых топиков
+				 */
+				return true;
+			}
+			if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+				/**
+				 * Проверяем права на редактирование топика
+				 */
+				if ($this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+					return true;
+				}
+			}
+		} elseif ($sAllowType==self::TYPE_CHECK_ALLOW_REMOVE) {
 			/**
-			 * Проверяем права на редактирование топика
+			 * Доступ на удаление файла
 			 */
-			if ($this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+			$oMedia=$aParams['media'];
+			if ($oMedia->getUserId()==$this->oUserCurrent->getId()) {
 				return true;
 			}
 		}
@@ -737,15 +762,34 @@ class ModuleMedia extends ModuleORM {
 	 * Проверка владельца с типом "comment"
 	 * Название метода формируется автоматически
 	 *
-	 * @param int $iTargetId	ID владельца
+	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
+	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
+	 * @param array $aParams	Дополнительные параметры
+	 *
 	 * @return bool
 	 */
-	public function CheckTargetComment($iTargetId) {
-		if ($oComment=$this->Comment_GetCommentById($iTargetId)) {
+	public function CheckTargetComment($iTargetId,$sAllowType,$aParams) {
+		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
+			if (is_null($iTargetId)) {
+				/**
+				 * Разрешаем для всех новых комментариев
+				 */
+				return true;
+			}
+			if ($oComment=$this->Comment_GetCommentById($iTargetId)) {
+				/**
+				 * Проверяем права на редактирование комментария
+				 */
+				if ($this->ACL_IsAllowEditComment($oComment,$this->oUserCurrent)) {
+					return true;
+				}
+			}
+		} elseif($sAllowType==self::TYPE_CHECK_ALLOW_REMOVE) {
 			/**
-			 * Проверяем права на редактирование комментария
+			 * Доступ на удаление файла
 			 */
-			if ($this->ACL_IsAllowEditComment($oComment,$this->oUserCurrent)) {
+			$oMedia=$aParams['media'];
+			if ($oMedia->getUserId()==$this->oUserCurrent->getId()) {
 				return true;
 			}
 		}

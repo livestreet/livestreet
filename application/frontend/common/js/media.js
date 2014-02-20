@@ -393,17 +393,21 @@ ls.media = (function ($) {
 		var _this = this;
 
 		ls.ajax.load(this.options.routers.remove_file, { id: id }, function(result) {
-			$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']').fadeOut(500, function() {
-				$(this).remove();
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']').fadeOut(500, function() {
+					$(this).remove();
 
-				if (itemNext = _this.searchNextSelected()) {
-					_this.setActive(itemNext, true);
-				} else {
-					_this.hideDetail();
-				}
+					if (itemNext = _this.searchNextSelected()) {
+						_this.setActive(itemNext, true);
+					} else {
+						_this.hideDetail();
+					}
 
-				if ($(_this.options.selectors.gallery.file).length === 0) _this.markAsEmpty();
-			});
+					if ($(_this.options.selectors.gallery.file).length === 0) _this.markAsEmpty();
+				});
+			}
 		});
 	};
 

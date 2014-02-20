@@ -458,14 +458,17 @@ class ActionAjax extends Action {
 		$sTargetTmp=empty($_COOKIE['media_target_tmp_'.$sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_'.$sTargetType];
 		if ($sTargetId) {
 			$sTargetTmp=null;
-			if (!$this->Media_CheckTarget($sTargetType,$sTargetId)) {
-				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			if (true!==$res=$this->Media_CheckTarget($sTargetType,$sTargetId,ModuleMedia::TYPE_CHECK_ALLOW_ADD)) {
+				$this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
 				return false;
 			}
 		} else {
 			$sTargetId=null;
-			if (!$sTargetTmp or !$this->Media_IsAllowTargetType($sTargetType)) {
-				$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			if (!$sTargetTmp) {
+				return $this->EventErrorDebug();
+			}
+			if (true!==$res=$this->Media_CheckTarget($sTargetType,null,ModuleMedia::TYPE_CHECK_ALLOW_ADD)) {
+				$this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
 				return false;
 			}
 		}
@@ -516,10 +519,13 @@ class ActionAjax extends Action {
 			return;
 		}
 		$sId=getRequestStr('id');
-		if ($oMedia=$this->Media_GetMediaByIdAndUserId($sId,$this->oUserCurrent->getId())) {
+		if (!$oMedia=$this->Media_GetMediaById($sId)) {
+			return $this->EventErrorDebug();
+		}
+		if (true===$res=$this->Media_CheckTarget($oMedia->getTargetType(),null,ModuleMedia::TYPE_CHECK_ALLOW_REMOVE,array('media'=>$oMedia))) {
 			$oMedia->Delete();
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			$this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
 		}
 	}
 
@@ -649,13 +655,18 @@ class ActionAjax extends Action {
 		$sTargetTmp=empty($_COOKIE['media_target_tmp_'.$sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_'.$sTargetType];
 		if ($sTargetId) {
 			$sTargetTmp=null;
-			if (!$this->Media_CheckTarget($sTargetType,$sTargetId)) {
-				return $this->EventErrorDebug();
+			if (true!==$res=$this->Media_CheckTarget($sTargetType,$sTargetId,ModuleMedia::TYPE_CHECK_ALLOW_ADD)) {
+				$this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
 			}
 		} else {
 			$sTargetId=null;
-			if (!$sTargetTmp or !$this->Media_IsAllowTargetType($sTargetType)) {
+			if (!$sTargetTmp) {
 				return $this->EventErrorDebug();
+			}
+			if (true!==$res=$this->Media_CheckTarget($sTargetType,null,ModuleMedia::TYPE_CHECK_ALLOW_ADD)) {
+				$this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'), $this->Lang_Get('error'));
+				return false;
 			}
 		}
 
