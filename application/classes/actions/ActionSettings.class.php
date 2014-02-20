@@ -67,10 +67,6 @@ class ActionSettings extends Action {
 	 * Регистрация евентов
 	 */
 	protected function RegisterEvent() {
-		$this->AddEventPreg('/^profile$/i','/^upload-avatar/i','/^$/i','EventUploadAvatar');
-		$this->AddEventPreg('/^profile$/i','/^resize-avatar/i','/^$/i','EventResizeAvatar');
-		$this->AddEventPreg('/^profile$/i','/^remove-avatar/i','/^$/i','EventRemoveAvatar');
-		$this->AddEventPreg('/^profile$/i','/^cancel-avatar/i','/^$/i','EventCancelAvatar');
 		$this->AddEvent('profile','EventProfile');
 		$this->AddEvent('invite','EventInvite');
 		$this->AddEvent('tuning','EventTuning');
@@ -78,6 +74,7 @@ class ActionSettings extends Action {
 
 		$this->AddEventPreg('/^ajax-upload-photo$/i','/^$/i','EventAjaxUploadPhoto');
 		$this->AddEventPreg('/^ajax-remove-photo$/i','/^$/i','EventAjaxRemovePhoto');
+		$this->AddEventPreg('/^ajax-change-avatar$/i','/^$/i','EventAjaxChangeAvatar');
 	}
 
 
@@ -86,6 +83,9 @@ class ActionSettings extends Action {
 	 **********************************************************************************
 	 */
 
+	/**
+	 * Загрузка фотографии в профиль пользователя
+	 */
 	protected function EventAjaxUploadPhoto() {
 		/**
 		 * Устанавливаем формат Ajax ответа
@@ -106,11 +106,17 @@ class ActionSettings extends Action {
 			$this->Message_AddError(is_bool($sResult) ? '' : $sResult,$this->Lang_Get('error'));
 			return false;
 		}
+		/**
+		 * Создаем аватар на основе фото
+		 */
+		$this->User_CreateProfileAvatar($oUser->getProfileFoto(),$oUser);
 
 		$this->Viewer_AssignAjax('sChooseText',$this->Lang_Get('settings_profile_photo_change'));
 		$this->Viewer_AssignAjax('sFile',$oUser->getProfileFotoPath());
 	}
-
+	/**
+	 * Удаление фотографии профиля
+	 */
 	protected function EventAjaxRemovePhoto() {
 		$this->Viewer_SetResponseAjax('json');
 
@@ -121,125 +127,28 @@ class ActionSettings extends Action {
 			return $this->EventErrorDebug();
 		}
 
-		$this->User_DeleteFoto($oUser);
+		$this->User_DeleteProfilePhoto($oUser);
+		$this->User_DeleteProfileAvatar($oUser);
 		$this->User_Update($oUser);
 		$this->Viewer_AssignAjax('sChooseText',$this->Lang_Get('settings_profile_photo_upload'));
 		$this->Viewer_AssignAjax('sFile',$oUser->getProfileFotoPath());
 	}
 	/**
-	 * Загрузка временной картинки для аватара
+	 * Обновление аватара на основе фото профиля
 	 */
-	protected function EventUploadAvatar() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('jsonIframe',false);
+	protected function EventAjaxChangeAvatar() {
+		$this->Viewer_SetResponseAjax('json');
 
-		if(!isset($_FILES['avatar']['tmp_name'])) {
+		if (!$oUser=$this->User_GetUserById(getRequestStr('user_id'))) {
 			return $this->EventErrorDebug();
 		}
-		/**
-		 * Копируем загруженный файл
-		 */
-		$sFileTmp=Config::Get('sys.cache.dir').func_generator();
-		if (!move_uploaded_file($_FILES['avatar']['tmp_name'],$sFileTmp)) {
+		if (!$oUser->isAllowEdit()) {
 			return $this->EventErrorDebug();
 		}
-		/**
-		 * Ресайзим и сохраняем уменьшенную копию
-		 */
-		$sDir=Config::Get('path.uploads.images')."/tmp/avatars/{$this->oUserCurrent->getId()}";
-		if ($sFileAvatar=$this->Image_Resize($sFileTmp,$sDir,'original',Config::Get('view.img_max_width'),Config::Get('view.img_max_height'),200,null,true)) {
-			/**
-			 * Зписываем в сессию
-			 */
-			$this->Session_Set('sAvatarFileTmp',$sFileAvatar);
-			$this->Viewer_AssignAjax('sTmpFile',$this->Image_GetWebPath($sFileAvatar));
-		} else {
-			$this->Message_AddError($this->Image_GetLastError(),$this->Lang_Get('error'));
-		}
-		unlink($sFileTmp);
-	}
-	/**
-	 * Вырезает из временной аватарки область нужного размера, ту что задал пользователь
-	 */
-	protected function EventResizeAvatar() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Получаем файл из сессии
-		 */
-		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
-		if (!file_exists($sFileAvatar)) {
-			return $this->EventErrorDebug();
-		}
-		/**
-		 * Получаем размер области из параметров
-		 */
-		$aSize=array();
-		$aSizeTmp=getRequest('size');
-		if (isset($aSizeTmp['x']) and is_numeric($aSizeTmp['x'])
-			and isset($aSizeTmp['y']) and is_numeric($aSizeTmp['y'])
-				and isset($aSizeTmp['x2']) and is_numeric($aSizeTmp['x2'])
-					and isset($aSizeTmp['y2']) and is_numeric($aSizeTmp['y2'])) {
-			$aSize=array('x1'=>$aSizeTmp['x'],'y1'=>$aSizeTmp['y'],'x2'=>$aSizeTmp['x2'],'y2'=>$aSizeTmp['y2']);
-		}
-		/**
-		 * Вырезаем аватарку
-		 */
-		if ($sFileWeb=$this->User_UploadAvatar($sFileAvatar,$this->oUserCurrent,$aSize)) {
-			/**
-			 * Удаляем старые аватарки
-			 */
-			if ($sFileWeb!=$this->oUserCurrent->getProfileAvatar()) {
-				$this->User_DeleteAvatar($this->oUserCurrent);
-			}
-			$this->oUserCurrent->setProfileAvatar($sFileWeb);
 
-			$this->User_Update($this->oUserCurrent);
-			$this->Session_Drop('sAvatarFileTmp');
-			$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
-			$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_change'));
-		} else {
-			$this->Message_AddError($this->Lang_Get('settings_profile_avatar_error'),$this->Lang_Get('error'));
+		if (true!==($res=$this->User_CreateProfileAvatar($oUser->getProfileFoto(),$oUser,getRequest('size'),getRequestStr('canvas_width')))) {
+			$this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
 		}
-	}
-	/**
-	 * Удаляет аватар
-	 */
-	protected function EventRemoveAvatar() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Удаляем
-		 */
-		$this->User_DeleteAvatar($this->oUserCurrent);
-		$this->oUserCurrent->setProfileAvatar(null);
-		$this->User_Update($this->oUserCurrent);
-		/**
-		 * Возвращает дефолтную аватарку
-		 */
-		$this->Viewer_AssignAjax('sFile',$this->oUserCurrent->getProfileAvatarPath(100));
-		$this->Viewer_AssignAjax('sTitleUpload',$this->Lang_Get('settings_profile_avatar_upload'));
-	}
-	/**
-	 * Отмена ресайза аватарки, необходимо удалить временный файл
-	 */
-	protected function EventCancelAvatar() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Достаем из сессии файл и удаляем
-		 */
-		$sFileAvatar=$this->Session_Get('sAvatarFileTmp');
-		$this->Image_RemoveFile($sFileAvatar);
-		$this->Session_Drop('sAvatarFileTmp');
 	}
 	/**
 	 * Дополнительные настройки сайта

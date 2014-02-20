@@ -11,12 +11,9 @@
 {block name='modal_title'}{$aLang.uploadimg}{/block}
 
 {block name='modal_content'}
-	<img src="" alt="" class="js-image-crop">
+	<img src="{$sImageSrc|escape:'html'}" alt="" class="js-image-crop">
 {/block}
 
 {block name='modal_footer_begin'}
-	<button type="submit" class="button button-primary js-ajax-image-upload-crop-submit">{$aLang.settings_profile_avatar_resize_apply}</button>
-	<button type="submit" class="button js-ajax-image-upload-crop-cancel">{$aLang.settings_profile_avatar_resize_cancel}</button>
+	<button type="submit" class="button button-primary js-ajax-image-crop-submit">{$aLang.common.save}</button>
 {/block}
-
-{block name='modal_footer_cancel'}{/block}

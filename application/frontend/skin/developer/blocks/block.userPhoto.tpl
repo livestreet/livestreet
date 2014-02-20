@@ -42,6 +42,7 @@
                 <input type="file" name="photo" id="photo" class="js-ajax-user-photo-upload" data-user-id="{$oUserProfile->getId()}">
             </label>
             &nbsp;&nbsp;&nbsp;
+			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-avatar-change link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_change}</a>
 			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-photo-upload-remove link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
 		</p>
 	{/if}

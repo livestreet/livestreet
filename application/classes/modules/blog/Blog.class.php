@@ -871,7 +871,7 @@ class ModuleBlog extends Module {
 		/**
 		 * Имя файла для сохранения
 		 */
-		$sFileName='avatar_blog_'.$oBlog->getId();
+		$sFileName='avatar-blog-'.$oBlog->getId();
 		/**
 		 * Сохраняем оригинальную копию
 		 */

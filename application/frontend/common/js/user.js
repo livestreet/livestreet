@@ -115,6 +115,11 @@ ls.user = (function ($) {
 			self.removeProfilePhoto($(this).data('userId'));
 			return false;
 		});
+		// Изменения аватара
+		$('.js-ajax-user-avatar-change').on('click', function () {
+			self.changeProfileAvatar($(this).data('userId'));
+			return false;
+		});
 	};
 
 	/**
@@ -265,6 +270,7 @@ ls.user = (function ($) {
 				$('.js-ajax-user-photo-image').attr('src',data.sFile);
 				$('.js-ajax-user-photo-upload-choose').html(data.sChooseText);
 				$('.js-ajax-user-photo-upload-remove').show();
+				$('.js-ajax-user-avatar-change').show();
 			}
 			form.remove();
 		}.bind(this));
@@ -280,6 +286,50 @@ ls.user = (function ($) {
 				$('.js-ajax-user-photo-image').attr('src',result.sFile);
 				$('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
 				$('.js-ajax-user-photo-upload-remove').hide();
+				$('.js-ajax-user-avatar-change').hide();
+			}
+		});
+		return false;
+	};
+
+	this.changeProfileAvatar = function(idUser) {
+		var self = this;
+		ls.modal.load(aRouter.ajax+'modal/image-crop/', {image_src: $('.js-ajax-user-photo-image').attr('src') }, {
+			aftershow: function() {
+				this.jcropImage && this.jcropImage.destroy();
+
+				$('.js-image-crop').css({
+					'width': 'auto',
+					'height': 'auto'
+				});
+
+				$('.js-image-crop').Jcrop({ minSize: [32, 32], aspectRatio: 1 }, function () {
+					self.jcropImage = this;
+					var w=$('.js-image-crop').innerWidth();
+					var h=$('.js-image-crop').innerHeight();
+
+					w=w/2-75;
+					h=h/2-75;
+					w=w>0 ? Math.round(w) : 0;
+					h=h>0 ? Math.round(h) : 0;
+					this.setSelect([w, h, w+150, h+150]);
+				});
+
+				$('.js-ajax-image-crop-submit').on('click',function() {
+					var params={
+						user_id: idUser,
+						size: self.jcropImage.tellSelect(),
+						canvas_width: $('.js-image-crop').innerWidth()
+					}
+					ls.ajax.load(aRouter.settings+'ajax-change-avatar/', params, function(result) {
+						if (result.bStateError) {
+							ls.msg.error(null,result.sMsg);
+						} else {
+							$('#modal-image-crop').modal('hide');
+						}
+					});
+				});
+
 			}
 		});
 		return false;

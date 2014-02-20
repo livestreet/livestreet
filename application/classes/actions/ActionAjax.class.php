@@ -98,6 +98,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^poll$/i','/^vote$/','/^$/','EventPollVote');
 
 		$this->AddEvent('modal-friend-list', 'EventModalFriendList');
+		$this->AddEventPreg('/^modal$/i','/^image-crop$/','/^$/','EventModalImageCrop');
 	}
 
 
@@ -110,9 +111,6 @@ class ActionAjax extends Action {
 	 * Показывает модальное окно с друзьями
 	 */
 	protected function EventModalFriendList() {
-		// Устанавливаем формат Ajax ответа
-		$this->Viewer_SetResponseAjax('json');
-
 		if ( ! $this->oUserCurrent ) {
 			return parent::EventNotFound();
 		}
@@ -136,6 +134,17 @@ class ActionAjax extends Action {
 		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.user_list.tpl"));
 	}
 
+	/**
+	 * Показывает модальное окно с функцией кропа изображения
+	 */
+	protected function EventModalImageCrop() {
+		$oViewer = $this->Viewer_GetLocalViewer();
+
+
+		$oViewer->Assign('sImageSrc',getRequestStr('image_src'));
+
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.image_crop.tpl"));
+	}
 
 	protected function EventPollVote() {
 		if (!$this->oUserCurrent) {
