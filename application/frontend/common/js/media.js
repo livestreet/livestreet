@@ -580,7 +580,11 @@ ls.media = (function ($) {
 			var id = item.data('mediaId');
 
 			ls.ajax.load(this.options.routers.save_data_file, { name: name, value: value, id: id }, function(result) {
-				$(this.options.selectors.gallery.file + '[data-media-id=' + id + ']').data('mediaData' + name.charAt(0).toUpperCase() + name.slice(1), value);
+				if (result.bStateError) {
+					ls.msg.error(result.sMsgTitle,result.sMsg);
+				} else {
+					$(this.options.selectors.gallery.file + '[data-media-id=' + id + ']').data('mediaData' + name.charAt(0).toUpperCase() + name.slice(1), value);
+				}
 			}.bind(this));
 		}
 	};

@@ -502,11 +502,14 @@ class ActionAjax extends Action {
 			return $this->EventErrorDebug();
 		}
 		$sId=getRequestStr('id');
-		if ($oMedia=$this->Media_GetMediaByIdAndUserId($sId,$this->oUserCurrent->getId())) {
+		if (!$oMedia=$this->Media_GetMediaById($sId)) {
+			return $this->EventErrorDebug();
+		}
+		if (true===$res=$this->Media_CheckTarget($oMedia->getTargetType(),null,ModuleMedia::TYPE_CHECK_ALLOW_UPDATE,array('media'=>$oMedia,'user'=>$this->oUserCurrent))) {
 			$oMedia->setDataOne($sName,$sValue);
 			$oMedia->Update();
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+			$this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
 		}
 	}
 

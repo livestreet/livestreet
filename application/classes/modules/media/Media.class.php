@@ -34,6 +34,7 @@ class ModuleMedia extends ModuleORM {
 	 */
 	const TYPE_CHECK_ALLOW_ADD='add';
 	const TYPE_CHECK_ALLOW_REMOVE='remove';
+	const TYPE_CHECK_ALLOW_UPDATE='update';
 	/**
 	 * Объект текущего пользователя
 	 *
@@ -723,7 +724,29 @@ class ModuleMedia extends ModuleORM {
 		}
 		return $aSize;
 	}
-
+	/**
+	 * Производит стандартнуе проверку на определенное действие с конкретным объектом Media
+	 *
+	 * @param $sAllowType
+	 * @param $aParams
+	 *
+	 * @return bool
+	 */
+	public function CheckStandartMediaAllow($sAllowType,$aParams) {
+		if (!$oUser=$aParams['user']) {
+			return false;
+		}
+		$oMedia=isset($aParams['media']) ? $aParams['media'] : null;
+		if (!$oMedia) {
+			return false;
+		}
+		if (in_array($sAllowType,array(self::TYPE_CHECK_ALLOW_REMOVE,self::TYPE_CHECK_ALLOW_UPDATE))) {
+			if ($oMedia->getUserId()==$oUser->getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * Проверка владельца с типом "topic"
 	 * Название метода формируется автоматически
@@ -753,14 +776,8 @@ class ModuleMedia extends ModuleORM {
 					return true;
 				}
 			}
-		} elseif ($sAllowType==self::TYPE_CHECK_ALLOW_REMOVE) {
-			/**
-			 * Доступ на удаление файла
-			 */
-			$oMedia=$aParams['media'];
-			if ($oMedia->getUserId()==$oUser->getId()) {
-				return true;
-			}
+		} else {
+			return $this->CheckStandartMediaAllow($sAllowType,$aParams);
 		}
 		return false;
 	}
@@ -793,14 +810,8 @@ class ModuleMedia extends ModuleORM {
 					return true;
 				}
 			}
-		} elseif($sAllowType==self::TYPE_CHECK_ALLOW_REMOVE) {
-			/**
-			 * Доступ на удаление файла
-			 */
-			$oMedia=$aParams['media'];
-			if ($oMedia->getUserId()==$oUser->getId()) {
-				return true;
-			}
+		} else {
+			return $this->CheckStandartMediaAllow($sAllowType,$aParams);
 		}
 		return false;
 	}
