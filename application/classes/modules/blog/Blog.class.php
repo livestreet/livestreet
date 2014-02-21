@@ -835,6 +835,10 @@ class ModuleBlog extends Module {
 		 */
 		$this->Vote_DeleteVoteByTarget($iBlogId, 'blog');
 		/**
+		 * Удаляем медиа данные
+		 */
+		$this->Media_RemoveTarget('blog',$iBlogId,true);
+		/**
 		 * Обновляем категорию блога
 		 */
 		if ($oBlog->getCategoryId()) {

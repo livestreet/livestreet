@@ -258,6 +258,10 @@ class ActionBlog extends Action {
 			 */
 			$oBlog->Blog_GetBlogById($oBlog->getId());
 			/**
+			 * Фиксируем ID у media файлов
+			 */
+			$this->Media_ReplaceTargetTmpById('blog',$oBlog->getId());
+			/**
 			 * Меняем количество блогов в категории
 			 */
 			if ($oBlog->getCategoryId()) {

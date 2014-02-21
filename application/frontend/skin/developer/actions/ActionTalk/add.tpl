@@ -5,7 +5,7 @@
 {extends 'layouts/layout.user.messages.tpl'}
 
 {block 'layout_content'}
-	{include 'forms/editor.init.tpl' sEditorType='comment'}
+	{include 'forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='talk'}
 
 	{hook run='talk_add_begin'}
 

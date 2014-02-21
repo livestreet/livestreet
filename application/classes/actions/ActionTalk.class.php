@@ -378,6 +378,10 @@ class ActionTalk extends Action {
 		 * Отправляем письмо
 		 */
 		if ($oTalk=$this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequestStr('talk_title'))),$this->Text_Parser(getRequestStr('talk_text')),$this->oUserCurrent,$this->aUsersId)) {
+			/**
+			 * Фиксируем ID у media файлов
+			 */
+			$this->Media_ReplaceTargetTmpById('talk',$oTalk->getId());
 			Router::Location(Router::GetPath('talk').'read/'.$oTalk->getId().'/');
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));

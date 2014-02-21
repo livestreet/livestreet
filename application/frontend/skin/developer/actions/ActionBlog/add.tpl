@@ -23,7 +23,7 @@
 
 {block 'layout_content'}
 	{* Подключение редактора *}
-	{include 'forms/editor.init.tpl' sEditorType='comment'}
+	{include 'forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='blog'}
 
 
 	<form method="post" enctype="multipart/form-data" class="js-form-validate">

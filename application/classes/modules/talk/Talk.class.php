@@ -796,6 +796,10 @@ class ModuleTalk extends Module {
 		 * При удалении комментариев они удаляются из избранного,прямого эфира и голоса за них
 		 */
 		$this->Comment_DeleteCommentByTargetId($iTalkId,'talk');
+		/**
+		 * Удаляем медиа данные
+		 */
+		$this->Media_RemoveTarget('talk',$iTalkId,true);
 	}
 }
 ?>

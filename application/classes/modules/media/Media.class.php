@@ -47,6 +47,8 @@ class ModuleMedia extends ModuleORM {
 	protected $aTargetTypes=array(
 		'topic'=>array(),
 		'comment'=>array(),
+		'blog'=>array(),
+		'talk'=>array(),
 	);
 
 	/**
@@ -747,6 +749,11 @@ class ModuleMedia extends ModuleORM {
 		}
 		return false;
 	}
+
+
+
+
+
 	/**
 	 * Проверка владельца с типом "topic"
 	 * Название метода формируется автоматически
@@ -810,6 +817,70 @@ class ModuleMedia extends ModuleORM {
 					return true;
 				}
 			}
+		} else {
+			return $this->CheckStandartMediaAllow($sAllowType,$aParams);
+		}
+		return false;
+	}
+	/**
+	 * Проверка владельца с типом "blog"
+	 * Название метода формируется автоматически
+	 *
+	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
+	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
+	 * @param array $aParams	Дополнительные параметры, всегда есть ключ 'user'
+	 *
+	 * @return bool
+	 */
+	public function CheckTargetBlog($iTargetId,$sAllowType,$aParams) {
+		if (!$oUser=$aParams['user']) {
+			return false;
+		}
+		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
+			if (is_null($iTargetId)) {
+				/**
+				 * Разрешаем для всех новых блогов
+				 */
+				return true;
+			}
+			if ($oBlog=$this->Blog_GetBlogById($iTargetId)) {
+				/**
+				 * Проверяем права на редактирование блога
+				 */
+				if ($this->ACL_IsAllowEditBlog($oBlog,$oUser)) {
+					return true;
+				}
+			}
+		} else {
+			return $this->CheckStandartMediaAllow($sAllowType,$aParams);
+		}
+		return false;
+	}
+	/**
+	 * Проверка владельца с типом "talk"
+	 * Название метода формируется автоматически
+	 *
+	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
+	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
+	 * @param array $aParams	Дополнительные параметры, всегда есть ключ 'user'
+	 *
+	 * @return bool
+	 */
+	public function CheckTargetTalk($iTargetId,$sAllowType,$aParams) {
+		if (!$oUser=$aParams['user']) {
+			return false;
+		}
+		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
+			if (is_null($iTargetId)) {
+				/**
+				 * Разрешаем для всех новых блогов
+				 */
+				return true;
+			}
+			/**
+			 * Редактировать сообщения нельзя
+			 */
+			return false;
 		} else {
 			return $this->CheckStandartMediaAllow($sAllowType,$aParams);
 		}
