@@ -134,6 +134,9 @@ class ModuleMedia extends ModuleORM {
 		}
 		$sMethod = 'CheckTarget'.func_camelize($sTargetType);
 		if (method_exists($this,$sMethod)) {
+			if (!array_key_exists('user',$aParams)) {
+				$aParams['user']=$this->oUserCurrent;
+			}
 			return $this->$sMethod($iTargetId,$sAllowType,$aParams);
 		}
 		return false;
@@ -727,11 +730,14 @@ class ModuleMedia extends ModuleORM {
 	 *
 	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
 	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
-	 * @param array $aParams	Дополнительные параметры
+	 * @param array $aParams	Дополнительные параметры, всегда есть ключ 'user'
 	 *
 	 * @return bool
 	 */
 	public function CheckTargetTopic($iTargetId,$sAllowType,$aParams) {
+		if (!$oUser=$aParams['user']) {
+			return false;
+		}
 		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
 			if (is_null($iTargetId)) {
 				/**
@@ -743,7 +749,7 @@ class ModuleMedia extends ModuleORM {
 				/**
 				 * Проверяем права на редактирование топика
 				 */
-				if ($this->ACL_IsAllowEditTopic($oTopic,$this->oUserCurrent)) {
+				if ($this->ACL_IsAllowEditTopic($oTopic,$oUser)) {
 					return true;
 				}
 			}
@@ -752,7 +758,7 @@ class ModuleMedia extends ModuleORM {
 			 * Доступ на удаление файла
 			 */
 			$oMedia=$aParams['media'];
-			if ($oMedia->getUserId()==$this->oUserCurrent->getId()) {
+			if ($oMedia->getUserId()==$oUser->getId()) {
 				return true;
 			}
 		}
@@ -764,11 +770,14 @@ class ModuleMedia extends ModuleORM {
 	 *
 	 * @param int|null $iTargetId	ID владельца, для новых объектов может быть не определен
 	 * @param string $sAllowType	Тип доступа, константа self::TYPE_CHECK_ALLOW_*
-	 * @param array $aParams	Дополнительные параметры
+	 * @param array $aParams	Дополнительные параметры, всегда есть ключ 'user'
 	 *
 	 * @return bool
 	 */
 	public function CheckTargetComment($iTargetId,$sAllowType,$aParams) {
+		if (!$oUser=$aParams['user']) {
+			return false;
+		}
 		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
 			if (is_null($iTargetId)) {
 				/**
@@ -780,7 +789,7 @@ class ModuleMedia extends ModuleORM {
 				/**
 				 * Проверяем права на редактирование комментария
 				 */
-				if ($this->ACL_IsAllowEditComment($oComment,$this->oUserCurrent)) {
+				if ($this->ACL_IsAllowEditComment($oComment,$oUser)) {
 					return true;
 				}
 			}
@@ -789,7 +798,7 @@ class ModuleMedia extends ModuleORM {
 			 * Доступ на удаление файла
 			 */
 			$oMedia=$aParams['media'];
-			if ($oMedia->getUserId()==$this->oUserCurrent->getId()) {
+			if ($oMedia->getUserId()==$oUser->getId()) {
 				return true;
 			}
 		}
