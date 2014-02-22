@@ -42,7 +42,7 @@
 
 
 	<script>
-        var		PATH_ROOT 					= '{cfg name="path.root.web"}',
+        var		PATH_ROOT 					= '{router page='/'}',
                 PATH_SKIN		 			= '{cfg name="path.skin.web"}',
                 PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
                 PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
@@ -206,7 +206,7 @@
 			{hook run='header_banner_begin'}
 
 			<div class="site-info">
-				<h1 class="site-name"><a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a></h1>
+				<h1 class="site-name"><a href="{router page='/'}">{cfg name='view.name'}</a></h1>
 				<h2 class="site-description">{cfg name='view.description'}</h2>
 			</div>
 			
@@ -217,7 +217,7 @@
 		{* Основная навигация *}
 		<nav class="grid-row grid-role-nav">
 			<ul class="nav nav-main">
-				<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{cfg name='path.root.web'}">{$aLang.topic_title}</a></li>
+				<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='/'}">{$aLang.topic_title}</a></li>
 				<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blog.blogs}</a></li>
 				<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
 				<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>

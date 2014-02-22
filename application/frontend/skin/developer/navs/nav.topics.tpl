@@ -4,7 +4,7 @@
 
 <ul class="nav nav-pills">
 	<li {if $sMenuItemSelect == 'index'}class="active"{/if}>
-		<a href="{cfg name='path.root.web'}/">{$aLang.blog_menu_all}</a>
+		<a href="{router page='/'}">{$aLang.blog_menu_all}</a>
 
 		{if $iCountTopicsNew}
 			<a href="{router page='index'}new/">+{$iCountTopicsNew}</a>
