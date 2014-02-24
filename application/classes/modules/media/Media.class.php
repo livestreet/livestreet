@@ -343,12 +343,8 @@ class ModuleMedia extends ModuleORM {
 		 * Преобразуем упрощенную запись списка размеров в полную
 		 */
 		foreach($aSizes as $k=>$v) {
-			if (is_numeric($v)) {
-				$aSizes[$k]=array(
-					'w' => $v,
-					'h' => $v,
-					'crop' => true,
-				);
+			if (!is_array($v)) {
+				$aSizes[$k]=$this->ParsedImageSize($v);
 			}
 		}
 
@@ -374,12 +370,8 @@ class ModuleMedia extends ModuleORM {
 			 * Преобразуем упрощенную запись списка размеров в полную
 			 */
 			foreach($aSizes as $k=>$v) {
-				if (is_numeric($v)) {
-					$aSizes[$k]=array(
-						'w' => $v,
-						'h' => $v,
-						'crop' => true,
-					);
+				if (!is_array($v)) {
+					$aSizes[$k]=$this->ParsedImageSize($v);
 				}
 			}
 			foreach($aSizes as $aSize) {
