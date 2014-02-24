@@ -584,7 +584,7 @@ class ModuleMedia extends ModuleORM {
 		 * Удаляем все связи текущего таргета
 		 */
 		$this->RemoveTargetByTypeAndId($sTargetType,$sTargetId);
-		if ($bMediaRemove) {
+		if ($bMediaRemove and $aMediaItems) {
 			/**
 			 * Проверяем с какими медиа данными еще остались связи
 			 */
