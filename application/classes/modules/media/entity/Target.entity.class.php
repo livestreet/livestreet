@@ -26,7 +26,7 @@ class ModuleMedia_EntityTarget extends EntityORM {
 	);
 
 	protected $aRelations=array(
-
+		'media' => array(self::RELATION_TYPE_BELONGS_TO,'ModuleMedia_EntityMedia','media_id'),
 	);
 
 	protected function beforeSave() {
