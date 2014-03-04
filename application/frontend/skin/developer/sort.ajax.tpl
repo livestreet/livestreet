@@ -11,21 +11,18 @@
  * @styles assets/css/sort.css
  *}
 
-<div class="sort {$sSortClasses}">
+<div class="sort js-search-sort {$sSortClasses}">
 	{if $bSortShowLabel|default:true}
 		<div class="sort-label">{if $sSortLabel}{$sSortLabel}{else}{$aLang.sort.label}{/if}</div>
 	{/if}
 
 	<div class="dropdown dropdown-toggle js-dropdown-default" data-dropdown-target="js-dropdown-sort-{$sSortName}" data-dropdown-selectable="true">...</div>
 
-	<ul class="dropdown-menu" id="js-dropdown-sort-{$sSortName}">
+	<ul class="dropdown-menu js-search-sort-menu" id="js-dropdown-sort-{$sSortName}">
 		{foreach $aSortList as $aSortItem}
-			{$bIsActive = $sSortOrder == $aSortItem['name']}
-
-			<li {if $bIsActive}class="active" title="{if $sSortOrderWay == 'asc'}asc{else}desc{/if}"{/if}>
-				<a href="{$sSortUrl}?order={$aSortItem['name']}&order_way={if $bIsActive}{if $sSortOrderWay == 'asc'}desc{else}asc{/if}{else}asc{/if}">
+			<li class="sort-item {if $aSortItem@index == 0}active{/if}" data-search-type="users" data-name="sort_by" data-value="{$aSortItem['name']}" data-order="asc">
+				<a href="#">
 					{$aSortItem['text']}
-					{if $bIsActive}{if $sSortOrderWay == 'asc'}&darr;{else}&uarr;{/if}{/if}
 				</a>
 			</li>
 		{/foreach}

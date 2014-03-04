@@ -13,14 +13,14 @@
 {block 'layout_content'}
 	{include 'forms/form.search.blogs.tpl'}
 
-	<div id="blogs-list-search" style="display:none;"></div>
+	{* Сортировка *}
+	{include 'sort.ajax.tpl'
+			 sSortName     = 'sort-blog-list'
+			 aSortList     = [ [ name => 'blog_title',      text => $aLang.sort.by_name ],
+							   [ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
+							   [ name => 'blog_rating',     text => $aLang.sort.by_rating ] ]}
 
-	<div id="blogs-list-original">
-		{if ! $sBlogsRootPage}
-			{router page='blogs' assign=sBlogsRootPage}
-		{/if}
-
-		{include 'actions/ActionBlogs/blog_list.tpl' bBlogsUseOrder=true sBlogsRootPage=$sBlogsRootPage}
-		{include 'pagination.tpl' aPaging=$aPaging}
+	<div class="js-search-ajax-container" data-type="blogs">
+		{include 'actions/ActionBlogs/blog_list.tpl'}
 	</div>
 {/block}

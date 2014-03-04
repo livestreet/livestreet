@@ -18,18 +18,5 @@
 {* Поле ввода *}
 {block name='search_input_placeholder'}{$aLang.user_search_title_hint}{/block}
 {block name='search_input_name'}user_login{/block}
-{block name='search_input_attributes'}
-	id="search-user-login"
-	onkeyup="ls.timer.run(ls.user.searchUsers,'users_search',['#form-users-search'],500);"
-{/block}
-
-{* Алфавитный указатель *}
-{block name='search_input_after'}
-	<ul id="user-prefix-filter" class="search-form-alphabet">
-		<li class="active"><a href="#" class="link-dotted" onclick="return ls.user.searchUsersByPrefix('',this);">{$aLang.user_search_filter_all}</a></li>
-
-		{foreach $aPrefixUser as $sPrefixUser}
-			<li><a href="#" class="link-dotted" onclick="return ls.user.searchUsersByPrefix('{$sPrefixUser}',this);">{$sPrefixUser}</a></li>
-		{/foreach}
-	</ul>
-{/block}
+{block name='search_input_classes'}js-search-ajax-option js-search-text-main{/block}
+{block name='search_input_attributes'}data-type="users"{/block}

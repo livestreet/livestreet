@@ -76,7 +76,7 @@ class ActionPeople extends Action {
 		/**
 		 * Получаем из реквеста первые быквы для поиска пользователей по логину
 		 */
-		$sTitle=getRequest('user_login');
+		$sTitle=getRequest('sText');
 		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
 			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
 		} else {
@@ -103,7 +103,9 @@ class ActionPeople extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aUsersList',$aResult['collection']);
 		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
-		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('user_search_empty'));
+		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('search.alerts.empty'));
+		$oViewer->Assign('bIsSearch', true);
+		$oViewer->Assign('iSearchCount', count($aResult['collection']));
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
 	}
 	/**
@@ -269,7 +271,7 @@ class ActionPeople extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aUsersRating',$aUsers);
+		$this->Viewer_Assign('aUsers',$aUsers);
 		$this->Viewer_Assign('aPrefixUser',$aPrefixUser);
 		$this->Viewer_Assign("sUsersOrder",htmlspecialchars($sOrder));
 		$this->Viewer_Assign("sUsersOrderWay",htmlspecialchars($sOrderWay));

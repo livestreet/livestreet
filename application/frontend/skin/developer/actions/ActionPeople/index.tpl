@@ -2,21 +2,22 @@
  * Список всех пользователей
  *}
 
-{extends file='layouts/layout.base.tpl'}
-
-{block name='layout_options'}
-	{$sNav = 'users'}
-{/block}
+{extends 'layouts/layout.base.tpl'}
 
 {block name='layout_page_title'}{$aLang.user_list}{/block}
 
 {block name='layout_content'}
-	{include file='forms/form.search.users.tpl'}
+	{include 'forms/form.search.users.tpl'}
+	{include 'alphanumeric.tpl' aAlphaLetters=$aPrefixUser}
 
-	<div id="users-list-search" style="display:none;"></div>
+	{* Сортировка *}
+	{include 'sort.ajax.tpl'
+			 sSortName     = 'sort-user-list'
+			 aSortList     = [ [ name => 'user_login',         text => $aLang.sort.by_name ],
+							   [ name => 'user_date_register', text => $aLang.user_date_registration ],
+							   [ name => 'user_rating',        text => $aLang.user_rating ] ]}
 
-	<div id="users-list-original">
-		{router page='people' assign=sUsersRootPage}
-		{include file='user_list.tpl' aUsersList=$aUsersRating bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
+	<div class="js-search-ajax-container" data-type="users">
+		{include file='user_list.tpl' aUsersList=$aUsers}
 	</div>
 {/block}

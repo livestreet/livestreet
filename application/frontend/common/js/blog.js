@@ -1,8 +1,8 @@
 /**
  * Блоги
- * 
+ *
  * @module ls/blogs
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -15,7 +15,7 @@ ls.blog = (function ($) {
 
 	/**
 	 * Дефолтные опции
-	 * 
+	 *
 	 * @private
 	 */
 	var _defaults = {
@@ -169,36 +169,8 @@ ls.blog = (function ($) {
 	};
 
 	/**
-	 * Поиск блогов
-	 */
-	this.searchBlogs = function(sFormSelector) {
-		var url = ls.blog.options.routers.search,
-			oInputSearch = $(sFormSelector).find('input'),
-			oOriginalContainer = $('#blogs-list-original'),
-			oSearchContainer = $('#blogs-list-search');
-
-		oInputSearch.addClass(ls.options.classes.states.loading);
-
-		ls.hook.marker('searchBlogsBefore');
-
-		ls.ajax.submit(url, sFormSelector, function(result) {
-			oInputSearch.removeClass(ls.options.classes.states.loading);
-
-			if (result.bStateError) {
-				oSearchContainer.hide();
-				oOriginalContainer.show();
-			} else {
-				oOriginalContainer.hide();
-				oSearchContainer.html(result.sText).show();
-
-				ls.hook.run('ls_blog_search_blogs_after', [sFormSelector, result]);
-			}
-		});
-	};
-
-	/**
 	 * Подгружает блоги из категории
-	 * 
+	 *
 	 * @param {String} id ID категории
 	 */
 	this.loadBlogsByCategory = function(iId) {

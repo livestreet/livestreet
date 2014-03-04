@@ -18,6 +18,5 @@
 {* Поле ввода *}
 {block name='search_input_placeholder'}{$aLang.blog.search.placeholder}{/block}
 {block name='search_input_name'}blog_title{/block}
-{block name='search_input_attributes'}
-	onkeyup="ls.timer.run(ls.blog.searchBlogs,'blogs_search',['#form-blogs-search'],500);"
-{/block}
+{block name='search_input_classes'}js-search-ajax-option js-search-text-main{/block}
+{block name='search_input_attributes'}data-type="blogs"{/block}

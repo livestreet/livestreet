@@ -3,15 +3,9 @@
  *}
 
 {if $aUsersList}
-	{* Сортировка *}
-	{include 'sort.tpl'
-			 sSortName     = 'sort-user-list'
-			 aSortList     = [ [ name => 'user_login',         text => $aLang.sort.by_name ],
-							   [ name => 'user_date_register', text => $aLang.user_date_registration ],
-							   [ name => 'user_rating',        text => $aLang.user_rating ] ]
-			 sSortUrl      = $sUsersRootPage
-			 sSortOrder    = $sUsersOrder
-			 sSortOrderWay = $sUsersOrderWay}
+	{if $bIsSearch}
+		<h3 class="h3">Найдено {$iSearchCount} человек</h3>
+	{/if}
 
 	{* Список пользователей *}
 	<ul class="object-list user-list">
@@ -40,7 +34,7 @@
 
 				{* Информация *}
 				{$aUserInfo = [
-					[ 'label' => "{$aLang.user_date_last}:", 
+					[ 'label' => "{$aLang.user_date_last}:",
 					  'content' => ($oSession) ? {date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} : '&mdash;' ],
 					[ 'label' => "{$aLang.user_date_registration}:", 'content' => {date_format date=$oUser->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ],
 					[ 'label' => "{$aLang.vote.rating}:",            'content' => $oUser->getRating() ]
@@ -51,7 +45,7 @@
 		{/foreach}
 	</ul>
 {else}
-	{include 'alert.tpl' mAlerts=$aLang.user_empty sAlertStyle='empty'}
+	{include 'alert.tpl' mAlerts=(($sUserListEmpty) ? $sUserListEmpty : $aLang.blog.alerts.empty) sAlertStyle='empty'}
 {/if}
 
 {include 'pagination.tpl' aPaging=$aPaging}

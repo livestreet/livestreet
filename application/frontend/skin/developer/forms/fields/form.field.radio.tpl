@@ -15,6 +15,8 @@
 		   name="{$sFieldName}"
 		   value="{if $sFieldValue}{$sFieldValue}{else}1{/if}"
 		   {if $bFieldIsDisabled}disabled{/if}
+		   {$sFieldInputAttributes}
+		   {if $sFieldInputClasses}class="{$sFieldInputClasses}"{/if}
 		   {if $bFieldChecked}checked{else}{if $_aRequest[$sFieldName] == 1}checked{/if}{/if} />
 	{if $sFieldLabel}{$sFieldLabel}</label>{/if}
 {/block}

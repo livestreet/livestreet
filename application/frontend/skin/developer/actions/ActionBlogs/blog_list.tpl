@@ -8,15 +8,9 @@
 
 {* Список блогов *}
 {if $aBlogs}
-	{* Сортировка *}
-	{include 'sort.tpl'
-			 sSortName     = 'sort-blog-list'
-			 aSortList     = [ [ name => 'blog_title',      text => $aLang.sort.by_name ],
-							   [ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
-							   [ name => 'blog_rating',     text => $aLang.sort.by_rating ] ]
-			 sSortUrl      = $sBlogsRootPage
-			 sSortOrder    = $sBlogOrder
-			 sSortOrderWay = $sBlogOrderWay}
+	{if $bIsSearch}
+		<h3 class="h3">Найдено {$iSearchCount} блогов</h3>
+	{/if}
 
 	{* Список блогов *}
 	<ul class="object-list object-list-actions blog-list">
@@ -26,7 +20,7 @@
 				<a href="{$oBlog->getUrlFull()}">
 					<img src="{$oBlog->getAvatarPath(100)}" width="100" height="100" alt="{$oBlog->getTitle()|escape}" class="object-list-item-image" />
 				</a>
-				
+
 				{* Заголовок *}
 				<h2 class="object-list-item-title">
 					{if $oBlog->getType() == 'close'}
@@ -57,10 +51,5 @@
 		{/foreach}
 	</ul>
 {else}
-	{* TODO: Fix error message *}
-	{if $sBlogsEmptyList}
-		{$sBlogsEmptyList}
-	{else}
-		{include 'alert.tpl' mAlerts=$aLang.blog.alerts.empty sAlertStyle='empty'}
-	{/if}
+	{include 'alert.tpl' mAlerts=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) sAlertStyle='empty'}
 {/if}
