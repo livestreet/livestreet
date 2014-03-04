@@ -53,10 +53,6 @@
 .search-form-submit       { border: none; position: absolute; top: 7px; right: 7px; cursor: pointer; opacity: .7; filter: alpha(opacity=70); }
 .search-form-submit:hover { opacity: 1; filter: alpha(opacity=100); }
 
-.search-form-alphabet             { margin-top: 10px; overflow: hidden; }
-.search-form-alphabet li          { float: left; margin-right: 10px; }
-.search-form-alphabet li.active a { color: #333; border: none; }
-
 
 /**
  * Форма авторизации

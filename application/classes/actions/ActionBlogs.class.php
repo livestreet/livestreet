@@ -68,11 +68,10 @@ class ActionBlogs extends Action {
 		/**
 		 * Получаем из реквеста первые буквы блога
 		 */
-		if ($sTitle=getRequestStr('blog_title')) {
+		if ($sTitle=getRequestStr('sText')) {
 			$sTitle=str_replace('%','',$sTitle);
-		}
-		if (!$sTitle) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+		} else {
+			$this->Viewer_AssignAjax('bShowOriginal',true);
 			return;
 		}
 		/**
@@ -85,7 +84,9 @@ class ActionBlogs extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aBlogs',$aResult['collection']);
 		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
-		$oViewer->Assign('sBlogsEmptyList',$this->Lang_Get('blogs_search_empty'));
+		$oViewer->Assign('sBlogsEmptyList',$this->Lang_Get('search.alerts.empty'));
+		$oViewer->Assign('bIsSearch', true);
+		$oViewer->Assign('iSearchCount', count($aResult['collection']));
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionBlogs/blog_list.tpl"));
 	}
 

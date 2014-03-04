@@ -31,7 +31,7 @@
 	<div class="blog">
 		<header class="blog-header">
 			{* Голосование *}
-			{include 'vote.tpl' 
+			{include 'vote.tpl'
 					 sVoteType      = 'blog'
 					 sVoteClasses   = 'vote-large vote-white'
 					 oVoteObject    = $oBlog
@@ -63,20 +63,20 @@
 
 		{* Управление *}
 		{if $oUserCurrent && $bUserIsAdministrator}
-			{$aActionbarItems = [ [ 'icon' => 'icon-edit icon-white', 'url' => "{router page='blog'}edit/{$oBlog->getId()}/", 'text' => $aLang.common.edit ] ]}
+			{$aActionbarItems = [ [ 'icon' => 'icon-edit', 'url' => "{router page='blog'}edit/{$oBlog->getId()}/", 'text' => $aLang.common.edit ] ]}
 
 			{if $oUserCurrent->isAdministrator()}
 				{$aActionbarItems[] = [
-					'icon'       => 'icon-trash icon-white', 
-					'attributes' => 'data-type="modal-toggle" data-modal-target="modal-blog-delete"', 
+					'icon'       => 'icon-trash',
+					'attributes' => 'data-type="modal-toggle" data-modal-target="modal-blog-delete"',
 					'text'       => $aLang.common.remove
 				]}
 			{else}
 				{$aActionbarItems[] = [
-					'icon'    => 'icon-trash icon-white', 
-					'url'     => "{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}", 
+					'icon'    => 'icon-trash',
+					'url'     => "{router page='blog'}delete/{$oBlog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}",
 					'classes' => 'js-blog-remove',
-					'text'    => $aLang.common.remove 
+					'text'    => $aLang.common.remove
 				]}
 			{/if}
 

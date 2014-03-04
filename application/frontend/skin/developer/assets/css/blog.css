@@ -3,38 +3,33 @@
  *
  * @template actions/ActionBlog/blog.tpl
  * @scripts <frontend>/common/js/blog.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.blog { 
+.blog {
 	width: 100%;
 	padding: 40px;
-	margin: -40px 0 15px -40px;
+	margin: -40px 0 40px -40px;
 	overflow: hidden;
-	background: #222;
-	color: rgba(255, 255, 255, .7);
+	background: #fff;
+	border-bottom: 1px solid #eee;
 }
 
 /* Хидер */
-.blog-header               { position: relative; padding: 0 0 15px 0; }
+.blog-header { position: relative; padding: 0 0 15px 0; }
 
-.blog-header .blog-title   {  margin-bottom: 7px; color: #fff; }
+.blog-header .blog-title   { margin-bottom: 7px; }
 .blog-header .blog-title i { position: relative; top: -2px; vertical-align: middle; }
 
 .blog-header .vote { position: absolute; top: -15px; right: 0; }
 
-.blog .actionbar { margin-bottom: 0; background: #444; border-color: #555; margin-top: 30px; margin-bottom: 0; }
-.blog .actionbar-item-link { color: #ddd; }
-.blog .actionbar-item-link:hover { background: #555; }
+/* Контент */
+.blog .actionbar { margin-bottom: 0; margin-top: 30px; }
 
 .blog-description { margin-bottom: 20px; }
-
-.blog-info-item            { margin-bottom: 5px; }
-.blog-info-item:last-child { margin-bottom: 0; }
-.blog-info-item-label      { opacity: .6; }
 
 
 /**

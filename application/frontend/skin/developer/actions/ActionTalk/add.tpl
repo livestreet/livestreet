@@ -42,7 +42,7 @@
 
 		{* Кнопки *}
 		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_talk_add' sFieldStyle='primary' sFieldText=$aLang.talk_create_submit}
-		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.topic_create_submit_save sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.tools.textPreview(\'talk_text\',false); return false;"'}
+		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.common.preview_text sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
 	</form>
 
 	{hook run='talk_add_end'}

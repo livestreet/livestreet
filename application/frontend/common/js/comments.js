@@ -204,10 +204,12 @@ ls.comments = (function ($) {
 	 * Добавляет комментарий
 	 */
 	this.add = function(oForm, iTargetId, sTargetType) {
-		this.formLock();
+		var oData = oForm.serializeJSON();
+
+		ls.utils.formLock(oForm);
 		this.previewHide();
 
-		ls.ajax.load(this.options.type[sTargetType].url_add, oForm.serializeJSON(), function(oResponse) {
+		ls.ajax.load(this.options.type[sTargetType].url_add, oData, function(oResponse) {
 			if (oResponse.bStateError) {
 				ls.msg.error(null, oResponse.sMsg);
 			} else {
@@ -217,7 +219,7 @@ ls.comments = (function ($) {
 				ls.hook.run('ls_comments_add_after', [oForm, iTargetId, sTargetType, oResponse]);
 			}
 
-			this.formUnlock();
+			ls.utils.formUnlock(oForm);
 		}.bind(this));
 	};
 
@@ -377,22 +379,6 @@ ls.comments = (function ($) {
 	};
 
 	/**
-	 * Разблокировывает форму
-	 */
-	this.formLock = function() {
-		this.elements.form.text.prop('readonly', true);
-		this.elements.form.submit.prop('disabled', true);
-	};
-
-	/**
-	 * Блокирует форму
-	 */
-	this.formUnlock = function() {
-		this.elements.form.text.prop('readonly', false);
-		this.elements.form.submit.prop('disabled', false);
-	};
-
-	/**
 	 * Показывает/скрывает форму комментирования
 	 *
 	 * @param {Number}  iCommentId ID комментария
@@ -402,7 +388,7 @@ ls.comments = (function ($) {
 		this.previewHide();
 
 		if (this.iFormTargetId == iCommentId && this.elements.form.form.is(':visible')) {
-			this.elements.form.form.detach();
+			this.elements.form.form.hide();
 			this.iFormTargetId = null;
 			return;
 		}
