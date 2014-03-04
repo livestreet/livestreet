@@ -186,6 +186,7 @@ class ActionProfile extends Action {
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
 		}
 		$this->SetTemplateAction('activity');
 	}
@@ -486,9 +487,17 @@ class ActionProfile extends Action {
 		/**
 		 * Получаем записи стены
 		 */
-		$aWall=$this->Wall_GetWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null),array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
-		$this->Viewer_Assign('aWall',$aWall['collection']);
+
+		$aWall = $this->Wall_GetWall(array('wall_user_id'=>$this->oUserProfile->getId(),'pid'=>null),array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
+		$aPosts = $aWall['collection'];
+
+		$this->Viewer_Assign('aWall', $aPosts);
 		$this->Viewer_Assign('iCountWall',$aWall['count']);
+
+		if (count($aPosts)) {
+			$oPostLast = end($aPosts);
+			$this->Viewer_Assign('iWallLastId', $oPostLast->getId());
+		}
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -582,80 +591,92 @@ class ActionProfile extends Action {
 		}
 		return $this->EventErrorDebug();
 	}
+
 	/**
 	 * Ajax подгрузка сообщений стены
 	 */
 	public function EventWallLoad() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
+		// Устанавливаем формат Ajax ответа
 		$this->Viewer_SetResponseAjax('json');
-		if (!$this->CheckUserProfile()) {
+
+		// Валидация
+		if ( ! $this->CheckUserProfile() ) {
 			return $this->EventErrorDebug();
 		}
-		/**
-		 * Формируем фильтр для запроса к БД
-		 */
-		$aFilter=array(
-			'wall_user_id'=>$this->oUserProfile->getId(),
-			'pid'=>null
+
+		// Формируем фильтр для запроса к БД
+		$aFilter = array(
+			'wall_user_id' => $this->oUserProfile->getId(),
+			'pid'          => null
 		);
-		if (is_numeric(getRequest('iIdLess'))) {
-			$aFilter['id_less']=getRequest('iIdLess');
-		} elseif (is_numeric(getRequest('iIdMore'))) {
-			$aFilter['id_more']=getRequest('iIdMore');
+
+		if ( is_numeric(getRequest('iLastId')) ) {
+			$aFilter['id_less'] = getRequest('iLastId');
+		} else if ( is_numeric(getRequest('iFirstId')) ) {
+			$aFilter['id_more'] = getRequest('iFirstId');
 		} else {
-			$this->Message_AddError($this->Lang_Get('error'));
-			return;
+			return $this->EventErrorDebug();
 		}
-		/**
-		 * Получаем сообщения и формируем ответ
-		 */
-		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'desc'),1,Config::Get('module.wall.per_page'));
-		$this->Viewer_Assign('aWall',$aWall['collection']);
-		$this->Viewer_Assign('oUserCurrent',$this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
-		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall.posts.tpl'));
-		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
-		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+
+		// Получаем сообщения и формируем ответ
+		$aWall = $this->Wall_GetWall($aFilter, array('id' => 'desc'), 1, Config::Get('module.wall.per_page'));
+
+		$this->Viewer_Assign('aWall', $aWall['collection']);
+		$this->Viewer_Assign('oUserCurrent', $this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
+
+		$this->Viewer_AssignAjax('sHtml', $this->Viewer_Fetch('actions/ActionProfile/wall.posts.tpl'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aWall['collection']));
+
+		if (count($aWall['collection'])) {
+			$this->Viewer_AssignAjax('iLastId', end($aWall['collection'])->getId());
+		}
 	}
+
 	/**
 	 * Подгрузка ответов на стене к сообщению
 	 */
 	public function EventWallLoadReply() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
+		// Устанавливаем формат Ajax ответа
 		$this->Viewer_SetResponseAjax('json');
-		if (!$this->CheckUserProfile()) {
+
+		// Валидация
+		if ( ! $this->CheckUserProfile() ) {
 			return $this->EventErrorDebug();
 		}
-		if (!($oWall=$this->Wall_GetWallById(getRequestStr('iPid'))) or $oWall->getPid()) {
+
+		if ( ! ($oWall = $this->Wall_GetWallById(getRequestStr('iTargetId'))) or $oWall->getPid() ) {
 			return $this->EventErrorDebug();
 		}
-		/**
-		 * Формируем фильтр для запроса к БД
-		 */
-		$aFilter=array(
-			'wall_user_id'=>$this->oUserProfile->getId(),
-			'pid'=>$oWall->getId()
+
+		// Формируем фильтр для запроса к БД
+		$aFilter = array(
+			'wall_user_id' => $this->oUserProfile->getId(),
+			'pid'          => $oWall->getId()
 		);
-		if (is_numeric(getRequest('iIdLess'))) {
-			$aFilter['id_less']=getRequest('iIdLess');
-		} elseif (is_numeric(getRequest('iIdMore'))) {
-			$aFilter['id_more']=getRequest('iIdMore');
+
+		if ( is_numeric(getRequest('iLastId')) ) {
+			$aFilter['id_less'] = getRequest('iLastId');
+		} else if ( is_numeric(getRequest('iFirstId')) ) {
+			$aFilter['id_more'] = getRequest('iFirstId');
 		} else {
 			return $this->EventErrorDebug();
 		}
-		/**
-		 * Получаем сообщения и формируем ответ
-		 * Необходимо вернуть все ответы, но ставим "разумное" ограничение
-		 */
-		$aWall=$this->Wall_GetWall($aFilter,array('id'=>'asc'),1,300);
-		$this->Viewer_Assign('aReplyWall',$aWall['collection']);
-		$this->Viewer_AssignAjax('sText', $this->Viewer_Fetch('actions/ActionProfile/wall.comments.tpl'));
-		$this->Viewer_AssignAjax('iCountWall',$aWall['count']);
-		$this->Viewer_AssignAjax('iCountWallReturn',count($aWall['collection']));
+
+		// Получаем сообщения и формируем ответ
+		// Необходимо вернуть все ответы, но ставим "разумное" ограничение
+		$aWall = $this->Wall_GetWall($aFilter, array('id' => 'asc'), 1, 300);
+
+		// Передаем переменные
+		$this->Viewer_Assign('aReplyWall', $aWall['collection']);
+
+		$this->Viewer_AssignAjax('sHtml', $this->Viewer_Fetch('actions/ActionProfile/wall.comments.tpl'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aWall['collection']));
+
+		if (count($aWall['collection'])) {
+			$this->Viewer_AssignAjax('iLastId', end($aWall['collection'])->getId());
+		}
 	}
+
 	/**
 	 * Сохраняет заметку о пользователе
 	 */

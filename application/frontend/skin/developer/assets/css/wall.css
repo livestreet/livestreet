@@ -3,7 +3,7 @@
  *
  * @template actions/ActionProfile/wall.*.tpl
  * @scripts <frontend>/common/js/wall.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -41,4 +41,4 @@
 /**
  * Кнопка подгрузки комментариев
  */
-.get-more.get-more-wall-comments { border: none; margin: 0; }
+.more.more-wall-comments { border: none; margin: 0; }

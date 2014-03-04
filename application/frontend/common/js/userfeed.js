@@ -1,8 +1,8 @@
 /**
  * Лента
- * 
+ *
  * @module ls/userfeed
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -13,13 +13,12 @@ var ls = ls || {};
 ls.userfeed = (function ($) {
 	"use strict";
 
-	this.isBusy = false;
-	
 	/**
 	 * Дефолтные опции
+	 *
+	 * @private
 	 */
-	var defaults = {
-	
+	var _defaults = {
 	};
 
 	/**
@@ -28,61 +27,60 @@ ls.userfeed = (function ($) {
 	 * @param  {Object} options Опции
 	 */
 	this.init = function(options) {
-		this.options = $.extend({}, defaults, options);
+		var _this = this;
+
+		this.options = $.extend({}, _defaults, options);
+
+		// Подписаться / отписаться
+		$('.js-userfeed-subscribe').on('click', function () {
+			var oCheckbox = $(this);
+
+			_this[ oCheckbox.is(':checked') ? 'subscribe' : 'unsubscribe' ]('blogs', oCheckbox.data('id'));
+		});
+
+		// Подгрузка контента
+		$('.js-more-userfeed').more({
+			url: aRouter['feed'] + 'get_more',
+			target: '#userfeed-topic-list'
+		});
 	};
-	
-	this.subscribe = function (sType, iId) {
-		var url = aRouter['feed']+'subscribe/';
-		var params = {'type':sType, 'id':iId};
-		
-		ls.hook.marker('subscribeBefore');
-		ls.ajax.load(url, params, function(data) { 
-			if (!data.bStateError) {
-				ls.msg.notice(data.sMsgTitle,data.sMsg);
-				ls.hook.run('ls_userfeed_subscribe_after',[sType, iId, data]);
-			}
-		});
-	}
-	
-	this.unsubscribe = function (sType, iId) {
-		var url = aRouter['feed']+'unsubscribe/';
-		var params = {'type':sType, 'id':iId};
-		
-		ls.hook.marker('unsubscribeBefore');
-		ls.ajax.load(url, params, function(data) { 
-			if (!data.bStateError) {
-				ls.msg.notice(data.sMsgTitle,data.sMsg);
-				ls.hook.run('ls_userfeed_unsubscribe_after',[sType, iId, data]);
-			}
-		});
-	}
-	
-	this.getMore = function () {
-		if (this.isBusy) {
-			return;
+
+	/**
+	 * Подписаться / отписаться
+	 */
+	this.subscribeAccessor = function(sName) {
+		return function (sType, iId) {
+			var sUrl = aRouter['feed'] + sName + '/',
+				oParams = { 'type': sType, 'id': iId };
+
+			ls.ajax.load(sUrl, oParams, function(oResponse) {
+				if ( ! oResponse.bStateError ) {
+					ls.msg.notice(oResponse.sMsgTitle, oResponse.sMsg);
+					ls.hook.run('ls_userfeed_subscribe_after', [sType, iId, oResponse]);
+				}
+			});
 		}
-		var lastId = $('#userfeed_last_id').val();
-		if (!lastId) return;
-		$('#userfeed_get_more').addClass('loading');
-		this.isBusy = true;
-		
-		var url = aRouter['feed']+'get_more/';
-		var params = {'last_id':lastId};
-		
-		ls.hook.marker('getMoreBefore');
-		ls.ajax.load(url, params, function(data) {
-			if (!data.bStateError && data.topics_count) {
-				$('#userfeed_loaded_topics').append(data.result);
-				$('#userfeed_last_id').attr('value', data.iUserfeedLastId);
-			}
-			if (!data.topics_count) {
-				$('#userfeed_get_more').hide();
-			}
-			$('#userfeed_get_more').removeClass('loading');
-			ls.hook.run('ls_userfeed_get_more_after',[lastId, data]);
-			this.isBusy = false;
-		}.bind(this));
-	}
-	
+	};
+
+	/**
+	 * Подписаться
+	 *
+	 * @param  {String} sType Тип
+	 * @param  {Number} iId   ID объекта
+	 */
+	this.subscribe = function(sType, iId) {
+		this.subscribeAccessor('subscribe').apply(this, arguments);
+	};
+
+	/**
+	 * Отписаться
+	 *
+	 * @param  {String} sType Тип
+	 * @param  {Number} iId   ID объекта
+	 */
+	this.unsubscribe = function(sType, iId) {
+		this.subscribeAccessor('unsubscribe').apply(this, arguments);
+	};
+
 	return this;
 }).call(ls.userfeed || {},jQuery);

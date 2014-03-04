@@ -123,7 +123,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Activity
 	 */
-	ls.stream.init();
+	ls.activity.init();
 
 
 	/**
@@ -249,6 +249,12 @@ jQuery(document).ready(function($){
 	 * Лайтбокс
 	 */
 	$('a.js-lbx').colorbox({ width:"100%", height:"100%" });
+
+
+	/**
+	 * Поиск
+	 */
+	ls.search.init();
 
 
 	// Временный костыль для сабмита форм

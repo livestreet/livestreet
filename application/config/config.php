@@ -362,7 +362,7 @@ $config['block']['rule_blogs'] = array(
 	'blocks'  => array(
 		'right' => array(
 			'blocks/block.blogAdd.tpl' => array('priority' => 100),
-			'blogCategories' => array('priority' => 50)
+			'blogsSearch' => array('priority' => 50)
 		)
 	),
 );
@@ -397,6 +397,7 @@ $config['block']['rule_users'] = array(
 	'blocks' => array(
 		'right' => array(
 			'blocks/block.usersStatistics.tpl',
+			'blocks/block.usersSearch.tpl',
 			'tagsCountry',
 			'tagsCity',
 		)
@@ -416,7 +417,7 @@ $config['block']['rule_profile'] = array(
 $config['block']['rule_blog'] = array(
 	'action' => array('blog' => array('{blog}')),
 	'blocks' => array(
-		'right' => array( 
+		'right' => array(
 			'blocks/block.blogActions.tpl' => array('priority'=>300),
 			'blocks/block.blogUsers.tpl'   => array('priority'=>300),
 			'blocks/block.blogAdmins.tpl'  => array('priority'=>300)
@@ -492,7 +493,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/blog.js",
 	"___path.application.web___/frontend/common/js/user.js",
 	"___path.application.web___/frontend/common/js/userfeed.js",
-	"___path.application.web___/frontend/common/js/stream.js",
+	"___path.application.web___/frontend/common/js/activity.js",
 	"___path.application.web___/frontend/common/js/toolbar.js",
 	"___path.application.web___/frontend/common/js/settings.js",
 	"___path.application.web___/frontend/common/js/topic.js",
@@ -503,6 +504,8 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/tags.js",
 	"___path.application.web___/frontend/common/js/content.js",
 	"___path.application.web___/frontend/common/js/user_list_add.js",
+	"___path.application.web___/frontend/common/js/search.js",
+	"___path.application.web___/frontend/common/js/more.js",
 	"___path.application.web___/frontend/common/js/init.js",
 
 	"http://yandex.st/share/share.js" => array('merge'=>false),

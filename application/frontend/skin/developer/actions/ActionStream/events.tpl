@@ -2,17 +2,19 @@
  * События (добавлен комментарий, добавлен топик и т.д.)
  *}
 
+{$sDateLast = {date_format date=$sDateLast format="j F Y"}}
+
 {if count($aStreamEvents)}
-	{foreach $aStreamEvents as $oStreamEvent}		
+	{foreach $aStreamEvents as $oStreamEvent}
 		{$oTarget = $oStreamEvent->getTarget()}
 		{$oUser = $oStreamEvent->getUser()}
 		{$bUserIsMale = $oUser->getProfileSex() != 'woman'}
 
-		
+
 		{* Дата группы событий *}
 		{if {date_format date=$oStreamEvent->getDateAdded() format="j F Y"} != $sDateLast}
 			{$sDateLast = {date_format date=$oStreamEvent->getDateAdded() format="j F Y"}}
-			
+
 			<li class="activity-date">
 				{if {date_format date=$smarty.now format="j F Y"} == $sDateLast}
 					{$aLang.today}
@@ -31,7 +33,7 @@
 
 			{* Дата *}
 			<time datetime="{date_format date=$oStreamEvent->getDateAdded() format='c'}"
-				  class="activity-event-date" 
+				  class="activity-event-date"
 				  title="{date_format date=$oStreamEvent->getDateAdded()}">
 				{date_format date=$oStreamEvent->getDateAdded() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
 			</time>
@@ -39,8 +41,8 @@
 			{* Логин *}
 			<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getDisplayName()}</strong></a>
 
-			{* 
-			 * Текст события 
+			{*
+			 * Текст события
 			 *}
 			{if $oStreamEvent->getEventType() == 'add_topic'}
 				{* Добавлен топик *}
@@ -159,9 +161,4 @@
 			{/if}
 		</li>
 	{/foreach}
-
-
-	<script>
-		ls.stream.sDateLast = {json var=$sDateLast};
-	</script>
 {/if}

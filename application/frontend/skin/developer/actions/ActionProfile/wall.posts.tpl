@@ -13,9 +13,13 @@
 	<div class="wall-comments js-wall-comment-wrapper" data-id="{$oPost->getId()}">
 		{* Кнопка подгрузки комментариев *}
 		{if count($aPostComments) < $oPost->getCountReply()}
-			<div class="get-more get-more-wall-comments js-wall-get-more" data-id="{$oPost->getId()}">
-				{$aLang.wall_load_reply_more} <span class="js-wall-get-more-count">{$oPost->getCountReply()}</span> {$oPost->getCountReply()|declension:$aLang.comments.comments_declension}
-			</div>
+			{include 'more.tpl'
+					 sLoadClasses    = 'more-wall-comments js-more-wall-comments'
+					 iLoadLastId     = $aPostComments[0]->getId()
+					 iLoadTargetId   = $oPost->getId()
+					 iLoadCount      = $oPost->getCountReply() - Config::Get('module.wall.count_last_reply')
+					 bLoadAppend     = 'false'
+					 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id={$oPost->getId()}]\""}
 		{/if}
 
 		{* Комментарии *}

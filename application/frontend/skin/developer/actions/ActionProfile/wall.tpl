@@ -25,8 +25,10 @@
 
 	{* Кнопка подгрузки записей *}
 	{if $iCountWall - count($aWall)}
-		<div class="get-more js-wall-get-more" data-id="0">
-			{$aLang.wall_load_more} (<span class="js-wall-get-more-count">{$iCountWall - count($aWall)}</span>)
-		</div>
+		{include 'more.tpl'
+				 sLoadClasses    = 'js-more-wall'
+				 iLoadLastId     = $iWallLastId
+				 iLoadCount      = $iCountWall - count($aWall)
+				 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\""}
 	{/if}
 {/block}

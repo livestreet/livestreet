@@ -1,21 +1,23 @@
 {**
  * Список событий активности
  *
- * sActivityParams   Дополнительные параметры активности
- * sActivityType     Тип активности 
- *     all    Вся активность
- *     user   Активность пользователя
+ * @param string $sActivityType     Тип активности
+ * 									all      Вся активность
+ * 									user     Активность пользователя
+ * 									custom   Персональная (настраиваемая) активность
  *}
 
-{if count($aStreamEvents)}
+{if $aStreamEvents}
 	<ul class="activity-event-list" id="activity-event-list">
 		{include file='actions/ActionStream/events.tpl'}
 	</ul>
 
 	{if ! $bDisableGetMoreButton}
-		<input type="hidden" id="activity-last-id" value="{$iStreamLastId}" />
-		<div class="get-more" id="activity-get-more" data-param-type="{$sActivityType}" {$sActivityParams}>{$aLang.stream_get_more}</div>
+		{include 'more.tpl'
+				 sLoadClasses    = "js-more-activity-$sActivityType"
+				 iLoadLastId     = $iStreamLastId
+				 sLoadAttributes = "data-param-s-date-last=\"$sDateLast\""}
 	{/if}
 {else}
-	{$aLang.stream_no_events}
+	{include 'alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
 {/if}

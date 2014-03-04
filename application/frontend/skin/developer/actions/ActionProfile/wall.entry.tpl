@@ -2,8 +2,8 @@
  * Стена / Запись (Пост / Комментарий)
  *
  * @param object  $oWallEntry          Комментарий
- * @param boolean $bWallEntryShowReply Показывать или нет кнопку комментирования  
- * @param string  $sWallEntryClasses   Классы  
+ * @param boolean $bWallEntryShowReply Показывать или нет кнопку комментирования
+ * @param string  $sWallEntryClasses   Классы
  *
  * TODO: Унаследовать от базового шаблона комментария
  *}

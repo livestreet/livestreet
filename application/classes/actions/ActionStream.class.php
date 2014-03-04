@@ -70,7 +70,7 @@ class ActionStream extends Action {
 		$this->AddEvent('ajaxadduser', 'EventAjaxAddUser');
 		$this->AddEvent('ajaxremoveuser', 'EventAjaxRemoveUser');
 		$this->AddEvent('switchEventType', 'EventSwitchEventType');
-		$this->AddEvent('get_more', 'EventGetMore');
+		$this->AddEvent('get_more_custom', 'EventGetMore');
 		$this->AddEvent('get_more_user', 'EventGetMoreUser');
 		$this->AddEvent('get_more_all', 'EventGetMoreAll');
 	}
@@ -88,7 +88,7 @@ class ActionStream extends Action {
 		}
 		$this->Viewer_AddBlock('right','activitySettings');
 		$this->Viewer_AddBlock('right','activityUsers');
-		
+
 		/**
 		 * Читаем события
 		 */
@@ -98,6 +98,7 @@ class ActionStream extends Action {
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
 		}
 	}
 	/**
@@ -115,6 +116,7 @@ class ActionStream extends Action {
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
 		}
 	}
 	/**
@@ -172,15 +174,16 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
+		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Погрузка событий для всего сайта
@@ -207,15 +210,17 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('sDateLast', $oEvenLast->getDateAdded());
+			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
+		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Подгрузка событий для пользователя
@@ -234,7 +239,7 @@ class ActionStream extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
-		if (!($oUser=$this->User_GetUserById(getRequestStr('iUserId')))) {
+		if (!($oUser=$this->User_GetUserById(getRequestStr('iTargetId')))) {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
 		}
@@ -246,15 +251,17 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('sDateLast', $oEvenLast->getDateAdded());
+			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
+		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Подписка на пользователя по ID

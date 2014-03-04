@@ -150,7 +150,7 @@
 /**
  * More
  */
-.get-more {
+.more {
 	display: block;
 	text-align: center;
 	padding: 12px 0;
@@ -161,8 +161,8 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-.get-more:hover { background: #f7f7f7; color: #555; }
-.get-more.loading { background: #f7f7f7 url(../images/loader.gif) 50% 50% no-repeat; text-indent: -9999px; }
+.more:hover { background: #f7f7f7; color: #555; }
+.more.loading { background: #f7f7f7 url(../images/loader.gif) 50% 50% no-repeat; text-indent: -9999px; }
 
 
 /**
@@ -230,6 +230,16 @@
 .user-note:last-child { margin-bottom: 0; }
 .user-note-actions    { margin: 10px 0 0 0; overflow: hidden; }
 .user-note-actions li { float: left; margin-right: 15px; }
+
+
+/**
+ * Алфавитный указатель
+ */
+.alphanumeric               { overflow: hidden; background: #f7f7f7; margin-bottom: 20px; padding: 15px; }
+.alphanumeric-item          { float: left; margin-right: 1px; }
+.alphanumeric-item a        { float: left; padding: 5px 10px; color: #333; }
+.alphanumeric-item.active   { background: #333; border-radius: 3px; }
+.alphanumeric-item.active a { color: #fff; }
 
 
 /**

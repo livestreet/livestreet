@@ -1,8 +1,8 @@
 /**
  * Стена пользователя
- * 
+ *
  * @module ls/wall
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -15,7 +15,7 @@ ls.wall = (function ($) {
 
 	/**
 	 * Дефолтные опции
-	 * 
+	 *
 	 * @private
 	 */
 	var _defaults = {
@@ -97,12 +97,6 @@ ls.wall = (function ($) {
 			e.preventDefault();
 		});
 
-		// Подгрузка записей
-		this.elements.document.on('click', this.options.selectors.get_more.self, function(e) {
-			_this.loadNext( $(this).data('id') );
-			e.preventDefault();
-		});
-
 		// Сворачиваем открытые формы
 		this.elements.document.on('click', function(e) {
 			// TODO: IE8 support
@@ -112,9 +106,9 @@ ls.wall = (function ($) {
 						iId    = oForm.data('id'),
 						oReply = $(_this.options.selectors.entry.reply + '[data-id=' + iId + ']');
 
-					if ( ! oForm.is(e.target) && 
-						 oForm.has(e.target).length === 0 && 
-						 ! oReply.is(e.target) && 
+					if ( ! oForm.is(e.target) &&
+						 oForm.has(e.target).length === 0 &&
+						 ! oReply.is(e.target) &&
 						 ! oForm.find(_this.options.selectors.form.text).val() ) {
 						if ( $(_this.options.selectors.entry_container + '[data-id=' + iId + ']' ).find(_this.options.selectors.entry.self).length || iId === 0 ) {
 							_this.form.close(oForm);
@@ -124,6 +118,16 @@ ls.wall = (function ($) {
 					}
 				});
 			}
+		});
+
+		$('.js-more-wall').more({
+			url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load/',
+		});
+
+		$('.js-more-wall-comments').livequery(function () {
+			$(this).more({
+				url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load-reply/',
+			});
 		});
 	};
 
@@ -138,8 +142,7 @@ ls.wall = (function ($) {
 
 		ls.hook.marker('addBefore');
 
-		oButton.prop('disabled', true).addClass(ls.options.classes.states.loading);
-		oTextarea.prop('disabled', true);
+		ls.utils.formLock(oForm);
 
 		ls.ajax.load(this.options.routers.add, { sText: sText, iPid: iId }, function(result) {
 			if (result.bStateError) {
@@ -152,14 +155,13 @@ ls.wall = (function ($) {
 				ls.hook.run('ls_wall_add_after', [sText, iId, result]);
 			}
 
-			oButton.prop('disabled', false).removeClass(ls.options.classes.states.loading);
-			oTextarea.prop('disabled', false);
+			ls.utils.formUnlock(oForm);
 		}.bind(this));
 	};
 
 	/**
 	 * Удаление записи/комментария
-	 * 
+	 *
 	 * @param  {Number} iId ID записи
 	 */
 	this.remove = function(iId) {
@@ -186,68 +188,25 @@ ls.wall = (function ($) {
 	};
 
 	/**
-	 * Подгрузка
-	 */
-	this.load = function(iIdLess, iIdMore, iPid, callback) {
-		var params = { iIdLess: iIdLess ? iIdLess : '', iIdMore: iIdMore ? iIdMore : '', iPid: iPid };
-
-		ls.hook.marker('loadBefore');
-
-		ls.ajax.load(iPid === 0 ? this.options.routers.load : this.options.routers.load_comments, params, callback);
-	};
-
-	/**
 	 * Подгрузка новых записей
 	 */
 	this.loadNew = function(iPid) {
 		var oContainer = $(this.options.selectors.entry_container + '[data-id=' + iPid + ']'),
-			iMoreId    = oContainer.find(' > ' + this.options.selectors.entry.self + ':' + (iPid === 0 ? 'first' : 'last')).data('id') || -1;
+			iFirstId   = oContainer.find(' > ' + this.options.selectors.entry.self + ':' + (iPid === 0 ? 'first' : 'last')).data('id') || -1,
+			oParams    = { iFirstId: iFirstId, iTargetId: iPid };
 
-		this.load('', iMoreId, iPid, function(result) {
+		ls.ajax.load(iPid === 0 ? this.options.routers.load : this.options.routers.load_comments, oParams, function(result) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-				if (result.iCountWall) {
-					oContainer[iPid === 0 ? 'prepend' : 'append'](result.sText);
+				if (result.iCountLoaded) {
+					oContainer[iPid === 0 ? 'prepend' : 'append'](result.sHtml);
 				}
 
 				this.form.close( $(this.options.selectors.form.self + '[data-id=' + iPid + ']') );
 
-				ls.hook.run('ls_wall_loadnew_after', [iPid, iMoreId, result]);
+				ls.hook.run('ls_wall_loadnew_after', [iPid, iFirstId, result]);
 			}
-		}.bind(this));
-	};
-
-	/**
-	 * Подгрузка записей
-	 */
-	this.loadNext = function(iPid) {
-		var oContainer = $(this.options.selectors.entry_container + '[data-id=' + iPid + ']'),
-			oGetMore   = $(this.options.selectors.get_more.self + '[data-id=' + iPid + ']'),
-			iLessId    = oContainer.find(' > ' + this.options.selectors.entry.self + ':' + (iPid === 0 ? 'last' : 'first')).data('id') || undefined;
-
-		oGetMore.addClass(ls.options.classes.states.loading);
-
-		this.load(iLessId, '', iPid, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				if (result.iCountWall) {
-					oContainer[ iPid === 0 ? 'append' : 'prepend' ](result.sText);
-				}
-
-				var iCount = result.iCountWall - result.iCountWallReturn;
-
-				if (iCount) {
-					oGetMore.find(this.options.selectors.get_more.count).text(iCount);
-				} else {
-					oGetMore.remove();
-				}
-
-				ls.hook.run('ls_wall_loadnext_after', [iLessId, result]);
-			}
-
-			oGetMore.removeClass(ls.options.classes.states.loading);
 		}.bind(this));
 	};
 

@@ -9,15 +9,15 @@
 {/block}
 
 {block name='layout_content'}
-	{include file='topics/topic_list.tpl'}
+	{if $aTopics}
+		<div id="userfeed-topic-list">
+			{include 'topics/topic_list.tpl'}
+		</div>
 
-	{if count($aTopics)}
-		{if !$bDisableGetMoreButton}
-			<div id="userfeed_loaded_topics"></div>
-			<input type="hidden" id="userfeed_last_id" value="{$iUserfeedLastId}" />
-			<div class="get-more" id="userfeed_get_more" onclick="ls.userfeed.getMore()">{$aLang.userfeed_get_more} &darr;</div>
+		{if ! $bDisableGetMoreButton}
+			{include 'more.tpl' sLoadClasses="js-more-userfeed" iLoadLastId=$iUserfeedLastId}
 		{/if}
 	{else}
-		{$aLang.userfeed_no_events}
+		{include 'alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
 	{/if}
 {/block}

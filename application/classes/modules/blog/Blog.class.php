@@ -325,7 +325,7 @@ class ModuleBlog extends Module {
 	public function CreatePersonalBlog(ModuleUser_EntityUser $oUser) {
 		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($oUser->getId());
-		$oBlog->setTitle($this->Lang_Get('blog.personal_title').' '.$oUser->getLogin());
+		$oBlog->setTitle($this->Lang_Get('blog.personal_prefix').' '.$oUser->getLogin());
 		$oBlog->setType('personal');
 		$oBlog->setDescription($this->Lang_Get('blog.personal_description'));
 		$oBlog->setDateAdd(date("Y-m-d H:i:s"));

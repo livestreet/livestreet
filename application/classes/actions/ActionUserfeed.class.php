@@ -92,7 +92,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Проверяем последний просмотренный ID топика
 		 */
-		$iFromId = getRequestStr('last_id');
+		$iFromId = getRequestStr('iLastId');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -110,11 +110,11 @@ class ActionUserfeed extends Action {
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aTopics',  $aTopics);
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('topics/topic_list.tpl'));
-		$this->Viewer_AssignAjax('topics_count', count($aTopics));
+		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('topics/topic_list.tpl'));
+		$this->Viewer_AssignAjax('iCountLoaded', count($aTopics));
 
 		if (count($aTopics)) {
-			$this->Viewer_AssignAjax('iUserfeedLastId', end($aTopics)->getId());
+			$this->Viewer_AssignAjax('iLastId', end($aTopics)->getId());
 		}
 	}
 	/**
