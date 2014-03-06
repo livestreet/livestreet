@@ -66,7 +66,11 @@ ls.search = (function ($) {
 			oSearchAlhpabetItems.removeClass(ls.options.classes.states.active);
 			oElement.addClass(ls.options.classes.states.active);
 
-			oSearchText.val((sLetter ? '%' : '') + sLetter).keyup();
+			_this.setParam(oSearchAlhpabetType, 'isPrefix', sLetter ? 1 : 0);
+			_this.setParam(oSearchAlhpabetType, 'sText', sLetter);
+			_this.search(oSearchAlhpabetType);
+
+			oSearchText.val('');
 
 			e.preventDefault();
 		});
@@ -79,7 +83,7 @@ ls.search = (function ($) {
 
 			oElement.on('keyup', function () {
 				_this.setParam(sType, 'sText', oElement.val());
-
+				_this.resetAlhpabet();
 				ls.timer.run(_this, _this.search, 'search_type_' + sType, [sType], 300);
 			});
 		});
@@ -142,6 +146,19 @@ ls.search = (function ($) {
 
 			e.preventDefault();
 		});
+
+		// More loader
+		$('.js-more-search').livequery(function () {
+			$(this).more({
+				result: 'sText', // тут лучше на дефолтный sHtml заменить
+				beforeload: function (e, context) {
+					var sSearchType = context.element.data('search-type');
+
+					context.options.url = ls.search.options.type[sSearchType].url;
+					context.options.params = $.extend({}, context.options.params, ls.search.options.type[sSearchType].params);
+				}
+			});
+		});
 	};
 
 	/**
@@ -162,6 +179,10 @@ ls.search = (function ($) {
 			ls.hook.run('ls_search_after', [sType, oResponse]);
 		}.bind(this));
 	};
+
+	this.resetAlhpabet = function() {
+		$(this.options.selectors.alphabet).eq(0).find(this.options.selectors.alphabet_item).removeClass(ls.options.classes.states.active).first().addClass(ls.options.classes.states.active);
+	}
 
 	/**
 	 * Получает контейнер в который будут выводится результаты поиска

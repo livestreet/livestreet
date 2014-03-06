@@ -12,12 +12,15 @@
 
 	{* Сортировка *}
 	{include 'sort.ajax.tpl'
-			 sSortName     = 'sort-user-list'
-			 aSortList     = [ [ name => 'user_login',         text => $aLang.sort.by_name ],
-							   [ name => 'user_date_register', text => $aLang.user_date_registration ],
-							   [ name => 'user_rating',        text => $aLang.user_rating ] ]}
+		sSortName     = 'sort-user-list'
+		aSortList     = [
+			[ name => 'user_rating',        text => $aLang.sort.by_rating, order => 'asc'],
+			[ name => 'user_login',         text => $aLang.sort.by_login ],
+			[ name => 'user_date_register', text => $aLang.sort.by_date_registration ]
+		]
+	}
 
 	<div class="js-search-ajax-container" data-type="users">
-		{include file='user_list.tpl' aUsersList=$aUsers}
+		{include file='user_list.tpl' aUsersList=$aUsers bUseMore=true}
 	</div>
 {/block}

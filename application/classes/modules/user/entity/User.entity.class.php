@@ -354,7 +354,7 @@ class ModuleUser_EntityUser extends Entity {
 	 */
 	public function isOnline() {
 		if ($oSession=$this->getSession()) {
-			if (time()-strtotime($oSession->getDateLast())<60*10) { // 10 минут
+			if (time()-strtotime($oSession->getDateLast())<Config::Get('module.user.time_onlive')) { // 10 минут
 				return true;
 			}
 		}

@@ -13,8 +13,8 @@
 
 <div class="more {$sLoadClasses}"
 	 data-more-append="{$bLoadAppend|default:'true'}"
-	 {if $iLoadLastId}data-param-i-last-id="{$iLoadLastId}"{/if}
-	 data-param-i-target-id="{$iLoadTargetId|default:0}"
+	 {if $sLoadTarget}data-more-target="{$sLoadTarget}"{/if}
+
 	 {$sLoadAttributes}>
 
 	{$sLoadText|default:'Подгрузить еще'}

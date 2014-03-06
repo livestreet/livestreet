@@ -50,8 +50,6 @@ class ActionPeople extends Action {
 	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEvent('online','EventOnline');
-		$this->AddEvent('new','EventNew');
 		$this->AddEventPreg('/^(index)?$/i','/^(page([1-9]\d{0,5}))?$/i','/^$/i','EventIndex');
 		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
 
@@ -74,29 +72,60 @@ class ActionPeople extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
+		 * Формируем фильтр
+		 */
+		$aFilter=array(
+			'activate' => 1
+		);
+		$sOrderWay=in_array(getRequestStr('order'),array('desc','asc')) ? getRequestStr('order') : 'desc';
+		$sOrderField=in_array(getRequestStr('sort_by'),array('user_rating','user_date_register','user_login','user_skill','user_profile_name')) ? getRequestStr('sort_by') : 'user_rating';
+		if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext')>0) {
+			$iPage=getRequestStr('pageNext');
+		} else {
+			$iPage=1;
+		}
+		/**
 		 * Получаем из реквеста первые быквы для поиска пользователей по логину
 		 */
 		$sTitle=getRequest('sText');
 		if (is_string($sTitle) and mb_strlen($sTitle,'utf-8')) {
 			$sTitle=str_replace(array('_','%'),array('\_','\%'),$sTitle);
 		} else {
-			$this->Viewer_AssignAjax('bShowOriginal',true);
-			return;
+			$sTitle='';
 		}
 		/**
 		 * Как именно искать: совпадение в любой частилогина, или только начало или конец логина
 		 */
-		if (getRequest('isPrefix')) {
-			$sTitle.='%';
-		} elseif (getRequest('isPostfix')) {
-			$sTitle='%'.$sTitle;
-		} else {
-			$sTitle='%'.$sTitle.'%';
+		if ($sTitle) {
+			if (getRequest('isPrefix')) {
+				$sTitle.='%';
+			} elseif (getRequest('isPostfix')) {
+				$sTitle='%'.$sTitle;
+			} else {
+				$sTitle='%'.$sTitle.'%';
+			}
+		}
+		if ($sTitle) {
+			$aFilter['login']=$sTitle;
+		}
+		/**
+		 * Пол
+		 */
+		if (in_array(getRequestStr('sex'),array('man','woman','other'))) {
+			$aFilter['profile_sex']=getRequestStr('sex');
+		}
+		/**
+		 * Онлайн
+		 * date_last
+		 */
+		if (getRequest('is_online')) {
+			$aFilter['date_last_more']=date('Y-m-d H:i:s',time()-Config::Get('module.user.time_onlive'));
 		}
 		/**
 		 * Ищем пользователей
 		 */
-		$aResult=$this->User_GetUsersByFilter(array('activate' => 1,'login'=>$sTitle),array('user_rating'=>'desc'),1,50);
+		$aResult=$this->User_GetUsersByFilter($aFilter,array($sOrderField=>$sOrderWay),$iPage,Config::Get('module.user.per_page'));
+		$bHideMore=$iPage*Config::Get('module.user.per_page')>=$aResult['count'];
 		/**
 		 * Формируем ответ
 		 */
@@ -104,9 +133,16 @@ class ActionPeople extends Action {
 		$oViewer->Assign('aUsersList',$aResult['collection']);
 		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewer->Assign('sUserListEmpty',$this->Lang_Get('search.alerts.empty'));
-		$oViewer->Assign('bIsSearch', true);
-		$oViewer->Assign('iSearchCount', count($aResult['collection']));
+		$oViewer->Assign('bUseMore', true);
+		$oViewer->Assign('bHideMore', $bHideMore);
+		$oViewer->Assign('iSearchCount', $aResult['count']);
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("user_list.tpl"));
+		/**
+		 * Для подгрузки
+		 */
+		$this->Viewer_AssignAjax('iCountLoaded',count($aResult['collection']));
+		$this->Viewer_AssignAjax('pageNext',count($aResult['collection'])>0 ? $iPage+1 : $iPage);
+		$this->Viewer_AssignAjax('bHideMore',$bHideMore);
 	}
 	/**
 	 * Показывает юзеров по стране
@@ -193,38 +229,6 @@ class ActionPeople extends Action {
 		$this->Viewer_Assign('aUsersCity',$aUsersCity);
 	}
 	/**
-	 * Показываем последних на сайте
-	 *
-	 */
-	protected function EventOnline() {
-		$this->sMenuItemSelect='online';
-		/**
-		 * Последние по визиту на сайт
-		 */
-		$aUsersLast=$this->User_GetUsersByDateLast(15);
-		$this->Viewer_Assign('aUsersLast',$aUsersLast);
-		/**
-		 * Получаем статистику
-		 */
-		$this->GetStats();
-	}
-	/**
-	 * Показываем новых на сайте
-	 *
-	 */
-	protected function EventNew() {
-		$this->sMenuItemSelect='new';
-		/**
-		 * Последние по регистрации
-		 */
-		$aUsersRegister=$this->User_GetUsersByDateRegister(15);
-		$this->Viewer_Assign('aUsersRegister',$aUsersRegister);
-		/**
-		 * Получаем статистику
-		 */
-		$this->GetStats();
-	}
-	/**
 	 * Показываем юзеров
 	 *
 	 */
@@ -233,36 +237,13 @@ class ActionPeople extends Action {
 		 * Получаем статистику
 		 */
 		$this->GetStats();
-		/**
-		 * По какому полю сортировать
-		 */
-		$sOrder='user_rating';
-		if (getRequest('order')) {
-			$sOrder=getRequestStr('order');
-		}
-		/**
-		 * В каком направлении сортировать
-		 */
-		$sOrderWay='desc';
-		if (getRequest('order_way')) {
-			$sOrderWay=getRequestStr('order_way');
-		}
 		$aFilter=array(
 			'activate' => 1
 		);
 		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=$this->GetParamEventMatch(0,2) ? $this->GetParamEventMatch(0,2) : 1;
-		/**
 		 * Получаем список юзеров
 		 */
-		$aResult=$this->User_GetUsersByFilter($aFilter,array($sOrder=>$sOrderWay),$iPage,Config::Get('module.user.per_page'));
-		$aUsers=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.user.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('people').'index',array('order'=>$sOrder,'order_way'=>$sOrderWay));
+		$aResult=$this->User_GetUsersByFilter($aFilter,array('user_rating'=>'desc'),1,Config::Get('module.user.per_page'));
 		/**
 		 * Получаем алфавитный указатель на список пользователей
 		 */
@@ -270,12 +251,9 @@ class ActionPeople extends Action {
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aPaging',$aPaging);
-		$this->Viewer_Assign('aUsers',$aUsers);
+		$this->Viewer_Assign('aUsers',$aResult['collection']);
+		$this->Viewer_Assign('iSearchCount', $aResult['count']);
 		$this->Viewer_Assign('aPrefixUser',$aPrefixUser);
-		$this->Viewer_Assign("sUsersOrder",htmlspecialchars($sOrder));
-		$this->Viewer_Assign("sUsersOrderWay",htmlspecialchars($sOrderWay));
-		$this->Viewer_Assign("sUsersOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -308,4 +286,3 @@ class ActionPeople extends Action {
 		$this->Viewer_Assign('sMenuItemSelect',$this->sMenuItemSelect);
 	}
 }
-?>

@@ -1209,34 +1209,37 @@ class ModuleUser_MapperUser extends Mapper {
 			if (!in_array($key,$aOrderAllow)) {
 				unset($aOrder[$key]);
 			} elseif (in_array($value,array('asc','desc'))) {
-				$sOrder.=" {$key} {$value},";
+				$sOrder.=" u.{$key} {$value},";
 			}
 		}
 		$sOrder=trim($sOrder,',');
 		if ($sOrder=='') {
-			$sOrder=' user_id desc ';
+			$sOrder=' u.user_id desc ';
 		}
 
 		$sql = "SELECT
-					user_id
+					u.user_id
 				FROM
-					".Config::Get('db.table.user')."
+					".Config::Get('db.table.user')." as u
+					LEFT JOIN ".Config::Get('db.table.session')." as s ON u.user_id=s.user_id
 				WHERE
 					1 = 1
-					{ AND user_id = ?d }
-					{ AND user_mail = ? }
-					{ AND user_password = ? }
-					{ AND user_ip_register = ? }
-					{ AND user_activate = ?d }
-					{ AND user_activate_key = ? }
-					{ AND user_profile_sex = ? }
-					{ AND user_login LIKE ? }
-					{ AND user_profile_name LIKE ? }
+					{ AND s.session_date_last >= ? }
+					{ AND u.user_id = ?d }
+					{ AND u.user_mail = ? }
+					{ AND u.user_password = ? }
+					{ AND u.user_ip_register = ? }
+					{ AND u.user_activate = ?d }
+					{ AND u.user_activate_key = ? }
+					{ AND u.user_profile_sex = ? }
+					{ AND u.user_login LIKE ? }
+					{ AND u.user_profile_name LIKE ? }
 				ORDER by {$sOrder}
 				LIMIT ?d, ?d ;
 					";
 		$aResult=array();
 		if ($aRows=$this->oDb->selectPage($iCount,$sql,
+										  isset($aFilter['date_last_more']) ? $aFilter['date_last_more'] : DBSIMPLE_SKIP,
 										  isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
 										  isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
 										  isset($aFilter['password']) ? $aFilter['password'] : DBSIMPLE_SKIP,

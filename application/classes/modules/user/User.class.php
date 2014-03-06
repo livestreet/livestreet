@@ -671,7 +671,11 @@ class ModuleUser extends Module {
 		$sKey="user_filter_".serialize($aFilter).serialize($aOrder)."_{$iCurrPage}_{$iPerPage}";
 		if (false === ($data = $this->Cache_Get($sKey))) {
 			$data = array('collection'=>$this->oMapper->GetUsersByFilter($aFilter,$aOrder,$iCount,$iCurrPage,$iPerPage),'count'=>$iCount);
-			$this->Cache_Set($data, $sKey, array("user_update","user_new"), 60*60*24*2);
+			/**
+			 * Если есть фильтр по "кто онлайн", то уменьшаем время кеширования до 10 минут
+			 */
+			$iTimeCache=isset($aFilter['date_last_more']) ? 60*10 : 60*60*24*2;
+			$this->Cache_Set($data, $sKey, array("user_update","user_new"), $iTimeCache);
 		}
 		$data['collection']=$this->GetUsersAdditionalData($data['collection'],$aAllowData);
 		return $data;

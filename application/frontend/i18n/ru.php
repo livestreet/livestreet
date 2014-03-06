@@ -102,8 +102,10 @@ return array(
 	 */
 	'sort' => array(
 		'label'     => 'Сортировать',
+		'by_login'   => 'по логину',
 		'by_name'   => 'по имени',
 		'by_date'   => 'по дате',
+		'by_date_registration'   => 'по дате регистрации',
 		'by_rating' => 'по рейтингу',
 	),
 

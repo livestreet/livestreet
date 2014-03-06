@@ -20,7 +20,7 @@
 
 	<ul class="dropdown-menu js-search-sort-menu" id="js-dropdown-sort-{$sSortName}">
 		{foreach $aSortList as $aSortItem}
-			<li class="sort-item {if $aSortItem@index == 0}active{/if}" data-search-type="users" data-name="sort_by" data-value="{$aSortItem['name']}" data-order="asc">
+			<li class="sort-item {if $aSortItem@index == 0}active{/if}" data-search-type="users" data-name="sort_by" data-value="{$aSortItem['name']}" data-order="{if $aSortItem['order']}{$aSortItem['order']}{else}desc{/if}">
 				<a href="#">
 					{$aSortItem['text']}
 				</a>

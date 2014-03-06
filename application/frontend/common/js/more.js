@@ -27,7 +27,9 @@
 			// Название переменной с результатом
 			result: 'sHtml',
 			// Параметры запроса
-			params: {}
+			params: {},
+			// Проксирующие параметры
+			proxy: {}
 		},
 
 		/**
@@ -38,6 +40,7 @@
 		 */
 		_create: function () {
 			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, this.widgetName));
+			this.options.proxy = $.extend({}, this.options.proxy, ls.utils.getDataOptions(this.element, 'proxy'));
 
 			this.target = $( this.options.target );
 			this.counter = this.element.find('.js-more-count');
@@ -72,12 +75,18 @@
 		load: function () {
 			this._trigger("beforeload", null, this);
 
-			this.options.params = ls.utils.getDataOptions(this.element, 'param');
+			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.element, 'param'));
 			this.lock();
 
-			ls.ajax.load(this.options.url, this.options.params, function (oResponse) {
+			var params=$.extend({}, this.options.params, this.options.proxy);
+
+			ls.ajax.load(this.options.url, params, function (oResponse) {
 				if (oResponse.iCountLoaded > 0) {
-					this.target[ this.options.append ? 'append' : 'prepend' ]($.trim(oResponse[this.options.result]));
+					var html=$('<div></div>').html($.trim(oResponse[this.options.result]));
+					if (html.find(this.options.target).length) {
+						html=html.find(this.options.target).first();
+					}
+					this.target[ this.options.append ? 'append' : 'prepend' ](html.html());
 					this.element.data('param-i-last-id', oResponse.iLastId);
 
 					// Обновляем счетчик
@@ -89,6 +98,16 @@
 						} else {
 							this.counter.text(iCountLeft);
 						}
+					}
+					// Обновляем параметры
+					$.each(this.options.proxy,function(k,v){
+						if (oResponse[k]) {
+							this.options.proxy[k]=oResponse[k];
+						}
+					}.bind(this));
+
+					if (oResponse.bHideMore) {
+						this.element.remove();
 					}
 				} else {
 					// Для блоков без счетчиков
