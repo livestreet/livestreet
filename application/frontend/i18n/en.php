@@ -684,7 +684,7 @@ return array(
 	'settings_tuning_submit' => 'save settings',
 	'settings_tuning_submit_ok' => 'Settings saved',
 	'settings_account' => 'Account settings',
-	'settings_account_password' => 'Password',
+	blog_closed'settings_account_password' => 'Password',
 	'settings_account_password_notice' => 'Leave the fields blank if you don\'t want to change your password',
 	'settings_account_submit' => 'Save changes',
 	'settings_account_submit_ok' => 'Account saved',
@@ -703,7 +703,7 @@ return array(
 	'password_reminder_email' => 'Your e-mail',
 	'password_reminder_submit' => 'Get a link to reset the password',
 	'password_reminder_send_password' => 'A new password has been sent to your e-mail address.',
-	'password_reminder_send_link' => 'The link for password reset has been sent to your e-mail address',
+	'password_reminder_send_link' => 'The link for password reset has been sent to your e-mail address.',
 	'password_reminder_bad_code' => 'Wrong code for password reset.',
 	'password_reminder_bad_email' => 'Can\'t find a user with this e-mail address',
 	/**
@@ -1234,4 +1234,3 @@ return array(
 	)
 );
 ?>
- 
