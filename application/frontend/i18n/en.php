@@ -34,7 +34,7 @@ return array(
 	'blogs_readers' => 'Readers',
 	'blogs_rating' => 'Rating',
 	'blogs_owner' => 'Owner',
-	'blogs_personal_title' => "Blogger ",
+	'blogs_personal_title' => "Blog by",
 	'blogs_personal_description' => 'This is your personal blog',
 	'blog_closed' => 'Private blog',
 	'blog_no_topic' => 'No one has posted here yet',
@@ -1234,3 +1234,4 @@ return array(
 	)
 );
 ?>
+ 
