@@ -684,7 +684,7 @@ return array(
 	'settings_tuning_submit' => 'save settings',
 	'settings_tuning_submit_ok' => 'Settings saved',
 	'settings_account' => 'Account settings',
-	blog_closed'settings_account_password' => 'Password',
+	blog_closedblog_closed'settings_account_password' => 'Password',
 	'settings_account_password_notice' => 'Leave the fields blank if you don\'t want to change your password',
 	'settings_account_submit' => 'Save changes',
 	'settings_account_submit_ok' => 'Account saved',
@@ -1234,5 +1234,3 @@ return array(
 	)
 );
 ?>
-
- 
