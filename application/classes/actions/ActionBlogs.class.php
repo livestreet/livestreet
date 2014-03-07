@@ -22,10 +22,6 @@
  * @since 1.0
  */
 class ActionBlogs extends Action {
-
-	protected $iPageCurrent=1;
-	protected $sPageRoot=null;
-	protected $aCategoriesCurrent=array();
 	/**
 	 * Инициализация
 	 */
@@ -36,7 +32,6 @@ class ActionBlogs extends Action {
 		$this->Lang_AddLangJs(array(
 								  'blog.join.join','blog.join.leave'
 							  ));
-		$this->sPageRoot=Router::GetPath('blogs');
 		/**
 		 * Устанавливаем title страницы
 		 */
@@ -48,7 +43,6 @@ class ActionBlogs extends Action {
 	protected function RegisterEvent() {
 		$this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i','EventShowBlogs');
 		$this->AddEventPreg('/^ajax-search$/i','EventAjaxSearch');
-		$this->AddEventPreg('/^[\w\-\_]+$/i','EventShowBlogsCategory');
 	}
 
 
@@ -66,18 +60,51 @@ class ActionBlogs extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		/**
+		 * Фильтр
+		 */
+		$aFilter=array(
+			'exclude_type' => 'personal',
+		);
+		$sOrderWay=in_array(getRequestStr('order'),array('desc','asc')) ? getRequestStr('order') : 'desc';
+		$sOrderField=in_array(getRequestStr('sort_by'),array('blog_id','blog_title','blog_rating','blog_count_user','blog_count_topic')) ? getRequestStr('sort_by') : 'blog_rating';
+		if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext')>0) {
+			$iPage=getRequestStr('pageNext');
+		} else {
+			$iPage=1;
+		}
+		/**
 		 * Получаем из реквеста первые буквы блога
 		 */
 		if ($sTitle=getRequestStr('sText')) {
 			$sTitle=str_replace('%','',$sTitle);
 		} else {
-			$this->Viewer_AssignAjax('bShowOriginal',true);
-			return;
+			$sTitle='';
+		}
+		if ($sTitle) {
+			$aFilter['title']="%{$sTitle}%";
+		}
+		/**
+		 * Категории
+		 */
+		if (getRequestStr('category') and $oCategory=$this->Blog_GetCategoryById(getRequestStr('category'))) {
+			/**
+			 * Получаем все дочерние категории
+			 */
+			$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
+			$aCategoriesId[]=$oCategory->getId();
+			$aFilter['category_id']=$aCategoriesId;
+		}
+		/**
+		 * Тип
+		 */
+		if (in_array(getRequestStr('type'),array('open','close'))) {
+			$aFilter['type']=getRequestStr('type');
 		}
 		/**
 		 * Ищем блоги
 		 */
-		$aResult=$this->Blog_GetBlogsByFilter(array('exclude_type' => 'personal','title'=>"%{$sTitle}%"),array('blog_title'=>'asc'),1,100);
+		$aResult=$this->Blog_GetBlogsByFilter($aFilter,array($sOrderField=>$sOrderWay),$iPage,Config::Get('module.blog.per_page'));
+		$bHideMore=$iPage*Config::Get('module.blog.per_page')>=$aResult['count'];
 		/**
 		 * Формируем и возвращает ответ
 		 */
@@ -85,65 +112,21 @@ class ActionBlogs extends Action {
 		$oViewer->Assign('aBlogs',$aResult['collection']);
 		$oViewer->Assign('oUserCurrent',$this->User_GetUserCurrent());
 		$oViewer->Assign('sBlogsEmptyList',$this->Lang_Get('search.alerts.empty'));
-		$oViewer->Assign('bIsSearch', true);
-		$oViewer->Assign('iSearchCount', count($aResult['collection']));
+		$oViewer->Assign('bUseMore', true);
+		$oViewer->Assign('bHideMore', $bHideMore);
+		$oViewer->Assign('iSearchCount', $aResult['count']);
 		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionBlogs/blog_list.tpl"));
-	}
-
-	protected function EventShowBlogsCategory() {
-		$aParams=$this->GetParams();
-		if (count($aParams)) {
-			if (preg_match('/^page(\d{1,5})$/i',$aParams[count($aParams)-1],$aMatch)) {
-				$this->iPageCurrent=$aMatch[1];
-				array_pop($aParams);
-			}
-		}
-		$sUrlFull=join('/',$aParams);
-		if ($sUrlFull!='') {
-			$sUrlFull=$this->sCurrentEvent.'/'.$sUrlFull;
-		} else {
-			$sUrlFull=$this->sCurrentEvent;
-		}
-
 		/**
-		 * Получаем текущую категорию
+		 * Для подгрузки
 		 */
-		if ($oCategory=$this->Blog_GetCategoryByUrlFull($sUrlFull)) {
-			$this->Viewer_AddHtmlTitle($oCategory->getTitle());
-			/**
-			 * Получаем все дочерние категории
-			 */
-			$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
-			$aCategoriesId[]=$oCategory->getId();
-
-			$this->aCategoriesCurrent=$aCategoriesId;
-			$this->sPageRoot=$oCategory->getUrlWeb();
-			$this->Viewer_Assign('oBlogCategoryCurrent',$oCategory);
-			$this->Viewer_Assign('sBlogsRootPage',$oCategory->getUrlWeb());
-		} else {
-			return $this->EventNotFound();
-		}
-
-		return $this->EventShowBlogs();
+		$this->Viewer_AssignAjax('iCountLoaded',count($aResult['collection']));
+		$this->Viewer_AssignAjax('pageNext',count($aResult['collection'])>0 ? $iPage+1 : $iPage);
+		$this->Viewer_AssignAjax('bHideMore',$bHideMore);
 	}
 	/**
 	 * Отображение списка блогов
 	 */
 	protected function EventShowBlogs() {
-		/**
-		 * По какому полю сортировать
-		 */
-		$sOrder='blog_rating';
-		if (getRequest('order')) {
-			$sOrder=getRequestStr('order');
-		}
-		/**
-		 * В каком направлении сортировать
-		 */
-		$sOrderWay='desc';
-		if (getRequest('order_way')) {
-			$sOrderWay=getRequestStr('order_way');
-		}
 		/**
 		 * Фильтр поиска блогов
 		 */
@@ -151,36 +134,18 @@ class ActionBlogs extends Action {
 			'exclude_type' => 'personal'
 		);
 		/**
-		 * Передан ли номер страницы
-		 */
-		$iPage=$this->iPageCurrent;
-		if ($this->GetEventMatch(2)) {
-			$iPage=$this->GetEventMatch(2);
-		}
-		if ($this->aCategoriesCurrent) {
-			$aFilter['category_id']=$this->aCategoriesCurrent;
-		}
-		/**
 		 * Получаем список блогов
 		 */
-		$aResult=$this->Blog_GetBlogsByFilter($aFilter,array($sOrder=>$sOrderWay),$iPage,Config::Get('module.blog.per_page'));
+		$aResult=$this->Blog_GetBlogsByFilter($aFilter,array('blog_rating'=>'desc'),1,Config::Get('module.blog.per_page'));
 		$aBlogs=$aResult['collection'];
-		/**
-		 * Формируем постраничность
-		 */
-		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('module.blog.per_page'),Config::Get('pagination.pages.count'),$this->sPageRoot,array('order'=>$sOrder,'order_way'=>$sOrderWay));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
-		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign("aBlogs",$aBlogs);
-		$this->Viewer_Assign("sBlogOrder",htmlspecialchars($sOrder));
-		$this->Viewer_Assign("sBlogOrderWay",htmlspecialchars($sOrderWay));
-		$this->Viewer_Assign("sBlogOrderWayNext",htmlspecialchars($sOrderWay=='desc' ? 'asc' : 'desc'));
+		$this->Viewer_Assign('iSearchCount', $aResult['count']);
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
 	}
 }
-?>

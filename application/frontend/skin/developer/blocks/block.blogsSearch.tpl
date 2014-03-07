@@ -31,7 +31,7 @@
 
 	{* Тип блога *}
 	<p class="mb-10">Тип блога</p>
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='null'  bFieldChecked=true sFieldLabel='Любой'}
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='public' sFieldLabel='Открытый'}
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='private' sFieldLabel='Закрытый'}
+	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue=''  bFieldChecked=true sFieldLabel='Любой'}
+	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='open' sFieldLabel='Открытый'}
+	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='close' sFieldLabel='Закрытый'}
 {/block}

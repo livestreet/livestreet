@@ -13,6 +13,7 @@
 	{* Сортировка *}
 	{include 'sort.ajax.tpl'
 		sSortName     = 'sort-user-list'
+		sSortSearchType     = 'users'
 		aSortList     = [
 			[ name => 'user_rating',        text => $aLang.sort.by_rating, order => 'asc'],
 			[ name => 'user_login',         text => $aLang.sort.by_login ],

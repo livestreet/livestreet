@@ -8,12 +8,12 @@
 
 {* Список блогов *}
 {if $aBlogs}
-	{if $bIsSearch}
+	{if $iSearchCount}
 		<h3 class="h3">Найдено {$iSearchCount} блогов</h3>
 	{/if}
 
 	{* Список блогов *}
-	<ul class="object-list object-list-actions blog-list">
+	<ul class="object-list object-list-actions blog-list js-more-blogs-container">
 		{foreach $aBlogs as $oBlog}
 			<li class="object-list-item">
 				{* Аватар *}
@@ -50,6 +50,19 @@
 			</li>
 		{/foreach}
 	</ul>
+
+
+	{if $bUseMore}
+		{if !$bHideMore}
+			{include 'more.tpl'
+			sLoadClasses    = 'js-more-search'
+			sLoadTarget     = '.js-more-blogs-container'
+			sLoadAttributes = 'data-search-type="blogs" data-proxy-page-next="2"  '}
+		{/if}
+	{else}
+		{include 'pagination.tpl' aPaging=$aPaging}
+	{/if}
+
 {else}
 	{include 'alert.tpl' mAlerts=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) sAlertStyle='empty'}
 {/if}
