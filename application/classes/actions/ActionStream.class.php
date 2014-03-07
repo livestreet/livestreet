@@ -214,7 +214,6 @@ class ActionStream extends Action {
 
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('sDateLast', $oEvenLast->getDateAdded());
 			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
 		}
 		/**
@@ -255,7 +254,6 @@ class ActionStream extends Action {
 
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('sDateLast', $oEvenLast->getDateAdded());
 			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
 		}
 		/**

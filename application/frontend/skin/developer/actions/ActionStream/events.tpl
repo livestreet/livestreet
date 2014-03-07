@@ -2,7 +2,7 @@
  * События (добавлен комментарий, добавлен топик и т.д.)
  *}
 
-{$sDateLast = {date_format date=$sDateLast format="j F Y"}}
+{$sDateLast = {date_format date=$sDateLast format="Y-m-d" notz=1}}
 
 {if count($aStreamEvents)}
 	{foreach $aStreamEvents as $oStreamEvent}
@@ -12,11 +12,11 @@
 
 
 		{* Дата группы событий *}
-		{if {date_format date=$oStreamEvent->getDateAdded() format="j F Y"} != $sDateLast}
-			{$sDateLast = {date_format date=$oStreamEvent->getDateAdded() format="j F Y"}}
+		{if {date_format date=$oStreamEvent->getDateAdded() format="Y-m-d" notz=1} != $sDateLast}
+			{$sDateLast = {date_format date=$oStreamEvent->getDateAdded() format="Y-m-d" notz=1}}
 
 			<li class="activity-date">
-				{if {date_format date=$smarty.now format="j F Y"} == $sDateLast}
+				{if {date_format date=$smarty.now format="Y-m-d" notz=1} == $sDateLast}
 					{$aLang.today}
 				{else}
 					{date_format date=$oStreamEvent->getDateAdded() format="j F Y"}
@@ -25,7 +25,7 @@
 		{/if}
 
 
-		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()}">
+		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()} js-activity-event-item" data-date-last="{$sDateLast|escape:'html'}">
 			{* Аватар *}
 			<a href="{$oUser->getUserWebPath()}">
 				<img src="{$oUser->getProfileAvatarPath(48)}" alt="{$oUser->getDisplayName()}" class="activity-event-avatar" />

@@ -41,8 +41,8 @@ ls.activity = (function ($) {
 			$('.js-more-activity-' + sValue).more({
 				url: aRouter['stream'] + 'get_more_' + sValue,
 				target: '#activity-event-list',
-				afterload: function (e, data) {
-					data.context.element.data('param-s-date-last', data.response.sDateLast);
+				beforeload: function (e, context) {
+					context.options.params.sDateLast=$('.js-activity-event-item').last().data('dateLast');
 				}
 			});
 		});
