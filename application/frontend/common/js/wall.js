@@ -121,12 +121,12 @@ ls.wall = (function ($) {
 		});
 
 		$('.js-more-wall').more({
-			url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load/',
+			url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load/'
 		});
 
 		$('.js-more-wall-comments').livequery(function () {
 			$(this).more({
-				url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load-reply/',
+				url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load-reply/'
 			});
 		});
 	};

@@ -27,8 +27,8 @@
 	{if $iCountWall - count($aWall)}
 		{include 'more.tpl'
 				 sLoadClasses    = 'js-more-wall'
-				 iLoadLastId     = $iWallLastId
 				 iLoadCount      = $iCountWall - count($aWall)
-				 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\""}
+				 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-i-last-id=\"{$iWallLastId}\" "
+		}
 	{/if}
 {/block}

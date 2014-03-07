@@ -15,11 +15,10 @@
 		{if count($aPostComments) < $oPost->getCountReply()}
 			{include 'more.tpl'
 					 sLoadClasses    = 'more-wall-comments js-more-wall-comments'
-					 iLoadLastId     = $aPostComments[0]->getId()
-					 iLoadTargetId   = $oPost->getId()
 					 iLoadCount      = $oPost->getCountReply() - Config::Get('module.wall.count_last_reply')
 					 bLoadAppend     = 'false'
-					 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id={$oPost->getId()}]\""}
+					 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id={$oPost->getId()}]\"  data-proxy-i-last-id=\"{$aPostComments[0]->getId()}\" data-param-i-target-id=\"{$oPost->getId()}\" "
+			}
 		{/if}
 
 		{* Комментарии *}
