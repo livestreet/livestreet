@@ -22,7 +22,7 @@
 class ModuleRbac_EntityRole extends EntityORM {
 
 	protected $aRelations=array(
-		'permissions' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleRbac_EntityPermission', 'permission_id', 'db.table.rbac_role_permission', 'role_id'),
+		'permissions' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleRbac_EntityPermission', 'permission_id', 'ModuleRbac_EntityRolePermission', 'role_id'),
 	);
 
 }
