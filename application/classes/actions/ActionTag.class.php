@@ -84,6 +84,12 @@ class ActionTag extends Action {
 		$this->Viewer_AddHtmlTitle($sTag);
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'tag/'.$sTag.'/',$sTag);
 		/**
+		 * Если не удалось найти топиков, то ыставляем 404 заголовок
+		 */
+		if (!count($aTopics)) {
+			header("HTTP/1.1 404 Not Found");
+		}
+		/**
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
