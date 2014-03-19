@@ -283,6 +283,10 @@ class ModuleMedia extends ModuleORM {
 
 		$aSizes=$this->GetConfigParam('image.sizes',$sTargetType);
 		/**
+		 * Перед запуском генерации подчищаем память
+		 */
+		unset($oImage);
+		/**
 		 * Генерируем варианты с необходимыми размерами
 		 */
 		$this->GenerateImageBySizes($sFileTmp,$sPath,$sFileName,$aSizes,$aParams);
