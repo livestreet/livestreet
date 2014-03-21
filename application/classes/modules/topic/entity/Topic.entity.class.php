@@ -517,6 +517,29 @@ class ModuleTopic_EntityTopic extends Entity {
 		return null;
 	}
 
+	/**
+	 * Сохраняет путь до превью
+	 *
+	 * @param $data
+	 */
+	public function setPreviewImage($data) {
+		$this->setExtraValue('preview_image',$data);
+	}
+	/**
+	 * Возвращает веб путь до превью нужного размера
+	 *
+	 * @param $sSize
+	 *
+	 * @return null
+	 */
+	public function getPreviewImageWebPath($sSize) {
+		if ($sPath=$this->getExtraValue('preview_image')) {
+			return $this->Media_GetImageWebPath($sPath,$sSize);
+		} else {
+			return null;
+		}
+	}
+
 
 
 	//*************************************************************************************************************************************************

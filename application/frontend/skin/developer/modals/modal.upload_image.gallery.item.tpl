@@ -4,6 +4,7 @@
  * @styles css/modals.css
  *}
 
+{$oRelationTarget=$oMediaItem->getRelationTarget()}
 <li class="media-gallery-list-item {if $bIsSelected}is-selected{/if} {if $bIsActive}active{/if} js-media-upload-gallery-item"
 		data-media-id="{$oMediaItem->getId()}"
 		data-media-type="{$oMediaItem->getType()}"
@@ -14,7 +15,9 @@
 		data-media-width="{$oMediaItem->getWidth()}"
 		data-media-height="{$oMediaItem->getHeight()}"
 		data-media-preview="{$oMediaItem->getFileWebPath('100crop')}"
-		data-media-image-sizes={json var=$oMediaItem->getDataOne('image_sizes')}>
+		data-media-image-sizes={json var=$oMediaItem->getDataOne('image_sizes')}
+		data-media-relation-is-preview={json var=$oRelationTarget->getIsPreview()}
+		data-media-relation-is-preview3={json var=$oRelationTarget->getIsPreview()} >
 	<img src="{$oMediaItem->getFileWebPath('100crop')}" alt="Image">
 
 	<input id="checkbox_02" type="checkbox">

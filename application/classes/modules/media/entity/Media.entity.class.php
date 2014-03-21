@@ -91,4 +91,8 @@ class ModuleMedia_EntityMedia extends EntityORM {
 		$aData[$sKey]=$mValue;
 		$this->setData($aData);
 	}
+
+	public function getRelationTarget() {
+		return $this->_getDataOne('_relation_entity');
+	}
 }

@@ -17,6 +17,7 @@ ls.media = (function ($) {
 	 * @private
 	 */
 	var _defaults = {
+		target_params: {},
 		target_type: '',
 		target_id: '',
 		target_tmp: '',
@@ -47,6 +48,8 @@ ls.media = (function ($) {
 			info: {
 				self:   '.js-media-item-info',
 				remove: '.js-media-item-info-remove',
+				create_preview: '.js-media-item-info-create-preview',
+				remove_preview: '.js-media-item-info-remove-preview',
 				sizes:  'select[name=size]',
 				empty:  '.js-media-item-info-empty'
 			},
@@ -67,6 +70,8 @@ ls.media = (function ($) {
 		routers: {
 			upload:              aRouter['ajax'] + "media/upload/",
 			remove_file:         aRouter['ajax'] + "media/remove-file/",
+			create_preview_file: aRouter['ajax'] + "media/create-preview-file/",
+			remove_preview_file: aRouter['ajax'] + "media/remove-preview-file/",
 			load_gallery:        aRouter['ajax'] + "media/load-gallery/",
 			generate_target_tmp: aRouter['ajax'] + "media/generate-target-tmp/",
 			submit_insert:       aRouter['ajax'] + "media/submit-insert/",
@@ -115,6 +120,8 @@ ls.media = (function ($) {
 			info: {
 				self:   $(this.options.selectors.info.self),
 				remove: $(this.options.selectors.info.remove),
+				create_preview: $(this.options.selectors.info.create_preview),
+				remove_preview: $(this.options.selectors.info.remove_preview),
 				sizes:  $(this.options.selectors.info.sizes),
 				empty:  $(this.options.selectors.info.empty)
 			}
@@ -261,6 +268,18 @@ ls.media = (function ($) {
 			if (confirm('Удалить текущий файл?')) { 
 				ls.media.removeActiveFile(); 
 			}
+			e.preventDefault();
+		}.bind(this));
+
+		// Создание превью из файла
+		this.elements.info.create_preview.on('click', function(e) {
+			ls.media.createPreviewActiveFile();
+			e.preventDefault();
+		}.bind(this));
+
+		// Удаление превью
+		this.elements.info.remove_preview.on('click', function(e) {
+			ls.media.removePreviewActiveFile();
 			e.preventDefault();
 		}.bind(this));
 
@@ -411,6 +430,66 @@ ls.media = (function ($) {
 		});
 	};
 
+
+	/**
+	 * Создание превью из активного файла
+	 */
+	this.createPreviewActiveFile = function() {
+		var item = this.getActive();
+
+		return item.length ? this.createPreviewFile(item.data('mediaId')) : false;
+	};
+
+	/**
+	 * Создание превью
+	 *
+	 * @param {Number} id
+	 */
+	this.createPreviewFile = function(id) {
+		var _this = this;
+
+		ls.ajax.load(this.options.routers.create_preview_file, { id: id, target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+				if (result.bUnsetOther) {
+					$(_this.options.selectors.gallery.file).data('mediaRelationIsPreview',0);
+				}
+				var item=$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']');
+				item.data('mediaRelationIsPreview',1);
+				/**
+				 * Обновляем отображение информации
+				 */
+				this.showDetail(item);
+			}
+		}.bind(this));
+	};
+
+	/**
+	 * Удаление превью у активного файла
+	 */
+	this.removePreviewActiveFile = function() {
+		var item = this.getActive();
+
+		return item.length ? this.removePreviewFile(item.data('mediaId')) : false;
+	};
+
+	/**
+	 * Удаление превью
+	 *
+	 * @param {Number} id
+	 */
+	this.removePreviewFile = function(id) {
+		var _this = this;
+
+		ls.ajax.load(this.options.routers.remove_preview_file, { id: id, target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
+			if (result.bStateError) {
+				ls.msg.error(null, result.sMsg);
+			} else {
+
+			}
+		});
+	};
 	/**
 	 * Подгрузка списка файлов
 	 */
@@ -600,6 +679,14 @@ ls.media = (function ($) {
 		$('.js-media-detail-file-size').html(parseInt(item.data('mediaFileSize') / 1024) + 'kB');
 		$('.js-media-detail-area .js-input-title').val(item.data('mediaDataTitle'));
 		$('.js-media-detail-area').show();
+
+		if (item.data('mediaRelationIsPreview')) {
+			$('.js-media-item-info-create-preview').hide();
+			$('.js-media-item-info-remove-preview').show();
+		} else {
+			$('.js-media-item-info-create-preview').show();
+			$('.js-media-item-info-remove-preview').hide();
+		}
 
 		this.showSettingsMode(item);
 	};

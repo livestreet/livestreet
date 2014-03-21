@@ -20,9 +20,12 @@
 		[ 'value' => 'center', 'text' => $aLang.uploadimg_align_center ]
 	]}
 
+	{$aTargetParams=$LS->Media_GetTargetTypeParams($sMediaTargetType)}
+
 	<script type="text/javascript">
 		jQuery(function($){
 			ls.media.init({
+				target_params: {json var=$aTargetParams},
 				target_type: {json var=$sMediaTargetType},
 				target_id: {json var=$sMediaTargetId},
 				target_tmp: {json var=$sMediaTargetTmp}

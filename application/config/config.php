@@ -217,6 +217,18 @@ $config['module']['media']['image']['sizes'] = array(  // список разм�
 		'crop' => true,
 	)
 );
+$config['module']['media']['image']['preview']['sizes'] = array(  // список размеров, которые необходимо делать при создании превью
+	array(
+		'w' => 500,
+		'h' => 300,
+		'crop' => true,
+	),
+	array(
+		'w' => 250,
+		'h' => 150,
+		'crop' => true,
+	),
+);
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');

@@ -28,7 +28,9 @@
 class ModuleMedia_MapperMedia extends Mapper {
 
 	public function GetMediaByTarget($sTargetType,$iTargetId,$iUserId=null) {
+		$sFieldsJoinReturn=$this->GetFieldsRelationTarget();
 		$sql = "SELECT
+					{$sFieldsJoinReturn},
                     m.*
                 FROM ".Config::Get('db.table.media_target')." AS t
                 	 JOIN ".Config::Get('db.table.media')." as m on ( m.id=t.media_id { and m.user_id = ?d } )
@@ -42,15 +44,15 @@ class ModuleMedia_MapperMedia extends Mapper {
 
 		$aResult = array();
 		if ($aRows = $this->oDb->select($sql,$iUserId ? $iUserId : DBSIMPLE_SKIP,$iTargetId, $sTargetType)) {
-			foreach ($aRows as $aRow) {
-				$aResult[]=Engine::GetEntity('ModuleMedia_EntityMedia',$aRow);
-			}
+			$aResult=$this->PrepareResultTarget($aRows);
 		}
 		return $aResult;
 	}
 
 	public function GetMediaByTargetTmp($sTargetTmp,$iUserId=null) {
+		$sFieldsJoinReturn=$this->GetFieldsRelationTarget();
 		$sql = "SELECT
+					{$sFieldsJoinReturn},
                     m.*
                 FROM ".Config::Get('db.table.media_target')." AS t
                 	 JOIN ".Config::Get('db.table.media')." as m on ( m.id=t.media_id { and m.user_id = ?d } )
@@ -62,9 +64,7 @@ class ModuleMedia_MapperMedia extends Mapper {
 
 		$aResult = array();
 		if ($aRows = $this->oDb->select($sql,$iUserId ? $iUserId : DBSIMPLE_SKIP,$sTargetTmp)) {
-			foreach ($aRows as $aRow) {
-				$aResult[]=Engine::GetEntity('ModuleMedia_EntityMedia',$aRow);
-			}
+			$aResult=$this->PrepareResultTarget($aRows);
 		}
 		return $aResult;
 	}
@@ -81,5 +81,43 @@ class ModuleMedia_MapperMedia extends Mapper {
 			return true;
 		}
 		return false;
+	}
+
+	protected function GetFieldsRelationTarget() {
+		$oEntityJoinSample=Engine::GetEntity('ModuleMedia_EntityTarget');
+		/**
+		 * Формируем список полей для возврата у таблице связей
+		 */
+		$aFieldsJoinReturn=$oEntityJoinSample->_getFields();
+		foreach($aFieldsJoinReturn as $k=>$sField) {
+			if (!is_numeric($k)) {
+				// Удаляем служебные (примари) поля
+				unset($aFieldsJoinReturn[$k]);
+				continue;
+			}
+			$aFieldsJoinReturn[$k]="t.`{$sField}` as t_join_{$sField}";
+		}
+		$sFieldsJoinReturn=join(', ',$aFieldsJoinReturn);
+		return $sFieldsJoinReturn;
+	}
+
+	protected function PrepareResultTarget($aRows) {
+		$aResult=array();
+		foreach ($aRows as $aRow) {
+			$aData=array();
+			$aDataRelation=array();
+			foreach($aRow as $k=>$v) {
+				if (strpos($k,'t_join_')===0) {
+					$aDataRelation[str_replace('t_join_','',$k)]=$v;
+				} else {
+					$aData[$k]=$v;
+				}
+			}
+			$aData['_relation_entity']=Engine::GetEntity('ModuleMedia_EntityTarget',$aDataRelation);
+			$oEntity=Engine::GetEntity('ModuleMedia_EntityMedia',$aData);
+			$oEntity->_SetIsNew(false);
+			$aResult[]=$oEntity;
+		}
+		return $aResult;
 	}
 }

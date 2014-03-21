@@ -494,3 +494,9 @@ ADD INDEX ( `value_date` ) ;
 -- 17.02.2014
 ALTER TABLE `prefix_media` ADD `target_type` VARCHAR( 50 ) NOT NULL AFTER `type` ,
 ADD INDEX ( `target_type` ) ;
+
+
+-- 21.03.2014
+ALTER TABLE `prefix_media_target` ADD `is_preview` TINYINT( 1 ) NOT NULL DEFAULT '0',
+ADD INDEX ( `is_preview` ) ;
+ALTER TABLE `prefix_media_target` ADD `data` TEXT NOT NULL ;

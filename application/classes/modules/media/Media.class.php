@@ -35,6 +35,7 @@ class ModuleMedia extends ModuleORM {
 	const TYPE_CHECK_ALLOW_ADD='add';
 	const TYPE_CHECK_ALLOW_REMOVE='remove';
 	const TYPE_CHECK_ALLOW_UPDATE='update';
+	const TYPE_CHECK_ALLOW_PREVIEW='preview';
 	/**
 	 * Объект текущего пользователя
 	 *
@@ -45,7 +46,9 @@ class ModuleMedia extends ModuleORM {
 	protected $oMapper=null;
 
 	protected $aTargetTypes=array(
-		'topic'=>array(),
+		'topic'=>array(
+			'allow_preview'=>true,
+		),
 		'comment'=>array(),
 		'blog'=>array(),
 		'talk'=>array(),
@@ -105,12 +108,29 @@ class ModuleMedia extends ModuleORM {
 	 *
 	 * @param string $sTargetType
 	 *
-	 * @return mixed
+	 * @return array|null
 	 */
 	public function GetTargetTypeParams($sTargetType) {
 		if ($this->IsAllowTargetType($sTargetType)) {
 			return $this->aTargetTypes[$sTargetType];
 		}
+		return null;
+	}
+
+	/**
+	 * Возвращает конкретный парметры нужного типа
+	 *
+	 * @param string $sTargetType
+	 * @param string $sName
+	 *
+	 * @return mixed|null
+	 */
+	public function GetTargetTypeParam($sTargetType,$sName) {
+		$aParams=$this->GetTargetTypeParams($sTargetType);
+		if ($aParams and array_key_exists($sName,$aParams)) {
+			return $aParams[$sName];
+		}
+		return null;
 	}
 	/**
 	 * Проверяет разрешен ли тип медиа
@@ -141,6 +161,17 @@ class ModuleMedia extends ModuleORM {
 				$aParams['user']=$this->oUserCurrent;
 			}
 			return $this->$sMethod($iTargetId,$sAllowType,$aParams);
+		}
+		return false;
+	}
+
+	public function NotifyCreatePreviewTarget($sTargetType,$iTargetId,$oRelationTarget) {
+		if (!$this->IsAllowTargetType($sTargetType)) {
+			return false;
+		}
+		$sMethod = 'NotifyCreatePreviewTarget'.func_camelize($sTargetType);
+		if (method_exists($this,$sMethod)) {
+			return $this->$sMethod($iTargetId,$oRelationTarget);
 		}
 		return false;
 	}
@@ -351,7 +382,7 @@ class ModuleMedia extends ModuleORM {
 				$aSizes[$k]=$this->ParsedImageSize($v);
 			}
 		}
-
+		$sFileResult=null;
 		foreach ($aSizes as $aSize) {
 			/**
 			 * Для каждого указанного в конфиге размера генерируем картинку
@@ -362,11 +393,15 @@ class ModuleMedia extends ModuleORM {
 					$oImage->cropProportion($aSize['w']/$aSize['h'],'center');
 					$sNewFileName .= 'crop';
 				}
-				if (!$oImage->resize($aSize['w'],$aSize['h'],true)->saveSmart($sDirDist,$sNewFileName)) {
+				if (!$sFileResult=$oImage->resize($aSize['w'],$aSize['h'],true)->saveSmart($sDirDist,$sNewFileName)) {
 					// TODO: прерывать и возвращать false?
 				}
 			}
 		}
+		/**
+		 * Возвращаем путь до последнего созданного файла
+		 */
+		return $sFileResult;
 	}
 	public function RemoveImageBySizes($sPath,$aSizes,$bRemoveOriginal=true) {
 		if ($aSizes) {
@@ -398,11 +433,13 @@ class ModuleMedia extends ModuleORM {
 	 *
 	 * @param string  $sTargetType
 	 * @param string|null $sTargetId	Желательно для одного типа при формировании каталога для загрузки выбрать что-то одно - использовать $sTargetId или нет
+	 * @param string $sPostfix	Дополнительный каталог для сохранения в конце цепочки
 	 *
 	 * @return string
 	 */
-	public function GetSaveDir($sTargetType,$sTargetId=null) {
-		return Config::Get('path.uploads.base')."/media/{$sTargetType}/".date('Y/m/d/H/');
+	public function GetSaveDir($sTargetType,$sTargetId=null,$sPostfix='') {
+		$sPostfix=trim($sPostfix,'/');
+		return Config::Get('path.uploads.base')."/media/{$sTargetType}/".date('Y/m/d/H/').($sPostfix ? "{$sPostfix}/" : '');
 	}
 
 	public function BuildCodeForEditor($oMedia,$aParams) {
@@ -569,6 +606,12 @@ class ModuleMedia extends ModuleORM {
 				$oTarget->setTargetTmp(null);
 				$oTarget->setTargetId($sTargetId);
 				$oTarget->Update();
+				/**
+				 * TODO: Уведомляем объект о создании превью
+				 */
+				if ($oTarget->getIsPreview()) {
+
+				}
 			}
 		}
 	}
@@ -745,11 +788,99 @@ class ModuleMedia extends ModuleORM {
 		}
 		return false;
 	}
+	/**
+	 * Создает превью у файла для определенного типа
+	 *
+	 * @param $oMedia
+	 * @param $oTarget
+	 *
+	 * @return bool|string
+	 */
+	public function CreateFilePreview($oMedia,$oTarget) {
+		if (!$this->GetTargetTypeParam($oTarget->getTargetType(),'allow_preview')) {
+			return false;
+		}
+
+		/**
+		 * TODO: нужно удалить прошлое превью
+		 */
+
+		if ($oMedia->getType()==self::TYPE_IMAGE) {
+			$aParams=$this->Image_BuildParams('media.preview_'.$oTarget->getTargetType());
+
+			if(!$oImage=$this->Image_OpenFrom($oMedia->getFilePath(),$aParams)) {
+				return $this->Image_GetLastError();
+			}
+			/**
+			 * Сохраняем во временный файл
+			 */
+			if (!$sFileTmp=$oImage->saveTmp()) {
+				return $this->Image_GetLastError();
+			}
+			unset($oImage);
+			/**
+			 * Получаем список необходимых размеров превью
+			 */
+			$aSizes=$this->GetConfigParam('image.preview.sizes',$oTarget->getTargetType());
+			/**
+			 * Каталог для сохранения превью
+			 */
+			$sPath=$this->GetSaveDir($oTarget->getTargetType(),$oTarget->getTargetId(),'preview');
+			/**
+			 * Уникальное имя файла
+			 */
+			$sFileName=func_generator(20);
+			/**
+			 * Генерируем варианты с необходимыми размерами
+			 */
+			$sFileLast=$this->GenerateImageBySizes($sFileTmp,$sPath,$sFileName,$aSizes,$aParams);
+			$aSizeLast=end($aSizes);
+			$sReplaceSize='_'.$aSizeLast['w'].'x'.$aSizeLast['h'];
+			if ($aSizeLast['crop']) {
+				$sReplaceSize.='crop';
+			}
+			$sFileLast=str_replace($sReplaceSize,'',$sFileLast);
+			/**
+			 * Теперь можно удалить временный файл
+			 */
+			$this->Fs_RemoveFileLocal($sFileTmp);
+			/**
+			 * Сохраняем данные во связи
+			 */
+			$oTarget->setDataOne('image_preview_sizes',$aSizes);
+			$oTarget->setDataOne('image_preview',$sFileLast);
+			$oTarget->setIsPreview(1);
+			$oTarget->Update();
+
+			/**
+			 * Уведомляем объект о создании нового превью
+			 */
+			if ($oTarget->getTargetId()) {
+				$this->NotifyCreatePreviewTarget($oTarget->getTargetType(),$oTarget->getTargetId(),$oTarget);
+			}
+
+			return true;
+		}
+	}
 
 
 
 
 
+
+	/**
+	 * Обработка создания превью для типа 'topic'
+	 * Название метода формируется автоматически
+	 *
+	 * @param int $iTargetId
+	 * @param ModuleMedia_EntityTarget $oRelationTarget
+	 */
+	public function NotifyCreatePreviewTargetTopic($iTargetId,$oRelationTarget) {
+		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+			$oTopic->setPreviewImage($oRelationTarget->getDataOne('image_preview'));
+			$this->Topic_UpdateTopic($oTopic);
+		}
+	}
 	/**
 	 * Проверка владельца с типом "topic"
 	 * Название метода формируется автоматически
@@ -764,7 +895,7 @@ class ModuleMedia extends ModuleORM {
 		if (!$oUser=$aParams['user']) {
 			return false;
 		}
-		if ($sAllowType==self::TYPE_CHECK_ALLOW_ADD) {
+		if (in_array($sAllowType,array(self::TYPE_CHECK_ALLOW_ADD,self::TYPE_CHECK_ALLOW_PREVIEW))) {
 			if (is_null($iTargetId)) {
 				/**
 				 * Разрешаем для всех новых топиков

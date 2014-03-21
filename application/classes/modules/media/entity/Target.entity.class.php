@@ -35,4 +35,31 @@ class ModuleMedia_EntityTarget extends EntityORM {
 		}
 		return true;
 	}
+
+
+	public function getData() {
+		$aData=@unserialize($this->_getDataOne('data'));
+		if (!$aData) {
+			$aData=array();
+		}
+		return $aData;
+	}
+
+	public function setData($aRules) {
+		$this->_aData['data']=@serialize($aRules);
+	}
+
+	public function getDataOne($sKey) {
+		$aData=$this->getData();
+		if (isset($aData[$sKey])) {
+			return $aData[$sKey];
+		}
+		return null;
+	}
+
+	public function setDataOne($sKey,$mValue) {
+		$aData=$this->getData();
+		$aData[$sKey]=$mValue;
+		$this->setData($aData);
+	}
 }
