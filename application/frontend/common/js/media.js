@@ -72,6 +72,7 @@ ls.media = (function ($) {
 			remove_file:         aRouter['ajax'] + "media/remove-file/",
 			create_preview_file: aRouter['ajax'] + "media/create-preview-file/",
 			remove_preview_file: aRouter['ajax'] + "media/remove-preview-file/",
+			load_preview_items:  aRouter['ajax'] + "media/load-preview-items/",
 			load_gallery:        aRouter['ajax'] + "media/load-gallery/",
 			generate_target_tmp: aRouter['ajax'] + "media/generate-target-tmp/",
 			submit_insert:       aRouter['ajax'] + "media/submit-insert/",
@@ -461,6 +462,7 @@ ls.media = (function ($) {
 				 * Обновляем отображение информации
 				 */
 				this.showDetail(item);
+				this.loadPreviewItems();
 			}
 		}.bind(this));
 	};
@@ -492,6 +494,7 @@ ls.media = (function ($) {
 				 * Обновляем отображение информации
 				 */
 				this.showDetail(item);
+				this.loadPreviewItems();
 			}
 		}.bind(this));
 	};
@@ -505,7 +508,19 @@ ls.media = (function ($) {
 		ls.ajax.load(this.options.routers.load_gallery, { target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
 			this.elements.gallery.fileList.removeClass( ls.options.classes.states.loading ).html(result.sTemplate);
 			this[result.sTemplate ? 'markAsNotEmpty' : 'markAsEmpty']();
+
+			this.renderPreviewItems(result.sTemplatePreview);
 		}.bind(this));
+	};
+
+	this.loadPreviewItems = function() {
+		ls.ajax.load(this.options.routers.load_preview_items, { target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
+			this.renderPreviewItems(result.sTemplatePreview);
+		}.bind(this));
+	};
+
+	this.renderPreviewItems = function(sTemplatePreview) {
+		$('#tab-media-preview').find('.modal-content').html(sTemplatePreview);
 	};
 
 	/**

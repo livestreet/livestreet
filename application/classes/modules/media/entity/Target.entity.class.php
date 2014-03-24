@@ -62,4 +62,16 @@ class ModuleMedia_EntityTarget extends EntityORM {
 		$aData[$sKey]=$mValue;
 		$this->setData($aData);
 	}
+
+	public function getPreviewImageItemsWebPath() {
+		$aPreviewItems=array();
+		$sPathbase=$this->getDataOne('image_preview');
+		$aSizes=$this->getDataOne('image_preview_sizes');
+		if ($sPathbase and $aSizes) {
+			foreach($aSizes as $aSize) {
+				$aPreviewItems[]=$this->Media_GetImageWebPath($sPathbase,$aSize);
+			}
+		}
+		return $aPreviewItems;
+	}
 }

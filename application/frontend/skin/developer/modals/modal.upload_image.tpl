@@ -39,6 +39,9 @@
 			<li data-type="tab" data-tab-target="tab-media-insert" data-media-mode="insert" class="active js-tab-show-gallery"><a href="#">Вставить</a></li>
             <li data-type="tab" data-tab-target="tab-media-create-photoset" data-media-mode="create-photoset" class="js-tab-show-gallery"><a href="#">Создать фотосет</a></li>
 			<li data-type="tab" data-tab-target="tab-media-link"><a href="#">Вставить по ссылке</a></li>
+			{if $aTargetParams.allow_preview}
+				<li data-type="tab" data-tab-target="tab-media-preview"><a href="#">Превью</a></li>
+			{/if}
 		</ul>
 
 		{* Side navigation content *}
@@ -103,6 +106,15 @@
 				<div class="modal-footer">
 					<button type="submit" class="button button-primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+				</div>
+			</div>
+
+			{**
+			 * Фотосет
+			 *}
+			<div id="tab-media-preview" data-type="tab-pane" class="tab-pane modal-upload-image-pane">
+				<div class="modal-content">
+					ffff
 				</div>
 			</div>
 		</div>

@@ -730,10 +730,18 @@ class ModuleMedia extends ModuleORM {
 	 */
 	public function GetImagePathBySize($sPath,$sSize) {
 		$aPathInfo=pathinfo($sPath);
-		if (preg_match('#^(\d+)([a-z]{2,10})?$#i',$sSize,$aMatch)) {
-			$sSize=$aMatch[1].'x'.$aMatch[1];
-			if (isset($aMatch[2])) {
-				$sSize.=strtolower($aMatch[2]);
+		if (is_array($sSize)) {
+			$aSize=$sSize;
+			$sSize = $aSize['w'].'x'.$aSize['h'];
+			if ($aSize['crop']) {
+				$sSize.='crop';
+			}
+		} else {
+			if (preg_match('#^(\d+)([a-z]{2,10})?$#i',$sSize,$aMatch)) {
+				$sSize=$aMatch[1].'x'.$aMatch[1];
+				if (isset($aMatch[2])) {
+					$sSize.=strtolower($aMatch[2]);
+				}
 			}
 		}
 		return $aPathInfo['dirname'].'/'.$aPathInfo['filename'].'_'.$sSize.'.'.$aPathInfo['extension'];

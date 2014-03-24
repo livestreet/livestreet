@@ -86,6 +86,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^media$/i','/^remove-file$/','/^$/','EventMediaRemoveFile');
 		$this->AddEventPreg('/^media$/i','/^create-preview-file$/','/^$/','EventMediaCreatePreviewFile');
 		$this->AddEventPreg('/^media$/i','/^remove-preview-file$/','/^$/','EventMediaRemovePreviewFile');
+		$this->AddEventPreg('/^media$/i','/^load-preview-items$/','/^$/','EventMediaLoadPreviewItems');
 		$this->AddEventPreg('/^media$/i','/^save-data-file$/','/^$/','EventMediaSaveDataFile');
 
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
@@ -662,6 +663,50 @@ class ActionAjax extends Action {
 		}
 
 		$this->Viewer_AssignAjax('sTemplate',$sTemplate);
+
+		/**
+		 * Дополнительно загружам превью
+		 */
+		$aFilter=array(
+			'target_type'=>$sType,
+			'is_preview'=>1,
+		);
+		if ($sId) {
+			$aFilter['target_id']=$sId;
+		} else {
+			$aFilter['target_tmp']=$sTmp;
+		}
+		$aTargetItems=$this->Media_GetTargetItemsByFilter($aFilter);
+		$oViewer->Assign('aTargetItems',$aTargetItems);
+		$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('modals/modal.upload_image.preview.tpl'));
+	}
+
+	protected function EventMediaLoadPreviewItems() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$sType=getRequestStr('target_type');
+		$sId=getRequestStr('target_id');
+		$sTmp=getRequestStr('target_tmp');
+
+		$aFilter=array(
+			'target_type'=>$sType,
+			'is_preview'=>1,
+		);
+		if ($sId) {
+			$aFilter['target_id']=$sId;
+		} else {
+			$aFilter['target_tmp']=$sTmp;
+		}
+		$aTargetItems=$this->Media_GetTargetItemsByFilter($aFilter);
+		$oViewer=$this->Viewer_GetLocalViewer();
+		$oViewer->Assign('aTargetItems',$aTargetItems);
+		$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('modals/modal.upload_image.preview.tpl'));
 	}
 
 	protected function EventMediaSubmitInsert() {
