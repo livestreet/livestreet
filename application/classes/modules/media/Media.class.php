@@ -175,6 +175,17 @@ class ModuleMedia extends ModuleORM {
 		}
 		return false;
 	}
+
+	public function NotifyRemovePreviewTarget($sTargetType,$iTargetId,$oRelationTarget) {
+		if (!$this->IsAllowTargetType($sTargetType)) {
+			return false;
+		}
+		$sMethod = 'NotifyRemovePreviewTarget'.func_camelize($sTargetType);
+		if (method_exists($this,$sMethod)) {
+			return $this->$sMethod($iTargetId,$oRelationTarget);
+		}
+		return false;
+	}
 	/**
 	 * Возвращает параметр конфига с учетом текущего target_type
 	 *
@@ -351,6 +362,7 @@ class ModuleMedia extends ModuleORM {
 			$oTarget->setTargetId($sTargetId ? $sTargetId : null);
 			$oTarget->setTargetTmp($sTargetTmp ? $sTargetTmp : null);
 			if ($oTarget->Add()) {
+				$oMedia->_setData(array('_relation_entity'=>$oTarget));
 				return $oMedia;
 			}
 		}
@@ -607,10 +619,10 @@ class ModuleMedia extends ModuleORM {
 				$oTarget->setTargetId($sTargetId);
 				$oTarget->Update();
 				/**
-				 * TODO: Уведомляем объект о создании превью
+				 * Уведомляем объект о создании превью
 				 */
 				if ($oTarget->getIsPreview()) {
-
+					$this->NotifyCreatePreviewTarget($oTarget->getTargetType(),$oTarget->getTargetId(),$oTarget);
 				}
 			}
 		}
@@ -802,8 +814,9 @@ class ModuleMedia extends ModuleORM {
 		}
 
 		/**
-		 * TODO: нужно удалить прошлое превью
+		 * Нужно удалить прошлое превью (если оно есть)
 		 */
+		$this->RemoveFilePreview($oMedia,$oTarget);
 
 		if ($oMedia->getType()==self::TYPE_IMAGE) {
 			$aParams=$this->Image_BuildParams('media.preview_'.$oTarget->getTargetType());
@@ -863,7 +876,47 @@ class ModuleMedia extends ModuleORM {
 		}
 	}
 
-
+	public function RemoveFilePreview($oMedia,$oTarget) {
+		if ($oMedia->getType()==self::TYPE_IMAGE) {
+			if ($oTarget->getDataOne('image_preview')) {
+				/**
+				 * Уведомляем объект о удалении превью
+				 */
+				if ($oTarget->getTargetId()) {
+					$this->NotifyRemovePreviewTarget($oTarget->getTargetType(),$oTarget->getTargetId(),$oTarget);
+				}
+				$this->RemoveImageBySizes($oTarget->getDataOne('image_preview'),$oTarget->getDataOne('image_preview_sizes'));
+				$oTarget->setDataOne('image_preview',null);
+				$oTarget->setDataOne('image_preview_sizes',array());
+				$oTarget->setIsPreview(0);
+				$oTarget->Update();
+				return true;
+			}
+		}
+	}
+	/**
+	 * Удаляет все превью у конкретного объекта
+	 *
+	 * @param      $sTargetType
+	 * @param      $sTargetId
+	 * @param null $sTargetTmp
+	 */
+	public function RemoveAllPreviewByTarget($sTargetType,$sTargetId,$sTargetTmp=null) {
+		$aFilter=array(
+			'target_type'=>$sTargetType,
+			'is_preview'=>1,
+			'#with'=>array('media')
+		);
+		if ($sTargetId) {
+			$aFilter['target_id']=$sTargetId;
+		} else {
+			$aFilter['target_tmp']=$sTargetTmp;
+		}
+		$aTargetItems=$this->Media_GetTargetItemsByFilter($aFilter);
+		foreach($aTargetItems as $oTarget) {
+			$this->RemoveFilePreview($oTarget->getMedia(),$oTarget);
+		}
+	}
 
 
 
@@ -878,6 +931,19 @@ class ModuleMedia extends ModuleORM {
 	public function NotifyCreatePreviewTargetTopic($iTargetId,$oRelationTarget) {
 		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
 			$oTopic->setPreviewImage($oRelationTarget->getDataOne('image_preview'));
+			$this->Topic_UpdateTopic($oTopic);
+		}
+	}
+	/**
+	 * Обработка удаления превью для типа 'topic'
+	 * Название метода формируется автоматически
+	 *
+	 * @param int $iTargetId
+	 * @param ModuleMedia_EntityTarget $oRelationTarget
+	 */
+	public function NotifyRemovePreviewTargetTopic($iTargetId,$oRelationTarget) {
+		if ($oTopic=$this->Topic_GetTopicById($iTargetId)) {
+			$oTopic->setPreviewImage(null);
 			$this->Topic_UpdateTopic($oTopic);
 		}
 	}

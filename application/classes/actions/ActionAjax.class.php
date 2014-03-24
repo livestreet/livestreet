@@ -85,6 +85,7 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^media$/i','/^load-gallery$/','/^$/','EventMediaLoadGallery');
 		$this->AddEventPreg('/^media$/i','/^remove-file$/','/^$/','EventMediaRemoveFile');
 		$this->AddEventPreg('/^media$/i','/^create-preview-file$/','/^$/','EventMediaCreatePreviewFile');
+		$this->AddEventPreg('/^media$/i','/^remove-preview-file$/','/^$/','EventMediaRemovePreviewFile');
 		$this->AddEventPreg('/^media$/i','/^save-data-file$/','/^$/','EventMediaSaveDataFile');
 
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
@@ -571,9 +572,63 @@ class ActionAjax extends Action {
 		 * Проверяем доступ к этому медиа
 		 */
 		if (true===$res=$this->Media_CheckTarget($oTarget->getTargetType(),$oTarget->getTargetId(),ModuleMedia::TYPE_CHECK_ALLOW_PREVIEW,array('media'=>$oMedia,'user'=>$this->oUserCurrent))) {
-			$this->Media_CreateFilePreview($oMedia,$oTarget);
+			/**
+			 * Удаляем все текущие превью
+			 */
+			$this->Media_RemoveAllPreviewByTarget($oTarget->getTargetType(),$oTarget->getTargetId(),$oTarget->getTargetTmp());
 
-			$this->Viewer_AssignAjax('bUnsetOther',true);
+			if (true===$res2=$this->Media_CreateFilePreview($oMedia,$oTarget)) {
+				$this->Viewer_AssignAjax('bUnsetOther',true);
+			} else {
+				$this->Message_AddErrorSingle(is_string($res2) ? $res2 : $this->Lang_Get('system_error'));
+			}
+		} else {
+			$this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
+		}
+	}
+
+	protected function EventMediaRemovePreviewFile() {
+		/**
+		 * Пользователь авторизован?
+		 */
+		if (!$this->oUserCurrent) {
+			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
+			return;
+		}
+		$sId=getRequestStr('id');
+		if (!$oMedia=$this->Media_GetMediaById($sId)) {
+			return $this->EventErrorDebug();
+		}
+
+		$sTargetType=getRequestStr('target_type');
+		$sTargetId=getRequestStr('target_id');
+		$sTargetTmp=getRequestStr('target_tmp');
+
+		/**
+		 * Получаем объект связи
+		 */
+		$aFilter=array('media_id'=>$oMedia->getId(),'target_type'=>$sTargetType);
+		if ($sTargetTmp) {
+			$aFilter['target_tmp']=$sTargetTmp;
+		} else {
+			$aFilter['target_id']=$sTargetId;
+		}
+		if (!$oTarget=$this->Media_GetTargetByFilter($aFilter)) {
+			return $this->EventErrorDebug();
+		}
+		if (!$oTarget->getIsPreview()) {
+			return $this->EventErrorDebug();
+		}
+
+
+		/**
+		 * Проверяем доступ к этому медиа
+		 */
+		if (true===$res=$this->Media_CheckTarget($oTarget->getTargetType(),$oTarget->getTargetId(),ModuleMedia::TYPE_CHECK_ALLOW_PREVIEW,array('media'=>$oMedia,'user'=>$this->oUserCurrent))) {
+			/**
+			 * Удаляем превью
+			 */
+			$this->Media_RemoveFilePreview($oMedia,$oTarget);
 		} else {
 			$this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
 		}

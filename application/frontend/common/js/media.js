@@ -486,9 +486,14 @@ ls.media = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			} else {
-
+				var item=$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']');
+				item.data('mediaRelationIsPreview',0);
+				/**
+				 * Обновляем отображение информации
+				 */
+				this.showDetail(item);
 			}
-		});
+		}.bind(this));
 	};
 	/**
 	 * Подгрузка списка файлов
