@@ -13,6 +13,7 @@
 
 	{$oBlog = $oTopic->getBlog()}
 	{$oFavourite = $oTopic->getFavourite()}
+	{$oTopicType = $oTopic->getTypeObject()}
 {/block}
 
 
@@ -64,7 +65,7 @@
 
 {* Теги *}
 {block 'entry_footer' prepend}
-	{if ! $bTopicList}
+	{if ! $bTopicList and $oTopicType->getParam('allow_tags')}
 		{include 'tag_list.tpl'
 				 aTags = $oTopic->getTagsArray()
 				 bTagsUseFavourite = true

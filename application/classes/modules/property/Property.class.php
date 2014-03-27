@@ -510,7 +510,7 @@ class ModuleProperty extends ModuleORM {
 					$sConditionFull=$sCondition.($bIsArray ? ' (?a) ' : ' ? ');
 				}
 				$iPropNum++;
-				$sJoin="JOIN prefix_property_value propv{$iPropNum} ON
+				$sJoin="JOIN ".Config::Get('db.table.property_value')." propv{$iPropNum} ON
 					t.`{$oEntitySample->_getPrimaryKey()}` = propv{$iPropNum}.target_id and
 					propv{$iPropNum}.target_type = '{$sTargetType}' and
 					propv{$iPropNum}.property_id = {$oProperty->getId()} and

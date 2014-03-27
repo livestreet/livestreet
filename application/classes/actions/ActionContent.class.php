@@ -238,6 +238,9 @@ class ActionContent extends Action {
 		$oTopic->_setDataSafe(getRequest('topic'));
 		$oTopic->setProperties(getRequest('property'));
 		$oTopic->setUserIp(func_getIp());
+		if (!$oTopic->getTags() or !$oTopic->getTypeObject()->getParam('allow_tags')) {
+			$oTopic->setTags('');
+		}
 		/**
 		 * Публикуем или сохраняем в черновиках
 		 */
@@ -282,11 +285,18 @@ class ActionContent extends Action {
 			/**
 			 * Получаемый и устанавливаем разрезанный текст по тегу <cut>
 			 */
-			list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
-			$oTopic->setCutText($sTextCut);
-			// TODO: передача параметров в Topic_Parser пока не используется - нужно заменить на этот вызов все места с парсингом топика
-			$oTopic->setText($this->Topic_Parser($sTextNew,$oTopic));
-			$oTopic->setTextShort($this->Topic_Parser($sTextShort,$oTopic));
+			if ($oTopic->getTypeObject()->getParam('allow_text')) {
+				list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
+				$oTopic->setCutText($sTextCut);
+				// TODO: передача параметров в Topic_Parser пока не используется - нужно заменить на этот вызов все места с парсингом топика
+				$oTopic->setText($this->Topic_Parser($sTextNew,$oTopic));
+				$oTopic->setTextShort($this->Topic_Parser($sTextShort,$oTopic));
+			} else {
+				$oTopic->setCutText('');
+				$oTopic->setText('');
+				$oTopic->setTextShort('');
+				$oTopic->setTextSource('');
+			}
 			/**
 			 * Сохраняем топик
 			 */
@@ -359,6 +369,9 @@ class ActionContent extends Action {
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserIp(func_getIp());
 		$oTopic->setTopicType($sTopicType);
+		if (!$oTopic->getTags() or !$oTopic->getTypeObject()->getParam('allow_tags')) {
+			$oTopic->setTags('');
+		}
 		/**
 		 * Публикуем или сохраняем
 		 */
@@ -398,10 +411,17 @@ class ActionContent extends Action {
 			/**
 			 * Получаем и устанавливаем разрезанный текст по тегу <cut>
 			 */
-			list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
-			$oTopic->setCutText($sTextCut);
-			$oTopic->setText($this->Topic_Parser($sTextNew,$oTopic));
-			$oTopic->setTextShort($this->Topic_Parser($sTextShort,$oTopic));
+			if ($oTopic->getTypeObject()->getParam('allow_text')) {
+				list($sTextShort,$sTextNew,$sTextCut) = $this->Text_Cut($oTopic->getTextSource());
+				$oTopic->setCutText($sTextCut);
+				$oTopic->setText($this->Topic_Parser($sTextNew,$oTopic));
+				$oTopic->setTextShort($this->Topic_Parser($sTextShort,$oTopic));
+			} else {
+				$oTopic->setCutText('');
+				$oTopic->setText('');
+				$oTopic->setTextShort('');
+				$oTopic->setTextSource('');
+			}
 
 			if ($this->Topic_AddTopic($oTopic)) {
 				$this->Hook_Run('topic_add_after', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));

@@ -35,11 +35,35 @@ class ModuleTopic_EntityTopic extends Entity {
 	public function Init() {
 		parent::Init();
 		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'));
-		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_text'));
-		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'condition'=>'isNeedValidateText','label'=>$this->Lang_Get('topic_create_text'));
+		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'condition'=>'isNeedValidateTags','label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'));
 
 		$this->aValidateRules[]=array('blog_id','blog_id');
 		$this->aValidateRules[]=array('topic_text_source','topic_unique');
+	}
+	/**
+	 * Проверяет нужно проводить валидацию текста топика или нет
+	 *
+	 * @return bool
+	 */
+	public function isNeedValidateText() {
+		$oTopicType=$this->getTypeObject();
+		if (!$oTopicType or $oTopicType->getParam('allow_text')) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Проверяет нужно проводить валидацию тегов топика или нет
+	 *
+	 * @return bool
+	 */
+	public function isNeedValidateTags() {
+		$oTopicType=$this->getTypeObject();
+		if (!$oTopicType or $oTopicType->getParam('allow_tags')) {
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Проверка типа топика
@@ -63,11 +87,13 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function ValidateTopicUnique($sValue,$aParams) {
 		$this->setTextHash(md5($this->getType().$sValue.$this->getTitle()));
-		if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->getUserId(),$this->getTextHash())) {
-			if ($iId=$this->getId() and $oTopicEquivalent->getId()==$iId) {
-				return true;
+		if ($this->isNeedValidateText()) {
+			if ($oTopicEquivalent=$this->Topic_GetTopicUnique($this->getUserId(),$this->getTextHash())) {
+				if ($iId=$this->getId() and $oTopicEquivalent->getId()==$iId) {
+					return true;
+				}
+				return $this->Lang_Get('topic_create_text_error_unique');
 			}
-			return $this->Lang_Get('topic_create_text_error_unique');
 		}
 		return true;
 	}
