@@ -246,4 +246,10 @@ class ModuleProperty_EntityProperty extends EntityORM {
 		 */
 		return $this->getType();
 	}
+
+	public function getSaveFileDir($sPostfix='') {
+		$sPostfix=trim($sPostfix,'/');
+		return Config::Get('path.uploads.base').'/property/'.$this->getTargetType().'/'.$this->getType().'/'.date('Y/m/d/H/').($sPostfix ? "{$sPostfix}/" : '');
+	}
+
 }

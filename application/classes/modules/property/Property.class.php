@@ -31,6 +31,7 @@ class ModuleProperty extends ModuleORM {
 	const PROPERTY_TYPE_VIDEO_LINK='video_link';
 	const PROPERTY_TYPE_SELECT='select';
 	const PROPERTY_TYPE_DATE='date';
+	const PROPERTY_TYPE_FILE='file';
 	/**
 	 * Список состояний типов объектов
  	 */
@@ -47,7 +48,7 @@ class ModuleProperty extends ModuleORM {
 	protected $aPropertyTypes=array(
 		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,
 		self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK,self::PROPERTY_TYPE_SELECT,
-		self::PROPERTY_TYPE_DATE
+		self::PROPERTY_TYPE_DATE,self::PROPERTY_TYPE_FILE
 	);
 	/**
 	 * Список разрешенных типов

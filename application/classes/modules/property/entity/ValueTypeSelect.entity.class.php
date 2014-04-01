@@ -24,7 +24,7 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
 	public function getValueForDisplay() {
 		$oValue=$this->getValueObject();
 		$aValues=$oValue->getDataOne('values');
-		return join(', ',$aValues);
+		return is_array($aValues) ? join(', ',$aValues) : '';
 	}
 
 	public function getValueForForm() {
