@@ -130,7 +130,7 @@ class ActionIndex extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		$this->Hook_Run('topics_list_show',array('aTopics'=>&$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -181,7 +181,7 @@ class ActionIndex extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		$this->Hook_Run('topics_list_show',array('aTopics'=>&$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -219,7 +219,7 @@ class ActionIndex extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		$this->Hook_Run('topics_list_show',array('aTopics'=>&$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -255,7 +255,7 @@ class ActionIndex extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		$this->Hook_Run('topics_list_show',array('aTopics'=>&$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
@@ -298,7 +298,7 @@ class ActionIndex extends Action {
 		/**
 		 * Вызов хуков
 		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
+		$this->Hook_Run('topics_list_show',array('aTopics'=>&$aTopics));
 		/**
 		 * Формируем постраничность
 		 */
