@@ -336,6 +336,7 @@ $config['router']['page']['feed']          = 'ActionUserfeed';
 $config['router']['page']['stream']        = 'ActionStream';
 $config['router']['page']['subscribe']     = 'ActionSubscribe';
 $config['router']['page']['content']     = 'ActionContent';
+$config['router']['page']['property']     = 'ActionProperty';
 // Глобальные настройки роутинга
 $config['router']['config']['action_default']   = 'index';
 $config['router']['config']['action_not_found'] = 'error';

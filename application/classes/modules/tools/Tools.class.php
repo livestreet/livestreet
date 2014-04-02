@@ -90,11 +90,27 @@ class ModuleTools extends Module {
 	public function CallbackParserTagLs($sTag,$aParams) {
 		$sText='';
 		if (isset($aParams['user'])) {
-			if ($oUser=$this->User_getUserByLogin($aParams['user'])) {
+			if ($oUser=$this->User_GetUserByLogin($aParams['user'])) {
 				$sText.="<a href=\"{$oUser->getUserWebPath()}\" class=\"ls-user\">{$oUser->getLogin()}</a> ";
 			}
 		}
 		return $sText;
 	}
+
+	public function DownloadFile($sFilePath,$sFileName,$iFileSize=null) {
+		if (file_exists($sFilePath) and $file=fopen($sFilePath,"r")) {
+			header("Content-Type: application/octet-stream");
+			header("Content-Disposition: attachment; filename=".urlencode($sFileName).";");
+			header("Content-Transfer-Encoding: binary");
+			if ($iFileSize) {
+				header("Content-Length: ".$iFileSize);
+			}
+			while (!feof($file)) {
+				$sContent=fread($file ,1024*100);
+				echo $sContent;
+			}
+			exit(0);
+		}
+		return false;
+	}
 }
-?>

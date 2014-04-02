@@ -22,7 +22,7 @@
 class ModuleProperty_EntityValue extends EntityORM {
 
 	protected $aRelations=array(
-
+		'property' => array(self::RELATION_TYPE_BELONGS_TO,'ModuleProperty_EntityProperty','property_id'),
 	);
 
 	protected function beforeSave() {

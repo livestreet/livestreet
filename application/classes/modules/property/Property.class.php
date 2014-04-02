@@ -781,4 +781,18 @@ class ModuleProperty extends ModuleORM {
 		return $bRes;
 	}
 
+	public function CheckAllowTargetObject($sTargetType,$iTargetId,$aParams=array()) {
+		$sMethod = 'CheckAllowTargetObject'.func_camelize($sTargetType);
+		if (method_exists($this,$sMethod)) {
+			if (!array_key_exists('user',$aParams)) {
+				$aParams['user']=$this->oUserCurrent;
+			}
+			return $this->$sMethod($iTargetId,$aParams);
+		}
+		/**
+		 * По умолчанию считаем доступ разрешен
+		 */
+		return true;
+	}
+
 }

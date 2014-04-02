@@ -22,8 +22,7 @@
 class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType {
 
 	public function getValueForDisplay() {
-		$oValue=$this->getValueObject();
-		return $oValue->getValueVarchar();
+		return $this->getFileFullName();
 	}
 
 	public function validate() {
@@ -170,7 +169,10 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType 
 						'name'=>htmlspecialchars($aPathInfo['filename']),
 						'extension'=>htmlspecialchars($aPathInfo['extension']),
 					));
-					$oValue->setValueVarchar(htmlspecialchars($aPathInfo['filename'].'.'.$aPathInfo['extension']));
+					/**
+					 * Сохраняем уникальный ключ для доступа к файлу
+					 */
+					$oValue->setValueVarchar(func_generator(32));
 				}
 			}
 		}
@@ -220,6 +222,14 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType 
 		}
 	}
 
+	public function getFileFullName() {
+		$oValue=$this->getValueObject();
+		if ($aFilePrev=$oValue->getDataOne('file')) {
+			return $aFilePrev['name'].'.'.$aFilePrev['extension'];
+		}
+		return null;
+	}
+
 	/**
 	 * Сохраняет(копирует) файл на сервер
 	 * Если переопределить данный метод, то можно сохранять файл, например, на Amazon S3
@@ -247,5 +257,13 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType 
 	protected function RemoveFile($sPathFile) {
 		$sPathFile=$this->Fs_GetPathServer($sPathFile);
 		return $this->Fs_RemoveFileLocal($sPathFile);
+	}
+
+	public function DownloadFile() {
+		$oValue=$this->getValueObject();
+		if ($aFilePrev=$oValue->getDataOne('file')) {
+			$this->Tools_DownloadFile($this->Fs_GetPathServer($aFilePrev['path']),$aFilePrev['name'].'.'.$aFilePrev['extension'],$aFilePrev['size']);
+		}
+		return false;
 	}
 }
