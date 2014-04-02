@@ -91,6 +91,13 @@ class ActionProperty extends Action {
 			}
 		}
 		if ($bAllowDownload) {
+			/**
+			 * Увеличиваем количество загрузок
+			 */
+			$aStats=$oValue->getDataOne('stats');
+			$aStats['count_download']=(isset($aStats['count_download']) ? $aStats['count_download'] : 0 ) +1;
+			$oValue->setDataOne('stats',$aStats);
+			$oValue->Update();
 			$oValueType=$oValue->getValueTypeObject();
 			if (!$oValueType->DownloadFile()) {
 				return parent::EventNotFound();
