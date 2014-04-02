@@ -37,6 +37,9 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
 		$oProperty=$this->getValueObject()->getProperty();
 
 		$iValue=$this->getValueForValidate();
+		if (is_array($iValue)) {
+			$iValue=array_filter($iValue);
+		}
 		if (!$iValue and $oProperty->getValidateRuleOne('allowEmpty')) {
 			return true;
 		}
