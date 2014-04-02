@@ -197,6 +197,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType 
 				}
 			}
 		}
+		$aParams['access_only_auth']=isset($aParamsRaw['access_only_auth']) ? true : false;
 
 		return $aParams;
 	}
