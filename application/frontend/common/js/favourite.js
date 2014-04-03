@@ -79,10 +79,10 @@ ls.favourite = (function ($) {
 		if ( ! this.options.type[data.type] ) return false;
 
 		var params = {
-			type: ! data.toggle.hasClass(ls.options.classes.states.active),
+			type: ! data.element.hasClass(ls.options.classes.states.active),
 			id: data.targetId
 		};
-		
+
 		ls.hook.marker('toggleBefore');
 
 		ls.ajax.load(this.options.type[data.type].url, params, function(result) {
@@ -91,13 +91,13 @@ ls.favourite = (function ($) {
 			} else {
 				ls.msg.notice(null, result.sMsg);
 
-				data.toggle.removeClass(ls.options.classes.states.active);
+				data.element.removeClass(ls.options.classes.states.active);
 
 				if (result.bState) {
-					data.toggle.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
+					data.element.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
 					ls.tags && ls.tags.showPersonalTags(data.type, data.targetId);
 				} else {
-					data.toggle.attr('title', ls.lang.get('favourite.add'));
+					data.element.attr('title', ls.lang.get('favourite.add'));
 					ls.tags && ls.tags.hidePersonalTags(data.type, data.targetId);
 				}
 

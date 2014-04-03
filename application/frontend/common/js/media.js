@@ -220,7 +220,7 @@ ls.media = (function ($) {
 		}.bind(this));
 
 		// Инициализация фоторамы при предпросмотре
-		ls.hook.inject([ls.utilities,'textPreview'], function() {
+		ls.hook.inject([ls.utils,'textPreview'], function() {
 			$('.fotorama').fotorama();
 		},'textPreviewDisplayAfter');
 

@@ -11,14 +11,29 @@
 var ls = ls || {};
 
 ls.user = (function ($) {
+	"use strict";
+
+	/**
+	 * Дефолтные опции
+	 *
+	 * @private
+	 */
+	var _defaults = {
+		urls: {
+			follow: aRouter['stream'] + 'ajaxadduser/',
+			unfollow: aRouter['stream'] + 'ajaxremoveuser/'
+		}
+	};
 
 	this.jcropImage = null;
 
 	/**
 	 * Инициализация
 	 */
-	this.init = function() {
-		var self = this;
+	this.init = function(options) {
+		var _this = this;
+
+		this.options = $.extend({}, _defaults, options);
 
 		/* Авторизация */
 		ls.ajax.form(aRouter.login + 'ajax-login', '.js-form-login', function (result, status, xhr, form) {
@@ -68,17 +83,9 @@ ls.user = (function ($) {
 			var oElement = $(this);
 
 			if (oElement.hasClass(ls.options.classes.states.active)) {
-				// Удаляем
-				ls.user_list_add.remove('activity', null, oElement.data('user-id'), function (oResponse, iUserId) {
-					oElement.removeClass(ls.options.classes.states.active).text(ls.lang.get('profile_user_follow'));
-				});
+				_this.unfollow(oElement, oElement.data('user-id'));
 			} else {
-				// Добавляем
-				ls.user_list_add.add('activity', null, oElement.data('user-id'), {
-					add_success: function (oResponse) {
-						oElement.addClass(ls.options.classes.states.active).text(ls.lang.get('profile_user_unfollow'));
-					}
-				});
+				_this.follow(oElement, oElement.data('user-login'));
 			}
 
 			e.preventDefault();
@@ -108,16 +115,16 @@ ls.user = (function ($) {
 
 		// Загрузка фотографии в профиль
 		$('.js-ajax-user-photo-upload').on('change', function () {
-			self.uploadProfilePhoto($(this));
+			_this.uploadProfilePhoto($(this));
 		});
 		// Удаление фотографии профиля
 		$('.js-ajax-user-photo-upload-remove').on('click', function () {
-			self.removeProfilePhoto($(this).data('userId'));
+			_this.removeProfilePhoto($(this).data('userId'));
 			return false;
 		});
 		// Изменения аватара
 		$('.js-ajax-user-avatar-change').on('click', function () {
-			self.changeProfileAvatar($(this).data('userId'));
+			_this.changeProfileAvatar($(this).data('userId'));
 			return false;
 		});
 	};
@@ -182,80 +189,31 @@ ls.user = (function ($) {
 	};
 
 	/**
-	 * Поиск пользователей по началу логина
+	 * Подписка на пользователя
 	 */
-	this.searchUsersByPrefix = function(sPrefix,obj) {
-		obj=$(obj);
-		var url = aRouter['people']+'ajax-search/';
-		var params = {user_login: sPrefix, isPrefix: 1};
-		$('#search-user-login').addClass('loader');
-
-		ls.hook.marker('searchUsersByPrefixBefore');
-		ls.ajax.load(url, params, function(result){
-			$('#search-user-login').removeClass('loader');
-			$('#user-prefix-filter').find('.active').removeClass('active');
-			obj.parent().addClass('active');
-			if (result.bStateError) {
-				$('#users-list-search').hide();
-				$('#users-list-original').show();
-			} else {
-				$('#users-list-original').hide();
-				$('#users-list-search').html(result.sText).show();
-				ls.hook.run('ls_user_search_users_by_prefix_after',[sPrefix, obj, result]);
-			}
-		});
-		return false;
+	this.follow = function(oElement, sUserLogin) {
+		ls.ajax.load(this.options.urls.follow, { aUserList: [ sUserLogin ] }, function(oResponse) {
+			oElement.addClass(ls.options.classes.states.active).text( ls.lang.get('profile_user_unfollow') );
+		}.bind(this));
 	};
 
 	/**
-	 * Подписка
+	 * Отписаться от пользователя
 	 */
-	this.followToggle = function(obj, iUserId) {
-		if ($(obj).hasClass('followed')) {
-			ls.stream.unsubscribe(iUserId);
-			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_follow'));
-		} else {
-			ls.stream.subscribe(iUserId);
-			$(obj).toggleClass('followed').text(ls.lang.get('profile_user_unfollow'));
-		}
-		return false;
+	this.unfollow = function(oElement, iUserId) {
+		ls.ajax.load(this.options.urls.unfollow, { iUserId: iUserId }, function(oResponse) {
+			oElement.removeClass(ls.options.classes.states.active).text( ls.lang.get('profile_user_follow') );
+		}.bind(this));
 	};
 
 	/**
-	 * Поиск пользователей
+	 * Добавляет жалобу
 	 */
-	this.searchUsers = function(sFormSelector) {
-		var url = aRouter['people']+'ajax-search/',
-			oInputSearch = $(sFormSelector).find('input'),
-			oOriginalContainer = $('#users-list-original'),
-			oSearchContainer = $('#users-list-search');
-
-		oInputSearch.addClass(ls.options.classes.states.loading);
-
-		ls.hook.marker('searchUsersBefore');
-
-		ls.ajax.submit(url, sFormSelector, function(result) {
-			oInputSearch.removeClass(ls.options.classes.states.loading);
-
-			if (result.bShowOriginal) {
-				oSearchContainer.hide();
-				oOriginalContainer.show();
-			} else {
-				oOriginalContainer.hide();
-				oSearchContainer.html(result.sText).show();
-
-				ls.hook.run('ls_user_search_users_after', [sFormSelector, result]);
-			}
-		});
-	};
-
-
-	this.addComplaint = function(form) {
-		ls.ajax.submit(aRouter.profile+'ajax-complaint-add/', form, function(result){
+	this.addComplaint = function(oForm) {
+		ls.ajax.submit(aRouter.profile + 'ajax-complaint-add/', oForm, function(result) {
 			$('#modal-complaint-user').modal('hide');
 		});
 	};
-
 
 	this.uploadProfilePhoto = function(input) {
 		var form = $('<form method="post" enctype="multipart/form-data"></form>').hide().appendTo('body');
@@ -293,7 +251,7 @@ ls.user = (function ($) {
 	};
 
 	this.changeProfileAvatar = function(idUser) {
-		var self = this;
+		var _this = this;
 		ls.modal.load(aRouter.ajax+'modal/image-crop/', {image_src: $('.js-ajax-user-photo-image').attr('src') }, {
 			aftershow: function() {
 				this.jcropImage && this.jcropImage.destroy();
@@ -304,7 +262,7 @@ ls.user = (function ($) {
 				});
 
 				$('.js-image-crop').Jcrop({ minSize: [32, 32], aspectRatio: 1 }, function () {
-					self.jcropImage = this;
+					_this.jcropImage = this;
 					var w=$('.js-image-crop').innerWidth();
 					var h=$('.js-image-crop').innerHeight();
 
@@ -318,7 +276,7 @@ ls.user = (function ($) {
 				$('.js-ajax-image-crop-submit').on('click',function() {
 					var params={
 						user_id: idUser,
-						size: self.jcropImage.tellSelect(),
+						size: _this.jcropImage.tellSelect(),
 						canvas_width: $('.js-image-crop').innerWidth()
 					}
 					ls.ajax.load(aRouter.settings+'ajax-change-avatar/', params, function(result) {
@@ -336,4 +294,4 @@ ls.user = (function ($) {
 	};
 
 	return this;
-}).call(ls.user || {},jQuery);
+}).call(ls.user || {}, jQuery);

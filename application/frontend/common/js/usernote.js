@@ -1,174 +1,157 @@
 /**
  * Заметки
- * 
+ *
  * @module ls/usernote
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
-
-ls.usernote = (function($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 */
-	var defaults = {
-		// Роутеры
-		routers: {
-			save:   aRouter['profile'] + 'ajax-note-save/',
-			remove: aRouter['profile'] + 'ajax-note-remove/'
+	$.widget( "livestreet.usernote", {
+		/**
+		 * Дефолтные опции
+		 */
+		options: {
+			// Ссылки
+			urls: {
+				save:   aRouter['profile'] + 'ajax-note-save/',
+				remove: aRouter['profile'] + 'ajax-note-remove/'
+			},
+
+			// Селекторы
+			selectors: {
+				body:           '.js-user-note-body',
+				text:           '.js-user-note-text',
+				add:            '.js-user-note-add',
+				actions:        '.js-user-note-actions',
+				actions_edit:   '.js-user-note-actions-edit',
+				actions_remove: '.js-user-note-actions-remove',
+
+				form:        '.js-user-note-form',
+				form_text:   '.js-user-note-form-text',
+				form_save:   '.js-user-note-form-save',
+				form_cancel: '.js-user-note-form-cancel'
+			}
 		},
 
-		// Селекторы
-		selectors: {
-			note:             '.js-user-note',
-			noteContent:      '.js-user-note-content',
-			noteText:         '.js-user-note-text',
-			noteAddButton:    '.js-user-note-add-button',
-			noteActions:      '.js-user-note-actions',
-			noteEditButton:   '.js-user-note-edit-button',
-			noteRemoveButton: '.js-user-note-remove-button',
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			var _this = this;
 
-			noteEdit:             '.js-user-note-edit',
-			noteEditText:         '.js-user-note-edit-text',
-			noteEditSaveButton:   '.js-user-note-edit-save',
-			noteEditCancelButton: '.js-user-note-edit-cancel'
-		}
-	};
+			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, this.widgetName));
 
-	/**
-	 * Инициализация
-	 *
-	 * @param  {Object} options Опции
-	 */
-	this.init = function(options) {
-		var self = this;
+			// Получаем аякс параметры
+			this.params = ls.utils.getDataOptions(this.element, 'param');
 
-		this.options = $.extend({}, defaults, options);
+			// Получаем элементы
+			this.elements = {};
+			this.elements.container = this.element;
 
-		// Добавление
-		$(this.options.selectors.note).each(function () {
-			var oNote = $(this);
+			this.elements.body           = this.elements.container.find(this.options.selectors.body);
+			this.elements.text           = this.elements.body.find(this.options.selectors.text);
+			this.elements.add            = this.elements.body.find(this.options.selectors.add);
+			this.elements.actions        = this.elements.body.find(this.options.selectors.actions);
+			this.elements.actions_edit   = this.elements.actions.find(this.options.selectors.actions_edit);
+			this.elements.actions_remove = this.elements.actions.find(this.options.selectors.actions_remove);
 
-			var oVars = {
-				oNote:         oNote,
-				oNoteText:     oNote.find(self.options.selectors.noteText),
-				oNoteEditText: oNote.find(self.options.selectors.noteEditText),
-				oNoteContent:  oNote.find(self.options.selectors.noteContent),
-				oNoteEdit:     oNote.find(self.options.selectors.noteEdit),
-				oNoteAdd:      oNote.find(self.options.selectors.noteAddButton),
-				oNoteActions:  oNote.find(self.options.selectors.noteActions),
-				iUserId:       oNote.data('user-id')
+			this.elements.form        = this.elements.container.find(this.options.selectors.form);
+			this.elements.form_text   = this.elements.form.find(this.options.selectors.form_text);
+			this.elements.form_save   = this.elements.form.find(this.options.selectors.form_save);
+			this.elements.form_cancel = this.elements.form.find(this.options.selectors.form_cancel);
+
+			// Добавление
+			this.elements.add.on('click', function (e) {
+				_this.showForm();
+				e.preventDefault();
+			});
+
+			// Редактирование
+			this.elements.actions_edit.on('click', function (e) {
+				_this.showForm();
+				e.preventDefault();
+			});
+
+			// Отмена редактирования
+			this.elements.form_cancel.on('click', this.hideForm.bind(this));
+
+			// Удаление
+			this.elements.actions_remove.on('click', function (e) {
+				_this.remove();
+				e.preventDefault();
+			});
+
+			// Сохранение
+			this.elements.form.on('submit', function (e) {
+				_this.save();
+				e.preventDefault();
+			});
+		},
+
+		/**
+		 * Показывает форму редактирования
+		 */
+		showForm: function() {
+			this.elements.body.hide();
+			this.elements.form.show();
+			this.elements.form_text.val( $.trim(this.elements.text.html()) ).select();
+		},
+
+		/**
+		 * Скрывает форму редактирования
+		 */
+		hideForm: function() {
+			this.elements.body.show();
+			this.elements.form.hide();
+		},
+
+		/**
+		 * Сохраняет заметку
+		 */
+		save: function() {
+			var oParams = {
+				text: this.elements.form_text.val()
 			};
 
-			// Показывает форму добавления
-			oVars.oNote.find(self.options.selectors.noteAddButton).on('click', function (e) {
-				self.showForm(oVars);
-				e.preventDefault();
-			}.bind(self));
+			oParams = $.extend({}, oParams, this.params);
 
-			// Отмена
-			oVars.oNote.find(self.options.selectors.noteEditCancelButton).on('click', function (e) {
-				self.hideForm(oVars);
-			});
+			ls.utils.formLock(this.elements.form);
 
-			// Сохранение заметки
-			oVars.oNote.find(self.options.selectors.noteEditSaveButton).on('click', function (e) {
-				self.save(oVars);
-			});
+			ls.ajax.load(this.options.urls.save, oParams, function (oResponse) {
+				ls.utils.formUnlock(this.elements.form);
 
-			// Удаление заметки
-			oVars.oNote.find(self.options.selectors.noteRemoveButton).on('click', function (e) {
-				self.remove(oVars);
-				e.preventDefault();
-			});
+				if (oResponse.bStateError) {
+					ls.msg.error(null, oResponse.sMsg);
+				} else {
+					this.elements.text.html(oResponse.sText).show();
+					this.elements.add.hide();
+					this.elements.actions.show();
+					this.hideForm();
+				}
+			}.bind(this));
+		},
 
-			// Редактирование заметки
-			oVars.oNote.find(self.options.selectors.noteEditButton).on('click', function (e) {
-				self.showForm(oVars);
-				oVars.oNoteEditText.val( $.trim(oVars.oNoteText.html()) );
-				e.preventDefault();
-			});
-		});
-	};
-
-	/**
-	 * Показывает форму редактирования
-	 * 
-	 * @param  {Object} oVars Общие переменные
-	 */
-	this.showForm = function(oVars) {
-		oVars.oNoteContent.hide();
-		oVars.oNoteEdit.show();
-		oVars.oNoteEditText.val( $.trim(oVars.oNoteText.html()) ).focus();
-	};
-
-	/**
-	 * Скрывает форму редактирования
-	 * 
-	 * @param  {Object} oVars Общие переменные
-	 */
-	this.hideForm = function(oVars) {
-		oVars.oNoteContent.show();
-		oVars.oNoteEdit.hide();
-	};
-
-	/**
-	 * Сохраняет заметку
-	 * 
-	 * @param  {Object} oVars Общие переменные
-	 */
-	this.save = function(oVars) {
-		var params = {
-			iUserId: oVars.iUserId, 
-			text:    oVars.oNoteEditText.val()
-		};
-
-		ls.hook.marker('saveBefore');
-
-		ls.ajax.load(this.options.routers.save, params, function (result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				oVars.oNoteText.html(result.sText).show();
-				oVars.oNoteAdd.hide();
-				oVars.oNoteActions.show();
-				this.hideForm(oVars);
-
-				ls.hook.run('ls_usernote_save_after',[params, result]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Удаление заметки
-	 * 
-	 * @param  {Object} oVars Общие переменные
-	 */
-	this.remove = function(oVars) {
-		var params = {
-			iUserId: oVars.iUserId
-		};
-
-		ls.hook.marker('removeBefore');
-
-		ls.ajax.load(this.options.routers.remove, params, function (result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				oVars.oNoteText.empty().hide();
-				oVars.oNoteAdd.show();
-				oVars.oNoteActions.hide();
-				this.hideForm(oVars);
-
-				ls.hook.run('ls_usernote_remove_after',[params, result]);
-			}
-		}.bind(this));
-	};
-
-	return this;
-}).call(ls.usernote || {},jQuery);
+		/**
+		 * Удаление заметки
+		 */
+		remove: function() {
+			ls.ajax.load(this.options.urls.remove, this.params, function (oResponse) {
+				if (oResponse.bStateError) {
+					ls.msg.error(null, oResponse.sMsg);
+				} else {
+					this.elements.text.empty().hide();
+					this.elements.add.show();
+					this.elements.actions.hide();
+				}
+			}.bind(this));
+		}
+	});
+})(jQuery);
