@@ -303,14 +303,25 @@ jQuery(document).ready(function($){
 	// Временный код экшнбара (кнопка выделения объектов)
 	// TODO: Перенести в виджет
 	$(document).on('click', 'a[data-select-item]', function (e) {
-		var aItems = $( $(this).data('select-item') );
-		var aCheckboxes = aItems.find('input[type=checkbox]');
+		var oElement       = $(this),
+			sItemSelector  = $(this).data('select-item'),
+			sItemFilter    = $(this).data('select-filter') || '*',
+			aItems         = $( sItemSelector ),
+			aItemsFiltered = aItems.filter( sItemFilter ),
+			aCheckboxes    = aItems.find('input[type=checkbox]');
 
 		aItems.removeClass('selected');
 		aCheckboxes.prop('checked', false);
-
-		aItems.filter( $(this).data('select-filter') || '*' ).addClass('selected').find('input[type=checkbox]').prop('checked', true);
+		aItemsFiltered.addClass('selected').find('input[type=checkbox]').prop('checked', true);
 		e.preventDefault();
+	});
+
+	$(document).on('click', '.js-message-list-item input[type=checkbox]', function (e) {
+		$(this).closest('.js-message-list-item').toggleClass('selected');
+	});
+
+	$(document).on('click', '.js-user-list-small-item input[type=checkbox]', function (e) {
+		$(this).closest('.js-user-list-small-item').toggleClass('selected');
 	});
 
 	// Хук конца инициализации javascript-составляющих шаблона
