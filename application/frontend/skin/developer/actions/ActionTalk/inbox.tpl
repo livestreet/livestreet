@@ -10,9 +10,9 @@
 
 {block name='layout_content'}
 	{if $aTalks}
-		{include 'actions/ActionTalk/search.tpl'}
+		{include './search.tpl'}
 	{/if}
-			
-	{include file='actions/ActionTalk/message_list.tpl' bMessageListCheckboxes=true}
+
+	{include file='./message_list.tpl' bMessageListCheckboxes=true}
 	{include file='pagination.tpl' aPaging=$aPaging}
 {/block}

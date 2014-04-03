@@ -3,7 +3,7 @@
  *
  * @template actions/ActionTalk/message.tpl
  * @scripts <frontend>/common/js/talk.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -11,4 +11,41 @@
 
 .topic-type-talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
 
-.message-user-list { background: #fafafa; padding: 20px; border-top: 1px solid #eee; }
+/**
+ * Message user list
+ */
+.message-users .user-list-small-item.inactive             { opacity: .5; cursor: help; }
+.message-users .user-list-small-item.inactive .icon-minus { display: none; }
+.message-users .user-list-small-item .icon-plus           { display: none; }
+.message-users .user-list-small-item.inactive .icon-plus  { display: inline-block; }
+
+/**
+ * Message list
+ */
+.table.message-list td                   { vertical-align: top; }
+.table .message-list-item:first-child td { border-top: 1px solid #f1f1f1; }
+
+.message-list-item                { background: #fff; }
+.message-list-item.message-unread { background: #f7f7f7; }
+.message-list-item.selected       { background: #FFC; }
+
+.message-list-info        { position: relative; padding-left: 75px; min-height: 64px; }
+.message-list-info-avatar { position: absolute; top: 0; left: 0; }
+.message-list-info-date   { display: block; font-size: 11px; color: #aaa; }
+
+.message-list-item-extra { position: relative; padding-right: 50px; }
+.message-list-item-title { font-size: 15px; margin-bottom: 5px; }
+.message-list-item-text  { color: #999; }
+.message-list-item-count {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #f0f0f0;
+	color: #aaa;
+	padding: 3px 7px;
+	border-radius: 3px;
+	font-size: 11px;
+}
+
+.message-list-item.message-unread .message-list-item-count        { background: #2891D3; color: #ADDBF8; }
+.message-list-item.message-unread .message-list-item-count strong { color: #fff; }

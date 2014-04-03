@@ -6,17 +6,15 @@
 
 {block name='layout_content'}
 	{* Сообщение *}
-	{include 'actions/ActionTalk/message_entry.tpl'}
+	{include './message_entry.tpl'}
 
 	{* Вывод комментариев к сообщению *}
-	{$oTalkUser = $oTalk->getTalkUser()}
-
 	{if ! $bNoComments}
 		{include 'comments/comment_tree.tpl'
 				 iTargetId            = $oTalk->getId()
 				 sTargetType          = 'talk'
 				 iCountComment        = $oTalk->getCountComment()
-				 sDateReadLast        = $oTalkUser->getDateLast()
+				 sDateReadLast        = $oTalk->getTalkUser()->getDateLast()
 				 sNoticeCommentAdd    = $aLang.topic_comment_add
 				 bNoCommentFavourites = true}
 	{else}

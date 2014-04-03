@@ -4,77 +4,100 @@
 
 {if $aTalks}
 	{* Экшнбар *}
+	{include 'actionbar.item.select.tpl' sName='asdfsdf' sItemSelector='.js-message-list-item' assign=sMessagesSelect aItems=[
+		[ 'text' => 'Прочитанные', 'filter' => ":not('.message-unread')" ],
+		[ 'text' => 'Не прочитанные', 'filter' => ".message-unread" ]
+	]}
+
 	{include 'actionbar.tpl' aActionbarItems=[
+		[ 'html' => $sMessagesSelect ],
 		[ 'icon' => 'icon-ok', 'classes' => 'js-temp', 'text' => $aLang.talk_inbox_make_read ],
-		[ 'icon' => 'icon-remove', 'classes' => 'js-temp', 'text' => $aLang.talk_inbox_delete ]
+		[ 'icon' => 'icon-remove', 'classes' => 'js-temp', 'text' => $aLang.common.remove ]
 	]}
 
 	{* Список сообщений *}
-	<table class="table table-talk">
-		<thead>
-			<tr>
-				{if $bMessageListCheckboxes}
-					<th class="cell-checkbox"><input type="checkbox" name="" class="input-checkbox" onclick="ls.tools.checkAll('form_talks_checkbox', this, true);"></th>
-				{/if}
-				<th class="cell-favourite"></th>
-				<th class="cell-recipients">{$aLang.talk_inbox_target}</th>
-				<th class="cell-title">{$aLang.talk_inbox_title}</th>
-				<th class="cell-date ta-r">{$aLang.talk_inbox_date}</th>
-			</tr>
-		</thead>
-
+	<table class="table table-talk message-list">
 		<tbody>
 			{foreach $aTalks as $oTalk}
-				{$oTalkUserAuthor = $oTalk->getTalkUser()}
+				{* Создатель диалога *}
+				{$oAuthor = $oTalk->getTalkUser()}
 
-				<tr>
-					{if $bMessageListCheckboxes}
-						<td class="cell-checkbox"><input type="checkbox" name="talk_select[{$oTalk->getId()}]" class="form_talks_checkbox input-checkbox" /></td>
-					{/if}
+				{* Все участники диалога *}
+				{$aUsers = $oTalk->getTalkUsers()}
+
+				{* Кол-во участников диалога *}
+				{$iUsersCount = count($aUsers)}
+
+				<tr class="message-list-item {if $oAuthor->getCommentCountNew() or ! $oAuthor->getDateLast()}message-unread{/if} js-message-list-item" data-id="{$oTalk->getId()}">
+					{* Выделение *}
+					<td class="cell-checkbox">
+						<input type="checkbox" name="talk_select[{$oTalk->getId()}]" data-id="{$oTalk->getId()}" />
+					</td>
+
+					{* Избранное *}
 					<td class="cell-favourite">
 						{include 'favourite.tpl' sFavouriteType='talk' oFavouriteObject=$oTalk}
 					</td>
-					<td>
-						{strip}
-							{$aTalkUserOther = []}
 
-							{foreach $oTalk->getTalkUsers() as $oTalkUser}
-								{if $oTalkUser->getUserId() != $oUserCurrent->getId()}
-									{$aTalkUserOther[] = $oTalkUser}
-								{/if}
-							{/foreach}
+					{* Основная информация о диалоге *}
+					<td width=200>
+						<div class="message-list-info">
+							{* Участники диалога *}
+							{if $iUsersCount > 2}
+								<a href="{router page='talk'}read/{$oTalk->getId()}/" class="message-list-info-avatar">
+									<img src="{cfg name="path.skin.web"}/assets/images/avatars/avatar_male_64x64.png" />
+								</a>
 
-							{foreach $aTalkUserOther as $oTalkUser}
-								{$oUser = $oTalkUser->getUser()}
-
-								{if ! $oTalkUser@first}, {/if}<a href="{$oUser->getUserWebPath()}" class="user {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}inactive{/if}" {if $oTalkUser->getUserActive()!=$TALK_USER_ACTIVE}title="{$aLang.talk_speaker_not_found}"{/if}>{$oUser->getDisplayName()}</a>
-							{/foreach}
-						{/strip}
-					</td>
-					<td>
-						<h2>
-							<a href="{router page='talk'}read/{$oTalk->getId()}/">
-								{if $oTalkUserAuthor->getCommentCountNew() or ! $oTalkUserAuthor->getDateLast()}
-									<strong>{$oTalk->getTitle()|escape:'html'}</strong>
-								{else}
-									{$oTalk->getTitle()|escape:'html'}
-								{/if}
-							</a>
-
-							{if $oTalk->getCountComment()}
-								({$oTalk->getCountComment()}{if $oTalkUserAuthor->getCommentCountNew()} +{$oTalkUserAuthor->getCommentCountNew()}{/if})
-							{/if}
-
-							{if $oUserCurrent->getId()==$oTalk->getUserIdLast()}
-								&rarr;
+								{$iUsersCount} участника
 							{else}
-								&larr;
-							{/if}
-						</h2>
+								{* Если участников двое, то отображаем только собеседника *}
+								{foreach $aUsers as $oUser}
+									{$oUser = $oUser->getUser()}
 
-						{$oTalk->getText()|strip_tags|truncate:120:"..."|escape}
+									{if $oUser->getUserId() != $oUserCurrent->getId()}
+										<a href="{$oUser->getUserWebPath()}" class="message-list-info-avatar">
+											<img src="{$oUser->getProfileAvatarPath(64)}" alt="{$oUser->getLogin()}" />
+										</a>
+
+										<a href="{$oUser->getUserWebPath()}">{$oUser->getDisplayName()}</a>
+									{/if}
+								{/foreach}
+							{/if}
+
+							{* Дата *}
+							<time class="message-list-info-date" datetime="{date_format date=$oTalk->getDate() format='c'}" title="{date_format date=$oTalk->getDate() format='j F Y, H:i'}">
+								{date_format date=$oTalk->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+							</time>
+						</div>
 					</td>
-					<td class="cell-date ta-r">{date_format date=$oTalk->getDate() format="j F Y, H:i"}</td>
+
+					{* Заголовок и текст последнего сообщения *}
+					<td>
+						<div class="message-list-item-extra">
+							{* Заголовок *}
+							<h2 class="message-list-item-title">
+								<a href="{router page='talk'}read/{$oTalk->getId()}/">
+									{$oTalk->getTitle()|escape:'html'}
+								</a>
+							</h2>
+
+							{* Текст последнего сообщения *}
+							<div class="message-list-item-text">
+								{$oTalk->getText()|strip_tags|truncate:120:"..."|escape}
+							</div>
+
+							{* Кол-во сообщений *}
+							{if $oTalk->getCountComment()}
+								<div class="message-list-item-count">
+									{$oTalk->getCountComment()}
+
+									{if $oAuthor->getCommentCountNew()}
+										<strong>+{$oAuthor->getCommentCountNew()}</strong>
+									{/if}
+								</div>
+							{/if}
+						</div>
+					</td>
 				</tr>
 			{/foreach}
 		</tbody>
