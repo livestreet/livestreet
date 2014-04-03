@@ -1,6 +1,6 @@
 /**
  * Инициализации модулей
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -11,9 +11,13 @@ jQuery(document).ready(function($){
 	ls.hook.run('ls_template_init_start',[],window);
 
 	/**
-	 * Main init
+	 * Иниц-ия модулей ядра
 	 */
-	ls.setOption('debug', true);
+	ls.init({
+		production: false
+	});
+
+	ls.dev.init();
 
 
 	/**
@@ -31,7 +35,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Dropdowns
 	 */
-	$('.js-dropdown-default').dropdown();
+	$('.js-dropdown-default').livequery(function () {
+		$(this).dropdown();
+	});
 
 
 	/**
@@ -165,7 +171,9 @@ jQuery(document).ready(function($){
 	/**
 	 * User Note
 	 */
-	ls.usernote.init();
+	$('.js-user-note').livequery(function () {
+		$(this).usernote();
+	});
 
 
 	/**
@@ -241,9 +249,38 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Блок добавления пользователей
+	 * Блоки добавления пользователей
 	 */
-	ls.user_list_add.init();
+
+	// Приглашение пользователей в блог
+	$('.js-user-list-add-blog-invite').blog_invite_users();
+
+	// Добавление участников личного сообщения
+	$('.js-message-users').message_users();
+
+	// Черный список
+	$('.js-user-list-add-blacklist').user_list_add({
+		urls: {
+			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
+			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
+		}
+	});
+
+	// Добавление пользователей в свою активность
+	$('.js-user-list-add-activity').user_list_add({
+		urls: {
+			add: aRouter['stream'] + 'ajaxadduser/',
+			remove: aRouter['stream'] + 'ajaxremoveuser/'
+		}
+	});
+
+	// Добавление пользователей в свою ленту
+	$('.js-user-list-add-userfeed').user_list_add({
+		urls: {
+			add: aRouter['feed'] + 'ajaxadduser/',
+			remove: aRouter['feed'] + 'unsubscribe/'
+		}
+	});
 
 	/**
 	 * Лайтбокс
@@ -263,6 +300,18 @@ jQuery(document).ready(function($){
 		$( '#' + $(this).data('button-submit-form') ).submit();
 	});
 
+	// Временный код экшнбара (кнопка выделения объектов)
+	// TODO: Перенести в виджет
+	$(document).on('click', 'a[data-select-item]', function (e) {
+		var aItems = $( $(this).data('select-item') );
+		var aCheckboxes = aItems.find('input[type=checkbox]');
+
+		aItems.removeClass('selected');
+		aCheckboxes.prop('checked', false);
+
+		aItems.filter( $(this).data('select-filter') || '*' ).addClass('selected').find('input[type=checkbox]').prop('checked', true);
+		e.preventDefault();
+	});
 
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);

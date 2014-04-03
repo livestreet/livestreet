@@ -13,9 +13,9 @@
 {block name='modal_content'}
 	{* Экшнбар *}
 	{if $aUserList && $bSelectable}
+		{include 'actionbar.item.select.tpl' sName='asdfsasaasddf' sItemSelector='.js-user-list-select .js-user-list-small-item' assign=sUsersSelect}
 		{include 'actionbar.tpl' aActionbarItems=[
-			[ 'icon' => 'icon-ok', 'classes' => 'js-temp', 'text' => $aLang.block_friends_check ],
-			[ 'classes' => 'js-temp', 'text' => $aLang.block_friends_uncheck ]
+			[ 'html' => $sUsersSelect ]
 		]}
 	{/if}
 
