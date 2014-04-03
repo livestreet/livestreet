@@ -181,7 +181,13 @@ class ActionUserfeed extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequestStr('sUserList',null,'post');
+		$aUsers=getRequest('aUserList',null,'post');
+		/**
+		 * Валидация
+		 */
+		if ( ! is_array($aUsers) ) {
+			return $this->EventErrorDebug();
+		}
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -189,7 +195,6 @@ class ActionUserfeed extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
-		$aUsers=explode(',',$sUsers);
 
 		$aResult=array();
 		/**
@@ -218,7 +223,7 @@ class ActionUserfeed extends Action {
 					'sUserLogin'=>htmlspecialchars($sUser),
 					'sUserWebPath'=>$oUser->getUserWebPath(),
 					'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-					'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
+					'sHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
 				);
 			} else {
 				$aResult[]=array(
@@ -232,7 +237,7 @@ class ActionUserfeed extends Action {
 		/**
 		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
 		 */
-		$this->Viewer_AssignAjax('aUsers',$aResult);
+		$this->Viewer_AssignAjax('aUserList',$aResult);
 	}
 	/**
 	 * Отписка от блога или пользователя

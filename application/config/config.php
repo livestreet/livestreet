@@ -470,14 +470,15 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/colorbox/jquery.colorbox.js",
 
 	/* Core */
+	"___path.framework.frontend.web___/js/core/polyfills.js",
 	"___path.framework.frontend.web___/js/core/main.js",
+	"___path.framework.frontend.web___/js/core/dev.js",
 	"___path.framework.frontend.web___/js/core/hook.js",
 	"___path.framework.frontend.web___/js/core/i18n.js",
 	"___path.framework.frontend.web___/js/core/ie.js",
 	"___path.framework.frontend.web___/js/core/ajax.js",
 	"___path.framework.frontend.web___/js/core/registry.js",
-	"___path.framework.frontend.web___/js/core/swfupload.js",
-	"___path.framework.frontend.web___/js/core/utilities.js",
+	"___path.framework.frontend.web___/js/core/utils.js",
 	"___path.framework.frontend.web___/js/core/timer.js",
 
 	/* User Interface */
@@ -518,6 +519,8 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/tags.js",
 	"___path.application.web___/frontend/common/js/content.js",
 	"___path.application.web___/frontend/common/js/user_list_add.js",
+	"___path.application.web___/frontend/common/js/blog_invite_users.js",
+	"___path.application.web___/frontend/common/js/message_users.js",
 	"___path.application.web___/frontend/common/js/search.js",
 	"___path.application.web___/frontend/common/js/more.js",
 	"___path.application.web___/frontend/common/js/init.js",

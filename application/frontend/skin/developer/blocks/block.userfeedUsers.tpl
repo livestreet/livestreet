@@ -11,8 +11,7 @@
 
 {block 'block_content'}
 	{include 'user_list_add.tpl'
-			 iUserListId = $oUserCurrent->getId()
-			 sUserListType = 'userfeed'
+			 sUserListAddClasses = 'js-user-list-add-userfeed'
 			 aUserList = $aUserfeedSubscribedUsers
 			 sUserListAddAttributes = 'data-param-type="users"'
 			 sUserListNote = $aLang.userfeed_settings_note_follow_user}

@@ -25,9 +25,6 @@ ls.blog = (function ($) {
 			categories: aRouter['ajax'] + 'blogs/get-by-category/',
 			info:       aRouter['blog'] + 'ajaxbloginfo/',
 			search:     aRouter['blogs'] + 'ajax-search/',
-			invite: {
-				repeat: aRouter['blog'] + 'ajaxrebloginvite/',
-			}
 		},
 
 		// Селекторы
@@ -37,9 +34,6 @@ ls.blog = (function ($) {
 			users_number: '.js-blog-users-number',
 			info: '.js-blog-info',
 			blog_add_type_note: '#blog_type_note',
-			invite: {
-				user_repeat: '.js-blog-invite-user-repeat',
-			},
 			nav: {
 				categories: '.js-blog-nav-categories',
 				blogs:      '.js-blog-nav-blogs',
@@ -77,21 +71,6 @@ ls.blog = (function ($) {
 		// Вступить/покинуть блог
 		this.elements.toggle_join.on('click', function (e) {
 			_this.toggleJoin($(this), $(this).data('blog-id'));
-			e.preventDefault();
-		});
-
-		/**
-		 * Инвайты
-		 */
-
-		// Повторно отправить инвайт
-		$(document).on('click', this.options.selectors.invite.user_repeat, function (e) {
-			var oButton = $(this),
-				oContainer = oButton.closest(ls.user_list_add.options.selectors.container),
-				oUserList = oContainer.find(ls.user_list_add.options.selectors.user_list);
-
-			_this.invite.repeat(oButton.data('user-id'), oContainer.data('target-id'));
-
 			e.preventDefault();
 		});
 
@@ -211,35 +190,6 @@ ls.blog = (function ($) {
 	this.navigatorGoSelectBlog = function() {
 		window.location.href = this.elements.nav.blogs.find('option:selected').data('url') || '';
 	};
-
-	/**
-	 * Приглашения
-	 */
-	this.invite = function(_this) {
-		/**
-		 * Повторно отправляет приглашение
-		 */
-		this.repeat = function(iUserId,iBlogId) {
-			var sUrl = _this.options.routers.invite.repeat,
-				oParams = { idUser: iUserId, idBlog: iBlogId };
-
-			ls.hook.marker('repeatInviteBefore');
-
-			ls.ajax.load(sUrl, oParams, function(result) {
-				if (result.bStateError) {
-					ls.msg.error(null, result.sMsg);
-				} else {
-					ls.msg.notice(null, result.sMsg);
-
-					ls.hook.run('ls_blog_repeat_invite_after', [iUserId, iBlogId, result]);
-				}
-			});
-
-			return false;
-		};
-
-		return this;
-	}.call({}, this);
 
 	return this;
 }).call(ls.blog || {},jQuery);

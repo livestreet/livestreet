@@ -1,207 +1,206 @@
 /**
  * Пополняемый список пользователей
- * 
+ *
  * @module ls/user_list_add
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
-
-ls.user_list_add = (function ($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 */
-	var defaults = {
-		// Селекторы
-		selectors: {
-			container:       '.js-user-list-add',
-			user_list:       '.js-user-list-add-users',
-			user_item:       '.js-user-list-small-item',
-			user_list_empty: '.js-user-list-small-empty',
-			form: {
-				form:   '.js-user-list-add-form',
-				users:  '.js-user-list-add-form-users',
-				submit: '.js-user-list-add-form-submit'
+	$.widget( "livestreet.user_list_add", {
+		/**
+		 * Дефолтные опции
+		 */
+		options: {
+			urls: {
+				add: null,
+				remove: null
 			},
-			actions: {
-				remove: '.js-user-list-add-user-remove'
-			}
+			// Селекторы
+			selectors: {
+				// Блок со списком объектов
+				list: '.js-user-list-add-users',
+				// Объект
+				item: '.js-user-list-small-item',
+				// Кнопка удаления объекта
+				item_remove: '.js-user-list-add-user-remove',
+				// Сообщение о пустом списке
+				empty: '.js-user-list-small-empty',
+				// Форма добавления
+				form: '.js-user-list-add-form'
+			},
+			// Анимация при скрытии объекта
+			hide: {
+				effect: 'slide',
+				duration: 200,
+				direction: 'left'
+			},
+			// Кастомные аякс параметры
+			params: {}
 		},
 
-		// Типы списков
-		type: {
-			// Приглашение пользователей в блог
-			blog_invite: {
-				url: {
-					add:    aRouter['blog'] + 'ajaxaddbloginvite/',
-					remove: aRouter['blog'] + 'ajaxremovebloginvite/'
-				}
-			},
-			// Добавление участников личного сообщения
-			message: {
-				url: {
-					add:    aRouter['talk'] + 'ajaxaddtalkuser/',
-					remove: aRouter['talk'] + 'ajaxdeletetalkuser/'
-				}
-			},
-			// Черный список
-			blacklist: {
-				url: {
-					add:    aRouter['talk'] + 'ajaxaddtoblacklist/',
-					remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
-				}
-			},
-			// Добавление пользователей в свою активность
-			activity: {
-				url: {
-					add:    aRouter['stream'] + 'ajaxadduser/',
-					remove: aRouter['stream'] + 'ajaxremoveuser/'
-				}
-			},
-			// Добавление пользователей в свою ленту
-			userfeed: {
-				url: {
-					add:    aRouter['feed'] + 'ajaxadduser/',
-					remove: aRouter['feed'] + 'unsubscribe/'
-				}
-			}
-		}
-	};
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			var _this = this;
 
-	/**
-	 * Инициализация
-	 *
-	 * @param  {Object} options Опции
-	 */
-	this.init = function(options) {
-		var _this = this;
+			// Получаем список элементов
+			this.elements = {};
+			this.elements.container = this.element;
+			this.elements.list      = this.elements.container.find(this.options.selectors.list);
+			this.elements.empty     = this.elements.container.find(this.options.selectors.empty);
+			this.elements.form      = this.elements.container.find(this.options.selectors.form);
+			this.elements.form_text = this.elements.form.find('input[type=text]');
 
-		this.options = $.extend({}, defaults, options);
+			// Получаем кастомные аякс параметры
+			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.elements.container, 'param'));
 
-		this.elements = {
-			form: $(this.options.selectors.form.form),
-			actions: {
-				remove: $(this.options.selectors.actions.remove)
-			}
-		}
-
-		// Добавление
-		this.elements.form.on('submit', function(e) {
-			var oForm = $(this),
-				oContainer   = oForm.closest(_this.options.selectors.container),
-				oFormUsers   = oForm.find(_this.options.selectors.form.users),
-				oButton      = oForm.find(_this.options.selectors.form.submit),
-				oUserList    = oContainer.find(_this.options.selectors.user_list),
-				sUserList    = oFormUsers.val(),
-				oEmptyAlert  = oContainer.find(_this.options.selectors.user_list_empty);
-
-			if ( ! sUserList ) return false;
-
-			// Блокируем форму
-			oButton.prop('disabled', true).addClass(ls.options.classes.states.loading);
-			oFormUsers.prop('disabled', true);
-
-			_this.add(oContainer.data('type'), oContainer.data('target-id'), sUserList, { 
-				add_success: function (oResponse) {
-					oFormUsers.val('');
-				},
-				add_user_success: function (oUser) {
-					oUserList.show().prepend(oUser.sUserHtml);
-					oEmptyAlert.hide();
-				},
-				add_after: function (oResponse) {
-					// Разблокировываем форму
-					oButton.prop('disabled', false).removeClass(ls.options.classes.states.loading);
-					oFormUsers.prop('disabled', false).focus();
-				}
+			// Ивент удаления
+			this.elements.list.on('click', this.options.selectors.item_remove, function (e) {
+				_this.remove( $(this).data('user-id') );
+				e.preventDefault();
 			});
 
-			e.preventDefault();
-		});
+			// Ивент добавления
+			this.elements.form.on('submit', function (e) {
+				var aItemList = _this.getItems();
 
-		// Удаление
-		$(document).on('click', this.options.selectors.actions.remove, function(e) {
-			var oButton     = $(this),
-				oContainer  = oButton.closest(_this.options.selectors.container),
-				oUserList   = oContainer.find(_this.options.selectors.user_list),
-				oEmptyAlert = oContainer.find(_this.options.selectors.user_list_empty);
+				if ( aItemList.length ) {
+					ls.utils.formLock(_this.elements.form);
+					_this.add( aItemList );
+				}
 
-			_this.remove(oContainer.data('type'), oContainer.data('target-id'), oButton.data('user-id'), oContainer, function (oResponse, iUserId) {
-				oContainer.find(this.options.selectors.user_item + '[data-user-id=' + iUserId + ']').fadeOut(300, function () {
-					$(this).remove();
-
-					// Скрываем список если пользователей в нем нет
-					if ( ! oUserList.find(_this.options.selectors.user_item).length ) {
-						oUserList.hide();
-						oEmptyAlert.show();
-					}
-				});
+				e.preventDefault();
 			});
+		},
 
-			e.preventDefault();
-		});
-	};
+		/**
+		 * Получает объекты для добавления
+		 *
+		 * @return {Array} Массив с объектами
+		 */
+		getItems: function () {
+			var sValue = this.elements.form_text.val();
 
-	/**
-	 * Добавление пользователя
-	 */
-	this.add = function(sType, iTargetId, sUserList, aCallbacks) {
-		if ( ! sUserList ) return false;
+			return $.map(sValue.split(','), function(sItem, iIndex) {
+				return $.trim(sItem) || null;
+			});
+		},
 
-		var sUrl = this.options.type[sType].url.add,
-			oParams = {
-				iTargetId: iTargetId,
-				sUserList: sUserList
+		/**
+		 * Добавление объекта
+		 */
+		add: function(aUserList) {
+			if ( ! aUserList ) return;
+
+			var oParams = {
+				aUserList: aUserList,
 			};
 
-		ls.ajax.load(sUrl, oParams, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				$.each(oResponse.aUsers, function (iIndex, oUser) {
-					if (oUser.bStateError) {
-						ls.msg.error(null, oUser.sMsg);
+			oParams = $.extend({}, oParams, this.options.params);
+
+			ls.ajax.load(this.options.urls.add, oParams, function(oResponse) {
+				this._onAdd(oResponse);
+
+				this._trigger("afteradd", null, { context: this, response: oResponse });
+			}.bind(this));
+		},
+
+		_onUserAdd: function (oItem) {
+			return;
+		},
+
+		/**
+		 * 
+		 */
+		_onAdd: function (oResponse) {
+			var aUsers = this._getUsersAll();
+
+			// Составляем список добавляемых объектов
+			var sItemsHtml = $.map(oResponse.aUserList, function (oItem, iIndex) {
+				if (oItem.bStateError) {
+					ls.msg.error(null, oItem.sMsg);
+				} else {
+					ls.msg.notice(null, ls.lang.get('common.success.add'));
+
+					this._trigger("afterobjectadd", null, { context: this, oItem: oItem, response: oResponse });
+
+					this._onUserAdd(oItem);
+
+					// Не добавляем юзера если он уже есть в списке
+					if ( aUsers.filter('[data-user-id=' + oItem.iUserId + ']').length ) {
+						return null;
 					} else {
-						ls.msg.notice(null, ls.lang.get('common.success.add'));
+						return oItem.sHtml;
+					}
+				}
+			}.bind(this)).join('');
 
-						if (typeof aCallbacks.add_user_success === 'function') aCallbacks.add_user_success.call(this, oUser);
-					}		
-				});
-				
-				if (typeof aCallbacks.add_success === 'function') aCallbacks.add_success.call(this, oResponse);
+			if ( sItemsHtml ) {
+				// Скрываем сообщение о пустом списке
+				this.elements.empty.hide();
+				// Добавляем объекты
+				this.elements.list.show().prepend(sItemsHtml);
 			}
 
-			if (typeof aCallbacks.add_after === 'function') aCallbacks.add_after.call(this, oResponse);
-		}.bind(this));
-	};
+			ls.utils.formUnlock( this.elements.form );
+			this.elements.form_text.focus().val('');
+		},
 
-	/**
-	 * Удаление пользователя
-	 */
-	this.remove = function(sType, iTargetId, iUserId, oContainer,fCallbackSuccess) {
-		var sUrl = this.options.type[sType].url.remove,
-			oParams = {
-				iTargetId: iTargetId,
-				iUserId: iUserId
-			};
+		/**
+		 * Удаление объекта
+		 */
+		remove: function(iUserId) {
+			if ( ! this.options.urls.remove ) return;
 
-		oParams = $.extend({}, oParams, ls.utilities.getDataOptions(oContainer, 'param'));
+			var _this = this,
+				oParams = {
+					iUserId: iUserId
+				};
 
-		ls.ajax.load(sUrl, oParams, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
+			oParams = $.extend({}, oParams, this.options.params);
+
+			ls.ajax.load(this.options.urls.remove, oParams, function(oResponse) {
 				ls.msg.notice(null, ls.lang.get('common.success.remove'));
 
-				if (typeof fCallbackSuccess === 'function') fCallbackSuccess.call(this, oResponse, iUserId);
-			}
-		}.bind(this));
-	};
+				this._hide( this._getUserById( iUserId ), this.options.hide, function () {
+					$(this).remove();
 
-	return this;
-}).call(ls.user_list_add || {}, jQuery);
+					// Скрываем список если объектов в нем больше нет
+					if ( ! _this.elements.list.find(_this.options.selectors.item).length ) {
+						_this.elements.list.hide();
+						_this.elements.empty.show();
+					}
+				});
+
+				this._trigger("afterremove", null, { context: this, response: oResponse, oParams: oParams });
+			}.bind(this));
+		},
+
+		/**
+		 * Получает пользователя по ID
+		 *
+		 * @private
+		 * @param  {Number} iUserId , ID объекта
+		 * @return {jQuery}           Объект
+		 */
+		_getUserById: function(iUserId) {
+			return this.elements.list.find(this.options.selectors.item + '[data-user-id=' + iUserId + ']');
+		},
+
+		/**
+		 * Получает всех пользователей
+		 */
+		_getUsersAll: function() {
+			return this.elements.list.find(this.options.selectors.item);
+		}
+	});
+})(jQuery);

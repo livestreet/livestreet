@@ -11,8 +11,7 @@
 
 {block 'block_content'}
 	{include 'user_list_add.tpl'
-			 iUserListId = $oUserCurrent->getId()
-			 sUserListType = 'activity'
+			 sUserListAddClasses = 'js-user-list-add-activity'
 			 aUserList = $aStreamSubscribedUsers
 			 sUserListNote = $aLang.stream_settings_note_follow_user}
 {/block}

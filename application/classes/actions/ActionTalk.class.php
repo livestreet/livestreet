@@ -723,7 +723,14 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequestStr('sUserList',null,'post');
+		$aUsers=getRequest('aUserList',null,'post');
+
+		/**
+		 * Валидация
+		 */
+		if ( ! is_array($aUsers) ) {
+			return $this->EventErrorDebug();
+		}
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -731,7 +738,6 @@ class ActionTalk extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('need_authorization'),$this->Lang_Get('error'));
 			return;
 		}
-		$aUsers=explode(',',$sUsers);
 		/**
 		 * Получаем блекслист пользователя
 		 */
@@ -776,7 +782,7 @@ class ActionTalk extends Action {
 							'sUserLogin'=>htmlspecialchars($sUser),
 							'sUserWebPath'=>$oUser->getUserWebPath(),
 							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-							'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
+							'sHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
 						);
 					} else {
 						$aResult[]=array(
@@ -810,7 +816,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
 		 */
-		$this->Viewer_AssignAjax('aUsers',$aResult);
+		$this->Viewer_AssignAjax('aUserList',$aResult);
 	}
 	/**
 	 * Удаление пользователя из блек листа (ajax)
@@ -956,8 +962,14 @@ class ActionTalk extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequestStr('sUserList',null,'post');
+		$aUsers=getRequest('aUserList',null,'post');
 		$idTalk=getRequestStr('iTargetId',null,'post');
+		/**
+		 * Валидация
+		 */
+		if ( ! is_array($aUsers) ) {
+			return $this->EventErrorDebug();
+		}
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -983,7 +995,6 @@ class ActionTalk extends Action {
 		 * Получаем список всех участников разговора
 		 */
 		$aTalkUsers=$oTalk->getTalkUsers();
-		$aUsers=explode(',',$sUsers);
 		/**
 		 * Получаем список пользователей, которые не принимают письма
 		 */
@@ -1045,12 +1056,12 @@ class ActionTalk extends Action {
 										'bStateError'=>false,
 										'sMsgTitle'=>$this->Lang_Get('attention'),
 										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
-										'sUserId'=>$oUser->getId(),
+										'iUserId'=>$oUser->getId(),
 										'sUserLogin'=>$oUser->getLogin(),
 										'sUserLink'=>$oUser->getUserWebPath(),
 										'sUserWebPath'=>$oUser->getUserWebPath(),
 										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-										'sUserHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
+										'sHtml'=>$oViewer->Fetch("user_list_small_item.message.tpl")
 									);
 									$bState=true;
 								} else {
@@ -1102,15 +1113,17 @@ class ActionTalk extends Action {
 						)
 					) {
 						$this->Notify_SendTalkNew($oUser,$this->oUserCurrent,$oTalk);
+
+						$oViewer = $this->Viewer_GetLocalViewer();
+						$oViewer->Assign('oUser', $oUser);
+						$oViewer->Assign('bUserListSmallShowActions', true);
+
 						$aResult[]=array(
 							'bStateError'=>false,
 							'sMsgTitle'=>$this->Lang_Get('attention'),
 							'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
-							'sUserId'=>$oUser->getId(),
-							'sUserLogin'=>$oUser->getLogin(),
-							'sUserLink'=>$oUser->getUserWebPath(),
-							'sUserWebPath'=>$oUser->getUserWebPath(),
-							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48)
+							'iUserId'=>$oUser->getId(),
+							'sHtml'=>$oViewer->Fetch("user_list_small_item.message.tpl")
 						);
 						$bState=true;
 					} else {
@@ -1144,7 +1157,7 @@ class ActionTalk extends Action {
 		/**
 		 * Передаем во вьевер массив результатов обработки по каждому пользователю
 		 */
-		$this->Viewer_AssignAjax('aUsers',$aResult);
+		$this->Viewer_AssignAjax('aUserList',$aResult);
 	}
 	/**
 	 * Возвращает количество новых сообщений

@@ -1352,7 +1352,7 @@ class ActionBlog extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUsers=getRequest('sUserList',null,'post');
+		$aUsers=getRequest('aUserList',null,'post');
 		$sBlogId=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
@@ -1365,7 +1365,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем существование блога
 		 */
-		if(!$oBlog=$this->Blog_GetBlogById($sBlogId) or !is_string($sUsers)) {
+		if(!$oBlog=$this->Blog_GetBlogById($sBlogId) or !is_array($aUsers)) {
 			return $this->EventErrorDebug();
 		}
 		/**
@@ -1392,7 +1392,6 @@ class ActionBlog extends Action {
 			),null // пока костылем
 		);
 		$aBlogUsers=$aBlogUsersResult['collection'];
-		$aUsers=explode(',',$sUsers);
 
 		$aResult=array();
 		/**
@@ -1451,7 +1450,7 @@ class ActionBlog extends Action {
 						'sUserWebPath'=>$oUser->getUserWebPath(),
 						'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
 						'iUserId'=>$oUser->getId(),
-						'sUserHtml'=>$oViewer->Fetch("user_list_small_item.blog_invite.tpl")
+						'sHtml'=>$oViewer->Fetch("user_list_small_item.blog_invite.tpl")
 					);
 					$this->SendBlogInvite($oBlog,$oUser);
 				} else {
@@ -1492,7 +1491,7 @@ class ActionBlog extends Action {
 		/**
 		 * Передаем во вьевер массив с результатами обработки по каждому пользователю
 		 */
-		$this->Viewer_AssignAjax('aUsers',$aResult);
+		$this->Viewer_AssignAjax('aUserList',$aResult);
 	}
 	/**
 	 * Обработка ajax запроса на отправку
@@ -1503,8 +1502,8 @@ class ActionBlog extends Action {
 		 * Устанавливаем формат Ajax ответа
 		 */
 		$this->Viewer_SetResponseAjax('json');
-		$sUserId=getRequestStr('idUser',null,'post');
-		$sBlogId=getRequestStr('idBlog',null,'post');
+		$sUserId=getRequestStr('iUserId',null,'post');
+		$sBlogId=getRequestStr('iTargetId',null,'post');
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */

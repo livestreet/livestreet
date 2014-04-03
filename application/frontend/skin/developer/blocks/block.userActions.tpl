@@ -23,11 +23,15 @@
 
 	<ul class="profile-actions" id="profile_actions">
 		{include file='actions/ActionProfile/friend_item.tpl' oUserFriend=$oUserProfile->getUserFriend()}
-		
-		<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>						
+
+		<li><a href="{router page='talk'}add/?talk_users={$oUserProfile->getLogin()}">{$aLang.user_write_prvmsg}</a></li>
 		<li>
-			<a href="#" class="js-user-follow {if $oUserProfile->isFollow()}active{/if}" data-user-id="{$oUserProfile->getId()}">
-				{if $oUserProfile->isFollow()}{$aLang.profile_user_unfollow}{else}{$aLang.profile_user_follow}{/if}
+			<a href="#" class="js-user-follow {if $oUserProfile->isFollow()}active{/if}" data-user-id="{$oUserProfile->getId()}" data-user-login="{$oUserProfile->getLogin()}">
+				{if $oUserProfile->isFollow()}
+					{$aLang.profile_user_unfollow}
+				{else}
+					{$aLang.profile_user_follow}
+				{/if}
 			</a>
 		</li>
 		<li>
