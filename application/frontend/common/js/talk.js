@@ -26,33 +26,28 @@ ls.talk = (function ($) {
 	 * @param  {Object} options Опции
 	 */
 	this.init = function(options) {
+		var _this = this;
+
 		this.options = $.extend({}, defaults, options);
+
+		this.elements = {
+			form: $('#talk-form'),
+			form_action: $('#talk-form-action')
+		}
+
+		$('.js-talk-form-action').on('click', function (e) {
+			_this.formAction( $(this).data('action') );
+		});
 	};
 
 	/**
-	 * Удаление списка писем
+	 * Установка экшена формы
 	 */
-	this.removeTalks = function() {
-		if ($('.form_talks_checkbox:checked').length == 0) {
-			return false;
-		}
-		$('#form_talks_list_submit_del').val(1);
-		$('#form_talks_list_submit_read').val(0);
-		$('#form_talks_list').submit();
-		return false;
-	};
+	this.formAction = function(sName) {
+		if ( ! this.elements.form.find('input[type=checkbox]:checked').length ) return;
 
-	/**
-	 * Пометка о прочтении писем
-	 */
-	this.makeReadTalks = function() {
-		if ($('.form_talks_checkbox:checked').length == 0) {
-			return false;
-		}
-		$('#form_talks_list_submit_read').val(1);
-		$('#form_talks_list_submit_del').val(0);
-		$('#form_talks_list').submit();
-		return false;
+		this.elements.form_action.val(sName);
+		this.elements.form.submit();
 	};
 
 	return this;
