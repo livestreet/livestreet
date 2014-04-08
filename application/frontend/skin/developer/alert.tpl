@@ -18,24 +18,16 @@
 {* Дефолтный модификатор *}
 {$_sComponentDefaultMod = 'success'}
 
-{* Строка которой разделяются имя компонента и модификатор *}
-{$_sModifierDelimiter = '--'}
-
 {* Временный костыль *}
 {$sAlertMods = $sAlertStyle}
 
-{* Формируем модификаторы *}
-{$aMods = " "|explode:($sAlertMods|default:$_sComponentDefaultMod|strip)}
-
-{foreach $aMods as $sMod}
-	{if $sMod}
-		{$sResultMods = "$sResultMods $_sComponentName$_sModifierDelimiter$sMod"}
-	{/if}
-{/foreach}
-
 
 {* Уведомление *}
-<div class="{$_sComponentName} {$sResultMods} {$sAlertClasses} js-{$_sComponentName}" {if ! $bAlertVisible|default:true}style="display: none"{/if} {$sAlertAttributes}>
+<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sAlertMods default=$_sComponentDefaultMod} {$sAlertClasses} js-{$_sComponentName}"
+	{if ! $bAlertVisible|default:true}style="display: none"{/if}
+	{$sAlertAttributes}
+	role="alert">
+
 	{* Заголовок *}
 	{if $sAlertTitle}
 		<h4 class="{$_sComponentName}-title">{$sAlertTitle}</h4>

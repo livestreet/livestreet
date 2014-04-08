@@ -1,32 +1,33 @@
 {**
  * Пополняемый список пользователей
- *
- * TODO: Item active/inactive/selected
  *}
 
+{* Название компонента *}
+{$_sComponentName = 'user-list-add'}
+
 {* Форма добавления *}
-<div class="user-list-add js-user-list-add {$sUserListAddClasses}" {$sUserListAddAttributes}>
+<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sUserListAddMods} js-{$_sComponentName} {$sUserListAddClasses}" {$sUserListAddAttributes}>
 	{* Заголовок *}
 	{if $sUserListTitle}
-		<h3 class="user-list-add-title">{$sUserListTitle}</h3>
+		<h3 class="{$_sComponentName}-title">{$sUserListTitle}</h3>
 	{/if}
 
 	{* Описание *}
 	{if $sUserListNote}
-		<p class="user-list-add-note">{$sUserListNote}</p>
+		<p class="{$_sComponentName}-note">{$sUserListNote}</p>
 	{/if}
 
 	{* Форма добавления *}
-	<form class="user-list-add-form js-user-list-add-form">
-		{$sClass = 'js-user-list-add-form-users'}
+	<form class="{$_sComponentName}-form js-{$_sComponentName}-form">
+		{$sClass = "js-$_sComponentName-form-users-"|cat:rand(0, 9999)}
 
 		{include 'forms/fields/form.field.text.tpl'
 				 sFieldName    = 'add'
 				 sFieldClasses = "width-full autocomplete-users-sep {$sClass}"
-				 sFieldLabel   = $aLang.blog.invite.fields.add.label
+				 sFieldLabel   = $aLang.user_list_add.form.fields.add.label
 				 sFieldNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
 
-		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-user-list-add-form-submit'}
+		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-{$_sComponentName}-form-submit'}
 	</form>
 
 	{* Список пользователей *}
@@ -35,6 +36,6 @@
 			 aUserList                 = $aUserList
 			 bUserListSmallShowActions = true
 			 bUserListDisplay          = !! $aUserList
-			 sUserListSmallClasses     = 'js-user-list-add-users'
-			 sUserListSmallItemClasses = 'js-user-list-add-user'}
+			 sUserListSmallClasses     = "js-$_sComponentName-users"
+			 sUserListSmallItemClasses = "js-$_sComponentName-user"}
 </div>

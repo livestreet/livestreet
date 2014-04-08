@@ -20,7 +20,7 @@
 {* Кол-во объектов в избранном *}
 {$iCount = $oFavouriteObject->getCountFavourite()}
 
-<div class="{$_sComponentName} js-{$_sComponentName} {if $bIsActive}active{/if} {$sFavouriteClasses}"
+<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sFavouriteMods} js-{$_sComponentName} {if $bIsActive}active{/if} {$sFavouriteClasses}"
 	 data-favourite-type="{$sFavouriteType}"
 	 data-favourite-id="{$oFavouriteObject->getId()}"
 	 {$sFavouriteAttributes}>

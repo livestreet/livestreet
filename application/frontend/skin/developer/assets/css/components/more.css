@@ -1,0 +1,24 @@
+/**
+ * Подгрузка контента
+ *
+ * @template components/more/more.tpl
+ * @scripts <common>/js/more.js
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.more {
+	display: block;
+	text-align: center;
+	padding: 12px 0;
+	margin-top: 30px;
+	background: #fafafa;
+	color: #aaa;
+	border-top: 1px solid #eee;
+	text-decoration: none;
+	cursor: pointer;
+}
+.more:hover { background: #f7f7f7; color: #555; }
+.more.loading { background: #f7f7f7 url(../../images/loader.gif) 50% 50% no-repeat; text-indent: -9999px; }

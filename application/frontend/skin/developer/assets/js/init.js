@@ -62,10 +62,6 @@ jQuery(document).ready(function($){
 	 */
 	$('.js-tooltip').tooltip();
 
-	$('.js-tooltip-vote-topic').livequery(function () {
-		$(this).tooltip();
-	});
-
 	$('.js-popover-default').tooltip({
 		useAttrTitle: false,
 		trigger: 'click',
@@ -198,7 +194,35 @@ jQuery(document).ready(function($){
 	/**
 	 * Vote
 	 */
-	ls.vote.init();
+
+	// Голосование за топик
+	$('.js-vote-topic').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/topic/',
+			info: aRouter['ajax'] + 'vote/get/info/topic'
+		}
+	});
+
+	// Голосование за пользователя
+	$('.js-vote-user').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/user/'
+		}
+	});
+
+	// Голосование за блог
+	$('.js-vote-blog').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/blog/'
+		}
+	});
+
+	// Голосование за комментарий
+	$('.js-vote-comment').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/comment/'
+		}
+	});
 
 
 	/**

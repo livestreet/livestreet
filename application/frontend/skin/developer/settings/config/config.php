@@ -22,7 +22,7 @@ $config['head']['default']['js'][] = '___path.skin.assets.web___/js/init.js';
 
 
 $aCss=array(
-	// Template styles
+	// Base styles
 	"___path.skin.assets.web___/css/base.css",
 	"___path.framework.frontend.web___/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
 	"___path.framework.frontend.web___/js/vendor/markitup/skins/synio/style.css",
@@ -36,7 +36,13 @@ $aCss=array(
 	"___path.skin.assets.web___/css/grid.css",
 	"___path.skin.assets.web___/css/forms.css",
 	"___path.skin.assets.web___/css/common.css",
-	"___path.skin.assets.web___/css/vote.css",
+
+	// Components
+	"___path.skin.assets.web___/css/components/vote.css",
+	"___path.skin.assets.web___/css/components/actionbar.css",
+	"___path.skin.assets.web___/css/components/more.css",
+
+	// Template's styles
 	"___path.skin.assets.web___/css/icons.css",
 	"___path.skin.assets.web___/css/navs.css",
 	"___path.skin.assets.web___/css/tables.css",

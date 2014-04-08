@@ -54,17 +54,21 @@ return array(
 	 * Голосование
 	 */
 	'vote' => array(
-		'up'     => 'Нравится',
-		'down'   => 'Не нравится',
-		'count'  => 'Всего проголосовало',
-		'rating' => 'Рейтинг',
+		'up'      => 'Нравится',
+		'down'    => 'Не нравится',
+		'abstain' => 'Воздержаться от голосования и посмотреть рейтинг',
+		'count'   => 'Всего проголосовало',
+		'rating'  => 'Рейтинг',
 
 		// Всплывающие сообщения
 		'notices' => array(
 			'success'             => 'Ваш голос учтен',
+			'success_abstain'             => 'Вы воздержались для просмотра рейтинга',
 			'error_time'          => 'Срок голосования истёк!',
 			'error_already_voted' => 'Вы уже голосовали!',
 			'error_acl'           => 'У вас не хватает рейтинга для голосования!',
+			'error_auth'           => 'Для голосования необходимо авторизоваться',
+			'error_self'           => 'Вы не можете голосовать за свое',
 		),
 	),
 
@@ -174,14 +178,6 @@ return array(
 			'invite_users' => 'Пригласить пользователей',
 			'repeat'       => 'Повторить',
 			'empty'        => 'Нет приглашенных пользователей',
-
-			// Поля
-			'fields' => array(
-				'add' => array(
-					'label' => 'Список пользователей',
-					'note'  => 'Введите один или несколько логинов'
-				),
-			),
 
 			// Письмо с приглашением
 			'email' => array(
@@ -310,9 +306,6 @@ return array(
 		'vote' => array(
 			// Всплывающие сообщения
 			'notices' => array(
-				'error_already' => 'Вы уже голосовали за этот блог!',
-				'error_self'    => 'Вы не можете голосовать за свой блог!',
-				'error_acl'     => 'У вас не хватает рейтинга для голосования!',
 				'error_close'   => 'Вы не можете голосовать за закрытый блог',
 			),
 		),
@@ -504,6 +497,29 @@ return array(
 	),
 
 	/**
+	 * 
+	 */
+	'user_list_add' => array(
+		// Форма добавления
+		'form' => array(
+			// Поля
+			'fields' => array(
+				'add' => array(
+					'label' => 'Список пользователей',
+					'note'  => 'Введите один или несколько логинов'
+				),
+			),
+		),
+
+		// Всплывающие сообщения
+		'notices' => array(
+			'success_add' => 'Пользователь %%login%% успешно добавлен',
+			'error_already_added' => 'Пользователь %%login%% уже есть в списке',
+			'error_self' => 'Нельзя добавлять себя',
+		),
+	),
+
+	/**
 	 * Почта
 	 */
 	'talk_filter_error' => 'Ошибка фильтрации',
@@ -512,9 +528,7 @@ return array(
 	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
 
 	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
-	'talk_blacklist_user_already_have' => 'Пользователь <b>%%login%%</b> есть в вашем black list`е',
 	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
-	'talk_blacklist_add_self' => 'Нельзя добавлять в black list себя',
 
 	'talk_favourite_inbox' => 'Избранные письма',
 
@@ -550,15 +564,9 @@ return array(
 	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
 
 	'talk_speaker_title' => 'Участники разговора',
-	'talk_speaker_edit' => 'Редактировать список',
-	'talk_speaker_add_label' => 'Добавить пользователя',
-	'talk_speaker_delete_ok' => 'Участник <b>%%login%%</b> успешно удален',
 	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
-	'talk_speaker_user_already_exist' => ' <b>%%login%%</b> уже участник разговора',
 	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
-	'talk_speaker_add_ok' => 'Участник <b>%%login%%</b> успешно добавлен',
 	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
-	'talk_speaker_add_self' => 'Нельзя добавлять в участники себя',
 
 	'talk_not_found' => 'Разговор не найден',
 	'talk_deleted' => 'Отправитель удалил сообщение',
@@ -693,21 +701,6 @@ return array(
 	'topic_delete' => 'Удалить',
 	'topic_delete_confirm' => 'Вы действительно хотите удалить топик?',
 	/**
-	 * Голосование за топик
-	 */
-	'topic_vote_up' => 'нравится',
-	'topic_vote_down' => 'не нравится',
-	'topic_vote_abstain' => 'Воздержаться от голосования и посмотреть рейтинг',
-	'topic_vote_error_already' => 'Вы уже голосовали за этот топик!',
-	'topic_vote_error_self' => 'Вы не можете голосовать за свой топик!',
-	'topic_vote_error_guest' => 'для голосования необходимо авторизоваться',
-	'topic_vote_error_time' => 'Срок голосования за топик истёк!',
-	'topic_vote_error_acl' => 'У вас не хватает рейтинга и силы для голосования!',
-	'topic_vote_no' => 'пока никто не голосовал',
-	'topic_vote_ok' => 'Ваш голос учтен',
-	'topic_vote_ok_abstain' => 'Вы воздержались для просмотра рейтинга топика',
-	'topic_vote_count' => 'всего проголосовало',
-	/**
 	 * Люди
 	 */
 	'people' => 'Люди',
@@ -827,17 +820,6 @@ return array(
 	"reactivation_submit" => "Получить ссылку на активацию",
 	"reactivation_send_link" => "Ссылка для активации отправлена на ваш адрес электронной почты.",
 
-	/**
-	 * Голосование за пользователя
-	 */
-	'user_vote_up' => 'нравится',
-	'user_vote_down' => 'не нравится',
-	'user_vote_error_already' => 'Вы уже голосовали за этого пользователя!',
-	'user_vote_error_self' => 'Вы не можете голосовать за себя!',
-	'user_vote_error_guest' => 'для голосования необходимо авторизоваться',
-	'user_vote_error_acl' => 'У вас не хватает рейтинга и силы для голосования!',
-	'user_vote_ok' => 'Ваш голос учтен',
-	'user_vote_count' => 'голосов',
 	/**
 	 * Меню профиля пользователя
 	 */
@@ -1093,18 +1075,10 @@ return array(
 	 */
 	'userfeed_block_blogs_title' => 'Блоги',
 	'userfeed_block_users_title' => 'Люди',
-	'userfeed_block_users_append' => 'Добавить',
-	'userfeed_block_users_friends' => 'Друзья',
-	'userfeed_subscribes_already_subscribed' => 'Вы уже подписаны на топики этого пользователя',
-	'userfeed_subscribes_updated' => 'Настройки ленты сохранены',
-	'userfeed_get_more' => 'Получить ещё топики',
 	'userfeed_title' => 'Лента',
 	'userfeed_settings_note_follow_blogs' => 'Выберите блоги которые вы хотели бы читать',
 	'userfeed_settings_note_follow_user' => 'Добавьте людей, топики которых вы хотели бы читать',
-	'userfeed_settings_note_follow_friend' => 'Выберите друзей, топики которых вы хотели бы читать',
-	'userfeed_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чьи топики хотите видеть',
 	'userfeed_no_blogs' => 'Вы не вступили ни в один блог',
-	'userfeed_error_subscribe_to_yourself' => 'Вы не можете подписаться на себя',
 	/**
 	 * Stream
 	 */
@@ -1114,7 +1088,6 @@ return array(
 	'stream_block_users_friends' => 'Друзья',
 	'stream_subscribes_already_subscribed' => 'Вы уже подписаны на этого пользователя',
 	'stream_subscribes_updated' => 'Настройки ленты сохранены',
-	'stream_get_more' => 'Получить ещё события',
 	'stream_event_type_add_wall' => 'Добавление записи на стену',
 	'stream_event_type_add_topic' => 'Добавление топика',
 	'stream_event_type_add_comment' => 'Добавление комментария',
@@ -1125,9 +1098,7 @@ return array(
 	'stream_event_type_vote_user' => 'Голосование за пользователя',
 	'stream_event_type_add_friend' => 'Добавление в друзья',
 	'stream_event_type_join_blog' => 'Вступление в блог',
-	'stream_no_subscribed_users' => 'Вы ещё не подписались на пользователей, чью активность хотите видеть',
 	'stream_no_events' => 'Лента активности пуста',
-	'stream_error_subscribe_to_yourself' => 'Вы не можете подписаться на себя',
 	'stream_list_user' => 'Пользователь',
 	'stream_list_event_add_wall' => 'добавил запись на стену',
 	'stream_list_event_add_topic' => 'добавил новый топик',

@@ -1,0 +1,16 @@
+/**
+ * Экшнбар
+ *
+ * @template components/actionbar/actionbar.tpl
+ * @template components/actionbar/actionbar.item.tpl
+ * @template components/actionbar/actionbar.item.select.tpl
+ * @scripts <common>/js/actionbar.js
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.actionbar           { background: #fafafa; padding: 10px 10px 0; margin-bottom: 10px; }
+.actionbar-item      { float: left; white-space: nowrap; margin-right: 10px; }
+.actionbar-item-link { margin-bottom: 10px; }
