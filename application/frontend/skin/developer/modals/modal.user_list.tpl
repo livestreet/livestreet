@@ -13,8 +13,8 @@
 {block name='modal_content'}
 	{* Экшнбар *}
 	{if $aUserList && $bSelectable}
-		{include 'actionbar.item.select.tpl' sName='asdfsasaasddf' sItemSelector='.js-user-list-select .js-user-list-small-item' assign=sUsersSelect}
-		{include 'actionbar.tpl' aActionbarItems=[
+		{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-user-list-select .js-user-list-small-item' assign=sUsersSelect}
+		{include 'components/actionbar/actionbar.tpl' aItems=[
 			[ 'html' => $sUsersSelect ]
 		]}
 	{/if}

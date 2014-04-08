@@ -80,12 +80,13 @@
 {block 'entry_footer_info_items'}
 	{* Голосование *}
 	<li class="topic-info-item topic-info-item-vote">
-		{include 'vote.tpl'
-				 sVoteType       = 'topic'
-				 oVoteObject     = $oTopic
-				 sVoteClasses    = 'vote-small vote-white'
-				 bVoteIsLocked   = $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()
-				 bVoteShowRating = $oVote || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - $oConfig->GetValue('acl.vote.topic.limit_time')}
+		{include 'components/vote/vote.tpl'
+				 oObject     = $oTopic
+				 sClasses    = 'js-vote-topic'
+				 sMods       = 'small white topic'
+				 bUseAbstain = true
+				 bIsLocked   = $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()
+				 bShowRating = $oTopic->getVote() || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - $oConfig->GetValue('acl.vote.topic.limit_time')}
 	</li>
 
 	{$smarty.block.parent}

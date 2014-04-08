@@ -9,12 +9,12 @@
 		{include 'forms/fields/form.field.hidden.tpl' sFieldName='form_action' sFieldId='talk-form-action'}
 
 		{* Экшнбар *}
-		{include 'actionbar.item.select.tpl' sName='asdfsdf' sItemSelector='.js-message-list-item' assign=sMessagesSelect aItems=[
+		{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-message-list-item' assign=sMessagesSelect aItems=[
 			[ 'text' => 'Прочитанные', 'filter' => ":not('.message-unread')" ],
 			[ 'text' => 'Не прочитанные', 'filter' => ".message-unread" ]
 		]}
 
-		{include 'actionbar.tpl' aActionbarItems=[
+		{include 'components/actionbar/actionbar.tpl' aItems=[
 			[ 'html' => $sMessagesSelect ],
 			[ 'icon' => 'icon-ok', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="mark_as_read"', 'text' => $aLang.talk_inbox_make_read ],
 			[ 'icon' => 'icon-remove', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="remove"', 'text' => $aLang.common.remove ]

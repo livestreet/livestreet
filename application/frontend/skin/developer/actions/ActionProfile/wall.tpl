@@ -25,10 +25,10 @@
 
 	{* Кнопка подгрузки записей *}
 	{if $iCountWall - count($aWall)}
-		{include 'more.tpl'
-				 sLoadClasses    = 'js-more-wall'
-				 iLoadCount      = $iCountWall - count($aWall)
-				 sLoadAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-i-last-id=\"{$iWallLastId}\" "
+		{include 'components/more/more.tpl'
+				 sClasses    = 'js-more-wall'
+				 iCount      = $iCountWall - count($aWall)
+				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-i-last-id=\"{$iWallLastId}\" "
 		}
 	{/if}
 {/block}

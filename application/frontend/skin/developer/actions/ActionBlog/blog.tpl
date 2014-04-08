@@ -31,12 +31,12 @@
 	<div class="blog">
 		<header class="blog-header">
 			{* Голосование *}
-			{include 'vote.tpl'
-					 sVoteType      = 'blog'
-					 sVoteClasses   = 'vote-large vote-white'
-					 oVoteObject    = $oBlog
-					 bVoteIsLocked  = $bUserIsAdministrator
-					 bVoteShowLabel = true}
+			{include 'components/vote/vote.tpl'
+				 	 sClasses   = 'js-vote-blog'
+				 	 sMods      = 'large'
+					 oObject    = $oBlog
+					 bIsLocked  = $bUserIsAdministrator
+					 bShowLabel = true}
 
 			{* Заголовок *}
 			<h2 class="page-header blog-title">
@@ -80,7 +80,7 @@
 				]}
 			{/if}
 
-			{include 'actionbar.tpl' aActionbarItems=$aActionbarItems}
+			{include 'components/actionbar/actionbar.tpl' aItems=$aActionbarItems}
 		{/if}
 	</div>
 

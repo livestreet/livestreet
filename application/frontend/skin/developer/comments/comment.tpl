@@ -72,7 +72,7 @@
 
 			{* Голосование *}
 			{if $oComment->getTargetType() != 'talk'}
-				<li>{include 'vote.tpl' sVoteType='comment' oVoteObject=$oComment bVoteIsLocked=($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}</li>
+				<li>{include 'components/vote/vote.tpl' sClasses='js-vote-comment' oObject=$oComment bIsLocked=($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}</li>
 			{/if}
 
 			{* Избранное *}

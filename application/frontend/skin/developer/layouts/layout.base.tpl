@@ -229,8 +229,6 @@
 		</nav>
 
 		<div id="container" class="grid-row grid-role-container {hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
-
-
 			{* Вспомогательный контейнер-обертка *}
 			<div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
 				{* Контент *}

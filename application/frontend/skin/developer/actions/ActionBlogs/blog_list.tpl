@@ -54,10 +54,10 @@
 
 	{if $bUseMore}
 		{if !$bHideMore}
-			{include 'more.tpl'
-			sLoadClasses    = 'js-more-search'
-			sLoadTarget     = '.js-more-blogs-container'
-			sLoadAttributes = 'data-search-type="blogs" data-proxy-page-next="2"  '}
+			{include 'components/more/more.tpl'
+					 sClasses    = 'js-more-search'
+					 sTarget     = '.js-more-blogs-container'
+					 sAttributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
 		{/if}
 	{else}
 		{include 'pagination.tpl' aPaging=$aPaging}

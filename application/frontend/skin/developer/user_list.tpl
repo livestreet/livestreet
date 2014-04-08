@@ -14,10 +14,10 @@
 
 	{if $bUseMore}
 		{if !$bHideMore}
-			{include 'more.tpl'
-				sLoadClasses    = 'js-more-search'
-				sLoadTarget     = '.js-more-users-container'
-				sLoadAttributes = 'data-search-type="users" data-proxy-page-next="2"  '}
+			{include 'components/more/more.tpl'
+				sClasses    = 'js-more-search'
+				sTarget     = '.js-more-users-container'
+				sAttributes = 'data-search-type="users" data-proxy-page-next="2"'}
 		{/if}
 	{else}
 		{include 'pagination.tpl' aPaging=$aPaging}

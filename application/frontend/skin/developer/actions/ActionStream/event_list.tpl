@@ -13,9 +13,9 @@
 	</ul>
 
 	{if ! $bDisableGetMoreButton}
-		{include 'more.tpl'
-				 sLoadClasses    = "js-more-activity-$sActivityType"
-				 sLoadAttributes = " data-proxy-i-last-id=\"{$iStreamLastId}\" data-param-i-target-id=\"{$iLoadTargetId}\" "
+		{include 'components/more/more.tpl'
+				 sClasses    = "js-more-activity-$sActivityType"
+				 sAttributes = " data-proxy-i-last-id=\"{$iStreamLastId}\" data-param-i-target-id=\"{$iLoadTargetId}\" "
 		}
 	{/if}
 {else}

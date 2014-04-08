@@ -49,7 +49,7 @@
 
 					{block 'entry_header_actions'}{/block}
 
-					{include 'actionbar.tpl' aActionbarItems=$aActionbarItems}
+					{include 'components/actionbar/actionbar.tpl' aItems=$aActionbarItems}
 				{/if}
 			</header>
 		{/block}
