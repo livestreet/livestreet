@@ -283,7 +283,7 @@ class ActionStream extends Action {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
 		if ($this->oUserCurrent->getId() == getRequestStr('id')) {
-			$this->Message_AddError($this->Lang_Get('stream_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('user_list_add.notices.error_self'),$this->Lang_Get('error'));
 			return;
 		}
 		/**

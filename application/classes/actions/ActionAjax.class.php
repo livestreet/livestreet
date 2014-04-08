@@ -877,7 +877,7 @@ class ActionAjax extends Action {
 	 * Получение информации о голосовании за топик
 	 */
 	protected function EventVoteGetInfoTopic() {
-		if (!($oTopic = $this->Topic_GetTopicById(getRequestStr('id', null, 'post'))) ) {
+		if (!($oTopic = $this->Topic_GetTopicById(getRequestStr('iTargetId', null, 'post'))) ) {
 			return $this->EventErrorDebug();
 		}
 
@@ -887,10 +887,10 @@ class ActionAjax extends Action {
 
 		$oViewer = $this->Viewer_GetLocalViewer();
 
-		$oViewer->Assign('oTopic', $oTopic);
+		$oViewer->Assign('oObject', $oTopic);
 		$oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
-		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("vote.info.tpl"));
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/vote/vote.info.tpl"));
 	}
 
 	/**
@@ -970,7 +970,7 @@ class ActionAjax extends Action {
 		/**
 		 * Комментарий существует?
 		 */
-		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('idComment',null,'post')))) {
+		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
@@ -1046,28 +1046,28 @@ class ActionAjax extends Action {
 		/**
 		 * Топик существует?
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('idTopic',null,'post')))) {
+		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
 		 * Голосует автор топика?
 		 */
 		if ($oTopic->getUserId()==$this->oUserCurrent->getId()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_self'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_self'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Пользователь уже голосовал?
 		 */
 		if ($oTopicVote=$this->Vote_GetVote($oTopic->getId(),'topic',$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_already'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_already_voted'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Время голосования истекло?
 		 */
 		if (strtotime($oTopic->getDateAdd())<=time()-Config::Get('acl.vote.topic.limit_time')) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_time'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_time'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -1081,7 +1081,7 @@ class ActionAjax extends Action {
 		 * Права на голосование
 		 */
 		if (!$this->ACL_CanVoteTopic($this->oUserCurrent,$oTopic) and $iValue) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_vote_error_acl'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_acl'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -1108,9 +1108,9 @@ class ActionAjax extends Action {
 		}
 		if ($this->Vote_AddVote($oTopicVote) and $this->Topic_UpdateTopic($oTopic)) {
 			if ($iValue) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('topic_vote_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			} else {
-				$this->Message_AddNoticeSingle($this->Lang_Get('topic_vote_ok_abstain'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success_abstain'),$this->Lang_Get('attention'));
 			}
 			$this->Viewer_AssignAjax('iRating',$oTopic->getRating());
 			/**
@@ -1137,21 +1137,21 @@ class ActionAjax extends Action {
 		/**
 		 * Блог существует?
 		 */
-		if (!($oBlog=$this->Blog_GetBlogById(getRequestStr('idBlog',null,'post')))) {
+		if (!($oBlog=$this->Blog_GetBlogById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
 		 * Голосует за свой блог?
 		 */
 		if ($oBlog->getOwnerId()==$this->oUserCurrent->getId()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_self'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_self'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Уже голосовал?
 		 */
 		if ($oBlogVote=$this->Vote_GetVote($oBlog->getId(),'blog',$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_already'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_already_voted'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -1193,7 +1193,7 @@ class ActionAjax extends Action {
 
 			default:
 			case ModuleACL::CAN_VOTE_BLOG_FALSE:
-				$this->Message_AddErrorSingle($this->Lang_Get('blog.vote.notices.error_acl'),$this->Lang_Get('attention'));
+				$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_acl'),$this->Lang_Get('attention'));
 				return;
 				break;
 		}
@@ -1213,28 +1213,28 @@ class ActionAjax extends Action {
 		/**
 		 * Пользователь существует?
 		 */
-		if (!($oUser=$this->User_GetUserById(getRequestStr('idUser',null,'post')))) {
+		if (!($oUser=$this->User_GetUserById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
 		 * Голосует за себя?
 		 */
 		if ($oUser->getId()==$this->oUserCurrent->getId()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('user_vote_error_self'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_self'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Уже голосовал?
 		 */
 		if ($oUserVote=$this->Vote_GetVote($oUser->getId(),'user',$this->oUserCurrent->getId())) {
-			$this->Message_AddErrorSingle($this->Lang_Get('user_vote_error_already'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_already_voted'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
 		 * Имеет право на голосование?
 		 */
 		if (!$this->ACL_CanVoteUser($this->oUserCurrent,$oUser)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('user_vote_error_acl'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('vote.notices.error_acl'),$this->Lang_Get('attention'));
 			return;
 		}
 		/**
@@ -1258,7 +1258,7 @@ class ActionAjax extends Action {
 		//$oUser->setRating($oUser->getRating()+$iValue);
 		$oUser->setCountVote($oUser->getCountVote()+1);
 		if ($this->Vote_AddVote($oUserVote) and $this->User_Update($oUser)) {
-			$this->Message_AddNoticeSingle($this->Lang_Get('user_vote_ok'),$this->Lang_Get('attention'));
+			$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			$this->Viewer_AssignAjax('iRating',$oUser->getRating());
 			$this->Viewer_AssignAjax('iSkill',$oUser->getSkill());
 			$this->Viewer_AssignAjax('iCountVote',$oUser->getCountVote());

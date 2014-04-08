@@ -158,7 +158,7 @@ class ActionUserfeed extends Action {
 					return;
 				}
 				if ($this->oUserCurrent->getId() == getRequestStr('id')) {
-					$this->Message_AddError($this->Lang_Get('userfeed_error_subscribe_to_yourself'),$this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('user_list_add.notices.error_self'),$this->Lang_Get('error'));
 					return;
 				}
 				break;
@@ -170,7 +170,7 @@ class ActionUserfeed extends Action {
 		 * Подписываем
 		 */
 		$this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequestStr('id'));
-		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+		$this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
 	}
 	/**
 	 * Подписка на пользвователя по логину
@@ -275,7 +275,7 @@ class ActionUserfeed extends Action {
 		 * Отписываем пользователя
 		 */
 		$this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, $sId);
-		$this->Message_AddNotice($this->Lang_Get('userfeed_subscribes_updated'), $this->Lang_Get('attention'));
+		$this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
 	}
 	/**
 	 * При завершении экшена загружаем в шаблон необходимые переменные

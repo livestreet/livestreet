@@ -760,7 +760,7 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('talk_blacklist_add_self')
+					'sMsg'=>$this->Lang_Get('user_list_add.notices.error_self')
 				);
 				continue;
 			}
@@ -799,7 +799,7 @@ class ActionTalk extends Action {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
-						'sMsg'=>$this->Lang_Get('talk_blacklist_user_already_have',array('login'=>htmlspecialchars($sUser))),
+						'sMsg'=>$this->Lang_Get('user_list_add.notices.error_already_added',array('login'=>htmlspecialchars($sUser))),
 						'sUserLogin'=>htmlspecialchars($sUser)
 					);
 					continue;
@@ -947,7 +947,7 @@ class ActionTalk extends Action {
 		}
 		$this->Message_AddNoticeSingle(
 			$this->Lang_Get(
-				'talk_speaker_delete_ok',
+				'common.success.remove',
 				array('login'=>$oUserTarget->getLogin())
 			),
 			$this->Lang_Get('attention')
@@ -1021,7 +1021,7 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('talk_speaker_add_self')
+					'sMsg'=>$this->Lang_Get('user_list_add.notices.error_self')
 				);
 				continue;
 			}
@@ -1055,7 +1055,7 @@ class ActionTalk extends Action {
 									$aResult[]=array(
 										'bStateError'=>false,
 										'sMsgTitle'=>$this->Lang_Get('attention'),
-										'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
+										'sMsg'=>$this->Lang_Get('user_list_add.notices.success_add',array('login',htmlspecialchars($sUser))),
 										'iUserId'=>$oUser->getId(),
 										'sUserLogin'=>$oUser->getLogin(),
 										'sUserLink'=>$oUser->getUserWebPath(),
@@ -1079,7 +1079,7 @@ class ActionTalk extends Action {
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
-									'sMsg'=>$this->Lang_Get('talk_speaker_user_already_exist',array('login'=>htmlspecialchars($sUser)))
+									'sMsg'=>$this->Lang_Get('user_list_add.notices.error_already_added',array('login'=>htmlspecialchars($sUser)))
 								);
 								break;
 							/**
@@ -1121,7 +1121,7 @@ class ActionTalk extends Action {
 						$aResult[]=array(
 							'bStateError'=>false,
 							'sMsgTitle'=>$this->Lang_Get('attention'),
-							'sMsg'=>$this->Lang_Get('talk_speaker_add_ok',array('login',htmlspecialchars($sUser))),
+							'sMsg'=>$this->Lang_Get('user_list_add.notices.success_add',array('login',htmlspecialchars($sUser))),
 							'iUserId'=>$oUser->getId(),
 							'sHtml'=>$oViewer->Fetch("user_list_small_item.message.tpl")
 						);
