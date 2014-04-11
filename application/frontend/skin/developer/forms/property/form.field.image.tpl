@@ -9,7 +9,7 @@
 
 {$aFile=$oValue->getDataOne('file')}
 {if $aFile}
-	Изображение: {$aFile.name}.{$aFile.extension} <br/>
+	<a href="{$oValueType->getImageWebPath()}" class="js-lbx" target="_blank"><img src="{$oValueType->getImageWebPath($oValueType->getImageSizeFirst())}" ></a> <br/>
 	<label>
 		<input type="checkbox" name="property[{$oProperty->getId()}][remove]" value="1"> &mdash; удалить изображение
 	</label>

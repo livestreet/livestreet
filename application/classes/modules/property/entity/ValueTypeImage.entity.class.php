@@ -22,9 +22,38 @@
 class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueTypeFile {
 
 	public function getValueForDisplay() {
+		/**
+		 * Показываем превью, в качестве изображения берем первый ресайз из списка размеров
+		 */
+		if ($aFile=$this->oValue->getDataOne('file') and isset($aFile['path'])) {
+			$sSize=null;
+			if ($aSizes=$this->oValue->getDataOne('image_sizes')) {
+				$sSize=array_shift($aSizes);
+			}
+			$sWebPath=$this->Media_GetImageWebPath($aFile['path'],$sSize);
+			return '<a href=""><img src="'.$sWebPath.'" class="js-lbx" /></a>';
+		}
 		return $this->getFileFullName();
 	}
 
+
+	public function getImageWebPath($sSize=null) {
+		if ($aFile=$this->oValue->getDataOne('file') and isset($aFile['path'])) {
+			return $this->Media_GetImageWebPath($aFile['path'],$sSize);
+		}
+		return null;
+	}
+
+	public function getImageSizes() {
+		return $this->oValue->getDataOne('image_sizes');
+	}
+
+	public function getImageSizeFirst() {
+		if ($aSizes=$this->getImageSizes()) {
+			return array_shift($aSizes);
+		}
+		return null;
+	}
 
 	public function validate() {
 		/**
@@ -32,8 +61,7 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
 		 */
 		$bRes=parent::validate();
 
-		$oValue=$this->getValueObject();
-		$oProperty=$oValue->getProperty();
+		$oProperty=$this->oValue->getProperty();
 
 		$aValue=$this->getValueForValidate();
 		if (isset($aValue['tmp_name'])) {
@@ -59,22 +87,21 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
 
 
 	public function beforeSaveValue() {
-		$oValue=$this->getValueObject();
-		$oProperty=$oValue->getProperty();
-		if (!$aFile=$oValue->getDataOne('file_raw')) {
+		$oProperty=$this->oValue->getProperty();
+		if (!$aFile=$this->oValue->getDataOne('file_raw')) {
 			return true;
 		}
-		$oValue->setDataOne('file_raw',null);
+		$this->oValue->setDataOne('file_raw',null);
 		/**
 		 * Удаляем предыдущий файл
 		 */
 		if (isset($aFile['remove']) or isset($aFile['name'])) {
-			if ($aFilePrev=$oValue->getDataOne('file')) {
-				$this->Media_RemoveImageBySizes($aFilePrev['path'],$oValue->getDataOne('image_sizes'),true);
+			if ($aFilePrev=$this->oValue->getDataOne('file')) {
+				$this->Media_RemoveImageBySizes($aFilePrev['path'],$this->oValue->getDataOne('image_sizes'),true);
 
-				$oValue->setDataOne('file',array());
-				$oValue->setDataOne('image_sizes',array());
-				$oValue->setValueVarchar(null);
+				$this->oValue->setDataOne('file',array());
+				$this->oValue->setDataOne('image_sizes',array());
+				$this->oValue->setValueVarchar(null);
 			}
 		}
 
@@ -83,7 +110,6 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
 			 * Выполняем загрузку файла
 			 */
 			$aPathInfo=pathinfo($aFile['name']);
-			$sExtension=isset($aPathInfo['extension']) ? $aPathInfo['extension'] : 'unknown';
 			$sFileName = func_generator(20);
 			/**
 			 * Копируем загруженный файл
@@ -95,42 +121,43 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
 			$sFileTmp=$sDirTmp.$sFileName;
 
 			if (move_uploaded_file($aFile['tmp_name'],$sFileTmp)) {
-				$sDirSave=Config::Get('path.root.server').$oProperty->getSaveFileDir();
-				if (!is_dir($sDirSave)) {
-					@mkdir($sDirSave,0777,true);
-				}
-				$sFilePath=$sDirSave.$sFileName.'.'.$sExtension; // todo: получать из модуля Image
+				$aParams=$this->Image_BuildParams('property.'.$oProperty->getTargetType().'.'.$oProperty->getType().'.'.$oProperty->getCode());
 				/**
-				 * Сохраняем файл
-				 * TODO: заменить на модуль Image
+				 * Если объект изображения не создан, возвращаем ошибку
 				 */
-				if ($sFilePathNew=$this->SaveFile($sFileTmp,$sFilePath,null,false)) {
+				if($oImage=$this->Image_Open($sFileTmp,$aParams)) {
+					$sPath=$oProperty->getSaveFileDir();
 					/**
-					 * Сохраняем данные о файле
+					 * Сохраняем оригинальную копию
 					 */
-					$oValue->setDataOne('file',array(
-						'path'=>$sFilePathNew,
-						'size'=>filesize($sFilePath),
-						'name'=>htmlspecialchars($aPathInfo['filename']),
-						'extension'=>htmlspecialchars($aPathInfo['extension']),
-					));
-					$aSizes=$oProperty->getParam('sizes');
-					/**
-					 * Сохраняем размеры
-					 */
-					$oValue->setDataOne('image_sizes',$aSizes);
-					/**
-					 * Сохраняем уникальный ключ для доступа к файлу
-					 */
-					$oValue->setValueVarchar(func_generator(32));
-					/**
-					 * Генерируем ресайзы
-					 */
-					$aParams=$this->Image_BuildParams('property.'.$oProperty->getTargetType().'.'.$oProperty->getType().'.'.$oProperty->getCode());
-					$this->Media_GenerateImageBySizes($sFileTmp,$oProperty->getSaveFileDir(),$sFileName,$aSizes,$aParams);
+					if ($sFileResult=$oImage->saveSmart($sPath,$sFileName)) {
+						/**
+						 * Сохраняем данные о файле
+						 */
+						$this->oValue->setDataOne('file',array(
+							'path'=>$sFileResult,
+							'size'=>filesize($sFileTmp),
+							'name'=>htmlspecialchars($aPathInfo['filename']),
+							'extension'=>htmlspecialchars($oImage->getFormat()),
+						));
+						$aSizes=$oProperty->getParam('sizes');
+						/**
+						 * Сохраняем размеры
+						 */
+						$this->oValue->setDataOne('image_sizes',$aSizes);
+						/**
+						 * Сохраняем уникальный ключ для доступа к файлу
+						 */
+						$this->oValue->setValueVarchar(func_generator(32));
+						unset($oImage);
+						/**
+						 * Генерируем ресайзы
+						 */
+						$this->Media_GenerateImageBySizes($sFileTmp,$sPath,$sFileName,$aSizes,$aParams);
 
-					$this->Fs_RemoveFileLocal($sFileTmp);
-					return true;
+						$this->Fs_RemoveFileLocal($sFileTmp);
+						return true;
+					}
 				}
 				$this->Fs_RemoveFileLocal($sFileTmp);
 			}
