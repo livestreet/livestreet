@@ -173,6 +173,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType 
 					 * Сохраняем уникальный ключ для доступа к файлу
 					 */
 					$oValue->setValueVarchar(func_generator(32));
+					return true;
 				}
 			}
 		}
