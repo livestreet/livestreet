@@ -152,7 +152,7 @@ class ActionAdmin extends Action {
 			return $this->SubmitManagePlugin($sPlugin,$sAction);
 		}
 		/**
-		 * Получаем список блогов
+		 * Получаем список плагинов
 		 */
 		$aPlugins=$this->Plugin_GetList(array('order'=>'name'));
 		/**
