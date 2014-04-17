@@ -338,8 +338,11 @@ $config['router']['page']['subscribe']     = 'ActionSubscribe';
 $config['router']['page']['content']     = 'ActionContent';
 $config['router']['page']['property']     = 'ActionProperty';
 // Глобальные настройки роутинга
-$config['router']['config']['action_default']   = 'index';
-$config['router']['config']['action_not_found'] = 'error';
+$config['router']['config']['default']['action']	= 'index';
+$config['router']['config']['default']['event']		= null;
+$config['router']['config']['default']['params']	= null;
+$config['router']['config']['default']['request']	= null;
+$config['router']['config']['action_not_found']		= 'error';
 
 /**
  * Настройки вывода блоков
