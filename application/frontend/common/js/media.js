@@ -209,6 +209,11 @@ ls.media = (function ($) {
 			$('.fotorama').fotorama();
 		}.bind(this));
 
+		// Инициализация фоторамы после hедактирования коммента
+		ls.hook.add('ls_comments_submit_comment_update_after',function(){
+			$('.fotorama').fotorama();
+		}.bind(this));
+
 		// После добавления комментария необходимо получить новый временный идентификатор и очистить галлерею
 		ls.hook.add('ls_comments_add_after',function(){
 			this.options.target_id='';

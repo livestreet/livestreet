@@ -23,7 +23,13 @@
 	{include 'forms/fields/form.field.hidden.tpl' sFieldName='reply' sFieldValue='0' sFieldId='form_comment_reply'}
 	{include 'forms/fields/form.field.hidden.tpl' sFieldName='cmt_target_id' sFieldValue=$iTargetId}
 
-	{* Кнопки *}
+	{* Кнопки создания *}
 	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-comment-form-submit'}
+
+	{* Кнопки редактирования *}
+	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldType='button' sFieldText=$aLang.common.save sFieldStyle='primary' sFieldClasses='js-comment-form-update-submit hide'}
+	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldType='button' sFieldText=$aLang.common.cancel sFieldClasses='js-comment-form-update-cancel  fl-r hide'}
+
+	{* Общие кнопки *}
 	{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.preview_text sFieldType='button' sFieldClasses='js-comment-form-preview'}
 </form>

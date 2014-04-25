@@ -243,3 +243,5 @@
 	vertical-align: middle;
 }
 .user.inactive 		{ color: #aaa; cursor: help; }
+
+.hide { display: none; }

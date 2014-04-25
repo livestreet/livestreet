@@ -90,6 +90,8 @@ $config['acl']['create']['talk_comment']['limit_time']        =  10; // врем
 $config['acl']['create']['talk_comment']['limit_time_rating'] =  5;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
 $config['acl']['create']['wall']['limit_time'] =  20;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку сообщений на стену
 $config['acl']['create']['wall']['limit_time_rating'] =  0;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку сообщений на стену
+$config['acl']['update']['comment']['rating'] =  -5;   // порог рейтинга при котором юзер может редактировать комментарии
+$config['acl']['update']['comment']['limit_time'] =  60*3;   // время в секундах после создания комментария, когда можно его отредактировать, если 0 то ограничение по времени не будет работать
 $config['acl']['vote']['comment']['rating']               = -3;  // порог рейтинга при котором юзер может голосовать за комментарии
 $config['acl']['vote']['blog']['rating']                  = -5;  // порог рейтинга при котором юзер может голосовать за блог
 $config['acl']['vote']['topic']['rating']                 = -7;  // порог рейтинга при котором юзер может голосовать за топик
@@ -152,6 +154,7 @@ $config['module']['comment']['use_nested'] = false; 	// Использовать
 $config['module']['comment']['nested_per_page'] = 0; 	// Число комментов на одну страницу в топике, актуально только при use_nested = true
 $config['module']['comment']['nested_page_reverse'] = true; 	// Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
 $config['module']['comment']['favourite_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено добавлять в избранное
+$config['module']['comment']['edit_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено редактировать
 // Модуль Talk
 $config['module']['talk']['per_page']   = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках
@@ -463,6 +466,7 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.imagesloaded.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.fileupload.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.timers.js",
 	"___path.framework.frontend.web___/js/vendor/notifier/jquery.notifier.js",
 	"___path.framework.frontend.web___/js/vendor/prettify/prettify.js",
 	"___path.framework.frontend.web___/js/vendor/parsley/parsley.js",

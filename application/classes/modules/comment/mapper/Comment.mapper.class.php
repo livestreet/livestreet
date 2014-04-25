@@ -509,14 +509,15 @@ class ModuleComment_MapperComment extends Mapper {
 			target_parent_id,
 			user_id,
 			comment_text,
+			comment_text_source,
 			comment_date,
 			comment_user_ip,
 			comment_publish,
 			comment_text_hash	
 			)
-			VALUES(?, ?d, ?, ?d, ?d, ?, ?, ?, ?d, ?)
+			VALUES(?, ?d, ?, ?d, ?d, ?, ?, ?, ?, ?d, ?)
 		";
-		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTargetId(),$oComment->getTargetType(),$oComment->getTargetParentId(),$oComment->getUserId(),$oComment->getText(),$oComment->getDate(),$oComment->getUserIp(),$oComment->getPublish(),$oComment->getTextHash()))
+		if ($iId=$this->oDb->query($sql,$oComment->getPid(),$oComment->getTargetId(),$oComment->getTargetType(),$oComment->getTargetParentId(),$oComment->getUserId(),$oComment->getText(),$oComment->getTextSource(),$oComment->getDate(),$oComment->getUserIp(),$oComment->getPublish(),$oComment->getTextHash()))
 		{
 			return $iId;
 		}
@@ -624,16 +625,19 @@ class ModuleComment_MapperComment extends Mapper {
 		$sql = "UPDATE ".Config::Get('db.table.comment')." 
 			SET 
 				comment_text= ?,
+				comment_text_source= ?,
 				comment_rating= ?f,
 				comment_count_vote= ?d,
 				comment_count_favourite= ?d,
+				comment_count_edit= ?d,
+				comment_date_edit= ?,
 				comment_delete = ?d ,
 				comment_publish = ?d ,
 				comment_text_hash = ?
 			WHERE
 				comment_id = ?d
 		";
-		$res=$this->oDb->query($sql,$oComment->getText(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getCountFavourite(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId());
+		$res=$this->oDb->query($sql,$oComment->getText(),$oComment->getTextSource(),$oComment->getRating(),$oComment->getCountVote(),$oComment->getCountFavourite(),$oComment->getCountEdit(),$oComment->getDateEdit(),$oComment->getDelete(),$oComment->getPublish(),$oComment->getTextHash(),$oComment->getId());
 		return $res===false or is_null($res) ? false : true;
 	}
 	/**

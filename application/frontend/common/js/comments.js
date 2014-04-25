@@ -43,6 +43,8 @@ ls.comments = (function ($) {
 				reply:            '.js-comment-reply',
 				fold:             '.js-comment-fold',
 				remove:           '.js-comment-remove',
+				update:           '.js-comment-update',
+				update_timer:           '.js-comment-update-timer',
 				scroll_to_child:  '.js-comment-scroll-to-child',
 				scroll_to_parent: '.js-comment-scroll-to-parent'
 			},
@@ -51,6 +53,8 @@ ls.comments = (function ($) {
 				text:       '#form_comment_text',
 				submit:     '.js-comment-form-submit',
 				preview:    '.js-comment-form-preview',
+				update_submit:    '.js-comment-form-update-submit',
+				update_cancel:    '.js-comment-form-update-cancel',
 				comment_id: '#form_comment_reply'
 			},
 			toolbar: {
@@ -100,6 +104,8 @@ ls.comments = (function ($) {
 				text:       $(this.options.selectors.form.text),
 				submit:     $(this.options.selectors.form.submit),
 				preview:    $(this.options.selectors.form.preview),
+				update_cancel:    $(this.options.selectors.form.update_cancel),
+				update_submit:    $(this.options.selectors.form.update_submit),
 				comment_id: $(this.options.selectors.form.comment_id)
 			},
 			toolbar: {
@@ -172,6 +178,27 @@ ls.comments = (function ($) {
 			e.preventDefault();
 		});
 
+		// Редактирование
+		this.elements.container.on('click', this.options.selectors.comment.update, function(e) {
+			var oElement = $(this),
+				iCommentId = oElement.data('id');
+
+			_this.formToggle(iCommentId,false,true);
+			e.preventDefault();
+		});
+
+		// Отмена редактирования
+		this.elements.form.update_cancel.on('click', function (e) {
+			_this.formToggle(_this.iFormTargetId,false,true);
+			e.preventDefault();
+		});
+
+		// Сохранение после редактирования
+		this.elements.form.update_submit.on('click', function (e) {
+			_this.submitCommentUpdate(_this.elements.form.form,_this.iFormTargetId);
+			e.preventDefault();
+		});
+
 		// Сворачивание
 		if (this.options.folding) {
 			// Свернуть все
@@ -196,6 +223,8 @@ ls.comments = (function ($) {
 				e.preventDefault();
 			});
 		}
+
+		this.initUpdateTimers();
 
 		ls.hook.run('ls_comments_init_after',[],this);
 	};
@@ -330,6 +359,7 @@ ls.comments = (function ($) {
 				if (iCommentSelfId) {
 					this.scrollToComment(this.getCommentById(iCommentSelfId));
 				}
+				this.initUpdateTimers();
 
 				ls.hook.run('ls_comments_load_after', [iTargetId, sTargetType, iCommentSelfId, bNotFlushNew, oResponse]);
 			}
@@ -384,8 +414,9 @@ ls.comments = (function ($) {
 	 * @param {Number}  iCommentId ID комментария
 	 * @param {Boolean} bNoFocus   Переводить фокус на инпут с текстом или нет
 	 */
-	this.formToggle = function(iCommentId, bNoFocus) {
+	this.formToggle = function(iCommentId, bNoFocus, bIsUpdate) {
 		this.previewHide();
+		bIsUpdate=bIsUpdate || false;
 
 		if (this.iFormTargetId == iCommentId && this.elements.form.form.is(':visible')) {
 			this.elements.form.form.hide();
@@ -396,12 +427,92 @@ ls.comments = (function ($) {
 		this.elements.form.form.insertAfter(iCommentId ? this.getCommentById(iCommentId) : this.elements.reply_root).show();
 		this.elements.form.text.val('');
 		this.elements.form.comment_id.val(iCommentId);
+		/**
+		 * Показываем необходимые кнопки
+		 */
+		if (bIsUpdate) {
+			this.elements.form.update_cancel.show();
+			this.elements.form.update_submit.show();
+			this.elements.form.submit.hide();
+			/**
+			 * Загружаем исходный текст комментария
+			 */
+			this.loadCommentUpdate(iCommentId);
+		} else {
+			this.elements.form.update_cancel.hide();
+			this.elements.form.update_submit.hide();
+			this.elements.form.submit.show();
+		}
 
 		this.iFormTargetId = iCommentId;
 
 		if ( ! bNoFocus ) this.elements.form.text.focus();
 	};
 
+	this.loadCommentUpdate = function(iCommentId) {
+		var sUrl = aRouter['ajax'] + 'comment/load/',
+			oParams = { idComment: iCommentId };
+
+		ls.utils.formLock(this.elements.form.form);
+		ls.hook.marker('loadBefore');
+
+		ls.ajax.load(sUrl, oParams, function(oResponse) {
+			if (oResponse.bStateError) {
+				ls.msg.error(null, oResponse.sMsg);
+			} else {
+				this.elements.form.text.val(oResponse.sText);
+			}
+			ls.hook.run('ls_comments_load_comment_update_after',[iCommentId, oResponse]);
+			ls.utils.formUnlock(this.elements.form.form);
+		}.bind(this));
+	};
+
+	this.submitCommentUpdate = function(oForm, iCommentId) {
+		var oData = oForm.serializeJSON(),
+			sUrl = aRouter['ajax'] + 'comment/update/';
+
+		ls.utils.formLock(oForm);
+		this.previewHide();
+		oData.comment_id=iCommentId;
+		ls.ajax.load(sUrl, oData, function(oResponse) {
+			if (oResponse.bStateError) {
+				ls.msg.error(null, oResponse.sMsg);
+			} else {
+				var wrap=$('<div></div>').html(oResponse.sHtml);
+				var comment=this.getCommentById(iCommentId);
+				comment.find(this.options.selectors.comment.update_timer).stopTime();
+				comment.replaceWith(wrap.children('.js-comment'));
+				this.aComments = $(this.options.selectors.comment.comment); // hack
+				this.formToggle(iCommentId, true);
+				this.initUpdateTimers();
+				this.scrollToComment(this.getCommentById(iCommentId));
+			}
+			ls.hook.run('ls_comments_submit_comment_update_after', [oForm, iCommentId, oResponse]);
+			ls.utils.formUnlock(oForm);
+		}.bind(this));
+	};
+
+	this.initUpdateTimers = function() {
+		var _this=this;
+		$(this.options.selectors.comment.update_timer).each(function(k,el){
+			el=$(el);
+			if (!el.data('isInit')) {
+				el.data('isInit',true);
+				el.everyTime(1000,function(){
+					var seconds=parseInt(el.data('seconds'));
+					seconds--;
+					el.data('seconds',seconds);
+					if (seconds>0) {
+						el.text(ls.utils.timeRemaining(seconds));
+					} else {
+						el.parents(_this.options.selectors.comment.comment)
+							.find(_this.options.selectors.comment.update).hide();
+						el.stopTime();
+					}
+				});
+			}
+		});
+	};
 	/**
 	 * Скрывает кнопку сворачивания у комментариев без дочерних комментариев
 	 */

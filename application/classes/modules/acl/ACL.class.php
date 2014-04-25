@@ -357,16 +357,46 @@ class ModuleACL extends Module {
 		return false;
 	}
 	/**
+	 * Проверка на редактирование комментария
+	 *
 	 * @param ModuleComment_EntityComment $oComment
 	 * @param ModuleUser_EntityUser $oUser
 	 *
 	 * @return bool
 	 */
 	public function IsAllowEditComment($oComment,$oUser) {
+		if (!$oUser) {
+			return false;
+		}
+		if (!in_array($oComment->getTargetType(),(array)Config::Get('module.comment.edit_target_allow'))) {
+			return false;
+		}
+		if ($oUser->isAdministrator()) {
+			return true;
+		}
+		if ($oComment->getUserId()==$oUser->getId() and $oUser->getRating()>=Config::Get('acl.update.comment.rating')) {
+			/**
+			 * Проверяем на лимит времени
+			 */
+			if (!Config::Get('acl.update.comment.limit_time') or (time()-strtotime($oComment->getDate()) <= Config::Get('acl.update.comment.limit_time')) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Проверка на удаление комментария
+	 *
+	 * @param ModuleComment_EntityComment $oComment
+	 * @param ModuleUser_EntityUser $oUser
+	 *
+	 * @return bool
+	 */
+	public function IsAllowDeleteComment($oComment,$oUser) {
 		/**
-		 * Разрешаем если это админ сайта или автор комментария
+		 * Разрешаем если это админ сайта
 		 */
-		if ($oComment->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+		if ($oUser and $oUser->isAdministrator()) {
 			return true;
 		}
 		return false;

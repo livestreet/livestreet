@@ -631,7 +631,7 @@ class ActionTalk extends Action {
 		/**
 		 * Проверяем текст комментария
 		 */
-		$sText=$this->Text_Parser(getRequestStr('comment_text'));
+		$sText=getRequestStr('comment_text');
 		if (!func_check($sText,'text',2,3000)) {
 			$this->Message_AddErrorSingle($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
 			return;
@@ -677,7 +677,8 @@ class ActionTalk extends Action {
 		$oCommentNew->setTargetId($oTalk->getId());
 		$oCommentNew->setTargetType('talk');
 		$oCommentNew->setUserId($this->oUserCurrent->getId());
-		$oCommentNew->setText($sText);
+		$oCommentNew->setText($this->Text_Parser($sText));
+		$oCommentNew->setTextSource($sText);
 		$oCommentNew->setDate(date("Y-m-d H:i:s"));
 		$oCommentNew->setUserIp(func_getIp());
 		$oCommentNew->setPid($sParentId);
