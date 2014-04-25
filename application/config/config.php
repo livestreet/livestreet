@@ -154,7 +154,7 @@ $config['module']['comment']['use_nested'] = false; 	// Использовать
 $config['module']['comment']['nested_per_page'] = 0; 	// Число комментов на одну страницу в топике, актуально только при use_nested = true
 $config['module']['comment']['nested_page_reverse'] = true; 	// Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
 $config['module']['comment']['favourite_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено добавлять в избранное
-$config['module']['comment']['edit_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено редактировать
+$config['module']['comment']['edit_target_allow'] = array('topic','talk'); 	// Список типов комментов, которые разрешено редактировать
 // Модуль Talk
 $config['module']['talk']['per_page']   = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках

@@ -1832,7 +1832,7 @@ class ActionAjax extends Action {
 		/**
 		 * Проверяем текст комментария
 		 */
-		if (!func_check($sText,'text',2,10000)) {
+		if (!$this->Validate_Validate('string',$sText,array('min'=>2,'max'=>10000,'allowEmpty'=>false))) {
 			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
 			return;
 		}

@@ -243,7 +243,7 @@ class ModuleComment_EntityComment extends Entity {
 		return $this->ACL_IsAllowEditComment($this,$this->User_GetUserCurrent());
 	}
 	/**
-	 * Возвращает количество сикунд в течении которых возможно редактирование
+	 * Возвращает количество секунд в течении которых возможно редактирование
 	 *
 	 * @return int
 	 */
