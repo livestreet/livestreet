@@ -782,7 +782,7 @@ class ActionTalk extends Action {
 							'sUserLogin'=>htmlspecialchars($sUser),
 							'sUserWebPath'=>$oUser->getUserWebPath(),
 							'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-							'sHtml'=>$oViewer->Fetch("user_list_small_item.tpl")
+							'sHtml'=>$oViewer->Fetch("components/user_list_small/user_list_small_item.tpl")
 						);
 					} else {
 						$aResult[]=array(
@@ -1061,7 +1061,7 @@ class ActionTalk extends Action {
 										'sUserLink'=>$oUser->getUserWebPath(),
 										'sUserWebPath'=>$oUser->getUserWebPath(),
 										'sUserAvatar48'=>$oUser->getProfileAvatarPath(48),
-										'sHtml'=>$oViewer->Fetch("user_list_small_item.message.tpl")
+										'sHtml'=>$oViewer->Fetch("components/user_list_small/user_list_small_item.message.tpl")
 									);
 									$bState=true;
 								} else {
@@ -1123,7 +1123,7 @@ class ActionTalk extends Action {
 							'sMsgTitle'=>$this->Lang_Get('attention'),
 							'sMsg'=>$this->Lang_Get('user_list_add.notices.success_add',array('login',htmlspecialchars($sUser))),
 							'iUserId'=>$oUser->getId(),
-							'sHtml'=>$oViewer->Fetch("user_list_small_item.message.tpl")
+							'sHtml'=>$oViewer->Fetch("components/user_list_small/user_list_small_item.message.tpl")
 						);
 						$bState=true;
 					} else {

@@ -494,6 +494,7 @@ $config['head']['default']['js'] = array(
 
 	/* LiveStreet */
 	"___path.application.web___/frontend/common/js/favourite.js",
+	"___path.application.web___/frontend/common/js/favourite_topic.js",
 	"___path.application.web___/frontend/common/js/blocks.js",
 	"___path.application.web___/frontend/common/js/pagination.js",
 	"___path.application.web___/frontend/common/js/editor.js",

@@ -1339,7 +1339,7 @@ class ActionAjax extends Action {
 		/**
 		 * Топик существует?
 		 */
-		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('id',null,'post')))) {
+		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
@@ -1412,7 +1412,7 @@ class ActionAjax extends Action {
 		/**
 		 * Комментарий существует?
 		 */
-		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('id',null,'post')))) {
+		if (!($oComment=$this->Comment_GetCommentById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
@@ -1476,7 +1476,7 @@ class ActionAjax extends Action {
 		/**
 		 *	Сообщение существует?
 		 */
-		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('id',null,'post')))) {
+		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
