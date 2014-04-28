@@ -5,7 +5,7 @@
  * @scripts <common>/js/tags.js
  *}
 
-{extends file='modals/modal_base.tpl'}
+{extends 'components/modal/modal.tpl'}
 
 {block name='modal_id'}favourite-form-tags{/block}
 {block name='modal_class'}modal-favourite-tags js-modal-default{/block}

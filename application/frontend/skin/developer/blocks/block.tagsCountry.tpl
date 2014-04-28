@@ -9,7 +9,7 @@
 {block name='block_title'}{$aLang.block_country_tags}{/block}
 
 {block name='block_content'}
-	{include file='tag_cloud.tpl' 
+	{include 'components/tags/tag_cloud.tpl' 
 			 aTags     = $aCountryList 
 			 sTagsUrl  = '{router page=\'people\'}country/{$oTag->getId()}/'
 			 sTagsText = '{$oTag->getName()|escape}'}

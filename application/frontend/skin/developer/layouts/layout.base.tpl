@@ -2,10 +2,13 @@
 
 {block name='layout_options'}{/block}
 
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="ru"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="ru"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="ru"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
+{$sRTL = ( $oConfig->GetValue('view.rtl') ) ? 'dir="rtl"' : ''}
+{$sLang = $oConfig->GetValue('lang.current')}
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="{$sLang}" {$sRTL}> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="{$sLang}" {$sRTL}> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="{$sLang}" {$sRTL}> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{$sLang}" {$sRTL}> <!--<![endif]-->
 
 <head>
 	{hook run='html_head_begin'}
@@ -87,7 +90,7 @@
 	{if {cfg name='view.grid.type'} == 'fluid'}
 		<style>
 			.grid-role-userbar,
-			.grid-role-nav .nav-main,
+			.grid-role-nav .nav--main,
 			.grid-role-header .site-info,
 			.grid-role-container {
 				min-width: {cfg name='view.grid.fluid_min_width'}px;
@@ -97,7 +100,7 @@
 	{else}
 		<style>
 			.grid-role-userbar,
-			.grid-role-nav .nav-main,
+			.grid-role-nav .nav--main,
 			.grid-role-header .site-info,
 			.grid-role-container { width: {cfg name='view.grid.fixed_width'}px; }
 		</style>
@@ -145,51 +148,7 @@
 			<nav class="grid-row grid-role-userbar">
 				{hook run='userbar_nav'}
 
-				<ul class="nav nav-userbar">
-					{if $oUserCurrent}
-						<li class="nav-userbar-username">
-							<a href="{$oUserCurrent->getUserWebPath()}" class="dropdown-toggle js-dropdown-default" data-dropdown-target="js-dropdown-usermenu">
-								<img src="{$oUserCurrent->getProfileAvatarPath(24)}" alt="{$oUserCurrent->getDisplayName()}" class="avatar" />
-								{$oUserCurrent->getDisplayName()}
-							</a>
-						</li>
-						<li><a href="{router page='content'}add/topic" data-modal-target="modal-write">{$aLang.block_create}</a></li>
-
-						{if $iUserCurrentCountTalkNew} 
-							<li class="new-messages"><a href="{router page='talk'}" title="{if $iUserCurrentCountTalkNew}{$aLang.user_privat_messages_new}{/if}">{$aLang.user_privat_messages} +{$iUserCurrentCountTalkNew}</a></li>
-						{/if}
-
-						{hook run='userbar_item'}
-						<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.exit}</a></li>
-					{else}
-						{hook run='userbar_item'}
-						<li><a href="{router page='login'}" class="js-modal-toggle-login">{$aLang.user_login_submit}</a></li>
-						<li><a href="{router page='registration'}" class="js-modal-toggle-registration">{$aLang.registration_submit}</a></li>
-					{/if}
-				</ul>
-
-				{if $oUserCurrent}
-					{* User Menu *}
-
-					<ul class="dropdown-menu" id="js-dropdown-usermenu">
-						{* TODO: Add hooks *}
-						{* TODO: Add counters *}
-
-						<li {if $sAction=='profile' && ($aParams[0]=='whois' or $aParams[0]=='')}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}">{$aLang.user_menu_profile}</a></li>
-						<li {if $sAction=='profile' && $aParams[0]=='wall'}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}wall/">{$aLang.user_menu_profile_wall}</a></li>
-						<li {if $sAction=='profile' && $aParams[0]=='created'}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}created/topics/">{$aLang.user_menu_publication}</a></li>
-						<li {if $sAction=='profile' && $aParams[0]=='favourites'}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites}</a></li>
-						<li {if $sAction=='profile' && $aParams[0]=='friends'}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}friends/">{$aLang.user_menu_profile_friends}</a></li>
-						<li {if $sAction=='profile' && $aParams[0]=='stream'}class="active"{/if}><a href="{$oUserCurrent->getUserWebPath()}stream/">{$aLang.user_menu_profile_stream}</a></li>
-						
-						<li {if $sAction=='talk'}class="active"{/if}><a href="{router page='talk'}">{$aLang.talk_menu_inbox} {if $iUserCurrentCountTalkNew}<strong>+{$iUserCurrentCountTalkNew}</strong>{/if}</a></li>
-						<li {if $sAction=='settings'}class="active"{/if}><a href="{router page='settings'}">{$aLang.settings_menu}</a></li>
-
-						{if $oUserCurrent and $oUserCurrent->isAdministrator()}
-							<li {if $sAction=='admin'}class="active"{/if}><a href="{router page='admin'}">{$aLang.admin_title}</a></li>
-						{/if}
-					</ul>
-				{/if}
+				{include 'navs/nav.userbar.tpl'}
 
 				<form action="{router page='search'}topics/" class="search-form">
 					<input type="text" placeholder="{$aLang.search.search}" maxlength="255" name="q" class="search-form-input width-full">
@@ -209,30 +168,21 @@
 				<h1 class="site-name"><a href="{router page='/'}">{cfg name='view.name'}</a></h1>
 				<h2 class="site-description">{cfg name='view.description'}</h2>
 			</div>
-			
+
 			{hook run='header_banner_end'}
 		</header>
 
 
 		{* Основная навигация *}
 		<nav class="grid-row grid-role-nav">
-			<ul class="nav nav-main">
-				<li {if $sMenuHeadItemSelect=='blog'}class="active"{/if}><a href="{router page='/'}">{$aLang.topic_title}</a></li>
-				<li {if $sMenuHeadItemSelect=='blogs'}class="active"{/if}><a href="{router page='blogs'}">{$aLang.blog.blogs}</a></li>
-				<li {if $sMenuHeadItemSelect=='people'}class="active"{/if}><a href="{router page='people'}">{$aLang.people}</a></li>
-				<li {if $sMenuHeadItemSelect=='stream'}class="active"{/if}><a href="{router page='stream'}">{$aLang.stream_menu}</a></li>
-
-				{hook run='main_menu_item'}
-			</ul>
-
-			{hook run='main_menu'}
+			{include 'navs/nav.main.tpl'}
 		</nav>
 
 		<div id="container" class="grid-row grid-role-container {hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
 			{* Вспомогательный контейнер-обертка *}
 			<div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
 				{* Контент *}
-				<div class="grid-col grid-col-8 grid-role-content" 
+				<div class="grid-col grid-col-8 grid-role-content"
 					 role="main"
 					 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
@@ -245,7 +195,7 @@
 					{/block}
 
 					{* Навигация *}
-					{if $sNav or $sNavContent}
+					{if $sNav}
 						<div class="nav-group">
 							{if $sNav}
 								{if in_array($sNav, $aMenuContainers)}
@@ -253,8 +203,6 @@
 								{else}
 									{include file="navs/nav.$sNav.tpl"}
 								{/if}
-							{else}
-								{include file="navs/nav.$sNavContent.content.tpl"}
 							{/if}
 						</div>
 					{/if}
@@ -262,11 +210,11 @@
 					{* Системные сообщения *}
 					{if ! $bNoSystemMessages}
 						{if $aMsgError}
-							{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError bAlertClose=true}
+							{include 'components/alert/alert.tpl' sMods='error' mAlerts=$aMsgError bClose=true}
 						{/if}
 
 						{if $aMsgNotice}
-							{include file='alert.tpl' mAlerts=$aMsgNotice bAlertClose=true}
+							{include 'components/alert/alert.tpl' mAlerts=$aMsgNotice bClose=true}
 						{/if}
 					{/if}
 

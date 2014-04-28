@@ -39,7 +39,7 @@
 						
 						<tr>
 							<td class="cell-name">
-								{include 'user_item.tpl' oUser=$oUser}
+								{include 'components/user_item/user_item.tpl' oUser=$oUser}
 							</td>
 							
 							{if $oUser->getId() == $oUserCurrent->getId()}
@@ -62,8 +62,8 @@
 			{include 'forms/fields/form.field.button.tpl' sFieldName='submit_blog_admin' sFieldText=$aLang.common.save sFieldStyle='primary'}
 		</form>
 
-		{include 'pagination.tpl' aPaging=$aPaging}
+		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 	{else}
-		{include 'alert.tpl' mAlerts=$aLang.blog.admin.alerts.empty sAlertStyle='empty'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.admin.alerts.empty sMods='empty'}
 	{/if}
 {/block}

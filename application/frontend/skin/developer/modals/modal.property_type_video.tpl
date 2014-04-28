@@ -4,7 +4,7 @@
  * @styles css/modals.css
  *}
 
-{extends file='modals/modal_base.tpl'}
+{extends 'components/modal/modal.tpl'}
 
 {block name='modal_id'}modal-property-type-video-{$oValue->getId()}{/block}
 {block name='modal_class'}modal-property js-modal-default{/block}

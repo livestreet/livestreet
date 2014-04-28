@@ -29,6 +29,6 @@
 
 		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.block_blog_navigator_button sFieldClasses='js-blog-nav-submit' bFieldIsDisabled=true}
 	{else}
-		{include 'alert.tpl' mAlerts=$aLang.blog.categories.empty sAlertStyle='empty'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.categories.empty sMods='empty'}
 	{/if}
 {/block}

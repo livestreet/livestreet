@@ -16,5 +16,5 @@
 {block 'block_class'}block-nopadding{/block}
 
 {block 'block_content_after'}
-	{include 'user_note.tpl' oUserNote=$oUserProfile->getUserNote() iUserNoteId=$oUserProfile->getId()}
+	{include 'components/user_note/user_note.tpl' sClasses='js-user-note' oObject=$oUserProfile->getUserNote() iUserId=$oUserProfile->getId()}
 {/block}

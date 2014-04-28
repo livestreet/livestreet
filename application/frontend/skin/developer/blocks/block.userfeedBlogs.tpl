@@ -21,6 +21,6 @@
 					 sFieldLabel           = "<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>"}
 		{/foreach}
 	{else}
-		{include 'alert.tpl' mAlerts=$aLang.userfeed_no_blogs sAlertStyle='info'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.userfeed_no_blogs sMods='info'}
 	{/if}
 {/block}

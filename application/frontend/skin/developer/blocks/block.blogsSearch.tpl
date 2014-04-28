@@ -12,19 +12,33 @@
 	<h3>{$aLang.block_category_blog}</h3>
 
 	{if $aBlogCategories}
-		<ul class="nested-list">
-			<li class="nested-list-item active js-search-ajax-option" data-search-type="blogs" data-name="category" data-value="0">
-				<a href="{router page='blogs'}">{$aLang.block_category_blog_all} ({$iCountBlogsAll})</a>
-			</li>
+		{$aItems = [ [
+			'name'       => 'all',
+			'text'       => $aLang.block_category_blog_all,
+			'url'        => {router page='blogs'},
+			'attributes' => "data-search-type=\"blogs\" data-name=\"category\" data-value=\"0\"",
+			'classes'    => 'js-search-ajax-option',
+			'count'      => $iCountBlogsAll
+		] ]}
 
-			{foreach $aBlogCategories as $oCategory}
-				<li class="nested-list-item js-search-ajax-option" data-search-type="blogs" data-name="category" data-value="{$oCategory->getId()}">
-					<a style="margin-left: {$oCategory->getLevel() * 20}px;" href="{$oCategory->getUrlWeb()}">{$oCategory->getTitle()|escape} ({$oCategory->getCountBlogs()})</a>
-				</li>
-			{/foreach}
-        </ul>
+		{foreach $aBlogCategories as $oCategory}
+			{$aItems[] = [
+				'text'       => ($oCategory->getTitle()|escape),
+				'url'        => $oCategory->getUrlWeb(),
+				'attributes' => "data-search-type=\"blogs\" data-name=\"category\" data-value=\"{$oCategory->getId()}\" style=\"margin-left: {$oCategory->getLevel() * 20}px;\"",
+				'classes'    => 'js-search-ajax-option',
+				'count'      => $oCategory->getCountBlogs()
+			]}
+		{/foreach}
+
+		{include 'components/nav/nav.tpl'
+				sName       = 'blogs_categories'
+				sClasses    = 'actionbar-item-link'
+				sActiveItem = 'all'
+				sMods       = 'stacked pills'
+				aItems      = $aItems}
     {else}
-    	{include 'alert.tpl' mAlerts=$aLang.blog.categories.empty sAlertStyle='empty'}
+    	{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.categories.empty sMods='empty'}
     {/if}
 
     <br>

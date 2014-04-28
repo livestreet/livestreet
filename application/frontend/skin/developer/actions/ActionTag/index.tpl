@@ -2,11 +2,13 @@
  * Поиск по тегам
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_page_title'}{$aLang.block_tags_search}{/block}
+{block 'layout_page_title'}
+	{$aLang.block_tags_search}
+{/block}
 
-{block name='layout_content'}
-	{include file='forms/form.search.tags.tpl'}
-	{include file='topics/topic_list.tpl'}
+{block 'layout_content'}
+	{include 'forms/form.search.tags.tpl'}
+	{include 'topics/topic_list.tpl'}
 {/block}

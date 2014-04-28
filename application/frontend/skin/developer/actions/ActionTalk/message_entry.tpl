@@ -1,4 +1,4 @@
-{extends 'entry.base.tpl'}
+{extends 'components/article/article.tpl'}
 
 {block 'entry_options'}
 	{$oEntry = $oTalk}
@@ -8,13 +8,13 @@
 {block 'entry' append}
 	{* Участники личного сообщения *}
 	{if $oTalk->getUserId() == $oUserCurrent->getId() or $oUserCurrent->isAdministrator()}
-		{include 'user_list_add.tpl'
+		{include 'components/user_list_add/user_list_add.tpl'
 				 sUserListAddClasses = "message-users js-message-users"
 				 sUserListAddAttributes = "data-param-i-target-id=\"{$oTalk->getId()}\""
 				 aUserList = $oTalk->getTalkUsers()
 				 sUserListTitle = $aLang.talk_speaker_title
 				 aUserListSmallExcludeRemove = [ $oUserCurrent->getId() ]
 				 sUserItemInactiveTitle = $aLang.talk_speaker_not_found
-			 	 sUserListSmallItemPath = 'user_list_small_item.message.tpl'}
+			 	 sUserListSmallItemPath = 'components/user_list_small/user_list_small_item.message.tpl'}
 	{/if}
 {/block}

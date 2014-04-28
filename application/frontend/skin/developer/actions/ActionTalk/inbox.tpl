@@ -14,5 +14,5 @@
 	{/if}
 
 	{include file='./message_list.tpl' bMessageListCheckboxes=true}
-	{include file='pagination.tpl' aPaging=$aPaging}
+	{include file='components/pagination/pagination.tpl' aPaging=$aPaging}
 {/block}

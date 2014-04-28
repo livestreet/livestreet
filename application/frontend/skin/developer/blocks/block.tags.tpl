@@ -10,27 +10,23 @@
 {block name='block_type'}tags{/block}
 
 {block name='block_nav'}
-	<ul class="nav nav-pills" data-type="tabs">
-		<li class="active" data-type="tab" data-tab-target="js-tab-pane-all"><a href="#">{$aLang.topic_favourite_tags_block_all}</a></li>
-		{if $oUserCurrent}
-			<li data-type="tab" data-tab-target="js-tab-pane-my"><a href="#">{$aLang.topic_favourite_tags_block_user}</a></li>
-		{/if}
-
-		{hook run='block_tags_nav_item'}
-	</ul>
+	{include 'components/nav/nav.tabs.tpl' sName='block_tags' sActiveItem='all' sMods='pills' sClasses='' aItems=[
+		[ 'name' => 'all', 'text' => $aLang.topic_favourite_tags_block_all,  'pane' => 'js-tab-pane-tags-all' ],
+		[ 'name' => 'my',  'text' => $aLang.topic_favourite_tags_block_user, 'pane' => 'js-tab-pane-tags-my', 'is_enabled' => !! $oUserCurrent ]
+	]}
 {/block}
 
 {block name='block_content'}
-	{include file='forms/form.search.tags.tpl'}
-	
+	{include 'forms/form.search.tags.tpl'}
+
 	<div data-type="tab-panes">
-		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-all" style="display: block">
-			{include file='tag_cloud.tpl' aTags=$aTags sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
+		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-all" style="display: block">
+			{include 'components/tags/tag_cloud.tpl' aTags=$aTags sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
 		</div>
 
 		{if $oUserCurrent}
-			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-my">
-				{include file='tag_cloud.tpl' aTags=$aTagsUser sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
+			<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-my">
+				{include 'components/tags/tag_cloud.tpl' aTags=$aTagsUser sTagsUrl='{router page=\'tag\'}{$oTag->getText()|escape:\'url\'}/'}
 			</div>
 		{/if}
 	</div>

@@ -11,14 +11,11 @@
 {block 'block_class'}block-nopadding{/block}
 
 {block 'block_nav'}
-	<ul class="nav nav-pills js-block-nav" data-type="tabs">
-		<li data-type="tab" data-tab-url="{router page='ajax'}blogs/top" data-tab-target="js-tab-pane-blogs" class="active"><a href="#">{$aLang.block_blogs_top}</a></li>
-
-		{if $oUserCurrent}
-			<li data-type="tab" data-tab-url="{router page='ajax'}blogs/join" data-tab-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_join}</a></li>
-			<li data-type="tab" data-tab-url="{router page='ajax'}blogs/self" data-tab-target="js-tab-pane-blogs"><a href="#">{$aLang.block_blogs_self}</a></li>
-		{/if}
-	</ul>
+	{include 'components/nav/nav.tabs.tpl' sName='block_blogs' sActiveItem='top' sMods='pills' sClasses='js-block-nav' aItems=[
+		[ 'name' => 'top',  'url' => "{router page='ajax'}blogs/top",  'text' => $aLang.block_blogs_top,  'pane' => 'js-tab-pane-blogs' ],
+		[ 'name' => 'join', 'url' => "{router page='ajax'}blogs/join", 'text' => $aLang.block_blogs_join, 'pane' => 'js-tab-pane-blogs', 'is_enabled' => !! $oUserCurrent ],
+		[ 'name' => 'self', 'url' => "{router page='ajax'}blogs/self", 'text' => $aLang.block_blogs_self, 'pane' => 'js-tab-pane-blogs', 'is_enabled' => !! $oUserCurrent ]
+	]}
 {/block}
 
 {block 'block_content'}

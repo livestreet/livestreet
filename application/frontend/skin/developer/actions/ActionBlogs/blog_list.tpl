@@ -40,7 +40,7 @@
 					[ 'label' => "{$aLang.blog.topics_total}:",        'content' => $oBlog->getCountTopic() ]
 				]}
 
-				{include 'info_list.tpl' aInfoList=$aBlogInfo sInfoListClasses='object-list-item-info'}
+				{include 'components/info_list/info_list.tpl' aInfoList=$aBlogInfo sInfoListClasses='object-list-item-info'}
 
 				{* Действия *}
 				<div class="object-list-item-actions">
@@ -60,9 +60,9 @@
 					 sAttributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
 		{/if}
 	{else}
-		{include 'pagination.tpl' aPaging=$aPaging}
+		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 	{/if}
 
 {else}
-	{include 'alert.tpl' mAlerts=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) sAlertStyle='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) sMods='empty'}
 {/if}

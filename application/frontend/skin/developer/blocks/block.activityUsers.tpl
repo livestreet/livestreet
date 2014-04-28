@@ -10,7 +10,7 @@
 {block 'block_type'}activity{/block}
 
 {block 'block_content'}
-	{include 'user_list_add.tpl'
+	{include 'components/user_list_add/user_list_add.tpl'
 			 sUserListAddClasses = 'js-user-list-add-activity'
 			 aUserList = $aStreamSubscribedUsers
 			 sUserListNote = $aLang.stream_settings_note_follow_user}

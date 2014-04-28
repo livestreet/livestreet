@@ -15,11 +15,9 @@
 		</div>
 
 		{if ! $bDisableGetMoreButton}
-			{include 'components/more/more.tpl'
-					 sClasses    = "js-more-userfeed"
-					 sAttributes = "data-proxy-i-last-id=\"{$iUserfeedLastId}\""}
+			{include 'components/more/more.tpl' sClasses="js-more-userfeed" sAttributes="data-proxy-i-last-id=\"{$iUserfeedLastId}\""}
 		{/if}
 	{else}
-		{include 'alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
 	{/if}
 {/block}

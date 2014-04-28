@@ -17,18 +17,15 @@
 
 {* Навигация *}
 {block name='block_nav'}
-	{hook run='block_stream_nav_item' assign="sItemsHook"}
+	{include 'components/nav/nav.tabs.tpl' sName='block_activity' sActiveItem='comments' sMods='pills' sClasses='' aItems=[
+		[ 'name' => 'comments', 'url' => "{router page='ajax'}stream/comment", 'text' => $aLang.block_stream_comments, 'pane' => 'js-tab-pane-stream' ],
+		[ 'name' => 'topics',   'url' => "{router page='ajax'}stream/topic",   'text' => $aLang.block_stream_topics,   'pane' => 'js-tab-pane-stream' ]
+	]}
 
-	<ul class="nav nav-pills js-block-nav" data-type="tabs" id="js-stream-tabs" {if $sItemsHook}style="display: none;"{/if}>
-		<li data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments" class="active"><a href="#">{$aLang.block_stream_comments}</a></li>
-		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
-
-		{$sItemsHook}
-	</ul>
-	
-	{** 
-	 * Выпадающее меню 
+	{**
+	 * Выпадающее меню
 	 * Показывается если в меню что выше пунктов больше установленного значения (по умолчанию - 2)
+	 * TODO: dropdown tabs
 	 *}
 	<div
 		class="dropdown dropdown-toggle js-dropdown-default"
@@ -37,12 +34,10 @@
 		data-dropdown-target="js-dropdown-menu-stream"
 		data-dropdown-selectable="true"
 		{if !$sItemsHook}style="display: none;"{/if}>{$aLang.block_stream_comments}</div>
-	
+
 	<ul class="dropdown-menu js-block-nav" id="js-dropdown-menu-stream" data-type="tabs">
 		<li class="active" data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments"><a href="#">{$aLang.block_stream_comments}</a></li>
 		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
-
-		{$sItemsHook}
 	</ul>
 {/block}
 

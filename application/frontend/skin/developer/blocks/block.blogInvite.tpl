@@ -11,9 +11,9 @@
 {block 'block_type'}blog-invite{/block}
 
 {block 'block_content'}
-	{include 'user_list_add.tpl'
+	{include 'components/user_list_add/user_list_add.tpl'
 			 sUserListAddClasses = "js-user-list-add-blog-invite"
 			 sUserListAddAttributes = "data-param-i-target-id=\"{$oBlogEdit->getId()}\""
 			 aUserList = $aBlogUsersInvited
-			 sUserListSmallItemPath = 'user_list_small_item.blog_invite.tpl'}
+			 sUserListSmallItemPath = 'components/user_list_small/user_list_small_item.blog_invite.tpl'}
 {/block}

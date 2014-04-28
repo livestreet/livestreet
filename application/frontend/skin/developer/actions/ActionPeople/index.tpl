@@ -8,10 +8,10 @@
 
 {block name='layout_content'}
 	{include 'forms/form.search.users.tpl'}
-	{include 'alphanumeric.tpl' aAlphaLetters=$aPrefixUser}
+	{include 'components/alphanumeric/alphanumeric.tpl' aAlphaLetters=$aPrefixUser}
 
 	{* Сортировка *}
-	{include 'sort.ajax.tpl'
+	{include 'components/sort/sort.ajax.tpl'
 		sSortName     = 'sort-user-list'
 		sSortSearchType     = 'users'
 		aSortList     = [
@@ -22,6 +22,6 @@
 	}
 
 	<div class="js-search-ajax-container" data-type="users">
-		{include file='user_list.tpl' aUsersList=$aUsers bUseMore=true}
+		{include 'components/user_list/user_list.tpl' aUsersList=$aUsers bUseMore=true}
 	</div>
 {/block}

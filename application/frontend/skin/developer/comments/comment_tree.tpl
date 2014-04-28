@@ -64,7 +64,7 @@
 
 		<div class="comment-wrapper js-comment-wrapper" data-id="{$oComment->getId()}">
 
-		{include 'comments/comment.tpl'}
+		{include './comment.tpl'}
 
 		{$iCurrentLevel = $iCommentLevel}
 
@@ -78,7 +78,7 @@
 {**
  * Пагинация
  *}
-{include 'comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt}
+{include './comment_pagination.tpl' aPagingCmt=$aPagingCmt}
 
 {hook run='comment_tree_end' iTargetId=$iTargetId sTargetType=$sTargetType}
 
@@ -87,7 +87,7 @@
  * Форма добавления комментария
  *}
 {if $bAllowNewComment}
-	{include 'alert.tpl' sAlertStyle='info' mAlerts=$sNoticeNotAllow}
+	{include 'components/alert/alert.tpl' sMods='info' mAlerts=$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
 		{* Ссылка открывающая форму *}
@@ -95,8 +95,8 @@
 			<a href="#" class="link-dotted">{$sNoticeCommentAdd}</a>
 		</h4>
 
-		{include 'comments/comment.form.tpl'}
+		{include './comment.form.tpl'}
 	{else}
-		{include 'alert.tpl' sAlertStyle='info' mAlerts=$aLang.comments.alerts.unregistered}
+		{include 'components/alert/alert.tpl' sMods='info' mAlerts=$aLang.comments.alerts.unregistered}
 	{/if}
 {/if}

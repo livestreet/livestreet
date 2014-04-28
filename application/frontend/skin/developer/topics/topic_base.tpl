@@ -5,7 +5,7 @@
  * @scripts <framework>/js/livestreet/topic.js
  *}
 
-{extends 'entry.base.tpl'}
+{extends 'components/article/article.tpl'}
 
 {block 'entry_options'}
 	{$oEntry = $oTopic}
@@ -50,7 +50,7 @@
 				]}
 			{/foreach}
 
-			{include 'info_list.tpl' aInfoList=$aInfoList}
+			{include 'components/info_list/info_list.tpl' aInfoList=$aInfoList}
 		{/if}
 	{/block}
 
@@ -66,7 +66,7 @@
 {* Теги *}
 {block 'entry_footer' prepend}
 	{if ! $bTopicList and $oTopicType->getParam('allow_tags')}
-		{include 'tag_list.tpl'
+		{include 'components/tags/tag_list.tpl'
 				 aTags = $oTopic->getTagsArray()
 				 bTagsUseFavourite = true
 				 aTagsFavourite = ($oFavourite) ? $oFavourite->getTagsArray() : []

@@ -17,7 +17,7 @@
 		{/if}
 	{/foreach}
 
-	{include 'pagination.tpl' aPaging=$aPaging}
+	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 {else}
-	{include 'alert.tpl' mAlerts=$aLang.blog_no_topic sAlertStyle='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$aLang.blog_no_topic sMods='empty'}
 {/if}

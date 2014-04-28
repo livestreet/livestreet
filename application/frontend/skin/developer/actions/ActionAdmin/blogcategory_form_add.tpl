@@ -1,4 +1,4 @@
-{extends file='modals/modal_base.tpl'}
+{extends 'components/modal/modal.tpl'}
 
 
 {block name='modal_id'}modal-category-add{/block}

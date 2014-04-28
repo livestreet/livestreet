@@ -17,5 +17,5 @@
 {/block}
 
 {block name='layout_content'}
-	{include file='user_list.tpl' aUsersList=$aUsersCountry}
+	{include file='components/user_list/user_list.tpl' aUsersList=$aUsersCountry}
 {/block}

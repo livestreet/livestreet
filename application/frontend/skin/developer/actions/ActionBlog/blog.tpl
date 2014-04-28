@@ -58,7 +58,7 @@
 				[ 'label' => $aLang.blog.rating_limit, 'content' => $oBlog->getLimitRatingTopic() ]
 			]}
 
-			{include 'info_list.tpl' aInfoList=$aBlogInfo}
+			{include 'components/info_list/info_list.tpl' aInfoList=$aBlogInfo}
 		</div>
 
 		{* Управление *}
@@ -88,7 +88,7 @@
 	{* Сообщение для забаненного пользователя *}
 	{* TODO: Вывод сообщения о бане *}
 	{if false}
-		{include 'alert.tpl' mAlerts=$aLang.blog.alerts.banned sAlertStyle='error'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.banned sMods='error'}
 	{/if}
 
 	{* Навигация по топикам блога *}
@@ -98,7 +98,7 @@
 
 	{* Список топиков *}
 	{if $bPrivateBlog}
-		{include 'alert.tpl' mAlerts=$aLang.blog.alerts.private sAlertStyle='error'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.private sMods='error'}
 	{else}
 		{include 'topics/topic_list.tpl'}
 	{/if}

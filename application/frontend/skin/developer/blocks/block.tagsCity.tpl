@@ -9,7 +9,7 @@
 {block name='block_title'}{$aLang.block_city_tags}{/block}
 
 {block name='block_content'}
-	{include file='tag_cloud.tpl' 
+	{include 'components/tags/tag_cloud.tpl' 
 			 aTags     = $aCityList 
 			 sTagsUrl  = '{router page=\'people\'}city/{$oTag->getId()}/'
 			 sTagsText = '{$oTag->getName()|escape}'}

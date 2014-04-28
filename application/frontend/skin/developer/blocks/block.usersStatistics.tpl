@@ -16,7 +16,7 @@
 		[ 'label' => "{$aLang.user_stats_noactive}:", 'content' => $aStat.count_inactive ]
 	]}
 
-	{include 'info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
+	{include 'components/info_list/info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
 
 	{* Пол *}
 	{$aUsersInfo = [
@@ -25,5 +25,5 @@
 		[ 'label' => "{$aLang.user_stats_sex_other}:", 'content' => $aStat.count_sex_other ]
 	]}
 
-	{include 'info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
+	{include 'components/info_list/info_list.tpl' aInfoList=$aUsersInfo iInfoListLabelWidth=200}
 {/block}

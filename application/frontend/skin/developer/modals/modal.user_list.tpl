@@ -4,7 +4,7 @@
  * @styles css/modals.css
  *}
 
-{extends file='modals/modal_base.tpl'}
+{extends 'components/modal/modal.tpl'}
 
 {block name='modal_id'}modal-users-select{/block}
 {block name='modal_class'}modal-users-select js-modal-default{/block}
@@ -20,7 +20,7 @@
 	{/if}
 
 	{* Список *}
-	{include 'user_list_small.tpl' aUserList=$aUserList bUserListSmallSelectable=$bSelectable bUserListSmallShowEmpty=true sUserListSmallClasses='js-user-list-select'}
+	{include 'components/user_list_small/user_list_small.tpl' aUserList=$aUserList bUserListSmallSelectable=$bSelectable bUserListSmallShowEmpty=true sUserListSmallClasses='js-user-list-select'}
 {/block}
 
 {block name='modal_footer_begin'}

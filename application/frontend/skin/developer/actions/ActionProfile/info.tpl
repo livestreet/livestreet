@@ -217,7 +217,7 @@
 	{if $aUsersFriend}
 		<h2 class="header-table mb-15"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
 		
-		{include file='user_list_avatar.tpl' aUsersList=$aUsersFriend}
+		{include file='components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
 	{/if}
 
 	{hook run='profile_whois_item_end' oUserProfile=$oUserProfile}

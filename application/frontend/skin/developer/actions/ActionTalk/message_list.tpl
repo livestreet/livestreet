@@ -41,7 +41,7 @@
 
 						{* Избранное *}
 						<td class="cell-favourite">
-							{include 'favourite.tpl' sFavouriteType='talk' oFavouriteObject=$oTalk}
+							{include 'components/favourite/favourite.tpl' sClasses='js-favourite-talk' oObject=$oTalk}
 						</td>
 
 						{* Основная информация о диалоге *}
@@ -109,5 +109,5 @@
 		</table>
 	</form>
 {else}
-	{include file='alert.tpl' mAlerts=$aLang.messages.alerts.empty sAlertStyle='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$aLang.messages.alerts.empty sMods='empty'}
 {/if}

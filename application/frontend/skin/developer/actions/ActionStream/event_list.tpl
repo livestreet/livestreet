@@ -19,5 +19,5 @@
 		}
 	{/if}
 {else}
-	{include 'alert.tpl' mAlerts=$aLang.common.empty sAlertStyle='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
 {/if}

@@ -21,5 +21,5 @@
 {block 'block_type'}blog-users{/block}
 
 {block 'block_content'}
-	{include 'user_list_avatar.tpl' aUsersList=$aBlogUsers}
+	{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aBlogUsers}
 {/block}

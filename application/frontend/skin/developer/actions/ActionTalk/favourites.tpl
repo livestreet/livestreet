@@ -6,5 +6,5 @@
 
 {block name='layout_content'}
 	{include file='./message_list.tpl'}
-	{include file='pagination.tpl' aPaging=$aPaging}
+	{include file='components/pagination/pagination.tpl' aPaging=$aPaging}
 {/block}

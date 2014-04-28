@@ -18,6 +18,6 @@
 				 sNoticeCommentAdd    = $aLang.topic_comment_add
 				 bNoCommentFavourites = true}
 	{else}
-		{include file='alert.tpl' mAlerts=$aLang.talk_deleted sAlertStyle='empty'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.talk_deleted sMods='empty'}
 	{/if}
 {/block}

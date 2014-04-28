@@ -77,7 +77,7 @@
 
 			{* Избранное *}
 			{if $oUserCurrent and ! $bNoCommentFavourites}
-				<li>{include 'favourite.tpl' sFavouriteType='comment' oFavouriteObject=$oComment}</li>
+				<li>{include 'components/favourite/favourite.tpl' sClasses='js-favourite-comment' oObject=$oComment}</li>
 			{/if}
 		</ul>
 

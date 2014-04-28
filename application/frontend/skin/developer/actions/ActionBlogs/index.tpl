@@ -14,7 +14,7 @@
 	{include 'forms/form.search.blogs.tpl'}
 
 	{* Сортировка *}
-	{include 'sort.ajax.tpl'
+	{include 'components/sort/sort.ajax.tpl'
 			 sSortName     = 'sort-blog-list'
 			 sSortSearchType     = 'blogs'
 			 aSortList     = [
