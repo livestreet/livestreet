@@ -2,22 +2,13 @@
  * Навигация в профиле пользователя в разделе "Публикации"
  *}
 
-<ul class="nav nav-pills mb-30">
-	<li {if $sMenuSubItemSelect=='topics'}class="active"{/if}>
-		<a href="{$oUserProfile->getUserWebPath()}created/topics/">{$aLang.topic_title}  {if $iCountTopicUser} ({$iCountTopicUser}) {/if}</a>
-	</li>
-	
-	<li {if $sMenuSubItemSelect=='comments'}class="active"{/if}>
-		<a href="{$oUserProfile->getUserWebPath()}created/comments/">{$aLang.user_menu_publication_comment}  {if $iCountCommentUser} ({$iCountCommentUser}) {/if}</a>
-	</li>
-	
-	{if $oUserCurrent and $oUserCurrent->getId()==$oUserProfile->getId()}
-		<li {if $sMenuSubItemSelect=='notes'}class="active"{/if}>
-			<a href="{$oUserProfile->getUserWebPath()}created/notes/">{$aLang.user_menu_profile_notes}  {if $iCountNoteUser} ({$iCountNoteUser}) {/if}</a>
-		</li>
-	{/if}
-	
-	{hook run='menu_profile_created_item' oUserProfile=$oUserProfile}
-</ul>
-
-{hook run='menu_profile_created' oUserProfile=$oUserProfile}
+{include 'components/nav/nav.tpl'
+		 sName          = 'profile_created'
+		 sActiveItem    = $sMenuSubItemSelect
+		 sMods          = 'pills'
+		 aHookArguments = [ 'oUserProfile' => $oUserProfile ]
+		 aItems = [
+		   	[ 'name' => 'topics',   'url' => "{$oUserProfile->getUserWebPath()}created/topics/",   'text' => $aLang.topic_title, 'count' => $iCountTopicUser ],
+		   	[ 'name' => 'comments', 'url' => "{$oUserProfile->getUserWebPath()}created/comments/", 'text' => $aLang.user_menu_publication_comment, 'count' => $iCountCommentUser ],
+		   	[ 'name' => 'notes',    'url' => "{$oUserProfile->getUserWebPath()}created/notes/",    'text' => $aLang.user_menu_profile_notes, 'count' => $iCountNoteUser, 'is_enabled' => $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId() ]
+		 ]}

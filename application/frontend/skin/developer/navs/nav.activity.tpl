@@ -2,13 +2,11 @@
  * Навигация на странице активности
  *}
 
-<ul class="nav nav-pills">
-	{if $oUserCurrent}
-		<li {if $sMenuItemSelect=='user'}class="active"{/if}><a href="{router page='stream'}user/">{$aLang.stream_menu_user}</a></li>
-	{/if}
-	<li {if $sMenuItemSelect=='all'}class="active"{/if}><a href="{router page='stream'}all/">{$aLang.stream_menu_all}</a></li>
-
-	{hook run='menu_stream_item'}
-</ul>
-
-{hook run='menu_stream'}
+{include 'components/nav/nav.tpl'
+		 sName       = 'activity'
+		 sActiveItem = $sMenuItemSelect
+		 sMods       = 'pills'
+		 aItems = [
+		   	[ 'name' => 'user', 'url' => "{router page='stream'}user/", 'text' => $aLang.stream_menu_user, 'is_enabled' => !! $oUserCurrent ],
+		   	[ 'name' => 'all',  'url' => "{router page='stream'}all/",  'text' => $aLang.stream_menu_all ]
+		 ]}

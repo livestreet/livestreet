@@ -2,15 +2,12 @@
  * Навигация в профиле пользователя в разделе "Избранное"
  *}
 
-<ul class="nav nav-pills mb-30">
-	<li {if $sMenuSubItemSelect=='topics'}class="active"{/if}>
-		<a href="{$oUserProfile->getUserWebPath()}favourites/topics/">{$aLang.user_menu_profile_favourites_topics}  {if $iCountTopicFavourite} ({$iCountTopicFavourite}) {/if}</a>
-	</li>
-	<li {if $sMenuSubItemSelect=='comments'}class="active"{/if}>
-		<a href="{$oUserProfile->getUserWebPath()}favourites/comments/">{$aLang.user_menu_profile_favourites_comments}  {if $iCountCommentFavourite} ({$iCountCommentFavourite}) {/if}</a>
-	</li>
-
-	{hook run='menu_profile_favourite_item' oUserProfile=$oUserProfile}
-</ul>
-
-{hook run='menu_profile_favourite' oUserProfile=$oUserProfile}
+{include 'components/nav/nav.tpl'
+		 sName          = 'profile_favourite'
+		 sActiveItem    = $sMenuSubItemSelect
+		 sMods          = 'pills'
+		 aHookArguments = [ 'oUserProfile' => $oUserProfile ]
+		 aItems = [
+		   	[ 'name' => 'topics',   'text' => $aLang.user_menu_profile_favourites_topics,   'url'  => "{$oUserProfile->getUserWebPath()}favourites/topics/",   'count' => $iCountTopicFavourite ],
+		   	[ 'name' => 'comments', 'text' => $aLang.user_menu_profile_favourites_comments, 'url'  => "{$oUserProfile->getUserWebPath()}favourites/comments/", 'count' => $iCountCommentFavourite ]
+		 ]}

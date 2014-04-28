@@ -2,11 +2,11 @@
  * Навгиация редактирования блога
  *}
 
-<ul class="nav nav-pills">
-	<li {if $sMenuItemSelect=='profile'}class="active"{/if}><a href="{router page='blog'}edit/{$oBlogEdit->getId()}/">{$aLang.blog.admin.nav.profile}</a></li>
-	<li {if $sMenuItemSelect=='admin'}class="active"{/if}><a href="{router page='blog'}admin/{$oBlogEdit->getId()}/">{$aLang.blog.admin.nav.users}</a></li>
-
-	{hook run='menu_blog_edit_admin_item'}
-</ul>
-
-{hook run='menu_blog_edit'}
+{include 'components/nav/nav.tpl'
+		 sName          = 'blog_edit'
+		 sActiveItem    = $sMenuItemSelect
+		 sMods          = 'pills'
+		 aItems = [
+		   	[ 'name' => 'profile', 'url' => "{router page='blog'}edit/{$oBlogEdit->getId()}/",  'text' => $aLang.blog.admin.nav.profile ],
+		   	[ 'name' => 'admin',   'url' => "{router page='blog'}admin/{$oBlogEdit->getId()}/", 'text' => $aLang.blog.admin.nav.users ]
+		 ]}

@@ -2,22 +2,13 @@
  * Навигация по топикам
  *}
 
-<ul class="nav nav-pills">
-	<li {if $sMenuItemSelect == 'index'}class="active"{/if}>
-		<a href="{router page='/'}">{$aLang.blog_menu_all}</a>
-
-		{if $iCountTopicsNew}
-			<a href="{router page='index'}new/">+{$iCountTopicsNew}</a>
-		{/if}
-	</li>
-	
-	{if $oUserCurrent}
-		<li {if $sMenuItemSelect == 'feed'}class="active"{/if}>
-			<a href="{router page='feed'}">{$aLang.userfeed_title}</a>
-		</li>
-	{/if}
-
-	{hook run='nav_topics'}
-</ul>
+{include 'components/nav/nav.tpl'
+		 sName       = 'topics'
+		 sActiveItem = $sMenuItemSelect
+		 sMods    = 'pills'
+		 aItems = [
+		   	[ 'name' => 'index', 'url' => {router page='/'},    'text' => $aLang.blog_menu_all, 'count' => $iCountTopicsNew ],
+		   	[ 'name' => 'feed',  'url' => {router page='feed'}, 'text' => $aLang.userfeed_title, 'is_enabled' => !! $oUserCurrent ]
+		 ]}
 
 {include file='navs/nav.topics.sub.tpl'}
