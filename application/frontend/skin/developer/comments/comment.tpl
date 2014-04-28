@@ -87,6 +87,15 @@
 			{$oComment->getText()}
 		</div>
 
+		{* Информация о редактировании *}
+		{if $oComment->getDateEdit()}
+		<div>
+			{$aLang.comments.comment.edit_info}: {date_format date=$oComment->getDateEdit() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+			{if $oComment->getCountEdit()>1}
+				({$oComment->getCountEdit()} {$oComment->getCountEdit()|declension:$aLang.common.times_declension})
+			{/if}
+		</div>
+		{/if}
 
 		{* Кнопки ответа, удаления и т.д. *}
 		{if $oUserCurrent}
@@ -97,7 +106,18 @@
 
 				<li class="link-dotted comment-fold js-comment-fold open" data-id="{$oComment->getId()}" style="display: none"><a href="#">{$aLang.comments.folding.fold}</a></li>
 
-				{if $oUserCurrent and $oUserCurrent->isAdministrator()}
+				{if $oComment->IsAllowEdit()}
+                    <li>
+						<a href="#" class="link-dotted js-comment-update" data-id="{$oComment->getId()}">
+							{$aLang.common.edit}
+							{if $oComment->getEditTimeRemaining()}
+								(<span class="js-comment-update-timer" data-seconds="{$oComment->getEditTimeRemaining()}"></span>)
+							{/if}
+						</a>
+					</li>
+				{/if}
+
+				{if $oComment->IsAllowDelete()}
 					<li><a href="#" class="link-dotted js-comment-remove" data-id="{$oComment->getId()}">{($oComment->getDelete()) ? $aLang.comments.comment.restore : $aLang.common.remove}</a></li>
 				{/if}
 

@@ -21,6 +21,8 @@
 
 class ModuleProperty_EntityValueType extends Entity {
 
+	protected $oValue=null;
+
 	public function getValueForDisplay() {
 		// TODO: getValue() всегда вернет null
 		return $this->getValueObject()->getValue();
@@ -57,6 +59,14 @@ class ModuleProperty_EntityValueType extends Entity {
 
 	public function setValue($mValue) {
 		$this->resetAllValue();
+	}
+
+	public function setValueObject($oValue) {
+		$this->oValue=$oValue;
+	}
+
+	public function getValueObject() {
+		return $this->oValue;
 	}
 
 	public function resetAllValue() {

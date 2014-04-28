@@ -22,9 +22,12 @@
 		{/if}
 
 		{* Информация *}
+		{if $oSession}
+			{$sDateSessionLast={date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}}
+		{/if}
 		{$aUserInfo = [
 		[ 'label' => "{$aLang.user_date_last}:",
-		'content' => ($oSession) ? {date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} : '&mdash;' ],
+		'content' => ($oSession) ? $sDateSessionLast : '&mdash;' ],
 		[ 'label' => "{$aLang.user_date_registration}:", 'content' => {date_format date=$oUser->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ],
 						[ 'label' => "{$aLang.vote.rating}:",            'content' => $oUser->getRating() ]
 					]}

@@ -71,6 +71,8 @@ class ActionAjax extends Action {
 		$this->AddEventPreg('/^autocompleter$/i','/^user$/','EventAutocompleterUser');
 
 		$this->AddEventPreg('/^comment$/i','/^delete$/','EventCommentDelete');
+		$this->AddEventPreg('/^comment$/i','/^load$/','EventCommentLoad');
+		$this->AddEventPreg('/^comment$/i','/^update$/','EventCommentUpdate');
 
 		$this->AddEventPreg('/^geo$/i','/^get/','/^regions$/','EventGeoGetRegions');
 		$this->AddEventPreg('/^geo$/i','/^get/','/^cities$/','EventGeoGetCities');
@@ -1788,5 +1790,67 @@ class ActionAjax extends Action {
 		$this->Message_AddNoticeSingle($sMsg,$this->Lang_Get('attention'));
 		$this->Viewer_AssignAjax('bState',$bState);
 		$this->Viewer_AssignAjax('sTextToggle',$sTextToggle);
+	}
+	/**
+	 * Загрузка данных комментария для редактировоания
+	 *
+	 */
+	protected function EventCommentLoad() {
+		/**
+		 * Комментарий существует?
+		 */
+		$idComment=getRequestStr('idComment',null,'post');
+		if (!($oComment=$this->Comment_GetCommentById($idComment))) {
+			return $this->EventErrorDebug();
+		}
+		if (!$oComment->isAllowEdit()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return;
+		}
+		$sText=$oComment->getTextSource() ? $oComment->getTextSource() : $oComment->getText();
+		$this->Viewer_AssignAjax('sText',$sText);
+	}
+
+	/**
+	 * Редактирование комментария
+	 *
+	 */
+	protected function EventCommentUpdate() {
+		/**
+		 * Комментарий существует?
+		 */
+		$idComment=getRequestStr('comment_id',null,'post');
+		if (!($oComment=$this->Comment_GetCommentById($idComment))) {
+			return $this->EventErrorDebug();
+		}
+		if (!$oComment->isAllowEdit()) {
+			$this->Message_AddErrorSingle($this->Lang_Get('not_access'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$sText=getRequestStr('comment_text');
+		/**
+		 * Проверяем текст комментария
+		 */
+		if (!$this->Validate_Validate('string',$sText,array('min'=>2,'max'=>10000,'allowEmpty'=>false))) {
+			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
+			return;
+		}
+
+		$oComment->setText($this->Text_Parser($sText));
+		$oComment->setTextSource($sText);
+		$oComment->setDateEdit(date('Y-m-d H:i:s'));
+		$oComment->setCountEdit($oComment->getCountEdit()+1);
+
+		if ($this->Comment_UpdateComment($oComment)) {
+			$oViewerLocal=$this->Viewer_GetLocalViewer();
+			$oViewerLocal->Assign('oUserCurrent',$this->oUserCurrent);
+			$oViewerLocal->Assign('bOneComment',true);
+			$oViewerLocal->Assign('oComment',$oComment);
+			$sHtml=$oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oComment->getTargetId(),$oComment->getTargetType()));
+			$this->Viewer_AssignAjax('sHtml',$sHtml);
+		} else {
+			return $this->EventErrorDebug();
+		}
 	}
 }

@@ -1160,7 +1160,7 @@ class ActionBlog extends Action {
 	protected function SubmitComment() {
 
         $oTopic = $this->Topic_GetTopicById(getRequestStr('cmt_target_id'));
-        $sText = $this->Text_Parser(getRequestStr('comment_text'));
+        $sText = getRequestStr('comment_text');
         $sParentId = (int)getRequest('reply');
         $oCommentParent = null;
 
@@ -1199,7 +1199,8 @@ class ActionBlog extends Action {
 		$oCommentNew->setTargetType('topic');
 		$oCommentNew->setTargetParentId($oTopic->getBlog()->getId());
 		$oCommentNew->setUserId($this->oUserCurrent->getId());
-		$oCommentNew->setText($sText);
+		$oCommentNew->setText($this->Text_Parser($sText));
+		$oCommentNew->setTextSource($sText);
 		$oCommentNew->setDate(date("Y-m-d H:i:s"));
 		$oCommentNew->setUserIp(func_getIp());
 		$oCommentNew->setPid($sParentId);

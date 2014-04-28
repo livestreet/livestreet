@@ -500,3 +500,11 @@ ADD INDEX ( `target_type` ) ;
 ALTER TABLE `prefix_media_target` ADD `is_preview` TINYINT( 1 ) NOT NULL DEFAULT '0',
 ADD INDEX ( `is_preview` ) ;
 ALTER TABLE `prefix_media_target` ADD `data` TEXT NOT NULL ;
+
+
+-- 24.04.2014
+ALTER TABLE `prefix_comment` ADD `comment_text_source` TEXT NOT NULL AFTER `comment_text` ;
+ALTER TABLE `prefix_comment` ADD `comment_date_edit` DATETIME NULL DEFAULT NULL AFTER `comment_date` ,
+ADD INDEX ( `comment_date_edit` ) ;
+ALTER TABLE `prefix_comment` ADD `comment_count_edit` INT NOT NULL DEFAULT '0' AFTER `comment_count_favourite` ,
+ADD INDEX ( `comment_count_edit` ) ;

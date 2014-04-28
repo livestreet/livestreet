@@ -95,12 +95,28 @@ class ModuleComment_EntityComment extends Entity {
 		return $this->_getDataOne('comment_text');
 	}
 	/**
+	 * Возвращает исходный текст комментария
+	 *
+	 * @return string|null
+	 */
+	public function getTextSource() {
+		return $this->_getDataOne('comment_text_source') ? $this->_getDataOne('comment_text_source') : '';
+	}
+	/**
 	 * Возвращает дату комментария
 	 *
 	 * @return string|null
 	 */
 	public function getDate() {
 		return $this->_getDataOne('comment_date');
+	}
+	/**
+	 * Возвращает дату последнего редактирования комментария
+	 *
+	 * @return string|null
+	 */
+	public function getDateEdit() {
+		return $this->_getDataOne('comment_date_edit');
 	}
 	/**
 	 * Возвращает IP пользователя
@@ -125,6 +141,14 @@ class ModuleComment_EntityComment extends Entity {
 	 */
 	public function getCountVote() {
 		return $this->_getDataOne('comment_count_vote');
+	}
+	/**
+	 * Возвращает количество редактирований комментария
+	 *
+	 * @return int|null
+	 */
+	public function getCountEdit() {
+		return $this->_getDataOne('comment_count_edit');
 	}
 	/**
 	 * Возвращает флаг удаленного комментария
@@ -210,7 +234,35 @@ class ModuleComment_EntityComment extends Entity {
 	public function getCountFavourite() {
 		return $this->_getDataOne('comment_count_favourite');
 	}
-
+	/**
+	 * Проверка на разрешение редактировать комментарий
+	 *
+	 * @return mixed
+	 */
+	public function isAllowEdit() {
+		return $this->ACL_IsAllowEditComment($this,$this->User_GetUserCurrent());
+	}
+	/**
+	 * Возвращает количество секунд в течении которых возможно редактирование
+	 *
+	 * @return int
+	 */
+	public function getEditTimeRemaining() {
+		$oUser=$this->User_GetUserCurrent();
+		if (($oUser and $oUser->isAdministrator()) or !Config::Get('acl.update.comment.limit_time')) {
+			return 0;
+		}
+		$iTime=Config::Get('acl.update.comment.limit_time')-(time()-strtotime($this->getDate()));
+		return $iTime>0 ? $iTime : 0;
+	}
+	/**
+	 * Проверка на разрешение удалить комментарий
+	 *
+	 * @return mixed
+	 */
+	public function isAllowDelete() {
+		return $this->ACL_IsAllowDeleteComment($this,$this->User_GetUserCurrent());
+	}
 
 
 	/**
@@ -286,6 +338,14 @@ class ModuleComment_EntityComment extends Entity {
 		$this->_aData['comment_text']=$data;
 	}
 	/**
+	 * Устанавливает исходный текст комментария
+	 *
+	 * @param string $data
+	 */
+	public function setTextSource($data) {
+		$this->_aData['comment_text_source']=$data;
+	}
+	/**
 	 * Устанавливает дату комментария
 	 *
 	 * @param string $data
@@ -294,7 +354,15 @@ class ModuleComment_EntityComment extends Entity {
 		$this->_aData['comment_date']=$data;
 	}
 	/**
-	 * Устанвливает IP пользователя
+	 * Устанавливает дату последнего редактирования комментария
+	 *
+	 * @param string $data
+	 */
+	public function setDateEdit($data) {
+		$this->_aData['comment_date_edit']=$data;
+	}
+	/**
+	 * Устанавливает IP пользователя
 	 *
 	 * @param string $data
 	 */
@@ -316,6 +384,14 @@ class ModuleComment_EntityComment extends Entity {
 	 */
 	public function setCountVote($data) {
 		$this->_aData['comment_count_vote']=$data;
+	}
+	/**
+	 * Устанавливает количество редактирований комментария
+	 *
+	 * @param int $data
+	 */
+	public function setCountEdit($data) {
+		$this->_aData['comment_count_edit']=$data;
 	}
 	/**
 	 * Устанавливает флаг удаленности комментария

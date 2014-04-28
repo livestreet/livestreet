@@ -488,7 +488,12 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function getTypeObject() {
 		if (!$this->_getDataOne('type_object')) {
-			$this->_aData['type_object']=$this->Topic_GetTopicTypeByCode($this->getType());
+			/**
+			 * Сначала смотрим среди загруженых активных типов, если нет, то делаем запрос к БД
+			 */
+			if (!($this->_aData['type_object']=$this->Topic_GetTopicType($this->getType()))) {
+				$this->_aData['type_object']=$this->Topic_GetTopicTypeByCode($this->getType());
+			}
 		}
 		return $this->_getDataOne('type_object');
 	}

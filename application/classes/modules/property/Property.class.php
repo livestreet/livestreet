@@ -32,6 +32,7 @@ class ModuleProperty extends ModuleORM {
 	const PROPERTY_TYPE_SELECT='select';
 	const PROPERTY_TYPE_DATE='date';
 	const PROPERTY_TYPE_FILE='file';
+	const PROPERTY_TYPE_IMAGE='image';
 	/**
 	 * Список состояний типов объектов
  	 */
@@ -48,7 +49,7 @@ class ModuleProperty extends ModuleORM {
 	protected $aPropertyTypes=array(
 		self::PROPERTY_TYPE_INT,self::PROPERTY_TYPE_FLOAT,self::PROPERTY_TYPE_VARCHAR,self::PROPERTY_TYPE_TEXT,
 		self::PROPERTY_TYPE_CHECKBOX,self::PROPERTY_TYPE_TAGS,self::PROPERTY_TYPE_VIDEO_LINK,self::PROPERTY_TYPE_SELECT,
-		self::PROPERTY_TYPE_DATE,self::PROPERTY_TYPE_FILE
+		self::PROPERTY_TYPE_DATE,self::PROPERTY_TYPE_FILE,self::PROPERTY_TYPE_IMAGE
 	);
 	/**
 	 * Список разрешенных типов
@@ -755,6 +756,48 @@ class ModuleProperty extends ModuleORM {
 			return $oProperty->_getValidateError();
 		}
 		return false;
+	}
+
+	/**
+	 * Используется для создания дефолтных дополнительных полей при активации плагина
+	 *
+	 * @param array $aProperties Список полей
+	 * <pre>
+	 * array(
+	 * 	array(
+	 * 		'data'=>array(
+	 * 		'type'=>ModuleProperty::PROPERTY_TYPE_INT,
+	 * 		'title'=>'Номер',
+	 * 		'code'=>'number',
+	 * 		'sort'=>100
+	 * 	),
+	 * 	'validate_rule'=>array(
+	 * 		'min'=>10
+	 * 	),
+	 * 	'params'=>array(),
+	 * 	'additional'=>array()
+	 * 	)
+	 * );
+	 * </pre>
+	 * @param string $sTargetType Тип объекта
+	 *
+	 * @return bool
+	 */
+	public function CreateDefaultTargetPropertyFromPlugin($aProperties,$sTargetType) {
+		foreach($aProperties as $aProperty) {
+			$sResultMsg=$this->CreateTargetProperty($sTargetType,$aProperty['data'],true,$aProperty['validate_rule'],$aProperty['params'],$aProperty['additional']);
+			if ($sResultMsg!==true and !is_object($sResultMsg)) {
+				if (is_string($sResultMsg)) {
+					$this->Message_AddErrorSingle($sResultMsg, $this->Lang_Get('error'), true);
+				}
+				/**
+				 * Отменяем добавление типа
+				 */
+				$this->RemoveTargetType($sTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public function RemoveValueByPropertyId($iPropertyId) {
