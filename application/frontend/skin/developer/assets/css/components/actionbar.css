@@ -1,9 +1,7 @@
 /**
  * Экшнбар
  *
- * @template components/actionbar/actionbar.tpl
- * @template components/actionbar/actionbar.item.tpl
- * @template components/actionbar/actionbar.item.select.tpl
+ * @template components/actionbar/*.tpl
  * @scripts <common>/js/actionbar.js
  *
  * @license   GNU General Public License, version 2

@@ -1,0 +1,8 @@
+/**
+ * Список с информацией
+ */
+.info-list                 { margin-bottom: 20px; }
+.info-list:last-child      { margin-bottom: 0; }
+.info-list-item            { margin-bottom: 5px; overflow: hidden; }
+.info-list-item:last-child { margin-bottom: 0; }
+.info-list-item-label      { opacity: .6; float: left; width: 130px; }

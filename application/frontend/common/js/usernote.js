@@ -18,8 +18,8 @@
 		options: {
 			// Ссылки
 			urls: {
-				save:   aRouter['profile'] + 'ajax-note-save/',
-				remove: aRouter['profile'] + 'ajax-note-remove/'
+				save:   null,
+				remove: null
 			},
 
 			// Селекторы

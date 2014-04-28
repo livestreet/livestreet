@@ -1,0 +1,8 @@
+/**
+ * Алфавитный указатель
+ */
+.alphanumeric               { overflow: hidden; background: #f7f7f7; margin-bottom: 20px; padding: 15px; }
+.alphanumeric-item          { float: left; margin-right: 1px; }
+.alphanumeric-item a        { float: left; padding: 5px 10px; color: #333; }
+.alphanumeric-item.active   { background: #333; border-radius: 3px; }
+.alphanumeric-item.active a { color: #fff; }

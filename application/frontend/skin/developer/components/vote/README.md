@@ -102,13 +102,13 @@
 _Шаблон с изображением_ **image.tpl**
 ```smarty
 ...
-{include 'components/vote/vote.tpl' sMods='small' sClasses='js-plugin-gallery-image'}
+{include 'components/vote/vote.tpl' sMods='small' sClasses='js-plugin-gallery-image-vote'}
 ...
 ```
 
 _Файл иниц-ии js плагина_ **init.js**
 ```js
-$('.js-plugin-gallery-image').vote({
+$('.js-plugin-gallery-image-vote').vote({
     urls: {
         vote: aRouter['gallery'] + 'vote/image/',
         info: aRouter['gallery'] + 'vote/info/'

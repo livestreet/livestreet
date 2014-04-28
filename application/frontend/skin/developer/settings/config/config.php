@@ -2,9 +2,9 @@
 
 $config = array();
 
-/** 
+/**
  * Grid type:
- * 
+ *
  * fluid - резина
  * fixed - фиксированная ширина
  */
@@ -21,7 +21,7 @@ $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.skin.assets.web___/js/init.js';
 
 
-$aCss=array(
+$aCss = array(
 	// Base styles
 	"___path.skin.assets.web___/css/base.css",
 	"___path.framework.frontend.web___/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
@@ -41,10 +41,20 @@ $aCss=array(
 	"___path.skin.assets.web___/css/components/vote.css",
 	"___path.skin.assets.web___/css/components/actionbar.css",
 	"___path.skin.assets.web___/css/components/more.css",
+	"___path.skin.assets.web___/css/components/favourite.css",
+	"___path.skin.assets.web___/css/components/user_note.css",
+	"___path.skin.assets.web___/css/components/user_item.css",
+	"___path.skin.assets.web___/css/components/user_list_small.css",
+	"___path.skin.assets.web___/css/components/user_list_add.css",
+	"___path.skin.assets.web___/css/components/user_list_avatar.css",
+	"___path.skin.assets.web___/css/components/pagination.css",
+	"___path.skin.assets.web___/css/components/info_list.css",
+	"___path.skin.assets.web___/css/components/tags.css",
+	"___path.skin.assets.web___/css/components/alphanumeric.css",
+	"___path.skin.assets.web___/css/components/search_form.css",
 
 	// Template's styles
 	"___path.skin.assets.web___/css/icons.css",
-	"___path.skin.assets.web___/css/navs.css",
 	"___path.skin.assets.web___/css/tables.css",
 	"___path.skin.assets.web___/css/topic.css",
 	"___path.skin.assets.web___/css/comments.css",
@@ -62,10 +72,18 @@ $aCss=array(
 	"___path.skin.assets.web___/css/print.css",
 );
 
-if (Config::Get('view.theme')) {
-	$aCss[]="___path.skin.web___/themes/___view.theme___/style.css";
+// Подключение темы
+if ( Config::Get('view.theme') ) {
+	$aCss[] = "___path.skin.web___/themes/___view.theme___/style.css";
 }
-$config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),$aCss);
+
+// Стили для RTL языков
+if ( Config::Get('view.rtl') ) {
+	$aCss[] = "___path.skin.assets.web___/css/components/vote-rtl.css";
+}
+
+// Подключение фронтенд фреймворка
+$config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), $aCss);
 
 
 return $config;

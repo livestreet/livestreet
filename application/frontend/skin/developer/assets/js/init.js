@@ -168,7 +168,12 @@ jQuery(document).ready(function($){
 	 * User Note
 	 */
 	$('.js-user-note').livequery(function () {
-		$(this).usernote();
+		$(this).usernote({
+			urls: {
+				save:   aRouter['profile'] + 'ajax-note-save/',
+				remove: aRouter['profile'] + 'ajax-note-remove/'
+			}
+		});
 	});
 
 
@@ -232,9 +237,25 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Избраноое
+	 * Избранное
 	 */
-	ls.favourite.init();
+
+	// Топик
+	$('.js-favourite-topic').lsFavouriteTopic();
+
+	// Комментарий
+	$('.js-favourite-comment').lsFavourite({
+		urls: {
+			toggle: aRouter['ajax'] + 'favourite/comment/'
+		}
+	});
+
+	// Личное сообщение
+	$('.js-favourite-talk').lsFavourite({
+		urls: {
+			toggle: aRouter['ajax'] + 'favourite/talk/'
+		}
+	});
 
 
 	/**
@@ -326,7 +347,7 @@ jQuery(document).ready(function($){
 
 	// Временный код экшнбара (кнопка выделения объектов)
 	// TODO: Перенести в виджет
-	$(document).on('click', 'a[data-select-item]', function (e) {
+	$(document).on('click', 'li[data-select-item]', function (e) {
 		var oElement       = $(this),
 			sItemSelector  = $(this).data('select-item'),
 			sItemFilter    = $(this).data('select-filter') || '*',

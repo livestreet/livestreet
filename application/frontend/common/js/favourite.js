@@ -1,118 +1,92 @@
 /**
  * Избранное
- * 
+ *
  * @module ls/favourite
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
 
-ls.favourite = (function ($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 * 
-	 * @private
-	 */
-	var _defaults = {
-		// Selectors
-		selectors: {
-			// Блок добавления в избранное
-			favourite: '.js-favourite',
-			// Кнопка добавить/удалить из избранного
-			toggle: '.js-favourite-toggle',
-			// Счетчик
-			count: '.js-favourite-count'
+	$.widget( "livestreet.lsFavourite", {
+		/**
+		 * Дефолтные опции
+		 */
+		options: {
+			// Ссылки
+			urls: {
+				// Добавить/удалить из избранного
+				toggle: null,
+			},
+			// Селекторы
+			selectors: {
+				// Кнопка добавить/удалить из избранного
+				toggle: '.js-favourite-toggle',
+				// Счетчик
+				count: '.js-favourite-count'
+			},
+			// Параметры отправляемые при каждом аякс запросе
+			params: {}
 		},
 
-		// Типы избранного
-		type: {
-			topic: {
-				url: aRouter['ajax'] + 'favourite/topic/'
-			},
-			talk: {
-				url: aRouter['ajax'] + 'favourite/talk/'
-			},
-			comment: {
-				url: aRouter['ajax'] + 'favourite/comment/'
-			}
-		}
-	};
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.element, 'param'));
 
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 */
-	this.init = function(options) {
-		var self = this;
+			this.elements = {};
+			this.elements.toggle = this.element.find(this.options.selectors.toggle);
+			this.elements.count = this.element.find(this.options.selectors.count);
 
-		this.options = $.extend({}, _defaults, options);
-
-		$(this.options.selectors.favourite).each(function () {
-			var element = $(this),
-				data = {
-					element:  element,
-					type:     element.data('favourite-type'),
-					targetId: element.data('favourite-id'),
-					count:    element.find(self.options.selectors.count),
-					toggle:   element.find(self.options.selectors.toggle)
-				};
-
-			element.on('click', function (e) {
-				self.toggle(data);
-				e.preventDefault();
+			// Обработка кликов по кнопкам голосования
+			this._on({
+				'click': function (e) {
+					this.toggle();
+					e.preventDefault();
+				}
 			});
-		});
-	};
+		},
 
-	/**
-	 * Добавить\удалить из избранного
-	 * 
-	 * @param {Object} data
-	 */
-	this.toggle = function(data) {
-		if ( ! this.options.type[data.type] ) return false;
+		/**
+		 * Добавить/удалить из избранного
+		 */
+		toggle: function() {
+			this.options.params.type = ! this.element.hasClass(ls.options.classes.states.active);
 
-		var params = {
-			type: ! data.element.hasClass(ls.options.classes.states.active),
-			id: data.targetId
-		};
-
-		ls.hook.marker('toggleBefore');
-
-		ls.ajax.load(this.options.type[data.type].url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				ls.msg.notice(null, result.sMsg);
-
-				data.element.removeClass(ls.options.classes.states.active);
-
-				if (result.bState) {
-					data.element.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
-					ls.tags && ls.tags.showPersonalTags(data.type, data.targetId);
+			ls.ajax.load(this.options.urls.toggle, this.options.params, function(oResponse) {
+				if (oResponse.bStateError) {
+					ls.msg.error(null, oResponse.sMsg);
 				} else {
-					data.element.attr('title', ls.lang.get('favourite.add'));
-					ls.tags && ls.tags.hidePersonalTags(data.type, data.targetId);
-				}
+					ls.msg.notice(null, oResponse.sMsg);
 
-				if (data.count) {
-					if (result.iCount > 0) {
-						data.count.show().text(result.iCount);
+					this.element.removeClass(ls.options.classes.states.active);
+
+					if (oResponse.bState) {
+						this.element.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
 					} else {
-						data.count.hide();
+						this.element.attr('title', ls.lang.get('favourite.add'));
 					}
+
+					if (this.elements.count) {
+						if (oResponse.iCount > 0) {
+							this.elements.count.show().text(oResponse.iCount);
+						} else {
+							this.elements.count.hide();
+						}
+					}
+
+					this._trigger("aftertogglesuccess", null, { context: this, response: oResponse });
+					//ls.hook.run('ls_favourite_toggle_after',[data.targetId,data.toggle,data.type,params,oResponse],this);
 				}
-
-				ls.hook.run('ls_favourite_toggle_after',[data.targetId,data.toggle,data.type,params,result],this);
-			}
-		}.bind(this));
-	};
-
-	return this;
-}).call(ls.favourite || {},jQuery);
+			}.bind(this));
+		}
+	});
+})(jQuery);

@@ -1,0 +1,26 @@
+/**
+ * Избранное
+ *
+ * @template components/favourite/favourite.tpl
+ * @scripts <common>/js/favourite.js
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.favourite { cursor: pointer; display: inline-block; }
+.favourite:hover { opacity: .8; filter: alpha(opacity=80); }
+
+.favourite-toggle {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	vertical-align: text-top;
+	background: url(../../images/icons.png) -96px 0 no-repeat;
+	opacity: .3;
+	filter: alpha(opacity=30);
+}
+.favourite.active .favourite-toggle { opacity: 1; filter: alpha(opacity=100); }
+
+.favourite-count { margin-left: 0; font-weight: bold; }

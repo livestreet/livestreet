@@ -137,19 +137,12 @@
 		info: function () {
 			if ( ! this.options.urls.info ) return $();
 
-			var oTooltipOptions = $.extend({}, {
+			return this.element.tooltip($.extend({}, {
 				ajax: {
 					url: this.options.urls.info,
 					params: this.options.params
 				}
-			}, this.options.tooltip_options);
-
-			return this.element.tooltip({
-				ajax: {
-					url: this.options.urls.info,
-					params: this.options.params
-				}
-			});
+			}, this.options.tooltip_options));
 		}
 	});
 })(jQuery);

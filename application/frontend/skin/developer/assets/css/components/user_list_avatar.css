@@ -1,0 +1,9 @@
+/**
+ * Список пользователей
+ *
+ * @template user_list_avatar.tpl
+ */
+.user-list-avatar 			{ overflow: hidden; zoom: 1; }
+.user-list-avatar li 		{ width: 64px; overflow: hidden; float: left; margin-right: 20px; margin-bottom: 15px; text-align: center; }
+.user-list-avatar .user-item-avatar	{ margin-bottom: 2px; margin-right: 0; display: block; }
+.user-list-avatar .user-item-name	{ font-size: 11px; font-weight: normal; }
