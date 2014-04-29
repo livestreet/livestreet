@@ -2,14 +2,11 @@
  * Навигация по результатам поиска
  *}
 
-{$aItems = []}
-
-{foreach $aRes.aCounts as $sType => $iCount}
-	{$aItems[] = [ 'name' => $sType, 'url' => "{router page='search'}{$sType}/?q={$aReq.q|escape:'html'}", 'text' => $aLang["search_results_count_$sType"], 'count' => $iCount ]}
-{/foreach}
-
 {include 'components/nav/nav.tpl'
-		 sName       = 'search'
-		 sActiveItem = $aReq.sType
-		 sMods       = 'pills'
-		 aItems      = $aItems}
+		sName       = 'search'
+		sActiveItem = $sSearchType
+		sMods       = 'pills'
+		aItems      = [
+			[ 'name' => 'topics', 'url' => "{router page='search/topics'}?q={$_aRequest.q}", 'text' => $aLang.search.result.topics, 'count' => $aTypeCounts.topics ],
+			[ 'name' => 'comments', 'url' => "{router page='search/comments'}?q={$_aRequest.q}", 'text' => $aLang.search.result.comments, 'count' => $aTypeCounts.comments ]
+		]}
