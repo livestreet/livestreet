@@ -14,10 +14,9 @@
 
 {block name='layout_content'}
 	{include 'forms/form.search.main.tpl'}
+	{include 'navs/nav.search.tpl'}
 
 	{if $aResultItems}
-		{include 'navs/nav.search.tpl'}
-
 		{if $sSearchType == 'topics'}
 			{include file='topics/topic_list.tpl' aTopics=$aResultItems}
 		{elseif $sSearchType == 'comments'}
