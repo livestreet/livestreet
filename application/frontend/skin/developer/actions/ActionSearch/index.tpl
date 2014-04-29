@@ -13,19 +13,38 @@
 {/block}
 
 {block name='layout_content'}
-	{include 'forms/form.search.main.tpl'}
+{include 'forms/form.search.main.tpl'}
 
-	{if $bIsResults}
-		{include 'navs/nav.search.tpl'}
+	{if $aResultItems}
+		<ul class="nav nav-pills">
+			<li {if $sSearchType == 'topics'}class="active"{/if}>
+				<a href="{router page='search/topics'}?q={$_aRequest.q}">
+					{$aLang.search.result.topics}
+					{if $aTypeCounts.topics}
+						({$aTypeCounts.topics})
+					{/if}
+				</a>
+			</li>
+			<li {if $sSearchType == 'comments'}class="active"{/if}>
+				<a href="{router page='search/comments'}?q={$_aRequest.q}">
+					{$aLang.search.result.comments}
+					{if $aTypeCounts.comments}
+						({$aTypeCounts.comments})
+					{/if}
+				</a>
+			</li>
+			{hook run='search_result_item' sType=$sSearchType aTypeCounts=$aTypeCounts}
+		</ul>
 
-		{if $aReq.sType == 'topics'}
-			{include file='topics/topic_list.tpl'}
-		{elseif $aReq.sType == 'comments'}
-			{include file='comments/comment_list.tpl'}
+		{if $sSearchType == 'topics'}
+			{include file='topics/topic_list.tpl' aTopics=$aResultItems}
+		{elseif $sSearchType == 'comments'}
+			{include file='comments/comment_list.tpl' aComments=$aResultItems}
 		{else}
-			{hook run='search_result' sType=$aReq.sType}
+			{hook run='search_result' sType=$sSearchType}
 		{/if}
-	{elseif $aReq.q}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.search_results_empty aMods='empty'}
+
+	{elseif $_aRequest.q}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.search.alerts.empty aMods='empty'}
 	{/if}
 {/block}

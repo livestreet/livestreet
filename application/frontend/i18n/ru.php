@@ -95,10 +95,14 @@ return array(
 	'search' => array(
 		'search'   => 'Поиск',
 		'find'     => 'Найти',
-
+		'result'   => array(
+			'topics'=>'Топики',
+			'comments'=>'Комментарии',
+		),
 		// Сообщения
 		'alerts' => array(
 			'empty' => 'Поиск не дал результатов',
+			'query_incorrect' => 'Поисковый запрос должен быть от 3-х символов',
 		),
 	),
 
@@ -499,7 +503,7 @@ return array(
 	),
 
 	/**
-	 * 
+	 *
 	 */
 	'user_list_add' => array(
 		// Форма добавления
@@ -577,15 +581,6 @@ return array(
 	 * Блоги
 	 */
 	'blog_no_topic' => 'Сюда еще никто не успел написать',
-
-	/**
-	 * Поиск
-	 */
-	'search_submit' => 'Найти',
-	'search_results' => 'Результаты поиска',
-	'search_results_empty' => 'Удивительно, но поиск не дал результатов',
-	'search_results_count_topics' => 'топиков',
-	'search_results_count_comments' => 'комментариев',
 
 
 	/**

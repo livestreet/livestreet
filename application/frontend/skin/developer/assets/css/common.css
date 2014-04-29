@@ -94,3 +94,4 @@
 .user.inactive 		{ color: #aaa; cursor: help; }
 
 .hide { display: none; }
+.searched-item { background: #fff999; border-bottom: 1px dotted #999; }

@@ -7,7 +7,8 @@
 {extends file='forms/form.search.base.tpl'}
 
 {* Форма *}
-{block name='search_action'}{router page='search'}topics/{/block}
+{block name='search_action'}{router page='search'}{if $sSearchType}{$sSearchType}{else}topics{/if}/{/block}
+{block name='search_input_value'}{$_aRequest.q}{/block}
 
 {* Хуки *}
 {block name='search_before'}{hook run='search_begin'}{/block}
