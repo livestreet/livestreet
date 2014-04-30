@@ -31,11 +31,11 @@ class ModuleSearch_MapperSearch extends Mapper {
 		$sql="SELECT
                     DISTINCT t.topic_id,
                     CASE WHEN (LOWER(t.topic_title) REGEXP ?) THEN 1 ELSE 0 END +
-                    CASE WHEN (LOWER(tc.topic_text_source) REGEXP ?) THEN 1 ELSE 0 END AS weight
+                    CASE WHEN (LOWER(tc.topic_text) REGEXP ?) THEN 1 ELSE 0 END AS weight
                 FROM ".Config::Get('db.table.topic')." AS t
                     INNER JOIN ".Config::Get('db.table.topic_content')." AS tc ON tc.topic_id=t.topic_id
                 WHERE
-                    (t.topic_publish=1) AND ((LOWER(t.topic_title) REGEXP ?) OR (LOWER(tc.topic_text_source) REGEXP ?))
+                    (t.topic_publish=1) AND ((LOWER(t.topic_title) REGEXP ?) OR (LOWER(tc.topic_text) REGEXP ?))
                 ORDER BY
                     weight DESC, t.topic_id DESC
                 LIMIT ?d, ?d";

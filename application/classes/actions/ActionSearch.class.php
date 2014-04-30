@@ -88,7 +88,7 @@ class ActionSearch extends Action {
 			/**
 			 * Т.к. текст в сниппетах небольшой, то можно прогнать через парсер
 			 */
-			$oItem->setTextShort($this->Text_JevixParser($this->Search_BuildExcerpts($oItem->getTextSource(),$aWords)));
+			$oItem->setTextShort($this->Text_JevixParser($this->Search_BuildExcerpts($oItem->getText(),$aWords)));
 		}
 		/**
 		 * Формируем постраничность
