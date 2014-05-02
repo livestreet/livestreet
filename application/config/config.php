@@ -234,7 +234,7 @@ $config['module']['media']['image']['preview']['sizes'] = array(  // списо�
 );
 
 // Какие модули должны быть загружены на старте
-$config['module']['autoLoad'] = array('Hook','Cache','Security','Session','Lang','Message','User');
+$config['module']['autoLoad'] = array('Hook','Cache','Logger','Security','Session','Lang','Message','User');
 /**
  * Настройка базы данных
  */
