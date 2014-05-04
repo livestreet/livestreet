@@ -231,9 +231,14 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Pagination
+	 * Пагинация
 	 */
-	ls.pagination.init();
+	$('.js-pagination-topics').lsPagination({
+		hash: {
+			next: 'goTopic=0',
+			prev: 'goTopic=last'
+		}
+	});
 
 
 	/**
