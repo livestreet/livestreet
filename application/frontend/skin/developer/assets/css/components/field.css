@@ -1,0 +1,43 @@
+/**
+ * Field
+ */
+
+.field            { margin-bottom: 25px; }
+.field:last-child { margin-bottom: 0; }
+
+/* Лэйбл */
+.field-label       { display: block; margin-bottom: 3px; }
+.field-label:after { content: ":"; }
+
+/* Заметка */
+.field-note { display: block; padding-top: 5px; font-size: 13px; color: #999; }
+
+.field-input { width: 100%; }
+
+
+/**
+ * Horizontal
+ */
+.field--horizontal .field-label  { float: left; width: 135px; padding-top: 5px; text-align: right; }
+.field--horizontal .field-holder,
+.field--horizontal .field-note { padding-left: 150px; min-width: 200px; }
+
+/**
+ * Inline
+ */
+.field--inline { display: inline-block; }
+
+/**
+ * Checkbox
+ */
+.field--checkbox                                { position: relative; }
+.field--checkbox .field-note,
+.field--checkbox .field-label                   { padding-left: 20px; }
+.field--checkbox .field-label.field-label:after { content: ""; }
+.field--checkbox .field-holder                  { position: absolute; top: 1px; left: 0; }
+.field--checkbox .field-input                   { width: auto; }
+
+/**
+ * File
+ */
+.field--file .field-input { width: auto; }
