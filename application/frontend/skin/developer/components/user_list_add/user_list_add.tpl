@@ -21,13 +21,13 @@
 	<form class="{$_sComponentName}-form js-{$_sComponentName}-form">
 		{$sClass = "js-$_sComponentName-form-users-"|cat:rand(0, 9999)}
 
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName    = 'add'
-				 sFieldClasses = "width-full autocomplete-users-sep {$sClass}"
-				 sFieldLabel   = $aLang.user_list_add.form.fields.add.label
-				 sFieldNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
+		{include 'components/field/field.text.tpl'
+				 sName    = 'add'
+				 sClasses = "width-full autocomplete-users-sep {$sClass}"
+				 sLabel   = $aLang.user_list_add.form.fields.add.label
+				 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
 
-		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-{$_sComponentName}-form-submit'}
+		{include 'components/button/button.tpl' sText=$aLang.common.add sStyle='primary' sClasses='js-{$_sComponentName}-form-submit'}
 	</form>
 
 	{* Список пользователей *}

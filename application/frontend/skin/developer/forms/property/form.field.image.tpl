@@ -1,11 +1,11 @@
 {$oValue = $oProperty->getValue()}
 {$oValueType = $oValue->getValueTypeObject()}
 
-{include file="forms/fields/form.field.file.tpl"
-		 sFieldName    = "property[{$oProperty->getId()}][file]"
-		 sFieldClasses = 'width-300'
-		 sFieldNote = $oProperty->getDescription()
-		 sFieldLabel   = $oProperty->getTitle()}
+{include file="components/field/field.file.tpl"
+		 sName    = "property[{$oProperty->getId()}][file]"
+		 sClasses = 'width-300'
+		 sNote = $oProperty->getDescription()
+		 sLabel   = $oProperty->getTitle()}
 
 {$aFile=$oValue->getDataOne('file')}
 {if $aFile}

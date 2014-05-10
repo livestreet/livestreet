@@ -27,7 +27,7 @@
 			{/foreach}
 		</select></p>
 
-		{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.block_blog_navigator_button sFieldClasses='js-blog-nav-submit' bFieldIsDisabled=true}
+		{include 'components/button/button.tpl' sText=$aLang.block_blog_navigator_button sClasses='js-blog-nav-submit' bIsDisabled=true}
 	{else}
 		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.categories.empty sMods='empty'}
 	{/if}

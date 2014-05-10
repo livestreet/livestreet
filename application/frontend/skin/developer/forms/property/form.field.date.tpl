@@ -1,12 +1,12 @@
 {$oValue = $oProperty->getValue()}
 {$oValueType = $oValue->getValueTypeObject()}
 
-{include file="forms/fields/form.field.text.tpl"
-		 sFieldName    = "property[{$oProperty->getId()}][date]"
-		 sFieldValue   = $oValue->getValueForForm()
-		 sFieldClasses = 'width-150 date-picker'
-		 sFieldNote = $oProperty->getDescription()
-		 sFieldLabel   = $oProperty->getTitle()}
+{include file="components/field/field.text.tpl"
+		 sName    = "property[{$oProperty->getId()}][date]"
+		 sValue   = $oValue->getValueForForm()
+		 sClasses = 'width-150 date-picker'
+		 sNote = $oProperty->getDescription()
+		 sLabel   = $oProperty->getTitle()}
 
 {if $oProperty->getParam('use_time')}
 

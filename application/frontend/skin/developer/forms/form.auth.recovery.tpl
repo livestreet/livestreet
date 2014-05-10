@@ -6,10 +6,10 @@
 
 <form action="{router page='login'}reminder/" method="post" class="js-form-recovery">
 	{* E-mail *}
-    {include file='forms/fields/form.field.text.tpl'
-             sFieldName   = 'mail'
-             sFieldRules  = 'required="true" type="email"'
-             sFieldLabel  = $aLang.password_reminder_email}
+    {include file='components/field/field.text.tpl'
+             sName   = 'mail'
+             aRules  = [ 'required' => true, 'type' => 'email' ]
+             sLabel  = $aLang.password_reminder_email}
 
-	{include file='forms/fields/form.field.button.tpl' sFieldName='submit_reactivation' sFieldStyle='primary' sFieldText=$aLang.password_reminder_submit}
+	{include file='components/button/button.tpl' sName='submit_reactivation' sStyle='primary' sText=$aLang.password_reminder_submit}
 </form>

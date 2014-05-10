@@ -1,8 +1,8 @@
 {$oValue = $oProperty->getValue()}
 
-{include file="forms/fields/form.field.textarea.tpl"
-		 sFieldName  = "property[{$oProperty->getId()}]"
-		 sFieldValue = $oValue->getValueForForm()
-		 iFieldRows  = 10
-		 sFieldNote = $oProperty->getDescription()
-		 sFieldLabel = $oProperty->getTitle()}
+{include file="components/field/field.textarea.tpl"
+		 sName  = "property[{$oProperty->getId()}]"
+		 sValue = $oValue->getValueForForm()
+		 iRows  = 10
+		 sNote = $oProperty->getDescription()
+		 sLabel = $oProperty->getTitle()}

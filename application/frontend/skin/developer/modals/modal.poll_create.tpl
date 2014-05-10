@@ -21,9 +21,9 @@
 {/block}
 
 {block name='modal_footer_begin'}
-	{include file='forms/fields/form.field.button.tpl'
-			 sFieldAttributes = 'data-button-submit-form="js-poll-form"'
-			 sFieldText       =  ($oPoll) ? $aLang.common.save : $aLang.common.add
-			 sFieldClasses    = 'js-poll-form-submit'
-			 sFieldStyle      = 'primary'}
+	{include 'components/button/button.tpl'
+			 sForm    = '#js-poll-form'
+			 sText    =  ($oPoll) ? $aLang.common.save : $aLang.common.add
+			 sClasses = 'js-poll-form-submit'
+			 sStyle   = 'primary'}
 {/block}

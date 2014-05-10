@@ -17,11 +17,11 @@
 			{if ! ($oConfig->get('module.stream.disable_vote_events') && substr($sType, 0, 4) == 'vote')}
 				{$sLangKey = "stream_event_type_`$sType`"}
 
-				{include 'forms/fields/form.field.checkbox.tpl'
-						 sFieldInputClasses    = 'js-activity-settings-toggle'
-						 sFieldInputAttributes = "data-type=\"{$sType}\""
-						 bFieldChecked         = in_array($sType, $aStreamTypesList)
-						 sFieldLabel           = $aLang.$sLangKey}
+				{include 'components/field/field.checkbox.tpl'
+						 sInputClasses    = 'js-activity-settings-toggle'
+						 sInputAttributes = "data-type=\"{$sType}\""
+						 bChecked         = in_array($sType, $aStreamTypesList)
+						 sLabel           = $aLang.$sLangKey}
 			{/if}
 		{/foreach}
 	{/if}

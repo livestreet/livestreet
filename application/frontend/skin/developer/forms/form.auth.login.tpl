@@ -10,36 +10,36 @@
 	{hook run='form_login_begin' isModal=$isModal}
 
 	{* Логин *}
-	{include file='forms/fields/form.field.text.tpl'
-			 sFieldName   = 'login'
-			 sFieldRules  = 'required="true" rangelength="[2,20]"'
-			 sFieldLabel  = $aLang.user_login}
+	{include file='components/field/field.text.tpl'
+			 sName   = 'login'
+			 aRules  = [ 'required' => true, 'rangelength' => '[2,20]' ]
+			 sLabel  = $aLang.user_login}
 
 	{* Пароль *}
-	{include file='forms/fields/form.field.text.tpl'
-			 sFieldName   = 'password'
-			 sFieldType   = 'password'
-			 sFieldRules  = 'required="true" rangelength="[2,20]"'
-			 sFieldLabel  = $aLang.user_password}
+	{include file='components/field/field.text.tpl'
+			 sName   = 'password'
+			 sType   = 'password'
+			 aRules  = [ 'required' => true, 'rangelength' => '[2,20]' ]
+			 sLabel  = $aLang.user_password}
 
 	{* Каптча *}
 	{if $oConfig->GetValue('general.login.captcha')}
-		{include file='forms/fields/form.field.captcha.tpl'
-				sFieldName   = 'captcha'
+		{include file='components/field/field.captcha.tpl'
+				sName   = 'captcha'
 				sCaptchaName   = 'user_auth'
-				sFieldLabel  = $aLang.registration_captcha}
+				sLabel  = $aLang.registration_captcha}
 	{/if}
-	
+
 	{* Запомнить *}
-	{include file='forms/fields/form.field.checkbox.tpl'
-			 sFieldName    = 'remember'
-			 sFieldLabel   = $aLang.user_login_remember
-			 bFieldChecked = true}
+	{include file='components/field/field.checkbox.tpl'
+			 sName    = 'remember'
+			 sLabel   = $aLang.user_login_remember
+			 bChecked = true}
 
 	{hook run='form_login_end' isModal=$isModal}
 
-	{include file='forms/fields/form.field.hidden.tpl' sFieldName='return-path' value=$PATH_WEB_CURRENT}
-	{include file='forms/fields/form.field.button.tpl' sFieldName='submit_login' sFieldStyle='primary' sFieldText=$aLang.user_login_submit}
+	{include file='components/field/field.hidden.tpl' sName='return-path' value=$PATH_WEB_CURRENT}
+	{include file='components/button/button.tpl' sName='submit_login' sStyle='primary' sText=$aLang.user_login_submit}
 </form>
 
 {if ! $isModal}

@@ -15,8 +15,8 @@
 		<p><label for="user_fields_form_type">{$aLang.userfield_form_type}:</label>
 		<select id="user_fields_form_type" class="input-text width-full">
 			<option value=""></option>
-			{foreach $aUserFieldTypes as $sFieldType}
-				<option value="{$sFieldType}">{$sFieldType}</option>
+			{foreach $aUserFieldTypes as $sType}
+				<option value="{$sType}">{$sType}</option>
 			{/foreach}
 		</select></p>
 

@@ -10,44 +10,44 @@
 	{hook run='form_registration_begin' isPopup=$isModal}
 
 	{* Логин *}
-    {include file='forms/fields/form.field.text.tpl'
-             sFieldName   = 'login'
-             sFieldRules  = 'required="true" rangelength="[2,20]" remote="'|cat:{router page='registration'}|cat:'ajax-validate-fields" remote-method="POST"'
-             sFieldLabel  = $aLang.user_login}
+    {include file='components/field/field.text.tpl'
+             sName   = 'login'
+             aRules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
+             sLabel  = $aLang.user_login}
 
 	{* E-mail *}
-    {include file='forms/fields/form.field.text.tpl'
-             sFieldName   = 'mail'
-             sFieldRules  = 'required="true" type="email"'
-             sFieldLabel  = $aLang.registration_mail}
+    {include file='components/field/field.text.tpl'
+             sName   = 'mail'
+             aRules  = [ 'required' => true, 'type' => 'email' ]
+             sLabel  = $aLang.registration_mail}
 
 	{* Пароль *}
-    {include file='forms/fields/form.field.text.tpl'
-             sFieldName    = 'password'
-             sFieldType    = 'password'
-             sFieldRules   = 'required="true" rangelength="[2,20]"'
-             sFieldLabel   = $aLang.registration_password
-             sFieldClasses = 'js-input-password-reg'}
+    {include file='components/field/field.text.tpl'
+             sName    = 'password'
+             sType    = 'password'
+             aRules   = [ 'required' => true, 'rangelength' => '[2,20]' ]
+             sLabel   = $aLang.registration_password
+             sClasses = 'js-input-password-reg'}
 
 	{* Повторите пароль *}
-    {include file='forms/fields/form.field.text.tpl'
-             sFieldName   = 'password_confirm'
-             sFieldType   = 'password'
-             sFieldRules  = 'required="true" rangelength="[2,20]" equalto=".js-input-password-reg"'
-             sFieldLabel  = $aLang.registration_password_retry}
+    {include file='components/field/field.text.tpl'
+             sName   = 'password_confirm'
+             sType   = 'password'
+             aRules  = [ 'required' => true, 'rangelength' => '[2,20]', 'equalto' => '.js-input-password-reg' ]
+             sLabel  = $aLang.registration_password_retry}
 
     {* Каптча *}
-    {include file='forms/fields/form.field.captcha.tpl'
-             sFieldName   = 'captcha'
-			 sCaptchaName   = 'user_signup'
-             sFieldLabel  = $aLang.registration_captcha}
+    {include file='components/field/field.captcha.tpl'
+             sName        = 'captcha'
+             sCaptchaName = 'user_signup'
+             sLabel       = $aLang.registration_captcha}
 
 	{hook run='form_registration_end' isPopup=$isModal}
 
     {if $isModal}
-        {include file='forms/fields/form.field.hidden.tpl' sFieldName='return-path' sFieldValue=$PATH_WEB_CURRENT}
+        {include file='components/field/field.hidden.tpl' sName='return-path' sValue=$PATH_WEB_CURRENT}
     {/if}
-    {include file='forms/fields/form.field.button.tpl' sFieldName='submit_register' sFieldStyle='primary' sFieldText=$aLang.registration_submit}
+    {include file='components/button/button.tpl' sName='submit_register' sStyle='primary' sText=$aLang.registration_submit}
 </form>
 
 {hook run='registration_end' isPopup=$isModal}

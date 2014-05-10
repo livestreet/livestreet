@@ -15,10 +15,10 @@
 
 
 {* Кнопка *}
-{include 'forms/fields/form.field.button.tpl'
-		 sFieldClasses    = "{$_sComponentName}-toggle js-dropdown-default {$smarty.local.sClasses}"
-		 sFieldAttributes = "data-{$_sComponentName}-target=\"js-{$_sComponentName}-{$_sName}-menu\" {$smarty.local.sAttributes}"
-		 sFieldText       = $smarty.local.sText}
+{include 'components/button/button.tpl'
+		 sClasses    = "{$_sComponentName}-toggle js-dropdown-default {$smarty.local.sClasses}"
+		 sAttributes = "data-{$_sComponentName}-target=\"js-{$_sComponentName}-{$_sName}-menu\" {$smarty.local.sAttributes}"
+		 sText       = $smarty.local.sText}
 
 {* Выпадающее меню *}
 {include './dropdown.menu.tpl'

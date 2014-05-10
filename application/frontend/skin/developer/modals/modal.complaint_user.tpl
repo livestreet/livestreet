@@ -19,27 +19,27 @@
 			]}
 		{/foreach}
 
-		{include file='forms/fields/form.field.select.tpl'
-			sFieldName          = 'type'
-			sFieldLabel         = $aLang.user_complaint_type_title
-			sFieldClasses       = 'width-full'
-			aFieldItems         = $aTypes }
+		{include file='components/field/field.select.tpl'
+			sName          = 'type'
+			sLabel         = $aLang.user_complaint_type_title
+			sClasses       = 'width-full'
+			aItems         = $aTypes }
 
-		{include file='forms/fields/form.field.textarea.tpl'
-			sFieldName    = 'text'
-			iFieldRows    = 5
-			sFieldLabel   = $aLang.user_complaint_text_title
-			sFieldClasses = 'width-full'}
+		{include file='components/field/field.textarea.tpl'
+			sName    = 'text'
+			iRows    = 5
+			sLabel   = $aLang.user_complaint_text_title
+			sClasses = 'width-full'}
 
 		{* Каптча *}
 		{if Config::Get('module.user.complaint_captcha')}
-			{include file='forms/fields/form.field.captcha.tpl'
+			{include file='components/field/field.captcha.tpl'
 			sCaptchaName   = 'complaint_user'
-			sFieldName   = 'captcha'
-			sFieldLabel  = $aLang.registration_captcha}
+			sName   = 'captcha'
+			sLabel  = $aLang.registration_captcha}
 		{/if}
 
-		{include file='forms/fields/form.field.hidden.tpl' sFieldName='user_id' sFieldValue=$_aRequest.user_id}
+		{include file='components/field/field.hidden.tpl' sName='user_id' sValue=$_aRequest.user_id}
 	</form>
 {/block}
 

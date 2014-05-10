@@ -6,43 +6,43 @@
 
 	<form action="{router page='talk'}" method="GET" name="talk_filter_form" id="block_talk_search_content" class="accordion-content" {if $_aRequest.submit_talk_filter}style="display:block;"{/if}>
 		{* Отправитель *}
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName    = 'sender'
-				 sFieldLabel   = $aLang.messages.search.fields.sender.label
-				 sFieldNote    = $aLang.messages.search.fields.sender.note
-				 sFieldClasses = 'width-full autocomplete-users-sep'}
+		{include file='components/field/field.text.tpl'
+				 sName    = 'sender'
+				 sLabel   = $aLang.messages.search.fields.sender.label
+				 sNote    = $aLang.messages.search.fields.sender.note
+				 sClasses = 'width-full autocomplete-users-sep'}
 
 		{* Искать в заголовке *}
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName    = 'keyword'
-				 sFieldLabel   = $aLang.messages.search.fields.keyword.label}
+		{include file='components/field/field.text.tpl'
+				 sName    = 'keyword'
+				 sLabel   = $aLang.messages.search.fields.keyword.label}
 
 		{* Искать в тексте *}
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName    = 'keyword_text'
-				 sFieldLabel   = $aLang.messages.search.fields.keyword_text.label}
+		{include file='components/field/field.text.tpl'
+				 sName    = 'keyword_text'
+				 sLabel   = $aLang.messages.search.fields.keyword_text.label}
 
 		{* Ограничения по дате *}
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName        = 'start'
-				 sFieldPlaceholder = $aLang.messages.search.fields.start.placeholder
-				 sFieldLabel       = $aLang.messages.search.fields.start.label
-				 sFieldClasses     = 'width-200 date-picker'}
+		{include file='components/field/field.text.tpl'
+				 sName        = 'start'
+				 sPlaceholder = $aLang.messages.search.fields.start.placeholder
+				 sLabel       = $aLang.messages.search.fields.start.label
+				 sClasses     = 'width-200 date-picker'}
 
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName        = 'end'
-				 sFieldPlaceholder = $aLang.messages.search.fields.end.placeholder
-				 sFieldClasses     = 'width-200 date-picker'}
+		{include file='components/field/field.text.tpl'
+				 sName        = 'end'
+				 sPlaceholder = $aLang.messages.search.fields.end.placeholder
+				 sClasses     = 'width-200 date-picker'}
 
 		{* Искать только в избранном *}
-		{include file='forms/fields/form.field.checkbox.tpl' sFieldName='favourite' sFieldLabel=$aLang.messages.search.fields.favourite.label}
+		{include file='components/field/field.checkbox.tpl' sName='favourite' sLabel=$aLang.messages.search.fields.favourite.label}
 
 		{* Кнопки *}
-		{include file='forms/fields/form.field.button.tpl'
-		 		 sFieldName    = 'submit_talk_filter'
-		 		 sFieldStyle   = 'primary'
-		 		 sFieldText    = $aLang.search.find}
+		{include file='components/button/button.tpl'
+		 		 sName    = 'submit_talk_filter'
+		 		 sStyle   = 'primary'
+		 		 sText    = $aLang.search.find}
 
-		{include file='forms/fields/form.field.button.tpl' sFieldType='reset' sFieldText=$aLang.common.form_reset}
+		{include file='components/button/button.tpl' sType='reset' sText=$aLang.common.form_reset}
 	</form>
 </div>

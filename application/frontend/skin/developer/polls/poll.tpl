@@ -14,36 +14,36 @@
 				{foreach $oPoll->getAnswers() as $oAnswer}
 					<li class="poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$oAnswer->getId()}">
 						{if $oPoll->getCountAnswerMax() > 1}
-							{include 'forms/fields/form.field.checkbox.tpl'
-									 sFieldName    = 'answers[]'
-									 sFieldValue   = $oAnswer->getId()
-									 sFieldLabel   = $oAnswer->getTitle()
-									 sFieldClasses = 'js-poll-answer-checkbox'}
+							{include 'components/field/field.checkbox.tpl'
+									 sName    = 'answers[]'
+									 sValue   = $oAnswer->getId()
+									 sLabel   = $oAnswer->getTitle()
+									 sClasses = 'js-poll-answer-checkbox'}
 						{else}
-							{include 'forms/fields/form.field.radio.tpl'
-									 sFieldName    = 'answers[]'
-									 sFieldValue   = $oAnswer->getId()
-									 sFieldLabel   = $oAnswer->getTitle()
-									 sFieldClasses = 'js-poll-answer-radio'}
+							{include 'components/field/field.radio.tpl'
+									 sName    = 'answers[]'
+									 sValue   = $oAnswer->getId()
+									 sLabel   = $oAnswer->getTitle()
+									 sClasses = 'js-poll-answer-radio'}
 						{/if}
 					</li>
 				{/foreach}
 			</ul>
 
-			{include file='forms/fields/form.field.hidden.tpl' sFieldName='id' sFieldValue=$oPoll->getId()}
+			{include file='components/field/field.hidden.tpl' sName='id' sValue=$oPoll->getId()}
 
 			{if $oUserCurrent}
-				{include 'forms/fields/form.field.button.tpl'
-						 sFieldText    = $aLang.poll.vote
-						 sFieldType    = 'button'
-						 sFieldStyle   = 'primary'
-						 sFieldClasses = 'js-poll-vote'}
+				{include 'components/button/button.tpl'
+						 sText    = $aLang.poll.vote
+						 sType    = 'button'
+						 sStyle   = 'primary'
+						 sClasses = 'js-poll-vote'}
 
-				{include 'forms/fields/form.field.button.tpl'
-						 sFieldText    = $aLang.poll.abstain
-						 sFieldType    = 'button'
-						 sFieldStyle   = 'primary'
-						 sFieldClasses = 'js-poll-abstain'}
+				{include 'components/button/button.tpl'
+						 sText    = $aLang.poll.abstain
+						 sType    = 'button'
+						 sStyle   = 'primary'
+						 sClasses = 'js-poll-abstain'}
 			{else}
 				{$aLang.poll.only_auth}
 			{/if}

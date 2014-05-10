@@ -3,11 +3,11 @@
  *}
 
 <form action="{router page='registration'}invite/" method="post">
-	{include file='forms/fields/form.field.text.tpl' 
-			 sFieldName    = 'invite_code' 
-			 sFieldRules   = 'required="true" type="alphanum'
-			 sFieldLabel   = $aLang.registration_invite_code
-			 sFieldClasses = 'width-300'}
-			 
-	{include file='forms/fields/form.field.button.tpl' sFieldName='submit_invite' sFieldStyle='primary' sFieldText=$aLang.registration_invite_check}
+	{include file='components/field/field.text.tpl'
+			 sName    = 'invite_code'
+			 aRules   = [ 'required' => true, 'type' => 'alphanum' ]
+			 sLabel   = $aLang.registration_invite_code
+			 sInputClasses = 'width-300'}
+
+	{include file='components/button/button.tpl' sName='submit_invite' sStyle='primary' sText=$aLang.registration_invite_check}
 </form>

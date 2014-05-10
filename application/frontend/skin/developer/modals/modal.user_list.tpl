@@ -25,10 +25,10 @@
 
 {block name='modal_footer_begin'}
 	{if $aUserList && $bSelectable}
-		{include 'forms/fields/form.field.button.tpl'
-				 sFieldText = $aLang.common.add
-				 sFieldStyle = 'primary'
-				 sFieldClasses = 'js-user-list-select-add'
-				 sFieldAttributes = "data-target=\"{$sTarget}\""}
+		{include 'components/button/button.tpl'
+				 sText = $aLang.common.add
+				 sStyle = 'primary'
+				 sClasses = 'js-user-list-select-add'
+				 sAttributes = "data-target=\"{$sTarget}\""}
 	{/if}
 {/block}

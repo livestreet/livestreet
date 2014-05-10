@@ -15,21 +15,21 @@
 	{hook run='form_add_comment_begin'}
 
 	{* Текст комментария *}
-	{include 'forms/fields/form.field.textarea.tpl' sFieldName='comment_text' sFieldId='form_comment_text' sFieldClasses='width-full js-editor'}
+	{include 'components/field/field.textarea.tpl' sName='comment_text' sId='form_comment_text' sInputClasses='js-editor'}
 
 	{hook run='form_add_comment_end'}
 
 	{* Скрытые поля *}
-	{include 'forms/fields/form.field.hidden.tpl' sFieldName='reply' sFieldValue='0' sFieldId='form_comment_reply'}
-	{include 'forms/fields/form.field.hidden.tpl' sFieldName='cmt_target_id' sFieldValue=$iTargetId}
+	{include 'components/field/field.hidden.tpl' sName='reply' sValue='0' sId='form_comment_reply'}
+	{include 'components/field/field.hidden.tpl' sName='cmt_target_id' sValue=$iTargetId}
 
 	{* Кнопки создания *}
-	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldText=$aLang.common.add sFieldStyle='primary' sFieldClasses='js-comment-form-submit'}
+	{include 'components/button/button.tpl' sName='submit_comment' sText=$aLang.common.add sStyle='primary' sClasses='js-comment-form-submit'}
 
 	{* Кнопки редактирования *}
-	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldType='button' sFieldText=$aLang.common.save sFieldStyle='primary' sFieldClasses='js-comment-form-update-submit hide'}
-	{include 'forms/fields/form.field.button.tpl' sFieldName='submit_comment' sFieldType='button' sFieldText=$aLang.common.cancel sFieldClasses='js-comment-form-update-cancel  fl-r hide'}
+	{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.save sStyle='primary' sClasses='js-comment-form-update-submit hide'}
+	{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.cancel sClasses='js-comment-form-update-cancel  fl-r hide'}
 
 	{* Общие кнопки *}
-	{include 'forms/fields/form.field.button.tpl' sFieldText=$aLang.common.preview_text sFieldType='button' sFieldClasses='js-comment-form-preview'}
+	{include 'components/button/button.tpl' sText=$aLang.common.preview_text sType='button' sClasses='js-comment-form-preview'}
 </form>

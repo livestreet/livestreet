@@ -12,12 +12,12 @@
 
 {block name='modal_content'}
 	<form id="add_friend_form" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
-		{include file='forms/fields/form.field.textarea.tpl'
-				 sFieldName     = 'add_friend_text'
-				 sFieldRules    = 'required="true" rangelength="[2,200]"'
-				 iFieldRows     = 3
-				 bFieldNoMargin = true
-				 sFieldLabel    = $aLang.user_friend_add_text_label}
+		{include file='components/field/field.textarea.tpl'
+				 sName     = 'add_friend_text'
+				 aRules    = [ 'required' => true, 'rangelength' => '[2,200]' ]
+				 iRows     = 3
+				 bNoMargin = true
+				 sLabel    = $aLang.user_friend_add_text_label}
 	</form>
 {/block}
 

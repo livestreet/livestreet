@@ -1,7 +1,7 @@
 {$oValue = $oProperty->getValue()}
 
-{include file="forms/fields/form.field.checkbox.tpl"
-		 sFieldName    = "property[{$oProperty->getId()}]"
-		 bFieldChecked = $oValue->getValueInt()
-		 sFieldNote = $oProperty->getDescription()
-		 sFieldLabel   = $oProperty->getTitle()}
+{include file="components/field/field.checkbox.tpl"
+		 sName    = "property[{$oProperty->getId()}]"
+		 bChecked = $oValue->getValueInt()
+		 sNote = $oProperty->getDescription()
+		 sLabel   = $oProperty->getTitle()}

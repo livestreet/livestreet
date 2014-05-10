@@ -45,7 +45,7 @@
 
 	{* Тип блога *}
 	<p class="mb-10">Тип блога</p>
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue=''  bFieldChecked=true sFieldLabel='Любой'}
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='open' sFieldLabel='Открытый'}
-	{include file='forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="blogs"' sFieldName='type' sFieldValue='close' sFieldLabel='Закрытый'}
+	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue=''  bChecked=true sLabel='Любой'}
+	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='open' sLabel='Открытый'}
+	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='close' sLabel='Закрытый'}
 {/block}

@@ -42,9 +42,9 @@
 				</ul>
 
 				{* Описание *}
-				{include file='forms/fields/form.field.text.tpl'
-						 sFieldName  = 'title'
-						 sFieldLabel = $aLang.uploadimg_title}
+				{include file='components/field/field.text.tpl'
+						 sName  = 'title'
+						 sLabel = $aLang.uploadimg_title}
 	        </div>
 
 			{* Основные настройки *}
@@ -52,10 +52,10 @@
 				<h3>Опции вставки</h3>
 
 				{* Выравнивание *}
-				{include file='forms/fields/form.field.select.tpl'
-						 sFieldName  = 'align'
-						 sFieldLabel = $aLang.uploadimg_align
-						 aFieldItems = $aSelectImageAlign}
+				{include file='components/field/field.select.tpl'
+						 sName  = 'align'
+						 sLabel = $aLang.uploadimg_align
+						 aItems = $aSelectImageAlign}
 
 	            {* Размер *}
 	            {$aSelectImageSizes = [ [ 'value' => 'original', 'text' => 'Оригинал' ] ]}
@@ -68,11 +68,11 @@
 					]}
 				{/foreach}
 
-				{include file='forms/fields/form.field.select.tpl'
-						 sFieldName          = 'size'
-						 sFieldLabel         = 'Размер'
-						 sFieldSelectedValue = $_aRequest.blog_category
-						 aFieldItems         = $aSelectImageSizes}
+				{include file='components/field/field.select.tpl'
+						 sName          = 'size'
+						 sLabel         = 'Размер'
+						 sSelectedValue = $_aRequest.blog_category
+						 aItems         = $aSelectImageSizes}
 			</div>
 
 			{* Опции фотосета *}
@@ -80,15 +80,15 @@
 				<h3>Опции фотосета</h3>
 
 				{* Показывать ленту с превьюшками *}
-				{include file='forms/fields/form.field.checkbox.tpl'
-						 sFieldName    = 'use_thumbs'
-						 bFieldChecked = true
-						 sFieldLabel   = 'Показывать ленту с превьюшками'}
+				{include file='components/field/field.checkbox.tpl'
+						 sName    = 'use_thumbs'
+						 bChecked = true
+						 sLabel   = 'Показывать ленту с превьюшками'}
 
 				{* Показывать описания фотографий *}
-				{include file='forms/fields/form.field.checkbox.tpl'
-						 sFieldName    = 'show_caption'
-						 sFieldLabel   = 'Показывать описания фотографий'}
+				{include file='components/field/field.checkbox.tpl'
+						 sName    = 'show_caption'
+						 sLabel   = 'Показывать описания фотографий'}
 	        </div>
 		</div>
 	</div>

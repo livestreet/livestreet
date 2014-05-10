@@ -17,7 +17,7 @@
 		{/if}
 	{/foreach}
 
-	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+	{include 'components/pagination/pagination.tpl' aPaging=$aPaging sClasses='js-pagination-topics'}
 {else}
 	{include 'components/alert/alert.tpl' mAlerts=$aLang.blog_no_topic sMods='empty'}
 {/if}

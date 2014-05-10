@@ -6,7 +6,7 @@
 
 {block 'layout_content'}
 	{include 'topics/topic.tpl'}
-	{include 'comments/comment_tree.tpl' 	
+	{include 'comments/comment_tree.tpl'
 			 iTargetId         = $oTopic->getId()
 			 iAuthorId         = $oTopic->getUserId()
 			 sAuthorNotice     = $aLang.topic_author

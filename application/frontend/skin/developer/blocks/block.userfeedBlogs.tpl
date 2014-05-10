@@ -14,11 +14,11 @@
 
 	{if $aUserfeedBlogs}
 		{foreach $aUserfeedBlogs as $oBlog}
-			{include 'forms/fields/form.field.checkbox.tpl'
-					 sFieldInputClasses    = 'js-userfeed-subscribe'
-					 sFieldInputAttributes = "data-id=\"{$oBlog->getId()}\""
-					 bFieldChecked         = isset($aUserfeedSubscribedBlogs[$oBlog->getId()])
-					 sFieldLabel           = "<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>"}
+			{include 'components/field/field.checkbox.tpl'
+					 sInputClasses    = 'js-userfeed-subscribe'
+					 sInputAttributes = "data-id=\"{$oBlog->getId()}\""
+					 bChecked         = isset($aUserfeedSubscribedBlogs[$oBlog->getId()])
+					 sLabel           = "<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>"}
 		{/foreach}
 	{else}
 		{include 'components/alert/alert.tpl' mAlerts=$aLang.userfeed_no_blogs sMods='info'}

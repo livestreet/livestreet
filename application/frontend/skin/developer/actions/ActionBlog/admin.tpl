@@ -56,10 +56,10 @@
 			</table>
 
 			{* Скрытые поля *}
-			{include 'forms/fields/form.field.hidden.security_key.tpl'}
+			{include 'components/field/field.hidden.security_key.tpl'}
 
 			{* Кнопки *}
-			{include 'forms/fields/form.field.button.tpl' sFieldName='submit_blog_admin' sFieldText=$aLang.common.save sFieldStyle='primary'}
+			{include 'components/button/button.tpl' sName='submit_blog_admin' sText=$aLang.common.save sStyle='primary'}
 		</form>
 
 		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}

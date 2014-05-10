@@ -1,8 +1,8 @@
 {$oValue = $oProperty->getValue()}
 
-{include file="forms/fields/form.field.text.tpl"
-		 sFieldName    = "property[{$oProperty->getId()}]"
-		 sFieldValue   = $oValue->getValueFloat()
-		 sFieldClasses = 'width-150'
-		 sFieldNote = $oProperty->getDescription()
-		 sFieldLabel   = $oProperty->getTitle()}
+{include file="components/field/field.text.tpl"
+		 sName    = "property[{$oProperty->getId()}]"
+		 sValue   = $oValue->getValueFloat()
+		 sClasses = 'width-150'
+		 sNote = $oProperty->getDescription()
+		 sLabel   = $oProperty->getTitle()}

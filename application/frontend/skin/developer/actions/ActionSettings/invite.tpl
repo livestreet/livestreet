@@ -18,18 +18,18 @@
 		</p>
 
         {* E-mail *}
-        {include file='forms/fields/form.field.text.tpl'
-                 sFieldName  = 'invite_mail'
-                 sFieldNote  = $aLang.settings_invite_mail_notice
-                 sFieldLabel = $aLang.settings_invite_mail}
+        {include file='components/field/field.text.tpl'
+                 sName  = 'invite_mail'
+                 sNote  = $aLang.settings_invite_mail_notice
+                 sLabel = $aLang.settings_invite_mail}
 
 		{hook run='form_settings_invite_end'}
 
         {* Скрытые поля *}
-        {include file='forms/fields/form.field.hidden.security_key.tpl'}
+        {include file='components/field/field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='forms/fields/form.field.button.tpl' sFieldName='submit_invite' sFieldStyle='primary' sFieldText=$aLang.settings_invite_submit}
+        {include file='components/button/button.tpl' sName='submit_invite' sStyle='primary' sText=$aLang.settings_invite_submit}
 	</form>
 
 	{hook run='settings_invite_end'}

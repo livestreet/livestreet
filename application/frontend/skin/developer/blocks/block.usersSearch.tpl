@@ -10,16 +10,16 @@
 
 {block name='block_content'}
 	{* Сейчас на сайте *}
-	{include file='forms/fields/form.field.checkbox.tpl'
-			 sFieldName            = 'is_online'
-			 sFieldInputClasses    = 'js-search-ajax-option'
-			 sFieldInputAttributes = 'data-search-type="users"'
-			 bFieldChecked         = false
-			 sFieldLabel           = 'Сейчас на сайте'}
+	{include file='components/field/field.checkbox.tpl'
+			 sName            = 'is_online'
+			 sInputClasses    = 'js-search-ajax-option'
+			 sInputAttributes = 'data-search-type="users"'
+			 bChecked         = false
+			 sLabel           = 'Сейчас на сайте'}
 
 	{* Пол *}
 	<p class="mb-10">Пол</p>
-	{include 'forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="users"' sFieldName='sex' sFieldValue='' bFieldChecked=true sFieldLabel='Любой'}
-	{include 'forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="users"' sFieldName='sex' sFieldValue='man' sFieldLabel='Мужской'}
-	{include 'forms/fields/form.field.radio.tpl' sFieldInputClasses='js-search-ajax-option' sFieldInputAttributes='data-search-type="users"' sFieldName='sex' sFieldValue='woman' sFieldLabel='Женский'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='' bChecked=true sLabel='Любой'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='man' sLabel='Мужской'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='woman' sLabel='Женский'}
 {/block}

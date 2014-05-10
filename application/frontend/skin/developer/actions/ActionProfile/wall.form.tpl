@@ -8,15 +8,15 @@
 
 <form class="wall-form js-wall-form {$sWallFormClasses}" data-id="{$iWallFormId|default:0}" {if ! $bWallFormDisplay|default:true}style="display: none"{/if}>
 	{* Текст *}
-	{include 'forms/fields/form.field.textarea.tpl'
-			 sFieldPlaceholder = "{if $sWallFormPlaceholder}{$sWallFormPlaceholder}{else}{$aLang.wall_add_title}{/if}"
-			 sFieldClasses     = 'width-full js-wall-form-text'}
+	{include 'components/field/field.textarea.tpl'
+			 sPlaceholder = "{if $sWallFormPlaceholder}{$sWallFormPlaceholder}{else}{$aLang.wall_add_title}{/if}"
+			 sClasses     = 'width-full js-wall-form-text'}
 
 	{* Подвал формы *}
 	<footer class="wall-form-footer">
-		{include 'forms/fields/form.field.button.tpl'
-				 sFieldStyle   = 'primary'
-				 sFieldClasses = 'js-wall-form-submit'
-				 sFieldText    = $aLang.wall_add_submit}
+		{include 'components/button/button.tpl'
+				 sStyle   = 'primary'
+				 sClasses = 'js-wall-form-submit'
+				 sText    = $aLang.wall_add_submit}
 	</footer>
 </form>

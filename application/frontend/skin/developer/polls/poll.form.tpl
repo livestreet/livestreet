@@ -7,10 +7,10 @@
 
 <form action="" method="post" id="js-poll-form" data-action="{if $oPoll}update{else}add{/if}">
 	{* Заголовок топика *}
-	{include file='forms/fields/form.field.text.tpl'
-			 sFieldName  = 'poll[title]'
-			 sFieldValue = {($oPoll) ? $oPoll->getTitle() : '' }
-			 sFieldLabel = $aLang.poll.answer}
+	{include file='components/field/field.text.tpl'
+			 sName  = 'poll[title]'
+			 sValue = {($oPoll) ? $oPoll->getTitle() : '' }
+			 sLabel = $aLang.poll.answer}
 
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
@@ -20,27 +20,27 @@
 
 	<p class="mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
-	{include file='forms/fields/form.field.radio.tpl'
-			 sFieldName  = 'poll[type]'
-			 sFieldValue = 'one'
-			 sFieldLabel = $aLang.poll.form.fields.type.label_one
-			 bFieldChecked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
-			 bFieldIsDisabled = $bDisableChangeType}
+	{include file='components/field/field.radio.tpl'
+			 sName  = 'poll[type]'
+			 sValue = 'one'
+			 sLabel = $aLang.poll.form.fields.type.label_one
+			 bChecked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
+			 bIsDisabled = $bDisableChangeType}
 
-	{include file='forms/fields/form.field.radio.tpl'
-			 bFieldDisplayInline = true
-			 sFieldName          = 'poll[type]'
-			 sFieldValue         = 'many'
-			 sFieldLabel         = $aLang.poll.form.fields.type.label_many
-			 bFieldChecked       = $oPoll and $oPoll->getCountAnswerMax() > 1
-			 bFieldIsDisabled    = $bDisableChangeType}
+	{include file='components/field/field.radio.tpl'
+			 bDisplayInline = true
+			 sName          = 'poll[type]'
+			 sValue         = 'many'
+			 sLabel         = $aLang.poll.form.fields.type.label_many
+			 bChecked       = $oPoll and $oPoll->getCountAnswerMax() > 1
+			 bIsDisabled    = $bDisableChangeType}
 
-	{include file='forms/fields/form.field.text.tpl'
-			 bFieldDisplayInline = true
-			 sFieldName          = 'poll[count_answer_max]'
-			 sFieldValue         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
-			 sFieldClasses       = 'width-50'
-			 bFieldIsDisabled    = $bDisableChangeType}
+	{include file='components/field/field.text.tpl'
+			 bDisplayInline = true
+			 sName          = 'poll[count_answer_max]'
+			 sValue         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
+			 sClasses       = 'width-50'
+			 bIsDisabled    = $bDisableChangeType}
 
 
 	{* Варианты ответов *}
@@ -69,11 +69,11 @@
 
 		{if ! $oPoll or $oPoll->isAllowUpdate()}
 			<footer class="fieldset-footer">
-				{include file='forms/fields/form.field.button.tpl'
-						 sFieldType       = 'button'
-						 sFieldText       = $aLang.common.add
-						 sFieldAttributes = 'title="[Ctrl + Enter]"'
-						 sFieldClasses    = 'js-poll-form-answer-add'}
+				{include file='components/button/button.tpl'
+						 sType       = 'button'
+						 sText       = $aLang.common.add
+						 sAttributes = 'title="[Ctrl + Enter]"'
+						 sClasses    = 'js-poll-form-answer-add'}
 			</footer>
 		{/if}
 	</div>
@@ -81,13 +81,13 @@
 
 	{* Скрытые поля *}
 	{if $oPoll}
-		{include file='forms/fields/form.field.hidden.tpl' sFieldName='poll_id' sFieldValue=$oPoll->getId()}
+		{include file='components/field/field.hidden.tpl' sName='poll_id' sValue=$oPoll->getId()}
 	{else}
-		{include file='forms/fields/form.field.hidden.tpl' sFieldName='target[type]' sFieldValue=$sTargetType}
-		{include file='forms/fields/form.field.hidden.tpl' sFieldName='target[id]' sFieldValue=$sTargetId}
+		{include file='components/field/field.hidden.tpl' sName='target[type]' sValue=$sTargetType}
+		{include file='components/field/field.hidden.tpl' sName='target[id]' sValue=$sTargetId}
 	{/if}
 
-	{include file='forms/fields/form.field.hidden.tpl' sFieldName='target[tmp]' sFieldValue=$sTargetTmp}
+	{include file='components/field/field.hidden.tpl' sName='target[tmp]' sValue=$sTargetTmp}
 </form>
 
 {* Шаблон ответа для добавления с помощью js *}

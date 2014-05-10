@@ -1,9 +1,12 @@
 {**
  * Пагинация
  *
- * @param string $aPaging Массив с параметрами пагинации
+ * @param string $aPaging     Массив с параметрами пагинации
+ * @param string $sClasses    Дополнительные классы
+ * @param string $sMods       Список классов-модификаторов
+ * @param string $sAttributes Атрибуты
  *
- * @styles assets/css/common.css
+ * @styles assets/css/components/pagination.css
  *
  * TODO: Сделать универсальные ссылки
  *}

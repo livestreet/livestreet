@@ -13,14 +13,18 @@
 
 {block name='modal_content'}
 	<form id="js-favourite-form">
-		{include file='forms/fields/form.field.text.tpl'
-				 sFieldName        = 'tags'
-				 bFieldNoMargin    = true
-				 bFieldIsAutofocus = true
-				 sFieldClasses     = 'width-full autocomplete-tags-sep js-tags-form-input-list'}
+		{include file='components/field/field.text.tpl'
+				 sName        = 'tags'
+				 bNoMargin    = true
+				 bIsAutofocus = true
+				 sClasses     = 'width-full autocomplete-tags-sep js-tags-form-input-list'}
 	</form>
 {/block}
 
 {block name='modal_footer_begin'}
-	<button type="submit" class="button button-primary js-tags-form-submit" data-button-submit-form="js-favourite-form">{$aLang.favourite_form_tags_button_save}</button>
+	{include 'components/button/button.tpl'
+			 sForm    = '#js-favourite-form'
+			 sText    = $aLang.common.save
+			 sClasses = 'js-tags-form-submit'
+			 sStyle   = 'primary'}
 {/block}

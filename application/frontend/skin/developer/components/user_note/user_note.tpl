@@ -41,10 +41,10 @@
 	{* Форма редактирования *}
 	{if $_bIsEditable}
 		<form class="{$_sComponentName}-form js-{$_sComponentName}-form" style="display: none;">
-			{include 'forms/fields/form.field.textarea.tpl' sFieldClasses="width-full $_sComponentName-form-text js-$_sComponentName-form-text"}
+			{include 'components/field/field.textarea.tpl' sClasses="width-full $_sComponentName-form-text js-$_sComponentName-form-text"}
 
-			{include 'forms/fields/form.field.button.tpl' sFieldStyle='primary' sFieldClasses="js-$_sComponentName-form-save" sFieldText=$aLang.common.save}
-			{include 'forms/fields/form.field.button.tpl' sFieldType='button' sFieldClasses="js-$_sComponentName-form-cancel" sFieldText=$aLang.common.cancel}
+			{include 'components/button/button.tpl' sStyle='primary' sClasses="js-$_sComponentName-form-save" sText=$aLang.common.save}
+			{include 'components/button/button.tpl' sType='button' sClasses="js-$_sComponentName-form-cancel" sText=$aLang.common.cancel}
 		</form>
 	{/if}
 </div>

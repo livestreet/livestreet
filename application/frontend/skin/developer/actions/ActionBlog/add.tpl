@@ -1,6 +1,6 @@
 {**
  * Создание блога
- * TODO: Вынести rangelength в конфиг
+ * TODO: Вынести 'rangelength'  > в конфиг
  *}
 
 {extends 'layouts/layout.base.tpl'}
@@ -31,19 +31,19 @@
 
 
 		{* Название блога *}
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName  = 'blog_title'
-				 sFieldRules = 'required="true" rangelength="[2,200]"'
-				 sFieldNote  = $aLang.blog.add.fields.title.note
-				 sFieldLabel = $aLang.blog.add.fields.title.label}
+		{include 'components/field/field.text.tpl'
+				 sName  = 'blog_title'
+				 aRules = [ 'required' => true, 'rangelength' => "[2,200]" ]
+				 sNote  = $aLang.blog.add.fields.title.note
+				 sLabel = $aLang.blog.add.fields.title.label}
 
 		{* URL блога *}
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName       = 'blog_url'
-				 sFieldRules      = 'required="true" type="alphanum" rangelength="[2,50]"'
-				 bFieldIsDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
-				 sFieldNote       = $aLang.blog.add.fields.url.note
-				 sFieldLabel      = $aLang.blog.add.fields.url.label}
+		{include 'components/field/field.text.tpl'
+				 sName       = 'blog_url'
+				 aRules      = [ 'required' => true, 'type' => 'alphanum', 'rangelength' => '[2,50]' ]
+				 bIsDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
+				 sNote       = $aLang.blog.add.fields.url.note
+				 sLabel      = $aLang.blog.add.fields.url.label}
 
 
 		{* Категория блога *}
@@ -59,37 +59,35 @@
 				]}
 			{/foreach}
 
-			{include 'forms/fields/form.field.select.tpl'
-					 sFieldName          = 'blog_category'
-					 sFieldLabel         = $aLang.blog.add.fields.category.label
-					 sFieldNote          = $aLang.blog.add.fields.category.note
-					 sFieldClasses       = 'width-200'
-					 aFieldItems         = $aBlogCategoriesCustom
-					 sFieldSelectedValue = $_aRequest.blog_category}
+			{include 'components/field/field.select.tpl'
+					 sName          = 'blog_category'
+					 sLabel         = $aLang.blog.add.fields.category.label
+					 sNote          = $aLang.blog.add.fields.category.note
+					 sClasses       = 'width-200'
+					 aItems         = $aBlogCategoriesCustom
+					 sSelectedValue = $_aRequest.blog_category}
 		{/if}
 
 
 		{* Тип блога *}
-		{$aBlogsType = [
-			[ 'value' => 'open', 'text' => $aLang.blog.add.fields.type.value_open ],
-			[ 'value' => 'close', 'text' => $aLang.blog.add.fields.type.value_close ]
-        ]}
-
-		{include 'forms/fields/form.field.select.tpl'
-				 sFieldName          = 'blog_type'
-				 sFieldLabel         = $aLang.blog.add.fields.type.label
-				 sFieldNote          = $aLang.blog.add.fields.type.note_open
-				 sFieldClasses       = 'width-200 js-blog-add-type'
-				 aFieldItems         = $aBlogsType
-				 sFieldSelectedValue = $_aRequest.blog_type}
+		{include 'components/field/field.select.tpl'
+				sName          = 'blog_type'
+				sLabel         = $aLang.blog.add.fields.type.label
+				sNote          = $aLang.blog.add.fields.type.note_open
+				sClasses       = 'width-200 js-blog-add-type'
+				sSelectedValue = $_aRequest.blog_type
+				aItems         = [
+					[ 'value' => 'open', 'text' => $aLang.blog.add.fields.type.value_open ],
+					[ 'value' => 'close', 'text' => $aLang.blog.add.fields.type.value_close ]
+				]}
 
 
 		{* Описание блога *}
-		{include 'forms/fields/form.field.textarea.tpl'
-				 sFieldName    = 'blog_description'
-				 sFieldRules   = 'required="true" rangelength="[10,3000]"'
-				 sFieldLabel   = $aLang.blog.add.fields.description.label
-				 sFieldClasses = 'width-full js-editor'}
+		{include 'components/field/field.textarea.tpl'
+				 sName    = 'blog_description'
+				 aRules   = [ 'required' => true, 'rangelength' => '[10,3000]' ]
+				 sLabel   = $aLang.blog.add.fields.description.label
+				 sInputClasses = 'js-editor'}
 
 		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
 		{if ! $oConfig->GetValue('view.wysiwyg')}
@@ -98,13 +96,13 @@
 
 
 		{* Ограничение по рейтингу *}
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName    = 'blog_limit_rating_topic'
-				 sFieldRules   = 'required="true" type="number"'
-				 sFieldValue   = '0'
-				 sFieldClasses = 'width-100'
-				 sFieldNote    = $aLang.blog.add.fields.rating.note
-				 sFieldLabel   = $aLang.blog.add.fields.rating.label}
+		{include 'components/field/field.text.tpl'
+				 sName    = 'blog_limit_rating_topic'
+				 aRules   = [ 'required' => true, 'type' => 'number' ]
+				 sValue   = '0'
+				 sClasses = 'width-100'
+				 sNote    = $aLang.blog.add.fields.rating.note
+				 sLabel   = $aLang.blog.add.fields.rating.label}
 
 
 		{* Аватар *}
@@ -113,19 +111,19 @@
 				{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
 			{/foreach}
 
-			{include 'forms/fields/form.field.checkbox.tpl' sFieldName='avatar_delete' bFieldNoMargin=true sFieldValue='on' sFieldLabel=$aLang.common.remove}
+			{include 'components/field/field.checkbox.tpl' sName='avatar_delete' bNoMargin=true sValue='on' sLabel=$aLang.common.remove}
 		{/if}
 
-		{include 'forms/fields/form.field.file.tpl'
-				 sFieldName  = 'avatar'
-				 sFieldLabel = $aLang.blog.add.fields.avatar.label}
+		{include 'components/field/field.file.tpl'
+				 sName  = 'avatar'
+				 sLabel = $aLang.blog.add.fields.avatar.label}
 
 
 		{hook run='form_add_blog_end'}
 
 
 		{* Скрытые поля *}
-		{include 'forms/fields/form.field.hidden.security_key.tpl'}
+		{include 'components/field/field.hidden.security_key.tpl'}
 
 
 		{* Кнопки *}
@@ -134,7 +132,7 @@
 		{else}
 			{$sSubmitInputText = $aLang.common.save}
 		{/if}
-		
-		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_blog_add' sFieldText=$sSubmitInputText sFieldStyle='primary'}
+
+		{include 'components/button/button.tpl' sName='submit_blog_add' sText=$sSubmitInputText sStyle='primary'}
 	</form>
 {/block}

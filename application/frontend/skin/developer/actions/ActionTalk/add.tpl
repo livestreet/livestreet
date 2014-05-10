@@ -12,28 +12,28 @@
 	<form action="" method="POST" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_add_talk_begin'}
 
-		{include 'forms/fields/form.field.hidden.security_key.tpl'}
+		{include 'components/field/field.hidden.security_key.tpl'}
 
 		{* Получатели *}
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName    = 'talk_users'
-				 sFieldRules   = 'required="true" rangetags="[1,99]"'
-				 sFieldLabel   = $aLang.talk_create_users
-				 sFieldClasses = 'width-full autocomplete-users-sep'
-				 sFieldNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk_users\">Выбрать из списка друзей</a>"}
+		{include 'components/field/field.text.tpl'
+				 sName    = 'talk_users'
+				 aRules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
+				 sLabel   = $aLang.talk_create_users
+				 sClasses = 'width-full autocomplete-users-sep'
+				 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk_users\">Выбрать из списка друзей</a>"}
 
 		{* Заголовок *}
-		{include 'forms/fields/form.field.text.tpl'
-				 sFieldName    = 'talk_title'
-				 sFieldRules   = 'required="true" rangelength="[2,200]"'
-				 sFieldLabel   = $aLang.talk_create_title}
+		{include 'components/field/field.text.tpl'
+				 sName    = 'talk_title'
+				 aRules   = [ 'required' => true, 'rangelength' => '[2,200]' ]
+				 sLabel   = $aLang.talk_create_title}
 
 		{* Текст сообщения *}
-		{include 'forms/fields/form.field.textarea.tpl'
-				 sFieldName    = 'talk_text'
-				 sFieldRules   = 'required="true" rangelength="[2,3000]"'
-				 sFieldLabel   = $aLang.topic_create_text
-				 sFieldClasses = 'width-full js-editor'}
+		{include 'components/field/field.textarea.tpl'
+				 sName    = 'talk_text'
+				 aRules   = [ 'required' => true, 'rangelength' => '[2,3000]' ]
+				 sLabel   = $aLang.topic_create_text
+				 sInputClasses = 'js-editor'}
 
 		{* Preview *}
 		<div class="text mb-20" id="text_preview" style="display: none;"></div>
@@ -41,8 +41,8 @@
 		{hook run='form_add_talk_end'}
 
 		{* Кнопки *}
-		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_talk_add' sFieldStyle='primary' sFieldText=$aLang.talk_create_submit}
-		{include 'forms/fields/form.field.button.tpl' sFieldName='submit_preview' sFieldType='button' sFieldText=$aLang.common.preview_text sFieldAttributes='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
+		{include 'components/button/button.tpl' sName='submit_talk_add' sStyle='primary' sText=$aLang.talk_create_submit}
+		{include 'components/button/button.tpl' sName='submit_preview' sType='button' sText=$aLang.common.preview_text sAttributes='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
 	</form>
 
 	{hook run='talk_add_end'}

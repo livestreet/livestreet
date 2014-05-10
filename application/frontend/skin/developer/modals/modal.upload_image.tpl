@@ -67,25 +67,25 @@
 			<form method="POST" action="" enctype="multipart/form-data" id="tab-media-link" onsubmit="return false;" data-type="tab-pane" class="tab-pane modal-upload-image-pane js-media-link-form">
 				<div class="modal-content">
 					{* Ссылка *}
-					{include file='forms/fields/form.field.text.tpl'
-							 sFieldName  = 'url'
-							 sFieldValue = 'http://'
-							 sFieldLabel = 'Ссылка'}
+					{include file='components/field/field.text.tpl'
+							 sName  = 'url'
+							 sValue = 'http://'
+							 sLabel = 'Ссылка'}
 
 					{* Описание *}
-					{include file='forms/fields/form.field.text.tpl'
-							 sFieldName  = 'title'
-							 sFieldLabel = $aLang.uploadimg_title}
+					{include file='components/field/field.text.tpl'
+							 sName  = 'title'
+							 sLabel = $aLang.uploadimg_title}
 
 					<div style="display: none;" class="js-media-link-settings-image">
 						<p><img src="" width="200" class="js-media-link-settings-image-preview"></p>
 
 						{* Выравнивание *}
-						{include file='forms/fields/form.field.select.tpl'
-								 sFieldName    = 'align'
-								 sFieldClasses = 'width-200'
-								 sFieldLabel   = $aLang.uploadimg_align
-								 aFieldItems   = $aSelectImageAlign}
+						{include file='components/field/field.select.tpl'
+								 sName    = 'align'
+								 sClasses = 'width-200'
+								 sLabel   = $aLang.uploadimg_align
+								 aItems   = $aSelectImageAlign}
 					</div>
 				</div>
 

@@ -14,12 +14,12 @@
 			<legend>{$aLang.settings_account}</legend>
 
             {* E-mail *}
-            {include file='forms/fields/form.field.text.tpl'
-                     sFieldName  = 'mail'
-                     sFieldRules = 'required="true" type="email"'
-                     sFieldValue = $oUserCurrent->getMail()|escape
-                     sFieldNote  = $aLang.settings_profile_mail_notice
-                     sFieldLabel = $aLang.settings_profile_mail}
+            {include file='components/field/field.text.tpl'
+                     sName  = 'mail'
+                     aRules = [ 'required' => true, 'type'=> 'email' ]
+                     sValue = $oUserCurrent->getMail()|escape
+                     sNote  = $aLang.settings_profile_mail_notice
+                     sLabel = $aLang.settings_profile_mail}
 		</fieldset>
 
 			
@@ -29,37 +29,37 @@
 			<small class="note mb-20">{$aLang.settings_account_password_notice}</small>
 
             {* Текущий пароль *}
-            {include file='forms/fields/form.field.text.tpl'
-                     sFieldName    = 'password_now'
-                     sFieldType    = 'password'
-                     sFieldClasses = 'width-200'
-                     sFieldLabel   = $aLang.settings_profile_password_current}
+            {include file='components/field/field.text.tpl'
+                     sName    = 'password_now'
+                     sType    = 'password'
+                     sInputClasses = 'width-200'
+                     sLabel   = $aLang.settings_profile_password_current}
 
             {* Новый пароль *}
-            {include file='forms/fields/form.field.text.tpl'
-                     sFieldName    = 'password'
-                     sFieldRules   = 'rangelength="[5,20]"'
-                     sFieldType    = 'password'
-                     sFieldClasses = 'width-200'
-                     sFieldLabel   = $aLang.settings_profile_password_new}
+            {include file='components/field/field.text.tpl'
+                     sName    = 'password'
+                     aRules   = [ 'rangelength' => '[5,20]' ]
+                     sType    = 'password'
+                     sInputClasses = 'width-200'
+                     sLabel   = $aLang.settings_profile_password_new}
 
             {* Повторить овый пароль *}
-            {include file='forms/fields/form.field.text.tpl'
-                     sFieldName    = 'password_confirm'
-                     sFieldRules   = 'rangelength="[5,20]" equalto=".js-input-password"'
-                     sFieldType    = 'password'
-                     sFieldClasses = 'width-200'
-                     sFieldLabel   = $aLang.settings_profile_password_confirm}
+            {include file='components/field/field.text.tpl'
+                     sName    = 'password_confirm'
+                     aRules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-input-password' ]
+                     sType    = 'password'
+                     sInputClasses = 'width-200'
+                     sLabel   = $aLang.settings_profile_password_confirm}
 		</fieldset>
 
 		
 		{hook run='form_settings_account_end'}
 
         {* Скрытые поля *}
-        {include file='forms/fields/form.field.hidden.security_key.tpl'}
+        {include file='components/field/field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='forms/fields/form.field.button.tpl' sFieldName='submit_account_edit' sFieldStyle='primary' sFieldText=$aLang.settings_profile_submit}
+        {include file='components/button/button.tpl' sName='submit_account_edit' sStyle='primary' sText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_account_end'}

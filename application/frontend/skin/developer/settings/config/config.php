@@ -52,6 +52,7 @@ $aCss = array(
 	"___path.skin.assets.web___/css/components/tags.css",
 	"___path.skin.assets.web___/css/components/alphanumeric.css",
 	"___path.skin.assets.web___/css/components/search_form.css",
+	"___path.skin.assets.web___/css/components/field.css",
 
 	// Template's styles
 	"___path.skin.assets.web___/css/icons.css",

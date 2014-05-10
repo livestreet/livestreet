@@ -1,9 +1,9 @@
 /**
  * Блоки
- * 
+ *
  * @template blocks/*.tpl
  * @scripts <frontend>/common/js/blocks.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -24,7 +24,7 @@
 
 /* Шапка */
 .block-header              { padding: 18px 20px 0; position: relative; }
-.block-header .block-title { font-size: 16px; line-height: 1em; font-weight: normal; }
+.block-header .block-title { margin-bottom: 0; font-size: 16px; line-height: 1em; font-weight: normal; }
 
 /* Навигация */
 .block-nav { padding: 20px; border-bottom: 1px solid #eee; }
@@ -38,13 +38,13 @@
 .block-footer { border-top: 1px solid #eee; padding: 15px 20px; font-size: 12px; }
 
 /* Кнопка обновления блока */
-.block-update { 
+.block-update {
 	position: absolute;
 	top: 19px;
 	right: 15px;
 	width: 16px;
 	height: 16px;
-	background: url(../images/update.gif) no-repeat; cursor: pointer; 
+	background: url(../images/update.gif) no-repeat; cursor: pointer;
 }
 .block-update.active { background-position: -16px 0; }
 
@@ -54,7 +54,7 @@
 
 /**
  * Список категорий блогов
- * 
+ *
  * @modifier blog-categories
  * @template blocks/block.blogCategories.tpl
  */
@@ -63,7 +63,7 @@
 
 /**
  * Блок с кнопкой "Создать блог"
- * 
+ *
  * @modifier blog-add
  * @template blocks/block.blogAdd.tpl
  */
@@ -73,7 +73,7 @@
 
 /**
  * Навигация по блогам
- * 
+ *
  * @modifier blog-navigation
  * @template blocks/block.blogNav.tpl
  */
@@ -83,7 +83,7 @@
 
 /**
  * Информация о блоге
- * 
+ *
  * @modifier blog-actions
  * @template blocks/block.blogActions.tpl
  */
@@ -94,7 +94,7 @@
 
 /**
  * Фото пользователя
- * 
+ *
  * @modifier profile
  * @template blocks/block.profilePhoto.tpl
  */
@@ -111,7 +111,7 @@
 
 /**
  * Навигация по профилю пользователя
- * 
+ *
  * @modifier profile-nav
  * @template blocks/block.profileNav.tpl
  */
@@ -120,7 +120,7 @@
 
 /**
  * Блок управления на странице пользователя
- * 
+ *
  * @modifier profile-actions
  * @template blocks/block.profileActions.tpl
  */

@@ -5,8 +5,8 @@
 {if $aTalks}
 	<form action="{router page='talk'}" method="post" id="talk-form">
 		{* Скрытые поля *}
-		{include 'forms/fields/form.field.hidden.security_key.tpl'}
-		{include 'forms/fields/form.field.hidden.tpl' sFieldName='form_action' sFieldId='talk-form-action'}
+		{include 'components/field/field.hidden.security_key.tpl'}
+		{include 'components/field/field.hidden.tpl' sName='form_action' sId='talk-form-action'}
 
 		{* Экшнбар *}
 		{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-message-list-item' assign=sMessagesSelect aItems=[
