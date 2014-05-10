@@ -22,26 +22,28 @@
 	{**
 	 * Хидер
 	 *}
-	<header class="comments-header">
-		<h3 class="comments-title js-comments-title">{$iCountComment} {$iCountComment|declension:$aLang.comments.comments_declension}</h3>
+	{if ! $bForbidNewComment || ( $bForbidNewComment && $iCountComment )}
+		<header class="comments-header">
+			<h3 class="comments-title js-comments-title">{$iCountComment} {$iCountComment|declension:$aLang.comments.comments_declension}</h3>
 
-		{* Подписка на комментарии *}
-		{if $bAllowSubscribe and $oUserCurrent}
-			<p><label class="comments-subscribe">
-				<input
-					type="checkbox"
-					id="comment_subscribe"
-					class="input-checkbox"
-					onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"
-					{if $oSubscribeComment and $oSubscribeComment->getStatus()}checked{/if}>
-				{$aLang.comments.subscribe}
-			</label></p><br>
-		{/if}
+			{* Подписка на комментарии *}
+			{if $bAllowSubscribe and $oUserCurrent}
+				<p><label class="comments-subscribe">
+					<input
+						type="checkbox"
+						id="comment_subscribe"
+						class="input-checkbox"
+						onchange="ls.subscribe.toggle('{$sTargetType}_new_comment','{$iTargetId}','',this.checked);"
+						{if $oSubscribeComment and $oSubscribeComment->getStatus()}checked{/if}>
+					{$aLang.comments.subscribe}
+				</label></p><br>
+			{/if}
 
-		{* Свернуть/развернуть все *}
-		<a href="#" class="link-dotted js-comments-fold-all">{$aLang.comments.folding.fold_all}</a> |
-		<a href="#" class="link-dotted js-comments-unfold-all">{$aLang.comments.folding.unfold_all}</a>
-	</header>
+			{* Свернуть/развернуть все *}
+			<a href="#" class="link-dotted js-comments-fold-all">{$aLang.comments.folding.fold_all}</a> |
+			<a href="#" class="link-dotted js-comments-unfold-all">{$aLang.comments.folding.unfold_all}</a>
+		</header>
+	{/if}
 
 	{**
 	 * Комментарии
@@ -86,7 +88,7 @@
 {**
  * Форма добавления комментария
  *}
-{if $bAllowNewComment}
+{if $bForbidNewComment}
 	{include 'components/alert/alert.tpl' sMods='info' mAlerts=$sNoticeNotAllow}
 {else}
 	{if $oUserCurrent}
