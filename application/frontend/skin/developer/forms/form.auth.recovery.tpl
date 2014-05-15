@@ -11,5 +11,5 @@
              aRules  = [ 'required' => true, 'type' => 'email' ]
              sLabel  = $aLang.password_reminder_email}
 
-	{include file='components/button/button.tpl' sName='submit_reactivation' sStyle='primary' sText=$aLang.password_reminder_submit}
+	{include file='components/button/button.tpl' sName='submit_reactivation' sMods='primary' sText=$aLang.password_reminder_submit}
 </form>

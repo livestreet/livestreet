@@ -36,13 +36,13 @@
 				{include 'components/button/button.tpl'
 						 sText    = $aLang.poll.vote
 						 sType    = 'button'
-						 sStyle   = 'primary'
+						 sMods   = 'primary'
 						 sClasses = 'js-poll-vote'}
 
 				{include 'components/button/button.tpl'
 						 sText    = $aLang.poll.abstain
 						 sType    = 'button'
-						 sStyle   = 'primary'
+						 sMods   = 'primary'
 						 sClasses = 'js-poll-abstain'}
 			{else}
 				{$aLang.poll.only_auth}

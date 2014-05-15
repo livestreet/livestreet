@@ -2,9 +2,9 @@
  * Управление инвайтами
  *}
 
-{extends file='layouts/layout.user.settings.tpl'}
+{extends 'layouts/layout.user.settings.tpl'}
 
-{block name='layout_content'}
+{block 'layout_content' append}
 	<small class="note mb-20">{$aLang.settings_invite_notice} "{$aLang.settings_invite_submit}"</small>
 
 	{hook run='settings_invite_begin'}
@@ -18,7 +18,7 @@
 		</p>
 
         {* E-mail *}
-        {include file='components/field/field.text.tpl'
+        {include 'components/field/field.text.tpl'
                  sName  = 'invite_mail'
                  sNote  = $aLang.settings_invite_mail_notice
                  sLabel = $aLang.settings_invite_mail}
@@ -26,10 +26,10 @@
 		{hook run='form_settings_invite_end'}
 
         {* Скрытые поля *}
-        {include file='components/field/field.hidden.security_key.tpl'}
+        {include 'components/field/field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='components/button/button.tpl' sName='submit_invite' sStyle='primary' sText=$aLang.settings_invite_submit}
+        {include 'components/button/button.tpl' sName='submit_invite' sMods='primary' sText=$aLang.settings_invite_submit}
 	</form>
 
 	{hook run='settings_invite_end'}

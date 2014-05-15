@@ -5,17 +5,19 @@
  * @styles css/tables.css
  *}
 
-{extends file='layouts/layout.user.tpl'}
+{extends 'layouts/layout.user.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$oSession = $oUserProfile->getSession()}
 	{$oGeoTarget = $oUserProfile->getGeoTarget()}
 {/block}
 
-{block name='layout_user_page_title'}{$aLang.user_menu_profile_whois}{/block}
+{block 'layout_user_page_title'}
+	{$aLang.user_menu_profile_whois}
+{/block}
 
-{block name='layout_content'}
-	{include file='navs/nav.user.info.tpl'}
+{block 'layout_content' append}
+	{include 'navs/nav.user.info.tpl'}
 
 	{hook run='user_info_begin' oUserProfile=$oUserProfile}
 
@@ -44,7 +46,7 @@
 	{if $oUserProfile->getProfileAbout()}
 		<div class="profile-info-about">
 			<h3 class="h5">{$aLang.profile_about}</h3>
-			
+
 			<div class="text">
 				{$oUserProfile->getProfileAbout()}
 			</div>
@@ -61,16 +63,16 @@
 
 	{if $oUserProfile->getProfileSex() != 'other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
 		{capture 'info_private'}
-			{* Пол *}	
+			{* Пол *}
 			{if $oUserProfile->getProfileSex() != 'other'}
 				{list_item sLabel=$aLang.profile_sex sContent="{if $oUserProfile->getProfileSex() == 'man'}{$aLang.profile_sex_man}{else}{$aLang.profile_sex_woman}{/if}"}
 			{/if}
-				
+
 			{* День рождения *}
 			{if $oUserProfile->getProfileBirthday()}
 				{list_item sLabel=$aLang.profile_birthday sContent={date_format date=$oUserProfile->getProfileBirthday() format="j F Y" notz=true}}
 			{/if}
-			
+
 			{* Местоположение *}
 			{if $oGeoTarget}
 				{capture 'info_private_geo'}
@@ -78,7 +80,7 @@
 						{if $oGeoTarget->getCountryId()}
 							<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape}</a>{if $oGeoTarget->getCityId()},{/if}
 						{/if}
-						
+
 						{if $oGeoTarget->getCityId()}
 							<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape}</a>
 						{/if}
@@ -147,7 +149,7 @@
 			{if $oUserInviteFrom}
 				{list_item sLabel=$aLang.profile_invite_from sContent="<a href=\"{$oUserInviteFrom->getUserWebPath()}\">{$oUserInviteFrom->getDisplayName()}</a>"}
 			{/if}
-			
+
 			{* Приглашенные пользователем *}
 			{if $aUsersInvite}
 				{foreach $aUsersInvite as $oUserInvite}
@@ -157,7 +159,7 @@
 				{list_item sLabel=$aLang.profile_invite_to sContent=$sUsers}
 			{/if}
 		{/if}
-		
+
 		{* Блоги созданные пользователем *}
 		{if $aBlogsOwner}
 			{foreach $aBlogsOwner as $oBlog}
@@ -166,7 +168,7 @@
 
 			{list_item sLabel=$aLang.profile_blogs_self sContent=$sBlogsOwner}
 		{/if}
-		
+
 		{* Блоги администрируемые пользователем *}
 		{if $aBlogAdministrators}
 			{foreach $aBlogAdministrators as $oBlogUser}
@@ -176,7 +178,7 @@
 
 			{list_item sLabel=$aLang.profile_blogs_administration sContent=$sBlogAdministrators}
 		{/if}
-		
+
 		{* Блоги модерируемые пользователем *}
 		{if $aBlogModerators}
 			{foreach $aBlogModerators as $oBlogUser}
@@ -186,7 +188,7 @@
 
 			{list_item sLabel=$aLang.profile_blogs_moderation sContent=$sBlogModerators}
 		{/if}
-		
+
 		{* Блоги в которые вступил пользователь *}
 		{if $aBlogUsers}
 			{foreach $aBlogUsers as $oBlogUser}
@@ -198,12 +200,12 @@
 		{/if}
 
 		{hook run='profile_whois_activity_item' oUserProfile=$oUserProfile}
-		
+
 		{* Дата регистрации *}
 		{list_item sLabel=$aLang.profile_date_registration sContent={date_format date=$oUserProfile->getDateRegister()}}
 
 		{* Дата последнего визита *}
-		{if $oSession}	
+		{if $oSession}
 			{list_item sLabel=$aLang.profile_date_last sContent={date_format date=$oSession->getDateLast()}}
 		{/if}
 	{/capture}
@@ -216,8 +218,8 @@
 	 *}
 	{if $aUsersFriend}
 		<h2 class="header-table mb-15"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.profile_friends}</a> ({$iCountFriendsUser})</h2>
-		
-		{include file='components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
+
+		{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
 	{/if}
 
 	{hook run='profile_whois_item_end' oUserProfile=$oUserProfile}

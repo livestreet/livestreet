@@ -13,7 +13,7 @@
 {/block}
 
 {block name='layout_content'}
-	{include 'forms/form.search.main.tpl'}
+	{include 'forms/search_forms/search_form.main.tpl'}
 	{include 'navs/nav.search.tpl'}
 
 	{if $aResultItems}

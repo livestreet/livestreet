@@ -13,15 +13,15 @@
 /**
  * Форма добавления сообщения на стену
  */
-.wall-form             { margin-bottom: 0; padding: 15px; background: #fafafa; }
-.wall-form .form-field { margin-bottom: 0; }
-.wall-form textarea    { height: 30px; min-height: 30px; max-height: 30px; resize: none; }
+.wall-form          { margin-bottom: 0; padding: 15px; background: #fafafa; }
+.wall-form .field   { margin-bottom: 0; }
+.wall-form textarea { height: 30px; min-height: 30px; max-height: 30px; resize: none; }
 
 .wall-form-footer { display: none; }
 
 /* Open */
-.wall-form.open .form-field { margin-bottom: 15px; }
-.wall-form.open textarea    { height: 90px; max-height: 300px; resize: vertical; }
+.wall-form.open .field   { margin-bottom: 15px; }
+.wall-form.open textarea { height: 90px; max-height: 300px; resize: vertical; }
 
 .wall-form.open .wall-form-footer { display: block; }
 

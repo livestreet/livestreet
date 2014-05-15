@@ -1,5 +1,5 @@
 {**
- * Создание блога
+ * Тестирование полей
  *}
 
 {extends 'layouts/layout.base.tpl'}

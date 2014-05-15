@@ -53,10 +53,10 @@
 
 
 {block 'field'}
-	<div class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} clearfix {$smarty.local.sClasses} {block 'field_classes'}{/block}">
+	<div class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} clearfix {$smarty.local.sClasses} {block 'field_classes'}{/block}" {$smarty.local.sAttributes}>
 		{* Лэйбл *}
-		{if $sLabel}
-			<label for="{$_uid}" class="{$_sComponentName}-label">{$sLabel}</label>
+		{if $smarty.local.sLabel}
+			<label for="{$_uid}" class="{$_sComponentName}-label">{$smarty.local.sLabel}</label>
 		{/if}
 
 		{* Блок с инпутом *}
@@ -65,8 +65,8 @@
 		</div>
 
 		{* Подсказка *}
-		{if $sNote}
-			<small class="{$_sComponentName}-note js-{$_sComponentName}-note">{$sNote}</small>
+		{if $smarty.local.sNote}
+			<small class="{$_sComponentName}-note js-{$_sComponentName}-note">{$smarty.local.sNote}</small>
 		{/if}
 	</div>
 {/block}

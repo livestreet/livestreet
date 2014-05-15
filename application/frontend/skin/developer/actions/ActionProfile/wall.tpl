@@ -2,11 +2,13 @@
  * Стена
  *}
 
-{extends file='layouts/layout.user.tpl'}
+{extends 'layouts/layout.user.tpl'}
 
-{block name='layout_user_page_title'}{$aLang.user_menu_profile_wall}{/block}
+{block 'layout_user_page_title'}
+	{$aLang.user_menu_profile_wall}
+{/block}
 
-{block name='layout_content'}
+{block 'layout_content' append}
 	{* Форма добавления записи *}
 	{if $oUserCurrent}
 		{include 'actions/ActionProfile/wall.form.tpl'}
@@ -28,7 +30,6 @@
 		{include 'components/more/more.tpl'
 				 sClasses    = 'js-more-wall'
 				 iCount      = $iCountWall - count($aWall)
-				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-i-last-id=\"{$iWallLastId}\" "
-		}
+				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-i-last-id=\"{$iWallLastId}\" "}
 	{/if}
 {/block}

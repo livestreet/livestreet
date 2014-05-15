@@ -39,7 +39,7 @@
 	{hook run='form_login_end' isModal=$isModal}
 
 	{include file='components/field/field.hidden.tpl' sName='return-path' value=$PATH_WEB_CURRENT}
-	{include file='components/button/button.tpl' sName='submit_login' sStyle='primary' sText=$aLang.user_login_submit}
+	{include file='components/button/button.tpl' sName='submit_login' sMods='primary' sText=$aLang.user_login_submit}
 </form>
 
 {if ! $isModal}

@@ -23,11 +23,11 @@
 
 		{include 'components/field/field.text.tpl'
 				 sName    = 'add'
-				 sClasses = "width-full autocomplete-users-sep {$sClass}"
+				 sInputClasses = "autocomplete-users-sep {$sClass}"
 				 sLabel   = $aLang.user_list_add.form.fields.add.label
 				 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
 
-		{include 'components/button/button.tpl' sText=$aLang.common.add sStyle='primary' sClasses='js-{$_sComponentName}-form-submit'}
+		{include 'components/button/button.tpl' sText=$aLang.common.add sMods='primary' sClasses='js-{$_sComponentName}-form-submit'}
 	</form>
 
 	{* Список пользователей *}

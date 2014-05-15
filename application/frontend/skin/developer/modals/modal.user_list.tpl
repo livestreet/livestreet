@@ -27,7 +27,7 @@
 	{if $aUserList && $bSelectable}
 		{include 'components/button/button.tpl'
 				 sText = $aLang.common.add
-				 sStyle = 'primary'
+				 sMods = 'primary'
 				 sClasses = 'js-user-list-select-add'
 				 sAttributes = "data-target=\"{$sTarget}\""}
 	{/if}

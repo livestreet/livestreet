@@ -36,5 +36,5 @@
 {/block}
 
 {block name='modal_footer_begin'}
-	{include 'components/button/button.tpl' sForm='#js-blog-remove-form' sText=$aLang.common.remove sStyle='primary'}
+	{include 'components/button/button.tpl' sForm='#js-blog-remove-form' sText=$aLang.common.remove sMods='primary'}
 {/block}

@@ -9,6 +9,6 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'forms/form.search.tags.tpl'}
+	{include 'forms/search_forms/search_form.tags.tpl'}
 	{include 'topics/topic_list.tpl'}
 {/block}

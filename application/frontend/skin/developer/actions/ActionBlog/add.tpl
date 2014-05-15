@@ -63,7 +63,7 @@
 					 sName          = 'blog_category'
 					 sLabel         = $aLang.blog.add.fields.category.label
 					 sNote          = $aLang.blog.add.fields.category.note
-					 sClasses       = 'width-200'
+					 sInputClasses  = 'width-200'
 					 aItems         = $aBlogCategoriesCustom
 					 sSelectedValue = $_aRequest.blog_category}
 		{/if}
@@ -74,7 +74,7 @@
 				sName          = 'blog_type'
 				sLabel         = $aLang.blog.add.fields.type.label
 				sNote          = $aLang.blog.add.fields.type.note_open
-				sClasses       = 'width-200 js-blog-add-type'
+				sInputClasses  = 'width-200 js-blog-add-type'
 				sSelectedValue = $_aRequest.blog_type
 				aItems         = [
 					[ 'value' => 'open', 'text' => $aLang.blog.add.fields.type.value_open ],
@@ -97,12 +97,12 @@
 
 		{* Ограничение по рейтингу *}
 		{include 'components/field/field.text.tpl'
-				 sName    = 'blog_limit_rating_topic'
-				 aRules   = [ 'required' => true, 'type' => 'number' ]
-				 sValue   = '0'
-				 sClasses = 'width-100'
-				 sNote    = $aLang.blog.add.fields.rating.note
-				 sLabel   = $aLang.blog.add.fields.rating.label}
+				sName         = 'blog_limit_rating_topic'
+				aRules        = [ 'required' => true, 'type' => 'number' ]
+				sValue        = '0'
+				sInputClasses = 'width-100'
+				sNote         = $aLang.blog.add.fields.rating.note
+				sLabel        = $aLang.blog.add.fields.rating.label}
 
 
 		{* Аватар *}
@@ -133,6 +133,6 @@
 			{$sSubmitInputText = $aLang.common.save}
 		{/if}
 
-		{include 'components/button/button.tpl' sName='submit_blog_add' sText=$sSubmitInputText sStyle='primary'}
+		{include 'components/button/button.tpl' sName='submit_blog_add' sText=$sSubmitInputText sMods='primary'}
 	</form>
 {/block}

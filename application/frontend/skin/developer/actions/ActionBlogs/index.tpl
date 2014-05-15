@@ -8,10 +8,12 @@
 	{$sMenuHeadItemSelect = 'blogs'}
 {/block}
 
-{block 'layout_page_title'}{$aLang.blog.blogs}{/block}
+{block 'layout_page_title'}
+	{$aLang.blog.blogs}
+{/block}
 
 {block 'layout_content'}
-	{include 'forms/form.search.blogs.tpl'}
+	{include 'forms/search_forms/search_form.blogs.tpl'}
 
 	{* Сортировка *}
 	{include 'components/sort/sort.ajax.tpl'
@@ -22,8 +24,7 @@
 				[ name => 'blog_title',      text => $aLang.sort.by_title ],
 				[ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
 				[ name => 'blog_count_topic', text => $aLang.blog.sort.by_topics ]
-			 ]
-	}
+			 ]}
 
 	<div class="js-search-ajax-container" data-type="blogs">
 		{include 'actions/ActionBlogs/blog_list.tpl' bUseMore=true}

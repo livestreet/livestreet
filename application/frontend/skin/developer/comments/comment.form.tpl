@@ -24,10 +24,10 @@
 	{include 'components/field/field.hidden.tpl' sName='cmt_target_id' sValue=$iTargetId}
 
 	{* Кнопки создания *}
-	{include 'components/button/button.tpl' sName='submit_comment' sText=$aLang.common.add sStyle='primary' sClasses='js-comment-form-submit'}
+	{include 'components/button/button.tpl' sName='submit_comment' sText=$aLang.common.add sMods='primary' sClasses='js-comment-form-submit'}
 
 	{* Кнопки редактирования *}
-	{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.save sStyle='primary' sClasses='js-comment-form-update-submit hide'}
+	{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.save sMods='primary' sClasses='js-comment-form-update-submit hide'}
 	{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.cancel sClasses='js-comment-form-update-cancel  fl-r hide'}
 
 	{* Общие кнопки *}

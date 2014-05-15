@@ -25,5 +25,5 @@
 			 sForm    = '#js-poll-form'
 			 sText    =  ($oPoll) ? $aLang.common.save : $aLang.common.add
 			 sClasses = 'js-poll-form-submit'
-			 sStyle   = 'primary'}
+			 sMods   = 'primary'}
 {/block}

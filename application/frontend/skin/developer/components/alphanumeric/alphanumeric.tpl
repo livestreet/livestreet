@@ -9,7 +9,7 @@
 {* Название компонента *}
 {$_sComponentName = 'alphanumeric'}
 
-<ul class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} js-search-alphabet">
+<ul class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} js-search-alphabet" {if $smarty.local.sType}data-type="{$smarty.local.sType}"{/if}>
 	<li class="{$_sComponentName}-item active js-search-alphabet-item" data-letter=""><a href="#">{$aLang.user_search_filter_all}</a></li>
 
 	{foreach $aAlphaLetters as $sLetter}

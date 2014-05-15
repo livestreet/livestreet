@@ -47,7 +47,7 @@
     {if $isModal}
         {include file='components/field/field.hidden.tpl' sName='return-path' sValue=$PATH_WEB_CURRENT}
     {/if}
-    {include file='components/button/button.tpl' sName='submit_register' sStyle='primary' sText=$aLang.registration_submit}
+    {include file='components/button/button.tpl' sName='submit_register' sMods='primary' sText=$aLang.registration_submit}
 </form>
 
 {hook run='registration_end' isPopup=$isModal}

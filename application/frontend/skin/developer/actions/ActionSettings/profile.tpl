@@ -4,9 +4,9 @@
  * @scripts <framework>/js/livestreet/userfield.js
  *}
 
-{extends file='layouts/layout.user.settings.tpl'}
+{extends 'layouts/layout.user.settings.tpl'}
 
-{block name='layout_content'}
+{block 'layout_content' append}
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 			ls.geo.initSelect();
@@ -42,7 +42,7 @@
 			<legend>{$aLang.settings_profile_section_base}</legend>
 
 			{* Имя *}
-			{include file='components/field/field.text.tpl'
+			{include 'components/field/field.text.tpl'
                      sName   = 'profile_name'
 					 aRules  = [ 'rangelength' => "[2,{$oConfig->Get('module.user.name_max')}]" ]
 					 bInline = true
@@ -58,7 +58,7 @@
                 [ 'value' => 'other', 'text' => $aLang.settings_profile_sex_other ]
             ]}
 
-            {include file='components/field/field.select.tpl'
+            {include 'components/field/field.select.tpl'
                      sName          = 'profile_sex'
                      bInline        = true
                      sLabel         = $aLang.settings_profile_sex
@@ -67,7 +67,7 @@
 
 
             {* Дата рождения *}
-            {include file='components/field/field.date.tpl'
+            {include 'components/field/field.date.tpl'
                      sName   = 'profile_birthday'
                      aItems  = $oUserCurrent->getProfileBirthday()
                      bInline = true
@@ -75,7 +75,7 @@
 
 
             {* Местоположение *}
-            {include file='components/field/field.geo.tpl'
+            {include 'components/field/field.geo.tpl'
                      sName           = 'geo'
                      bInline         = true
                      sLabel          = $aLang.profile_place
@@ -83,7 +83,7 @@
 
 
 			{* О себе *}
-			{include file='components/field/field.textarea.tpl'
+			{include 'components/field/field.textarea.tpl'
 					 sName   = 'profile_about'
                      aRules  = [ 'rangelength' => '[1,3000]' ]
 					 bInline = true
@@ -96,7 +96,7 @@
 			{$aUserFieldValues = $oUserCurrent->getUserFieldValues(false, '')}
 
             {foreach $aUserFieldValues as $oField}
-                {include file='components/field/field.text.tpl'
+                {include 'components/field/field.text.tpl'
                          sName   = "profile_user_field_`$oField->getId()`"
                          bInline = true
                          sValue  = $oField->getValue()|escape
@@ -126,10 +126,10 @@
         {hook run='form_settings_profile_end'}
 
         {* Скрытые поля *}
-        {include file='components/field/field.hidden.security_key.tpl'}
+        {include 'components/field/field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='components/button/button.tpl' sName='submit_profile_edit' sStyle='primary' sText=$aLang.settings_profile_submit}
+        {include 'components/button/button.tpl' sName='submit_profile_edit' sMods='primary' sText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_profile_end'}

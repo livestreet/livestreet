@@ -18,10 +18,10 @@
 	{if $oUserCurrent and ($oUserCurrent->getRating() > {cfg name='acl.create.blog.rating'} or $oUserCurrent->isAdministrator())}
 		<p>{$aLang.blog.can_add}</p>
 
-		<a href="{router page='blog'}add/" class="button button-primary button-large">{$aLang.blog.create_blog}</a>
+		{include 'components/button/button.tpl' sUrl="{router page='blog'}add/" sMods='primary large' sText=$aLang.blog.create_blog}
 	{else}
 		<p>{$aLang.blog.cant_add|ls_lang:"rating%%`$oConfig->get('acl.create.blog.rating')`"}</p>
 
-		<button class="button button-primary button-large" disabled>{$aLang.blog.create_blog}</button>
+		{include 'components/button/button.tpl' sMods='primary large' sText=$aLang.blog.create_blog bIsDisabled=true}
 	{/if}
 {/block}

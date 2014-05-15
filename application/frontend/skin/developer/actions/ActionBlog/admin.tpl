@@ -59,7 +59,7 @@
 			{include 'components/field/field.hidden.security_key.tpl'}
 
 			{* Кнопки *}
-			{include 'components/button/button.tpl' sName='submit_blog_admin' sText=$aLang.common.save sStyle='primary'}
+			{include 'components/button/button.tpl' sName='submit_blog_admin' sText=$aLang.common.save sMods='primary'}
 		</form>
 
 		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}

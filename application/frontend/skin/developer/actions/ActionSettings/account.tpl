@@ -2,9 +2,9 @@
  * Настройки аккаунта (емэйл, пароль)
  *}
 
-{extends file='layouts/layout.user.settings.tpl'}
+{extends 'layouts/layout.user.settings.tpl'}
 
-{block name='layout_content'}
+{block 'layout_content' append}
 	{hook run='settings_account_begin'}
 
 	<form method="post" enctype="multipart/form-data" class="js-form-validate">
@@ -14,7 +14,7 @@
 			<legend>{$aLang.settings_account}</legend>
 
             {* E-mail *}
-            {include file='components/field/field.text.tpl'
+            {include 'components/field/field.text.tpl'
                      sName  = 'mail'
                      aRules = [ 'required' => true, 'type'=> 'email' ]
                      sValue = $oUserCurrent->getMail()|escape
@@ -29,14 +29,14 @@
 			<small class="note mb-20">{$aLang.settings_account_password_notice}</small>
 
             {* Текущий пароль *}
-            {include file='components/field/field.text.tpl'
+            {include 'components/field/field.text.tpl'
                      sName    = 'password_now'
                      sType    = 'password'
                      sInputClasses = 'width-200'
                      sLabel   = $aLang.settings_profile_password_current}
 
             {* Новый пароль *}
-            {include file='components/field/field.text.tpl'
+            {include 'components/field/field.text.tpl'
                      sName    = 'password'
                      aRules   = [ 'rangelength' => '[5,20]' ]
                      sType    = 'password'
@@ -44,7 +44,7 @@
                      sLabel   = $aLang.settings_profile_password_new}
 
             {* Повторить овый пароль *}
-            {include file='components/field/field.text.tpl'
+            {include 'components/field/field.text.tpl'
                      sName    = 'password_confirm'
                      aRules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-input-password' ]
                      sType    = 'password'
@@ -56,10 +56,10 @@
 		{hook run='form_settings_account_end'}
 
         {* Скрытые поля *}
-        {include file='components/field/field.hidden.security_key.tpl'}
+        {include 'components/field/field.hidden.security_key.tpl'}
 
         {* Кнопки *}
-        {include file='components/button/button.tpl' sName='submit_account_edit' sStyle='primary' sText=$aLang.settings_profile_submit}
+        {include 'components/button/button.tpl' sName='submit_account_edit' sMods='primary' sText=$aLang.settings_profile_submit}
 	</form>
 
 	{hook run='settings_account_end'}

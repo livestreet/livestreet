@@ -23,7 +23,7 @@
 <{($smarty.local.sUrl) ? 'a' : 'button'}
 		{if ! $smarty.local.sUrl}
 			type="{($smarty.local.sType) ? $smarty.local.sType : 'submit'}"
-	    	value="{if isset($sValue)}{$sValue}{elseif isset($_aRequest[$smarty.local.sName])}{$_aRequest[$smarty.local.sName]}{/if}"
+	    	value="{if $smarty.local.sValue}{$smarty.local.sValue}{elseif isset($_aRequest[$smarty.local.sName])}{$_aRequest[$smarty.local.sName]}{/if}"
 	    	{if $smarty.local.bIsDisabled}disabled{/if}
 	    	{if $smarty.local.sForm}data-button-submit-form="{$smarty.local.sForm}"{/if}
 	    {else}

@@ -9,5 +9,5 @@
 			 sLabel   = $aLang.registration_invite_code
 			 sInputClasses = 'width-300'}
 
-	{include file='components/button/button.tpl' sName='submit_invite' sStyle='primary' sText=$aLang.registration_invite_check}
+	{include file='components/button/button.tpl' sName='submit_invite' sMods='primary' sText=$aLang.registration_invite_check}
 </form>

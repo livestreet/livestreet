@@ -4,7 +4,7 @@
 
 {extends file='layouts/layout.user.messages.tpl'}
 
-{block name='layout_options'}
+{block name='layout_options' append}
 	{$bNoSystemMessages = false}
 {/block}
 

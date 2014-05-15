@@ -26,5 +26,5 @@
 			 sForm    = '#js-favourite-form'
 			 sText    = $aLang.common.save
 			 sClasses = 'js-tags-form-submit'
-			 sStyle   = 'primary'}
+			 sMods   = 'primary'}
 {/block}

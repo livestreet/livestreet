@@ -17,7 +17,7 @@
 {/block}
 
 {block name='block_content'}
-	{include 'forms/form.search.tags.tpl'}
+	{include 'forms/search_forms/search_form.tags.tpl' sMods='light'}
 
 	<div data-type="tab-panes">
 		<div class="tab-pane" data-type="tab-pane" id="js-tab-pane-tags-all" style="display: block">

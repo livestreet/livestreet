@@ -3,7 +3,7 @@
  *
  * @param object $oBlog        Блог
  * @param object $oUserCurrent Текущий пользователь
- * 
+ *
  * @scripts <framework>/js/livestreet/blog.js
  *}
 
@@ -12,5 +12,5 @@
 			 sAttributes = "data-blog-id=\"{$oBlog->getId()}\""
 			 sClasses    = 'js-blog-join'
 			 sText       = ($oBlog->getUserIsJoin()) ? $aLang.blog.join.leave : $aLang.blog.join.join
-			 sStyle      = ($oBlog->getUserIsJoin()) ? false : 'primary'}
+			 sMods      = ($oBlog->getUserIsJoin()) ? false : 'primary'}
 {/if}

@@ -57,7 +57,7 @@
 			sName          = 'topic[blog_id]'
 			sLabel         = $aLang.topic_create_blog
 			sNote          = $aLang.topic_create_blog_notice
-			sClasses       = 'width-full js-topic-add-title'
+			sInputClasses  = 'js-topic-add-title'
 			aItems         = $aBlogs
 			sSelectedValue = {($oTopicEdit) ? $oTopicEdit->getBlogId() : '' }}
 
@@ -162,7 +162,7 @@
 
 		{include file='components/button/button.tpl'
 			sId    = {($oTopicEdit) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
-			sStyle   = 'primary'
+			sMods   = 'primary'
 			sClasses = 'fl-r'
 			sText    = $sSubmitInputText}
 		{include file='components/button/button.tpl' sType='button' sClasses='js-topic-preview-text-button' sText=$aLang.topic_create_submit_preview}

@@ -19,8 +19,8 @@
 				 sName    = 'talk_users'
 				 aRules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
 				 sLabel   = $aLang.talk_create_users
-				 sClasses = 'width-full autocomplete-users-sep'
-				 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk_users\">Выбрать из списка друзей</a>"}
+				 sInputClasses = 'autocomplete-users-sep js-input-talk-users'
+				 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">Выбрать из списка друзей</a>"}
 
 		{* Заголовок *}
 		{include 'components/field/field.text.tpl'
@@ -41,7 +41,7 @@
 		{hook run='form_add_talk_end'}
 
 		{* Кнопки *}
-		{include 'components/button/button.tpl' sName='submit_talk_add' sStyle='primary' sText=$aLang.talk_create_submit}
+		{include 'components/button/button.tpl' sName='submit_talk_add' sMods='primary' sText=$aLang.talk_create_submit}
 		{include 'components/button/button.tpl' sName='submit_preview' sType='button' sText=$aLang.common.preview_text sAttributes='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
 	</form>
 

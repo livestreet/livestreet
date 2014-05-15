@@ -7,8 +7,8 @@
 {block name='layout_page_title'}{$aLang.user_list}{/block}
 
 {block name='layout_content'}
-	{include 'forms/form.search.users.tpl'}
-	{include 'components/alphanumeric/alphanumeric.tpl' aAlphaLetters=$aPrefixUser}
+	{include 'forms/search_forms/search_form.users.tpl'}
+	{include 'components/alphanumeric/alphanumeric.tpl' aAlphaLetters=$aPrefixUser sType='users'}
 
 	{* Сортировка *}
 	{include 'components/sort/sort.ajax.tpl'

@@ -40,7 +40,7 @@
 		{* Кнопки *}
 		{include file='components/button/button.tpl'
 		 		 sName    = 'submit_talk_filter'
-		 		 sStyle   = 'primary'
+		 		 sMods   = 'primary'
 		 		 sText    = $aLang.search.find}
 
 		{include file='components/button/button.tpl' sType='reset' sText=$aLang.common.form_reset}
