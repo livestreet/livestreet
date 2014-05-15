@@ -2,10 +2,12 @@
  * Базовый шаблон личных сообщений
  *}
 
-{extends file='layouts/layout.user.tpl'}
+{extends './layout.user.tpl'}
 
-{block name='layout_user_page_title'}{$aLang.talk_menu_inbox}{/block}
+{block 'layout_options'}
+	{$sNav = 'messages'}
+{/block}
 
-{block name='layout_content_begin' append}
-	{include file='navs/nav.messages.tpl'}
+{block 'layout_user_page_title'}
+	{$aLang.talk_menu_inbox}
 {/block}

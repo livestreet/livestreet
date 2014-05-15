@@ -2,10 +2,12 @@
  * Базовый шаблон настроек пользователя
  *}
 
-{extends file='layouts/layout.user.tpl'}
+{extends './layout.user.tpl'}
 
-{block name='layout_user_page_title'}{$aLang.settings_menu}{/block}
+{block 'layout_options'}
+	{$sNav = 'settings'}
+{/block}
 
-{block name='layout_content_begin' append}
-	{include file='navs/nav.settings.tpl'}
+{block 'layout_user_page_title'}
+	{$aLang.settings_menu}
 {/block}

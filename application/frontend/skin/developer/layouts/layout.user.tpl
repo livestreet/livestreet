@@ -2,9 +2,9 @@
  * Базовый шаблон профиля пользователя
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends './layout.base.tpl'}
 
-{block name='layout_content_begin'}
+{block 'layout_content_header' prepend}
 	{**
 	 * Шапка профиля
 	 *}
@@ -33,5 +33,5 @@
 		{hook run='profile_top_end' oUserProfile=$oUserProfile}
 	</div>
 
-	<h3 class="profile-page-header">{block name='layout_user_page_title'}{/block}</h3>
+	<h3 class="profile-page-header">{block 'layout_user_page_title'}{/block}</h3>
 {/block}
