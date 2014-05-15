@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends file='components/email/email.tpl'}
 
 {block name='content'}
 	Вам пришло новое письмо от пользователя <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>, прочитать и ответить на него можно перейдя по <a href="{router page='talk'}read/{$oTalk->getId()}/">этой ссылке</a>

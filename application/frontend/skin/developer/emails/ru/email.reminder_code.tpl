@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends file='components/email/email.tpl'}
 
 {block name='content'}
 	Если вы хотите сменить себе пароль на сайте <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>, то перейдите по ссылке ниже:<br>

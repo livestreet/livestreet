@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends file='components/email/email.tpl'}
 
 {block name='content'}
 	Пользователь <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a> оставил новый комментарий к письму <b>«{$oTalk->getTitle()|escape:'html'}»</b>, прочитать его можно перейдя по <a href="{router page='talk'}read/{$oTalk->getId()}/#comment{$oTalkComment->getId()}">этой ссылке</a>

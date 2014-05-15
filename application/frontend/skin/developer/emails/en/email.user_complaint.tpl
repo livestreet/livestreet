@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends file='components/email/email.tpl'}
 
 {block name='content'}
 	User «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>» complain on the user «<a href="{$oUserTarget->getUserWebPath()}">{$oUserTarget->getDisplayName()}</a>».

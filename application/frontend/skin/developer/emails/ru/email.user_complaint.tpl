@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends file='components/email/email.tpl'}
 
 {block name='content'}
 	Пользователь «<a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>» пожаловался на пользователя «<a href="{$oUserTarget->getUserWebPath()}">{$oUserTarget->getDisplayName()}</a>».
