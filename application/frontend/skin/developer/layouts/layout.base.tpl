@@ -165,5 +165,5 @@
 	{add_block group='toolbar' name='toolbar/toolbar.scrollup.tpl' priority=-100}
 
 	{* Подключение тулбара *}
-	{include 'toolbar/toolbar.tpl'}
+	{include 'components/toolbar/toolbar.tpl'}
 {/block}

@@ -6,10 +6,13 @@
  * @scripts js/livestreet/toolbar.js
  *}
 
-{if $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<section class="toolbar-admin">
-		<a href="{router page='admin'}" title="{$aLang.admin_title}">
-			<i class="icon-cog"></i>
-		</a>
-	</section>
-{/if}
+{extends 'components/toolbar/toolbar.item.tpl'}
+
+{block 'toolbar_item_options' append}
+	{$_sMods = 'admin'}
+	{$_bShow = $oUserCurrent and $oUserCurrent->isAdministrator()}
+{/block}
+
+{block 'toolbar_item'}
+	{toolbar_item_icon sUrl="{router page='admin'}" sTitle="{$aLang.admin_title}" sIcon="icon-cog"}
+{/block}

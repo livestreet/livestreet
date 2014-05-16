@@ -6,9 +6,14 @@
  * @scripts js/livestreet/toolbar.js
  *}
 
-{if $params.iCountTopic}
-	<section class="toolbar-topic" id="" style="">
-		<a href="#" onclick="return ls.toolbar.topic.goPrev();" title="{$aLang.toolbar_topic_prev}" class="toolbar-topic-prev"><i class="icon-arrow-up"></i></a>
-		<a href="#" onclick="return ls.toolbar.topic.goNext();" title="{$aLang.toolbar_topic_next}" class="toolbar-topic-next"><i class="icon-arrow-down"></i></a>
-	</section>
-{/if}
+{extends 'components/toolbar/toolbar.item.tpl'}
+
+{block 'toolbar_item_options' append}
+	{$_sMods = 'topic'}
+	{$_bShow = $params.iCountTopic}
+{/block}
+
+{block 'toolbar_item'}
+	{toolbar_item_icon sAttributes='onclick="return ls.toolbar.topic.goPrev();"' sClasses='toolbar-topic-prev' sTitle="{$aLang.toolbar_topic_prev}" sIcon="icon-arrow-up"}
+	{toolbar_item_icon sAttributes='onclick="return ls.toolbar.topic.goNext();"' sClasses='toolbar-topic-next' sTitle="{$aLang.toolbar_topic_next}" sIcon="icon-arrow-down"}
+{/block}
