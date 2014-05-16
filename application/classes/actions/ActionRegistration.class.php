@@ -215,7 +215,7 @@ class ActionRegistration extends Action {
 					if (getRequestStr('return-path')) {
 						$sUrl=getRequestStr('return-path');
 					}
-					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
+					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Router::GetPath('/'));
 					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
 				}
 			} else {

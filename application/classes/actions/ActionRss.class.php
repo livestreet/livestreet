@@ -61,7 +61,7 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['link']=Router::GetPath('/');
 		$aChannel['description']=Config::Get('view.name').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
@@ -101,11 +101,11 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
+		$aChannel['link']=Router::GetPath('/');
+		$aChannel['description']=Router::GetPath('/').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */
@@ -145,11 +145,11 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
+		$aChannel['link']=Router::GetPath('/');
+		$aChannel['description']=Router::GetPath('/').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */
@@ -192,11 +192,11 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
+		$aChannel['link']=Router::GetPath('/');
+		$aChannel['description']=Router::GetPath('/').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */
@@ -233,11 +233,11 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / RSS channel';
+		$aChannel['link']=Router::GetPath('/');
+		$aChannel['description']=Router::GetPath('/').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */
@@ -278,11 +278,11 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
-		$aChannel['description']=Config::Get('path.root.web').' / '.$oBlog->getTitle().' / RSS channel';
+		$aChannel['link']=Router::GetPath('/');
+		$aChannel['description']=Router::GetPath('/').' / '.$oBlog->getTitle().' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */
@@ -328,13 +328,13 @@ class ActionRss extends Action {
 		 * Формируем данные канала RSS
 		 */
 		$aChannel['title']=Config::Get('view.name');
-		$aChannel['link']=Config::Get('path.root.web');
+		$aChannel['link']=Router::GetPath('/');
 		$aChannel['description']=($this->sUserLogin)
-			? Config::Get('path.root.web').' / '.$oUser->getLogin().' / RSS channel'
-			: Config::Get('path.root.web').' / RSS channel';
+			? Router::GetPath('/').' / '.$oUser->getLogin().' / RSS channel'
+			: Router::GetPath('/').' / RSS channel';
 		$aChannel['language']='ru';
 		$aChannel['managingEditor']=Config::Get('general.rss_editor_mail');
-		$aChannel['generator']=Config::Get('path.root.web');
+		$aChannel['generator']=Router::GetPath('/');
 		/**
 		 * Формируем записи RSS
 		 */

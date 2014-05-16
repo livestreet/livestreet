@@ -532,7 +532,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/more.js",
 	"___path.application.web___/frontend/common/js/init.js",
 
-	"http://yandex.st/share/share.js" => array('merge'=>false),
+	"//yandex.st/share/share.js" => array('merge'=>false),
 );
 
 $config['head']['default']['css'] = array(

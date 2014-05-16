@@ -6,7 +6,7 @@
 	<LongName>{$sHtmlDescription}</LongName>
 	<Image height="64" width="64" type="image/png">{cfg name='path.skin.assets.web'}/images/favicons/opensearch.png</Image>
 	<Image height="16" width="16" type="image/vnd.microsoft.icon">{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico</Image>
-	<Developer>{cfg name='view.name'} ({cfg name='path.root.web'})</Developer> 
+	<Developer>{cfg name='view.name'} ({Router::GetPath('/')})</Developer>
 	<Attribution> 
 		© «{cfg name='view.name'}»
 	</Attribution> 

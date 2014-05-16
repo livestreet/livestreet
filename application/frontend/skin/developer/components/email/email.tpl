@@ -68,7 +68,7 @@
 											{block name='content'}{/block}
 											<br>
 											<br>
-											{$aLang.notify_regards} <a href="{cfg name='path.root.web'}">{cfg name='view.name'}</a>
+											{$aLang.notify_regards} <a href="{Router::GetPath('/')}">{cfg name='view.name'}</a>
 										</td>
 									</tr>
 								</table>
@@ -81,7 +81,7 @@
 						<tr>
 							<td valign="center">
 								<img src="{$sImagesDir}/blank.gif" width="27" height="10" style="vertical-align: middle">
-								<a href="{cfg name='path.root.web'}" style="color: #{$sFooterLinkColor} !important;">{cfg name='view.name'}</a>
+								<a href="{Router::GetPath('/')}" style="color: #{$sFooterLinkColor} !important;">{cfg name='view.name'}</a>
 							</td>
 						</tr>
 					</table>

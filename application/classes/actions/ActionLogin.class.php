@@ -106,7 +106,7 @@ class ActionLogin extends Action {
 					if (getRequestStr('return-path')) {
 						$sUrl=getRequestStr('return-path');
 					}
-					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Config::Get('path.root.web'));
+					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Router::GetPath('/'));
 					return;
 				}
 			} else {
@@ -126,7 +126,7 @@ class ActionLogin extends Action {
 	 */
 	protected function EventReactivation() {
 		if($this->User_GetUserCurrent()) {
-			Router::Location(Config::Get('path.root.web').'/');
+			Router::Location(Router::GetPath('/'));
 		}
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('reactivation'));
@@ -163,7 +163,7 @@ class ActionLogin extends Action {
 		 * Если уже авторизирован
 		 */
 		if($this->User_GetUserCurrent()) {
-			Router::Location(Config::Get('path.root.web').'/');
+			Router::Location(Router::GetPath('/'));
 		}
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('login'));
 	}
@@ -174,7 +174,7 @@ class ActionLogin extends Action {
 	protected function EventExit() {
 		$this->Security_ValidateSendForm();
 		$this->User_Logout();
-		Router::Location(Config::Get('path.root.web').'/');
+		Router::Location(Router::GetPath('/'));
 	}
 	/**
 	 * Ajax запрос на восстановление пароля
