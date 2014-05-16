@@ -11,5 +11,5 @@
 {block name='layout_page_title'}{$aLang.user_authorization}{/block}
 
 {block name='layout_content'}
-	{include file='forms/form.auth.login.tpl'}
+	{include file='forms/auth/form.auth.login.tpl'}
 {/block}

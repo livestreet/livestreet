@@ -11,5 +11,5 @@
 {block name='layout_page_title'}{$aLang.reactivation}{/block}
 
 {block name='layout_content'}
-	{include file='forms/form.auth.reactivation.tpl'}
+	{include file='forms/auth/form.auth.reactivation.tpl'}
 {/block}

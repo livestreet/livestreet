@@ -11,5 +11,5 @@
 {block name='layout_page_title'}{$aLang.password_reminder}{/block}
 
 {block name='layout_content'}
-	{include file='forms/form.auth.recovery.tpl'}
+	{include file='forms/auth/form.auth.recovery.tpl'}
 {/block}
