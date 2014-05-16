@@ -103,7 +103,7 @@
 								{if in_array($sNav, $aMenuContainers)}
 									{$aMenuFetch.$sNav}
 								{else}
-									{include "navs/nav.$sNav.tpl"}
+									{include "{$sNavPath}navs/nav.$sNav.tpl"}
 								{/if}
 							{/if}
 						</div>
