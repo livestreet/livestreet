@@ -86,7 +86,7 @@
 				 sMods       = 'small white topic'
 				 bUseAbstain = true
 				 bIsLocked   = $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()
-				 bShowRating = $oTopic->getVote() || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - $oConfig->GetValue('acl.vote.topic.limit_time')}
+				 bShowRating = $oTopic->getVote() || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
 	</li>
 
 	{$smarty.block.parent}

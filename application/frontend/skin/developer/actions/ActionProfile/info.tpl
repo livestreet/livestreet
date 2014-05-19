@@ -144,7 +144,7 @@
 	 * Активность
 	 *}
 	{capture 'info_activity'}
-		{if $oConfig->GetValue('general.reg.invite')}
+		{if Config::Get('general.reg.invite')}
 			{* Кто пригласил пользователя *}
 			{if $oUserInviteFrom}
 				{list_item sLabel=$aLang.profile_invite_from sContent="<a href=\"{$oUserInviteFrom->getUserWebPath()}\">{$oUserInviteFrom->getDisplayName()}</a>"}

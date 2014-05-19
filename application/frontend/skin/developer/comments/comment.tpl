@@ -58,7 +58,7 @@
 
 			{* Дата *}
 			<li class="comment-date">
-				<a href="{if $oConfig->GetValue('module.comment.use_nested')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comments.comment.url}">
+				<a href="{if Config::Get('module.comment.use_nested')}{router page='comments'}{else}#comment{/if}{$oComment->getId()}" class="link-dotted" title="{$aLang.comments.comment.url}">
 					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time>
 				</a>
 			</li>

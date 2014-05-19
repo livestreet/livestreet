@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="tab-pane" id="tab-pane-registration" data-type="tab-pane">
-			{if ! $oConfig->GetValue('general.reg.invite')}
+			{if ! Config::Get('general.reg.invite')}
 				{include file='forms/auth/form.auth.signup.tpl' isModal=true}
 			{else}
 				{include file='forms/auth/form.auth.invite.tpl' isModal=true}

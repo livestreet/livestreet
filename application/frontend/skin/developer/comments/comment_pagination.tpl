@@ -40,7 +40,7 @@
 		</ul>
 
 		<ul class="pagination--list">
-			{if $oConfig->GetValue('module.comment.nested_page_reverse')}
+			{if Config::Get('module.comment.nested_page_reverse')}
 				{if $aPagingCmt.iCurrentPage > 1}
 					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">{$aLang.paging_first}</a></li>
 				{/if}

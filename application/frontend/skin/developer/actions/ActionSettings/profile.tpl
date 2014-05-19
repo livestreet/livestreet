@@ -44,7 +44,7 @@
 			{* Имя *}
 			{include 'components/field/field.text.tpl'
                      sName   = 'profile_name'
-					 aRules  = [ 'rangelength' => "[2,{$oConfig->Get('module.user.name_max')}]" ]
+					 aRules  = [ 'rangelength' => "[2,{Config::Get('module.user.name_max')}]" ]
 					 bInline = true
 					 sValue  = $oUserCurrent->getProfileName()|escape
 					 sNote   = $aLang.settings_profile_name_notice

@@ -99,7 +99,7 @@
 
 		{* Аватар *}
 		{if $oBlogEdit and $oBlogEdit->getAvatar()}
-			{foreach $oConfig->GetValue('module.blog.avatar_size') as $iSize}
+			{foreach Config::Get('module.blog.avatar_size') as $iSize}
 				{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
 			{/foreach}
 

@@ -7,7 +7,7 @@
 	Тема письма: <b>{$oTalk->getTitle()|escape:'html'}</b>
 	<br>
 
-	{if $oConfig->GetValue('sys.mail.include_talk')}
+	{if Config::Get('sys.mail.include_talk')}
 		Текст сообщения:<br>
 		<i>{$oTalk->getText()}</i>
 		<br>

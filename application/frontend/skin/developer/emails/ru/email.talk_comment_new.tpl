@@ -5,7 +5,7 @@
 	<br>
 	<br>
 	
-	{if $oConfig->GetValue('sys.mail.include_talk')}
+	{if Config::Get('sys.mail.include_talk')}
 		Текст сообщения: <i>{$oTalkComment->getText()}</i>
 		<br>
 		<br>

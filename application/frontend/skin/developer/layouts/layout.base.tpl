@@ -13,8 +13,8 @@
 		ls.lang.load({json var = $aLangJs});
 		ls.lang.load({lang_load name="comments.comments_declension, comments.folding.unfold, comments.folding.fold, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, geo_select_city, geo_select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove"});
 
-		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
-		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
+		ls.registry.set('comment_max_tree', {json var=Config::Get('module.comment.max_tree')});
+		ls.registry.set('block_stream_show_tip', {json var=Config::Get('block.stream.show_tip')});
 	</script>
 
 	{**

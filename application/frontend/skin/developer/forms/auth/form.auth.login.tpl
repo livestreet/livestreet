@@ -23,7 +23,7 @@
 			 sLabel  = $aLang.user_password}
 
 	{* Каптча *}
-	{if $oConfig->GetValue('general.login.captcha')}
+	{if Config::Get('general.login.captcha')}
 		{include file='components/field/field.captcha.tpl'
 				sName   = 'captcha'
 				sCaptchaName   = 'user_auth'

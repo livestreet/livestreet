@@ -14,7 +14,7 @@
 		<small class="note mb-15">{$aLang.stream_settings_note_filter}</small>
 
 		{foreach $aStreamEventTypes as $sType => $aEventType}
-			{if ! ($oConfig->get('module.stream.disable_vote_events') && substr($sType, 0, 4) == 'vote')}
+			{if ! (Config::Get('module.stream.disable_vote_events') && substr($sType, 0, 4) == 'vote')}
 				{$sLangKey = "stream_event_type_`$sType`"}
 
 				{include 'components/field/field.checkbox.tpl'
