@@ -67,7 +67,6 @@ ls.user = (function ($) {
 
 		$('.js-modal-toggle-registration').on('click', function (e) {
 			$('[data-tab-target=tab-pane-registration]').tab('activate');
-			ls.captcha.update();
 			$('#modal-login').modal('show');
 			e.preventDefault();
 		});
