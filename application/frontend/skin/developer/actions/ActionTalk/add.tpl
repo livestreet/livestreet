@@ -5,8 +5,6 @@
 {extends 'layouts/layout.user.messages.tpl'}
 
 {block 'layout_content'}
-	{include 'forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='talk'}
-
 	{hook run='talk_add_begin'}
 
 	<form action="" method="POST" enctype="multipart/form-data" class="js-form-validate">
@@ -29,11 +27,13 @@
 				 sLabel   = $aLang.talk_create_title}
 
 		{* Текст сообщения *}
-		{include 'components/field/field.textarea.tpl'
-				 sName    = 'talk_text'
-				 aRules   = [ 'required' => true, 'rangelength' => '[2,3000]' ]
-				 sLabel   = $aLang.topic_create_text
-				 sInputClasses = 'js-editor'}
+		{include 'components/editor/editor.tpl'
+				sSet             = 'light'
+				sMediaTargetType = 'talk'
+				sName            = 'talk_text'
+				aRules           = [ 'required' => true, 'rangelength' => '[2,3000]' ]
+				sLabel           = $aLang.topic_create_text
+				sInputClasses    = 'js-editor'}
 
 		{* Preview *}
 		<div class="text mb-20" id="text_preview" style="display: none;"></div>

@@ -11,7 +11,7 @@
 {$_sComponentName = 'field'}
 
 {* Уникальный ID *}
-{$_uid = ( $smarty.local.sId ) ? $smarty.local.sId : $_sComponentName|cat:rand(0, 10e10)}
+{$_uid = $smarty.local.sId|default:($_sComponentName|cat:rand(0, 10e10))}
 
 {* Переменные *}
 {$_sMods = $smarty.local.sMods}

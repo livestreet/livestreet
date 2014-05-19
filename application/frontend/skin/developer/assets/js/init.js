@@ -174,7 +174,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Editor
 	 */
-	ls.editor.init();
+	ls.editor.init('.js-editor');
 
 
 	/**

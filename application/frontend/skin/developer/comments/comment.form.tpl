@@ -8,14 +8,14 @@
  *}
 
 {* Подключение редактора *}
-{include 'forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='comment' }
+
 
 {* Форма *}
 <form method="post" class="comment-form js-comment-form" enctype="multipart/form-data" data-target-id="{$iTargetId}" data-target-type="{$sTargetType}">
 	{hook run='form_add_comment_begin'}
 
 	{* Текст комментария *}
-	{include 'components/field/field.textarea.tpl' sName='comment_text' sId='form_comment_text' sInputClasses='js-editor'}
+	{include 'components/editor/editor.tpl' sSet='light' sName='comment_text' sId='form_comment_text' bShowHelp=false sMediaTargetType='comment'}
 
 	{hook run='form_add_comment_end'}
 

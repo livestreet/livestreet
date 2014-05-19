@@ -1,0 +1,22 @@
+/**
+ * Справка по разметке редактора
+ *
+ * @template editor.markup.help.tpl
+ */
+.editor-help header { margin-bottom: 20px; }
+
+.editor-help-body {
+	display: none;
+	padding: 20px;
+	margin-bottom: 20px;
+	background: #f7f7f7;
+	color: #333;
+}
+.editor-help-body h3 { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+
+.editor-help-col             { float: left; width: 47%; margin-left: 6%; }
+.editor-help-col:first-child { margin-left: 0; }
+
+.editor-help-item            { margin-bottom: 20px; }
+.editor-help-item:last-child { margin-bottom: 0; }
+.editor-help-item h4         { font-family: monospace; font-weight: bold; margin-bottom: 3px; }

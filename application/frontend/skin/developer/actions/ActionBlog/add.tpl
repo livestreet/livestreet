@@ -22,10 +22,6 @@
 {/block}
 
 {block 'layout_content'}
-	{* Подключение редактора *}
-	{include 'forms/editor.init.tpl' sEditorType='comment' sMediaTargetType='blog'}
-
-
 	<form method="post" enctype="multipart/form-data" class="js-form-validate">
 		{hook run='form_add_blog_begin'}
 
@@ -83,16 +79,12 @@
 
 
 		{* Описание блога *}
-		{include 'components/field/field.textarea.tpl'
-				 sName    = 'blog_description'
-				 aRules   = [ 'required' => true, 'rangelength' => '[10,3000]' ]
-				 sLabel   = $aLang.blog.add.fields.description.label
-				 sInputClasses = 'js-editor'}
-
-		{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
-		{if ! $oConfig->GetValue('view.wysiwyg')}
-			{include 'forms/editor.help.tpl' sTagsTargetId='blog_description'}
-		{/if}
+		{include 'components/editor/editor.tpl'
+				sSet             = 'light'
+				sMediaTargetType = 'blog'
+				sName            = 'blog_description'
+				aRules           = [ 'required' => true, 'rangelength' => '[10,3000]' ]
+				sLabel           = $aLang.blog.add.fields.description.label}
 
 
 		{* Ограничение по рейтингу *}

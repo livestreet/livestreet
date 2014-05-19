@@ -23,14 +23,6 @@
 {block name='layout_content'}
 	{block name='add_topic_options'}{/block}
 
-	{* Подключение редактора *}
-	{$sMediaTargetId=''}
-	{if $oTopicEdit}
-		{$sMediaTargetId=$oTopicEdit->getId()}
-	{/if}
-	{include file='forms/editor.init.tpl' sMediaTargetType='topic' sMediaTargetId=$sMediaTargetId}
-
-
 	{hook run="add_topic_begin"}
 	{block name='add_topic_header_after'}{/block}
 
@@ -78,17 +70,13 @@
 
 		{* Текст топика *}
 		{if $oTopicType->getParam('allow_text')}
-			{include file='components/field/field.textarea.tpl'
-				sName    = 'topic[topic_text_source]'
-				sValue	  = {(($oTopicEdit) ? $oTopicEdit->getTextSource() : '')|escape:'html' }
-				aRules   = [ 'required' => true, 'rangelength' => "[2,{$oConfig->Get('module.topic.max_length')}]" ]
-				sLabel   = $aLang.topic_create_text
-				sInputClasses = 'js-editor'}
-
-			{* Если визуальный редактор отключен выводим справку по разметке для обычного редактора *}
-			{if ! $oConfig->GetValue('view.wysiwyg')}
-				{include file='forms/editor.help.tpl' sTagsTargetId='topic_text'}
-			{/if}
+			{include 'components/editor/editor.tpl'
+					sName            = 'topic[topic_text_source]'
+					sValue           = (($oTopicEdit) ? $oTopicEdit->getTextSource() : '')|escape
+					sLabel           = $aLang.topic_create_text
+					aRules           = [ 'required' => true, 'rangelength' => "[2,{Config::Get('module.topic.max_length')}]" ]
+					sMediaTargetType = 'topic'
+					sMediaTargetId   = ($oTopicEdit) ? $oTopicEdit->getId() : ''}
 		{/if}
 
 
@@ -119,8 +107,7 @@
 		{if $oTopicType->getParam('allow_poll')}
 			{include file='polls/poll.form.inject.tpl'
 				sTargetType  = 'topic'
-				sTargetId = {($oTopicEdit) ? $oTopicEdit->getId() : '' }
-			}
+				sTargetId = ($oTopicEdit) ? $oTopicEdit->getId() : ''}
 		{/if}
 
 		{* Запретить комментарии *}
@@ -167,12 +154,11 @@
 			sText    = $sSubmitInputText}
 		{include file='components/button/button.tpl' sType='button' sClasses='js-topic-preview-text-button' sText=$aLang.topic_create_submit_preview}
 		{include file='components/button/button.tpl' sId={($oTopicEdit) ? 'submit-edit-topic-save' : 'submit-add-topic-save' } sText=$aLang.topic_create_submit_save}
-</form>
+	</form>
 
 
-{* Блок с превью текста *}
-<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
-
+	{* Блок с превью текста *}
+	<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
 
 	{block name='add_topic_end'}{/block}
 	{hook run="add_topic_end"}

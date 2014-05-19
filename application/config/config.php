@@ -518,7 +518,6 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/userfeed.js",
 	"___path.application.web___/frontend/common/js/activity.js",
 	"___path.application.web___/frontend/common/js/toolbar.js",
-	"___path.application.web___/frontend/common/js/settings.js",
 	"___path.application.web___/frontend/common/js/topic.js",
 	"___path.application.web___/frontend/common/js/admin.js",
 	"___path.application.web___/frontend/common/js/userfield.js",

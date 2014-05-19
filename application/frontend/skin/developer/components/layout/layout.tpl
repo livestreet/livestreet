@@ -110,5 +110,7 @@
 
 <body class="{$sBodyClasses} layout-{cfg name='view.grid.type'} {block name='layout_body_classes'}{/block}">
 	{block name='layout_body'}{/block}
+
+	{$sLayoutAfter}
 </body>
 </html>
