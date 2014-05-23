@@ -40,8 +40,8 @@ $config['path']['offset_request_url']	= 0;
  */
 $config['view']['skin']        = 'developer';		// Название текущего шаблона
 $config['view']['theme'] = 'default';			// тема оформления шаблона (шаблон должен поддерживать темы)
-$config['view']['name']        = 'Your Site';                   // название сайта
-$config['view']['description'] = 'Description your site'; // seo description
+$config['view']['name']        = 'Мой сайт';                   // название сайта
+$config['view']['description'] = 'Описание сайта'; // seo description
 $config['view']['keywords']    = 'site, google, internet';      // seo keywords
 $config['view']['wysiwyg']         = false;  // использовать или нет визуальный редактор TinyMCE
 $config['view']['noindex']          = true;   // "прятать" или нет ссылки от поисковиков, оборачивая их в тег <noindex> и добавляя rel="nofollow"
