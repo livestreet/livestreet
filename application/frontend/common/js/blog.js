@@ -69,7 +69,7 @@ ls.blog = (function ($) {
 		});
 
 		// Вступить/покинуть блог
-		this.elements.toggle_join.on('click', function (e) {
+		$(document).on('click', this.options.selectors.toggle_join, function (e) {
 			_this.toggleJoin($(this), $(this).data('blog-id'));
 			e.preventDefault();
 		});
@@ -106,7 +106,7 @@ ls.blog = (function ($) {
 			} else {
 				ls.msg.notice(null, result.sMsg);
 
-				oToggle.empty().text( result.bState ? ls.lang.get('blog.join.leave') : ls.lang.get('blog.join.join') ).toggleClass('button-primary');
+				oToggle.empty().text( result.bState ? ls.lang.get('blog.join.leave') : ls.lang.get('blog.join.join') ).toggleClass('button--primary');
 				$(this.options.selectors.users_number + '[data-blog-id=' + iIdBlog + ']').text(result.iCountUser);
 
 				ls.hook.run('ls_blog_toggle_join_after', [iIdBlog, result], oToggle);
