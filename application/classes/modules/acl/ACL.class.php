@@ -190,15 +190,6 @@ class ModuleACL extends Module {
 		return true;
 	}
 	/**
-	 * Проверяет может ли пользователь создавать комментарии используя HTML
-	 *
-	 * @param ModuleUser_EntityUser $oUser	Пользователь
-	 * @return bool
-	 */
-	public function CanUseHtmlInComment(ModuleUser_EntityUser $oUser) {
-		return true;
-	}
-	/**
 	 * Проверяет может ли пользователь голосовать за конкретный комментарий
 	 *
 	 * @param ModuleUser_EntityUser $oUser	Пользователь
