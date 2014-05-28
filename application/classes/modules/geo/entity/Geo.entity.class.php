@@ -115,4 +115,3 @@ class ModuleGeo_EntityGeo extends Entity {
 		return null;
 	}
 }
-?>

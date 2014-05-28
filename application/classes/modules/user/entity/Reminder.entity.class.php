@@ -120,4 +120,3 @@ class ModuleUser_EntityReminder extends Entity {
 		$this->_aData['reminde_is_used']=$data;
 	}
 }
-?>

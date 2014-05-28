@@ -147,4 +147,3 @@ class ModuleBlog_EntityBlogUser extends Entity {
 		$this->_aData['user']=$data;
 	}
 }
-?>

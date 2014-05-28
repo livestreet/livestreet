@@ -375,4 +375,3 @@ class ActionRss extends Action {
 		return $sText;
 	}
 }
-?>

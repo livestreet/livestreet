@@ -279,4 +279,3 @@ class ModuleTalk_EntityTalk extends Entity {
 		$this->_aData['talk_users']=$data;
 	}
 }
-?>

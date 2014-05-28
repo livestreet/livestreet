@@ -79,4 +79,3 @@ class ModuleBlog_EntityBlogCategory extends Entity {
 		return Router::GetPath('blogs').$this->getUrlFull().'/';
 	}
 }
-?>

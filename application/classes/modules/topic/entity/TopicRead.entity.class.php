@@ -105,4 +105,3 @@ class ModuleTopic_EntityTopicRead extends Entity {
 		$this->_aData['comment_id_last']=$data;
 	}
 }
-?>

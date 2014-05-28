@@ -56,4 +56,3 @@ $sLockFilePath=Config::Get('sys.cache.dir').'notify.lock';
  */
 $app=new NotifyCron($sLockFilePath);
 print $app->Exec();
-?>

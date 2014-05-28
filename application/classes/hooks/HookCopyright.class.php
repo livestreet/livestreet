@@ -40,4 +40,3 @@ class HookCopyright extends Hook {
 		return '&copy; Powered by <a href="http://livestreetcms.org">LiveStreet CMS</a>';
 	}
 }
-?>

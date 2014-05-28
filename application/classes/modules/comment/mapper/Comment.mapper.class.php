@@ -929,4 +929,3 @@ class ModuleComment_MapperComment extends Mapper {
 		return $aResult;
 	}
 }
-?>

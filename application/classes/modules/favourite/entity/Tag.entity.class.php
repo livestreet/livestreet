@@ -24,4 +24,3 @@
 class ModuleFavourite_EntityTag extends Entity {
 
 }
-?>

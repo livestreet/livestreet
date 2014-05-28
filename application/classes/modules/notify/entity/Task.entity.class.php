@@ -137,4 +137,3 @@ class ModuleNotify_EntityTask extends Entity {
 		$this->_aData['notify_subject']=$data;
 	}
 }
-?>

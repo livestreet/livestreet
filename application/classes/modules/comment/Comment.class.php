@@ -961,4 +961,3 @@ class ModuleComment extends Module {
 		return $this->GetCommentsByArrayId($aCommentId);
 	}
 }
-?>

@@ -46,4 +46,3 @@ class TemplateCacheCleanCron extends Cron {
  */
 $app=new TemplateCacheCleanCron();
 print $app->Exec();
-?>

@@ -248,4 +248,3 @@ class ModuleWall extends Module {
 		}
 	}
 }
-?>

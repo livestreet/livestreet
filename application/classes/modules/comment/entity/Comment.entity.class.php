@@ -467,4 +467,3 @@ class ModuleComment_EntityComment extends Entity {
 		$this->_aData['comment_count_favourite']=$data;
 	}
 }
-?>

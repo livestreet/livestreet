@@ -137,4 +137,3 @@ class ModuleUser_EntityInvite extends Entity {
 		$this->_aData['invite_used']=$data;
 	}
 }
-?>

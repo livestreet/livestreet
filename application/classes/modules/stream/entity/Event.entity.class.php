@@ -24,4 +24,3 @@
 class ModuleStream_EntityEvent extends Entity {
 
 }
-?>

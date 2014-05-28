@@ -165,4 +165,3 @@ class ModuleUser_EntityFriend extends Entity {
 		return false;
 	}
 }
-?>

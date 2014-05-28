@@ -328,4 +328,3 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 	}
 }
-?>

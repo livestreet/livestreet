@@ -24,4 +24,3 @@
 class ModuleGeo_EntityCity extends ModuleGeo_EntityGeo {
 
 }
-?>

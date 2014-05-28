@@ -99,4 +99,3 @@ class ModuleFavourite_EntityFavourite extends Entity {
 		$this->_aData['target_type']=$data;
 	}
 }
-?>

@@ -61,4 +61,3 @@ class BlockTagsFavouriteTopic extends Block {
 		}
 	}
 }
-?>

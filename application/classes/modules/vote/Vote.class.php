@@ -181,4 +181,3 @@ class ModuleVote extends Module {
 		return $this->oMapper->DeleteVoteByTarget($aTargetId,$sTargetType);
 	}
 }
-?>

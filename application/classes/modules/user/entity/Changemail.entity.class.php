@@ -24,4 +24,3 @@
 class ModuleUser_EntityChangemail extends Entity {
 
 }
-?>

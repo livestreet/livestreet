@@ -52,4 +52,3 @@ class HookMain extends Hook {
 		$this->Ls_SenderRun();
 	}
 }
-?>

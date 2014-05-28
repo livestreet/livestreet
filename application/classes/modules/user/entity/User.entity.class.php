@@ -739,4 +739,3 @@ class ModuleUser_EntityUser extends Entity {
 		$this->_aData['user_friend']=$data;
 	}
 }
-?>

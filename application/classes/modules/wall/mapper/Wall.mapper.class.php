@@ -195,4 +195,3 @@ class ModuleWall_MapperWall extends Mapper {
 		return $aResult;
 	}
 }
-?>

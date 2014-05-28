@@ -40,4 +40,3 @@ $config['lang']['current'] = 'english';
 $config['lang']['default'] = 'english';
 
 return $config;
-?>

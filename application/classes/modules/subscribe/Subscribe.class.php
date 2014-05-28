@@ -298,4 +298,3 @@ class ModuleSubscribe extends Module {
 		return false;
 	}
 }
-?>

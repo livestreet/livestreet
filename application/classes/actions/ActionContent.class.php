@@ -546,4 +546,3 @@ class ActionContent extends Action {
 		$this->Viewer_Assign('sMenuSubItemSelect',$this->sMenuSubItemSelect);
 	}
 }
-?>

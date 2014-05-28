@@ -40,4 +40,3 @@ class BlockTagsCity extends Block {
 		$this->Viewer_Assign("aCityList",$aCities);
 	}
 }
-?>
