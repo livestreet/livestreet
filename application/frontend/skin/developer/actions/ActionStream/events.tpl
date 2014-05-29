@@ -100,7 +100,7 @@
 				{/if}
 
 				<a href="{$oTarget->getUrl()}">{$oTarget->getTitle()|escape:'html'}</a>
-			{elseif $oStreamEvent->getEventType() == 'vote_comment'}
+			{elseif $oStreamEvent->getEventType() == 'vote_comment_topic'}
 				{* Проголосовали за комментарий *}
 
 				{if $bUserIsMale}

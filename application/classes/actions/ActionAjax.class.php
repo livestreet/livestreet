@@ -976,6 +976,12 @@ class ActionAjax extends Action {
 			return $this->EventErrorDebug();
 		}
 		/**
+		 * Проверка типа комментария
+		 */
+		if (!in_array($oComment->getTargetType(),(array)Config::Get('module.comment.vote_target_allow'))) {
+			return $this->EventErrorDebug();
+		}
+		/**
 		 * Голосует автор комментария?
 		 */
 		if ($oComment->getUserId()==$this->oUserCurrent->getId()) {
@@ -1028,7 +1034,7 @@ class ActionAjax extends Action {
 			/**
 			 * Добавляем событие в ленту
 			 */
-			$this->Stream_write($oTopicCommentVote->getVoterId(), 'vote_comment', $oComment->getId());
+			$this->Stream_Write($oTopicCommentVote->getVoterId(), 'vote_comment_'.$oComment->getTargetType(), $oComment->getId());
 		} else {
 			return $this->EventErrorDebug();
 		}
