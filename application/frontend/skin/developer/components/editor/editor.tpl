@@ -21,6 +21,7 @@
 {function editor_textarea}
 	{include 'components/field/field.textarea.tpl'
 			sName            = $smarty.local.sName
+			sValue           = $smarty.local.sValue
 			sLabel           = $smarty.local.sLabel
 			sMods            = $smarty.local.sMods
 			sClasses         = $smarty.local.sClasses
