@@ -1028,7 +1028,10 @@ class ActionAjax extends Action {
 		$oTopicCommentVote->setValue($iVal);
 
 		$oComment->setCountVote($oComment->getCountVote()+1);
+		$this->Hook_Run("vote_{$oTopicCommentVote->getTargetType()}_before",array('oTarget'=>$oComment,'oVote'=>$oTopicCommentVote,'iValue' => $iValue));
 		if ($this->Vote_AddVote($oTopicCommentVote) and $this->Comment_UpdateComment($oComment)) {
+			$this->Hook_Run("vote_{$oTopicCommentVote->getTargetType()}_after",array('oTarget'=>$oComment,'oVote'=>$oTopicCommentVote,'iValue' => $iValue));
+
 			$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			$this->Viewer_AssignAjax('iRating',$oComment->getRating());
 			/**
@@ -1114,7 +1117,9 @@ class ActionAjax extends Action {
 		} elseif ($iValue==0) {
 			$oTopic->setCountVoteAbstain($oTopic->getCountVoteAbstain()+1);
 		}
+		$this->Hook_Run("vote_{$oTopicVote->getTargetType()}_before",array('oTarget'=>$oTopic,'oVote'=>$oTopicVote,'iValue' => $iValue));
 		if ($this->Vote_AddVote($oTopicVote) and $this->Topic_UpdateTopic($oTopic)) {
+			$this->Hook_Run("vote_{$oTopicVote->getTargetType()}_after",array('oTarget'=>$oTopic,'oVote'=>$oTopicVote,'iValue' => $iValue));
 			if ($iValue) {
 				$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			} else {
@@ -1178,7 +1183,11 @@ class ActionAjax extends Action {
 					$iVal=(float)$this->Rating_VoteBlog($this->oUserCurrent,$oBlog,$iValue);
 					$oBlogVote->setValue($iVal);
 					$oBlog->setCountVote($oBlog->getCountVote()+1);
+
+					$this->Hook_Run("vote_{$oBlogVote->getTargetType()}_before",array('oTarget'=>$oBlog,'oVote'=>$oBlogVote,'iValue' => $iValue));
 					if ($this->Vote_AddVote($oBlogVote) and $this->Blog_UpdateBlog($oBlog)) {
+						$this->Hook_Run("vote_{$oBlogVote->getTargetType()}_after",array('oTarget'=>$oBlog,'oVote'=>$oBlogVote,'iValue' => $iValue));
+
 						$this->Viewer_AssignAjax('iCountVote',$oBlog->getCountVote());
 						$this->Viewer_AssignAjax('iRating',$oBlog->getRating());
 						$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
@@ -1265,7 +1274,11 @@ class ActionAjax extends Action {
 		$oUserVote->setValue($iVal);
 		//$oUser->setRating($oUser->getRating()+$iValue);
 		$oUser->setCountVote($oUser->getCountVote()+1);
+
+		$this->Hook_Run("vote_{$oUserVote->getTargetType()}_before",array('oTarget'=>$oUser,'oVote'=>$oUserVote,'iValue' => $iValue));
 		if ($this->Vote_AddVote($oUserVote) and $this->User_Update($oUser)) {
+			$this->Hook_Run("vote_{$oUserVote->getTargetType()}_after",array('oTarget'=>$oUser,'oVote'=>$oUserVote,'iValue' => $iValue));
+
 			$this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'),$this->Lang_Get('attention'));
 			$this->Viewer_AssignAjax('iRating',$oUser->getRating());
 			$this->Viewer_AssignAjax('iSkill',$oUser->getSkill());
