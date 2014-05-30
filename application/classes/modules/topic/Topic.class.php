@@ -369,6 +369,19 @@ class ModuleTopic extends Module {
 		return false;
 	}
 	/**
+	 * Обновляет контент топика в БД (таблица topic_content)
+	 *
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 *
+	 * @return bool
+	 */
+	public function UpdateTopicContent($oTopic) {
+		$bRes=$this->oMapperTopic->UpdateTopicContent($oTopic);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update',"topic_update_user_{$oTopic->getUserId()}"));
+		$this->Cache_Delete("topic_{$oTopic->getId()}");
+		return $bRes;
+	}
+	/**
 	 * Удаление контента топика по его номеру
 	 *
 	 * @param int $iTopicId	ID топика
