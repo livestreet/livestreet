@@ -44,6 +44,7 @@
 				{* Описание *}
 				{include file='components/field/field.text.tpl'
 						 sName  = 'title'
+						 sInputClasses  = 'js-input-title'
 						 sLabel = $aLang.uploadimg_title}
 	        </div>
 
