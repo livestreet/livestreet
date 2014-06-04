@@ -9,7 +9,7 @@
 {$_sName = ( $smarty.local.sName ) ? $smarty.local.sName : rand(0, 9999999)}
 
 {* Получаем пункты установленные плагинами *}
-{hook run="{$_sComponentName}_{$_sName}" assign='aItemsHook' aItems=$smarty.local.aItems}
+{hook run="{$_sComponentName}_{$_sName}" assign='aItemsHook' aItems=$smarty.local.aItems array=true}
 
 {$_aItems = ( $aItemsHook ) ? $aItemsHook : $smarty.local.aItems}
 
