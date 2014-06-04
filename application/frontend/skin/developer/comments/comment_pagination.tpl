@@ -17,11 +17,11 @@
 				<li class="pagination--item pagination--prev">
 					<a class="pagination--item-inner pagination--item-link js-pagination-prev" 
 					   href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iPrevPage}" 
-					   title="{$aLang.paging_previos}">&larr; {$aLang.paging_previos}</a>
+					   title="{$aLang.pagination.previos}">&larr; {$aLang.pagination.previos}</a>
 					</li>
 			{else}
 				<li class="pagination--item pagination--prev">
-					<span class="pagination--item-inner pagination--item-text">&larr; {$aLang.paging_previos}</span>
+					<span class="pagination--item-inner pagination--item-text">&larr; {$aLang.pagination.previos}</span>
 				</li>
 			{/if}
 			
@@ -30,11 +30,11 @@
 				<li class="pagination--item pagination--next">
 					<a class="pagination--item-inner pagination--item-link js-pagination-next" 
 					   href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iNextPage}" 
-					   title="{$aLang.paging_next}">{$aLang.paging_next} &rarr;</a>
+					   title="{$aLang.pagination.next}">{$aLang.pagination.next} &rarr;</a>
 				</li>
 			{else}
 				<li class="pagination--item pagination--next">
-					<span class="pagination--item-inner pagination--item-text">{$aLang.paging_next} &rarr;</span>
+					<span class="pagination--item-inner pagination--item-text">{$aLang.pagination.next} &rarr;</span>
 				</li>
 			{/if}
 		</ul>
@@ -42,7 +42,7 @@
 		<ul class="pagination--list">
 			{if Config::Get('module.comment.nested_page_reverse')}
 				{if $aPagingCmt.iCurrentPage > 1}
-					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">{$aLang.paging_first}</a></li>
+					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">{$aLang.pagination.first}</a></li>
 				{/if}
 
 
@@ -58,11 +58,11 @@
 
 
 				{if $aPagingCmt.iCurrentPage < $aPagingCmt.iCountPage}
-					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}" title="{$aLang.paging_last}">{$aLang.paging_last}</a></li>
+					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}" title="{$aLang.pagination.last}">{$aLang.pagination.last}</a></li>
 				{/if}
 			{else}
 				{if $aPagingCmt.iCurrentPage < $aPagingCmt.iCountPage}
-					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}">{$aLang.paging_last}</a></li>
+					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage={$aPagingCmt.iCountPage}">{$aLang.pagination.last}</a></li>
 				{/if}
 				
 
@@ -78,7 +78,7 @@
 				
 
 				{if $aPagingCmt.iCurrentPage > 1}
-					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">{$aLang.paging_first}</a></li>
+					<li class="pagination--item"><a class="pagination--item-inner pagination--item-link" href="{$aPagingCmt.sGetParams}{$sGetSep}cmtpage=1">{$aLang.pagination.first}</a></li>
 				{/if}
 			{/if}
 		</ul>
