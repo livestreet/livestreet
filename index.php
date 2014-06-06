@@ -25,10 +25,5 @@ $sPathToFramework=dirname(__FILE__).'/framework/';
 require_once("{$sPathToFramework}/config/loader.php");
 require_once(Config::Get('path.framework.server')."/classes/engine/Engine.class.php");
 
-$oProfiler=ProfilerSimple::getInstance(Config::Get('path.application.server').'/logs/'.Config::Get('sys.logs.profiler_file'),Config::Get('sys.logs.profiler'));
-$iTimeId=$oProfiler->Start('full_time');
-
 $oRouter=Router::getInstance();
 $oRouter->Exec();
-
-$oProfiler->Stop($iTimeId);
