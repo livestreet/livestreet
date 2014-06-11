@@ -20,7 +20,7 @@
 
 		{include 'components/button/button.tpl' sUrl="{router page='blog'}add/" sMods='primary large' sText=$aLang.blog.create_blog}
 	{else}
-		<p>{$aLang.blog.cant_add|ls_lang:"rating%%`Config::Get('acl.create.blog.rating')`"}</p>
+		<p>{lang name='blog.cant_add' rating=Config::Get('acl.create.blog.rating')}</p>
 
 		{include 'components/button/button.tpl' sMods='primary large' sText=$aLang.blog.create_blog bIsDisabled=true}
 	{/if}
