@@ -105,7 +105,10 @@
 							{* Не показываем если комментирование запрещено и кол-во комментариев равно нулю *}
 							{if $bTopicList && ( ! $oTopic->getForbidComment() || ( $oTopic->getForbidComment() && $oEntry->getCountComment() ) )}
 								<li class="topic-info-item topic-info-item-comments">
-									<a href="{$oEntry->getUrl()}#comments" title="{$aLang.topic_comment_read}">{$oEntry->getCountComment()} {$oEntry->getCountComment()|declension:$aLang.comments.comments_declension}</a>
+									<a href="{$oEntry->getUrl()}#comments" title="{$aLang.topic_comment_read}">
+										{lang name='comments.comments_declension' count=$oEntry->getCountComment() plural=true}
+									</a>
+
 									{if $oEntry->getCountCommentNew()}<span>+{$oEntry->getCountCommentNew()}</span>{/if}
 								</li>
 							{/if}

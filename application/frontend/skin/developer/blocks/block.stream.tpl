@@ -6,7 +6,7 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='block_title'}<a href="{router page='comments'}" title="{$aLang.block_stream_comments_all}">{$aLang.block_stream}</a>{/block}
+{block name='block_title'}<a href="{router page='stream'}">{$aLang.stream_menu}</a>{/block}
 {block name='block_type'}stream{/block}
 {block name='block_class'}block-nopadding{/block}
 

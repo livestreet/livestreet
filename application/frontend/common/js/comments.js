@@ -8,687 +8,742 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
-
-ls.comments = (function ($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 *
-	 * @private
-	 */
-	var _defaults = {
-		type: {
-			topic: {
-				url_add: 		aRouter.blog + 'ajaxaddcomment/',
-				url_response: 	aRouter.blog + 'ajaxresponsecomment/'
-			},
-			talk: {
-				url_add: 		aRouter.talk + 'ajaxaddcomment/',
-				url_response: 	aRouter.talk + 'ajaxresponsecomment/'
-			}
-		},
-		// Селекторы
-		selectors: {
-			container:  '#comments',
-			preview:    '.js-comment-preview',
-			wrapper:    '.js-comment-wrapper',
-			fold_all:   '.js-comments-fold-all',
-			unfold_all: '.js-comments-unfold-all',
-			title:      '.js-comments-title',
-			reply_root: '.js-comment-reply-root',
-			comment: {
-				comment:          '.js-comment',
-				reply:            '.js-comment-reply',
-				fold:             '.js-comment-fold',
-				remove:           '.js-comment-remove',
-				update:           '.js-comment-update',
-				update_timer:           '.js-comment-update-timer',
-				scroll_to_child:  '.js-comment-scroll-to-child',
-				scroll_to_parent: '.js-comment-scroll-to-parent'
-			},
-			form: {
-				form:       '.js-comment-form',
-				text:       '#form_comment_text',
-				submit:     '.js-comment-form-submit',
-				preview:    '.js-comment-form-preview',
-				update_submit:    '.js-comment-form-update-submit',
-				update_cancel:    '.js-comment-form-update-cancel',
-				comment_id: '#form_comment_reply'
-			},
-			toolbar: {
-				update:      '#update-comments',
-				new_counter: '#new_comments_counter',
-				last_id:     '#comment_last_id',
-				use_paging:  '#comment_use_paging'
-			}
-		},
-		classes: {
-			states: {
-				current: 'comment-current',
-				new:     'comment-new',
-				deleted: 'comment-deleted',
-				self:    'comment-self'
-			}
-		},
-		wysiwyg: null,
-		folding: true,
-		show_form: false
-	};
-
-	this.aComments         = $();
-	this.aCommentsNew      = $();
-	this.iCurrentCommentId = null;
-	this.iFormTargetId     = 0;
-
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 */
-	this.init = function(options) {
-		var _this = this,
-			oDocument = $(document);
-
-		this.options = $.extend({}, _defaults, options);
-
-		this.elements = {
-			container:    $(this.options.selectors.container),
-			title:        $(this.options.selectors.title),
-			reply_root:   $(this.options.selectors.reply_root),
-			fold_all:     $(this.options.selectors.fold_all),
-			unfold_all:   $(this.options.selectors.unfold_all),
-			form: {
-				form:       $(this.options.selectors.form.form),
-				text:       $(this.options.selectors.form.text),
-				submit:     $(this.options.selectors.form.submit),
-				preview:    $(this.options.selectors.form.preview),
-				update_cancel:    $(this.options.selectors.form.update_cancel),
-				update_submit:    $(this.options.selectors.form.update_submit),
-				comment_id: $(this.options.selectors.form.comment_id)
-			},
-			toolbar: {
-				update:      $(this.options.selectors.toolbar.update),
-				new_counter: $(this.options.selectors.toolbar.new_counter),
-				last_id:     $(this.options.selectors.toolbar.last_id),
-				use_paging:  $(this.options.selectors.toolbar.use_paging)
-			}
-		}
-
-		this.aComments = $(this.options.selectors.comment.comment);
-
-		this.calcNewComments();
-		this.checkFolding();
-		! this.options.show_form && this.formToggle(this.iFormTargetId);
-
-		// Навигация по комментариям
-		oDocument.on('click', this.options.selectors.comment.scroll_to_parent, function (e) {
-			var oElement = $(this);
-
-			_this.scrollToParentComment(oElement.data('id'), oElement.data('parent-id'));
-		});
-
-		// Показывает / скрывает форму комментирования
-		oDocument.on('click', this.options.selectors.comment.reply, function (e) {
-			_this.formToggle($(this).data('id'));
-			e.preventDefault();
-		});
-
-		// Подгрузка новых комментариев
-		this.elements.toolbar.update.on('click', function (e) {
-			var oButton = $(this);
-
-			_this.load(oButton.data('target-id'), oButton.data('target-type'));
-			e.preventDefault();
-		});
-
-		// Переход к следующему новому комментарию
-		this.elements.toolbar.new_counter.on('click', function (e) {
-			_this.scrollToNextNewComment();
-			e.preventDefault();
-		});
-
-		// Превью текста
-		this.elements.form.preview.on('click', function (e) {
-			_this.previewShow();
-		});
-
-		// Добавление
-		this.elements.form.form.on('submit', function (e) {
-			var oForm = $(this);
-
-			_this.add(oForm, oForm.data('target-id'), oForm.data('target-type'));
-			e.preventDefault();
-		});
-
-		this.elements.form.text.bind('keyup', function(e) {
-			if (e.ctrlKey && (e.keyCode || e.which) == 13) {
-				_this.elements.form.form.submit();
-			}
-		});
-
-		// Удаление
-		this.elements.container.on('click', this.options.selectors.comment.remove, function(e) {
-			var oElement = $(this),
-				iCommentId = oElement.data('id');
-
-			_this.toggle(oElement, iCommentId);
-
-			e.preventDefault();
-		});
-
-		// Редактирование
-		this.elements.container.on('click', this.options.selectors.comment.update, function(e) {
-			var oElement = $(this),
-				iCommentId = oElement.data('id');
-
-			_this.formToggle(iCommentId,false,true);
-			e.preventDefault();
-		});
-
-		// Отмена редактирования
-		this.elements.form.update_cancel.on('click', function (e) {
-			_this.formToggle(_this.iFormTargetId,false,true);
-			e.preventDefault();
-		});
-
-		// Сохранение после редактирования
-		this.elements.form.update_submit.on('click', function (e) {
-			_this.submitCommentUpdate(_this.elements.form.form,_this.iFormTargetId);
-			e.preventDefault();
-		});
-
-		// Сворачивание
-		if (this.options.folding) {
-			// Свернуть все
-			this.elements.fold_all.on('click', function (e) {
-				_this.foldAll();
-				e.preventDefault();
-			});
-
-			// Развернуть все
-			this.elements.unfold_all.on('click', function (e) {
-				_this.unfoldAll();
-				e.preventDefault();
-			});
-
-			// Свернуть/развернуть
-			this.elements.container.on('click', this.options.selectors.comment.fold, function(e) {
-				var oElement = $(this),
-					oComment = _this.getCommentById(oElement.data('id'));
-
-				_this[ oElement.hasClass(ls.options.classes.states.open) ? 'fold' : 'unfold' ](oComment);
-
-				e.preventDefault();
-			});
-		}
-
-		this.initUpdateTimers();
-
-		ls.hook.run('ls_comments_init_after',[],this);
-	};
-
-	/**
-	 * Добавляет комментарий
-	 */
-	this.add = function(oForm, iTargetId, sTargetType) {
-		var oData = oForm.serializeJSON();
-
-		ls.utils.formLock(oForm);
-		this.previewHide();
-
-		ls.ajax.load(this.options.type[sTargetType].url_add, oData, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				this.elements.form.text.val('');
-				this.load(iTargetId, sTargetType, oResponse.sCommentId, true);
-
-				ls.hook.run('ls_comments_add_after', [oForm, iTargetId, sTargetType, oResponse]);
-			}
-
-			ls.utils.formUnlock(oForm);
-		}.bind(this));
-	};
-
-	/**
-	 * Удалить/восстановить комментарий
-	 */
-	this.toggle = function(oElement, iCommentId) {
-		var sUrl = aRouter['ajax'] + 'comment/delete/',
-			oParams = { idComment: iCommentId };
-
-		ls.hook.marker('toggleBefore');
-
-		ls.ajax.load(sUrl, oParams, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				ls.msg.notice(null, oResponse.sMsg);
-
-				this.getCommentById(iCommentId).removeClass(this.options.classes.states.self + ' ' + this.options.classes.states.new + ' ' + this.options.classes.states.deleted + ' ' + this.options.classes.states.current);
-
-				if (oResponse.bState) {
-					this.getCommentById(iCommentId).addClass(this.options.classes.states.deleted);
-				}
-
-				oElement.text(oResponse.sTextToggle);
-
-				ls.hook.run('ls_comments_toggle_after',[oElement, iCommentId, oResponse]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Подгружает новые комментарии
-	 */
-	this.load = function(iTargetId, sTargetType, iCommentSelfId, bNotFlushNew) {
-		var idCommentLast = this.elements.toolbar.last_id.val(),
-			oUpdate = this.elements.toolbar.update;
-
-		oUpdate.addClass(ls.options.classes.states.active);
-
-		var oParams = {
-			idCommentLast: idCommentLast,
-			idTarget: iTargetId,
-			typeTarget: sTargetType
-		};
-
-		oParams.selfIdComment = iCommentSelfId || undefined;
-		oParams.bUsePaging = this.elements.toolbar.use_paging.val() ? 1 : 0;
-
-		ls.ajax.load(this.options.type[sTargetType].url_response, oParams, function(oResponse) {
-			oUpdate.removeClass(ls.options.classes.states.active);
-
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				var aCommentsLoaded = oResponse.aComments,
-					iCountOld = this.aCommentsNew.length;
-
-				// Убираем подсветку новых и текущего комментариев
-				this.aComments.removeClass(this.options.classes.states.current);
-
-				if ( ! bNotFlushNew ) {
-					this.aCommentsNew.removeClass(this.options.classes.states.new);
-					this.aCommentsNew = $();
-					iCountOld = 0;
-				}
-
-				// Если комментарии подгружаются после сабмита формы текущим пользователем
-				if (iCommentSelfId) {
-					this.formToggle(this.iFormTargetId, true);
-					iCountOld--;
-				}
-
-				this.setCountNewComment(aCommentsLoaded.length + iCountOld);
-
-				// Вставляем новые комментарии
-				$.each(aCommentsLoaded, function(iIndex, oItem) {
-					var oComment = $( $.trim(oItem.html) );
-
-					if ( ! (iCommentSelfId && iCommentSelfId == oItem.id) ) {
-						this.aCommentsNew = this.aCommentsNew.add(oComment);
-					}
-
-					this.aComments = this.aComments.add(oComment);
-
-					this.inject(oItem.idParent, oItem.id, oComment);
-				}.bind(this));
-
-				// Обновляем данные
-				if (aCommentsLoaded.length && oResponse.iMaxIdComment) {
-					this.elements.toolbar.last_id.val(oResponse.iMaxIdComment);
-
-					// Обновляем счетчик комментариев
-					this.elements.title.text( ls.i18n.pluralize(this.aComments.length, 'comments.comments_declension') );
-
-					// Обновляем блок активности
-					// TODO: Fix
-					$('#js-stream-update').click();
-				}
-
-				// Проверяем сворачивание
-				if (this.options.folding) {
-					this.checkFolding();
-					if ( ( ! iCommentSelfId && aCommentsLoaded.length ) || ( iCommentSelfId && aCommentsLoaded.length - 1 > 0 ) ) this.unfoldAll();
-				}
-
-				// Прокручиваем к комментарию который оставил текущий пользователь
-				if (iCommentSelfId) {
-					this.scrollToComment(this.getCommentById(iCommentSelfId));
-				}
-				this.initUpdateTimers();
-
-				ls.hook.run('ls_comments_load_after', [iTargetId, sTargetType, iCommentSelfId, bNotFlushNew, oResponse]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Вставка комментария
-	 */
-	this.inject = function(iCommentParentId, iCommentId, oComment) {
-		var oCommentNew = $('<div class="comment-wrapper js-comment-wrapper" data-id="' + iCommentId + '"></div>').append(oComment);
-
-		if (iCommentParentId) {
-			var oWrapper = $(this.options.selectors.wrapper + '[data-id=' + iCommentParentId + ']');
-
-			if (oWrapper.parentsUntil(this.elements.container).length == ls.registry.get('comment_max_tree')) {
-				oWrapper = oWrapper.parent(this.options.selectors.wrapper);
-			}
-
-			oWrapper.append(oCommentNew);
-		} else {
-			this.elements.container.append(oCommentNew);
-		}
-
-		ls.hook.run('ls_comment_inject_after', arguments, oCommentNew);
-	};
-
-	/**
-	 * Предпросмотр комментария
-	 */
-	this.previewShow = function() {
-		if ( ! this.elements.form.text.val() ) return;
-
-		var oPreview = $('<div class="comment-preview text js-comment-preview" data-id="' + this.iFormTargetId +'"></div>');
-
-		this.previewHide();
-		this.elements.form.form.before(oPreview);
-
-		ls.utils.textPreview(this.elements.form.text, oPreview, false);
-	};
-
-	/**
-	 * Предпросмотр комментария
-	 */
-	this.previewHide = function() {
-		this.elements.container.find(this.options.selectors.preview).remove();
-	};
-
-	/**
-	 * Показывает/скрывает форму комментирования
-	 *
-	 * @param {Number}  iCommentId ID комментария
-	 * @param {Boolean} bNoFocus   Переводить фокус на инпут с текстом или нет
-	 */
-	this.formToggle = function(iCommentId, bNoFocus, bIsUpdate) {
-		this.previewHide();
-		bIsUpdate=bIsUpdate || false;
-
-		if (this.iFormTargetId == iCommentId && this.elements.form.form.is(':visible')) {
-			this.elements.form.form.hide();
-			this.iFormTargetId = null;
-			return;
-		}
-
-		this.elements.form.form.insertAfter(iCommentId ? this.getCommentById(iCommentId) : this.elements.reply_root).show();
-		this.elements.form.text.val('');
-		this.elements.form.comment_id.val(iCommentId);
+	$.widget( "livestreet.lsComments", {
 		/**
-		 * Показываем необходимые кнопки
+		 * Дефолтные опции
 		 */
-		if (bIsUpdate) {
-			this.elements.form.update_cancel.show();
-			this.elements.form.update_submit.show();
-			this.elements.form.submit.hide();
-			/**
-			 * Загружаем исходный текст комментария
-			 */
-			this.loadCommentUpdate(iCommentId);
-		} else {
-			this.elements.form.update_cancel.hide();
-			this.elements.form.update_submit.hide();
-			this.elements.form.submit.show();
-		}
+		options: {
+			// Ссылки
+			urls: {
+				// Добавление комментария
+				add: null,
+				// Подгрузка новых комментариев
+				load: null,
+				// Показать/скрыть комментарий
+				hide: aRouter['ajax'] + 'comment/delete/',
+				// Обновление текста комментария
+				text: aRouter['ajax'] + 'comment/load/',
+				// Обновление комментария
+				update: aRouter['ajax'] + 'comment/update/'
+			},
 
-		this.iFormTargetId = iCommentId;
+			// Селекторы
+			selectors: {
+				// Блок с превью текста
+				preview: '.js-comment-preview',
+				// Кнопка свернуть/развернуть все
+				fold_all_toggle: '.js-comments-fold-all-toggle',
+				// Заголовок
+				title: '.js-comments-title',
+				// Кнопка "Оставить комментарий"
+				reply_root: '.js-comment-reply-root',
+				// Блок с комментариями
+				comment_list: '.js-comment-list',
+				// Подписаться на новые комментарии
+				subscribe: '.js-comments-subscribe',
 
-		if ( ! bNoFocus ) this.elements.form.text.focus();
-	};
+				// Комментарий
+				comment: {
+					comment:          '.js-comment',
+					wrapper:          '.js-comment-wrapper',
+					reply:            '.js-comment-reply',
+					fold:             '.js-comment-fold',
+					remove:           '.js-comment-remove',
+					update:           '.js-comment-update',
+					update_timer:     '.js-comment-update-timer',
+					scroll_to_child:  '.js-comment-scroll-to-child',
+					scroll_to_parent: '.js-comment-scroll-to-parent'
+				},
 
-	this.loadCommentUpdate = function(iCommentId) {
-		var sUrl = aRouter['ajax'] + 'comment/load/',
-			oParams = { idComment: iCommentId };
+				// Форма добавления
+				form: {
+					form:          '.js-comment-form',
+					text:          '.js-comment-form-text',
+					submit:        '.js-comment-form-submit',
+					preview:       '.js-comment-form-preview',
+					update_submit: '.js-comment-form-update-submit',
+					update_cancel: '.js-comment-form-update-cancel',
+					comment_id:    '#form_comment_reply'
+				}
+			},
 
-		ls.utils.formLock(this.elements.form.form);
-		ls.hook.marker('loadBefore');
+			// Классы
+			classes: {
+				states: {
+					current: 'comment--current',
+					new:     'comment--new',
+					deleted: 'comment--deleted',
+					self:    'comment--self'
+				}
+			},
 
-		ls.ajax.load(sUrl, oParams, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				this.elements.form.text.val(oResponse.sText);
-			}
-			ls.hook.run('ls_comments_load_comment_update_after',[iCommentId, oResponse]);
-			ls.utils.formUnlock(this.elements.form.form);
-		}.bind(this));
-	};
+			// Использовать визуальный редактор или нет
+			wysiwyg: null,
+			// Включить/выключить функцию сворачивания
+			folding: true,
+			// Показать/скрыть форму по умолчанию
+			show_form: false
+		},
 
-	this.submitCommentUpdate = function(oForm, iCommentId) {
-		var oData = oForm.serializeJSON(),
-			sUrl = aRouter['ajax'] + 'comment/update/';
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			var _this = this,
+				oDocument = $(document);
 
-		ls.utils.formLock(oForm);
-		this.previewHide();
-		oData.comment_id=iCommentId;
-		ls.ajax.load(sUrl, oData, function(oResponse) {
-			if (oResponse.bStateError) {
-				ls.msg.error(null, oResponse.sMsg);
-			} else {
-				var wrap=$('<div></div>').html(oResponse.sHtml);
-				var comment=this.getCommentById(iCommentId);
-				comment.find(this.options.selectors.comment.update_timer).stopTime();
-				comment.replaceWith(wrap.children('.js-comment'));
-				this.aComments = $(this.options.selectors.comment.comment); // hack
-				this.formToggle(iCommentId, true);
-				this.initUpdateTimers();
-				this.scrollToComment(this.getCommentById(iCommentId));
-			}
-			ls.hook.run('ls_comments_submit_comment_update_after', [oForm, iCommentId, oResponse]);
-			ls.utils.formUnlock(oForm);
-		}.bind(this));
-	};
+			// Получаем элементы
+			this.form = this.element.find(this.options.selectors.form.form);
 
-	this.initUpdateTimers = function() {
-		var _this=this;
-		$(this.options.selectors.comment.update_timer).each(function(k,el){
-			el=$(el);
-			if (!el.data('isInit')) {
-				el.data('isInit',true);
-				el.everyTime(1000,function(){
-					var seconds=parseInt(el.data('seconds'));
-					seconds--;
-					el.data('seconds',seconds);
-					if (seconds>0) {
-						el.text(ls.utils.timeRemaining(seconds));
+			this.elements = {
+				title:           this.element.find(this.options.selectors.title),
+				reply_root:      this.element.find(this.options.selectors.reply_root),
+				fold_all_toggle: this.element.find(this.options.selectors.fold_all_toggle),
+				comment_list:    this.element.find(this.options.selectors.comment_list),
+				subscribe:       this.element.find(this.options.selectors.subscribe),
+				form: {
+					text:          this.form.find(this.options.selectors.form.text),
+					submit:        this.form.find(this.options.selectors.form.submit),
+					preview:       this.form.find(this.options.selectors.form.preview),
+					update_cancel: this.form.find(this.options.selectors.form.update_cancel),
+					update_submit: this.form.find(this.options.selectors.form.update_submit),
+					comment_id:    this.form.find(this.options.selectors.form.comment_id)
+				}
+			};
+
+			// ID комментария помеченного как текущий
+			this.currentCommentId = null;
+
+			// Список комментариев на странице
+			this.comments = $(this.options.selectors.comment.comment);
+
+			// ID комментария после которого отображается форма
+			this.formTargetId = 0;
+
+			// Получаем ID объекта к которому оставлен комментарий
+			this.targetId = this.element.data('target-id');
+
+			// Получаем тип объекта
+			this.targetType = this.element.data('target-type');
+
+			// ID последнего добавленного комментария
+			this.commentLastId = this.element.data('comment-last-id');
+
+			// Показываем кнопку свернуть у комментариев с дочерними комментариями
+			this.checkFolding();
+
+			// Обновление таймеров у кнопок редактирования
+			this.initUpdateTimers();
+
+			// Показываем/скрываем форму по умолчанию
+			! this.options.show_form && this.formToggle(0);
+
+			//
+			// События
+			//
+
+			// Навигация по комментариям
+			oDocument.on('click', this.options.selectors.comment.scroll_to_parent, function (e) {
+				var element = $(this);
+
+				_this.scrollToParentComment(element.data('id'), element.data('parent-id'));
+			});
+
+			// Показывает / скрывает форму комментирования
+			oDocument.on('click', this.options.selectors.comment.reply, function (e) {
+				_this.formToggle($(this).data('id'), true, false, false);
+				e.preventDefault();
+			});
+
+			// Превью текста
+			this.elements.form.preview.on('click', this.previewShow.bind(this));
+
+			// Отправка формы
+			this.form.on('submit', function (e) {
+				this.add(this.form, this.form.data('target-id'), this.form.data('target-type'));
+				e.preventDefault();
+			}.bind(this));
+
+			this.elements.form.text.bind('keyup', function(e) {
+				if ( e.ctrlKey && (e.keyCode || e.which) == 13 ) _this.form.submit();
+			});
+
+			// Удаление
+			this.element.on('click', this.options.selectors.comment.remove, function(e) {
+				var element = $(this),
+					commentId = element.data('id');
+
+				_this.toggle(element, commentId);
+
+				e.preventDefault();
+			});
+
+			// Редактирование
+			this.element.on('click', this.options.selectors.comment.update, function(e) {
+				var element = $(this),
+					commentId = element.data('id');
+
+				_this.formToggle(commentId, false, true);
+				e.preventDefault();
+			});
+
+			// Отмена редактирования
+			this.elements.form.update_cancel.on('click', function (e) {
+				this.formToggle(this.formTargetId, false, true);
+				e.preventDefault();
+			}.bind(this));
+
+			// Сохранение после редактирования
+			this.elements.form.update_submit.on('click', function (e) {
+				this.submitCommentUpdate(this.formTargetId);
+				e.preventDefault();
+			}.bind(this));
+
+			// Подписаться/отписаться от новых комментариев
+			this.elements.subscribe.on('click', function (e) {
+				var element = $(this),
+					isActive = element.hasClass('active');
+
+				ls.subscribe.toggle(element.data('type') + '_new_comment', element.data('target-id'), '', ! isActive);
+
+				if ( isActive ) {
+					element.removeClass('active').text( ls.lang.get('comments.subscribe') );
+				} else {
+					element.addClass('active').text( ls.lang.get('comments.unsubscribe') );
+				}
+
+				e.preventDefault();
+			});
+
+			// Сворачивание
+			if ( this.options.folding ) {
+				// Свернуть/развернуть все
+				this.elements.fold_all_toggle.on('click', function (e) {
+					var element = $(this);
+
+					if ( ! element.hasClass('active') ) {
+						_this.foldAll();
+						element.addClass('active').text( ls.lang.get('comments.folding.unfold_all') );
 					} else {
-						el.parents(_this.options.selectors.comment.comment)
-							.find(_this.options.selectors.comment.update).hide();
-						el.stopTime();
+						_this.unfoldAll();
+						element.removeClass('active').text( ls.lang.get('comments.folding.fold_all') );
 					}
+
+					e.preventDefault();
+				});
+
+				// Свернуть/развернуть
+				this.element.on('click', this.options.selectors.comment.fold, function(e) {
+					var element = $(this),
+						comment = _this.getCommentById(element.data('id'));
+
+					_this[ element.hasClass(ls.options.classes.states.open) ? 'fold' : 'unfold' ](comment);
+
+					e.preventDefault();
 				});
 			}
-		});
-	};
-	/**
-	 * Скрывает кнопку сворачивания у комментариев без дочерних комментариев
-	 */
-	this.checkFolding = function() {
-		if ( ! this.options.folding ) return false;
 
-		this.getComments().each(function (iIndex, oComment) {
-			var oComment = $(oComment);
+			ls.hook.run('ls_comments_init_after',[],this);
+		},
 
-			oComment.find(this.options.selectors.comment.fold)[ oComment.next(this.options.selectors.wrapper).length ? 'show' : 'hide' ]();
-		}.bind(this));
-	};
+		/**
+		 * Добавляет комментарий
+		 */
+		add: function() {
+			// Получаем данные формы до ее блокировки
+			var data = this.form.serializeJSON();
 
-	/**
-	 * Сворачивает ветку комментариев
-	 *
-	 * @param {Object} oComment Комментарий
-	 */
-	this.fold = function(oComment) {
-		oComment.removeClass(ls.options.classes.states.open).nextAll(this.options.selectors.wrapper).hide();
-		oComment.find(this.options.selectors.comment.fold).removeClass(ls.options.classes.states.open);
+			ls.utils.formLock(this.form);
+			this.previewHide();
 
-		this.onFold(oComment);
-	};
+			ls.ajax.load(this.options.urls.add, data, function(response) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					this.elements.form.text.val('');
+					this.load(response.sCommentId, true);
 
-	/**
-	 * Разворачивает ветку комментариев
-	 *
-	 * @param {Object} oComment Комментарий
-	 */
-	this.unfold = function(oComment) {
-		oComment.addClass(ls.options.classes.states.open).nextAll(this.options.selectors.wrapper).show();
-		oComment.find(this.options.selectors.comment.fold).addClass(ls.options.classes.states.open);
+					ls.hook.run('ls_comments_add_after', [this.form, this.targetId, this.targetType, response]);
+				}
 
-		this.onUnfold(oComment);
-	};
+				ls.utils.formUnlock(this.form);
+			}.bind(this));
+		},
 
-	/**
-	 * Сворачивает ветку комментариев
-	 *
-	 * @param {Object} oComment Комментарий
-	 */
-	this.onFold = function(oComment) {
-		oComment.find(this.options.selectors.comment.fold).find('a').text(ls.lang.get('comments.folding.unfold'));
-	};
+		/**
+		 * Скрыть/восстановить комментарий
+		 *
+		 * @param {jQuery} toggle    Кнопка скрыть/восстановить комментарий
+		 * @param {Number} commentId ID добавляемого комментария
+		 */
+		toggle: function(toggle, commentId) {
+			var url = this.options.urls.hide,
+				params = { idComment: commentId };
 
-	/**
-	 * Сворачивает ветку комментариев
-	 *
-	 * @param {Object} oComment Комментарий
-	 */
-	this.onUnfold = function(oComment) {
-		oComment.find(this.options.selectors.comment.fold).find('a').text(ls.lang.get('comments.folding.fold'));
-	};
+			ls.hook.marker('toggleBefore');
 
-	/**
-	 * Сворачивает все ветки комментариев
-	 */
-	this.foldAll = function() {
-		this.getComments().filter('.' + ls.options.classes.states.open).each(function (iIndex, oComment) {
-			this.fold($(oComment));
-		}.bind(this));
-	};
+			ls.ajax.load(url, params, function(response) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					ls.msg.notice(null, response.sMsg);
 
-	/**
-	 * Разворачивает все ветки комментариев
-	 */
-	this.unfoldAll = function() {
-		this.getComments().filter(':not(.' + ls.options.classes.states.open + ')').each(function (iIndex, oComment) {
-			this.unfold($(oComment));
-		}.bind(this));
-	};
+					this.getCommentById(commentId).removeClass(
+						this.options.classes.states.self + ' ' +
+						this.options.classes.states.new + ' ' +
+						this.options.classes.states.deleted + ' ' +
+						this.options.classes.states.current
+					);
 
-	/**
-	 * Устанавливает число новых комментариев
-	 *
-	 * @param  {Number} iCount Кол-во новых комментариев
-	 */
-	this.setCountNewComment = function(iCount) {
-		this.elements.toolbar.new_counter[ iCount > 0 ? 'show' : 'hide' ]().text(iCount);
-	};
+					if (response.bState) {
+						this.getCommentById(commentId).addClass(this.options.classes.states.deleted);
+					}
 
-	/**
-	 * Вычисляет кол-во новых комментариев
-	 */
-	this.calcNewComments = function() {
-		this.aCommentsNew = this.getCommentsNew();
-		this.setCountNewComment(this.aCommentsNew.length);
-	};
+					toggle.text(response.sTextToggle);
 
-	/**
-	 * Прокрутка к следующему новому комментарию
-	 */
-	this.scrollToNextNewComment = function() {
-		if ( ! this.aCommentsNew.length ) return false;
+					ls.hook.run('ls_comments_toggle_after',[toggle, commentId, response]);
+				}
+			}.bind(this));
+		},
 
-		var oCommentNew = this.aCommentsNew.eq(0);
+		/**
+		 * Подгружает новые комментарии
+		 *
+		 * @param {Number}  сommentSelfId (undefined) ID добавляемого комментария
+		 * @param {Boolean} flush         (true) Удалять подсветку у текущих новых комментариев или нет
+		 */
+		load: function(сommentSelfId, flush, callbacks) {
+			flush = typeof flush === 'undefined' ? true : flush;
 
-		oCommentNew.removeClass(this.options.classes.states.new);
-		this.scrollToComment(oCommentNew);
+			var params = {
+				idCommentLast: this.commentLastId,
+				idTarget: this.targetId,
+				typeTarget: this.targetType,
+				// TODO: Fix
+				// bUsePaging: this.elements.toolbar.use_paging.val() ? 1 : 0
+			};
 
-		this.aCommentsNew = this.aCommentsNew.filter(':not(:eq(0))');
-		this.setCountNewComment(this.aCommentsNew.length);
-	};
+			params.selfIdComment = сommentSelfId || undefined;
 
-	/**
-	 * Прокрутка к родительскому комментарию
-	 *
-	 * @param  {Number} iCommentId       ID комментария
-	 * @param  {Number} iCommentParentId ID родительского комментария
-	 */
-	this.scrollToParentComment = function(iCommentId, iCommentParentId) {
-		var _this = this,
-			oCommentChild = this.getCommentById(iCommentId),
-			oCommentParent = this.getCommentById(iCommentParentId),
-			oScrollToChild = oCommentParent.find(this.options.selectors.comment.scroll_to_child);
+			ls.ajax.load(this.options.urls.load, params, function(response) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					var сommentsLoaded = response.aComments,
+						сountLoaded = сommentsLoaded.length;
 
-		this.getComments().find(this.options.selectors.comment.scroll_to_child).hide();
-		this.scrollToComment(oCommentParent);
+					// Убираем подсветку у текущего комментария
+					this.getCommentCurrent().removeClass(this.options.classes.states.current);
+					this.currentCommentId = null;
 
-		// Прокрутка обратно к дочернему комментарию
-		oScrollToChild.show().off().one('click', function() {
-			oScrollToChild.hide();
-			_this.scrollToComment(oCommentChild);
-		});
-	};
+					// Убираем подсветку у новых комментариев
+					if ( flush ) this.getCommentsNew().removeClass(this.options.classes.states.new);
 
-	/**
-	 * Прокрутка к комментарию
-	 *
-	 * @param  {Number} oComment Комментарий
-	 */
-	this.scrollToComment = function(oComment) {
-		this.getCommentCurrent().removeClass(this.options.classes.states.current);
-		oComment.addClass(this.options.classes.states.current);
-		this.iCurrentCommentId = oComment.data('id');
+					// Если комментарии подгружаются после сабмита формы текущим пользователем
+					if ( сommentSelfId ) this.formToggle(this.formTargetId, true);
 
-		$.scrollTo(oComment, 1000, { offset: -250 });
-	};
+					// Вставляем новые комментарии
+					$.each(сommentsLoaded, function(index, item) {
+						var сomment = $( $.trim(item.html) );
 
-	/**
-	 * Получает комментарий по его ID
-	 *
-	 * @param  {Number} iCommentId ID комментария
-	 * @return {Object}            jQuery объект комментария
-	 */
-	this.getCommentById = function(iCommentId) {
-		return this.getComments().filter('[data-id=' + iCommentId + ']');
-	};
+						this.comments = this.comments.add(сomment);
+						this.insert(сomment, item.id, item.idParent);
+					}.bind(this));
 
-	/**
-	 * Получает текущий комментарий
-	 *
-	 * @return {Object} Текущий комментарий
-	 */
-	this.getCommentCurrent = function() {
-		return this.getComments().filter('.' + this.options.classes.states.current);
-	};
+					// Обновляем данные
+					if ( сountLoaded && response.iMaxIdComment ) {
+						this.commentLastId = response.iMaxIdComment;
 
-	/**
-	 * Получает новые комментарии
-	 *
-	 * @return {Array} Массив с новыми комментариями
-	 */
-	this.getCommentsNew = function() {
-		return this.getComments().filter('.' + this.options.classes.states.new);
-	};
+						// Обновляем кол-во комментариев в заголовке
+						this.elements.title.text( ls.i18n.pluralize(this.comments.length, 'comments.comments_declension') );
 
-	/**
-	 * Получает комментарии
-	 *
-	 * @return {Array} Массив с комментариями
-	 */
-	this.getComments = function() {
-		return this.aComments;
-	};
+						// Обновляем блок активности
+						// TODO: Fix
+						$('#js-stream-update').click();
+					}
 
-	return this;
-}).call(ls.comments || {},jQuery);
+					// Проверяем сворачивание
+					if ( this.options.folding ) {
+						this.checkFolding();
+
+						// Разворачиваем все ветки если идет просто подгрузка комментариев
+						// или если при добавления комментария текущим пользователем
+						// помимо этого комментария подгружаются еще и ранее добавленные комментарии
+						if ( ( ! сommentSelfId && сountLoaded ) || ( сommentSelfId && сountLoaded - 1 > 0 ) ) this.unfoldAll();
+					}
+
+					// Прокручиваем к комментарию который оставил текущий пользователь
+					if ( сommentSelfId ) this.scrollToComment( this.getCommentById(сommentSelfId) );
+
+					// Обновляем таймеры
+					this.initUpdateTimers();
+
+					$.proxy(callbacks.success, this)();
+					ls.hook.run('ls_comments_load_after', [ this.targetId, this.targetType, сommentSelfId, flush, response ]);
+				}
+
+				$.proxy(callbacks.done, this)();
+			}.bind(this));
+		},
+
+		/**
+		 * Вставка комментария
+		 *
+		 * @param {jQuery} сomment         Комментарий
+		 * @param {Number} commentId       ID добавляемого комментария
+		 * @param {Number} commentParentId (optional) ID родительского комментария
+		 */
+		insert: function(comment, commentId, commentParentId) {
+			var commentWrapper = $('<div class="comment-wrapper js-comment-wrapper" data-id="' + commentId + '"></div>').append(comment);
+
+			if (commentParentId) {
+				// Получаем обертку родительского комментария
+				var wrapper = $(this.options.selectors.comment.wrapper + '[data-id=' + commentParentId + ']');
+
+				// Проверяем чтобы уровень вложенности комментариев была не больше значения заданного в конфиге
+				if (wrapper.parentsUntil(this.elements.comment_list).length == ls.registry.get('comment_max_tree')) {
+					wrapper = wrapper.parent(this.options.selectors.comment.wrapper);
+				}
+
+				wrapper.append(commentWrapper);
+			} else {
+				this.elements.comment_list.append(commentWrapper);
+			}
+
+			ls.hook.run('ls_comment_insert_after', arguments, commentWrapper);
+		},
+
+		/**
+		 * Предпросмотр комментария
+		 */
+		previewShow: function() {
+			if ( ! this.elements.form.text.val() ) return;
+
+			var preview = $('<div class="comment-preview text js-comment-preview" data-id="' + this.formTargetId +'"></div>');
+
+			this.previewHide();
+			this.form.before(preview);
+
+			ls.utils.textPreview(this.elements.form.text, preview, false);
+		},
+
+		/**
+		 * Предпросмотр комментария
+		 */
+		previewHide: function() {
+			this.element.find(this.options.selectors.preview).remove();
+		},
+
+		/**
+		 * Показывает/скрывает форму комментирования
+		 *
+		 * @param {Number}  commentId ID комментария после которого нужно показать форму
+		 * @param {Boolean} focus     Переводить фокус на инпут с текстом или нет
+		 */
+		formToggle: function(commentId, focus, update, reset) {
+			update = update || false,
+			focus = typeof focus === 'undefined' ? true : focus;
+			reset = typeof reset === 'undefined' ? true : reset;
+
+			this.previewHide();
+
+			if ( ( ! update && this.form.data('update') ) || reset ) this.elements.form.text.val('');
+
+			this.form.data('update', false);
+
+			if ( this.formTargetId == commentId && this.form.is(':visible') ) {
+				this.form.hide();
+				this.formTargetId = 0;
+				return;
+			}
+
+			this.form.insertAfter(commentId ? this.getCommentById(commentId) : this.elements.reply_root).show();
+			this.elements.form.comment_id.val(commentId);
+
+			// Показываем необходимые кнопки
+			if (update) {
+				this.form.data('update', true);
+				this.elements.form.update_cancel.show();
+				this.elements.form.update_submit.show();
+				this.elements.form.submit.hide();
+
+				// Загружаем исходный текст комментария
+				this.loadCommentUpdate(commentId);
+			} else {
+				this.elements.form.update_cancel.hide();
+				this.elements.form.update_submit.hide();
+				this.elements.form.submit.show();
+			}
+
+			this.formTargetId = commentId;
+
+			if ( focus ) this.elements.form.text.focus();
+		},
+
+		/**
+		 * Обновление текста комментария
+		 *
+		 * @param  {Number} commentId ID комментария
+		 */
+		loadCommentUpdate: function(commentId) {
+			var url = this.options.urls.text,
+				params = { idComment: commentId };
+
+			ls.utils.formLock(this.form);
+			ls.hook.marker('loadBefore');
+
+			ls.ajax.load(url, params, function(response) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					this.elements.form.text.val(response.sText);
+				}
+
+				ls.hook.run('ls_comments_load_comment_update_after', [commentId, response]);
+
+				ls.utils.formUnlock(this.form);
+			}.bind(this));
+		},
+
+		/**
+		 * Редактирование комментария
+		 *
+		 * @param  {Number} commentId ID комментария
+		 */
+		submitCommentUpdate: function(commentId) {
+			var data = this.form.serializeJSON(),
+				url = this.options.urls.update;
+
+			ls.utils.formLock(this.form);
+			this.previewHide();
+
+			data.comment_id = commentId;
+
+			ls.ajax.load(url, data, function(response) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					var comment = this.getCommentById(commentId),
+						commentNew = $( $.trim(response.sHtml) );
+
+					this.removeCommentById(commentId);
+					this.comments = this.comments.add(commentNew);
+
+					comment.replaceWith( commentNew );
+					comment.find(this.options.selectors.comment.update_timer).stopTime();
+
+					this.formToggle(commentId, true);
+					this.initUpdateTimers();
+					this.checkFolding(commentNew);
+					this.scrollToComment(commentNew);
+				}
+
+				ls.hook.run('ls_comments_submit_comment_update_after', [this.form, commentId, response]);
+
+				ls.utils.formUnlock(this.form);
+			}.bind(this));
+		},
+
+		/**
+		 * Иниц-ия таймеров
+		 * TODO: Fix
+		 */
+		initUpdateTimers: function() {
+			var _this=this;
+			$(this.options.selectors.comment.update_timer).each(function(k,el){
+				el=$(el);
+				if (!el.data('isInit')) {
+					el.data('isInit',true);
+					el.everyTime(1000,function(){
+						var seconds=parseInt(el.data('seconds'));
+						seconds--;
+						el.data('seconds',seconds);
+						if (seconds>0) {
+							el.text(ls.utils.timeRemaining(seconds));
+						} else {
+							el.parents(_this.options.selectors.comment.comment)
+								.find(_this.options.selectors.comment.update).hide();
+							el.stopTime();
+						}
+					});
+				}
+			});
+		},
+
+		/**
+		 * Показывает кнопку сворачивания у комментариев с дочерними комментариями
+		 * и скрывает у комментариев без них
+		 *
+		 * @param {jQuery} сomment (optional) Комментарий у которого нужно проверить наличие дочерних комментарев, если не указан то проверяется у всех
+		 */
+		checkFolding: function(comment) {
+			if ( ! this.options.folding ) return;
+
+			var comments = comment ? comment : this.getComments();
+
+			comments.each(function (index, сomment) {
+				var сomment = $(сomment);
+
+				сomment.find(this.options.selectors.comment.fold)[ сomment.nextAll(this.options.selectors.comment.wrapper).length ? 'show' : 'hide' ]();
+			}.bind(this));
+		},
+
+		/**
+		 * Сворачивает ветку комментариев
+		 *
+		 * @param {jQuery} сomment Комментарий у которого нужно скрыть дочернии комментарии
+		 */
+		fold: function(сomment) {
+			сomment.removeClass(ls.options.classes.states.open).nextAll(this.options.selectors.comment.wrapper).hide();
+			сomment.find(this.options.selectors.comment.fold).removeClass(ls.options.classes.states.open);
+
+			this.onFold(сomment);
+		},
+
+		/**
+		 * Разворачивает ветку комментариев
+		 *
+		 * @param {jQuery} comment Комментарий у которого нужно показать дочернии комментарии
+		 */
+		unfold: function(comment) {
+			comment.addClass(ls.options.classes.states.open).nextAll(this.options.selectors.comment.wrapper).show();
+			comment.find(this.options.selectors.comment.fold).addClass(ls.options.classes.states.open);
+
+			this.onUnfold(comment);
+		},
+
+		/**
+		 * Коллбэк вызываемый после сворачивания ветки комментариев
+		 *
+		 * @param {jQuery} comment Комментарий
+		 */
+		onFold: function(comment) {
+			comment.find(this.options.selectors.comment.fold).find('a').text(ls.lang.get('comments.folding.unfold'));
+		},
+
+		/**
+		 * Коллбэк вызываемый после разворачивания ветки комментариев
+		 *
+		 * @param {jQuery} comment Комментарий
+		 */
+		onUnfold: function(comment) {
+			comment.find(this.options.selectors.comment.fold).find('a').text(ls.lang.get('comments.folding.fold'));
+		},
+
+		/**
+		 * Сворачивает все ветки комментариев
+		 */
+		foldAll: function() {
+			this.getComments().filter('.' + ls.options.classes.states.open).each(function (index, comment) {
+				this.fold( $(comment) );
+			}.bind(this));
+		},
+
+		/**
+		 * Разворачивает все ветки комментариев
+		 */
+		unfoldAll: function() {
+			this.getComments().not('.' + ls.options.classes.states.open).each(function (index, comment) {
+				this.unfold( $(comment) );
+			}.bind(this));
+		},
+
+		/**
+		 * Прокрутка к комментарию
+		 *
+		 * @param  {jQuery} comment Комментарий
+		 */
+		scrollToComment: function(comment) {
+			this.setCommentCurrent(comment);
+
+			$.scrollTo(comment, 1000, { offset: -250 });
+		},
+
+		/**
+		 * Прокрутка к родительскому комментарию
+		 *
+		 * @param  {Number} commentId       ID комментария
+		 * @param  {Number} commentParentId ID родительского комментария
+		 */
+		scrollToParentComment: function(commentId, commentParentId) {
+			var child = this.getCommentById(commentId),
+				parent = this.getCommentById(commentParentId),
+				scroll = parent.find(this.options.selectors.comment.scroll_to_child);
+
+			// Скрываем кнопку прокрутки к дочернему комментарию у текущего комментария
+			this.getCommentCurrent().find(this.options.selectors.comment.scroll_to_child).off().hide();
+
+			// Прокрутка к родительскому комментарию
+			this.scrollToComment(parent);
+
+			// Прокрутка обратно к дочернему комментарию
+			scroll.show().off().one('click', function() {
+				scroll.hide();
+				this.scrollToComment(child);
+			}.bind(this));
+		},
+
+		/**
+		 * Получает комментарий по его ID
+		 *
+		 * @param  {Number} commentId ID комментария
+		 * @return {jQuery}           Комментарий
+		 */
+		getCommentById: function(commentId) {
+			return this.getComments().filter('[data-id=' + commentId + ']');
+		},
+
+		/**
+		 * Удаляет комментарий по его ID
+		 *
+		 * @param  {Number} commentId ID комментария
+		 */
+		removeCommentById: function(commentId) {
+			this.comments = this.getComments().not('[data-id=' + commentId + ']');
+		},
+
+		/**
+		 * Устанавливает текущий комментарий
+		 *
+		 * @param {Object} comment
+		 */
+		setCommentCurrent: function(comment) {
+			this.getCommentCurrent().removeClass(this.options.classes.states.current);
+			comment.addClass(this.options.classes.states.current);
+			this.currentCommentId = comment.data('id');
+		},
+
+		/**
+		 * Получает текущий комментарий
+		 *
+		 * @return {jQuery} Текущий комментарий
+		 */
+		getCommentCurrent: function() {
+			return this.getCommentById(this.currentCommentId);
+		},
+
+		/**
+		 * Получает новые комментарии
+		 *
+		 * @return {Array} Массив с новыми комментариями
+		 */
+		getCommentsNew: function() {
+			return this.getComments().filter('.' + this.options.classes.states.new);
+		},
+
+		/**
+		 * Получает комментарии
+		 *
+		 * @return {Array} Массив с комментариями
+		 */
+		getComments: function() {
+			return this.comments;
+		}
+	});
+})(jQuery);

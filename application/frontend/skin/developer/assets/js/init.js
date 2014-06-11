@@ -99,18 +99,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Toolbar
-	 */
-	$('.js-toolbar').toolbar({
-		target: '.grid-role-wrapper',
-		offsetX: 20
-	});
-
-	ls.toolbar.topic.init(); // Тул-бар топиков
-	ls.toolbar.up.init();    // Кнопка "UP"
-
-
-	/**
 	 * Code highlight
 	 */
 	prettyPrint();
@@ -137,7 +125,33 @@ jQuery(document).ready(function($){
 	/**
 	 * Comments
 	 */
-	ls.comments.init();
+	$('.js-comments-topic').lsComments({
+		urls: {
+			add:  aRouter['blog'] + 'ajaxaddcomment/',
+			load: aRouter['blog'] + 'ajaxresponsecomment/'
+		},
+	});
+
+	$('.js-comments-talk').lsComments({
+		urls: {
+			add:  aRouter['talk'] + 'ajaxaddcomment/',
+			load: aRouter['talk'] + 'ajaxresponsecomment/'
+		},
+	});
+
+
+	/**
+	 * Toolbar
+	 */
+	$('.js-toolbar').toolbar({
+		target: '.grid-role-wrapper',
+		offsetX: 20
+	});
+
+	ls.toolbar.topic.init(); // Тул-бар топиков
+	ls.toolbar.up.init();    // Кнопка "UP"
+
+	$('.js-toolbar-comments').lsToolbarComments();
 
 
 	/**
@@ -217,10 +231,12 @@ jQuery(document).ready(function($){
 	});
 
 	// Голосование за комментарий
-	$('.js-vote-comment').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/comment/'
-		}
+	$('.js-vote-comment').livequery(function () {
+		$(this).vote({
+			urls: {
+				vote: aRouter['ajax'] + 'vote/comment/'
+			}
+		});
 	});
 
 

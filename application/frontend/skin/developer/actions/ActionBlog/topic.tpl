@@ -5,18 +5,25 @@
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_content'}
+	{* Топик *}
 	{include 'topics/topic.tpl'}
-	{include 'comments/comment_tree.tpl'
+
+	{* Комментарии *}
+	{include 'components/comment/comment-list.tpl'
+			 sClasses          = 'js-comments-topic'
 			 iTargetId         = $oTopic->getId()
 			 iAuthorId         = $oTopic->getUserId()
+			 aComments         = $aComments
 			 sAuthorNotice     = $aLang.topic_author
 			 sTargetType       = 'topic'
 			 iCountComment     = $oTopic->getCountComment()
 			 sDateReadLast     = $oTopic->getDateRead()
-			 bForbidNewComment = $oTopic->getForbidComment()
+			 bForbidAdd        = $oTopic->getForbidComment()
 			 sNoticeNotAllow   = $aLang.topic_comment_notallow
 			 sNoticeCommentAdd = $aLang.topic_comment_add
 			 bAllowSubscribe   = true
 			 oSubscribeComment = $oTopic->getSubscribeNewComment()
-			 aPagingCmt        = $aPagingCmt}
+			 aPagingCmt        = $aPagingCmt
+			 bShowVote         = true
+			 bShowFavourite    = true}
 {/block}

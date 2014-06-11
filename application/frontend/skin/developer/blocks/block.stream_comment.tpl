@@ -20,8 +20,11 @@
 				<a href="{if Config::Get('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}">{$oTopic->getTitle()|escape:'html'}</a>
 
 				<p>
-					<time datetime="{date_format date=$oComment->getDate() format='c'}">{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time> |
-					{$oTopic->getCountComment()}&nbsp;{$oTopic->getCountComment()|declension:$aLang.comments.comments_declension}
+					<time datetime="{date_format date=$oComment->getDate() format='c'}">
+						{date_format date=$oComment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+					</time> |
+
+					{lang name='comments.comments_declension' count=$oTopic->getCountComment() plural=true}
 				</p>
 			</li>
 		{/foreach}
@@ -29,5 +32,5 @@
 </div>
 
 <footer class="block-footer">
-	<a href="{router page='comments'}">{$aLang.block_stream_comments_all}</a> | <a href="{router page='rss'}allcomments/">RSS</a>
+	<a href="{router page='rss'}allcomments/">RSS</a>
 </footer>

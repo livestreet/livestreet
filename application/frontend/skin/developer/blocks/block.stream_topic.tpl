@@ -19,8 +19,11 @@
 				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
 
 				<p>
-					<time datetime="{date_format date=$oTopic->getDate() format='c'}">{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}</time> |
-					{$oTopic->getCountComment()} {$oTopic->getCountComment()|declension:$aLang.comments.comments_declension}
+					<time datetime="{date_format date=$oTopic->getDate() format='c'}">
+						{date_format date=$oTopic->getDateAdd() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+					</time> |
+
+					{lang name='comments.comments_declension' count=$oTopic->getCountComment() plural=true}
 				</p>
 			</li>
 		{/foreach}
@@ -28,5 +31,5 @@
 </div>
 
 <footer class="block-footer">
-	<a href="{router page='index'}new/">{$aLang.block_stream_topics_all}</a> | <a href="{router page='rss'}new/">RSS</a>
+	<a href="{router page='rss'}new/">RSS</a>
 </footer>
