@@ -88,4 +88,3 @@ class ModuleComment_EntityCommentOnline extends Entity {
 		$this->_aData['target_parent_id']=$data;
 	}
 }
-?>

@@ -135,7 +135,7 @@ class ActionAdmin extends Action {
 	}
 
 	/**
-	 * Загружает модальное окно создания категории бога
+	 * Загружает модальное окно создания категории блога
 	 */
 	protected function EventBlogCategoryModalAdd() {
 		$this->Viewer_SetResponseAjax('json');
@@ -478,4 +478,3 @@ class ActionAdmin extends Action {
 		$this->Viewer_Assign('sMenuHeadItemSelect',$this->sMenuHeadItemSelect);
 	}
 }
-?>

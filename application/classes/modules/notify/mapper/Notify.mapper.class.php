@@ -131,4 +131,3 @@ class ModuleNotify_MapperNotify extends Mapper {
 		return $aTasks;
 	}
 }
-?>

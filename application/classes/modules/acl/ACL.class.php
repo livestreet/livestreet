@@ -572,4 +572,3 @@ class ModuleACL extends Module {
 		return true;
 	}
 }
-?>

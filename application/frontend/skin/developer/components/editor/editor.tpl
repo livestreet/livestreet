@@ -21,12 +21,15 @@
 {function editor_textarea}
 	{include 'components/field/field.textarea.tpl'
 			sName            = $smarty.local.sName
+			sValue           = $smarty.local.sValue
 			sLabel           = $smarty.local.sLabel
 			sMods            = $smarty.local.sMods
 			sClasses         = $smarty.local.sClasses
 			sId              = $_uid
 			sAttributes      = $smarty.local.sAttributes
 			aRules           = $smarty.local.aRules
+			sEntityField     = $smarty.local.sEntityField
+			sEntity          = $smarty.local.sEntity
 			sInputClasses    = "$_sBindClass {$smarty.local.sInputClasses}"
 			sInputAttributes = "{$smarty.local.sAttributes} data-editor-type=\"{$_sType}\" data-editor-set=\"{$_sSet}\""
 			sNote            = $smarty.local.sNote

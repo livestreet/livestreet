@@ -470,4 +470,3 @@ class ModuleFavourite extends Module {
 		return false;
 	}
 }
-?>

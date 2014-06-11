@@ -52,4 +52,3 @@ class ModuleUser_EntityNote extends Entity {
 		return $this->Lang_Get('user_note.notices.target_error');
 	}
 }
-?>

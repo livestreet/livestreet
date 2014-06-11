@@ -121,4 +121,3 @@ class ModuleUser_EntitySession extends Entity {
 		$this->_aData['session_date_last']=$data;
 	}
 }
-?>

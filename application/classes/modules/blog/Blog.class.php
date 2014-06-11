@@ -1167,4 +1167,3 @@ class ModuleBlog extends Module {
 		return $res;
 	}
 }
-?>

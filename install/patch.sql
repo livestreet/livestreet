@@ -508,3 +508,8 @@ ALTER TABLE `prefix_comment` ADD `comment_date_edit` DATETIME NULL DEFAULT NULL 
 ADD INDEX ( `comment_date_edit` ) ;
 ALTER TABLE `prefix_comment` ADD `comment_count_edit` INT NOT NULL DEFAULT '0' AFTER `comment_count_favourite` ,
 ADD INDEX ( `comment_count_edit` ) ;
+
+
+--29.05.2014
+UPDATE `prefix_stream_user_type` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';
+UPDATE `prefix_stream_event` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';

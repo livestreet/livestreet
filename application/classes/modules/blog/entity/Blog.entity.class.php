@@ -382,4 +382,3 @@ class ModuleBlog_EntityBlog extends Entity {
 		$this->_aData['vote']=$data;
 	}
 }
-?>

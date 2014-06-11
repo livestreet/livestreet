@@ -41,4 +41,3 @@ class BlockBlogs extends Block {
 		}
 	}
 }
-?>

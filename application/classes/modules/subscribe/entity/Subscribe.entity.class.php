@@ -24,4 +24,3 @@
 class ModuleSubscribe_EntitySubscribe extends Entity {
 
 }
-?>

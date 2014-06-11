@@ -108,4 +108,3 @@ class ActionMy extends Action {
 		Router::Location($this->oUserProfile->getUserWebPath().'created/comments/'.$sPage);
 	}
 }
-?>

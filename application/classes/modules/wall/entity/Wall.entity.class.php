@@ -119,4 +119,3 @@ class ModuleWall_EntityWall extends Entity {
 		return $this->getWallUser()->getUserWebPath().'wall/';
 	}
 }
-?>

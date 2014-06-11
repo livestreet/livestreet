@@ -20,15 +20,7 @@ ini_set('display_errors', 1);
 header('Content-Type: text/html; charset=utf-8');
 header('X-Powered-By: LiveStreet CMS');
 
-// Получаем объект конфигурации
-$sPathToFramework=dirname(__FILE__).'/framework/';
-require_once("{$sPathToFramework}/config/loader.php");
-require_once(Config::Get('path.framework.server')."/classes/engine/Engine.class.php");
-
-$oProfiler=ProfilerSimple::getInstance(Config::Get('path.application.server').'/logs/'.Config::Get('sys.logs.profiler_file'),Config::Get('sys.logs.profiler'));
-$iTimeId=$oProfiler->Start('full_time');
+require_once(__DIR__.'/bootstrap/start.php');
 
 $oRouter=Router::getInstance();
 $oRouter->Exec();
-
-$oProfiler->Stop($iTimeId);

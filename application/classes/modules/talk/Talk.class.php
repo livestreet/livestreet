@@ -802,4 +802,3 @@ class ModuleTalk extends Module {
 		$this->Media_RemoveTarget('talk',$iTalkId,true);
 	}
 }
-?>

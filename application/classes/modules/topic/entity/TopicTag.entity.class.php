@@ -130,4 +130,3 @@ class ModuleTopic_EntityTopicTag extends Entity {
 		$this->_aData['size']=$data;
 	}
 }
-?>

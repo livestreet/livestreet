@@ -24,4 +24,3 @@
 class ModuleGeo_EntityRegion extends ModuleGeo_EntityGeo {
 
 }
-?>

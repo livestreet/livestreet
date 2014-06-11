@@ -35,4 +35,3 @@ class BlockBlogsSearch extends Block {
 		$this->Viewer_Assign("iCountBlogsAll",$aBlogsAll['count']);
 	}
 }
-?>

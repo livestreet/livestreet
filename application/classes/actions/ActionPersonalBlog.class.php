@@ -161,4 +161,3 @@ class ActionPersonalBlog extends Action {
 		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 	}
 }
-?>

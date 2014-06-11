@@ -95,4 +95,3 @@ class ModuleVote_MapperVote extends Mapper {
 		return $res===false or is_null($res) ? false : true;
 	}
 }
-?>

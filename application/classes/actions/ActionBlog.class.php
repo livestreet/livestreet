@@ -1053,7 +1053,7 @@ class ActionBlog extends Action {
          */
         if (!$oTopic) {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-            $bOk = false;
+            return false;
         }
         /**
          * Возможность постить коммент в топик в черновиках

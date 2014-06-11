@@ -122,9 +122,14 @@ $config['module']['blog']['category_allow_empty'] = true;	// Разрешить 
 $config['module']['topic']['new_time']   = 60*60*24*1;  // Время в секундах в течении которого топик считается новым
 $config['module']['topic']['per_page']   = 10;          // Число топиков на одну страницу
 $config['module']['topic']['max_length'] = 15000;       // Максимальное количество символов в одном топике
-$config['module']['topic']['link_max_length'] = 500;    // Максимальное количество символов в одном топике-ссылке
-$config['module']['topic']['question_max_length'] = 500;// Максимальное количество символов в одном топике-опросе
+$config['module']['topic']['min_length'] = 2;       // Минимальное количество символов в одном топике
+$config['module']['topic']['allow_empty'] = false;       // Разрешать или нет не заполнять текст топика
+$config['module']['topic']['title_max_length'] = 200;       // Максимальное количество символов в заголовке топика
+$config['module']['topic']['title_min_length'] = 2;       // Минимальное количество символов в заголовке топика
+$config['module']['topic']['title_allow_empty'] = false;       // Разрешать или нет не заполнять заголовок топика
 $config['module']['topic']['allow_empty_tags'] = false; // Разрешать или нет не заполнять теги
+$config['module']['topic']['default_period_top'] = 1; // Дефолтный период (количество дней) для отображения ТОП топиков. Значения: 1,7,30,'all'
+$config['module']['topic']['default_period_discussed'] = 1; // Дефолтный период (количество дней) для отображения обсуждаемых топиков. Значения: 1,7,30,'all'
 // Модуль User
 $config['module']['user']['per_page']    = 15;          // Число юзеров на страницу на странице статистики и в профиле пользователя
 $config['module']['user']['friend_on_profile']    = 15;          // Ограничение на вывод числа друзей пользователя на странице его профиля
@@ -160,6 +165,7 @@ $config['module']['comment']['nested_per_page'] = 0; 	// Число коммен
 $config['module']['comment']['nested_page_reverse'] = true; 	// Определяет порядок вывода страниц. true - последние комментарии на первой странице, false - последние комментарии на последней странице
 $config['module']['comment']['favourite_target_allow'] = array('topic'); 	// Список типов комментов, которые разрешено добавлять в избранное
 $config['module']['comment']['edit_target_allow'] = array('topic','talk'); 	// Список типов комментов, которые разрешено редактировать
+$config['module']['comment']['vote_target_allow'] = array('topic'); 	// Список типов комментов, за которые разрешено голосовать
 // Модуль Talk
 $config['module']['talk']['per_page']   = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['encrypt']    = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках

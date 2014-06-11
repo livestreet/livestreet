@@ -366,4 +366,3 @@ class ModuleGeo_MapperGeo extends Mapper {
 		return $aResult;
 	}
 }
-?>

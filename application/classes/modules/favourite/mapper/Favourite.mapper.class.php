@@ -540,4 +540,3 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 		return $aResult;
 	}
 }
-?>

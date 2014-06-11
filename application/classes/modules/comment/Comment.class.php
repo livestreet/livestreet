@@ -482,7 +482,7 @@ class ModuleComment extends Module {
 				$this->Topic_increaseTopicCountComment($oComment->getTargetId());
 			}
 			//чистим зависимые кеши
-			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new_{$oComment->getTargetType()}","comment_new_user_{$oComment->getUserId()}_{$oComment->getTargetType()}","comment_new_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));
+			$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array("comment_new","comment_new_{$oComment->getTargetType()}","comment_new_user_{$oComment->getUserId()}_{$oComment->getTargetType()}","comment_new_{$oComment->getTargetType()}_{$oComment->getTargetId()}"));
 			$oComment->setId($sId);
 			return $oComment;
 		}
@@ -968,4 +968,3 @@ class ModuleComment extends Module {
 		return $this->GetCommentsByArrayId($aCommentId);
 	}
 }
-?>

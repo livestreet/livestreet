@@ -30,4 +30,3 @@ $config['db']['params']['type']   = 'mysqli';
 $config['db']['params']['dbname'] = 'social';
 
 return $config;
-?>

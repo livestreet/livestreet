@@ -1557,4 +1557,3 @@ class ModuleUser extends Module {
 		return false;
 	}
 }
-?>

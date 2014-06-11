@@ -100,10 +100,11 @@ class ActionIndex extends Action {
 	 * Вывод рейтинговых топиков
 	 */
 	protected function EventTop() {
-		$sPeriod=1; // по дефолту 1 день
+		$sPeriod=Config::Get('module.topic.default_period_top');
 		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
 			$sPeriod=getRequestStr('period');
 		}
+		if (!$sPeriod) $sPeriod=1;
 		/**
 		 * Меню
 		 */
@@ -151,10 +152,11 @@ class ActionIndex extends Action {
 	 * Вывод обсуждаемых топиков
 	 */
 	protected function EventDiscussed() {
-		$sPeriod=1; // по дефолту 1 день
+		$sPeriod=Config::Get('module.topic.default_period_discussed');
 		if (in_array(getRequestStr('period'),array(1,7,30,'all'))) {
 			$sPeriod=getRequestStr('period');
 		}
+		if (!$sPeriod) $sPeriod=1;
 		/**
 		 * Меню
 		 */
@@ -328,4 +330,3 @@ class ActionIndex extends Action {
 		$this->Viewer_Assign('sNavTopicsSubUrl',$this->sNavTopicsSubUrl);
 	}
 }
-?>

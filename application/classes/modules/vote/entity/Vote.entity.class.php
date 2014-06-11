@@ -137,4 +137,3 @@ class ModuleVote_EntityVote extends Entity {
 		$this->_aData['vote_ip']=$data;
 	}
 }
-?>

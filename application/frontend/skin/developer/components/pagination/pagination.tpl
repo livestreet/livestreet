@@ -44,16 +44,16 @@
 		<ul class="{$_sComponentName}-list">
 			{* Следущая страница *}
 			{if $_aPaging.iPrevPage}
-				{item sUrl="{$_aPaging.sBaseUrl}{if $_aPaging.iPrevPage > 1}/page{$_aPaging.iPrevPage}{/if}/{$_aPaging.sGetParams}" sText="&larr; {$aLang.paging_previos}" sLinkClasses="js-{$_sComponentName}-prev"}
+				{item sUrl="{$_aPaging.sBaseUrl}{if $_aPaging.iPrevPage > 1}/page{$_aPaging.iPrevPage}{/if}/{$_aPaging.sGetParams}" sText="&larr; {$aLang.pagination.previos}" sLinkClasses="js-{$_sComponentName}-prev"}
 			{else}
-				{item sText="&larr; {$aLang.paging_previos}"}
+				{item sText="&larr; {$aLang.pagination.previos}"}
 			{/if}
 
 			{* Предыдущая страница *}
 			{if $_aPaging.iNextPage}
-				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iNextPage}/{$_aPaging.sGetParams}" sText="{$aLang.paging_next} &rarr;" sLinkClasses="js-{$_sComponentName}-next"}
+				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iNextPage}/{$_aPaging.sGetParams}" sText="{$aLang.pagination.next} &rarr;" sLinkClasses="js-{$_sComponentName}-next"}
 			{else}
-				{item sText="{$aLang.paging_next} &rarr;"}
+				{item sText="{$aLang.pagination.next} &rarr;"}
 			{/if}
 		</ul>
 
@@ -61,7 +61,7 @@
 		<ul class="{$_sComponentName}-list">
 			{* Первая страница *}
 			{if $_aPaging.iCurrentPage > 1}
-				{item sUrl="{$_aPaging.sBaseUrl}/{$_aPaging.sGetParams}" sText=$aLang.paging_first}
+				{item sUrl="{$_aPaging.sBaseUrl}/{$_aPaging.sGetParams}" sText=$aLang.pagination.first}
 			{/if}
 
 			{* Страницы слева от текущей *}
@@ -79,7 +79,7 @@
 
 			{* Последняя страница *}
 			{if $_aPaging.iCurrentPage < $_aPaging.iCountPage}
-				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iCountPage}/{$_aPaging.sGetParams}" sText=$aLang.paging_last}
+				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iCountPage}/{$_aPaging.sGetParams}" sText=$aLang.pagination.last}
 			{/if}
 		</ul>
 	</nav>

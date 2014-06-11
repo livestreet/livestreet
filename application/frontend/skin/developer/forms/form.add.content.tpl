@@ -74,7 +74,8 @@
 					sName            = 'topic[topic_text_source]'
 					sValue           = (($oTopicEdit) ? $oTopicEdit->getTextSource() : '')|escape
 					sLabel           = $aLang.topic_create_text
-					aRules           = [ 'required' => true, 'rangelength' => "[2,{Config::Get('module.topic.max_length')}]" ]
+					sEntityField	 = 'topic_text_source'
+					sEntity			 = 'ModuleTopic_EntityTopic'
 					sMediaTargetType = 'topic'
 					sMediaTargetId   = ($oTopicEdit) ? $oTopicEdit->getId() : ''}
 		{/if}

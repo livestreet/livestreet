@@ -34,8 +34,8 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function Init() {
 		parent::Init();
-		$this->aValidateRules[]=array('topic_title','string','max'=>200,'min'=>2,'allowEmpty'=>false,'label'=>$this->Lang_Get('topic_create_title'));
-		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>2,'allowEmpty'=>false,'condition'=>'isNeedValidateText','label'=>$this->Lang_Get('topic_create_text'));
+		$this->aValidateRules[]=array('topic_title','string','max'=>Config::Get('module.topic.title_max_length'),'min'=>Config::Get('module.topic.title_min_length'),'allowEmpty'=>Config::Get('module.topic.title_allow_empty'),'label'=>$this->Lang_Get('topic_create_title'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>Config::Get('module.topic.min_length'),'allowEmpty'=>Config::Get('module.topic.allow_empty'),'condition'=>'isNeedValidateText','label'=>$this->Lang_Get('topic_create_text'));
 		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'condition'=>'isNeedValidateTags','label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'));
 
 		$this->aValidateRules[]=array('blog_id','blog_id');

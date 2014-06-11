@@ -239,6 +239,7 @@ ls.media = (function ($) {
 			var sTitle = this.elements.link.title.val(),
 			    sTextInsert;
 
+			sTitle=ls.utils.escapeHtml(sTitle);
 			if ($('.js-media-link-settings-image').is(':visible')) {
 				var sAlign = this.elements.link.align.val();
 				sAlign = sAlign == 'center' ? 'class="image-center"' : 'align="' + sAlign + '"';

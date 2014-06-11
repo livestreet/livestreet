@@ -388,8 +388,10 @@ class Install {
 				}
 				return "array(".$sArrayString.")";
 
-			default:
 			case is_numeric($mVar):
+				return $mVar;
+
+			default:
 				return "'".(string)$mVar."'";
 		}
 	}
