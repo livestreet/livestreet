@@ -11,7 +11,7 @@
 
 	{$_aRules = [
 		'required'          => true,
-		'remote'            => {router page='ajax/validate/captcha'},
+		'remote'            => {router page='ajax/captcha/validate'},
 		'remote-method'     => 'POST',
 		'remote-param-name' => $smarty.local.sCaptchaName
 	]}

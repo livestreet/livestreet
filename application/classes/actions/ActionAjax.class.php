@@ -93,7 +93,8 @@ class ActionAjax extends Action {
 
 		$this->AddEventPreg('/^property$/i','/^tags$/','/^autocompleter$/','/^$/','EventPropertyTagsAutocompleter');
 
-		$this->AddEventPreg('/^validate$/i','/^captcha$/','/^$/','EventValidateCaptcha');
+		$this->AddEventPreg('/^captcha$/i','/^$/','EventCaptcha');
+		$this->AddEventPreg('/^captcha$/i','/^validate$/','/^$/','EventCaptchaValidate');
 
 		$this->AddEventPreg('/^poll$/i','/^modal-create$/','/^$/','EventPollModalCreate');
 		$this->AddEventPreg('/^poll$/i','/^modal-update/','/^$/','EventPollModalUpdate');
@@ -401,14 +402,32 @@ class ActionAjax extends Action {
 	}
 
 	/**
+	 * Отображение каптчи
+	 */
+	protected function EventCaptcha() {
+		$this->Viewer_SetResponseAjax(null);
+		/**
+		 * Подключаем каптчу
+		 */
+		require_once(Config::Get('path.framework.libs_vendor.server').'/kcaptcha/kcaptcha.php');
+		/**
+		 * Определяем уникальное название (возможность нескольких каптч на одной странице)
+		 */
+		$sName='';
+		if (isset($_GET['name']) and is_string($_GET['name']) and $_GET['name']) {
+			$sName=$_GET['name'];
+		}
+		/**
+		 * Генерируем каптчу и сохраняем код в сессию
+		 */
+		$oCaptcha=new KCAPTCHA();
+		$this->Session_Set('captcha_keystring'.($sName ? '_'.$sName : ''),$oCaptcha->getKeyString());
+		$this->SetTemplate(false);
+	}
+	/**
 	 * Ajax валидация каптчи
 	 */
-	protected function EventValidateCaptcha() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-
+	protected function EventCaptchaValidate() {
 		$sName=isset($_REQUEST['params']['name']) ? $_REQUEST['params']['name'] : '';
 		$sValue=isset($_REQUEST['fields'][0]['value']) ? $_REQUEST['fields'][0]['value'] : '';
 		$sField=isset($_REQUEST['fields'][0]['field']) ? $_REQUEST['fields'][0]['field'] : '';
