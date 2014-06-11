@@ -21,6 +21,7 @@
 	opacity: .3;
 	filter: alpha(opacity=30);
 }
-.favourite.active .favourite-toggle { opacity: 1; filter: alpha(opacity=100); }
+.favourite--added .favourite-toggle { opacity: 1; filter: alpha(opacity=100); }
 
-.favourite-count { margin-left: 0; font-weight: bold; }
+.favourite-count { display: none; margin-left: 0; font-weight: bold; }
+.favourite--has-counter .favourite-count { display: inline-block; }

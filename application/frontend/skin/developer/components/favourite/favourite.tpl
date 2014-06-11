@@ -17,11 +17,27 @@
 {* Название компонента *}
 {$_sComponentName = 'favourite'}
 
+{* Переменные *}
+{$sMods = $smarty.local.sMods}
+
 {* True если объект находится в избранном *}
 {$_bIsActive = $oUserCurrent && $oObject->getIsFavourite()}
 
 {* Кол-во объектов в избранном *}
 {$_iCount = $oObject->getCountFavourite()}
+
+{**
+ * Добавляем модификаторы
+ *}
+
+{if $_iCount}
+    {$sMods = "$sMods has-counter"}
+{/if}
+
+{if $_bIsActive}
+    {$sMods = "$sMods added"}
+{/if}
+
 
 <div class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} {if $_bIsActive}active{/if} {$smarty.local.sClasses}"
 	 data-param-i-target-id="{$oObject->getId()}"

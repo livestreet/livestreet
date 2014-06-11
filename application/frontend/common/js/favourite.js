@@ -29,6 +29,13 @@
 				// Счетчик
 				count: '.js-favourite-count'
 			},
+			// Классы
+			classes: {
+				// Добавлено в избранное
+				added: 'favourite--added',
+				// Кол-во добавивших в избранное больше нуля
+				has_counter: 'favourite--has-counter',
+			},
 			// Параметры отправляемые при каждом аякс запросе
 			params: {}
 		},
@@ -59,7 +66,7 @@
 		 * Добавить/удалить из избранного
 		 */
 		toggle: function() {
-			this.options.params.type = ! this.element.hasClass(ls.options.classes.states.active);
+			this.options.params.type = ! this.element.hasClass(this.options.classes.added);
 
 			ls.ajax.load(this.options.urls.toggle, this.options.params, function(oResponse) {
 				if (oResponse.bStateError) {
@@ -67,24 +74,24 @@
 				} else {
 					ls.msg.notice(null, oResponse.sMsg);
 
-					this.element.removeClass(ls.options.classes.states.active);
+					this.element.removeClass(this.options.classes.added);
 
 					if (oResponse.bState) {
-						this.element.addClass(ls.options.classes.states.active).attr('title', ls.lang.get('favourite.remove'));
+						this.element.addClass(this.options.classes.added).attr('title', ls.lang.get('favourite.remove'));
 					} else {
 						this.element.attr('title', ls.lang.get('favourite.add'));
 					}
 
 					if (this.elements.count) {
 						if (oResponse.iCount > 0) {
+							this.element.addClass(this.options.classes.has_counter);
 							this.elements.count.show().text(oResponse.iCount);
 						} else {
-							this.elements.count.hide();
+							this.element.removeClass(this.options.classes.has_counter);
 						}
 					}
 
-					this._trigger("aftertogglesuccess", null, { context: this, response: oResponse });
-					//ls.hook.run('ls_favourite_toggle_after',[data.targetId,data.toggle,data.type,params,oResponse],this);
+					this._trigger('aftertogglesuccess', null, { context: this, response: oResponse });
 				}
 			}.bind(this));
 		}
