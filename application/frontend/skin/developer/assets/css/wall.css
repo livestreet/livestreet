@@ -13,27 +13,22 @@
 /**
  * Форма добавления сообщения на стену
  */
-.wall-form          { margin-bottom: 0; padding: 15px; background: #fafafa; }
+.wall-form          { margin-bottom: 2px; padding: 15px; background: #fafafa; }
 .wall-form .field   { margin-bottom: 0; }
 .wall-form textarea { height: 30px; min-height: 30px; max-height: 30px; resize: none; }
 
 .wall-form-footer { display: none; }
 
 /* Open */
-.wall-form.open .field   { margin-bottom: 15px; }
-.wall-form.open textarea { height: 90px; max-height: 300px; resize: vertical; }
-
+.wall-form.open .field            { margin-bottom: 15px; }
+.wall-form.open textarea          { height: 90px; max-height: 300px; resize: vertical; }
 .wall-form.open .wall-form-footer { display: block; }
 
 
 /**
  * Сообщения
  */
-.comment.wall-post                     { padding-left: 70px; }
-
-.comment.wall-comment                  { padding-left: 50px; }
-.comment.wall-comment .comment-content { margin-bottom: 3px; }
-.comment.wall-comment .comment-avatar  { width: 30px; height: 30px; }
+.comment.comment--self.wall-comment { background: #fafafa; }
 
 .wall-comments { padding-left: 70px; }
 
@@ -41,4 +36,4 @@
 /**
  * Кнопка подгрузки комментариев
  */
-.more.more-wall-comments { border: none; margin: 0; }
+.more.more-wall-comments { border: none; margin: 0 0 2px; }

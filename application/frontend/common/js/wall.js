@@ -23,8 +23,8 @@ ls.wall = (function ($) {
 		selectors: {
 			entry: {
 				self:   '.js-wall-comment',
-				remove: '.js-wall-comment-remove',
-				reply:  '.js-wall-comment-reply'
+				remove: '.js-comment-remove',
+				reply:  '.js-comment-reply'
 			},
 			form: {
 				self:   '.js-wall-form',
