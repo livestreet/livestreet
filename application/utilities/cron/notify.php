@@ -15,14 +15,9 @@
 ---------------------------------------------------------
 */
 
-$sDirRoot=dirname(dirname(dirname(__FILE__)));
-set_include_path(get_include_path().PATH_SEPARATOR.$sDirRoot);
-chdir($sDirRoot);
+require_once(dirname(dirname(dirname(__DIR__))).'/bootstrap/start.php');
 
-require_once($sDirRoot."/config/loader.php");
-require_once($sDirRoot."/engine/classes/Cron.class.php");
-
-class NotifyCron extends Cron {
+class CronNotify extends Cron {
 	/**
 	 * Выбираем пул заданий и рассылаем по ним e-mail
 	 */
@@ -49,10 +44,10 @@ class NotifyCron extends Cron {
 	}
 }
 
-$sLockFilePath=Config::Get('sys.cache.dir').'notify.lock';
+$sLockFilePath=Config::Get('sys.cache.dir').'CronNotify.lock';
 /**
  * Создаем объект крон-процесса, 
  * передавая параметром путь к лок-файлу
  */
-$app=new NotifyCron($sLockFilePath);
+$app=new CronNotify($sLockFilePath);
 print $app->Exec();
