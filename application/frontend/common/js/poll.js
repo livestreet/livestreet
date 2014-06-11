@@ -272,16 +272,7 @@ ls.poll = (function ($) {
 			sSortType   = oButton.hasClass(ls.options.classes.states.active) ? 'poll-item-pos' : 'poll-item-count';
 
 		aItems.sort(function (a, b) {
-			a = $(a).data(sSortType);
-    		b = $(b).data(sSortType);
-
-		    if (a > b) {
-		        return -1;
-		    } else if (a < b) {
-		        return 1;
-		    } else {
-		        return 0;
-		    }
+			return $(b).data(sSortType) - $(a).data(sSortType);
 		});
 
 		oButton.toggleClass(ls.options.classes.states.active);

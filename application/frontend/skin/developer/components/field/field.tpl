@@ -40,10 +40,10 @@
 {**
  * Общие атрибуты
  *}
-{function field_input_attr_common}
+{function field_input_attr_common bUseValue=true}
 	id="{$_uid}"
 	class="{$_sComponentName}-input {$_sInputClasses}"
-	value="{field_input_attr_value}"
+	{if $bUseValue}value="{field_input_attr_value}"{/if}
 	{if $smarty.local.sName}name="{$smarty.local.sName}"{/if}
 	{if $smarty.local.sPlaceholder}placeholder="{$smarty.local.sPlaceholder}"{/if}
 	{if $smarty.local.bIsDisabled}disabled{/if}
