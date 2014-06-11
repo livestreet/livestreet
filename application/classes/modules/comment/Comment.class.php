@@ -620,9 +620,16 @@ class ModuleComment extends Module {
 		if($sTargetType!='topic') {
 			$oViewerLocal->Assign('bNoCommentFavourites',true);
 		}
+		elseif($sTargetType=='topic') {
+			$oViewerLocal->Assign('bShowFavourite', true, true);
+			$oViewerLocal->Assign('bShowVote', true, true);
+			$oViewerLocal->Assign('bShowScroll', true, true);
+			$oViewerLocal->Assign('bShowEdit', true, true);
+			$oViewerLocal->Assign('sDateReadLast', '1', true);
+		}
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {
-			$oViewerLocal->Assign('oComment',$oComment);
+			$oViewerLocal->Assign('oComment',$oComment,true);
 			$sText=$oViewerLocal->Fetch($this->GetTemplateCommentByTarget($sId,$sTargetType));
 			$aCmt[]=array(
 				'html' => $sText,
@@ -640,7 +647,7 @@ class ModuleComment extends Module {
 	 * @return string
 	 */
 	public function GetTemplateCommentByTarget($iTargetId,$sTargetType) {
-		return "comments/comment.tpl";
+		return "components/comment/comment.tpl";
 	}
 	/**
 	 * Строит дерево комментариев

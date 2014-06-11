@@ -455,7 +455,7 @@ class ActionTalk extends Action {
 			}
 		}
 
-		$this->SetTemplateAction('message');
+		$this->SetTemplateAction('talk');
 	}
 	/**
 	 * Проверка полей при создании письма
