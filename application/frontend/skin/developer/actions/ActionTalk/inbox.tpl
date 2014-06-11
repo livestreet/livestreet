@@ -2,17 +2,17 @@
  * Список сообщений
  *}
 
-{extends file='layouts/layout.user.messages.tpl'}
+{extends 'layouts/layout.user.messages.tpl'}
 
-{block name='layout_options' append}
+{block 'layout_options' append}
 	{$bNoSystemMessages = false}
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	{if $aTalks}
 		{include './search.tpl'}
 	{/if}
 
-	{include file='./message_list.tpl' bMessageListCheckboxes=true}
-	{include file='components/pagination/pagination.tpl' aPaging=$aPaging}
+	{include './talk-list.tpl' bMessageListCheckboxes=true}
+	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 {/block}

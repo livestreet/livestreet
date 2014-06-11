@@ -2,9 +2,9 @@
  * Список избранных сообщений
  *}
 
-{extends file='layouts/layout.user.messages.tpl'}
+{extends 'layouts/layout.user.messages.tpl'}
 
-{block name='layout_content'}
-	{include file='./message_list.tpl'}
-	{include file='components/pagination/pagination.tpl' aPaging=$aPaging}
+{block 'layout_content'}
+	{include './talk-list.tpl'}
+	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 {/block}

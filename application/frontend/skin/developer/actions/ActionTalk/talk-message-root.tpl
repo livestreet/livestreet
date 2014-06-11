@@ -1,3 +1,7 @@
+{**
+ * Первое сообщение в диалоге
+ *}
+
 {extends 'components/article/article.tpl'}
 
 {block 'entry_options'}
