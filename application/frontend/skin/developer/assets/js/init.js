@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Datepicker
 	 */
-	$('.date-picker').datepicker();
+	$('.js-date-picker').datepicker();
 
 
 	/**

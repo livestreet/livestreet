@@ -26,15 +26,15 @@
 
 		{* Ограничения по дате *}
 		{include 'components/field/field.text.tpl'
-				 sName        = 'start'
-				 sPlaceholder = $aLang.messages.search.fields.start.placeholder
-				 sLabel       = $aLang.messages.search.fields.start.label
-				 sClasses     = 'width-200 date-picker'}
+				sName         = 'start'
+				sPlaceholder  = $aLang.messages.search.fields.start.placeholder
+				sLabel        = $aLang.messages.search.fields.start.label
+				sInputClasses = 'width-200 js-date-picker'}
 
 		{include 'components/field/field.text.tpl'
-				 sName        = 'end'
-				 sPlaceholder = $aLang.messages.search.fields.end.placeholder
-				 sClasses     = 'width-200 date-picker'}
+				sName         = 'end'
+				sPlaceholder  = $aLang.messages.search.fields.end.placeholder
+				sInputClasses = 'width-200 js-date-picker'}
 
 		{* Искать только в избранном *}
 		{include 'components/field/field.checkbox.tpl' sName='favourite' sLabel=$aLang.messages.search.fields.favourite.label}
