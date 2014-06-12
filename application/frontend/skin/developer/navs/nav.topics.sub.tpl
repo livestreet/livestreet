@@ -4,7 +4,7 @@
 
 {if $sNavTopicsSubUrl}
 	{include 'components/nav/nav.tpl'
-			 sName       = 'topics'
+			 sName       = 'topics_sub'
 			 sActiveItem = $sMenuSubItemSelect
 			 sMods       = 'pills'
 			 aItems = [
