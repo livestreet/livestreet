@@ -6,6 +6,7 @@
 
 {block 'field' prepend}
 	{$_sMods = "$_sMods checkbox"}
+	{$_sValue = ( $_sValue ) ? $_sValue : '1'}
 {/block}
 
 {block 'field_input'}

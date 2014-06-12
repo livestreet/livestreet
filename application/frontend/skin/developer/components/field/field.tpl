@@ -15,6 +15,7 @@
 
 {* Переменные *}
 {$_sMods = $smarty.local.sMods}
+{$_sValue = $smarty.local.sValue}
 {$_sInputClasses = $smarty.local.sInputClasses}
 {$_sInputAttributes = $smarty.local.sInputAttributes}
 {$_aRules = $smarty.local.aRules}
@@ -29,8 +30,8 @@
  *}
 {function field_input_attr_value}
 {strip}
-	{if $smarty.local.sValue}
-		{$smarty.local.sValue}
+	{if $_sValue}
+		{$_sValue}
 	{elseif isset($_aRequest[$smarty.local.sName])}
 		{$_aRequest[$smarty.local.sName]}
 	{/if}
