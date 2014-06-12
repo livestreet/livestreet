@@ -10,8 +10,7 @@
 
 {block 'block_content'}
 	<a href="{$oBlog->getUrlFull()}">
-		{* TODO: Fix avatar size *}
-		<img src="{$oBlog->getAvatarPath(100)}" alt="{$oBlog->getTitle()|escape}" class="avatar" />
+		<img src="{$oBlog->getAvatarPath(500)}" alt="{$oBlog->getTitle()|escape}" class="avatar" />
 	</a>
 {/block}
 

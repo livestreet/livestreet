@@ -88,7 +88,7 @@
  * @template blocks/block.blogActions.tpl
  */
 .block.block-type-blog-actions .block-content { padding: 0; }
-.block.block-type-blog-actions .avatar        { min-width: 100%; vertical-align: top; }
+.block.block-type-blog-actions .avatar        { max-width: 100%; vertical-align: top; }
 .block.block-type-blog-actions .block-footer  { text-align: center; }
 
 
