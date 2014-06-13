@@ -50,7 +50,7 @@
 		bShowFavourite = $smarty.local.bShowFavourite
 		sDateReadLast  = $sDateReadLast
 		bIsHidden      = $oComment->getDelete()
-		bShowScroll    = true
+		bShowScroll    = $smarty.local.bShowScroll|default:true
 		bShowEdit      = true}
 
 	{* Закрываем блоки-обертки после последнего комментария *}

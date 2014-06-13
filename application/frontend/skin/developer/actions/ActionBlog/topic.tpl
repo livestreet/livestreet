@@ -9,7 +9,7 @@
 	{include 'topics/topic.tpl'}
 
 	{* Комментарии *}
-	{include 'components/comment/comment-list.tpl'
+	{include 'components/comment/comments.tpl'
 			 sClasses          = 'js-comments-topic'
 			 iTargetId         = $oTopic->getId()
 			 iAuthorId         = $oTopic->getUserId()

@@ -9,7 +9,7 @@
 	{include './talk-message-root.tpl'}
 
 	{* Вывод комментариев к сообщению *}
-	{include 'components/comment/comment-list.tpl'
+	{include 'components/comment/comments.tpl'
 		sClasses          = 'js-comments-talk'
 		iTargetId         = $oTalk->getId()
 		sTargetType       = 'talk'

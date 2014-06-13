@@ -25,10 +25,11 @@
 {$bIsHidden  = $smarty.local.bIsHidden}
 {$oUser      = $oComment->getUser()}
 {$iCommentId = $oComment->getId()}
+{$oTarget    = $oComment->getTarget()}
 
 {* Получаем ссылку на комментарий *}
 {* TODO: Вынести в бэкенд *}
-{$sPermalink = ( Config::Get('module.comment.use_nested') ) ? "{router page='comments'}{$iCommentId}" : "#comment{$iCommentId}"}
+{$sPermalink = ( Config::Get('module.comment.use_nested') ) ? "{router page='comments'}{$iCommentId}" : "{if $oTarget}{$oTarget->getUrl()}{/if}#comment{$iCommentId}"}
 
 {**
  * Добавляем модификаторы
