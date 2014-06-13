@@ -419,12 +419,6 @@ class ActionTalk extends Action {
 			return parent::EventNotFound();
 		}
 		/**
-		 * Обрабатываем добавление коммента
-		 */
-		if (isset($_REQUEST['submit_comment'])) {
-			$this->SubmitComment();
-		}
-		/**
 		 * Достаём комменты к сообщению
 		 */
 		$aReturn=$this->Comment_GetCommentsByTargetId($oTalk->getId(),'talk');

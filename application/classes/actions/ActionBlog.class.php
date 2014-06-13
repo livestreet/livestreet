@@ -775,12 +775,6 @@ class ActionBlog extends Action {
 			Router::Location($oTopic->getUrl());
 		}
 		/**
-		 * Обрабатываем добавление коммента
-		 */
-		if (isset($_REQUEST['submit_comment'])) {
-			$this->SubmitComment();
-		}
-		/**
 		 * Достаём комменты к топику
 		 */
 		if (!Config::Get('module.comment.nested_page_reverse') and Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
