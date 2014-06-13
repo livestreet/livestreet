@@ -179,7 +179,7 @@ class ModuleGeo_MapperGeo extends Mapper {
 								 isset($aFilter['region_id']) ? $aFilter['region_id'] : DBSIMPLE_SKIP,
 								 isset($aFilter['city_id']) ? $aFilter['city_id'] : DBSIMPLE_SKIP
 		);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает список стран по фильтру

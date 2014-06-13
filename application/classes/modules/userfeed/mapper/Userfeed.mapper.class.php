@@ -53,7 +53,7 @@ class ModuleUserfeed_MapperUserfeed extends Mapper {
 		$sql = 'DELETE FROM ' . Config::Get('db.table.userfeed_subscribe') . ' WHERE
                 user_id = ?d AND subscribe_type = ?d AND target_id = ?d';
 		$res=$this->oDb->query($sql, $iUserId, $iSubscribeType, $iTargetId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получить список подписок пользователя

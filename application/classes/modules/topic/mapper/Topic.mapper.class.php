@@ -108,7 +108,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 	public function DeleteTopicContentByTopicId($iTopicId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.topic_content')." WHERE topic_id = ?d ";
 		$res=$this->oDb->query($sql,$iTopicId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаляет теги у топика
@@ -122,7 +122,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id = ?d				
 		";
 		$res=$this->oDb->query($sql,$sTopicId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаляет топик.
@@ -137,7 +137,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id = ?d				
 		";
 		$res=$this->oDb->query($sql,$sTopicId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получает топик по уникальному хешу(текст топика)
@@ -454,7 +454,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id = ?
 		";
 		$res=$this->oDb->query($sql,$sTopicId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Обновляет топик
@@ -512,7 +512,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id = ?d
 		";
 		$res=$this->oDb->query($sql,$oTopic->getText(),$oTopic->getTextShort(),$oTopic->getTextSource(),$oTopic->getExtra(),$oTopic->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Строит строку условий для SQL запроса топиков
@@ -629,7 +629,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				user_id = ? 
 		";
 		$res=$this->oDb->query($sql,$oTopicRead->getCommentCountLast(),$oTopicRead->getCommentIdLast(),$oTopicRead->getDateRead(),$oTopicRead->getTopicId(),$oTopicRead->getUserId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Устанавливаем дату прочтения топика
@@ -661,7 +661,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id IN(?a)				
 		";
 		$res=$this->oDb->query($sql,$aTopicId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получить список просмотром/чтения топиков по списку айдишников
@@ -709,7 +709,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id IN(?a)
 		";
 		$res=$this->oDb->query($sql,$sBlogId,$aTopics);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Перемещает топики в другой блог
@@ -726,7 +726,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				blog_id = ?d
 		";
 		$res=$this->oDb->query($sql,$sBlogIdNew,$sBlogId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Перемещает теги топиков в другой блог
@@ -743,7 +743,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				blog_id = ?d
 		";
 		$res=$this->oDb->query($sql,$sBlogIdNew,$sBlogId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Перемещает теги топиков в другой блог
@@ -762,7 +762,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_id IN(?a)
 		";
 		$res=$this->oDb->query($sql,$sBlogId,$aTopics);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Пересчитывает счетчик избранных топиков
@@ -784,7 +784,7 @@ class ModuleTopic_MapperTopic extends Mapper {
                 )
             ";
 		$res=$this->oDb->query($sql);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Пересчитывает счетчики голосований
@@ -824,7 +824,7 @@ class ModuleTopic_MapperTopic extends Mapper {
                 )
             ";
 		$res=$this->oDb->query($sql);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 
 
@@ -903,7 +903,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				id = ?d
 		";
 		$res=$this->oDb->query($sql,$oType->getName(),$oType->getNameMany(),$oType->getCode(),$oType->getState(),$oType->getSort(),$oType->getParams(),$oType->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 
 	public function DeleteTopicType($sTypeId) {
@@ -912,7 +912,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				id = ?d
 		";
 		$res=$this->oDb->query($sql,$sTypeId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 
 	public function UpdateTopicByType($sType,$sTypeNew) {

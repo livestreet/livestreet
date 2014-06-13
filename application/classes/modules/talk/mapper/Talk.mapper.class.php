@@ -75,7 +75,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				talk_id = ?d
 		";
 		$res=$this->oDb->query($sql,$oTalk->getDateLast(),$oTalk->getUserIdLast(),$oTalk->getCommentIdLast(),$oTalk->getCountComment(),$oTalk->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получить список разговоров по списку айдишников
@@ -213,7 +213,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				$oTalkUser->getTalkId(),
 				$oTalkUser->getUserId()
 			);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаляет юзера из разговора
@@ -237,7 +237,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				user_id = ?d				
 		";
 		$res=$this->oDb->query($sql,$iActive,$aTalkId,$sUserId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает количество новых комментариев
@@ -365,7 +365,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				talk_id = ? 
 				{ AND user_id NOT IN (?a) }";
 		$res=$this->oDb->select($sql,$sTalkId,!is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает массив пользователей, участвующих в разговоре
@@ -541,7 +541,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				user_target_id = ?d
 		";
 		$res=$this->oDb->query($sql,$sUserId,$sTargetId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Добавление пользователя в блеклист по списку идентификаторов

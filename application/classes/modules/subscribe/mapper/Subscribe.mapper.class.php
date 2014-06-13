@@ -65,7 +65,7 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 		$res=$this->oDb->query($sql,$oSubscribe->getStatus(),
 								 $oSubscribe->getDateRemove(),
 								 $oSubscribe->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Смена емайла в подписках
@@ -83,7 +83,7 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 			WHERE mail = ? { and user_id = ?d }
 		";
 		$res=$this->oDb->query($sql,$sMailNew,$sMailOld,$iUserId ? $iUserId : DBSIMPLE_SKIP);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает список подписок по фильтру

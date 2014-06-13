@@ -107,7 +107,7 @@ class ModuleUser_MapperUser extends Mapper {
 							  $oUser->getSettingsNoticeNewFriend(),
 							  $oUser->getSettingsTimezone(),
 							  $oUser->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получить юзера по ключу сессии
@@ -160,7 +160,7 @@ class ModuleUser_MapperUser extends Mapper {
 			WHERE user_id = ?
 		";
 		$res=$this->oDb->query($sql,$oSession->getIpLast(), $oSession->getDateLast(), $oSession->getUserId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Список сессий юзеров по ID
@@ -414,7 +414,7 @@ class ModuleUser_MapperUser extends Mapper {
 				user_to = ?d
 		";
 		$res=$this->oDb->query($sql,$oFriend->getUserFrom(),$oFriend->getUserTo());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Обновляет информацию о друге
@@ -440,7 +440,7 @@ class ModuleUser_MapperUser extends Mapper {
 				$oFriend->getUserFrom(),
 				$oFriend->getUserTo()
 			);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получить список отношений друзей
@@ -670,7 +670,7 @@ class ModuleUser_MapperUser extends Mapper {
 			WHERE invite_id = ?
 		";
 		$res=$this->oDb->query($sql,$oInvite->getUserToId(), $oInvite->getDateUsed(), $oInvite->getUsed(), $oInvite->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получает число использованых приглашений юзером за определенную дату
@@ -916,7 +916,7 @@ class ModuleUser_MapperUser extends Mapper {
                     name = ?, title = ?, pattern = ?, type = ?
                     WHERE id = ?d';
 		$res=$this->oDb->query($sql, $oField->getName(), $oField->getTitle(), $oField->getPattern(), $oField->getType(), $oField->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Проверяет существует ли поле с таким именем
@@ -955,7 +955,7 @@ class ModuleUser_MapperUser extends Mapper {
 				SELECT id FROM '.Config::Get('db.table.user_field').' WHERE 1=1 { and type IN (?a) }
 			)';
 		$res=$this->oDb->query($sql,$iUserId,(is_null($aType) or !count($aType)) ? DBSIMPLE_SKIP : $aType);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает список заметок пользователя
@@ -1091,7 +1091,7 @@ class ModuleUser_MapperUser extends Mapper {
 	public function DeleteUserNoteById($iId) {
 		$sql = "DELETE FROM ".Config::Get('db.table.user_note')." WHERE id = ?d ";
 		$res=$this->oDb->query($sql,$iId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Добавляет заметку
@@ -1120,7 +1120,7 @@ class ModuleUser_MapperUser extends Mapper {
 		";
 		$res=$this->oDb->query($sql,$oNote->getText(),
 								 $oNote->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Добавляет жалобу
@@ -1164,7 +1164,7 @@ class ModuleUser_MapperUser extends Mapper {
 			WHERE id = ?d
 		";
 		$res=$this->oDb->query($sql,$oChangemail->getDateUsed(),$oChangemail->getConfirmFrom(),$oChangemail->getConfirmTo(),$oChangemail->getId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает объект смены емайла по коду подтверждения

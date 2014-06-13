@@ -118,7 +118,7 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 			$oFavourite->getTargetId(),
 			$oFavourite->getTargetType()
 		);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаляет теги
@@ -142,7 +142,7 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 			$oFavourite->getTargetType(),
 			$oFavourite->getTargetId()
 		);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Добавляет тег
@@ -186,7 +186,7 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 				target_type = ?				
 		";
 		$res=$this->oDb->query($sql,$iPublish,$aTargetId,$sTargetType);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получает список таргетов из избранного
@@ -426,7 +426,7 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 				AND 
 				target_type = ? ";
 		$res=$this->oDb->query($sql,$aTargetId,$sTargetType);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаление тегов по таргету
@@ -444,7 +444,7 @@ class ModuleFavourite_MapperFavourite extends Mapper {
 				target_id IN(?a)
 				";
 		$res=$this->oDb->query($sql,$sTargetType,$aTargetId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Возвращает наиболее часто используемые теги

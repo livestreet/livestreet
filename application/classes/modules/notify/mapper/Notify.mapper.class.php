@@ -94,7 +94,7 @@ class ModuleNotify_MapperNotify extends Mapper {
 				notify_task_id = ?d			
 		";
 		$res=$this->oDb->query($sql,$oNotifyTask->getTaskId());
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Удаляет отложенные Notify-задания по списку идентификаторов
@@ -109,7 +109,7 @@ class ModuleNotify_MapperNotify extends Mapper {
 				notify_task_id IN(?a)			
 		";
 		$res=$this->oDb->query($sql,$aTaskId);
-		return $res===false or is_null($res) ? false : true;
+		return $this->IsSuccessful($res);
 	}
 	/**
 	 * Получает массив заданий на публикацию из базы с указанным количественным ограничением (выборка FIFO)
