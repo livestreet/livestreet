@@ -424,6 +424,16 @@ class ModuleTalk_MapperTalk extends Mapper {
 					{ AND t.talk_text LIKE ? }
 					{ AND u.user_login = ? }
 					{ AND t.user_id = ? }
+					{ AND tu.talk_id IN (
+						SELECT stu.talk_id
+						FROM
+							".Config::Get('db.table.talk_user')." as stu,
+							".Config::Get('db.table.talk')." as st
+						WHERE
+							stu.user_id = ?d
+							AND stu.talk_id = st.talk_id
+							AND st.user_id != stu.user_id
+					) }
 				ORDER BY t.talk_date_last desc, t.talk_date desc
 				LIMIT ?d, ?d	
 					";
@@ -443,6 +453,7 @@ class ModuleTalk_MapperTalk extends Mapper {
 				(!empty($aFilter['text_like']) ? $aFilter['text_like'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['user_login']) ? $aFilter['user_login'] : DBSIMPLE_SKIP),
 				(!empty($aFilter['sender_id']) ? $aFilter['sender_id'] : DBSIMPLE_SKIP),
+				(!empty($aFilter['receiver_user_id']) ? $aFilter['receiver_user_id'] : DBSIMPLE_SKIP),
 				($iCurrPage-1)*$iPerPage,
 				$iPerPage
 			)

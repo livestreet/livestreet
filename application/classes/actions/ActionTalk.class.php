@@ -292,6 +292,12 @@ class ActionTalk extends Action {
 			$aFilter['user_login']=urldecode($sender);
 		}
 		/**
+		 * Отправитель
+		 */
+		if($sReceiver=urldecode(getRequestStr('receiver')) and $oUserReceiver=$this->User_GetUserByLogin($sReceiver)){
+			$aFilter['receiver_user_id']=$oUserReceiver->getId();
+		}
+		/**
 		 * Искать только в избранных письмах
 		 */
 		if (getRequest('favourite')) {

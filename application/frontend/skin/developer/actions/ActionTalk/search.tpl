@@ -12,7 +12,14 @@
 				 sName    = 'sender'
 				 sLabel   = $aLang.messages.search.fields.sender.label
 				 sNote    = $aLang.messages.search.fields.sender.note
-				 sClasses = 'width-full autocomplete-users-sep'}
+				 sInputClasses = 'width-full autocomplete-users'}
+
+		{* Получатель *}
+		{include 'components/field/field.text.tpl'
+				sName    = 'receiver'
+				sLabel   = $aLang.messages.search.fields.receiver.label
+				sNote    = $aLang.messages.search.fields.receiver.note
+				sInputClasses = 'width-full autocomplete-users'}
 
 		{* Искать в заголовке *}
 		{include 'components/field/field.text.tpl'
