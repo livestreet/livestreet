@@ -508,7 +508,7 @@ return array(
 	),
 
 	/**
-	 *
+	 * Пополняемый список пользователей
 	 */
 	'user_list_add' => array(
 		// Форма добавления
@@ -528,6 +528,198 @@ return array(
 			'error_already_added' => 'Пользователь %%login%% уже есть в списке',
 			'error_self' => 'Нельзя добавлять себя',
 		),
+	),
+
+	/**
+	 * Мэйлы
+	 */
+	'emails' => array(
+		'common' => array(
+			'comment_text' => 'Текст комментария'
+		),
+
+		// Приглашение в закрытый блог
+		'blog_invite_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				приглашает вас вступить в блог <a href="%%blog_url%%">%%blog_name%%</a>.
+				<br><br>
+				<a href="%%invite_url%%">Посмотреть приглашение</a>
+				<br>
+				Не забудьте предварительно авторизоваться!',
+		),
+
+		// Оповещение о новом комментарии в топике
+		'comment_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				оставил новый комментарий к топику <b>%%topic_name%%</b>,
+				прочитать его можно перейдя по <a href="%%comment_url%%">этой ссылке</a>
+				<br><br>
+				%%comment_text%%
+				%%unsubscribe%%',
+			'unsubscribe' => '<a href="%%unsubscribe_url%%">Отписаться от новых комментариев к этому топику</a>'
+		),
+
+		// Оповещение об ответе на комментарий
+		'comment_reply' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				ответил на ваш комментарий в топике <b>%%topic_name%%</b>,
+				прочитать его можно перейдя по <a href="%%comment_url%%">этой ссылке</a>
+				<br><br>
+				%%comment_text%%'
+		),
+
+		// Приглашение на сайт
+		'invite' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				пригласил вас зарегистрироваться на сайте <a href="%%website_url%%">%%website_name%%</a>
+				<br><br>
+				Код приглашения:  <b>%%invite_code%%</b>
+				<br><br>
+				Для регистрации вам будет необходимо ввести код приглашения на <a href="%%login_url%%">странице входа</a>'
+		),
+
+		// Повторная активация
+		'reactivation' => array(
+			'text' =>
+				'Вы запросили повторную активацию на сайте <a href="%%website_url%%">%%website_name%%</a>
+				<br><br>
+				Ссылка на активацию аккаунта:
+				<br>
+				<a href="%%activation_url%%">%%activation_url%%</a>'
+		),
+
+		// Регистрация
+		'registration' => array(
+			'text' =>
+				'Вы зарегистрировались на сайте <a href="%%website_url%%">%%website_name%%</a>
+				<br><br>
+				Ваши регистрационные данные:
+				<br><br>
+				Логин: <b>%%user_name%%</b><br>
+				Пароль: <b>%%user_password%%</b>'
+		),
+
+		// Подтверждение регистрации
+		'registration_activate' => array(
+			'text' =>
+				'Вы зарегистрировались на сайте <a href="%%website_url%%">%%website_name%%</a>
+				<br><br>
+				Ваши регистрационные данные:
+				<br><br>
+				Логин: <b>%%user_name%%</b><br>
+				Пароль: <b>%%user_password%%</b>
+				<br><br>
+				Для завершения регистрации вам необходимо активировать аккаунт пройдя по ссылке:<br>
+				<a href="%%activation_url%%">%%activation_url%%</a>'
+		),
+
+		// Смена пароля
+		'reminder_code' => array(
+			'text' =>
+				'Если вы хотите сменить себе пароль на сайте <a href="%%website_url%%">%%website_name%%</a>, то перейдите по ссылке ниже:<br>
+				<a href="%%recover_url%%">%%recover_url%%</a>'
+		),
+
+		// Новый пароль
+		'reminder_password' => array(
+			'text' =>
+				'Вам присвоен новый пароль: <b>%%password%%</b>'
+		),
+
+		// Оповещение о новом сообщении в диалоге
+		'talk_comment_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				оставил новый комментарий к письму <b>%%talk_name%%</b>,
+				прочитать его можно перейдя по <a href="%%message_url%%">этой ссылке</a>
+				<br><br>
+				%%message_text%%
+				<br><br>
+				Не забудьте предварительно авторизоваться!'
+		),
+
+		// Оповещение о новом сообщении
+		'talk_new' => array(
+			'text' =>
+				'Вам пришло новое письмо от пользователя <a href="%%user_url%%">%%user_name%%</a>,
+				прочитать его можно перейдя по <a href="%%talk_url%%">этой ссылке</a>
+				<br><br>
+				Тема письма: <b>%%talk_name%%</b><br>
+				%%talk_text%%
+				<br><br>
+				Не забудьте предварительно авторизоваться!'
+		),
+
+		// Оповещение о новом топике
+		'topic_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				опубликовал в блоге <b>%%blog_name%%</b>,
+				новый топик &mdash; <a href="%%topic_url%%">%%topic_name%%</a>'
+		),
+
+		// Смена почты
+		'user_changemail' => array(
+			'text' =>
+				'Вами отправлен запрос на смену e-mail адреса пользователя <a href="%%user_url%%">%%user_name%%</a>
+				на сайте <a href="%%website_url%%">%%website_name%%</a>.
+				<br><br>
+				Старый e-mail: <b>%%mail_old%%</b><br>
+				Новый e-mail: <b>%%mail_new%%</b>
+				<br><br>
+				Для подтверждения смены емайла пройдите по ссылке:<br>
+				<a href="%%change_url%%">%%change_url%%</a>'
+		),
+
+		// Жалоба
+		'user_complaint' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				пожаловался на пользователя <a href="%%user_target_url%%">%%user_target_url%%</a>.
+				<br><br>
+				<b>Причина:</b> %%complaint_title%%<br>
+				%%complaint_text%%',
+			'more' => 'Подробнее'
+		),
+
+		// Заявка в друзья
+		'user_friend_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				<br><br>
+				<em>%%text%%</em>
+				<br><br>
+				<a href="%%url%%">Посмотреть заявку</a>
+				<br><br>
+				Не забудьте предварительно авторизоваться!'
+		),
+
+		// Новое сообщение на стене
+		'wall_new' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				оставил сообщение на <a href="%%wall_url%%">вашей стене</a>
+				<br><br>
+				Текст сообщения:<br>
+				%%message_text%%'
+		),
+
+		// Ответ на сообщение на стене
+		'wall_reply' => array(
+			'text' =>
+				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
+				ответил на ваше сообщение на <a href="%%wall_url%%">стене</a>
+				<br><br>
+				<b>Ваше сообщение:</b><br>
+				<em>%%message_parent_text%%</em>
+				<br><br>
+				Текст ответа:<br>
+				<em>%%message_text%%</em>'
+		)
 	),
 
 	/**

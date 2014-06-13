@@ -549,21 +549,9 @@ class ModuleNotify extends Module {
 				? strtolower($aMatches[1])
 				: strtolower($sPluginName);
 
-			$sLangDir=Plugin::GetTemplatePath($sPluginName).$this->sDir.'/'.$this->Lang_GetLang();
-			if(is_dir($sLangDir)) {
-				return $sLangDir.'/'.$sName;
-			}
-			return Plugin::GetTemplatePath($sPluginName).$this->sDir.'/'.$this->Lang_GetLangDefault().'/'.$sName;
+			return Plugin::GetTemplatePath($sPluginName).$this->sDir.'/'.$sName;
 		} else {
-			$sLangDir = $this->sDir.'/'.$this->Lang_GetLang();
-			/**
-			 * Если директория с сообщениями на текущем языке отсутствует,
-			 * используем язык по умолчанию
-			 */
-			if(is_dir(rtrim(Config::Get('path.smarty.template'),'/').'/'.$sLangDir)) {
-				return $sLangDir.'/'.$sName;
-			}
-			return $this->sDir.'/'.$this->Lang_GetLangDefault().'/'.$sName;
+			return $this->sDir.'/'.$sName;
 		}
 	}
 }
