@@ -9,10 +9,7 @@
 {/block}
 
 {block 'layout_content'}
-	{if $aTalks}
-		{include './search.tpl'}
-	{/if}
-
+	{include './talk-search-form.tpl'}
 	{include './talk-list.tpl' bMessageListCheckboxes=true}
 	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 {/block}
