@@ -1,6 +1,7 @@
 {**
  * Поиск по личным сообщениям
  *}
+
 <div class="accordion">
 	<h3 class="accordion-header" onclick="jQuery('#block_talk_search_content').toggle(); return false;">
 		<span class="link-dotted">{$aLang.messages.search.title}</span>
@@ -48,9 +49,10 @@
 
 		{* Кнопки *}
 		{include 'components/button/button.tpl'
-		 		 sName    = 'submit_talk_filter'
-		 		 sMods   = 'primary'
-		 		 sText    = $aLang.search.find}
+				sName  = 'submit_talk_filter'
+				sValue = '1'
+				sMods  = 'primary'
+				sText  = $aLang.search.find}
 
 		{include 'components/button/button.tpl' sType='reset' sText=$aLang.common.form_reset}
 	</form>
