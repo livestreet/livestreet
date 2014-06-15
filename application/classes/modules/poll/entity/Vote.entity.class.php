@@ -30,13 +30,16 @@ class ModulePoll_EntityVote extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateCreate(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 	protected function afterSave() {
+		parent::afterSave();
 		if ($this->_isNew()) {
 			/**
 			 * Отмечаем факт голосования в опросе и вариантах

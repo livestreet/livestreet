@@ -36,7 +36,7 @@ class BlockTagsFavouriteTopic extends Block {
 			/**
 			 * Получаем список тегов
 			 */
-			$aTags=$this->oEngine->Favourite_GetGroupTags($oUser->getId(),'topic',null,70);
+			$aTags=$this->Favourite_GetGroupTags($oUser->getId(),'topic',null,70);
 			/**
 			 * Расчитываем логарифмическое облако тегов
 			 */
@@ -48,7 +48,7 @@ class BlockTagsFavouriteTopic extends Block {
 			/**
 			 * Получаем список тегов пользователя
 			 */
-			$aTags=$this->oEngine->Favourite_GetGroupTags($oUser->getId(),'topic',true,70);
+			$aTags=$this->Favourite_GetGroupTags($oUser->getId(),'topic',true,70);
 			/**
 			 * Расчитываем логарифмическое облако тегов
 			 */

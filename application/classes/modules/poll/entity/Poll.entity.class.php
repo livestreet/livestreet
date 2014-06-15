@@ -36,13 +36,16 @@ class ModulePoll_EntityPoll extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateCreate(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 	protected function afterSave() {
+		parent::afterSave();
 		/**
 		 * Сохраняем варианты
 		 */
@@ -63,6 +66,7 @@ class ModulePoll_EntityPoll extends EntityORM {
 	}
 
 	protected function afterDelete() {
+		parent::afterDelete();
 		/**
 		 * Удаляем варианты ответов
 		 */

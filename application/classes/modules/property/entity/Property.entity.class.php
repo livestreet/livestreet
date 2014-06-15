@@ -94,21 +94,23 @@ class ModuleProperty_EntityProperty extends EntityORM {
 	 * @return bool
 	 */
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateCreate(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
 
-			$oValue=Engine::GetEntity('ModuleProperty_EntityValue',array('property_type'=>$this->getType(),'property_id'=>$this->getId(),'target_type'=>$this->getTargetType(),'target_id'=>$this->getId()));
-			$oValueType=$oValue->getValueTypeObject();
-			/**
-			 * Выставляем дефолтные значения параметров
-			 */
-			$this->setParams($oValueType->getParamsDefault());
-			/**
-			 * Выставляем дефолтные значения параметров валидации
-			 */
-			$this->setValidateRules($oValueType->getValidateRulesDefault());
+				$oValue=Engine::GetEntity('ModuleProperty_EntityValue',array('property_type'=>$this->getType(),'property_id'=>$this->getId(),'target_type'=>$this->getTargetType(),'target_id'=>$this->getId()));
+				$oValueType=$oValue->getValueTypeObject();
+				/**
+				 * Выставляем дефолтные значения параметров
+				 */
+				$this->setParams($oValueType->getParamsDefault());
+				/**
+				 * Выставляем дефолтные значения параметров валидации
+				 */
+				$this->setValidateRules($oValueType->getValidateRulesDefault());
+			}
 		}
-		return true;
+		return $bResult;
 	}
 	/**
 	 * Выполняется перед удалением сущности
@@ -116,23 +118,25 @@ class ModuleProperty_EntityProperty extends EntityORM {
 	 * @return bool
 	 */
 	protected function beforeDelete() {
-		/**
-		 * Сначала удаляем стандартные значения
-		 */
-		$this->Property_RemoveValueByPropertyId($this->getId());
-		/**
-		 * Удаляем значения тегов
-		 */
-		$this->Property_RemoveValueTagByPropertyId($this->getId());
-		/**
-		 * Удаляем значения селектов
-		 */
-		$this->Property_RemoveValueSelectByPropertyId($this->getId());
-		/**
-		 * Удаляем сами варианты селектов
-		 */
-		$this->Property_RemoveSelectByPropertyId($this->getId());
-		return true;
+		if ($bResult=parent::beforeDelete()) {
+			/**
+			 * Сначала удаляем стандартные значения
+			 */
+			$this->Property_RemoveValueByPropertyId($this->getId());
+			/**
+			 * Удаляем значения тегов
+			 */
+			$this->Property_RemoveValueTagByPropertyId($this->getId());
+			/**
+			 * Удаляем значения селектов
+			 */
+			$this->Property_RemoveValueSelectByPropertyId($this->getId());
+			/**
+			 * Удаляем сами варианты селектов
+			 */
+			$this->Property_RemoveSelectByPropertyId($this->getId());
+		}
+		return $bResult;
 	}
 	/**
 	 * Возвращает правила валидации поля

@@ -31,10 +31,12 @@ class ModulePoll_EntityAnswer extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateCreate(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 	public function ValidateCheckTitle() {

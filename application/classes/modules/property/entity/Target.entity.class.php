@@ -30,12 +30,14 @@ class ModuleProperty_EntityTarget extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateCreate(date("Y-m-d H:i:s"));
-		} else {
-			$this->setDateUpdate(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			} else {
+				$this->setDateUpdate(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 	/**

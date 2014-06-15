@@ -30,10 +30,12 @@ class ModuleMedia_EntityTarget extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateAdd(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateAdd(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 

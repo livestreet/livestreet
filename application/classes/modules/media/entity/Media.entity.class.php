@@ -30,25 +30,29 @@ class ModuleMedia_EntityMedia extends EntityORM {
 	);
 
 	protected function beforeSave() {
-		if ($this->_isNew()) {
-			$this->setDateAdd(date("Y-m-d H:i:s"));
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateAdd(date("Y-m-d H:i:s"));
+			}
 		}
-		return true;
+		return $bResult;
 	}
 
 	protected function beforeDelete() {
-		/**
-		 * Удаляем все связи
-		 */
-		$aTargets=$this->getTargets();
-		foreach($aTargets as $oTarget) {
-			$oTarget->Delete();
+		if ($bResult=parent::beforeDelete()) {
+			/**
+			 * Удаляем все связи
+			 */
+			$aTargets=$this->getTargets();
+			foreach($aTargets as $oTarget) {
+				$oTarget->Delete();
+			}
+			/**
+			 * Удаляем все файлы медиа
+			 */
+			$this->Media_DeleteFiles($this);
 		}
-		/**
-		 * Удаляем все файлы медиа
-		 */
-		$this->Media_DeleteFiles($this);
-		return true;
+		return $bResult;
 	}
 
 	/**
