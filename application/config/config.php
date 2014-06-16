@@ -472,6 +472,7 @@ $config['head']['default']['js'] = array(
 	"___path.framework.frontend.web___/js/vendor/jquery.cookie.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.serializejson.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.file.js",
+	"___path.framework.frontend.web___/js/vendor/jquery.hotkeys.js",
 	"___path.framework.frontend.web___/js/vendor/jcrop/jquery.Jcrop.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.placeholder.min.js",
 	"___path.framework.frontend.web___/js/vendor/jquery.charcount.js",

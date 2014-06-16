@@ -17,9 +17,11 @@
 		 */
 		options: {
 			keys: {
-				additional: 'ctrl',
-				next: 39,
-				prev: 37
+				// Комбинация клавиш для перехода на следующую страницу
+				next: 'ctrl+right',
+
+				// Комбинация клавиш для перехода на предыдущую страницу
+				prev: 'ctrl+left'
 			},
 
 			// Селекторы
@@ -42,24 +44,13 @@
 		 * @private
 		 */
 		_create: function () {
+			this.document = $(document);
+
 			this.next = this.element.find(this.options.selectors.next);
 			this.prev = this.element.find(this.options.selectors.prev);
 
-			// Обработка нажатий клавиш
-			$(document).on('keyup', function (e) {
-				var key = e.keyCode || e.which;
-
-				if (this.options.keys.additional ? e[this.options.keys.additional + 'Key'] : true) {
-					switch (key) {
-						case this.options.keys.prev:
-							this.goPrev();
-							break;
-						case this.options.keys.next:
-							this.goNext();
-							break;
-					}
-				}
-			}.bind(this));
+			this.document.bind('keydown', this.options.keys.next, this.goNext.bind(this));
+			this.document.bind('keydown', this.options.keys.prev, this.goPrev.bind(this));
 		},
 
 		/**
