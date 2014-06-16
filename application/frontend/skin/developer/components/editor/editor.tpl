@@ -39,12 +39,22 @@
 {* Визуальный редактор *}
 {if Config::Get('view.wysiwyg')}
 	{hookb run='editor_visual'}
+		{asset type='js' name='editor_visual' file="{Config::Get('path.framework.frontend.web')}/js/vendor/tinymce/tiny_mce.js"}
+		{asset type='js' name='editor_visual_options' file="{Config::Get('path.application.web')}/frontend/common/js/editor.visual.js"}
+
 		{editor_textarea}
 	{/hookb}
 
 {* Markup редактор *}
 {else}
 	{hookb run='editor_markup'}
+		{asset type='js' name='editor_markup' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/jquery.markitup.js"}
+		{asset type='js' name='editor_markup_options' file="{Config::Get('path.application.web')}/frontend/common/js/editor.markup.js"}
+
+		{asset type='css' name='editor_markup' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/skins/synio/style.css"}
+		{asset type='css' name='editor_markup_set' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/sets/synio/style.css"}
+		{asset type='css' name='editor_markup_component' file="{Config::Get('path.skin.assets.web')}/css/components/editor.css"}
+
 		{editor_textarea}
 
 		{if $smarty.local.bShowHelp|default:true}

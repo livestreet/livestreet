@@ -81,24 +81,6 @@ if ( Config::Get('view.rtl') ) {
 	$aCss[] = "___path.skin.assets.web___/css/components/vote-rtl.css";
 }
 
-// Подключение редакторов
-if ( Config::Get('view.wysiwyg') ) {
-	$config['head']['default']['js'] = array_merge($config['head']['default']['js'], array(
-		"___path.framework.frontend.web___/js/vendor/tinymce/tiny_mce.js",
-	"___path.application.web___/frontend/common/js/editor.visual.js"
-	));
-} else {
-	$config['head']['default']['js'] = array_merge($config['head']['default']['js'], array(
-		"___path.framework.frontend.web___/js/vendor/markitup/jquery.markitup.js",
-		"___path.application.web___/frontend/common/js/editor.markup.js"
-	));
-	$aCss = array_merge($aCss, array(
-		"___path.framework.frontend.web___/js/vendor/markitup/skins/synio/style.css",
-		"___path.framework.frontend.web___/js/vendor/markitup/sets/synio/style.css",
-		"___path.skin.assets.web___/css/components/editor.css"
-	));
-}
-
 // Подключение фронтенд фреймворка
 $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), $aCss);
 
