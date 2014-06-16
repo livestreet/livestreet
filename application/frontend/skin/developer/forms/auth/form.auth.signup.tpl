@@ -23,11 +23,11 @@
 
 	{* Пароль *}
     {include file='components/field/field.text.tpl'
-             sName    = 'password'
-             sType    = 'password'
-             aRules   = [ 'required' => true, 'rangelength' => '[2,20]' ]
-             sLabel   = $aLang.registration_password
-             sClasses = 'js-input-password-reg'}
+             sName         = 'password'
+             sType         = 'password'
+             aRules        = [ 'required' => true, 'rangelength' => '[2,20]' ]
+             sLabel        = $aLang.registration_password
+             sInputClasses = 'js-input-password-reg'}
 
 	{* Повторите пароль *}
     {include file='components/field/field.text.tpl'
