@@ -44,27 +44,47 @@
 		 * @private
 		 */
 		_create: function () {
-			this.document = $(document);
+			this.elements = {
+				document: $(document),
+				next: this.element.find(this.options.selectors.next),
+				prev: this.element.find(this.options.selectors.prev)
+			};
 
-			this.next = this.element.find(this.options.selectors.next);
-			this.prev = this.element.find(this.options.selectors.prev);
+			this.elements.document.bind( 'keydown', this.options.keys.next, this.next.bind(this, false) );
+			this.elements.document.bind( 'keydown', this.options.keys.prev, this.prev.bind(this, false) );
+		},
 
-			this.document.bind('keydown', this.options.keys.next, this.goNext.bind(this));
-			this.document.bind('keydown', this.options.keys.prev, this.goPrev.bind(this));
+		/**
+		 * Переход на страницу
+		 *
+		 * @param {String} name Название функции
+		 */
+		_go: function ( name ) {
+			return function( useHash ) {
+				if ( this.elements[ name ].length ) {
+					window.location = this.elements[ name ].attr('href') + ( this.options.hash[ name ] && useHash ? '#' + this.options.hash[ name ] : '' );
+				} else {
+					ls.msg.error( null, name == 'next' ? ls.lang.get('pagination.notices.last') : ls.lang.get('pagination.notices.first') );
+				}
+			}
 		},
 
 		/**
 		 * Переход на следующую страницу
+		 *
+		 * @param {Boolean} useHash Добавлять параметр gotopic в хэш или нет
 		 */
-		goNext: function () {
-			if ( this.next.length ) window.location = this.next.attr('href') + ( this.options.hash.next ? '#' + this.options.hash.next : '' );
+		next: function ( useHash ) {
+			return this._go( 'next' ).apply(this, arguments);
 		},
 
 		/**
 		 * Переход на предыдущую страницу
+		 *
+		 * @param {Boolean} useHash Добавлять параметр gotopic в хэш или нет
 		 */
-		goPrev: function () {
-			if ( this.prev.length ) window.location = this.prev.attr('href') + ( this.options.hash.prev ? '#' + this.options.hash.prev : '' );
+		prev: function ( useHash ) {
+			return this._go( 'prev' ).apply(this, arguments);
 		}
 	});
 })(jQuery);
