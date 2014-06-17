@@ -187,9 +187,9 @@ class ModuleProperty extends ModuleORM {
 	 * @param Entity $oTarget
 	 */
 	public function RemovePropertiesValue($oTarget) {
-		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$oTarget->getPropertyTargetType()));
+		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$oTarget->property->getPropertyTargetType()));
 		if ($aProperties) {
-			$this->AttachValueForProperties($aProperties,$oTarget->getPropertyTargetType(),$oTarget->getId());
+			$this->AttachValueForProperties($aProperties,$oTarget->property->getPropertyTargetType(),$oTarget->getId());
 			foreach($aProperties as $oProperty) {
 				$oValue=$oProperty->getValue();
 				if ($oValue and $oValue->getId()) {
@@ -223,8 +223,8 @@ class ModuleProperty extends ModuleORM {
 		/**
 		 * Получаем весь список свойств у объекта
 		 */
-		$aPropertiesObject=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$oTarget->getPropertyTargetType()));
-		$this->Property_AttachValueForProperties($aPropertiesObject,$oTarget->getPropertyTargetType(),$oTarget->getId());
+		$aPropertiesObject=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$oTarget->property->getPropertyTargetType()));
+		$this->Property_AttachValueForProperties($aPropertiesObject,$oTarget->property->getPropertyTargetType(),$oTarget->getId());
 		foreach($aPropertiesObject as $oProperty) {
 			$oValue=$oProperty->getValue();
 			$sValue=isset($aPropertiesValue[$oProperty->getId()]) ? $aPropertiesValue[$oProperty->getId()] : null;
@@ -279,7 +279,7 @@ class ModuleProperty extends ModuleORM {
 	 * @return array
 	 */
 	public function GetEntityPropertyList($oTarget) {
-		$sTargetType=$oTarget->getPropertyTargetType();
+		$sTargetType=$oTarget->property->getPropertyTargetType();
 		/**
 		 * Проверяем зарегистрирован ли такой тип
 		 */
@@ -287,7 +287,7 @@ class ModuleProperty extends ModuleORM {
 			return array();
 		}
 		if (!$oTarget->getPropertyIsLoadAll()) {
-			$aProperties=$this->oMapper->GetPropertiesValueByTarget($oTarget->getPropertyTargetType(),$oTarget->getId());
+			$aProperties=$this->oMapper->GetPropertiesValueByTarget($oTarget->property->getPropertyTargetType(),$oTarget->getId());
 			$this->AttachPropertiesForTarget($oTarget,$aProperties);
 		}
 		return $oTarget->_getDataOne('property_list');
@@ -320,7 +320,7 @@ class ModuleProperty extends ModuleORM {
 			/**
 			 * Загружаем все свойства
 			 */
-			$aProperties=$this->oMapper->GetPropertiesValueByTarget($oTarget->getPropertyTargetType(),$oTarget->getId());
+			$aProperties=$this->oMapper->GetPropertiesValueByTarget($oTarget->property->getPropertyTargetType(),$oTarget->getId());
 			$this->AttachPropertiesForTarget($oTarget,$aProperties);
 		}
 
@@ -332,7 +332,7 @@ class ModuleProperty extends ModuleORM {
 				return null;
 			}
 		}
-		$aProperties=$oTarget->getPropertyList();
+		$aProperties=$oTarget->property->getPropertyList();
 		if (isset($aProperties[$sPropertyId])) {
 			return $aProperties[$sPropertyId];
 		}
@@ -371,7 +371,7 @@ class ModuleProperty extends ModuleORM {
 			return;
 		}
 		$oEntityFirst=reset($aEntitiesWork);
-		$sTargetType=$oEntityFirst->getPropertyTargetType();
+		$sTargetType=$oEntityFirst->property->getPropertyTargetType();
 		/**
 		 * Проверяем зарегистрирован ли такой тип
 		 */
@@ -486,7 +486,7 @@ class ModuleProperty extends ModuleORM {
 		 * Получаем данные по полям
 		 */
 		if ($aPropFields) {
-			$sTargetType=$oEntitySample->getPropertyTargetType();
+			$sTargetType=$oEntitySample->property->getPropertyTargetType();
 			$aProperties=$this->Property_GetPropertyItemsByFilter(array('code in'=>array_keys($aPropFields),'target_type'=>$sTargetType));
 			$iPropNum=0;
 			foreach($aProperties as $oProperty) {

@@ -28,7 +28,17 @@ class ModuleTopic_EntityTopic extends Entity {
 	 * @var array
 	 */
 	protected $aExtra=null;
-
+	/**
+	 * Список поведений
+	 *
+	 * @var array
+	 */
+	protected $aBehaviors=array(
+		/**
+		 * Дополнительные поля
+		 */
+		'property'=>'ModuleProperty_BehaviorPropertyEntity',
+	);
 	/**
 	 * Определяем правила валидации
 	 */
@@ -475,6 +485,8 @@ class ModuleTopic_EntityTopic extends Entity {
 	/**
 	 * Возвращает тип объекта для дополнительных полей
 	 * Метод необходим для интеграции с дополнительными полями (модуль Property)
+	 * Данный метод автоматически добавляется поведением 'property' ( $this->property->getPropertyTargetType() ),
+	 * который возвращает тип из параметра. Но т.к. у нас тип является вычисляемым (зависит от $this->getType() ), то необходимо явно объявить данный метод
 	 *
 	 * @return string
 	 */

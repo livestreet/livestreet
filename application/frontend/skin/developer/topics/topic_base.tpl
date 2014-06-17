@@ -38,7 +38,7 @@
 	{* Дополнительные поля *}
 	{block name='topic_content_properties'}
 		{if ! $bTopicList}
-			{$aProperties = $oTopic->getPropertyList()}
+			{$aProperties = $oTopic->property->getPropertyList()}
 			{$aInfoList = []}
 
 			{foreach $aProperties as $oProperty}
