@@ -64,7 +64,7 @@
 
 
 {* Теги *}
-{block 'entry_footer' prepend}
+{block 'entry_footer'}
 	{if ! $bTopicList and $oTopicType->getParam('allow_tags')}
 		{include 'components/tags/tag_list.tpl'
 				 aTags = $oTopic->getTagsArray()
@@ -73,6 +73,17 @@
 				 sTagsFavouriteType = 'topic'
 				 iTagsFavouriteId = $oTopic->getId()}
 	{/if}
+
+	{$smarty.block.parent}
+
+	{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
+	<div class="tooltip" id="topic_share_{$oTopic->getId()}">
+		<div class="tooltip-content js-tooltip-content">
+			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
+				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+			{/hookb}
+		</div>
+	</div>
 {/block}
 
 
@@ -97,16 +108,4 @@
 			<a href="#" class="icon-share js-popover-default" title="{$aLang.topic_share}" data-tooltip-target="#topic_share_{$oTopic->getId()}"></a>
 		</li>
 	{/if}
-{/block}
-
-
-{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
-{block 'entry' append}
-	<div class="tooltip" id="topic_share_{$oTopic->getId()}">
-		<div class="tooltip-content js-tooltip-content">
-			{hookb run="topic_share" topic=$oTopic bTopicList=$bTopicList}
-				<div class="yashare-auto-init" data-yashareTitle="{$oTopic->getTitle()|escape}" data-yashareLink="{$oTopic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-			{/hookb}
-		</div>
-	</div>
 {/block}
