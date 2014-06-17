@@ -10,9 +10,9 @@
 {$_sComponentName = 'toolbar'}
 
 {function toolbar_item_icon}
-	<a href="{$sUrl|default:'#'}" class="toolbar-item-link {$sClasses}" {$sAttributes}>
+	<{if $sUrl}a href="{$sUrl}"{else}div{/if} class="toolbar-item-button {$sClasses}" {$sAttributes}>
 		<i class="{$sIcon}"></i>
-	</a>
+	</{if $sUrl}a{else}div{/if}>
 {/function}
 
 <aside class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses} js-toolbar" {$smarty.local.sAttributes}>

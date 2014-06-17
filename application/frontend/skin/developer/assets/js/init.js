@@ -147,11 +147,9 @@ jQuery(document).ready(function($){
 		target: '.grid-role-wrapper',
 		offsetX: 20
 	});
-
-	ls.toolbar.topic.init(); // Тул-бар топиков
-	ls.toolbar.up.init();    // Кнопка "UP"
-
+	$('.js-toolbar-scrollup').lsToolbarScrollUp();
 	$('.js-toolbar-comments').lsToolbarComments();
+	$('.js-toolbar-topics').lsToolbarTopics();
 
 
 	/**
@@ -245,7 +243,7 @@ jQuery(document).ready(function($){
 	 */
 	$('.js-pagination-topics').lsPagination({
 		hash: {
-			next: 'goTopic=0',
+			next: 'goTopic=first',
 			prev: 'goTopic=last'
 		}
 	});
