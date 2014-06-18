@@ -110,5 +110,7 @@
 	{block name='layout_body'}{/block}
 
 	{$sLayoutAfter}
+
+	{hook run='body_end'}
 </body>
 </html>

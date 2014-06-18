@@ -5,7 +5,7 @@
  *}
 
 {if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
-	<div class="alert alert-info stat-performance">
+	<div class="alert alert--info stat-performance">
 		{hook run='statistics_performance_begin'}
 
 		<table>
