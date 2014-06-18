@@ -29,18 +29,15 @@
 		_create: function () {
 			this.window = $(window);
 
-			this.window.scroll( this.onScroll.bind(this) );
+			this._on( { 'click': this.up } );
+			this._on( this.window, { 'scroll': this.check } );
 		},
 
 		/**
-		 * Scroll up
+		 * Показывает/скрывает кнопку прокрутки в зависимости от значения scrollTop
 		 */
-		onScroll: function() {
-			if ( this.window.scrollTop() > this.window.height() / 2 ) {
-				this.element.fadeIn(500);
-			} else {
-				this.element.fadeOut(500);
-			}
+		check: function() {
+			this.element[ this.window.scrollTop() > this.window.height() / 2 ? 'fadeIn' : 'fadeOut' ](500);
 		},
 
 		/**

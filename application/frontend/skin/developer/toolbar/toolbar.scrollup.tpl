@@ -15,5 +15,5 @@
 {/block}
 
 {block 'toolbar_item'}
-	{toolbar_item_icon sAttributes='onclick="return ls.toolbar.up.goUp();"' sTitle="{$aLang.toolbar_scrollup_go}" sIcon="icon-chevron-up"}
+	{toolbar_item_icon sTitle="{$aLang.toolbar_scrollup_go}" sIcon="icon-chevron-up"}
 {/block}
