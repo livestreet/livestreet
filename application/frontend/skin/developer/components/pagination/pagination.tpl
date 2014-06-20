@@ -44,9 +44,9 @@
 		<ul class="{$_sComponentName}-list">
 			{* Следущая страница *}
 			{if $_aPaging.iPrevPage}
-				{item sUrl="{$_aPaging.sBaseUrl}{if $_aPaging.iPrevPage > 1}/page{$_aPaging.iPrevPage}{/if}/{$_aPaging.sGetParams}" sText="&larr; {$aLang.pagination.previos}" sLinkClasses="js-{$_sComponentName}-prev"}
+				{item sUrl="{$_aPaging.sBaseUrl}{if $_aPaging.iPrevPage > 1}/page{$_aPaging.iPrevPage}{/if}/{$_aPaging.sGetParams}" sText="&larr; {$aLang.pagination.previous}" sLinkClasses="js-{$_sComponentName}-prev"}
 			{else}
-				{item sText="&larr; {$aLang.pagination.previos}"}
+				{item sText="&larr; {$aLang.pagination.previous}"}
 			{/if}
 
 			{* Предыдущая страница *}
