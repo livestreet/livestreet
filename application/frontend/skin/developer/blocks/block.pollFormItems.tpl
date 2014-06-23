@@ -1,1 +1,1 @@
-{include 'polls/poll.form.list.tpl'}
+{include 'components/poll/poll.manage.list.tpl'}

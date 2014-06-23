@@ -167,7 +167,8 @@ jQuery(document).ready(function($){
 	/**
 	 * Poll
 	 */
-	ls.poll.init();
+	$('.js-poll').lsPoll();
+	$('.js-poll-manage').lsPollManage();
 
 
 	/**

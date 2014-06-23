@@ -2,7 +2,7 @@
  * Опросы
  *
  * @template polls/*.tpl
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -10,9 +10,9 @@
 
 .poll { margin-bottom: 15px; background: #fafafa; padding: 15px; }
 
-.poll-title { font-size: 20px; margin-bottom: 10px; }
+.poll-title { font-size: 20px; margin-bottom: 20px; }
 
-.poll-answer-list            { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.poll-answer-list { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
 
 .poll-answer-list-item            { margin-bottom: 10px; }
 .poll-answer-list-item:last-child { margin-bottom: 0; }
@@ -32,18 +32,29 @@
 .poll-result-item-chart        { padding-left: 65px; }
 .poll-result-item-bar          { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
 
-.poll-result-item-most .poll-result-item-bar { background: #AC90DF; }
+.poll-result-item--most .poll-result-item-bar { background: #AC90DF; }
 
 .poll-result-total { color: #aaa; margin-left: 10px; }
 
 
 /**
- * Создание опроса
+ * Управление опросами
+ *
+ * @template polls/poll.form.tpl
+ */
+.poll-manage .fieldset-body  { padding-bottom: 0; }
+.poll-manage-add             { margin-bottom: 15px; }
+.poll-manage-list            { overflow: hidden; }
+.poll-manage-item            { padding: 10px 70px 10px 15px; background: #fff; margin-bottom: 1px; position: relative; }
+.poll-manage-item:last-child { margin-bottom: 15px; }
+
+
+/**
+ * Форма добавления
  *
  * @template polls/poll.form.tpl
  */
 .poll-form-answer-item            { margin-bottom: 10px; padding-right: 25px; position: relative; }
+.poll-form-answer-item .field,
 .poll-form-answer-item:last-child { margin-bottom: 0; }
 .poll-form-answer-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }
-
-.poll-form-list-item { padding: 10px 70px 10px 15px; background: #fff; margin-bottom: 1px; position: relative; }

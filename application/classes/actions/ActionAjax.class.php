@@ -221,7 +221,7 @@ class ActionAjax extends Action {
 		if ($oVote->Add()) {
 			$oViewer=$this->Viewer_GetLocalViewer();
 			$oViewer->Assign('oPoll',$oPoll);
-			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("polls/poll.result.tpl"));
+			$this->Viewer_AssignAjax('sText',$oViewer->Fetch("components/poll/poll.result.tpl"));
 		} else {
 			return $this->EventErrorDebug();
 		}
@@ -245,7 +245,7 @@ class ActionAjax extends Action {
 			if ($oPoll->Add()) {
 				$oViewer=$this->Viewer_GetLocalViewer();
 				$oViewer->Assign('oPoll',$oPoll);
-				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("polls/poll.form.list.item.tpl"));
+				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("components/poll/poll.manage.item.tpl"));
 				return true;
 			} else {
 				$this->Message_AddError($this->Lang_Get('common.error.save'),$this->Lang_Get('error'));
@@ -288,7 +288,7 @@ class ActionAjax extends Action {
 			if ($oPoll->Update()) {
 				$oViewer=$this->Viewer_GetLocalViewer();
 				$oViewer->Assign('oPoll',$oPoll);
-				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("polls/poll.form.list.item.tpl"));
+				$this->Viewer_AssignAjax('sPollItem',$oViewer->Fetch("components/poll/poll.manage.item.tpl"));
 				$this->Viewer_AssignAjax('iPollId',$oPoll->getId());
 				return true;
 			} else {

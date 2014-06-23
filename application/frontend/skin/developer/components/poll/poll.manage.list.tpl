@@ -5,10 +5,10 @@
  * @scripts <common>/js/poll.js
  *}
 
-<ul class="poll-form-list js-poll-form-list">
+<ul class="poll-manage-list js-poll-manage-list">
 	{if $aPollItems}
 		{foreach $aPollItems as $oPoll}
-			{include 'polls/poll.form.list.item.tpl' oPoll=$oPoll}
+			{include './poll.manage.item.tpl' oPoll=$oPoll}
 		{/foreach}
 	{/if}
 </ul>

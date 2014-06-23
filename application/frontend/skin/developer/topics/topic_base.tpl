@@ -57,7 +57,7 @@
 	{* Опросы *}
 	{block name='topic_content_polls'}
 		{if ! $bTopicList}
-			{include file='polls/poll.list.tpl' aPollItems=$oTopic->getPolls()}
+			{include file='components/poll/poll.list.tpl' polls=$oTopic->getPolls()}
 		{/if}
 	{/block}
 {/block}

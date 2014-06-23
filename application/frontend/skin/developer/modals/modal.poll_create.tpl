@@ -17,7 +17,7 @@
 {/block}
 
 {block name='modal_content'}
-	{include 'polls/poll.form.tpl'}
+	{include 'components/poll/poll.form.tpl'}
 {/block}
 
 {block name='modal_footer_begin'}
@@ -25,5 +25,5 @@
 			 sForm    = '#js-poll-form'
 			 sText    =  ($oPoll) ? $aLang.common.save : $aLang.common.add
 			 sClasses = 'js-poll-form-submit'
-			 sMods   = 'primary'}
+			 sMods    = 'primary'}
 {/block}

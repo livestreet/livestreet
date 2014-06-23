@@ -106,7 +106,7 @@
 
 		{* Вставка опросов *}
 		{if $oTopicType->getParam('allow_poll')}
-			{include file='polls/poll.form.inject.tpl'
+			{include file='components/poll/poll.manage.tpl'
 				sTargetType  = 'topic'
 				sTargetId = ($oTopicEdit) ? $oTopicEdit->getId() : ''}
 		{/if}
