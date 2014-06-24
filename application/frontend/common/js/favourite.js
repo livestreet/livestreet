@@ -49,17 +49,13 @@
 		_create: function () {
 			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.element, 'param'));
 
-			this.elements = {};
-			this.elements.toggle = this.element.find(this.options.selectors.toggle);
-			this.elements.count = this.element.find(this.options.selectors.count);
+			this.elements = {
+				toggle: this.element.find( this.options.selectors.toggle ),
+				count: this.element.find( this.options.selectors.count )
+			};
 
 			// Обработка кликов по кнопкам голосования
-			this._on({
-				'click': function (e) {
-					this.toggle();
-					e.preventDefault();
-				}
-			});
+			this._on({ 'click': this.toggle });
 		},
 
 		/**

@@ -64,13 +64,13 @@
 			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.elements.container, 'param'));
 
 			// Ивент удаления
-			this.elements.list.on('click', this.options.selectors.item_remove, function (e) {
+			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_remove, function (e) {
 				_this.remove( $(this).data('user-id') );
 				e.preventDefault();
 			});
 
 			// Ивент добавления
-			this.elements.form.on('submit', function (e) {
+			this.elements.form.on('submit' + this.eventNamespace, function (e) {
 				var aItemList = _this.getItems();
 
 				if ( aItemList.length ) {
@@ -119,7 +119,7 @@
 		},
 
 		/**
-		 * 
+		 * Коллбэк вызываемый при добавлении объекта
 		 */
 		_onAdd: function (oResponse) {
 			var aUsers = this._getUsersAll();

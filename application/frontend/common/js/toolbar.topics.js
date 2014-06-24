@@ -45,7 +45,11 @@
 			},
 
 			// Продолжительность прокрутки, мс
-			duration: 500
+			duration: 500,
+
+			// Параметр в хэше урл указывающий к какому объекту прокручивать
+			// после загрузки страницы (first или last)
+			param: 'gotopic'
 		},
 
 		/**
@@ -57,7 +61,6 @@
 		_create: function () {
 			// Элементы
 			this.elements = {
-				document:   $(document),
 				next:       this.element.find(this.options.selectors.next),
 				prev:       this.element.find(this.options.selectors.prev),
 				pagination: $(this.options.selectors.pagination).eq(0),
@@ -75,23 +78,23 @@
 			//
 
 			// Обработка нажатий по кнопкам след/пред
-			this.elements.next.on( 'click', this.next.bind(this) );
-			this.elements.prev.on( 'click', this.prev.bind(this) );
+			this._on( this.elements.next, { 'click': this.next } );
+			this._on( this.elements.prev, { 'click': this.prev } );
 
 			// Обработка хоткеев
-			this.elements.document.bind( 'keydown', this.options.keys.next, this.next.bind(this) );
-			this.elements.document.bind( 'keydown', this.options.keys.prev, this.prev.bind(this) );
+			this.document.bind( 'keydown' + this.eventNamespace, this.options.keys.next, this.next.bind(this) );
+			this.document.bind( 'keydown' + this.eventNamespace, this.options.keys.prev, this.prev.bind(this) );
 		},
 
 		/**
 		 * Обработка параметров в хэше url'а
 		 */
 		_checkUrl: function () {
-			// Проверяем наличие параметра gotopic в хэше url'а
-			var goto = location.hash.match( /gotopic=(last|first)/i );
+			// Проверяем наличие параметра options.param в хэше url'а
+			var goto = new RegExp( this.option( 'param' ) + '=(last|first)', 'i' ).exec( location.hash );
 
 			if ( goto ) {
-				// С помощью goto[1] получаем значение параметра gotopic (first или last)
+				// С помощью goto[1] получаем значение параметра options.param (first или last)
 				var item = this.elements.items[ goto[1] ]();
 
 				// Скроллим через небольшой промежуток времени,

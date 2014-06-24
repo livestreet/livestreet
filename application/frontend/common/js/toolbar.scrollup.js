@@ -27,8 +27,6 @@
 		 * @private
 		 */
 		_create: function () {
-			this.window = $(window);
-
 			this._on( { 'click': this.up } );
 			this._on( this.window, { 'scroll': this.check } );
 		},
@@ -37,7 +35,7 @@
 		 * Показывает/скрывает кнопку прокрутки в зависимости от значения scrollTop
 		 */
 		check: function() {
-			this.element[ this.window.scrollTop() > this.window.height() / 2 ? 'fadeIn' : 'fadeOut' ](500);
+			this.element[ this.window.scrollTop() > this.window.height() / 2 ? 'fadeIn' : 'fadeOut' ]( 500 );
 		},
 
 		/**

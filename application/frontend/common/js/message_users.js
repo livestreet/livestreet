@@ -40,13 +40,13 @@
 			this._super();
 
 			// Отключение пользователя от диалога
-			this.elements.list.on('click', this.options.selectors.item_inactivate, function (e) {
+			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_inactivate, function (e) {
 				_this.inactivate( $(this) );
 				e.preventDefault();
 			});
 
 			// Повторное приглашение пользователя в диалог
-			this.elements.list.on('click', this.options.selectors.item_activate, function (e) {
+			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_activate, function (e) {
 				_this.add( [ $(this).data('user-login') ] );
 				e.preventDefault();
 			});
@@ -63,8 +63,7 @@
 		 * Повторное приглашение пользователя в диалог
 		 */
 		inactivate: function (oButton) {
-			var _this = this,
-				iUserId = oButton.data('user-id'),
+			var iUserId = oButton.data('user-id'),
 				oParams = {
 					iUserId: iUserId
 				};

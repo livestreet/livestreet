@@ -45,13 +45,12 @@
 		 */
 		_create: function () {
 			this.elements = {
-				document: $(document),
 				next: this.element.find(this.options.selectors.next),
 				prev: this.element.find(this.options.selectors.prev)
 			};
 
-			this.elements.document.bind( 'keydown', this.options.keys.next, this.next.bind(this, false) );
-			this.elements.document.bind( 'keydown', this.options.keys.prev, this.prev.bind(this, false) );
+			this.document.bind( 'keydown', this.options.keys.next, this.next.bind(this, false) );
+			this.document.bind( 'keydown', this.options.keys.prev, this.prev.bind(this, false) );
 		},
 
 		/**

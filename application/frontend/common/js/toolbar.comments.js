@@ -51,10 +51,10 @@
 			//
 
 			// Обновление
-			this.elements.update.on('click', this.update.bind(this));
+			this._on( this.elements.update, { 'click': this.update } );
 
 			// Прокрутка к следующему новому комментарию
-			this.elements.counter.on('click', this.scroll.bind(this));
+			this._on( this.elements.counter, { 'click': this.scroll } );
 		},
 
 		/**

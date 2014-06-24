@@ -82,16 +82,18 @@
 
 			ls.ajax.load(this.options.url, params, function (oResponse) {
 				if (oResponse.iCountLoaded > 0) {
-					var html=$('<div></div>').html($.trim(oResponse[this.options.result]));
-					if (html.find(this.options.target).length) {
-						html=html.find(this.options.target).first();
+					var html = $('<div></div>').html( $.trim( oResponse[this.options.result] ) );
+
+					if ( html.find( this.options.target ).length ) {
+						html = html.find( this.options.target ).first();
 					}
-					this.target[ this.options.append ? 'append' : 'prepend' ](html.html());
-					this.element.data('param-i-last-id', oResponse.iLastId);
+
+					this.target[ this.options.append ? 'append' : 'prepend' ]( html.html() );
+					this.element.data( 'param-i-last-id', oResponse.iLastId );
 
 					// Обновляем счетчик
 					if (this.counter.length) {
-						var iCountLeft = parseInt(this.counter.text(), 10) - oResponse.iCountLoaded;
+						var iCountLeft = parseInt( this.counter.text(), 10 ) - oResponse.iCountLoaded;
 
 						if (iCountLeft <= 0) {
 							this.element.remove();
@@ -99,18 +101,20 @@
 							this.counter.text(iCountLeft);
 						}
 					}
+
 					// Обновляем параметры
-					$.each(this.options.proxy,function(k,v){
-						if (oResponse[k]) {
-							this.options.proxy[k]=oResponse[k];
+					$.each(this.options.proxy,function( k, v ) {
+						if ( oResponse[k] ) {
+							this.options.proxy[k] = oResponse[k];
 						}
 					}.bind(this));
 
-					if (oResponse.bHideMore) {
+					if ( oResponse.bHideMore ) {
 						this.element.remove();
 					}
 				} else {
 					// Для блоков без счетчиков
+					// TODO: i18n
 					ls.msg.notice(null, 'Больше нечего подгружать');
 					this.element.remove();
 				}

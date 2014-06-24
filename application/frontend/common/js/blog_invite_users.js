@@ -39,7 +39,7 @@
 			this._super();
 
 			// Повторная отправка инвайта
-			this.elements.list.on('click', this.options.selectors.item_reinvite, function (e) {
+			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_reinvite, function (e) {
 				_this.reinvite( $(this).data('user-id') );
 				e.preventDefault();
 			});
@@ -49,12 +49,7 @@
 		 * Отправляет инвайт заново
 		 */
 		reinvite: function (iUserId) {
-			var _this = this,
-				oParams = {
-					iUserId: iUserId
-				};
-
-			oParams = $.extend({}, oParams, this.options.params);
+			var oParams = $.extend({}, { iUserId: iUserId }, this.options.params);
 
 			ls.ajax.load(this.options.urls.reinvite, oParams, function(oResponse) {
 				ls.msg.notice(null, oResponse.sMsg);

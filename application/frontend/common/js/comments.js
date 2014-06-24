@@ -95,8 +95,7 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this,
-				oDocument = $(document);
+			var _this = this;
 
 			// Получаем элементы
 			this.form = this.element.find(this.options.selectors.form.form);
@@ -149,33 +148,31 @@
 			//
 
 			// Навигация по комментариям
-			oDocument.on('click', this.options.selectors.comment.scroll_to_parent, function (e) {
+			this.document.on('click' + this.eventNamespace, this.options.selectors.comment.scroll_to_parent, function (e) {
 				var element = $(this);
 
 				_this.scrollToParentComment(element.data('id'), element.data('parent-id'));
 			});
 
 			// Показывает / скрывает форму комментирования
-			oDocument.on('click', this.options.selectors.comment.reply, function (e) {
+			this.document.on('click' + this.eventNamespace, this.options.selectors.comment.reply, function (e) {
 				_this.formToggle($(this).data('id'), true, false, false);
 				e.preventDefault();
 			});
 
 			// Превью текста
-			this.elements.form.preview.on('click', this.previewShow.bind(this));
+			this._on( this.elements.form.preview, { 'click': this.previewShow } );
 
 			// Отправка формы
-			this.form.on('submit', function (e) {
-				this.add(this.form, this.form.data('target-id'), this.form.data('target-type'));
+			this._on( this.form, { 'submit': function (e) {
+				this.add( this.form, this.form.data('target-id'), this.form.data('target-type') );
 				e.preventDefault();
-			}.bind(this));
+			}});
 
-			this.elements.form.text.bind('keyup', function(e) {
-				if ( e.ctrlKey && (e.keyCode || e.which) == 13 ) _this.form.submit();
-			});
+			this.elements.form.text.bind( 'keydown' + this.eventNamespace, 'ctrl+return', function() { _this.form.submit() } );
 
 			// Удаление
-			this.element.on('click', this.options.selectors.comment.remove, function(e) {
+			this.element.on('click' + this.eventNamespace, this.options.selectors.comment.remove, function(e) {
 				var element = $(this),
 					commentId = element.data('id');
 
@@ -185,7 +182,7 @@
 			});
 
 			// Редактирование
-			this.element.on('click', this.options.selectors.comment.update, function(e) {
+			this.element.on('click' + this.eventNamespace, this.options.selectors.comment.update, function(e) {
 				var element = $(this),
 					commentId = element.data('id');
 
@@ -194,19 +191,19 @@
 			});
 
 			// Отмена редактирования
-			this.elements.form.update_cancel.on('click', function (e) {
+			this.elements.form.update_cancel.on('click' + this.eventNamespace, function (e) {
 				this.formToggle(this.formTargetId, false, true);
 				e.preventDefault();
 			}.bind(this));
 
 			// Сохранение после редактирования
-			this.elements.form.update_submit.on('click', function (e) {
+			this.elements.form.update_submit.on('click' + this.eventNamespace, function (e) {
 				this.submitCommentUpdate(this.formTargetId);
 				e.preventDefault();
 			}.bind(this));
 
 			// Подписаться/отписаться от новых комментариев
-			this.elements.subscribe.on('click', function (e) {
+			this.elements.subscribe.on('click' + this.eventNamespace, function (e) {
 				var element = $(this),
 					isActive = element.hasClass('active');
 
@@ -224,7 +221,7 @@
 			// Сворачивание
 			if ( this.options.folding ) {
 				// Свернуть/развернуть все
-				this.elements.fold_all_toggle.on('click', function (e) {
+				this.elements.fold_all_toggle.on('click' + this.eventNamespace, function (e) {
 					var element = $(this);
 
 					if ( ! element.hasClass('active') ) {
@@ -239,7 +236,7 @@
 				});
 
 				// Свернуть/развернуть
-				this.element.on('click', this.options.selectors.comment.fold, function(e) {
+				this.element.on('click' + this.eventNamespace, this.options.selectors.comment.fold, function(e) {
 					var element = $(this),
 						comment = _this.getCommentById(element.data('id'));
 
@@ -384,11 +381,11 @@
 					// Обновляем таймеры
 					this.initUpdateTimers();
 
-					$.proxy(callbacks.success, this)();
+					callbacks && $.proxy( callbacks.success, this )();
 					ls.hook.run('ls_comments_load_after', [ this.targetId, this.targetType, сommentSelfId, flush, response ]);
 				}
 
-				$.proxy(callbacks.done, this)();
+				callbacks && $.proxy( callbacks.done, this )();
 			}.bind(this));
 		},
 
