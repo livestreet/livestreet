@@ -3,7 +3,7 @@
  *
  * @template modals/*.tpl
  * @scripts <frontend_framework>/js/modal.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -30,8 +30,21 @@
 
 
 /**
+ * Кроп изображений
+ *
+ * @template modals/modal.image_crop.tpl
+ */
+.modal-image-crop { max-width: 600px; }
+
+.crop-image-holder { margin-right: 10px; }
+.crop-image-holder,
+.crop-previews { display: inline-block; vertical-align: top;  }
+.crop-preview { overflow: hidden; margin-bottom: 15px; }
+
+
+/**
  * Add media
- * 
+ *
  * @template modals/modal.upload_image.tpl
  */
 .modal-upload-image { max-width: 1200px; border: none; }

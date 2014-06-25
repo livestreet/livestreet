@@ -252,18 +252,43 @@ ls.user = (function ($) {
 	this.changeProfileAvatar = function(idUser) {
 		var _this = this;
 		ls.modal.load(aRouter.ajax+'modal/image-crop/', {image_src: $('.js-ajax-user-photo-image').attr('src') }, {
-			aftershow: function() {
+			aftershow: function( e, modal ) {
+				var image    = modal.element.find('.js-crop-image'),
+					previews = modal.element.find('.js-crop-preview-image'),
+					submit   = modal.element.find('.js-ajax-image-crop-submit');
+
+				function showPreview( coords ) {
+					previews.each(function() {
+						var preview = $( this ),
+							size = preview.data('size'),
+							rx = size / coords.w,
+							ry = size / coords.h;
+
+						preview.css({
+							width:      Math.round( rx * image.width() ) + 'px',
+							height:     Math.round( ry * image.height() ) + 'px',
+							marginLeft: '-' + Math.round( rx * coords.x ) + 'px',
+							marginTop:  '-' + Math.round( ry * coords.y ) + 'px'
+						});
+					})
+				}
+
 				this.jcropImage && this.jcropImage.destroy();
 
-				$('.js-image-crop').css({
+				image.css({
 					'width': 'auto',
 					'height': 'auto'
 				});
 
-				$('.js-image-crop').Jcrop({ minSize: [32, 32], aspectRatio: 1 }, function () {
+				image.Jcrop({
+					minSize: [32, 32],
+					aspectRatio: 1,
+					onChange: showPreview,
+					onSelect: showPreview
+				}, function () {
 					_this.jcropImage = this;
-					var w=$('.js-image-crop').innerWidth();
-					var h=$('.js-image-crop').innerHeight();
+					var w=image.innerWidth();
+					var h=image.innerHeight();
 
 					w=w/2-75;
 					h=h/2-75;
@@ -272,22 +297,22 @@ ls.user = (function ($) {
 					this.setSelect([w, h, w+150, h+150]);
 				});
 
-				$('.js-ajax-image-crop-submit').on('click',function() {
+				submit.on('click',function() {
 					var params={
 						user_id: idUser,
 						size: _this.jcropImage.tellSelect(),
-						canvas_width: $('.js-image-crop').innerWidth()
+						canvas_width: image.innerWidth()
 					}
 					ls.ajax.load(aRouter.settings+'ajax-change-avatar/', params, function(result) {
 						if (result.bStateError) {
 							ls.msg.error(null,result.sMsg);
 						} else {
-							$('#modal-image-crop').modal('hide');
+							modal.hide();
 						}
 					});
 				});
-
-			}
+			},
+			center: false
 		});
 		return false;
 	};
