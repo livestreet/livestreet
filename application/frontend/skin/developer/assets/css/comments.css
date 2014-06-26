@@ -151,6 +151,8 @@
 .comment-reply-root                 { font-size: 20px; margin-bottom: 0; }
 .comment-reply-root + .comment-form { margin-top: 15px; }
 
+.comments--forbid .comment-form { display: none; }
+
 
 /**
  * Ссылка на топик с комментарием

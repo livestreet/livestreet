@@ -12,15 +12,22 @@
  * @styles css/comments.css
  *}
 
+{$sComponent = 'comments'}
+
 {block 'comment-list-options'}
 	{$iTargetId     = $smarty.local.iTargetId}
 	{$sTargetType   = $smarty.local.sTargetType}
 	{$iCountComment = $smarty.local.iCountComment}
+	{$bForbidAdd    = $smarty.local.bForbidAdd}
+
+	{if $bForbidAdd}
+		{$sMods = "$sMods forbid"}
+	{/if}
 {/block}
 
 {add_block group='toolbar' name='toolbar/toolbar.comment.tpl' target='.js-comment'}
 
-<div class="comments js-comments {$smarty.local.sClasses}"
+<div class="{$sComponent} js-comments {mod name=$sComponent mods=$sMods} {$smarty.local.sClasses}"
 	id="comments"
 	data-target-type="{$sTargetType}"
 	data-target-id="{$iTargetId}"
@@ -92,11 +99,13 @@
 			<h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
 				<a href="#" class="link-dotted">{$sNoticeCommentAdd}</a>
 			</h4>
-
-			{* Форма добавления комментария *}
-			{include './comment-form.tpl' sTargetType=$sTargetType iTargetId=$iTargetId}
 		{else}
 			{include 'components/alert/alert.tpl' sMods='info' mAlerts=$aLang.comments.alerts.unregistered}
 		{/if}
+	{/if}
+
+	{* Форма добавления комментария *}
+	{if $oUserCurrent && ( ! $bForbidAdd || ( $bForbidAdd && $iCountComment ) )}
+		{include './comment-form.tpl' sTargetType=$sTargetType iTargetId=$iTargetId}
 	{/if}
 </div>
