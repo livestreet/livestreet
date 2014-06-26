@@ -510,6 +510,73 @@ ALTER TABLE `prefix_comment` ADD `comment_count_edit` INT NOT NULL DEFAULT '0' A
 ADD INDEX ( `comment_count_edit` ) ;
 
 
---29.05.2014
+-- 29.05.2014
 UPDATE `prefix_stream_user_type` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';
 UPDATE `prefix_stream_event` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';
+
+
+-- 26.05.2014
+--
+-- Структура таблицы `prefix_category`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT NULL,
+  `type_id` int(11) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `description` text NOT NULL,
+  `url` varchar(250) NOT NULL,
+  `url_full` varchar(250) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `order` int(11) NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `title` (`title`),
+  KEY `order` (`order`),
+  KEY `state` (`state`),
+  KEY `url` (`url`),
+  KEY `url_full` (`url_full`),
+  KEY `type_id` (`type_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_category_target`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_category_target` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `target_type` varchar(50) NOT NULL,
+  `target_id` int(11) NOT NULL,
+  `date_create` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `target_type` (`target_type`),
+  KEY `target_id` (`target_id`),
+  KEY `category_id` (`category_id`),
+  KEY `type_id` (`type_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `prefix_category_type`
+--
+
+CREATE TABLE IF NOT EXISTS `prefix_category_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `target_type` varchar(50) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `date_create` datetime NOT NULL,
+  `date_update` datetime DEFAULT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `title` (`title`),
+  KEY `state` (`state`),
+  KEY `target_type` (`target_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

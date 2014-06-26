@@ -315,6 +315,9 @@ $config['db']['table']['storage']			  = '___db.table.prefix___storage';
 $config['db']['table']['poll']			  = '___db.table.prefix___poll';
 $config['db']['table']['poll_answer']			  = '___db.table.prefix___poll_answer';
 $config['db']['table']['poll_vote']			  = '___db.table.prefix___poll_vote';
+$config['db']['table']['category']			  = '___db.table.prefix___category';
+$config['db']['table']['category_type']		  = '___db.table.prefix___category_type';
+$config['db']['table']['category_target']	  = '___db.table.prefix___category_target';
 
 $config['db']['tables']['engine'] = 'InnoDB';  // InnoDB или MyISAM
 

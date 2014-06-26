@@ -66,7 +66,39 @@ class ModuleTools extends Module {
 		}
 		return $aCollection;
 	}
-
+	/**
+	 * Возвращает дерево объектов
+	 *
+	 * @param array $aEntities	Массив данных сущностей с заполнеными полями 'childNodes'
+	 * @param bool $bBegin
+	 *
+	 * @return array
+	 */
+	public function BuildEntityRecursive($aEntities,$bBegin=true) {
+		static $aResultEntities;
+		static $iLevel;
+		static $iMaxIdEntity;
+		if ($bBegin) {
+			$aResultEntities=array();
+			$iLevel=0;
+			$iMaxIdEntity=0;
+		}
+		foreach ($aEntities as $aEntity) {
+			$aTemp=$aEntity;
+			if ($aEntity['id']>$iMaxIdEntity) {
+				$iMaxIdEntity=$aEntity['id'];
+			}
+			$aTemp['level']=$iLevel;
+			unset($aTemp['childNodes']);
+			$aResultEntities[$aTemp['id']]=$aTemp['level'];
+			if (isset($aEntity['childNodes']) and count($aEntity['childNodes'])>0) {
+				$iLevel++;
+				$this->BuildEntityRecursive($aEntity['childNodes'],false);
+			}
+		}
+		$iLevel--;
+		return array('collection'=>$aResultEntities,'iMaxId'=>$iMaxIdEntity);
+	}
 	/**
 	 * Преобразует спец символы в html последовательнось, поведение аналогично htmlspecialchars, кроме преобразования амперсанта "&"
 	 *
