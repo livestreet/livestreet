@@ -12,7 +12,7 @@
 {/block}
 
 {block name='modal_content'}
-	<form action="" method="post" id="form-category-blog-add" onsubmit="ls.admin.{if $oCategory}editCategoryBlog{else}addCategoryBlog{/if}('form-category-blog-add'); return false;">
+	<form action="" method="post" id="form-category-blog-add" onsubmit="ls.admin.blogCategories.{if $oCategory}showFormEdit{else}showFormAdd{/if}( $(this) ); return false;">
 		<p><label for="pid">{$aLang.admin_blogcategory_form_field_parent}</label>
 		<select name="pid" id="pid" class="width-full">
 			<option value="0"></option>

@@ -9,40 +9,26 @@
  */
 
 var ls = ls || {};
+ls.admin = ls.admin || {};
 
-ls.admin = (function ($) {
-
-	this.addCategoryBlog = function(form) {
-		var url = aRouter.admin+'blogcategory/add/';
-		ls.ajax.submit(url, form, function(result) {
-			if (typeof(form)=='string') {
-				form=$('#'+form);
-			}
-
+ls.admin.blogCategories = (function ($) {
+	this.showForm = function( url, form ) {
+		ls.ajax.submit( url, form, function( result ) {
 			if (result.bStateError) {
-				ls.msg.error(result.sMsgTitle,result.sMsg);
+				ls.msg.error(result.sMsgTitle, result.sMsg);
 			} else {
-				$(form.parents('.modal-ajax')).jqmHide();
-				window.location.href=window.location.href;
+				window.location.href = window.location.href;
 			}
-		}.bind(this));
+		});
 	};
 
-	this.editCategoryBlog = function(form) {
-		var url = aRouter.admin+'blogcategory/edit/';
-		ls.ajax.submit(url, form, function(result) {
-			if (typeof(form)=='string') {
-				form=$('#'+form);
-			}
+	this.showFormAdd = function( form ) {
+		this.showForm( aRouter.admin + 'blogcategory/add/', form );
+	};
 
-			if (result.bStateError) {
-				ls.msg.error(result.sMsgTitle,result.sMsg);
-			} else {
-				$(form.parents('.modal-ajax')).jqmHide();
-				window.location.href=window.location.href;
-			}
-		}.bind(this));
+	this.showFormEdit = function( form ) {
+		this.showForm( aRouter.admin + 'blogcategory/edit/', form );
 	};
 
 	return this;
-}).call(ls.admin || {},jQuery);
+}).call( ls.admin.blogCategories || {}, jQuery );
