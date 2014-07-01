@@ -24,6 +24,14 @@
  */
 class ModuleCategory_BehaviorModule extends Behavior {
 	/**
+	 * Дефолтные параметры
+	 *
+	 * @var array
+	 */
+	protected $aParams=array(
+		'target_type'=>'',
+	);
+	/**
 	 * Список хуков
 	 *
 	 * @var array
@@ -48,7 +56,7 @@ class ModuleCategory_BehaviorModule extends Behavior {
 	public function CallbackGetItemsByFilterAfter($aParams) {
 		$aEntities=$aParams['aEntities'];
 		$aFilter=$aParams['aFilter'];
-		$this->Category_RewriteGetItemsByFilter($aEntities,$aFilter,'test');
+		$this->Category_RewriteGetItemsByFilter($aEntities,$aFilter,$this->getParam('target_type'));
 	}
 	/**
 	 * Модифицирует результат ORM запроса
@@ -56,7 +64,7 @@ class ModuleCategory_BehaviorModule extends Behavior {
 	 * @param $aParams
 	 */
 	public function CallbackGetItemsByFilterBefore($aParams) {
-		$aFilter=$this->Category_RewriteFilter($aParams['aFilter'],$aParams['sEntityFull'],'test');
+		$aFilter=$this->Category_RewriteFilter($aParams['aFilter'],$aParams['sEntityFull'],$this->getParam('target_type'));
 		$aParams['aFilter']=$aFilter;
 	}
 }

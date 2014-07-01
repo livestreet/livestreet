@@ -30,15 +30,6 @@ class ModuleCategory extends ModuleORM {
 	const TARGET_STATE_NOT_ACTIVE=2;
 	const TARGET_STATE_REMOVE=3;
 
-	protected $oMapper=null;
-
-	/**
-	 * Инициализация
-	 */
-	public function Init() {
-		parent::Init();
-		$this->oMapper=Engine::GetMapper(__CLASS__);
-	}
 	/**
 	 * Возвращает список категорий сущности
 	 *
@@ -189,18 +180,8 @@ class ModuleCategory extends ModuleORM {
 	 * @return array
 	 */
 	public function GetCategoriesTreeByType($sId) {
-		$aRow=$this->oMapper->GetCategoriesByType($sId);
-		if (count($aRow)) {
-			$aRec=$this->Tools_BuildEntityRecursive($aRow);
-		}
-		if (!isset($aRec['collection'])) {
-			return array();
-		}
-		$aResult=$this->Category_GetCategoryItemsByFilter(array('id in'=>array_keys($aRec['collection']),'#index-from-primary','#order'=>array('FIELD:id'=>array_keys($aRec['collection']))));
-		foreach ($aResult as $oCategory) {
-			$oCategory->setLevel($aRec['collection'][$oCategory->getId()]);
-		}
-		return $aResult;
+		$aCategories=$this->Category_LoadTreeOfCategory(array('type_id'=>$sId));
+		return ModuleORM::buildTree($aCategories);
 	}
 	/**
 	 * Возвращает дерево категорий
@@ -343,6 +324,7 @@ class ModuleCategory extends ModuleORM {
 		} else {
 			$iCategoryId=$oCategory;
 		}
+		$aCategoryId=array($iCategoryId);
 		if ($bIncludeChild) {
 			/**
 			 * Сначала получаем полный список категорий текущего типа
@@ -351,45 +333,14 @@ class ModuleCategory extends ModuleORM {
 				$oCategory=$this->GetCategoryById($iCategoryId);
 			}
 			if ($oCategory) {
-				$aCategories=$this->oMapper->GetCategoriesByType($oCategory->getTypeId());
-				$aCategoriesChild=$this->GetChildItemsFromCategories($aCategories,$iCategoryId);
-				$aCategoryId=array_merge(array((int)$iCategoryId),array_keys($aCategoriesChild));
-			} else {
-				return null;
+				if ($aChildren=$oCategory->getDescendants()) {
+					foreach($aChildren as $oCategoryChild) {
+						$aCategoryId[]=$oCategoryChild->getId();
+					}
+				}
 			}
-		} else {
-			$aCategoryId=array($iCategoryId);
 		}
 		return $aCategoryId;
 	}
-	/**
-	 * Обрабатывает дочерние категории
-	 *
-	 * @param      $aCategories
-	 * @param null $iCategoryId
-	 *
-	 * @return array
-	 */
-	protected function GetChildItemsFromCategories($aCategories,$iCategoryId=null) {
-		static $aResult;
-		static $bIsChild;
-
-		foreach($aCategories as $aCategory) {
-			if ($aCategory['id']==$iCategoryId) {
-				$bIsChild=true;
-				$this->GetChildItemsFromCategories($aCategory['childNodes'],$iCategoryId);
-				return $aResult ? $aResult : array();
-			}
-			if ($bIsChild) {
-				$aCat=$aCategory;
-				unset($aCat['childNodes']);
-				$aResult[$aCat['id']]=$aCat;
-			}
-			if ($aCategory['childNodes']) {
-				$this->GetChildItemsFromCategories($aCategory['childNodes'],$iCategoryId);
-			}
-		}
-		return $aResult ? $aResult : array();
-	}
-
+	
 }

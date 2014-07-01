@@ -22,8 +22,17 @@ class ModuleCategory_EntityCategory extends EntityORM {
 
 	protected $aRelations=array(
 		'type' => array(self::RELATION_TYPE_BELONGS_TO,'ModuleCategory_EntityType','type_id'),
+		self::RELATION_TYPE_TREE
 	);
 
+	/**
+	 * Переопределяем имя поля с родителем
+	 *
+	 * @return string
+	 */
+	public function _getTreeParentKey() {
+		return 'pid';
+	}
 	/**
 	 * Выполняется перед сохранением
 	 *
