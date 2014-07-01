@@ -160,6 +160,7 @@ return array(
 		'topics_total'         => 'Топиков',
 		'date_created'         => 'Дата создания',
 		'rating_limit'         => 'Ограничение на постинг',
+		'rss'                  => 'RSS',
 
 		// Сообщения
 		'alerts' => array(
@@ -173,7 +174,8 @@ return array(
 		 * Поиск
 		 */
 		'search' => array(
-			'placeholder' => 'Поиск по названию',
+			'placeholder'  => 'Поиск по названию',
+			'result_title' => 'Найден %%count%% блог;Найдено %%count%% блога;Найдено %%count%% блогов'
 		),
 
 		/**

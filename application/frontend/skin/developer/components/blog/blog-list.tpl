@@ -9,7 +9,7 @@
 {* Список блогов *}
 {if $aBlogs}
 	{if $iSearchCount}
-		<h3 class="h3">Найдено {$iSearchCount} блогов</h3>
+		<h3 class="h3">{lang name='blog.search.result_title' count=$iSearchCount plural=true}</h3>
 	{/if}
 
 	{* Список блогов *}
@@ -34,18 +34,18 @@
 				<p class="object-list-item-description">{$oBlog->getDescription()|strip_tags|truncate:120}</p>
 
 				{* Информация *}
-				{$aBlogInfo = [
+				{$info = [
 					[ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => $oBlog->getCountUser() ],
 					[ 'label' => "{$aLang.vote.rating}:",              'content' => $oBlog->getRating() ],
 					[ 'label' => "{$aLang.blog.topics_total}:",        'content' => $oBlog->getCountTopic() ]
 				]}
 
-				{include 'components/info_list/info_list.tpl' aInfoList=$aBlogInfo sInfoListClasses='object-list-item-info'}
+				{include 'components/info_list/info_list.tpl' aInfoList=$info sInfoListClasses='object-list-item-info'}
 
 				{* Действия *}
 				<div class="object-list-item-actions">
 					{* Вступить/покинуть блог *}
-					{include 'actions/ActionBlog/button_join.tpl'}
+					{include './join.tpl'}
 				</div>
 			</li>
 		{/foreach}
@@ -53,7 +53,7 @@
 
 
 	{if $bUseMore}
-		{if !$bHideMore}
+		{if ! $bHideMore}
 			{include 'components/more/more.tpl'
 					 sClasses    = 'js-more-search'
 					 sTarget     = '.js-more-blogs-container'
