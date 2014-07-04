@@ -16,8 +16,8 @@
 
 {block 'block_footer'}
 	{* Подписаться через RSS *}
-	<a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="button">RSS</a>
+	{include 'components/button/button.tpl' sUrl="{router page='rss'}blog/{$oBlog->getUrl()}/" sText=$aLang.blog.rss}
 
 	{* Вступить / Покинуть блог *}
-	{include 'actions/ActionBlog/button_join.tpl'}
+	{include 'components/blog/join.tpl'}
 {/block}

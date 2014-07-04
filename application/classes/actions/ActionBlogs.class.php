@@ -115,7 +115,7 @@ class ActionBlogs extends Action {
 		$oViewer->Assign('bUseMore', true);
 		$oViewer->Assign('bHideMore', $bHideMore);
 		$oViewer->Assign('iSearchCount', $aResult['count']);
-		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("actions/ActionBlogs/blog_list.tpl"));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("components/blog/blog-list.tpl"));
 		/**
 		 * Для подгрузки
 		 */
