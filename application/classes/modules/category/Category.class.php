@@ -180,7 +180,7 @@ class ModuleCategory extends ModuleORM {
 	 * @return array
 	 */
 	public function GetCategoriesTreeByType($sId) {
-		$aCategories=$this->Category_LoadTreeOfCategory(array('type_id'=>$sId));
+		$aCategories=$this->LoadTreeOfCategory(array('type_id'=>$sId));
 		return ModuleORM::buildTree($aCategories);
 	}
 	/**
@@ -191,7 +191,7 @@ class ModuleCategory extends ModuleORM {
 	 * @return array
 	 */
 	public function GetCategoriesTreeByTargetType($sCode) {
-		if ($oType=$this->Category_GetTypeByTargetType($sCode)) {
+		if ($oType=$this->GetTypeByTargetType($sCode)) {
 			return $this->GetCategoriesTreeByType($oType->getId());
 		}
 		return array();
@@ -342,5 +342,37 @@ class ModuleCategory extends ModuleORM {
 		}
 		return $aCategoryId;
 	}
-	
+	/**
+	 * Пересобирает полные URL дочерних категорий
+	 *
+	 * @param      $oCategoryStart
+	 * @param bool $bStart
+	 */
+	public function RebuildCategoryUrlFull($oCategoryStart,$bStart=true) {
+		static $aRebuildIds;
+		if ($bStart) {
+			$aRebuildIds=array();
+		}
+
+		if (is_null($oCategoryStart->getId())) {
+			$aCategories=$this->GetCategoryItemsByFilter(array('#where'=>array('pid is null'=>array()),'type_id'=>$oCategoryStart->getTypeId()));
+		} else {
+			$aCategories=$this->GetCategoryItemsByFilter(array('pid'=>$oCategoryStart->getId(),'type_id'=>$oCategoryStart->getTypeId()));
+		}
+
+		foreach ($aCategories as $oCategory) {
+			if ($oCategory->getId()==$oCategoryStart->getId()) {
+				continue;
+			}
+			if (in_array($oCategory->getId(),$aRebuildIds)) {
+				continue;
+			}
+			$aRebuildIds[]=$oCategory->getId();
+			$oCategory->setUrlFull($oCategoryStart->getUrlFull().'/'.$oCategory->getUrl());
+			$oCategory->Update();
+			$this->RebuildCategoryUrlFull($oCategory,false);
+		}
+	}
+
+
 }

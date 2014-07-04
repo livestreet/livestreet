@@ -20,13 +20,95 @@
  */
 class ModuleCategory_EntityCategory extends EntityORM {
 
+	/**
+	 * Определяем правила валидации
+	 *
+	 * @var array
+	 */
+	protected $aValidateRules=array(
+		array('title','string','max'=>200,'min'=>1,'allowEmpty'=>false),
+		array('url','regexp','pattern'=>'/^[\w\-_]+$/i','allowEmpty'=>false),
+		array('order','number','integerOnly'=>true),
+		array('pid','parent_category'),
+		array('order','order_check'),
+	);
+
 	protected $aRelations=array(
 		'type' => array(self::RELATION_TYPE_BELONGS_TO,'ModuleCategory_EntityType','type_id'),
 		self::RELATION_TYPE_TREE
 	);
 
 	/**
+	 * Проверка родительской категории
+	 *
+	 * @param string $sValue	Валидируемое значение
+	 * @param array $aParams	Параметры
+	 * @return bool
+	 */
+	public function ValidateParentCategory($sValue,$aParams) {
+		if ($this->getPid()) {
+			if ($oCategory=$this->Category_GetCategoryById($this->getPid())) {
+				if ($oCategory->getId()==$this->getId()) {
+					return 'Попытка вложить категорию в саму себя';
+				}
+				if ($oCategory->getTypeId()!=$this->getTypeId()) {
+					return 'Неверная родительская категория';
+				}
+				$this->setUrlFull($oCategory->getUrlFull().'/'.$this->getUrl());
+			} else {
+				return 'Неверная категория';
+			}
+		} else {
+			$this->setPid(null);
+			$this->setUrlFull($this->getUrl());
+		}
+		return true;
+	}
+	/**
+	 * Установка дефолтной сортировки
+	 *
+	 * @param string $sValue	Валидируемое значение
+	 * @param array $aParams	Параметры
+	 * @return bool
+	 */
+	public function ValidateOrderCheck($sValue,$aParams) {
+		if (!$this->getSort()) {
+			$this->setSort(100);
+		}
+		return true;
+	}
+	/**
+	 * Выполняется перед удалением
+	 *
+	 * @return bool
+	 */
+	protected function beforeDelete() {
+		if ($bResult=parent::beforeDelete()) {
+			/**
+			 * Запускаем удаление дочерних категорий
+			 */
+			if ($aCildren=$this->getChildren()) {
+				foreach($aCildren as $oChildren) {
+					$oChildren->Delete();
+				}
+			}
+			/**
+			 * Удаляем связь с таргетом
+			 */
+			if ($aTargets=$this->Category_GetTargetItemsByCategoryId($this->getId())) {
+				foreach($aTargets as $oTarget) {
+					$oTarget->Delete();
+					/**
+					 * TODO: Нужно запустить хук, что мы удалили такую-то связь
+					 */
+				}
+			}
+		}
+		return $bResult;
+	}
+	/**
 	 * Переопределяем имя поля с родителем
+	 * Т.к. по дефолту в деревьях используется поле parent_id
 	 *
 	 * @return string
 	 */
@@ -67,5 +149,21 @@ class ModuleCategory_EntityCategory extends EntityORM {
 			$this->Cache_SetLife($oType,$sKey);
 		}
 		return $oType;
+	}
+	/**
+	 * Возвращает URL админки для редактирования
+	 *
+	 * @return string
+	 */
+	public function getUrlAdminUpdate() {
+		return Router::GetPath('admin/categories/'.$this->getTypeByCacheLife()->getTargetType().'/update/'.$this->getId());
+	}
+	/**
+	 * Возвращает URL админки для удаления
+	 *
+	 * @return string
+	 */
+	public function getUrlAdminRemove() {
+		return Router::GetPath('admin/categories/'.$this->getTypeByCacheLife()->getTargetType().'/remove/'.$this->getId());
 	}
 }
