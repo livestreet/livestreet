@@ -8,243 +8,198 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
-
-ls.wall = (function ($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 *
-	 * @private
-	 */
-	var _defaults = {
-		// Селекторы
-		selectors: {
-			entry: {
-				self:   '.js-wall-comment',
-				remove: '.js-comment-remove',
-				reply:  '.js-comment-reply'
+	$.widget( "livestreet.lsWall", {
+		/**
+		 * Дефолтные опции
+		 */
+		options: {
+			// Ссылки
+			urls: {
+				add:           null,
+				remove:        null,
+				load:          null,
+				load_comments: null
 			},
-			form: {
-				self:   '.js-wall-form',
-				text:   '.js-wall-form-text',
-				submit: '.js-wall-form-submit'
-			},
-			get_more: {
-				self:  '.js-wall-get-more',
-				count: '.js-wall-get-more-count'
-			},
-			comment_wrapper:   '.js-wall-comment-wrapper',
-			entry_container:   '.js-wall-entry-container',
-			empty:             '#wall-empty'
+
+			// Селекторы
+			selectors: {
+				entry: {
+					self:   '.js-wall-entry',
+					remove: '.js-comment-remove',
+					reply:  '.js-comment-reply'
+				},
+				comment:          '.js-wall-comment',
+				post:             '.js-wall-post',
+				form:             '.js-wall-form',
+				more:             '.js-wall-more',
+				more_comments:    '.js-wall-more-comments',
+				comment_wrapper:  '.js-wall-comment-wrapper',
+				container:        '.js-wall-entry-container',
+				empty:            '.js-wall-alert-empty'
+			}
 		},
-		// Роуты
-		routers: {
-			add:           aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/add/',
-			remove:        aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/remove/',
-			load:          aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load/',
-			load_comments: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load-reply/'
-		}
-	};
 
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 */
-	this.init = function(options) {
-		// Иниц-ем модуль только на странице профиля юзера
-		if ( ! USER_PROFILE_LOGIN ) return;
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			var _this = this;
 
-		var _this = this;
+			this.elements = {
+				empty:         this.element.find( this.option( 'selectors.empty'         ) ),
+				more:          this.element.find( this.option( 'selectors.more'          ) ),
+				more_comments: this.element.find( this.option( 'selectors.more_comments' ) ),
+				entries:       this.element.find( this.option( 'selectors.entry.self'    ) ),
+				forms:         this.element.find( this.option( 'selectors.form'          ) ),
+				container:     this.element.find( this.option( 'selectors.container'     ) )
+			};
 
-		this.options = $.extend({}, _defaults, options);
+			this.userId = this.getUserId();
 
-		this.elements = {
-			document: $(document),
-			empty: $(this.options.selectors.empty)
-		}
-
-		// Добавление
-		this.elements.document.on('submit', this.options.selectors.form.self, function(e) {
-			_this.add( $(this) );
-			e.preventDefault();
-		});
-
-		this.elements.document
-			.on('keyup', this.options.selectors.form.text, function(e) {
-				if (e.ctrlKey && (e.keyCode || e.which) == 13) {
-					$(this).closest(_this.options.selectors.form.self).submit();
-				}
-			})
-			.on('click', this.options.selectors.form.text, function(e) {
-				// TODO: IE8 support
-				if (e.which == 1) {
-					_this.form.open($(this).closest(_this.options.selectors.form.self));
+			// Подгрузка новых постов
+			this.elements.more.more({
+				url: this.option( 'urls.load' ),
+				params: {
+					user_id: this.getUserId()
 				}
 			});
 
-		// Показать/скрыть форму добавления комментария
-		this.elements.document.on('click', this.options.selectors.entry.reply, function(e) {
-			_this.form.toggle( $(_this.options.selectors.form.self + '[data-id=' + $(this).data('id') + ']') );
-			e.preventDefault();
-		});
-
-		// Удаление записи
-		this.elements.document.on('click', this.options.selectors.entry.remove, function(e) {
-			_this.remove( $(this).data('id') );
-			e.preventDefault();
-		});
-
-		// Сворачиваем открытые формы
-		this.elements.document.on('click', function(e) {
-			// TODO: IE8 support
-			if (e.which == 1) {
-				$(_this.options.selectors.form.self + '.' + ls.options.classes.states.open).each(function(key, value) {
-					var oForm  = $(value),
-						iId    = oForm.data('id'),
-						oReply = $(_this.options.selectors.entry.reply + '[data-id=' + iId + ']');
-
-					if ( ! oForm.is(e.target) &&
-						 oForm.has(e.target).length === 0 &&
-						 ! oReply.is(e.target) &&
-						 ! oForm.find(_this.options.selectors.form.text).val() ) {
-						if ( $(_this.options.selectors.entry_container + '[data-id=' + iId + ']' ).find(_this.options.selectors.entry.self).length || iId === 0 ) {
-							_this.form.close(oForm);
-						} else {
-							_this.form.toggle(oForm);
-						}
+			// Подгрузка комментариев
+			this.elements.more_comments.livequery( function () {
+				$( this ).more({
+					url: _this.option( 'urls.load_comments' ),
+					params: {
+						user_id: _this.getUserId()
 					}
 				});
-			}
-		});
-
-		$('.js-more-wall').more({
-			url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load/'
-		});
-
-		$('.js-more-wall-comments').livequery(function () {
-			$(this).more({
-				url: aRouter['profile'] + USER_PROFILE_LOGIN + '/wall/load-reply/'
 			});
-		});
-	};
 
-	/**
-	 * Добавляет комментарий к записи
-	 */
-	this.add = function(oForm) {
-		var oTextarea = oForm.find(this.options.selectors.form.text),
-			oButton   = oForm.find(this.options.selectors.form.submit),
-			iId       = oForm.data('id'),
-			sText     = oTextarea.val();
+			// Записи
+			this.elements.entries.livequery( function () {
+				$( this ).lsWallEntry({
+					wall: _this.element,
+					urls: {
+						remove: _this.option( 'urls.remove' )
+					},
+					selectors: {
+						wrapper: _this.option( 'selectors.comment_wrapper' ),
+						remove:  _this.option( 'selectors.entry.remove' ),
+						reply:   _this.option( 'selectors.entry.reply' ),
+					}
+				})
+			});
 
-		ls.hook.marker('addBefore');
-
-		ls.utils.formLock(oForm);
-
-		ls.ajax.load(this.options.routers.add, { sText: sText, iPid: iId }, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				if (iId === 0) this.elements.empty.hide();
-				oTextarea.val('');
-				this.loadNew(iId);
-
-				ls.hook.run('ls_wall_add_after', [sText, iId, result]);
-			}
-
-			ls.utils.formUnlock(oForm);
-		}.bind(this));
-	};
-
-	/**
-	 * Удаление записи/комментария
-	 *
-	 * @param  {Number} iId ID записи
-	 */
-	this.remove = function(iId) {
-		var _this = this;
-
-		ls.hook.marker('removeBefore');
-
-		ls.ajax.load(this.options.routers.remove, { iId: iId }, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				var entry = $(_this.options.selectors.entry.self + '[data-id=' + iId + ']');
-
-				entry.fadeOut('slow', function() {
-					if ( ! $(_this.options.selectors.entry.self).length ) _this.elements.empty.show();
-
-					ls.hook.run('ls_wall_remove_item_fade', [iId, result], this);
+			// Формы
+			this.elements.forms.livequery( function () {
+				$( this ).lsWallForm({
+					wall: _this.element
 				});
-				entry.next(_this.options.selectors.comment_wrapper).fadeOut('slow');
+			});
+		},
 
-				ls.hook.run('ls_wall_remove_after', [iId, result]);
-			}
-		});
-	};
+		/**
+		 * Добавление
+		 *
+		 * TODO: Оптимизировать
+		 */
+		add: function( pid, text ) {
+			var form = this.getFormById( pid );
 
-	/**
-	 * Подгрузка новых записей
-	 */
-	this.loadNew = function(iPid) {
-		var oContainer = $(this.options.selectors.entry_container + '[data-id=' + iPid + ']'),
-			iFirstId   = oContainer.find(' > ' + this.options.selectors.entry.self + ':' + (iPid === 0 ? 'first' : 'last')).data('id') || -1,
-			oParams    = { iFirstId: iFirstId, iTargetId: iPid };
+			ls.ajax.load( this.option( 'urls.add' ), { user_id: this.getUserId(), pid: pid, text: text }, function( response ) {
+				if ( response.bStateError ) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					if ( pid === 0 ) this.elements.empty.hide();
 
-		ls.ajax.load(iPid === 0 ? this.options.routers.load : this.options.routers.load_comments, oParams, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				if (result.iCountLoaded) {
-					oContainer[iPid === 0 ? 'prepend' : 'append'](result.sHtml);
+					this.load( pid );
+					form.lsWallForm( 'close' );
 				}
 
-				this.form.close( $(this.options.selectors.form.self + '[data-id=' + iPid + ']') );
-
-				ls.hook.run('ls_wall_loadnew_after', [iPid, iFirstId, result]);
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Форма
-	 */
-	this.form = function(_this) {
-		/**
-		 * Разворачивает форму
-		 */
-		this.open = function(oForm) {
-			oForm.addClass(ls.options.classes.states.open);
-		};
+				ls.utils.formUnlock( form );
+			}.bind(this));
+		},
 
 		/**
-		 * Сворачивает форму
+		 * Подгружает записи
+		 *
+		 * TODO: Оптимизировать
 		 */
-		this.close = function(oForm) {
-			oForm.removeClass(ls.options.classes.states.open);
-		};
+		load: function( pid ) {
+			var container = this.element.find( this.options.selectors.container + '[data-id=' + pid + ']' ),
+				firstId   = container.find( '>' + this.option( 'selectors.entry.self' ) + ':' + ( pid === 0 ? 'first' : 'last' ) ).data( 'id' ) || -1,
+				params    = { user_id: this.getUserId(), first_id: firstId, target_id: pid };
+
+			ls.ajax.load( this.option( pid === 0 ? 'urls.load' : 'urls.load_comments' ), params, function( response ) {
+				if (response.bStateError) {
+					ls.msg.error(null, response.sMsg);
+				} else {
+					if ( response.count_loaded ) {
+						container[ pid === 0 ? 'prepend' : 'append' ]( response.html );
+					}
+				}
+			}.bind(this));
+		},
 
 		/**
-		 * Сворачивает/разворачивает форму
+		 * Получает посты
 		 */
-		this.expandToggle = function(oForm) {
-			this.form[ oForm.hasClass(ls.options.classes.states.open) ? 'close' : 'open' ](oForm);
-		}.bind(_this);
+		getPosts: function() {
+			return this.element.find( this.option( 'selectors.post' ) );
+		},
 
 		/**
-		 * Показывает/скрывает форму комментирования
+		 * Получает комментарии по ID поста
 		 */
-		this.toggle = function(oForm) {
-			oForm.toggle().find(this.options.selectors.form.text).focus();
-			this.form.expandToggle(oForm);
-		}.bind(_this);
+		getCommentsByPostId: function( pid ) {
+			return this.getCommentWrapperById( pid ).find( this.option( 'selectors.comment' ) );
+		},
 
-		return this;
-	}.call({}, this);
+		/**
+		 * Получает запись по ID
+		 */
+		getEntryById: function( id ) {
+			return this.element.find( this.option( 'selectors.entry.self' ) + '[data-id=' + id + ']' ).eq( 0 );
+		},
 
-	return this;
-}).call(ls.wall || {}, jQuery);
+		/**
+		 * Получает враппер комментариев по ID поста
+		 */
+		getCommentWrapperById: function( id ) {
+			return this.element.find( this.option( 'selectors.comment_wrapper' ) + '[data-id=' + id + ']' ).eq( 0 );
+		},
+
+		/**
+		 * Получает форму по ID поста
+		 */
+		getFormById: function( id ) {
+			return this.element.find( this.option( 'selectors.form' ) + '[data-id=' + id + ']' ).eq( 0 );
+		},
+
+		/**
+		 * Получает ID владельца стены
+		 */
+		getUserId: function() {
+			return this.userId ? this.userId : this.userId = this.element.data( 'user-id' );
+		},
+
+		/**
+		 * Получает развернутые формы
+		 */
+		getOpenedForms: function() {
+			return this.element.find( this.option( 'selectors.form' ) + '.' + ls.options.classes.states.open );
+		},
+
+		/**
+		 * Проверяет и если нужно показывает/скрывает сообщение о пустом списке
+		 */
+		checkEmpty: function() {
+			this.elements.empty[ this.getPosts().length ? 'hide' : 'show' ]();
+		}
+	});
+})(jQuery);

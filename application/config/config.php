@@ -352,8 +352,9 @@ $config['router']['page']['ajax']          = 'ActionAjax';
 $config['router']['page']['feed']          = 'ActionUserfeed';
 $config['router']['page']['stream']        = 'ActionStream';
 $config['router']['page']['subscribe']     = 'ActionSubscribe';
-$config['router']['page']['content']     = 'ActionContent';
-$config['router']['page']['property']     = 'ActionProperty';
+$config['router']['page']['content']       = 'ActionContent';
+$config['router']['page']['property']      = 'ActionProperty';
+$config['router']['page']['wall']          = 'ActionWall';
 // Глобальные настройки роутинга
 $config['router']['config']['default']['action']	= 'index';
 $config['router']['config']['default']['event']		= null;
@@ -527,6 +528,8 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/subscribe.js",
 	"___path.application.web___/frontend/common/js/geo.js",
 	"___path.application.web___/frontend/common/js/wall.js",
+	"___path.application.web___/frontend/common/js/wall-form.js",
+	"___path.application.web___/frontend/common/js/wall-entry.js",
 	"___path.application.web___/frontend/common/js/usernote.js",
 	"___path.application.web___/frontend/common/js/comments.js",
 	"___path.application.web___/frontend/common/js/blog.js",

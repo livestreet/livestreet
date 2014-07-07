@@ -52,7 +52,7 @@ class ModuleWall_EntityWall extends Entity {
 				return true;
 			}
 		}
-		return $this->Lang_Get('wall_add_time_limit');
+		return $this->Lang_Get('wall.notices.error_add_time_limit');
 	}
 	/**
 	 * Валидация родительского сообщения
@@ -73,7 +73,7 @@ class ModuleWall_EntityWall extends Entity {
 				return true;
 			}
 		}
-		return $this->Lang_Get('wall_add_pid_error');
+		return $this->Lang_Get('wall.notices.error_add_pid');
 	}
 	/**
 	 * Возвращает родительскую запись
@@ -117,5 +117,13 @@ class ModuleWall_EntityWall extends Entity {
 	 */
 	public function getUrlWall() {
 		return $this->getWallUser()->getUserWebPath().'wall/';
+	}
+	/**
+	 * Дата добавления
+	 *
+	 * @return string
+	 */
+	public function getDate() {
+		return $this->getDateAdd();
 	}
 }

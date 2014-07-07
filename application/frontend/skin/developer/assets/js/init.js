@@ -304,7 +304,14 @@ jQuery(document).ready(function($){
 	/**
 	 * Стена
 	 */
-	ls.wall.init();
+	$('.js-wall-default').lsWall({
+		urls: {
+			add:           aRouter.wall + 'add/',
+			remove:        aRouter.wall + 'remove/',
+			load:          aRouter.wall + 'load/',
+			load_comments: aRouter.wall + 'load-comments/'
+		}
+	});
 
 
 	/**

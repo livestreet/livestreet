@@ -222,6 +222,17 @@
 		{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
 	{/if}
 
+
+	{**
+	 * Стена
+	 *}
+	<h2 class="header-table mt-30">{lang name='wall.title'}</h2>
+
+	{insert name='block' block='wall' params=[
+		'classes' => 'js-wall-default',
+		'user_id' => $oUserProfile->getId()
+	]}
+
 	{hook run='profile_whois_item_end' oUserProfile=$oUserProfile}
 	{hook run='user_info_end' oUserProfile=$oUserProfile}
 {/block}
