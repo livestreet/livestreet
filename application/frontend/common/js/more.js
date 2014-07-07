@@ -25,7 +25,7 @@
 			// Ссылка
 			url: null,
 			// Название переменной с результатом
-			result: 'sHtml',
+			result: 'html',
 			// Параметры запроса
 			params: {},
 			// Проксирующие параметры
@@ -70,6 +70,20 @@
 		},
 
 		/**
+		 * Получает значение счетчика
+		 */
+		getCount: function () {
+			return this.counter.length && parseInt( this.counter.text(), 10 );
+		},
+
+		/**
+		 * Устанавливает значение счетчика
+		 */
+		setCount: function ( number ) {
+			this.counter.length && this.counter.text( number );
+		},
+
+		/**
 		 * Подгрузка
 		 */
 		load: function () {
@@ -81,7 +95,7 @@
 			var params=$.extend({}, this.options.params, this.options.proxy);
 
 			ls.ajax.load(this.options.url, params, function (oResponse) {
-				if (oResponse.iCountLoaded > 0) {
+				if (oResponse.count_loaded > 0) {
 					var html = $('<div></div>').html( $.trim( oResponse[this.options.result] ) );
 
 					if ( html.find( this.options.target ).length ) {
@@ -89,16 +103,16 @@
 					}
 
 					this.target[ this.options.append ? 'append' : 'prepend' ]( html.html() );
-					this.element.data( 'param-i-last-id', oResponse.iLastId );
+					this.element.attr( 'data-param-last_id', oResponse.last_id );
 
 					// Обновляем счетчик
 					if (this.counter.length) {
-						var iCountLeft = parseInt( this.counter.text(), 10 ) - oResponse.iCountLoaded;
+						var iCountLeft = this.getCount() - oResponse.count_loaded;
 
 						if (iCountLeft <= 0) {
 							this.element.remove();
 						} else {
-							this.counter.text(iCountLeft);
+							this.setCount( iCountLeft );
 						}
 					}
 

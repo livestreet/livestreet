@@ -161,7 +161,7 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequestStr('iLastId');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -174,16 +174,16 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
 
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Погрузка событий для всего сайта
@@ -197,7 +197,7 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequestStr('iLastId');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -210,16 +210,16 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
 
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Подгрузка событий для пользователя
@@ -233,7 +233,7 @@ class ActionStream extends Action {
 		/**
 		 * Необходимо передать последний просмотренный ID событий
 		 */
-		$iFromId = getRequestStr('iLastId');
+		$iFromId = getRequestStr('last_id');
 		if (!$iFromId)  {
 			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 			return;
@@ -250,16 +250,16 @@ class ActionStream extends Action {
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
 		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('iCountLoaded', count($aEvents));
+		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
 
 		if (count($aEvents)) {
 			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('iLastId', $oEvenLast->getId());
+			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
 		}
 		/**
 		 * Возвращаем данные в ajax ответе
 		 */
-		$this->Viewer_AssignAjax('sHtml', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 	}
 	/**
 	 * Подписка на пользователя по ID

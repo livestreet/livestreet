@@ -140,7 +140,7 @@ class ActionPeople extends Action {
 		/**
 		 * Для подгрузки
 		 */
-		$this->Viewer_AssignAjax('iCountLoaded',count($aResult['collection']));
+		$this->Viewer_AssignAjax('count_loaded',count($aResult['collection']));
 		$this->Viewer_AssignAjax('pageNext',count($aResult['collection'])>0 ? $iPage+1 : $iPage);
 		$this->Viewer_AssignAjax('bHideMore',$bHideMore);
 	}
