@@ -306,10 +306,10 @@ jQuery(document).ready(function($){
 	 */
 	$('.js-wall-default').lsWall({
 		urls: {
-			add:           aRouter.wall + 'add/',
-			remove:        aRouter.wall + 'remove/',
-			load:          aRouter.wall + 'load/',
-			load_comments: aRouter.wall + 'load-comments/'
+			add:           aRouter.ajax + 'wall/add/',
+			remove:        aRouter.ajax + 'wall/remove/',
+			load:          aRouter.ajax + 'wall/load/',
+			load_comments: aRouter.ajax + 'wall/load-comments/'
 		}
 	});
 
