@@ -454,5 +454,47 @@ class ModuleCategory extends ModuleORM {
 
 		return $this->GetTargetIdsByCategoriesId($aCategoryId,$sTargetType,$iPage,$iPerPage);
 	}
+	/**
+	 * Создает новый тип объекта в БД для категорий
+	 *
+	 * @param string $sType
+	 * @param string  $sTitle
+	 * @param array  $aParams
+	 * @param bool $bRewrite
+	 *
+	 * @return bool|ModuleCategory_EntityType
+	 */
+	public function CreateTargetType($sType,$sTitle,$aParams=array(),$bRewrite=false) {
+		/**
+		 * Проверяем есть ли уже такой тип
+		 */
+		if ($oType=$this->GetTypeByTargetType($sType)) {
+			if (!$bRewrite) {
+				return false;
+			}
+		} else {
+			$oType=Engine::GetEntity('ModuleCategory_EntityType');
+			$oType->setTargetType($sType);
+		}
+		$oType->setState(self::TARGET_STATE_ACTIVE);
+		$oType->setTitle(htmlspecialchars($sTitle));
+		$oType->setParams($aParams);
+		if ($oType->Save()) {
+			return $oType;
+		}
+		return false;
+	}
+	/**
+	 * Отключает тип объекта для категорий
+	 *
+	 * @param string $sType
+	 * @param int $iState self::TARGET_STATE_NOT_ACTIVE или self::TARGET_STATE_REMOVE
+	 */
+	public function RemoveTargetType($sType,$iState=self::TARGET_STATE_NOT_ACTIVE) {
+		if ($oType=$this->GetTypeByTargetType($sType)) {
+			$oType->setState($iState);
+			$oType->Save();
+		}
+	}
 
 }

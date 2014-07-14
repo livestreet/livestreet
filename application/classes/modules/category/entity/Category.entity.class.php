@@ -130,12 +130,12 @@ class ModuleCategory_EntityCategory extends EntityORM {
 	}
 	/**
 	 * Возвращает URL категории
-	 * Этот метод можно переопределить из плагина и возвращать свой URL для нужного типа категорий
+	 * Этот метод необходимо переопределить из плагина и возвращать свой URL для нужного типа категорий
 	 *
 	 * @return string
 	 */
 	public function getWebUrl() {
-		return Router::GetPath('category').$this->getUrlFull().'/';
+		return null;
 	}
 	/**
 	 * Возвращает объект типа категории с использованием кеширования на время сессии
