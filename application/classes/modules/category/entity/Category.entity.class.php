@@ -166,4 +166,77 @@ class ModuleCategory_EntityCategory extends EntityORM {
 	public function getUrlAdminRemove() {
 		return Router::GetPath('admin/categories/'.$this->getTypeByCacheLife()->getTargetType().'/remove/'.$this->getId());
 	}
+	/**
+	 * Возвращает список дополнительных данных
+	 *
+	 * @return array|mixed
+	 */
+	public function getData() {
+		$aData=@unserialize($this->_getDataOne('data'));
+		if (!$aData) {
+			$aData=array();
+		}
+		return $aData;
+	}
+	/**
+	 * Устанавливает список дополнительня данных
+	 *
+	 * @param $aRules
+	 */
+	public function setData($aRules) {
+		$this->_aData['data']=@serialize($aRules);
+	}
+	/**
+	 * Возвращает данные по конкретному ключу
+	 *
+	 * @param $sKey
+	 *
+	 * @return null
+	 */
+	public function getDataOne($sKey) {
+		$aData=$this->getData();
+		if (isset($aData[$sKey])) {
+			return $aData[$sKey];
+		}
+		return null;
+	}
+	/**
+	 * Устанваливает данные для конкретного ключа
+	 *
+	 * @param $sKey
+	 * @param $mValue
+	 */
+	public function setDataOne($sKey,$mValue) {
+		$aData=$this->getData();
+		$aData[$sKey]=$mValue;
+		$this->setData($aData);
+	}
+	/**
+	 * Возвращает сумму значений по ключу для всех потомков, включая себя
+	 *
+	 * @param $sKey
+	 *
+	 * @return null
+	 */
+	public function getDataOneSumDescendants($sKey) {
+		$iResult=$this->getDataOne($sKey);
+		$aChildren=$this->getDescendants();
+		foreach($aChildren as $oItem) {
+			$iResult+=$oItem->getDataOne($sKey);
+		}
+		return $iResult;
+	}
+	/**
+	 * Возвращает количество таргетов (объектов) для всех потомков, включая себя
+	 *
+	 * @return mixed
+	 */
+	public function getCountTargetOfDescendants() {
+		$iCount=$this->getCountTarget();
+		$aChildren=$this->getDescendants();
+		foreach($aChildren as $oItem) {
+			$iCount+=$oItem->getCountTarget();
+		}
+		return $iCount;
+	}
 }

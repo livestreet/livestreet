@@ -39,6 +39,9 @@ class ModuleCategory_BehaviorEntity extends Behavior {
 		'validate_from_request'=>true,
 		'validate_min'=>1,
 		'validate_max'=>5,
+		'validate_only_without_children'=>false,
+
+		'callback_count_target'=>null,
 	);
 	/**
 	 * Список хуков
@@ -80,14 +83,14 @@ class ModuleCategory_BehaviorEntity extends Behavior {
 	 * Выполняется после сохранения сущности
 	 */
 	public function CallbackAfterSave() {
-		$this->Category_SaveCategories($this->oObject,$this->getParam('target_type'));
+		$this->Category_SaveCategories($this->oObject,$this->getParam('target_type'),$this->getParam('callback_count_target'));
 	}
 	/**
 	 * Коллбэк
 	 * Выполняется после удаления сущности
 	 */
 	public function CallbackAfterDelete() {
-		$this->Category_RemoveCategories($this->oObject,$this->getParam('target_type'));
+		$this->Category_RemoveCategories($this->oObject,$this->getParam('target_type'),$this->getParam('callback_count_target'));
 	}
 	/**
 	 * Дополнительный метод для сущности
@@ -121,24 +124,31 @@ class ModuleCategory_BehaviorEntity extends Behavior {
 		/**
 		 * Проверяем наличие категорий в БД
 		 */
-		$aCategoriesId=$this->Category_ValidateCategoryArray($mValue,$oTypeCategory->getId());
-		if (!$aCategoriesId) {
-			$aCategoriesId=array();
+		$aCategories=$this->Category_ValidateCategoryArray($mValue,$oTypeCategory->getId(),true);
+		if (!$aCategories) {
+			$aCategories=array();
 		}
 
-		if ($this->getParam('validate_require') and !$aCategoriesId) {
+		if ($this->getParam('validate_require') and !$aCategories) {
 			return 'Необходимо выбрать категорию';
 		}
-		if (!$this->getParam('multiple') and count($aCategoriesId)>1) {
-			$aCategoriesId=array_slice($aCategoriesId,0,1);
+		if (!$this->getParam('multiple') and count($aCategories)>1) {
+			$aCategories=array_slice($aCategories,0,1);
 		}
-		if ($this->getParam('multiple') and $aCategoriesId and ( count($aCategoriesId)<$this->getParam('validate_min') or count($aCategoriesId)>$this->getParam('validate_max'))) {
+		if ($this->getParam('multiple') and $aCategories and ( count($aCategories)<$this->getParam('validate_min') or count($aCategories)>$this->getParam('validate_max'))) {
 			return 'Количество категорий должно быть от '.$this->getParam('validate_min').' до '.$this->getParam('validate_max');
+		}
+		if ($this->getParam('validate_only_without_children')) {
+			foreach($aCategories as $oCategory) {
+				if ($oCategory->getChildren()) {
+					return 'Для выбора доступны только конечные категории';
+				}
+			}
 		}
 		/**
 		 * Сохраняем необходимый список категорий для последующего сохранения в БД
 		 */
-		$this->oObject->_setData(array('_categories_for_save'=>$aCategoriesId));
+		$this->oObject->_setData(array('_categories_for_save'=>array_keys($aCategories)));
 		return true;
 	}
 	/**

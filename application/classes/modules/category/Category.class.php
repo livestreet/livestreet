@@ -201,10 +201,11 @@ class ModuleCategory extends ModuleORM {
 	 *
 	 * @param array $aCategoryId
 	 * @param int $iType
+	 * @param bool $bReturnObjects
 	 *
 	 * @return array|bool
 	 */
-	public function ValidateCategoryArray($aCategoryId,$iType) {
+	public function ValidateCategoryArray($aCategoryId,$iType,$bReturnObjects=false) {
 		if (!is_array($aCategoryId)) {
 			return false;
 		}
@@ -212,12 +213,12 @@ class ModuleCategory extends ModuleORM {
 		foreach($aCategoryId as $iId) {
 			$aIds[]=(int)$iId;
 		}
-		if ($aIds and $aCategories=$this->GetCategoryItemsByFilter(array('id in'=>$aIds,'type_id'=>$iType))) {
-			$aResultId=array();
-			foreach($aCategories as $oCategory) {
-				$aResultId[]=$oCategory->getId();
+		if ($aIds and $aCategories=$this->GetCategoryItemsByFilter(array('id in'=>$aIds,'type_id'=>$iType,'#index-from-primary'))) {
+			if ($bReturnObjects) {
+				return $aCategories;
+			} else {
+				return array_keys($aCategories);
 			}
-			return $aResultId;
 		}
 		return false;
 	}
@@ -226,8 +227,9 @@ class ModuleCategory extends ModuleORM {
 	 *
 	 * @param $oTarget
 	 * @param $sTargetType
+	 * @param $mCallbackCountTarget
 	 */
-	public function SaveCategories($oTarget,$sTargetType) {
+	public function SaveCategories($oTarget,$sTargetType,$mCallbackCountTarget=null) {
 		$aCategoriesId=$oTarget->_getDataOne('_categories_for_save');
 		if (!is_array($aCategoriesId)) {
 			return;
@@ -235,22 +237,63 @@ class ModuleCategory extends ModuleORM {
 		/**
 		 * Удаляем текущие связи
 		 */
-		$this->RemoveRelation($oTarget->_getPrimaryKeyValue(),$sTargetType);
+		$aCategoryIdChanged=$this->RemoveRelation($oTarget->_getPrimaryKeyValue(),$sTargetType);
 		/**
 		 * Создаем
 		 */
 		$this->CreateRelation($aCategoriesId,$oTarget->_getPrimaryKeyValue(),$sTargetType);
+		/**
+		 * Полный список категорий, которые затронули изменения
+		 */
+		$aCategoryIdChanged=array_merge($aCategoryIdChanged,$aCategoriesId);
+		/**
+		 * Подсчитываем количество новое элементов для каждой категории
+		 */
+		$this->UpdateCountTarget($aCategoryIdChanged,$sTargetType,$mCallbackCountTarget);
 
 		$oTarget->_setData(array('_categories_for_save'=>null));
+	}
+	/**
+	 * Обновляет количество элементов у категорий (поле count_target в таблице категорий)
+	 *
+	 * @param      $aCategoryId
+	 * @param      $sTargetType
+	 * @param null $mCallback
+	 */
+	protected function UpdateCountTarget($aCategoryId,$sTargetType,$mCallback=null) {
+		if (!is_array($aCategoryId)) {
+			$aCategoryId=array($aCategoryId);
+		}
+		if (!count($aCategoryId)) {
+			return;
+		}
+		$aCategories=$this->GetCategoryItemsByArrayId($aCategoryId);
+		foreach($aCategories as $oCategory) {
+			if ($mCallback) {
+				if (is_string($mCallback)) {
+					$mCallback=array($this,$mCallback);
+				}
+				$iCount=call_user_func_array($mCallback,array($oCategory,$sTargetType));
+			} else {
+				$iCount=$this->GetCountItemsByFilter(array('category_id'=>$oCategory->getId()),'ModuleCategory_EntityTarget');
+			}
+			$oCategory->setCountTarget($iCount);
+			$oCategory->Update();
+		}
 	}
 	/**
 	 * Удаляет категории у объекта
 	 *
 	 * @param $oTarget
 	 * @param $sTargetType
+	 * @param $mCallbackCountTarget
 	 */
-	public function RemoveCategories($oTarget,$sTargetType) {
-		$this->RemoveRelation($oTarget->_getPrimaryKeyValue(),$sTargetType);
+	public function RemoveCategories($oTarget,$sTargetType,$mCallbackCountTarget=null) {
+		$aCategoryIdChanged=$this->RemoveRelation($oTarget->_getPrimaryKeyValue(),$sTargetType);
+		/**
+		 * Подсчитываем количество новое элементов для каждой категории
+		 */
+		$this->UpdateCountTarget($aCategoryIdChanged,$sTargetType,$mCallbackCountTarget);
 	}
 	/**
 	 * Создает новую связь конкретного объекта с категориями
@@ -294,7 +337,7 @@ class ModuleCategory extends ModuleORM {
 	 * @param int $iTargetId
 	 * @param int|string $iType type_id или target_type
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public function RemoveRelation($iTargetId,$iType) {
 		if (!is_numeric($iType)) {
@@ -304,11 +347,13 @@ class ModuleCategory extends ModuleORM {
 				return false;
 			}
 		}
+		$aRemovedCategory=array();
 		$aTargets=$this->GetTargetItemsByTargetIdAndTypeId($iTargetId,$iType);
 		foreach($aTargets as $oTarget) {
 			$oTarget->Delete();
+			$aRemovedCategory[]=$oTarget->getCategoryId();
 		}
-		return true;
+		return $aRemovedCategory;
 	}
 	/**
 	 * Возвращает список категорий по категории
@@ -373,6 +418,5 @@ class ModuleCategory extends ModuleORM {
 			$this->RebuildCategoryUrlFull($oCategory,false);
 		}
 	}
-
 
 }
