@@ -2,14 +2,16 @@
  * Регистрация через инвайт
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}{$aLang.registration_invite}{/block}
+{block 'layout_page_title'}
+	{$aLang.auth.invite.title}
+{/block}
 
-{block name='layout_content'}
-	{include file='forms/auth/form.auth.invite.tpl'}
+{block 'layout_content'}
+	{include 'components/auth/auth.invite.tpl'}
 {/block}

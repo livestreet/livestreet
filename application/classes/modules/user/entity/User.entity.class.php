@@ -64,7 +64,7 @@ class ModuleUser_EntityUser extends Entity {
 		if ($this->User_CheckLogin($sValue)) {
 			return true;
 		}
-		return $this->Lang_Get('registration_login_error');
+		return $this->Lang_Get('auth.registration.notices.error_login');
 	}
 	/**
 	 * Проверка логина на существование
@@ -77,7 +77,7 @@ class ModuleUser_EntityUser extends Entity {
 		if (!$this->User_GetUserByLogin($sValue)) {
 			return true;
 		}
-		return $this->Lang_Get('registration_login_error_used');
+		return $this->Lang_Get('auth.registration.notices.error_login_used');
 	}
 	/**
 	 * Проверка емайла на существование
@@ -90,7 +90,7 @@ class ModuleUser_EntityUser extends Entity {
 		if (!$this->User_GetUserByMail($sValue)) {
 			return true;
 		}
-		return $this->Lang_Get('registration_mail_error_used');
+		return $this->Lang_Get('auth.registration.notices.error_mail_used');
 	}
 
 	/**

@@ -35,28 +35,33 @@ ls.user = (function ($) {
 
 		this.options = $.extend({}, _defaults, options);
 
+		// TODO: Перенести в модуль auth
+
 		/* Авторизация */
-		ls.ajax.form(aRouter.login + 'ajax-login', '.js-form-login', function (result, status, xhr, form) {
-            result.sUrlRedirect && (window.location = result.sUrlRedirect);
-            ls.hook.run('ls_user_login_after', [form, result]);
+		$('.js-auth-login-form').on('submit', function (e) {
+			ls.ajax.submit(aRouter.login + 'ajax-login', $(this), function ( response ) {
+				response.sUrlRedirect && (window.location = response.sUrlRedirect);
+			});
+
+			e.preventDefault();
 		});
 
 		/* Регистрация */
-		ls.ajax.form(aRouter.registration + 'ajax-registration', '.js-form-registration', function (result, status, xhr, form) {
-            result.sUrlRedirect && (window.location = result.sUrlRedirect);
-            ls.hook.run('ls_user_registration_after', [form, result]);
-		});
+		$('.js-auth-registration-form').on('submit', function (e) {
+			ls.ajax.submit(aRouter.registration + 'ajax-registration', $(this), function ( response ) {
+				response.sUrlRedirect && (window.location = response.sUrlRedirect);
+			});
 
-		/* Регистрация Modal */
-		ls.ajax.form(aRouter.registration + 'ajax-registration', '.js-form-signup', function (result, status, xhr, form) {
-            result.sUrlRedirect && (window.location = result.sUrlRedirect);
-            ls.hook.run('ls_user_registration_after', [form, result]);
+			e.preventDefault();
 		});
 
 		/* Восстановление пароля */
-		ls.ajax.form(aRouter.login + 'ajax-reminder', '.js-form-recovery', function (result, status, xhr, form) {
-            result.sUrlRedirect && (window.location = result.sUrlRedirect);
-            ls.hook.run('ls_user_recovery_after', [form, result]);
+		$('.js-auth-reset-form').on('submit', function (e) {
+			ls.ajax.submit(aRouter.login + 'ajax-reset', $(this), function ( response ) {
+				response.sUrlRedirect && (window.location = response.sUrlRedirect);
+			});
+
+			e.preventDefault();
 		});
 
 		/* Повторный запрос на ссылку активации */

@@ -31,20 +31,20 @@ class ActionRegistration extends Action {
 		 * Проверяем аторизован ли юзер
 		 */
 		if ($this->User_IsAuthorization()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('registration_is_authorization'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.already_registered'),$this->Lang_Get('attention'));
 			return Router::Action('error');
 		}
 		/**
 		 * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
 		 */
-		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','confirm')) and !$this->CheckInviteRegister()) {
+		if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and !in_array(Router::GetActionEvent(),array('invite','activate','reactivation','confirm')) and !$this->CheckInviteRegister()) {
 			return Router::Action('registration','invite');
 		}
 		$this->SetDefaultEvent('index');
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('registration'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('auth.registration.title'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -55,9 +55,11 @@ class ActionRegistration extends Action {
 		$this->AddEvent('confirm','EventConfirm');
 		$this->AddEvent('activate','EventActivate');
 		$this->AddEvent('invite','EventInvite');
+		$this->AddEvent('reactivation','EventReactivation');
 
 		$this->AddEvent('ajax-validate-fields','EventAjaxValidateFields');
 		$this->AddEvent('ajax-registration','EventAjaxRegistration');
+		$this->AddEvent('ajax-reactivation','EventAjaxReactivation');
 	}
 
 
@@ -216,7 +218,7 @@ class ActionRegistration extends Action {
 						$sUrl=getRequestStr('return-path');
 					}
 					$this->Viewer_AssignAjax('sUrlRedirect',$sUrl ? $sUrl : Router::GetPath('/'));
-					$this->Message_AddNoticeSingle($this->Lang_Get('registration_ok'));
+					$this->Message_AddNoticeSingle($this->Lang_Get('auth.registration.notices.success'));
 				}
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -258,14 +260,14 @@ class ActionRegistration extends Action {
 		 *
 		 */
 		if ($oUser and $oUser->getActivate()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.error_reactivate'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
 		 * Если что то не то
 		 */
 		if ($bError) {
-			$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_code'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.error_code'),$this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		/**
@@ -284,6 +286,38 @@ class ActionRegistration extends Action {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
 			return Router::Action('error');
 		}
+	}
+	/**
+	 * Повторный запрос активации
+	 */
+	protected function EventReactivation() {
+		if($this->User_GetUserCurrent()) {
+			Router::Location(Router::GetPath('/'));
+		}
+
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('auth.reactivation.title'));
+	}
+	/**
+	 *  Ajax повторной активации
+	 */
+	protected function EventAjaxReactivation() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if ((func_check(getRequestStr('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequestStr('mail')))) {
+			if ($oUser->getActivate()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.error_reactivate'));
+				return;
+			} else {
+				$oUser->setActivateKey(md5(func_generator() . time()));
+				if ($this->User_Update($oUser)) {
+					$this->Message_AddNotice($this->Lang_Get('auth.reactivation.notices.success'));
+					$this->Notify_SendReactivationCode($oUser);
+					return;
+				}
+			}
+		}
+
+		$this->Message_AddErrorSingle($this->Lang_Get('auth.notices.error_bad_email'));
 	}
 	/**
 	 * Обработка кода приглашения при включеном режиме инвайтов
@@ -312,7 +346,7 @@ class ActionRegistration extends Action {
 				}
 				return Router::Action('registration');
 			} else {
-				$this->Message_AddError($this->Lang_Get('registration_invite_code_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('auth.invite.alerts.error_code'),$this->Lang_Get('error'));
 			}
 		}
 	}

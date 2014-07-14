@@ -43,12 +43,10 @@ class ActionLogin extends Action {
 	protected function RegisterEvent() {
 		$this->AddEvent('index','EventLogin');
 		$this->AddEvent('exit','EventExit');
-		$this->AddEvent('reminder','EventReminder');
-		$this->AddEvent('reactivation','EventReactivation');
+		$this->AddEvent('reset','EventReset');
 
 		$this->AddEvent('ajax-login','EventAjaxLogin');
-		$this->AddEvent('ajax-reminder','EventAjaxReminder');
-		$this->AddEvent('ajax-reactivation','EventAjaxReactivation');
+		$this->AddEvent('ajax-reset','EventAjaxReset');
 	}
 	/**
 	 * Ajax авторизация
@@ -87,7 +85,7 @@ class ActionLogin extends Action {
 
 				if ($oUser->getPassword()==func_encrypt(getRequest('password'))) {
 					if (!$oUser->getActivate()) {
-						$this->Message_AddErrorSingle($this->Lang_Get('user_not_activated', array('reactivation_path' => Router::GetPath('login') . 'reactivation')));
+						$this->Message_AddErrorSingle($this->Lang_Get('auth.notices.not_activated', array('reactivation_path' => Router::GetPath('registration') . 'reactivation')));
 						return;
 					}
 					$bRemember=getRequest('remember',false) ? true : false;
@@ -119,39 +117,7 @@ class ActionLogin extends Action {
 
 
 		}
-		$this->Message_AddErrorSingle($this->Lang_Get('user_login_bad'));
-	}
-	/**
-	 * Повторный запрос активации
-	 */
-	protected function EventReactivation() {
-		if($this->User_GetUserCurrent()) {
-			Router::Location(Router::GetPath('/'));
-		}
-
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('reactivation'));
-	}
-	/**
-	 *  Ajax повторной активации
-	 */
-	protected function EventAjaxReactivation() {
-		$this->Viewer_SetResponseAjax('json');
-
-		if ((func_check(getRequestStr('mail'), 'mail') and $oUser = $this->User_GetUserByMail(getRequestStr('mail')))) {
-			if ($oUser->getActivate()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('registration_activate_error_reactivate'));
-				return;
-			} else {
-				$oUser->setActivateKey(md5(func_generator() . time()));
-				if ($this->User_Update($oUser)) {
-					$this->Message_AddNotice($this->Lang_Get('reactivation_send_link'));
-					$this->Notify_SendReactivationCode($oUser);
-					return;
-				}
-			}
-		}
-
-		$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_email'));
+		$this->Message_AddErrorSingle($this->Lang_Get('auth.login.notices.error_login'));
 	}
 	/**
 	 * Обрабатываем процесс залогинивания
@@ -165,7 +131,7 @@ class ActionLogin extends Action {
 		if($this->User_GetUserCurrent()) {
 			Router::Location(Router::GetPath('/'));
 		}
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('login'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('auth.login.title'));
 	}
 	/**
 	 * Обрабатываем процесс разлогинивания
@@ -179,7 +145,7 @@ class ActionLogin extends Action {
 	/**
 	 * Ajax запрос на восстановление пароля
 	 */
-	protected function EventAjaxReminder() {
+	protected function EventAjaxReset() {
 		/**
 		 * Устанвливаем формат Ajax ответа
 		 */
@@ -199,22 +165,22 @@ class ActionLogin extends Action {
 			$oReminder->setIsUsed(0);
 			$oReminder->setUserId($oUser->getId());
 			if ($this->User_AddReminder($oReminder)) {
-				$this->Message_AddNotice($this->Lang_Get('password_reminder_send_link'));
+				$this->Message_AddNotice($this->Lang_Get('auth.notices.success_send_password'));
 				$this->Notify_SendReminderCode($oUser,$oReminder);
 				return;
 			}
 		}
-		$this->Message_AddError($this->Lang_Get('password_reminder_bad_email'),$this->Lang_Get('error'));
+		$this->Message_AddError($this->Lang_Get('auth.notices.error_bad_email'),$this->Lang_Get('error'));
 	}
 	/**
 	 * Обработка напоминания пароля, подтверждение смены пароля
 	 *
 	 */
-	protected function EventReminder() {
+	protected function EventReset() {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('password_reminder'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('auth.reset.title'));
 		/**
 		 * Проверка кода на восстановление пароля и генерация нового пароля
 		 */
@@ -231,12 +197,12 @@ class ActionLogin extends Action {
 						$oReminder->setIsUsed(1);
 						$this->User_UpdateReminder($oReminder);
 						$this->Notify_SendReminderPassword($oUser,$sNewPassword);
-						$this->SetTemplateAction('reminder_confirm');
+						$this->SetTemplateAction('reset_confirm');
 						return ;
 					}
 				}
 			}
-			$this->Message_AddErrorSingle($this->Lang_Get('password_reminder_bad_code'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('auth.reset.alerts.error_bad_code'), $this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 	}

@@ -22,8 +22,8 @@
 	]}
 {else}
 	{$aItems = [
-		[ 'text' => $aLang.user_login_submit,   'classes' => 'js-modal-toggle-login',        'url' => {router page='login'} ],
-		[ 'text' => $aLang.registration_submit, 'classes' => 'js-modal-toggle-registration', 'url' => {router page='registration'} ]
+		[ 'text' => $aLang.auth.login.title,        'classes' => 'js-modal-toggle-login',        'url' => {router page='login'} ],
+		[ 'text' => $aLang.auth.registration.title, 'classes' => 'js-modal-toggle-registration', 'url' => {router page='registration'} ]
 	]}
 {/if}
 

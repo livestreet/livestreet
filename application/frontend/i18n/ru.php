@@ -754,6 +754,161 @@ return array(
 	),
 
 	/**
+	 * Авторизация
+	 */
+	'auth' => array(
+		'authorization' => 'Авторизация',
+
+		// Вход
+		'login' => array(
+			'title' => 'Войти',
+
+			'form' => array(
+				// Поля
+				'fields' => array(
+					'login' => array(
+						'label' => 'Логин или эл. почта'
+					),
+					'remember' => array(
+						'label' => 'Запомнить меня'
+					),
+					'submit' => array(
+						'text' => 'Войти'
+					)
+				)
+			),
+
+			// Всплывающие сообщения
+			'notices' => array(
+				'error_login'         => 'Неправильно указан логин (e-mail) или пароль!',
+				'error_not_activated' => 'Вы не активировали вашу учетную запись. <br/> <a href="%%reactivation_path%%">Повторный запрос активации</a>'
+			),
+		),
+
+		// Повторный запрос активации
+		'reactivation' => array(
+			'title' => 'Повторный запрос активации',
+
+			'form' => array(
+				// Поля
+				'fields' => array(
+					'mail' => array(
+						'label' => 'Ваш e-mail'
+					),
+					'submit' => array(
+						'text' => 'Получить ссылку на активацию'
+					)
+				)
+			),
+
+			// Всплывающие сообщения
+			'notices' => array(
+				'success' => 'Ссылка для активации отправлена на ваш адрес электронной почты',
+			)
+		),
+
+		// Сброс пароля
+		'reset' => array(
+			'title' => 'Восстановление пароля',
+
+			'form' => array(
+				// Поля
+				'fields' => array(
+					'mail' => array(
+						'label' => 'Ваш e-mail'
+					),
+					'submit' => array(
+						'text' => 'Получить ссылку на изменение пароля'
+					)
+				)
+			),
+
+			// Всплывающие сообщения
+			'notices' => array(
+				'success_send_password' => 'Новый пароль отправлен на ваш адрес электронной почты',
+				'success_send_link'     => 'Ссылка для восстановления пароля отправлена на ваш адрес электронной почты',
+			),
+
+			// Сообщения
+			'alerts' => array(
+				'error_bad_code' => 'Неверный код на восстановление пароля.',
+			)
+		),
+
+		// Регистрация по приглашению
+		'invite' => array(
+			'title' => 'Регистрация по приглашению',
+
+			'form' => array(
+				// Поля
+				'fields' => array(
+					'code' => array(
+						'label' => 'Код приглашения'
+					),
+					'submit' => array(
+						'text' => 'Проверить код'
+					)
+				),
+			),
+
+			// Сообщения
+			'alerts' => array(
+				'error_code' => 'Неверный код приглашения',
+			)
+		),
+
+		// Регистрация
+		'registration' => array(
+			'title' => 'Регистрация',
+
+			'form' => array(
+				// Поля
+				'fields' => array(
+					'password_confirm' => array(
+						'label' => 'Повторите пароль'
+					),
+					'submit' => array(
+						'text' => 'Зарегистрироваться'
+					)
+				)
+			),
+
+			'confirm' => array(
+				'title' => 'Активация аккаунта',
+				'text'  => 'Вы почти зарегистрировались, осталось только активировать аккаунт. Инструкции по активации отправлены по электронной почте на адрес, указанный при регистрации.'
+			),
+
+			// Сообщения
+			'notices' => array(
+				'already_registered' => 'Вы уже зарегистрированы у нас и даже авторизованы!',
+				'success'            => 'Поздравляем! Регистрация прошла успешно',
+				'success_activate'   => 'Поздравляем! Ваш аккаунт успешно активирован.',
+				'error_login'        => 'Неверный логин, допустим от 3 до 30 символов',
+				'error_login_used'   => 'Этот логин уже занят',
+				'error_mail_used'    => 'Этот e-mail уже используется',
+				'error_reactivate'   => 'Ваш аккаунт уже активирован',
+				'error_code'         => 'Неверный код активации!'
+			),
+		),
+
+		// Общие лэйблы
+		'labels' => array(
+			'login'    => 'Логин',
+			'password' => 'Пароль',
+			'mail'     => 'E-mail',
+			'captcha'  => 'Введите цифры и буквы',
+		),
+
+		// Общие всплывающие сообщения
+		'notices' => array(
+			'error_bad_email' => 'Пользователь с таким e-mail не найден',
+		),
+	),
+
+	// TODO: Удалить, используется в ActionSubscribe
+	'registration_mail_error' => 'Неверный формат e-mail',
+
+	/**
 	 * Почта
 	 */
 	'talk_filter_error' => 'Ошибка фильтрации',
@@ -943,16 +1098,6 @@ return array(
 	'user_settings' => 'Настройки',
 	'user_settings_profile' => 'профиля',
 	'user_settings_tuning' => 'сайта',
-	'user_login' => 'Логин или эл. почта',
-	'user_login_submit' => 'Войти',
-	'user_login_remember' => 'Запомнить меня',
-	'user_login_bad' => 'Что-то не так! Вероятно, неправильно указан логин (e-mail) или пароль.',
-	'user_not_activated' => 'Вы не активировали вашу учетную запись. <br/> <a href="%%reactivation_path%%">Повторный запрос активации</a>',
-	'user_password' => 'Пароль',
-	'user_password_reminder' => 'Напомнить пароль',
-	'user_exit_notice' => 'Обязательно приходите еще.',
-	'user_authorization' => 'Авторизация',
-	'user_registration' => 'Регистрация',
 	'user_write_prvmsg' => 'Написать письмо',
 	'user_friend_add' => 'Добавить в друзья',
 	'user_friend_add_ok' => 'У вас появился новый друг',
@@ -1006,44 +1151,6 @@ return array(
 	'people_menu_users_all' => 'Все',
 	'people_menu_users_online' => 'Онлайн',
 	'people_menu_users_new' => 'Новые',
-	/**
-	 * Регистрация
-	 */
-	'registration_invite' => 'Регистрация по приглашению',
-	'registration_invite_code' => 'Код приглашения',
-	'registration_invite_code_error' => 'Неверный код приглашения',
-	'registration_invite_check' => 'Проверить код',
-	'registration_activate_ok' => 'Поздравляем! Ваш аккаунт успешно активирован.',
-	'registration_activate_error_code' => 'Неверный код активации!',
-	'registration_activate_error_reactivate' => 'Ваш аккаунт уже активирован',
-	'registration_confirm_header' => 'Активация аккаунта',
-	'registration_confirm_text' => 'Вы почти зарегистрировались, осталось только активировать аккаунт. Инструкции по активации отправлены по электронной почте на адрес, указанный при регистрации.',
-	'registration' => 'Регистрация',
-	'registration_is_authorization' => 'Вы уже зарегистрированы у нас и даже авторизованы!',
-	'registration_login' => 'Логин',
-	'registration_login_error' => 'Неверный логин, допустим от 3 до 30 символов',
-	'registration_login_error_used' => 'Этот логин уже занят',
-	'registration_login_notice' => 'Может состоять только из букв (A-Z a-z), цифр (0-9). Знак подчеркивания (_) лучше не использовать. Длина логина не может быть меньше 3 и больше 30 символов.',
-	'registration_mail' => 'E-mail',
-	'registration_mail_error' => 'Неверный формат e-mail',
-	'registration_mail_error_used' => 'Этот e-mail уже используется',
-	'registration_mail_notice' => 'Для проверки регистрации и в целях безопасности нам нужен адрес вашей электропочты.',
-	'registration_password' => 'Пароль',
-	'registration_password_error' => 'Неверный пароль, допустим от 5 символов',
-	'registration_password_error_different' => 'Пароли не совпадают',
-	'registration_password_notice' => 'Должен содержать не менее 5 символов и не может совпадать с логином. Не используйте простые пароли, будьте разумны.',
-	'registration_password_retry' => 'Повторите пароль',
-	'registration_captcha' => 'Введите цифры и буквы',
-	'registration_captcha_error' => 'Неверный код',
-	'registration_submit' => 'Зарегистрироваться',
-	'registration_ok' => 'Поздравляем! Регистрация прошла успешно',
-
-	/**
-	 * Повторный запрос активации
-	 */
-	"reactivation" => "Повторный запрос активации",
-	"reactivation_submit" => "Получить ссылку на активацию",
-	"reactivation_send_link" => "Ссылка для активации отправлена на ваш адрес электронной почты.",
 
 	/**
 	 * Меню профиля пользователя
@@ -1208,16 +1315,6 @@ return array(
 	'settings_menu_tuning' => 'Настройки сайта',
 	'settings_menu_invite' => 'Инвайты',
 	'settings_menu_account' => 'Аккаунт',
-	/**
-	 * Восстановление пароля
-	 */
-	'password_reminder' => 'Восстановление пароля',
-	'password_reminder_email' => 'Ваш e-mail',
-	'password_reminder_submit' => 'Получить ссылку на изменение пароля',
-	'password_reminder_send_password' => 'Новый пароль отправлен на ваш адрес электронной почты.',
-	'password_reminder_send_link' => 'Ссылка для восстановления пароля отправлена на ваш адрес электронной почты.',
-	'password_reminder_bad_code' => 'Неверный код на восстановление пароля.',
-	'password_reminder_bad_email' => 'Пользователь с таким e-mail не найден',
 	/**
 	 * Панель
 	 */
