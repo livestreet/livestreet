@@ -418,5 +418,41 @@ class ModuleCategory extends ModuleORM {
 			$this->RebuildCategoryUrlFull($oCategory,false);
 		}
 	}
+	/**
+	 * Возвращает список ID таргетов по списку категорий
+	 *
+	 * @param $aCategoryId
+	 * @param $sTargetType
+	 * @param $iPage
+	 * @param $iPerPage
+	 *
+	 * @return array
+	 */
+	public function GetTargetIdsByCategoriesId($aCategoryId,$sTargetType,$iPage,$iPerPage) {
+		if (!is_array($aCategoryId)) {
+			$aCategoryId=array($aCategoryId);
+		}
+		if (!count($aCategoryId)) {
+			return array();
+		}
+		$aTargetItems=$this->GetTargetItemsByFilter(array('category_id in'=>$aCategoryId,'target_type'=>$sTargetType,'#page'=>array($iPage,$iPerPage),'#index-from'=>'target_id'));
+		return array_keys($aTargetItems['collection']);
+	}
+	/**
+	 * Возвращает список ID таргетов по категории
+	 *
+	 * @param      $oCategory
+	 * @param      $sTargetType
+	 * @param      $iPage
+	 * @param      $iPerPage
+	 * @param bool $bIncludeChild
+	 *
+	 * @return array
+	 */
+	public function GetTargetIdsByCategory($oCategory,$sTargetType,$iPage,$iPerPage,$bIncludeChild=false) {
+		$aCategoryId=$this->GetCategoriesIdByCategory($oCategory,$bIncludeChild);
+
+		return $this->GetTargetIdsByCategoriesId($aCategoryId,$sTargetType,$iPage,$iPerPage);
+	}
 
 }

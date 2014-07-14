@@ -67,4 +67,25 @@ class ModuleCategory_BehaviorModule extends Behavior {
 		$aFilter=$this->Category_RewriteFilter($aParams['aFilter'],$aParams['sEntityFull'],$this->getParam('target_type'));
 		$aParams['aFilter']=$aFilter;
 	}
+	/**
+	 * Возвращает дерево категорий
+	 *
+	 * @return mixed
+	 */
+	public function GetCategoriesTree() {
+		return $this->Category_GetCategoriesTreeByTargetType($this->getParam('target_type'));
+	}
+	/**
+	 * Возвращает список ID объектов (элементов), которые принадлежат категории
+	 *
+	 * @param      $oCategory
+	 * @param      $iPage
+	 * @param      $iPerPage
+	 * @param bool $bIncludeChild
+	 *
+	 * @return mixed
+	 */
+	public function GetTargetIdsByCategory($oCategory,$iPage,$iPerPage,$bIncludeChild=false) {
+		return $this->Category_GetTargetIdsByCategory($oCategory,$this->getParam('target_type'),$iPage,$iPerPage,$bIncludeChild);
+	}
 }

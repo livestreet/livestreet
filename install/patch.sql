@@ -580,3 +580,27 @@ CREATE TABLE IF NOT EXISTS `prefix_category_type` (
   KEY `state` (`state`),
   KEY `target_type` (`target_type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 10.07.2014
+ALTER TABLE `prefix_category` ADD `data` VARCHAR( 500 ) NOT NULL ;
+ALTER TABLE `prefix_category` ADD `count_target` INT NOT NULL DEFAULT '0' AFTER `state` ,
+ADD INDEX ( `count_target` ) ;
+ALTER TABLE `prefix_blog_category` DROP FOREIGN KEY `prefix_blog_category_ibfk_1` ;
+ALTER TABLE `prefix_blog` DROP FOREIGN KEY `prefix_blog_ibfk_1` ;
+ALTER TABLE `prefix_blog` DROP `category_id` ;
+DROP TABLE `prefix_blog_category`;
+
+INSERT INTO `social`.`prefix_category_type` (
+`id` ,
+`target_type` ,
+`title` ,
+`state` ,
+`date_create` ,
+`date_update` ,
+`params`
+)
+VALUES (
+NULL , 'blog', 'Блоги', '1', '2014-07-14 00:00:00', NULL , ''
+);
+

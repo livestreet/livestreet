@@ -86,13 +86,13 @@ class ActionBlogs extends Action {
 		/**
 		 * Категории
 		 */
-		if (getRequestStr('category') and $oCategory=$this->Blog_GetCategoryById(getRequestStr('category'))) {
+		if (getRequestStr('category') and $oCategory=$this->Category_GetCategoryById(getRequestStr('category'))) {
 			/**
-			 * Получаем все дочерние категории
+			 * Получаем ID всех блогов
+			 * По сути это костыль, но т.к. блогов обычно не много, то норм
 			 */
-			$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
-			$aCategoriesId[]=$oCategory->getId();
-			$aFilter['category_id']=$aCategoriesId;
+			$aBlogIds=$this->Blog_GetTargetIdsByCategory($oCategory,1,1000,true);
+			$aFilter['id']=$aBlogIds ? $aBlogIds : array(0);
 		}
 		/**
 		 * Тип

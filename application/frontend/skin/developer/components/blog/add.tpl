@@ -24,24 +24,10 @@
 
 	{* Категория блога *}
 	{if Config::Get('module.blog.category_allow') and ($oUserCurrent->isAdministrator() or ! Config::Get('module.blog.category_only_admin'))}
-		{$aBlogCategoriesCustom = [
-			[ 'value' => 0, 'text' => '&mdash;' ]
-		]}
 
-		{foreach $aBlogCategories as $oBlogCategory}
-			{$aBlogCategoriesCustom[] = [
-				'value' => $oBlogCategory->getId(),
-				'text' => $oBlogCategory->getTitle()|escape
-			]}
-		{/foreach}
+		{* Подключаем блок для управления категориями *}
+		{insert name="block" block="categoryUpdate" params=[ 'target' => $oBlogEdit, 'entity' => 'ModuleBlog_EntityBlog' ]}
 
-		{include 'components/field/field.select.tpl'
-				 sName          = 'blog_category'
-				 sLabel         = $aLang.blog.add.fields.category.label
-				 sNote          = $aLang.blog.add.fields.category.note
-				 sInputClasses  = 'width-200'
-				 aItems         = $aBlogCategoriesCustom
-				 sSelectedValue = $_aRequest.blog_category}
 	{/if}
 
 

@@ -31,27 +31,5 @@ class BlockBlogNav extends Block {
 		}
 		$aCategories=$this->Blog_GetCategoriesTree();
 		$this->Viewer_Assign("aNavigatorBlogCategories",$aCategories);
-		/**
-		 * Получаем список блогов для первой категории для прогрузки в шаблон
-		 */
-		if ($oCategory=array_shift($aCategories)) {
-			/**
-			 * Получаем все дочерние категории
-			 */
-			$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
-			$aCategoriesId[]=$oCategory->getId();
-			/**
-			 * Формируем фильтр для получения списка блогов
-			 */
-			$aFilter=array(
-				'exclude_type' => 'personal',
-				'category_id'  => $aCategoriesId
-			);
-			/**
-			 * Получаем список блогов(все по фильтру)
-			 */
-			$aResult=$this->Blog_GetBlogsByFilter($aFilter,array('blog_title'=>'asc'),1,PHP_INT_MAX);
-			$this->Viewer_Assign("aNavigatorBlogs",$aResult['collection']);
-		}
 	}
 }

@@ -14,8 +14,9 @@
 		<p><select class="width-full js-blog-nav-categories">
 			<option value="0">{$aLang.blog.categories.category}</option>
 
-			{foreach $aNavigatorBlogCategories as $oCategoryItem}
-				<option style="margin-left: {$oCategoryItem->getLevel()*20}px;" value="{$oCategoryItem->getId()}">{$oCategoryItem->getTitle()|escape}</option>
+			{foreach $aNavigatorBlogCategories as $aCategoryItem}
+				{$oCategoryItem=$aCategoryItem.entity}
+				<option style="margin-left: {$aCategoryItem.level*20}px;" value="{$oCategoryItem->getId()}">{$oCategoryItem->getTitle()}</option>
 			{/foreach}
 		</select></p>
 

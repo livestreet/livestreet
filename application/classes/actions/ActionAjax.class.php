@@ -1682,20 +1682,19 @@ class ActionAjax extends Action {
 	 * Загружает список блогов конкретной категории
 	 */
 	protected function EventBlogsGetByCategory() {
-		if (!($oCategory=$this->Blog_GetCategoryById(getRequestStr('id')))) {
+		if (!($oCategory=$this->Category_GetCategoryById(getRequestStr('id')))) {
 			return $this->EventErrorDebug();
 		}
 		/**
-		 * Получаем все дочерние категории
+		 * Список ID блогов по категории
 		 */
-		$aCategoriesId=$this->Blog_GetChildrenCategoriesById($oCategory->getId(),true);
-		$aCategoriesId[]=$oCategory->getId();
+		$aBlogIds=$this->Blog_GetTargetIdsByCategory($oCategory,1,1000,true);
 		/**
 		 * Формируем фильтр для получения списка блогов
 		 */
 		$aFilter=array(
 			'exclude_type' => 'personal',
-			'category_id'  => $aCategoriesId
+			'id'  => $aBlogIds ? $aBlogIds : array(0)
 		);
 		/**
 		 * Получаем список блогов(все по фильтру)
@@ -1711,7 +1710,6 @@ class ActionAjax extends Action {
 				$aResult[]=array(
 					'id' => $oBlog->getId(),
 					'title' => htmlspecialchars($oBlog->getTitle()),
-					'category_id' => $oBlog->getCategoryId(),
 					'type' => $oBlog->getType(),
 					'rating' => $oBlog->getRating(),
 					'url' => $oBlog->getUrl(),

@@ -31,12 +31,13 @@ class ModuleCategory_BehaviorEntity extends Behavior {
 	protected $aParams=array(
 		'target_type'=>'',
 		'form_field'=>'categories',
+		'form_fill_current_from_request'=>true,
 		'multiple'=>false,
 
 		'validate_enable'=>true,
 		'validate_field'=>null,
 		'validate_require'=>false,
-		'validate_from_request'=>true,
+		'validate_from_request'=>false,
 		'validate_min'=>1,
 		'validate_max'=>5,
 		'validate_only_without_children'=>false,

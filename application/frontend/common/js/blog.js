@@ -37,7 +37,7 @@ ls.blog = (function ($) {
 			nav: {
 				categories: '.js-blog-nav-categories',
 				blogs:      '.js-blog-nav-blogs',
-				submit:     '.js-blog-nav-submit',
+				submit:     '.js-blog-nav-submit'
 			}
 		}
 	};
@@ -56,7 +56,7 @@ ls.blog = (function ($) {
 			nav: {
 				categories: $(this.options.selectors.nav.categories),
 				blogs:      $(this.options.selectors.nav.blogs),
-				submit:     $(this.options.selectors.nav.submit),
+				submit:     $(this.options.selectors.nav.submit)
 			},
 			info: $(this.options.selectors.info),
 			toggle_join: $(this.options.selectors.toggle_join),

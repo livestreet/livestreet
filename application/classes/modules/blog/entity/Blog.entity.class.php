@@ -22,6 +22,33 @@
  * @since 1.0
  */
 class ModuleBlog_EntityBlog extends Entity {
+
+	protected $sPrimaryKey = 'blog_id';
+	/**
+	 * Список поведений
+	 *
+	 * @var array
+	 */
+	protected $aBehaviors=array(
+		// Категории
+		'category'=>array(
+			'class'=>'ModuleCategory_BehaviorEntity',
+			'target_type'=>'blog',
+			'form_field'=>'category',
+			'multiple'=>false,
+			'validate_require'=>false,
+			'validate_only_without_children'=>true,
+		),
+	);
+
+	/**
+	 * Инициализация
+	 */
+	public function Init() {
+		parent::Init();
+		$this->aBehaviors['category']['validate_require']=!Config::Get('module.blog.category_allow_empty');
+		$this->aBehaviors['category']['validate_only_without_children']=Config::Get('module.blog.category_only_without_children');
+	}
 	/**
 	 * Возвращает ID блога
 	 *
@@ -37,14 +64,6 @@ class ModuleBlog_EntityBlog extends Entity {
 	 */
 	public function getOwnerId() {
 		return $this->_getDataOne('user_owner_id');
-	}
-	/**
-	 * Возвращает ID категории
-	 *
-	 * @return int|null
-	 */
-	public function getCategoryId() {
-		return $this->_getDataOne('category_id');
 	}
 	/**
 	 * Возвращает название блога
@@ -236,14 +255,6 @@ class ModuleBlog_EntityBlog extends Entity {
 	 */
 	public function setOwnerId($data) {
 		$this->_aData['user_owner_id']=$data;
-	}
-	/**
-	 * Устанавливает ID категории блога
-	 *
-	 * @param int $data
-	 */
-	public function setCategoryId($data) {
-		$this->_aData['category_id']=$data;
 	}
 	/**
 	 * Устанавливает заголовок блога

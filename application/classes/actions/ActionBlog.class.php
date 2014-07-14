@@ -206,16 +206,19 @@ class ActionBlog extends Action {
 		$aCategories=$this->Blog_GetCategoriesTree();
 		$this->Viewer_Assign('aBlogCategories',$aCategories);
 		/**
+		 * Создаем объект блога
+		 */
+		$oBlog=Engine::GetEntity('Blog');
+		/**
 		 * Запускаем проверку корректности ввода полей при добалении блога.
 		 * Дополнительно проверяем, что был отправлен POST запрос.
 		 */
-		if (!$this->checkBlogFields()) {
+		if (!$this->checkBlogFields($oBlog)) {
 			return false;
 		}
 		/**
 		 * Если всё ок то пытаемся создать блог
 		 */
-		$oBlog=Engine::GetEntity('Blog');
 		$oBlog->setOwnerId($this->oUserCurrent->getId());
 		$oBlog->setTitle(strip_tags(getRequestStr('blog_title')));
 		/**
@@ -238,36 +241,25 @@ class ActionBlog extends Action {
 			}
 		}
 		/**
-		 * Устанавливаем категорию для блога
-		 */
-		if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
-			if (getRequestStr('blog_category')) {
-				$oBlog->setCategoryId(getRequestStr('blog_category'));
-			} elseif (Config::Get('module.blog.category_allow_empty')) {
-				$oBlog->setCategoryId(null);
-			}
-		}
-		/**
 		 * Создаём блог
 		 */
 		$this->Hook_Run('blog_add_before', array('oBlog'=>$oBlog));
 		if ($this->Blog_AddBlog($oBlog)) {
 			$this->Hook_Run('blog_add_after', array('oBlog'=>$oBlog));
 			/**
+			 * Сохраняем категории
+			 */
+			if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
+				$oBlog->category->CallbackAfterSave();
+			}
+			/**
 			 * Получаем блог, это для получение полного пути блога, если он в будущем будет зависит от других сущностей(компании, юзер и т.п.)
 			 */
-			$oBlog->Blog_GetBlogById($oBlog->getId());
+			$oBlog=$this->Blog_GetBlogById($oBlog->getId());
 			/**
 			 * Фиксируем ID у media файлов
 			 */
 			$this->Media_ReplaceTargetTmpById('blog',$oBlog->getId());
-			/**
-			 * Меняем количество блогов в категории
-			 */
-			if ($oBlog->getCategoryId()) {
-				$this->Blog_IncreaseCategoryCountBlogs($oBlog->getCategoryId());
-			}
-
 			/**
 			 * Добавляем событие в ленту
 			 */
@@ -360,17 +352,6 @@ class ActionBlog extends Action {
 				$oBlog->setUrl(getRequestStr('blog_url'));	// разрешаем смену URL блога только админу
 			}
 			/**
-			 * Устанавливаем категорию для блога
-			 */
-			$iCategoryIdOld=$oBlog->getCategoryId();
-			if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
-				if (getRequestStr('blog_category')) {
-					$oBlog->setCategoryId(getRequestStr('blog_category'));
-				} elseif (Config::Get('module.blog.category_allow_empty')) {
-					$oBlog->setCategoryId(null);
-				}
-			}
-			/**
 			 * Загрузка аватара, делаем ресайзы
 			 */
 			if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
@@ -392,15 +373,11 @@ class ActionBlog extends Action {
 			$this->Hook_Run('blog_edit_before', array('oBlog'=>$oBlog));
 			if ($this->Blog_UpdateBlog($oBlog)) {
 				$this->Hook_Run('blog_edit_after', array('oBlog'=>$oBlog));
-
 				/**
-				 * Меняем количество блогов в категории
+				 * Сохраняем категории
 				 */
-				if ($iCategoryIdOld and $iCategoryIdOld!=$oBlog->getCategoryId()) {
-					$this->Blog_DecreaseCategoryCountBlogs($iCategoryIdOld);
-				}
-				if ($oBlog->getCategoryId()) {
-					$this->Blog_IncreaseCategoryCountBlogs($oBlog->getCategoryId());
+				if (Config::Get('module.blog.category_allow') and ($this->oUserCurrent->isAdministrator() or !Config::Get('module.blog.category_only_admin'))) {
+					$oBlog->category->CallbackAfterSave();
 				}
 
 				Router::Location($oBlog->getUrlFull());
@@ -415,7 +392,6 @@ class ActionBlog extends Action {
 			$_REQUEST['blog_title']=$oBlog->getTitle();
 			$_REQUEST['blog_url']=$oBlog->getUrl();
 			$_REQUEST['blog_type']=$oBlog->getType();
-			$_REQUEST['blog_category']=$oBlog->getCategoryId();
 			$_REQUEST['blog_description']=$oBlog->getDescription();
 			$_REQUEST['blog_limit_rating_topic']=$oBlog->getLimitRatingTopic();
 			$_REQUEST['blog_id']=$oBlog->getId();
@@ -580,7 +556,7 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем есть ли URL блога, с заменой всех пробельных символов на "_"
 		 */
-		if (!$oBlog or $this->oUserCurrent->isAdministrator()) {
+		if (!$oBlog or !$oBlog->getId() or $this->oUserCurrent->isAdministrator()) {
 			$blogUrl=preg_replace("/\s+/",'_',getRequestStr('blog_url'));
 			$_REQUEST['blog_url']=$blogUrl;
 			if (!func_check(getRequestStr('blog_url'),'login',2,50)) {
@@ -629,22 +605,12 @@ class ActionBlog extends Action {
 		 * Проверяем категорию блога
 		 */
 		if (Config::Get('module.blog.category_allow')) {
-			if ($oCategory=$this->Blog_GetCategoryById(getRequestStr('blog_category'))) {
-				/**
-				 * Проверяем есть ли у этой категории дочернии
-				 */
-				if (Config::Get('module.blog.category_only_children') and $this->Blog_GetCategoriesByPid($oCategory->getId())) {
-					$this->Message_AddError($this->Lang_Get('blog.add.fields.category.error_only_children'),$this->Lang_Get('error'));
-					$bOk=false;
-				}
-			} else {
-				$_REQUEST['blog_category']=null;
-				if (!Config::Get('module.blog.category_allow_empty')) {
-					$this->Message_AddError($this->Lang_Get('blog.add.fields.category.error'),$this->Lang_Get('error'));
-					$bOk=false;
-				}
+			if (true!==($mRes=$oBlog->category->ValidateCategoriesCheck(getRequest('category')))) {
+				$this->Message_AddError($mRes,$this->Lang_Get('error'));
+				$bOk=false;
 			}
 		}
+
 		/**
 		 * Выполнение хуков
 		 */

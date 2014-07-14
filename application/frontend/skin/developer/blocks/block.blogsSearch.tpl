@@ -21,13 +21,14 @@
 			'count'      => $iCountBlogsAll
 		] ]}
 
-		{foreach $aBlogCategories as $oCategory}
+		{foreach $aBlogCategories as $aCategory}
+			{$oCategory=$aCategory.entity}
 			{$aItems[] = [
-				'text'       => ($oCategory->getTitle()|escape),
-				'url'        => $oCategory->getUrlWeb(),
-				'attributes' => "data-search-type=\"blogs\" data-name=\"category\" data-value=\"{$oCategory->getId()}\" style=\"margin-left: {$oCategory->getLevel() * 20}px;\"",
+				'text'       => ($oCategory->getTitle()),
+				'url'        => '#',
+				'attributes' => "data-search-type=\"blogs\" data-name=\"category\" data-value=\"{$oCategory->getId()}\" style=\"margin-left: {$aCategory.level * 20}px;\"",
 				'classes'    => 'js-search-ajax-option',
-				'count'      => $oCategory->getCountBlogs()
+				'count'      => $oCategory->getCountTargetOfDescendants()
 			]}
 		{/foreach}
 
