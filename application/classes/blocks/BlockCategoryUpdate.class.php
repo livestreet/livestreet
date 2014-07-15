@@ -19,7 +19,7 @@
  * Обработка блока с редактированием категорий объекта
  *
  * @package blocks
- * @since   1.0
+ * @since   2.0
  */
 class BlockCategoryUpdate extends Block {
 	/**
@@ -41,16 +41,16 @@ class BlockCategoryUpdate extends Block {
 					/**
 					 * Нужное нам поведение - получаем список текущих категорий
 					 */
-					$this->Viewer_Assign('aCategoriesCurrent',$oBehavior->getCategories());
+					$this->Viewer_Assign('categoriesSelected', $oBehavior->getCategories(), true);
 					/**
 					 * Загружаем параметры
 					 */
 					$aParams=$oBehavior->getParams();
-					$this->Viewer_Assign('aCategoryParams',$aParams);
+					$this->Viewer_Assign('params', $aParams, true);
 					/**
 					 * Загружаем список доступных категорий
 					 */
-					$this->Viewer_Assign('aCategories',$this->Category_GetCategoriesTreeByTargetType($aParams['target_type']));
+					$this->Viewer_Assign('categories', $this->Category_GetCategoriesTreeByTargetType($aParams['target_type']), true);
 					break;
 				}
 			}

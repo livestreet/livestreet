@@ -1,26 +1,34 @@
+{**
+ * Вывод категорий на странице создания нового объекта
+ *}
 
-{*
-	Вывод категорий на странице создания нового объекта
-*}
+{$params = $smarty.local.params}
+{$categoriesSelected = $smarty.local.categoriesSelected}
+{$categories = $smarty.local.categories}
 
-{$aCategoriesCurrentId=[]}
-{if $aCategoryParams.form_fill_current_from_request && $_aRequest[$aCategoryParams.form_field]}
-	{$aCategoriesCurrentId=$_aRequest[$aCategoryParams.form_field]}
-{else}
-	{if $aCategoriesCurrent}
-		{foreach $aCategoriesCurrent as $oCategoryCurrent}
-			{$aCategoriesCurrentId[]=$oCategoryCurrent->getId()}
-		{/foreach}
-	{/if}
+{* Получаем id выделеных категорий *}
+{if $params.form_fill_current_from_request && $_aRequest[ $params.form_field ]}
+	{$selected = $_aRequest[ $params.form_field ]}
+{elseif $categoriesSelected}
+	{$selected = []}
+
+	{foreach $categoriesSelected as $category}
+		{$selected[] = $category->getId()}
+	{/foreach}
 {/if}
 
-Категория:
-<select name="{$aCategoryParams.form_field}[]" {if $aCategoryParams.multiple}multiple="multiple" style="height: 200px;"{/if}>
-	{if !$aCategoryParams.validate_require}
-		<option value="">&mdash;</option>
-	{/if}
-	{foreach $aCategories as $aCategory}
-		{$oCategory=$aCategory.entity}
-		<option value="{$oCategory->getId()}" {if in_array($oCategory->getId(),$aCategoriesCurrentId)}selected="selected"{/if} style="margin-left: {$oCategory->getLevel()*10}px;">{''|str_pad:(2*$aCategory.level):'-'|cat:$oCategory->getTitle()}</option>
-	{/foreach}
-</select>
+{* Формируем список категорий для select'а *}
+{$items = []}
+
+{if ! $params.validate_require}
+	{$items[] = [ 'value' => '', 'text' => '&mdash;' ]}
+{/if}
+
+{foreach $categories as $category}
+	{$entity = $category.entity}
+	{$items[] = [ 'value' => $entity->getId(), 'text' => $entity->getTitle(), 'level' => $category.level ]}
+{/foreach}
+
+{* Селект *}
+{* TODO: i18n *}
+{include 'components/field/field.select.tpl' sName="{$params.form_field}[]" aItems=$items sLabel='Категория' sSelectedValue=$selected}
