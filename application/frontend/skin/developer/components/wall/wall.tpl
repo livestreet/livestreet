@@ -1,22 +1,22 @@
 {**
  * Стена
  *
- * @param array $posts   Посты
- * @param array $count   Общее кол-во постов на стене
- * @param array $lastId  ID последнего загруженного поста
- * @param array $classes Доп-ые классы
- *
- * TODO: Локальные переменные
+ * @param array $posts      Посты
+ * @param array $count      Общее кол-во постов на стене
+ * @param array $lastId     ID последнего загруженного поста
+ * @param array $classes    Доп-ые классы
+ * @param array $mods       Модификаторы
+ * @param array $attributes Атрибуты
  *}
 
 {* Название компонента *}
 {$component = 'wall'}
 
-{$loadedCount = count($posts)}
-{$moreCount = $count - $loadedCount}
+{$loadedCount = count($smarty.local.posts)}
+{$moreCount = $smarty.local.count - $loadedCount}
 
 {* Стена *}
-<div class="{$component} {mod name=$component mods=$mods} {$classes}" data-user-id="{$oUserProfile->getId()}">
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {$smarty.local.attributes}>
 	{* Форма добавления записи *}
 	{if $oUserCurrent}
 		{include './wall.form.tpl'}
@@ -26,7 +26,7 @@
 
 	{* Список записей *}
 	<div class="js-wall-entry-container" data-id="0">
-		{include './wall.posts.tpl' posts=$posts}
+		{include './wall.posts.tpl' posts=$smarty.local.posts}
 	</div>
 
 	{* Уведомление о пустом списке *}
@@ -39,6 +39,6 @@
 		{include 'components/more/more.tpl'
 				 sClasses    = 'js-wall-more'
 				 iCount      = $moreCount
-				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-last_id=\"{$lastId}\""}
+				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-last_id=\"{$smarty.local.lastId}\""}
 	{/if}
 </div>
