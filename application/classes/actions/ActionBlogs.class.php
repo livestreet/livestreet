@@ -35,7 +35,7 @@ class ActionBlogs extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog_menu_all_list'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.all_list'));
 	}
 	/**
 	 * Регистрируем евенты

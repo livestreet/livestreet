@@ -359,6 +359,22 @@ return array(
 			'by_users' => 'по кол-ву читателей',
 			'by_topics' => 'по кол-ву топиков',
 		),
+
+		/**
+		 * Меню со списокм топиков
+		 */
+		 'menu' => array(
+			 'all' => 'Все',
+			 'all_good' => 'Интересные',
+			 'all_discussed' => 'Обсуждаемые',
+			 'all_top' => 'TOP',
+			 'all_new' => 'Новые',
+			 'all_list' => 'Все блоги',
+			 'top_period_1' => 'За 24 часа',
+			 'top_period_7' => 'За 7 дней',
+			 'top_period_30' => 'За 30 дней',
+			 'top_period_all' => 'За все время',
+		 ),
 	),
 
 	/**
@@ -975,26 +991,7 @@ return array(
 	/**
 	 * Меню блогов
 	 */
-	'blog_menu_all' => 'Все',
-	'blog_menu_all_good' => 'Интересные',
-	'blog_menu_all_discussed' => 'Обсуждаемые',
-	'blog_menu_all_top' => 'TOP',
-	'blog_menu_all_new' => 'Новые',
-	'blog_menu_all_list' => 'Все блоги',
-	'blog_menu_collective' => 'Коллективные',
-	'blog_menu_collective_good' => 'Интересные',
-	'blog_menu_collective_new' => 'Новые',
-	'blog_menu_collective_discussed' => 'Обсуждаемые',
-	'blog_menu_collective_top' => 'TOP',
-	'blog_menu_personal' => 'Персональные',
-	'blog_menu_personal_good' => 'Хорошие',
-	'blog_menu_personal_new' => 'Новые',
-	'blog_menu_personal_discussed' => 'Обсуждаемые',
-	'blog_menu_personal_top' => 'TOP',
-	'blog_menu_top_period_24h' => 'За 24 часа',
-	'blog_menu_top_period_7d' => 'За 7 дней',
-	'blog_menu_top_period_30d' => 'За 30 дней',
-	'blog_menu_top_period_all' => 'За все время',
+
 	'blog_menu_create' => 'Блог',
 
 

@@ -147,6 +147,8 @@ class ActionIndex extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.all_top'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.top_period_'.$sPeriod));
 	}
 	/**
 	 * Вывод обсуждаемых топиков
@@ -199,6 +201,8 @@ class ActionIndex extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.all_discussed'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.top_period_'.$sPeriod));
 	}
 	/**
 	 * Вывод новых топиков
@@ -235,11 +239,13 @@ class ActionIndex extends Action {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.all_new'));
 	}
 	/**
 	 * Вывод ВСЕХ новых топиков
 	 */
 	protected function EventNewAll() {
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('blog.menu.all'));
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'new/',Config::Get('view.name'));
 		/**
 		 * Меню
