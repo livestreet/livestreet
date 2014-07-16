@@ -33,6 +33,7 @@
 	{* Список пользователей *}
 	{* TODO: Изменить порядок вывода - сначало новые *}
 	{include 'components/user_list_small/user_list_small.tpl'
+			 bHideableEmptyAlert       = true
 			 aUserList                 = $aUserList
 			 bUserListSmallShowActions = true
 			 bUserListDisplay          = !! $aUserList
