@@ -173,7 +173,7 @@ class ModuleStream extends Module {
 					$oEvent->setPublish($iPublish);
 					$this->UpdateEvent($oEvent);
 				}
-				return true;
+				return $oEvent;
 			}
 		}
 		if (isset($aParams['unique_user']) and $aParams['unique_user']) {
@@ -188,7 +188,7 @@ class ModuleStream extends Module {
 					$oEvent->setPublish($iPublish);
 					$this->UpdateEvent($oEvent);
 				}
-				return true;
+				return $oEvent;
 			}
 		}
 
@@ -204,7 +204,7 @@ class ModuleStream extends Module {
 			$oEvent->setPublish($iPublish);
 			$this->AddEvent($oEvent);
 		}
-		return true;
+		return $oEvent;
 	}
 	/**
 	 * Чтение потока пользователя
