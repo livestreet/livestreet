@@ -13,7 +13,6 @@
 <head>
 	{block name='layout_head'}
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 		<meta name="description" content="{block name='layout_description'}{$sHtmlDescription}{/block}">
 		<meta name="keywords" content="{block name='layout_keywords'}{$sHtmlKeywords}{/block}">

@@ -1,3 +1,5 @@
+Header set X-UA-Compatible "IE=Edge,chrome=1"
+
 AddDefaultCharset UTF-8
 Options -Indexes
 RewriteEngine On
