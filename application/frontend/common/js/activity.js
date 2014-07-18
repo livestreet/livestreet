@@ -8,62 +8,62 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
-
-ls.activity = (function ($) {
+(function($) {
 	"use strict";
 
-	/**
-	 * Дефолтные опции
-	 *
-	 * @private
-	 */
-	var _defaults = {
-	};
+	$.widget( "livestreet.lsActivity", {
+		/**
+		 * Дефолтные опции
+		 */
+		options: {
+			// Ссылки
+			urls: {
+				// Подгрузка событий
+				more: null
+			},
 
-	/**
-	 * Инициализация
-	 *
-	 * @param  {Object} options Опции
-	 */
-	this.init = function(options) {
-		var _this = this;
+			// Селекторы
+			selectors: {
+				// Список событий
+				list:  '.js-activity-event-list',
 
-		this.options = $.extend({}, _defaults, options);
+				// Событие
+				event: '.js-activity-event',
 
-		// Настройки
-		$('.js-activity-settings-toggle').on('click', function () {
-			_this.toggleEvent($(this).data('type'));
-		});
+				// Кнопка подгрузки событий
+				more:  '.js-activity-more'
+			}
+		},
 
-		// Подгрузка контента
-		$.each([ 'all', 'user', 'custom' ], function (iIndex, sValue) {
-			$('.js-more-activity-' + sValue).more({
-				url: aRouter['stream'] + 'get_more_' + sValue,
-				target: '#activity-event-list',
+		/**
+		 * Конструктор
+		 *
+		 * @constructor
+		 * @private
+		 */
+		_create: function () {
+			var _this = this;
+
+			this.elements = {
+				list: this.element.find( this.option( 'selectors.list' ) ),
+				more: this.element.find( this.option( 'selectors.more' ) )
+			};
+
+			// Подгрузка событий
+			this.elements.more.more({
+				url: this.option( 'urls.more' ),
+				target: this.elements.list,
 				beforeload: function (e, context) {
-					context.options.params.sDateLast=$('.js-activity-event-item').last().data('dateLast');
+					context.options.params.date_last = _this.getDateLast();
 				}
 			});
-		});
-	};
+		},
 
-	/**
-	 *
-	 */
-	this.toggleEvent = function (sType) {
-		var sUrl = aRouter['stream'] + 'switchEventType/',
-			oParams = {'type': sType};
-
-		ls.hook.marker('switchEventTypeBefore');
-
-		ls.ajax.load(sUrl, oParams, function(oResponse) {
-			if ( ! oResponse.bStateError) {
-				ls.msg.notice(oResponse.sMsgTitle, oResponse.sMsg);
-				ls.hook.run('ls_stream_switch_event_type_after',[oParams, oResponse]);
-			}
-		});
-	};
-
-	return this;
-}).call(ls.activity || {}, jQuery);
+		/**
+		 * Получает дату последнего подгруженного события
+		 */
+		getDateLast: function() {
+			return this.elements.list.find( this.option( 'selectors.event' ) ).last().find( 'time' ).attr( 'datetime' );
+		}
+	});
+})(jQuery);

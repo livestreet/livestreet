@@ -536,6 +536,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/user.js",
 	"___path.application.web___/frontend/common/js/userfeed.js",
 	"___path.application.web___/frontend/common/js/activity.js",
+	"___path.application.web___/frontend/common/js/activity-settings.js",
 	"___path.application.web___/frontend/common/js/toolbar.comments.js",
 	"___path.application.web___/frontend/common/js/toolbar.topics.js",
 	"___path.application.web___/frontend/common/js/toolbar.scrollup.js",

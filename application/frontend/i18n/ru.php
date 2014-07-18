@@ -921,6 +921,80 @@ return array(
 		),
 	),
 
+	/**
+	 * Активность
+	 */
+	'activity' => array(
+		'title' => 'Активность',
+
+		// Навигация
+		'nav' => array(
+			'all'      => 'Вся',
+			'personal' => 'Персональная'
+		),
+
+		// Настройки
+		'settings' => array(
+			'title' => 'Настройка событий',
+			'note'  => 'Выберите действия которые будут отслеживаться',
+			'options' => array(
+				'add_wall'           => 'Добавление записи на стену',
+				'add_topic'          => 'Добавление топика',
+				'add_comment'        => 'Добавление комментария',
+				'add_blog'           => 'Добавление блога',
+				'vote_topic'         => 'Голосование за топик',
+				'vote_comment_topic' => 'Голосование за комментарий к топику',
+				'vote_blog'          => 'Голосование за блог',
+				'vote_user'          => 'Голосование за пользователя',
+				'add_friend'         => 'Добавление в друзья',
+				'join_blog'          => 'Вступление в блог',
+			)
+		),
+
+		// Пользователи
+		'users' => array(
+			'title' => 'Пользователи',
+			'note'  => 'Добавьте людей за активностью которых вы хотели бы следить',
+		),
+
+		'events' => array(
+			'add_wall_male'             => 'добавил запись на стену',
+			'add_wall_female'           => 'добавила запись на стену',
+
+			'add_topic_male'            => 'добавил новый топик',
+			'add_topic_female'          => 'добавила новый топик',
+
+			'add_comment_male'          => 'прокомментировал топик',
+			'add_comment_female'        => 'прокомментировала топик',
+
+			'add_blog_male'             => 'добавил новый блог',
+			'add_blog_female'           => 'добавила новый блог',
+
+			'vote_topic_male'           => 'оценил топик',
+			'vote_topic_female'         => 'оценила топик',
+
+			'vote_comment_topic_male'   => 'оценил комментарий к топику',
+			'vote_comment_topic_female' => 'оценила комментарий к топику',
+
+			'vote_blog_male'            => 'оценил блог',
+			'vote_blog_female'          => 'оценила блог',
+
+			'vote_user_male'            => 'оценил пользователя',
+			'vote_user_female'          => 'оценила пользователя',
+
+			'join_blog_male'            => 'вступил в блог',
+			'join_blog_female'          => 'вступила в блог',
+
+			'add_friend_male'           => 'добавил в друзья пользователя',
+			'add_friend_female'         => 'добавила в друзья пользователя'
+		),
+
+		// Сообщения
+		'notices' => array(
+			'error_already_subscribed' => 'Вы уже подписаны на этого пользователя',
+		)
+	),
+
 	// TODO: Удалить, используется в ActionSubscribe
 	'registration_mail_error' => 'Неверный формат e-mail',
 
@@ -1382,55 +1456,6 @@ return array(
 	'userfeed_settings_note_follow_blogs' => 'Выберите блоги которые вы хотели бы читать',
 	'userfeed_settings_note_follow_user' => 'Добавьте людей, топики которых вы хотели бы читать',
 	'userfeed_no_blogs' => 'Вы не вступили ни в один блог',
-	/**
-	 * Stream
-	 */
-	'stream_block_config_title' => 'Настройка событий',
-	'stream_block_users_title' => 'Люди',
-	'stream_block_config_append' => 'Добавить',
-	'stream_block_users_friends' => 'Друзья',
-	'stream_subscribes_already_subscribed' => 'Вы уже подписаны на этого пользователя',
-	'stream_subscribes_updated' => 'Настройки ленты сохранены',
-	'stream_event_type_add_wall' => 'Добавление записи на стену',
-	'stream_event_type_add_topic' => 'Добавление топика',
-	'stream_event_type_add_comment' => 'Добавление комментария',
-	'stream_event_type_add_blog' => 'Добавление блога',
-	'stream_event_type_vote_topic' => 'Голосование за топик',
-	'stream_event_type_vote_comment_topic' => 'Голосование за комментарий к топику',
-	'stream_event_type_vote_blog' => 'Голосование за блог',
-	'stream_event_type_vote_user' => 'Голосование за пользователя',
-	'stream_event_type_add_friend' => 'Добавление в друзья',
-	'stream_event_type_join_blog' => 'Вступление в блог',
-	'stream_no_events' => 'Лента активности пуста',
-	'stream_list_user' => 'Пользователь',
-	'stream_list_event_add_wall' => 'добавил запись на стену',
-	'stream_list_event_add_topic' => 'добавил новый топик',
-	'stream_list_event_add_blog' => 'добавил новый блог',
-	'stream_list_event_add_comment' => 'прокомментировал топик',
-	'stream_list_event_vote_topic' => 'оценил топик',
-	'stream_list_event_vote_blog' => 'оценил блог',
-	'stream_list_event_vote_user' => 'оценил пользователя',
-	'stream_list_event_vote_comment' => 'оценил комментарий к топику',
-	'stream_list_event_join_blog' => 'вступил в блог',
-	'stream_list_event_add_friend' => 'добавил в друзья пользователя',
-
-	'stream_list_event_add_wall_female' => 'добавила запись на стену',
-	'stream_list_event_add_topic_female' => 'добавила новый топик',
-	'stream_list_event_add_blog_female' => 'добавила новый блог',
-	'stream_list_event_add_comment_female' => 'прокомментировала топик',
-	'stream_list_event_vote_topic_female' => 'оценила топик',
-	'stream_list_event_vote_blog_female' => 'оценила блог',
-	'stream_list_event_vote_user_female' => 'оценила пользователя',
-	'stream_list_event_vote_comment_female' => 'оценила комментарий к топику',
-	'stream_list_event_join_blog_female' => 'вступила в блог',
-	'stream_list_event_add_friend_female' => 'добавила в друзья пользователя',
-
-	'stream_menu' => 'Активность',
-	'stream_menu_all' => 'Вся',
-	'stream_menu_user' => 'Я слежу',
-	'stream_settings_note_filter' => 'Выберите действия которые будут отслеживаться',
-	'stream_settings_note_follow_user' => 'Добавьте людей за активностью которых вы хотели бы следить',
-	'stream_settings_note_follow_friend' => 'Выберите друзей за активностью которых вы хотели бы следить',
 	/**
 	 * Админка
 	 */

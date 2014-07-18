@@ -113,7 +113,29 @@ jQuery(document).ready(function($){
 	/**
 	 * Activity
 	 */
-	ls.activity.init();
+	$('.js-activity--all').lsActivity({ urls: { more: aRouter.stream + 'get_more_all' } });
+	$('.js-activity--user').lsActivity({ urls: { more: aRouter.stream + 'get_more_user' } });
+	$('.js-activity--personal').lsActivity({
+		urls: {
+			more: aRouter.stream + 'get_more_personal'
+		},
+		create: function() {
+			// Настройки активности
+			$('.js-activity-settings').lsActivitySettings({
+				urls: {
+					toggle_type: aRouter.stream + 'switchEventType'
+				}
+			});
+
+			// Добавление пользователей в персональную активность
+			$('.js-activity-users').user_list_add({
+				urls: {
+					add: aRouter.stream + 'ajaxadduser',
+					remove: aRouter.stream + 'ajaxremoveuser'
+				}
+			});
+		}
+	});
 
 
 	/**
@@ -329,14 +351,6 @@ jQuery(document).ready(function($){
 		urls: {
 			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
 			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
-		}
-	});
-
-	// Добавление пользователей в свою активность
-	$('.js-user-list-add-activity').user_list_add({
-		urls: {
-			add: aRouter['stream'] + 'ajaxadduser/',
-			remove: aRouter['stream'] + 'ajaxremoveuser/'
 		}
 	});
 

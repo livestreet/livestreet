@@ -4,7 +4,7 @@
  * @version 2.0.dev
  * @template actions/ActionStream/*.tpl
  * @scripts <frontend>/common/js/stream.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -15,7 +15,7 @@
  * Список событий
  */
 .activity-event-list { margin: 0 0 20px; }
-.activity-date       { font-size: 15px; font-weight: bold; margin-top: 35px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+.activity-date       { font-family: 'Open Sans', sans-serif; font-size: 20px; margin-top: 45px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
 
 
 /**

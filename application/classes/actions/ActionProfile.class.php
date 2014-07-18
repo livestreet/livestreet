@@ -170,20 +170,13 @@ class ActionProfile extends Action {
 	 * Чтение активности пользователя (stream)
 	 */
 	protected function EventStream() {
-		if (!$this->CheckUserProfile()) {
+		if ( ! $this->CheckUserProfile() ) {
 			return parent::EventNotFound();
 		}
-		/**
-		 * Читаем события
-		 */
-		$aEvents = $this->Stream_ReadByUserId($this->oUserProfile->getId());
-		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByUserId($this->oUserProfile->getId()) < Config::Get('module.stream.count_default'));
-		$this->Viewer_Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
-			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
-		}
+
+		$this->Viewer_Assign('activityEvents', $this->Stream_ReadByUserId($this->oUserProfile->getId()));
+		$this->Viewer_Assign('activityEventsAllCount', $this->Stream_GetCountByUserId($this->oUserProfile->getId()));
+
 		$this->SetTemplateAction('activity');
 	}
 	/**

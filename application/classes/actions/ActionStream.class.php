@@ -28,6 +28,7 @@ class ActionStream extends Action {
 	 * @var ModuleUser_EntityUser|null
 	 */
 	protected $oUserCurrent;
+
 	/**
 	 * Какое меню активно
 	 *
@@ -37,230 +38,161 @@ class ActionStream extends Action {
 
 	/**
 	 * Инициализация
-	 *
 	 */
 	public function Init() {
-		/**
-		 * Личная лента доступна только для авторизованных, для гостей показываем общую ленту
-		 */
 		$this->oUserCurrent = $this->User_getUserCurrent();
+
+		// Личная лента доступна только для авторизованных, гостям показываем общую ленту
 		if ($this->oUserCurrent) {
-			$this->SetDefaultEvent('user');
+			$this->SetDefaultEvent('personal');
 		} else {
 			$this->SetDefaultEvent('all');
 		}
-		$this->Viewer_Assign('aStreamEventTypes', $this->Stream_getEventTypes());
 
 		$this->Viewer_Assign('sMenuHeadItemSelect', 'stream');
+
 		/**
 		 * Загружаем в шаблон JS текстовки
 		 */
 		$this->Lang_AddLangJs(array(
-								  'stream_subscribes_already_subscribed','error'
-							  ));
+			'activity.notices.error_already_subscribed', 'error'
+		));
 	}
+
 	/**
 	 * Регистрация евентов
-	 *
 	 */
 	protected function RegisterEvent() {
-		$this->AddEvent('user', 'EventUser');
+		$this->AddEvent('personal', 'EventPersonal');
 		$this->AddEvent('all', 'EventAll');
+
 		$this->AddEvent('subscribe', 'EventSubscribe'); // TODO: возможно нужно удалить
 		$this->AddEvent('ajaxadduser', 'EventAjaxAddUser');
 		$this->AddEvent('ajaxremoveuser', 'EventAjaxRemoveUser');
 		$this->AddEvent('switchEventType', 'EventSwitchEventType');
-		$this->AddEvent('get_more_custom', 'EventGetMore');
-		$this->AddEvent('get_more_user', 'EventGetMoreUser');
+
 		$this->AddEvent('get_more_all', 'EventGetMoreAll');
+		$this->AddEvent('get_more_personal', 'EventGetMore');
+		$this->AddEvent('get_more_user', 'EventGetMoreUser');
 	}
 
 	/**
-	 * Список событий в ленте активности пользователя
-	 *
+	 * Персональная активность
 	 */
-	protected function EventUser() {
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
+	protected function EventPersonal() {
+		if ( ! $this->oUserCurrent ) {
 			return parent::EventNotFound();
 		}
-		$this->Viewer_AddBlock('right','activitySettings');
-		$this->Viewer_AddBlock('right','activityUsers');
 
-		/**
-		 * Читаем события
-		 */
-		$aEvents = $this->Stream_Read();
-		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountByReaderId($this->oUserCurrent->getId()) < Config::Get('module.stream.count_default'));
-		$this->Viewer_Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
-			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
-		}
+		$this->Viewer_AddBlock('right', 'activitySettings');
+		$this->Viewer_AddBlock('right', 'activityUsers');
+
+		$this->Viewer_Assign('activityEvents', $this->Stream_Read());
+		$this->Viewer_Assign('activityEventsAllCount', $this->Stream_GetCountByReaderId( $this->oUserCurrent->getId()) );
 	}
+
 	/**
-	 * Список событий в общей ленте активности сайта
-	 *
+	 * Общая активность
 	 */
 	protected function EventAll() {
-		$this->sMenuItemSelect='all';
-		/**
-		 * Читаем события
-		 */
-		$aEvents = $this->Stream_ReadAll();
-		$this->Viewer_Assign('bDisableGetMoreButton', $this->Stream_GetCountAll() < Config::Get('module.stream.count_default'));
-		$this->Viewer_Assign('aStreamEvents', $aEvents);
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
-			$this->Viewer_Assign('sDateLast', $oEvenLast->getDateAdded());
-		}
+		$this->sMenuItemSelect = 'all';
+
+		$this->Viewer_Assign('activityEvents', $this->Stream_ReadAll());
+		$this->Viewer_Assign('activityEventsAllCount', $this->Stream_GetCountAll());
 	}
+
 	/**
 	 * Активаци/деактивация типа события
-	 *
 	 */
 	protected function EventSwitchEventType() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
 		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
+
+		if ( ! $this->oUserCurrent ) {
 			return parent::EventNotFound();
 		}
-		if (!getRequest('type')) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+
+		if ( ! getRequest('type') ) {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
 		}
+
 		/**
 		 * Активируем/деактивируем тип
 		 */
 		$this->Stream_switchUserEventType($this->oUserCurrent->getId(), getRequestStr('type'));
-		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
+		$this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
 	}
+
 	/**
-	 * Погрузка событий (замена постраничности)
-	 *
+	 * Подгрузка событий (замена постраничности)
 	 */
 	protected function EventGetMore() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Пользователь авторизован?
-		 */
-		if (!$this->oUserCurrent) {
+		if ( ! $this->oUserCurrent ) {
 			return parent::EventNotFound();
 		}
-		/**
-		 * Необходимо передать последний просмотренный ID событий
-		 */
-		$iFromId = getRequestStr('last_id');
-		if (!$iFromId)  {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Получаем события
-		 */
-		$aEvents = $this->Stream_Read(null, $iFromId);
 
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
-
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
-		}
-		/**
-		 * Возвращаем данные в ajax ответе
-		 */
-		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->GetMore(function($lastId) {
+			return $this->Stream_Read(null, $lastId);
+		});
 	}
+
 	/**
-	 * Погрузка событий для всего сайта
-	 *
+	 * Подгрузка событий для всего сайта
 	 */
 	protected function EventGetMoreAll() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Необходимо передать последний просмотренный ID событий
-		 */
-		$iFromId = getRequestStr('last_id');
-		if (!$iFromId)  {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Получаем события
-		 */
-		$aEvents = $this->Stream_ReadAll(null, $iFromId);
-
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
-
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
-		}
-		/**
-		 * Возвращаем данные в ajax ответе
-		 */
-		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->GetMore(function($lastId) {
+			return $this->Stream_ReadAll(null, $lastId);
+		});
 	}
+
 	/**
 	 * Подгрузка событий для пользователя
-	 *
 	 */
 	protected function EventGetMoreUser() {
-		/**
-		 * Устанавливаем формат Ajax ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-		/**
-		 * Необходимо передать последний просмотренный ID событий
-		 */
-		$iFromId = getRequestStr('last_id');
-		if (!$iFromId)  {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		if (!($oUser=$this->User_GetUserById(getRequestStr('iTargetId')))) {
-			$this->Message_AddError($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Получаем события
-		 */
-		$aEvents = $this->Stream_ReadByUserId($oUser->getId(), null, $iFromId);
+		$this->GetMore(function($lastId) {
+			if ( ! ( $oUser = $this->User_GetUserById(getRequestStr('target_id')) ) ) {
+				return false;
+			}
 
-		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		$oViewer->Assign('sDateLast', getRequestStr('sDateLast'));
-		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
-
-		if (count($aEvents)) {
-			$oEvenLast=end($aEvents);
-			$this->Viewer_AssignAjax('last_id', $oEvenLast->getId());
-		}
-		/**
-		 * Возвращаем данные в ajax ответе
-		 */
-		$this->Viewer_AssignAjax('html', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+			return $this->Stream_ReadByUserId($oUser->getId(), null, $lastId);
+		});
 	}
+
+	/**
+	 * Общий метод подгрузки событий
+	 *
+	 * @param callback $getEvents Метод возвращающий список событий
+	 */
+	protected function GetMore( $getEvents ) {
+		$this->Viewer_SetResponseAjax('json');
+
+		// Необходимо передать последний просмотренный ID событий
+		$iLastId = getRequestStr('last_id');
+
+		if ( ! $iLastId )  {
+			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+			return;
+		}
+
+		// Получаем события
+		$aEvents = $getEvents( $iLastId );
+
+		if ( $aEvents === false ) {
+			return $this->EventErrorDebug();
+		}
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+
+		$oViewer->Assign('events', $aEvents, true);
+		$oViewer->Assign('dateLast', getRequestStr('date_last'), true);
+
+		if ( count($aEvents) ) {
+			$this->Viewer_AssignAjax('last_id', end($aEvents)->getId(), true);
+		}
+
+		$this->Viewer_AssignAjax('count_loaded', count($aEvents));
+		$this->Viewer_AssignAjax('html', $oViewer->Fetch('components/activity/event-list.tpl'));
+	}
+
 	/**
 	 * Подписка на пользователя по ID
 	 *
@@ -292,9 +224,9 @@ class ActionStream extends Action {
 		$this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequestStr('id'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
+
 	/**
 	 * Подписка на пользователя по логину
-	 *
 	 */
 	protected function EventAjaxAddUser() {
 		/**
@@ -302,12 +234,14 @@ class ActionStream extends Action {
 		 */
 		$this->Viewer_SetResponseAjax('json');
 		$aUsers=getRequest('aUserList',null,'post');
+
 		/**
 		 * Валидация
 		 */
 		if ( ! is_array($aUsers) ) {
 			return $this->EventErrorDebug();
 		}
+
 		/**
 		 * Если пользователь не авторизирован, возвращаем ошибку
 		 */
@@ -360,7 +294,6 @@ class ActionStream extends Action {
 	}
 	/**
 	 * Отписка от пользователя
-	 *
 	 */
 	protected function EventAjaxRemoveUser() {
 		/**
@@ -385,9 +318,9 @@ class ActionStream extends Action {
 		$this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequestStr('iUserId'));
 		$this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
 	}
+
 	/**
 	 * Выполняется при завершении работы экшена
-	 *
 	 */
 	public function EventShutdown() {
 		/**

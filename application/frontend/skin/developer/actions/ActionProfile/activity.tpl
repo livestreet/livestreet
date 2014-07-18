@@ -5,9 +5,13 @@
 {extends 'layouts/layout.user.tpl'}
 
 {block 'layout_user_page_title'}
-	{$aLang.user_menu_profile_stream}
+	{$aLang.activity.title}
 {/block}
 
 {block 'layout_content' append}
-	{include 'actions/ActionStream/event_list.tpl' iLoadTargetId=$oUserProfile->getId() sActivityType='user'}
+	{include 'components/activity/activity.tpl'
+		events   = $activityEvents
+		count    = $activityEventsAllCount
+		targetId = $oUserProfile->getId()
+		classes  = 'js-activity--user'}
 {/block}

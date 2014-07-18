@@ -6,7 +6,7 @@
 
 {extends file='blocks/block.aside.base.tpl'}
 
-{block name='block_title'}<a href="{router page='stream'}">{$aLang.stream_menu}</a>{/block}
+{block name='block_title'}<a href="{router page='stream'}">{$aLang.activity.title}</a>{/block}
 {block name='block_type'}stream{/block}
 {block name='block_class'}block-nopadding{/block}
 

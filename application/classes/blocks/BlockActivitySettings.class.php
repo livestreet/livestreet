@@ -30,11 +30,8 @@ class BlockActivitySettings extends Block {
 		 * пользователь авторизован?
 		 */
 		if ($oUserCurrent = $this->User_getUserCurrent()) {
-			/**
-			 * Получаем и прогружаем необходимые переменные в шаблон
-			 */
-			$aTypesList = $this->Stream_getTypesList($oUserCurrent->getId());
-			$this->Viewer_Assign('aStreamTypesList', $aTypesList);
+			$this->Viewer_Assign('types', $this->Stream_getEventTypes());
+			$this->Viewer_Assign('typesActive', $this->Stream_getTypesList($oUserCurrent->getId()));
 		}
 	}
 }

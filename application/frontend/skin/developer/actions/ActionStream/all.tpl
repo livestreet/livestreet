@@ -2,15 +2,17 @@
  * Вся активность
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$bNoSidebar = true}
 	{$sNav = 'activity'}
 {/block}
 
-{block name='layout_page_title'}{$aLang.stream_menu}{/block}
+{block 'layout_page_title'}
+	{$aLang.activity.title}
+{/block}
 
-{block name='layout_content'}
-	{include file='actions/ActionStream/event_list.tpl' sActivityType='all'}
+{block 'layout_content'}
+	{include 'components/activity/activity.tpl' events=$activityEvents count=$activityEventsAllCount classes='js-activity--all'}
 {/block}
