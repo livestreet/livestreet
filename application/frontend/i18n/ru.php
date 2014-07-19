@@ -995,6 +995,26 @@ return array(
 		)
 	),
 
+	/**
+	 * Лента
+	 */
+	'feed' => array(
+		'title' => 'Лента',
+
+		// Блоги
+		'blogs' => array(
+			'title' => 'Блоги',
+			'note'  => 'Выберите блоги которые вы хотели бы читать',
+			'empty' => 'Вы не вступили ни в один блог'
+		),
+
+		// Пользователи
+		'users' => array(
+			'title' => 'Пользователи',
+			'note'  => 'Добавьте людей, топики которых вы хотели бы читать'
+		)
+	),
+
 	// TODO: Удалить, используется в ActionSubscribe
 	'registration_mail_error' => 'Неверный формат e-mail',
 
@@ -1447,15 +1467,6 @@ return array(
 	'block_blog_navigator_button' => 'Смотреть',
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
-	/**
-	 * Userfeed
-	 */
-	'userfeed_block_blogs_title' => 'Блоги',
-	'userfeed_block_users_title' => 'Люди',
-	'userfeed_title' => 'Лента',
-	'userfeed_settings_note_follow_blogs' => 'Выберите блоги которые вы хотели бы читать',
-	'userfeed_settings_note_follow_user' => 'Добавьте людей, топики которых вы хотели бы читать',
-	'userfeed_no_blogs' => 'Вы не вступили ни в один блог',
 	/**
 	 * Админка
 	 */

@@ -45,8 +45,8 @@ class BlockUserfeedBlogs extends Block {
 			/**
 			 * Выводим в шаблон
 			 */
-			$this->Viewer_Assign('aUserfeedSubscribedBlogs', $aUserSubscribes['blogs']);
-			$this->Viewer_Assign('aUserfeedBlogs', $aBlogs);
+			$this->Viewer_Assign('blogsSubscribed', $aUserSubscribes['blogs']);
+			$this->Viewer_Assign('blogsJoined', $aBlogs);
 		}
 	}
 }

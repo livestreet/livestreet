@@ -7,7 +7,7 @@
 {extends 'blocks/block.aside.base.tpl'}
 
 {block 'block_title'}{$aLang.activity.users.title}{/block}
-{block 'block_type'}activity{/block}
+{block 'block_type'}activity-users{/block}
 
 {block 'block_content'}
 	{include 'components/activity/users.tpl' users=$users}

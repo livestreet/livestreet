@@ -8,11 +8,13 @@
 
 {$component = 'activity'}
 
+{$events = $smarty.local.events}
+
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
-	{if $smarty.local.events}
+	{if $events}
 		{* Список *}
 		<ul class="activity-event-list js-activity-event-list">
-			{include './event-list.tpl' events=$smarty.local.events}
+			{include './event-list.tpl' events=$events}
 		</ul>
 
 		{* Кнопка подгрузки *}

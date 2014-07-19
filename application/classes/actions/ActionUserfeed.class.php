@@ -61,23 +61,16 @@ class ActionUserfeed extends Action {
 	 *
 	 */
 	protected function EventIndex() {
-		/**
-		 * Получаем топики
-		 */
+		// Получаем топики
 		$aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
-		/**
-		 * Вызов хуков
-		 */
-		$this->Hook_Run('topics_list_show',array('aTopics'=>$aTopics));
-		$this->Viewer_Assign('aTopics', $aTopics);
-		if (count($aTopics)) {
-			$this->Viewer_Assign('iUserfeedLastId', end($aTopics)->getId());
-		}
-		if (count($aTopics) < Config::Get('module.userfeed.count_default')) {
-			$this->Viewer_Assign('bDisableGetMoreButton', true);
-		} else {
-			$this->Viewer_Assign('bDisableGetMoreButton', false);
-		}
+
+		// Вызов хуков
+		$this->Hook_Run('topics_list_show', array('aTopics' => $aTopics));
+
+		$this->Viewer_Assign('feedTopics', $aTopics);
+		// TODO: Добавить метод возвращающий общее кол-во топиков в ленте (нужно для нормальной работы блока подгрузки)
+		$this->Viewer_Assign('feedTopicsAllCount', 0);
+
 		$this->SetTemplateAction('list');
 	}
 	/**
@@ -109,7 +102,7 @@ class ActionUserfeed extends Action {
 		 * Загружаем данные в ajax ответ
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aTopics',  $aTopics);
+		$oViewer->Assign('aTopics', $aTopics);
 		$this->Viewer_AssignAjax('html', $oViewer->Fetch('topics/topic_list.tpl'));
 		$this->Viewer_AssignAjax('count_loaded', count($aTopics));
 

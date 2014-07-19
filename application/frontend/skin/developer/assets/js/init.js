@@ -111,7 +111,7 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Activity
+	 * Активность
 	 */
 	$('.js-activity--all').lsActivity({ urls: { more: aRouter.stream + 'get_more_all' } });
 	$('.js-activity--user').lsActivity({ urls: { more: aRouter.stream + 'get_more_user' } });
@@ -139,9 +139,30 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Userfeed
+	 * Лента
 	 */
-	ls.userfeed.init();
+	$('.js-feed').lsFeed({
+		urls: {
+			more: aRouter.feed + 'get_more'
+		},
+		create: function() {
+			// Блоги
+			$('.js-feed-blogs').lsFeedBlogs({
+				urls: {
+					subscribe: aRouter.feed + 'subscribe',
+					unsubscribe: aRouter.feed + 'unsubscribe'
+				}
+			});
+
+			// Добавление пользователей в свою ленту
+			$('.js-feed-users').user_list_add({
+				urls: {
+					add: aRouter.feed + 'ajaxadduser',
+					remove: aRouter.feed + 'unsubscribe'
+				}
+			});
+		}
+	});
 
 
 	/**
@@ -351,14 +372,6 @@ jQuery(document).ready(function($){
 		urls: {
 			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
 			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
-		}
-	});
-
-	// Добавление пользователей в свою ленту
-	$('.js-user-list-add-userfeed').user_list_add({
-		urls: {
-			add: aRouter['feed'] + 'ajaxadduser/',
-			remove: aRouter['feed'] + 'unsubscribe/'
 		}
 	});
 

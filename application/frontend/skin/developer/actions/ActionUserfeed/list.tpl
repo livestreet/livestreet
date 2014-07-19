@@ -9,15 +9,5 @@
 {/block}
 
 {block name='layout_content'}
-	{if $aTopics}
-		<div id="userfeed-topic-list">
-			{include 'topics/topic_list.tpl'}
-		</div>
-
-		{if ! $bDisableGetMoreButton}
-			{include 'components/more/more.tpl' sClasses="js-more-userfeed" sAttributes="data-proxy-last_id=\"{$iUserfeedLastId}\""}
-		{/if}
-	{else}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
-	{/if}
+	{include 'components/feed/feed.tpl' topics=$feedTopics count=$feedTopicsAllCount classes='js-feed'}
 {/block}
