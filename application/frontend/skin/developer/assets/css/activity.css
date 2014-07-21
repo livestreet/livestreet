@@ -23,5 +23,5 @@
  */
 .activity-event        { margin-bottom: 5px; min-height: 48px; background: #fafafa; padding: 15px 15px 15px 75px; position: relative; }
 .activity-event-avatar { position: absolute; top: 15px; left: 15px; }
-.activity-event-date   { display: block; color: #999; }
+.activity-event-date   { display: block; color: #999; margin-bottom: 4px; }
 .activity-event-text   { padding: 10px 15px; background: #fff; border: 1px solid #eee; border-bottom-color: #ddd; margin-top: 10px; font-size: 13px; }

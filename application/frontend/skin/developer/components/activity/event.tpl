@@ -12,6 +12,19 @@
 {$user   = $event->getUser()}
 {$gender = ( $user->getProfileSex() == 'woman' ) ? 'female' : 'male'}
 
+{**
+ * Вывод текста
+ *
+ * @param $text Текст
+ *}
+{function activity_event_text text=''}
+	{if trim($text)}
+		<div class="{$component}-text text">{$text}</div>
+	{/if}
+{/function}
+
+
+{* Событие *}
 <li class="{$component} {$component}--{$type} js-{$component}">
 	{* Аватар *}
 	<a href="{$user->getUserWebPath()}">
@@ -31,50 +44,44 @@
 	</a>
 
 	{* Текст события *}
-	{$aLang.activity.events["{$type}_{$gender}"]}
-
 	{if $type == 'add_topic'}
 		{* Добавлен топик *}
-		<a href="{$target->getUrl()}">{$target->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'add_comment'}
 		{* Добавлен комментарий *}
-		<a href="{$target->getTarget()->getUrl()}#comment{$target->getId()}">{$target->getTarget()->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
 
-		{$sTextEvent = $target->getText()}
-
-		{if trim($sTextEvent)}
-			<div class="{$component}-text text">{$sTextEvent}</div>
-		{/if}
+		{activity_event_text text=$target->getText()}
 	{elseif $type == 'add_blog'}
 		{* Создан блог *}
-		<a href="{$target->getUrlFull()}">{$target->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_blog'}
 		{* Проголосовали за блог *}
-		<a href="{$target->getUrlFull()}">{$target->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_topic'}
 		{* Проголосовали за топик *}
-		<a href="{$target->getUrl()}">{$target->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_comment_topic'}
 		{* Проголосовали за комментарий *}
-		<a href="{$target->getTarget()->getUrl()}#comment{$target->getId()}">{$target->getTarget()->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_user'}
 		{* Проголосовали за пользователя *}
-		<a href="{$target->getUserWebPath()}">{$target->getDisplayName()}</a>
+		{lang name="activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
 	{elseif $type == 'join_blog'}
 		{* Вступили в блог *}
-		<a href="{$target->getUrlFull()}">{$target->getTitle()|escape}</a>
+		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'add_friend'}
 		{* Добавили в друзья *}
-		<a href="{$target->getUserWebPath()}">{$target->getDisplayName()}</a>
+		{lang name="activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
 	{elseif $type == 'add_wall'}
 		{* Написали на стене *}
-		<a href="{$target->getUrlWall()}">{$target->getWallUser()->getDisplayName()}</a>
-
-		{$sTextEvent = $target->getText()}
-
-		{if trim($sTextEvent)}
-			<div class="{$component}-text text">{$sTextEvent}</div>
+		{if $target->getWallUser()->getId() == $user->getId()}
+			{lang name="activity.events.{$type}_self_{$gender}" url=$target->getUrlWall()}
+		{else}
+			{lang name="activity.events.{$type}_{$gender}" url=$target->getUrlWall() user=$target->getWallUser()->getDisplayName()}
 		{/if}
+
+		{activity_event_text text=$target->getText()}
 	{else}
 		{hook run="activity_event_`$type`" event=$event}
 	{/if}

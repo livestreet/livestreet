@@ -958,35 +958,38 @@ return array(
 		),
 
 		'events' => array(
-			'add_wall_male'             => 'добавил запись на стену',
-			'add_wall_female'           => 'добавила запись на стену',
+			'add_wall_male'             => 'добавил запись на <a href="%%url%%">стену</a> %%user%%',
+			'add_wall_female'           => 'добавила запись на <a href="%%url%%">стену</a> %%user%%',
 
-			'add_topic_male'            => 'добавил новый топик',
-			'add_topic_female'          => 'добавила новый топик',
+			'add_wall_self_male'        => 'добавил запись себе на <a href="%%url%%">стену</a>',
+			'add_wall_self_female'      => 'добавила запись себе на <a href="%%url%%">стену</a>',
 
-			'add_comment_male'          => 'прокомментировал топик',
-			'add_comment_female'        => 'прокомментировала топик',
+			'add_topic_male'            => 'добавил новый топик %%topic%%',
+			'add_topic_female'          => 'добавила новый топик %%topic%%',
 
-			'add_blog_male'             => 'добавил новый блог',
-			'add_blog_female'           => 'добавила новый блог',
+			'add_comment_male'          => 'прокомментировал топик %%topic%%',
+			'add_comment_female'        => 'прокомментировала топик %%topic%%',
 
-			'vote_topic_male'           => 'оценил топик',
-			'vote_topic_female'         => 'оценила топик',
+			'add_blog_male'             => 'добавил новый блог %%blog%%',
+			'add_blog_female'           => 'добавила новый блог %%blog%%',
 
-			'vote_comment_topic_male'   => 'оценил комментарий к топику',
-			'vote_comment_topic_female' => 'оценила комментарий к топику',
+			'vote_topic_male'           => 'оценил топик %%topic%%',
+			'vote_topic_female'         => 'оценила топик %%topic%%',
 
-			'vote_blog_male'            => 'оценил блог',
-			'vote_blog_female'          => 'оценила блог',
+			'vote_comment_topic_male'   => 'оценил комментарий к топику %%topic%%',
+			'vote_comment_topic_female' => 'оценила комментарий к топику %%topic%%',
 
-			'vote_user_male'            => 'оценил пользователя',
-			'vote_user_female'          => 'оценила пользователя',
+			'vote_blog_male'            => 'оценил блог %%blog%%',
+			'vote_blog_female'          => 'оценила блог %%blog%%',
 
-			'join_blog_male'            => 'вступил в блог',
-			'join_blog_female'          => 'вступила в блог',
+			'vote_user_male'            => 'оценил пользователя %%user%%',
+			'vote_user_female'          => 'оценила пользователя %%user%%',
 
-			'add_friend_male'           => 'добавил в друзья пользователя',
-			'add_friend_female'         => 'добавила в друзья пользователя'
+			'join_blog_male'            => 'вступил в блог %%blog%%',
+			'join_blog_female'          => 'вступила в блог %%blog%%',
+
+			'add_friend_male'           => 'добавил в друзья пользователя %%user%%',
+			'add_friend_female'         => 'добавила в друзья пользователя %%user%%'
 		),
 
 		// Сообщения
