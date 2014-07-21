@@ -55,13 +55,13 @@
 .modal-upload-image-pane { overflow: hidden; }
 
 /* Nav */
-.modal-upload-image-nav { float: left; width: 150px; padding-top: 15px; }
+.modal-upload-image-nav { float: left; width: 160px; padding-top: 15px; }
 .modal-upload-image-nav li a { display: block; padding: 10px 15px; color: #eee; }
 .modal-upload-image-nav li a:hover { background: #2a2a2a; }
 .modal-upload-image-nav li.active a { background: #333; }
 
 /* Content */
-.modal-upload-image-content { min-height: 300px; margin-left: 150px; background: #fff; border-left: 1px solid #eee; }
+.modal-upload-image-content { min-height: 300px; margin-left: 160px; background: #fff; border-left: 1px solid #eee; }
 
 /**
  * Gallery

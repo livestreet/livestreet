@@ -34,7 +34,7 @@
 	</script>
 
 	<div class="grid-row">
-		{* Side navigation *}
+		{* Боковое меню *}
 		<ul class="modal-upload-image-nav" data-type="tabs">
 			<li data-type="tab" data-tab-target="tab-media-insert" data-media-mode="insert" class="active js-tab-show-gallery"><a href="#">Вставить</a></li>
             <li data-type="tab" data-tab-target="tab-media-create-photoset" data-media-mode="create-photoset" class="js-tab-show-gallery"><a href="#">Создать фотосет</a></li>
@@ -44,7 +44,7 @@
 			{/if}
 		</ul>
 
-		{* Side navigation content *}
+		{* Контент *}
 		<div data-type="tab-panes" class="modal-upload-image-content">
 			{**
 			 * Загрузка
@@ -55,7 +55,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-media-insert-button js-media-insert">Вставить</button>
+					<button type="submit" class="button button--primary js-media-insert-button js-media-insert">Вставить</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
@@ -90,8 +90,8 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-media-link-insert-button">Вставить как ссылку</button>
-					<button type="submit" class="button button-primary js-media-link-upload-button">Загрузить и вставить</button>
+					<button type="submit" class="button button--primary js-media-link-insert-button">Вставить как ссылку</button>
+					<button type="submit" class="button button--primary js-media-link-upload-button">Загрузить и вставить</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</form>
@@ -104,17 +104,18 @@
 				<div class="modal-content"></div>
 
 				<div class="modal-footer">
-					<button type="submit" class="button button-primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
+					<button type="submit" class="button button--primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
 					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
 				</div>
 			</div>
 
+
 			{**
-			 * Фотосет
+			 * Превью
 			 *}
 			<div id="tab-media-preview" data-type="tab-pane" class="tab-pane modal-upload-image-pane">
 				<div class="modal-content">
-					ffff
+
 				</div>
 			</div>
 		</div>
