@@ -90,7 +90,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.comment_new.tpl',
-			$this->Lang_Get('notify_subject_comment_new'),
+			$this->Lang_Get('emails.comment_new.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oTopic' => $oTopic,
@@ -119,7 +119,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.comment_reply.tpl',
-			$this->Lang_Get('notify_subject_comment_reply'),
+			$this->Lang_Get('emails.comment_reply.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oTopic' => $oTopic,
@@ -148,7 +148,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.topic_new.tpl',
-			$this->Lang_Get('notify_subject_topic_new').' «'.htmlspecialchars($oBlog->getTitle()).'»',
+			$this->Lang_Get('emails.topic_new.subject').' «'.htmlspecialchars($oBlog->getTitle()).'»',
 			array(
 				'oUserTo' => $oUserTo,
 				'oTopic' => $oTopic,
@@ -167,7 +167,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUser,
 			$this->sPrefix.'.reactivation.tpl',
-			$this->Lang_Get('notify_subject_reactvation'),
+			$this->Lang_Get('emails.reactivation.subject'),
 			array(
 				'oUser' => $oUser,
 			),null,true
@@ -183,7 +183,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUser,
 			$this->sPrefix.'.registration_activate.tpl',
-			$this->Lang_Get('notify_subject_registration_activate'),
+			$this->Lang_Get('emails.registration_activate.subject'),
 			array(
 				'oUser' => $oUser,
 				'sPassword' => $sPassword,
@@ -200,7 +200,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUser,
 			$this->sPrefix.'.registration.tpl',
-			$this->Lang_Get('notify_subject_registration'),
+			$this->Lang_Get('emails.registration.subject'),
 			array(
 				'oUser' => $oUser,
 				'sPassword' => $sPassword,
@@ -218,7 +218,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$sMailTo,
 			$this->sPrefix.'.invite.tpl',
-			$this->Lang_Get('notify_subject_invite'),
+			$this->Lang_Get('emails.invite.subject'),
 			array(
 				'sMailTo' => $sMailTo,
 				'oUserFrom' => $oUserFrom,
@@ -244,7 +244,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.talk_new.tpl',
-			$this->Lang_Get('notify_subject_talk_new'),
+			$this->Lang_Get('emails.talk_new.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oUserFrom' => $oUserFrom,
@@ -272,7 +272,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.talk_comment_new.tpl',
-			$this->Lang_Get('notify_subject_talk_comment_new'),
+			$this->Lang_Get('emails.talk_comment_new.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oUserFrom' => $oUserFrom,
@@ -301,7 +301,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.user_friend_new.tpl',
-			$this->Lang_Get('notify_subject_user_friend_new'),
+			$this->Lang_Get('emails.user_friend_new.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oUserFrom' => $oUserFrom,
@@ -323,7 +323,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUserTo,
 			$this->sPrefix.'.blog_invite_new.tpl',
-			$this->Lang_Get('notify_subject_blog_invite_new'),
+			$this->Lang_Get('emails.blog_invite_new.subject'),
 			array(
 				'oUserTo' => $oUserTo,
 				'oUserFrom' => $oUserFrom,
@@ -342,7 +342,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUser,
 			$this->sPrefix.'.reminder_code.tpl',
-			$this->Lang_Get('notify_subject_reminder_code'),
+			$this->Lang_Get('emails.reminder_code.subject'),
 			array(
 				'oUser' => $oUser,
 				'oReminder' => $oReminder,
@@ -359,7 +359,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oUser,
 			$this->sPrefix.'.reminder_password.tpl',
-			$this->Lang_Get('notify_subject_reminder_password'),
+			$this->Lang_Get('emails.reminder_password.subject'),
 			array(
 				'oUser' => $oUser,
 				'sNewPassword' => $sNewPassword,
@@ -377,7 +377,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oWallParent->getUser(),
 			$this->sPrefix.'.wall.reply.tpl',
-			$this->Lang_Get('notify_subject_wall_reply'),
+			$this->Lang_Get('emails.wall_reply.subject'),
 			array(
 				'oWallParent' => $oWallParent,
 				'oUserTo' => $oWallParent->getUser(),
@@ -397,7 +397,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			$oWall->getWallUser(),
 			$this->sPrefix.'.wall.new.tpl',
-			$this->Lang_Get('notify_subject_wall_new'),
+			$this->Lang_Get('emails.wall_new.subject'),
 			array(
 				'oUserTo' => $oWall->getWallUser(),
 				'oWall' => $oWall,
@@ -415,7 +415,7 @@ class ModuleNotify extends Module {
 		$this->Send(
 			Config::Get('general.admin_mail'),
 			$this->sPrefix.'.user_complaint.tpl',
-			$this->Lang_Get('notify_subject_user_complaint'),
+			$this->Lang_Get('emails.user_complaint.subject'),
 			array(
 				'oUserTarget' => $oComplaint->getTargetUser(),
 				'oUserFrom' => $oComplaint->getUser(),

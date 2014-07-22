@@ -19,7 +19,7 @@
 {$sFooterLinkColor = '949fa3'}           {* Цвет ссылки в футере *}
 
 {* Путь до папки с изображенями *}
-{$sImagesDir = "{cfg name='path.skin.assets.web'}/images/emails"}
+{$sImagesDir = "{Config::Get('path.skin.assets.web')}/images/emails"}
 
 
 {* Фон *}
@@ -35,10 +35,10 @@
 				<td>
 					<table width="100%" bgcolor="#{$sHeaderBackgroundColor}" cellpadding="50" cellspacing="0" style="border-collapse: collapse;">
 						<tr>
-							<td style="font-size: 11px; line-height: 1em;">	
-								<span style="font: normal 29px Arial, sans-serif; line-height: 1em; color: #{$sHeaderTitleColor}"><strong>{cfg name='view.name'}</strong></span>
+							<td style="font-size: 11px; line-height: 1em;">
+								<span style="font: normal 29px Arial, sans-serif; line-height: 1em; color: #{$sHeaderTitleColor}"><strong>{Config::Get('view.name')}</strong></span>
 								<div style="line-height: 0; height: 10px;"><img src="{$sImagesDir}/blank.gif" width="10" height="10"/></div>
-								<span style="color: #{$sHeaderDescriptionColor}">{cfg name='view.description'}</span>
+								<span style="color: #{$sHeaderDescriptionColor}">{Config::Get('view.description')}</span>
 							</td>
 						</tr>
 					</table>
@@ -68,7 +68,7 @@
 											{block name='content'}{/block}
 											<br>
 											<br>
-											{$aLang.notify_regards} <a href="{Router::GetPath('/')}">{cfg name='view.name'}</a>
+											{$aLang.emails.common.regards} <a href="{Router::GetPath('/')}">{Config::Get('view.name')}</a>
 										</td>
 									</tr>
 								</table>
@@ -81,7 +81,7 @@
 						<tr>
 							<td valign="center">
 								<img src="{$sImagesDir}/blank.gif" width="27" height="10" style="vertical-align: middle">
-								<a href="{Router::GetPath('/')}" style="color: #{$sFooterLinkColor} !important;">{cfg name='view.name'}</a>
+								<a href="{Router::GetPath('/')}" style="color: #{$sFooterLinkColor} !important;">{Config::Get('view.name')}</a>
 							</td>
 						</tr>
 					</table>
