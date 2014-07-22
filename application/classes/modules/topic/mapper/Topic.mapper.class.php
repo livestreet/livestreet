@@ -470,6 +470,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 				topic_tags= ?,
 				topic_date_add = ?,
 				topic_date_edit = ?,
+				topic_date_edit_content = ?,
 				topic_user_ip= ?,
 				topic_publish= ?d ,
 				topic_publish_draft= ?d ,
@@ -488,7 +489,7 @@ class ModuleTopic_MapperTopic extends Mapper {
 			WHERE
 				topic_id = ?d
 		";
-		$res=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountVoteUp(),$oTopic->getCountVoteDown(),$oTopic->getCountVoteAbstain(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId());
+		$res=$this->oDb->query($sql,$oTopic->getBlogId(),$oTopic->getTitle(),$oTopic->getTags(),$oTopic->getDateAdd(),$oTopic->getDateEdit(),$oTopic->getDateEditContent(),$oTopic->getUserIp(),$oTopic->getPublish(),$oTopic->getPublishDraft(),$oTopic->getPublishIndex(),$oTopic->getRating(),$oTopic->getCountVote(),$oTopic->getCountVoteUp(),$oTopic->getCountVoteDown(),$oTopic->getCountVoteAbstain(),$oTopic->getCountRead(),$oTopic->getCountComment(),$oTopic->getCountFavourite(),$oTopic->getCutText(),$oTopic->getForbidComment(),$oTopic->getTextHash(),$oTopic->getId());
 		if ($res!==false and !is_null($res)) {
 			$this->UpdateTopicContent($oTopic);
 			return true;

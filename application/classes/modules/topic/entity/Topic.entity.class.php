@@ -225,6 +225,14 @@ class ModuleTopic_EntityTopic extends Entity {
 		return $this->_getDataOne('topic_date_edit');
 	}
 	/**
+	 * Возвращает дату редактирования контента топика
+	 *
+	 * @return string|null
+	 */
+	public function getDateEditContent() {
+		return $this->_getDataOne('topic_date_edit_content');
+	}
+	/**
 	 * Возвращает IP пользователя
 	 *
 	 * @return string|null
@@ -682,6 +690,14 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function setDateEdit($data) {
 		$this->_aData['topic_date_edit']=$data;
+	}
+	/**
+	 * Устанавливает дату редактирования контента топика
+	 *
+	 * @param string $data
+	 */
+	public function setDateEditContent($data) {
+		$this->_aData['topic_date_edit_content']=$data;
 	}
 	/**
 	 * Устанавливает IP пользователя

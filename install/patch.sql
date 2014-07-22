@@ -604,3 +604,7 @@ VALUES (
 NULL , 'blog', 'Блоги', '1', '2014-07-14 00:00:00', NULL , ''
 );
 
+
+-- 22.07.2014
+ALTER TABLE `prefix_topic` ADD `topic_date_edit_content` DATETIME NULL DEFAULT NULL AFTER `topic_date_edit` ,
+ADD INDEX ( `topic_date_edit_content` ) ;

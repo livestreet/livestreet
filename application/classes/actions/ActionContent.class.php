@@ -272,6 +272,10 @@ class ActionContent extends Action {
 		if (isset($_REQUEST['topic']['topic_forbid_comment'])) {
 			$oTopic->setForbidComment(1);
 		}
+		/**
+		 * Дата редактирования контента
+		 */
+		$oTopic->setDateEditContent(date('Y-m-d H:i:s'));
 
 		if ($oTopic->_Validate()) {
 			$oBlog=$oTopic->getBlog();
