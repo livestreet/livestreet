@@ -14,6 +14,9 @@
 {/block}
 
 {block 'components/user_list_small/user_list_small_item_actions'}
-	<li class="icon-minus js-message-users-user-inactivate" title="{$aLang.common.remove}" data-user-id="{$iUserId}"></li>
-	<li class="icon-plus js-message-users-user-activate" title="{$aLang.common.add}" data-user-id="{$iUserId}" data-user-login="{$oUser->getLogin()}"></li>
+	{* TODO: Add local var allowManage *}
+	{if $allowManage|default:true}
+		<li class="icon-minus js-message-users-user-inactivate" title="{$aLang.common.remove}" data-user-id="{$iUserId}"></li>
+		<li class="icon-plus js-message-users-user-activate" title="{$aLang.common.add}" data-user-id="{$iUserId}" data-user-login="{$oUser->getLogin()}"></li>
+	{/if}
 {/block}

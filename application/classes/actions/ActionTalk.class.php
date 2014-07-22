@@ -58,7 +58,7 @@ class ActionTalk extends Action {
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->SetDefaultEvent('inbox');
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk.nav.inbox'));
 
 		/**
 		 * Загружаем в шаблон JS текстовки
@@ -75,10 +75,11 @@ class ActionTalk extends Action {
 		$this->AddEvent('add','EventAdd');
 		$this->AddEvent('read','EventRead');
 		$this->AddEvent('delete','EventDelete');
-		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
-		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('favourites','EventFavourites');
 		$this->AddEvent('blacklist','EventBlacklist');
+
+		$this->AddEvent('ajaxaddcomment','AjaxAddComment');
+		$this->AddEvent('ajaxresponsecomment','AjaxResponseComment');
 		$this->AddEvent('ajaxaddtoblacklist', 'AjaxAddToBlacklist');
 		$this->AddEvent('ajaxdeletefromblacklist', 'AjaxDeleteFromBlacklist');
 		$this->AddEvent('ajaxdeletetalkuser', 'AjaxDeleteTalkUser');
@@ -191,8 +192,8 @@ class ActionTalk extends Action {
 		if(getRequest('submit_talk_filter')) {
 			$this->Message_AddNotice(
 				($aResult['count'])
-					? $this->Lang_Get('talk_filter_result_count',array('count'=>$aResult['count']))
-					: $this->Lang_Get('talk_filter_result_empty')
+					? $this->Lang_Get('talk.search.notices.result_count',array('count'=>$aResult['count']))
+					: $this->Lang_Get('talk.search.notices.result_empty')
 			);
 		}
 		/**
@@ -223,15 +224,15 @@ class ActionTalk extends Action {
 					$aFilter['date_min']="{$y}-{$m}-{$d}";
 				} else {
 					$this->Message_AddError(
-						$this->Lang_Get('talk_filter_error_date_format'),
-						$this->Lang_Get('talk_filter_error')
+						$this->Lang_Get('talk.search.notices.error_date_format'),
+						$this->Lang_Get('talk.search.notices.error')
 					);
 					unset($_REQUEST['start']);
 				}
 			} else {
 				$this->Message_AddError(
-					$this->Lang_Get('talk_filter_error_date_format'),
-					$this->Lang_Get('talk_filter_error')
+					$this->Lang_Get('talk.search.notices.error_date_format'),
+					$this->Lang_Get('talk.search.notices.error')
 				);
 				unset($_REQUEST['start']);
 			}
@@ -246,15 +247,15 @@ class ActionTalk extends Action {
 					$aFilter['date_max']="{$y}-{$m}-{$d} 23:59:59";
 				} else {
 					$this->Message_AddError(
-						$this->Lang_Get('talk_filter_error_date_format'),
-						$this->Lang_Get('talk_filter_error')
+						$this->Lang_Get('talk.search.notices.error_date_format'),
+						$this->Lang_Get('talk.search.notices.error')
 					);
 					unset($_REQUEST['end']);
 				}
 			} else {
 				$this->Message_AddError(
-					$this->Lang_Get('talk_filter_error_date_format'),
-					$this->Lang_Get('talk_filter_error')
+					$this->Lang_Get('talk.search.notices.error_date_format'),
+					$this->Lang_Get('talk.search.notices.error')
 				);
 				unset($_REQUEST['end']);
 			}
@@ -346,14 +347,14 @@ class ActionTalk extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTalks',$aTalks);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_favourite_inbox'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk.nav.favourites'));
 	}
 	/**
 	 * Страница создания письма
 	 */
 	protected function EventAdd() {
 		$this->sMenuSubItemSelect='add';
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk_menu_inbox_create'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('talk.nav.add'));
 		/**
 		 * Получаем список друзей
 		 */
@@ -377,7 +378,7 @@ class ActionTalk extends Action {
 		 * Проверяем разрешено ли отправлять инбокс по времени
 		 */
 		if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk_time_limit'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('talk.notices.time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
 		/**
@@ -470,14 +471,14 @@ class ActionTalk extends Action {
 		 * Проверяем есть ли заголовок
 		 */
 		if (!func_check(getRequestStr('talk_title'),'text',2,200)) {
-			$this->Message_AddError($this->Lang_Get('talk_create_title_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('talk.add.notices.title_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
 		 * Проверяем есть ли содержание топика
 		 */
 		if (!func_check(getRequestStr('talk_text'),'text',2,3000)) {
-			$this->Message_AddError($this->Lang_Get('talk_create_text_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('talk.add.notices.text_error'),$this->Lang_Get('error'));
 			$bOk=false;
 		}
 		/**
@@ -503,7 +504,7 @@ class ActionTalk extends Action {
 						str_replace(
 							'login',
 							$oUser->getLogin(),
-							$this->Lang_Get('messages.blacklist.alerts.blocked',array('login'=>htmlspecialchars($oUser->getLogin())))
+							$this->Lang_Get('talk.blacklist.notices.blocked',array('login'=>htmlspecialchars($oUser->getLogin())))
 						),
 						$this->Lang_Get('error')
 					);
@@ -511,18 +512,18 @@ class ActionTalk extends Action {
 					continue;
 				}
 			} else {
-				$this->Message_AddError($this->Lang_Get('talk_create_users_error_not_found').' «'.htmlspecialchars($sUser).'»',$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_not_found').' «'.htmlspecialchars($sUser).'»',$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			$aUsersNew[]=$sUser;
 		}
 		if (!count($aUsersNew)) {
-			$this->Message_AddError($this->Lang_Get('talk_create_users_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('talk.add.notices.users_error'),$this->Lang_Get('error'));
 			$_REQUEST['talk_users']='';
 			$bOk=false;
 		} else {
 			if (count($aUsersNew)>Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'),$this->Lang_Get('error'));
 				$bOk=false;
 			}
 			$_REQUEST['talk_users']=join(',',$aUsersNew);
@@ -625,7 +626,7 @@ class ActionTalk extends Action {
 		 * Проверяем разрешено ли отправлять инбокс по времени
 		 */
 		if (!$this->ACL_CanPostTalkCommentTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk_time_limit'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('talk.add.notices.time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
 		/**
@@ -633,7 +634,7 @@ class ActionTalk extends Action {
 		 */
 		$sText=getRequestStr('comment_text');
 		if (!func_check($sText,'text',2,3000)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk_comment_add_text_error'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('talk.message.notices.error_text'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
@@ -859,7 +860,7 @@ class ActionTalk extends Action {
 		if (!isset($aBlacklist[$oUserTarget->getId()])) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get(
-					'talk_blacklist_user_not_found',
+					'talk.blacklist.notices.user_not_found',
 					array('login'=>$oUserTarget->getLogin())
 				),
 				$this->Lang_Get('error')
@@ -917,7 +918,7 @@ class ActionTalk extends Action {
 		if((!$oTalk=$this->Talk_GetTalkById($iTalkId))
 			|| ( ($oTalk->getUserId()!=$this->oUserCurrent->getId()) && !$this->oUserCurrent->isAdministrator() ) ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('talk_not_found'),
+				$this->Lang_Get('talk.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -933,7 +934,7 @@ class ActionTalk extends Action {
 			|| $aTalkUsers[$iUserId]->getUserActive()==ModuleTalk::TALK_USER_DELETE_BY_SELF) {
 			$this->Message_AddErrorSingle(
 				$this->Lang_Get(
-					'talk_speaker_user_not_found',
+					'talk.users.notices.user_not_found',
 					array('login'=>$oUserTarget->getLogin())
 				),
 				$this->Lang_Get('error')
@@ -987,7 +988,7 @@ class ActionTalk extends Action {
 		if((!$oTalk=$this->Talk_GetTalkById($idTalk))
 			|| ( ($oTalk->getUserId()!=$this->oUserCurrent->getId()) && !$this->oUserCurrent->isAdministrator() ) ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('talk_not_found'),
+				$this->Lang_Get('talk.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -1004,7 +1005,7 @@ class ActionTalk extends Action {
 		 * Ограничения на максимальное число участников разговора
 		 */
 		if (count($aTalkUsers)>=Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddError($this->Lang_Get('talk_create_users_error_many'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
@@ -1090,7 +1091,7 @@ class ActionTalk extends Action {
 								$aResult[]=array(
 									'bStateError'=>true,
 									'sMsgTitle'=>$this->Lang_Get('error'),
-									'sMsg'=>$this->Lang_Get('talk_speaker_delete_by_self',array('login'=>htmlspecialchars($sUser)))
+									'sMsg'=>$this->Lang_Get('talk.users.notices.deleted',array('login'=>htmlspecialchars($sUser)))
 								);
 								break;
 
@@ -1141,7 +1142,7 @@ class ActionTalk extends Action {
 					$aResult[]=array(
 						'bStateError'=>true,
 						'sMsgTitle'=>$this->Lang_Get('error'),
-						'sMsg'=>$this->Lang_Get('messages.blacklist.alerts.blocked',array('login'=>htmlspecialchars($sUser)))
+						'sMsg'=>$this->Lang_Get('talk.blacklist.notices.blocked',array('login'=>htmlspecialchars($sUser)))
 					);
 				}
 			} else {

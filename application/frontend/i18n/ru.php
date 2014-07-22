@@ -24,11 +24,13 @@ return array(
 	'common' => array(
 		'add'    => 'Добавить',
 		'remove' => 'Удалить',
+		'remove_confirm' => 'Действительно удалить?',
 		'edit'   => 'Редактировать',
 		'save'   => 'Сохранить',
 		'create' => 'Создать',
 		'cancel' => 'Отменить',
 		'empty'  => 'Тут ничего нет',
+		'send'   => 'Отправить',
 		'form_reset'  => 'Очистить форму',
 		'preview_text'  => 'Предпросмотр',
 		'times_declension'   => 'раз;раза;раз',
@@ -380,7 +382,61 @@ return array(
 	/**
 	 * Личные сообщения
 	 */
-	'messages' => array(
+	'talk' => array(
+		'title' => 'Сообщения',
+
+		// Меню
+		'nav' => array(
+			'inbox'      => 'Сообщения',
+			'new'        => 'Только новые',
+			'add'        => 'Новое письмо',
+			'favourites' => 'Избранное',
+			'blacklist'  => 'Блокировать'
+		),
+
+		// Форма добавления
+		'add' => array(
+			'title' => 'Новое письмо',
+
+			// Поля
+			'fields' => array(
+				'users' => array(
+					'label' => 'Кому'
+				),
+				'title' => array(
+					'label' => 'Заголовок',
+				),
+				'text' => array(
+					'label' => 'Сообщение',
+				),
+			),
+
+			// Сообщения
+			'notices' => array(
+				'users_error'           => 'Необходимо указать, кому вы хотите отправить сообщение',
+				'users_error_not_found' => 'У нас нет пользователя с логином', // TODO: Move to common
+				'users_error_many'      => 'Слишком много адресатов',
+
+				'title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
+
+				'text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
+			)
+		),
+
+		// Сообщение
+		'message' => array(
+			// Сообщения
+			'notices' => array(
+				'error_text' => 'Текст сообщения должен быть от 2 до 3000 символов',
+			)
+		),
+
+		// Экшнбар
+		'actionbar' => array(
+			'read'         => 'Прочитанные',
+			'unread'       => 'Не прочитанные',
+			'mark_as_read' => 'Отметить как прочитанное',
+		),
 
 		// Форма поиска
 		'search' => array(
@@ -412,35 +468,50 @@ return array(
 				'favourite' => array(
 					'label' => 'Искать только в избранном'
 				),
+			),
+
+			// Сообщения
+			'notices' => array(
+				'error'             => 'При поиске произошла ошибка',
+				'error_date_format' => 'Указан неверный формат даты',
+				'result_count'      => 'Найдено писем: %%count%%',
+				'result_empty'      => 'По вашим критериям писем не найдено'
 			)
 		),
 
 		// Черный список
 		'blacklist' => array(
-			// Поля
-			'fields' => array(
-				'talk_blacklist_add' => array(
-					'label' => 'Список пользователей',
-					'note'  => 'Введите один или несколько логинов'
-				),
-			),
+			'title' => 'Черный список',
+			'note'  => 'Добавьте пользователей от которых вы не хотите получать сообщения',
 
 			// Сообщения
-			'alerts' => array(
-				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем'
+			'notices' => array(
+				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
+				'user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
 			),
 		),
 
-		// Всплывающие сообщения
-		'notices' => array(
+		// Список участников разговора
+		'users' => array(
+			'title'          => 'Участники разговора',
+			'user_not_found' => 'Пользователь не участвует в разговоре',
 
+			// Сообщения
+			'notices' => array(
+				'user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
+				'deleted'        => 'Участник <b>%%login%%</b> удалил этот разговор',
+			)
 		),
 
 		// Сообщения
-		'alerts' => array(
-			'empty' => 'Нет писем'
+		'notices' => array(
+			'time_limit' => 'Вам нельзя отправлять сообщения слишком часто',
+			'empty'      => 'Нет писем',
+			'deleted'    => 'Отправитель удалил сообщение',
+			'not_found'  => 'Разговор не найден'
 		),
 	),
+
 
 	/**
 	 * Опросы
@@ -1020,58 +1091,6 @@ return array(
 
 	// TODO: Удалить, используется в ActionSubscribe
 	'registration_mail_error' => 'Неверный формат e-mail',
-
-	/**
-	 * Почта
-	 */
-	'talk_filter_error' => 'Ошибка фильтрации',
-	'talk_filter_error_date_format' => 'Указан неверный формат даты',
-	'talk_filter_result_count' => 'Найдено писем: %%count%%',
-	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
-
-	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
-	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
-
-	'talk_favourite_inbox' => 'Избранные письма',
-
-	'talk_menu_inbox' => 'Сообщения',
-	'talk_menu_inbox_new' => 'Только новые',
-	'talk_menu_inbox_list' => 'Переписка',
-	'talk_menu_inbox_create' => 'Новое письмо',
-	'talk_menu_inbox_favourites' => 'Избранное',
-	'talk_menu_inbox_blacklist' => 'Блокировать',
-
-	'talk_inbox' => 'Почтовый ящик',
-	'talk_inbox_target' => 'Адресаты',
-	'talk_inbox_title' => 'Тема',
-	'talk_inbox_date' => 'Дата',
-	'talk_inbox_make_read' => 'Отметить как прочитанное',
-	'talk_inbox_delete' => 'Удалить выделенное',
-	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
-
-	'talk_comments' => 'Переписка',
-	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов',
-
-	'talk_create' => 'Новое письмо',
-	'talk_create_users' => 'Кому',
-	'talk_create_users_error' => 'Необходимо указать, кому вы хотите отправить сообщение',
-	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином',
-	'talk_create_users_error_many' => 'Слишком много адресатов',
-	'talk_create_title' => 'Заголовок',
-	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
-	'talk_create_text' => 'Сообщение',
-	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
-	'talk_create_submit' => 'Отправить',
-
-	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
-
-	'talk_speaker_title' => 'Участники разговора',
-	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
-	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
-	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
-
-	'talk_not_found' => 'Разговор не найден',
-	'talk_deleted' => 'Отправитель удалил сообщение',
 
 	/**
 	 * Блоги
