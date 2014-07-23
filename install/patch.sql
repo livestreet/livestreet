@@ -591,7 +591,7 @@ ALTER TABLE `prefix_blog` DROP FOREIGN KEY `prefix_blog_ibfk_1` ;
 ALTER TABLE `prefix_blog` DROP `category_id` ;
 DROP TABLE `prefix_blog_category`;
 
-INSERT INTO `social`.`prefix_category_type` (
+INSERT INTO `prefix_category_type` (
 `id` ,
 `target_type` ,
 `title` ,
