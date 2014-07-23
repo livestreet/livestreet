@@ -608,3 +608,23 @@ NULL , 'blog', 'Блоги', '1', '2014-07-14 00:00:00', NULL , ''
 -- 22.07.2014
 ALTER TABLE `prefix_topic` ADD `topic_date_edit_content` DATETIME NULL DEFAULT NULL AFTER `topic_date_edit` ,
 ADD INDEX ( `topic_date_edit_content` ) ;
+
+
+-- 23.07.2014
+CREATE TABLE IF NOT EXISTS `prefix_cron_task` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) NOT NULL,
+  `method` varchar(500) NOT NULL,
+  `plugin` varchar(50) NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
+  `count_run` int(11) NOT NULL DEFAULT '0',
+  `period_run` int(11) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `date_run_last` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `count_run` (`count_run`),
+  KEY `state` (`state`),
+  KEY `plugin` (`plugin`),
+  KEY `method` (`method`(255)),
+  KEY `period_run` (`period_run`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
