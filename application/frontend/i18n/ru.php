@@ -384,6 +384,7 @@ return array(
 	 */
 	'talk' => array(
 		'title' => 'Сообщения',
+		'participants' => '%%count%% участник;%%count%% участника;%%count%% участников',
 
 		// Меню
 		'nav' => array(
