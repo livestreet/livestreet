@@ -9,7 +9,6 @@
 {/block}
 
 {block 'layout_content'}
-	{include './talk-search-form.tpl'}
-	{include './talk-list.tpl' bMessageListCheckboxes=true}
-	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+	{include 'components/talk/talk-search-form.tpl'}
+	{include 'components/talk/talk-list.tpl' bMessageListCheckboxes=true}
 {/block}

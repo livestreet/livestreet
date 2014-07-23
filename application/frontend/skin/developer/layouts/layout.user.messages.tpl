@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_user_page_title'}
-	{$aLang.talk_menu_inbox}
+	{$aLang.talk.title}
 {/block}

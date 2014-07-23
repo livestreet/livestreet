@@ -10,13 +10,13 @@
 
 		{* Экшнбар *}
 		{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-message-list-item' assign=sMessagesSelect aItems=[
-			[ 'text' => 'Прочитанные', 'filter' => ":not('.message-unread')" ],
-			[ 'text' => 'Не прочитанные', 'filter' => ".message-unread" ]
+			[ 'text' => $aLang.talk.actionbar.read, 'filter' => ":not('.message-unread')" ],
+			[ 'text' => $aLang.talk.actionbar.unread, 'filter' => ".message-unread" ]
 		]}
 
 		{include 'components/actionbar/actionbar.tpl' aItems=[
 			[ 'html' => $sMessagesSelect ],
-			[ 'icon' => 'icon-ok', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="mark_as_read"', 'text' => $aLang.talk_inbox_make_read ],
+			[ 'icon' => 'icon-ok', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="mark_as_read"', 'text' => $aLang.talk.actionbar.mark_as_read ],
 			[ 'icon' => 'icon-remove', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="remove"', 'text' => $aLang.common.remove ]
 		]}
 
@@ -109,5 +109,7 @@
 		</table>
 	</form>
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=$aLang.messages.alerts.empty sMods='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$aLang.talk.alerts.empty sMods='empty'}
 {/if}
+
+{include 'components/pagination/pagination.tpl' aPaging=$aPaging}

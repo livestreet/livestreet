@@ -11,7 +11,7 @@
 				[ 'name' => 'favourites', 'text' => $aLang.user_menu_profile_favourites, 'url' => "{$oUserCurrent->getUserWebPath()}favourites/topics/", 'count' => $iCountFavourite ],
 				[ 'name' => 'friends',    'text' => $aLang.user_menu_profile_friends,    'url' => "{$oUserCurrent->getUserWebPath()}friends/", 'count' => $iCountFriendsUser ],
 				[ 'name' => 'stream',     'text' => $aLang.user_menu_profile_stream,     'url' => "{$oUserCurrent->getUserWebPath()}stream/" ],
-				[ 'name' => 'talk',       'text' => $aLang.talk_menu_inbox,              'url' => "{router page='talk'}", 'count' => $iUserCurrentCountTalkNew, 'is_enabled' => $oUserCurrent && $oUserCurrent->getId() == $oUserCurrent->getId() ],
+				[ 'name' => 'talk',       'text' => $aLang.talk.title,                   'url' => "{router page='talk'}", 'count' => $iUserCurrentCountTalkNew, 'is_enabled' => $oUserCurrent && $oUserCurrent->getId() == $oUserCurrent->getId() ],
 				[ 'name' => 'settings',   'text' => $aLang.settings_menu,                'url' => "{router page='settings'}", 'is_enabled' => $oUserCurrent && $oUserCurrent->getId() == $oUserCurrent->getId() ],
 				[ 'name' => 'admin',      'text' => $aLang.admin_title,                  'url' => "{router page='admin'}", 'is_enabled' => $oUserCurrent && $oUserCurrent->isAdministrator() ]
 			]

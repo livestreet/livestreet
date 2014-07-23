@@ -24,11 +24,13 @@ return array(
 	'common' => array(
 		'add'    => 'Добавить',
 		'remove' => 'Удалить',
+		'remove_confirm' => 'Действительно удалить?',
 		'edit'   => 'Редактировать',
 		'save'   => 'Сохранить',
 		'create' => 'Создать',
 		'cancel' => 'Отменить',
 		'empty'  => 'Тут ничего нет',
+		'send'   => 'Отправить',
 		'form_reset'  => 'Очистить форму',
 		'preview_text'  => 'Предпросмотр',
 		'times_declension'   => 'раз;раза;раз',
@@ -380,7 +382,61 @@ return array(
 	/**
 	 * Личные сообщения
 	 */
-	'messages' => array(
+	'talk' => array(
+		'title' => 'Сообщения',
+
+		// Меню
+		'nav' => array(
+			'inbox'      => 'Сообщения',
+			'new'        => 'Только новые',
+			'add'        => 'Новое письмо',
+			'favourites' => 'Избранное',
+			'blacklist'  => 'Блокировать'
+		),
+
+		// Форма добавления
+		'add' => array(
+			'title' => 'Новое письмо',
+
+			// Поля
+			'fields' => array(
+				'users' => array(
+					'label' => 'Кому'
+				),
+				'title' => array(
+					'label' => 'Заголовок',
+				),
+				'text' => array(
+					'label' => 'Сообщение',
+				),
+			),
+
+			// Сообщения
+			'notices' => array(
+				'users_error'           => 'Необходимо указать, кому вы хотите отправить сообщение',
+				'users_error_not_found' => 'У нас нет пользователя с логином', // TODO: Move to common
+				'users_error_many'      => 'Слишком много адресатов',
+
+				'title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
+
+				'text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
+			)
+		),
+
+		// Сообщение
+		'message' => array(
+			// Сообщения
+			'notices' => array(
+				'error_text' => 'Текст сообщения должен быть от 2 до 3000 символов',
+			)
+		),
+
+		// Экшнбар
+		'actionbar' => array(
+			'read'         => 'Прочитанные',
+			'unread'       => 'Не прочитанные',
+			'mark_as_read' => 'Отметить как прочитанное',
+		),
 
 		// Форма поиска
 		'search' => array(
@@ -412,35 +468,50 @@ return array(
 				'favourite' => array(
 					'label' => 'Искать только в избранном'
 				),
+			),
+
+			// Сообщения
+			'notices' => array(
+				'error'             => 'При поиске произошла ошибка',
+				'error_date_format' => 'Указан неверный формат даты',
+				'result_count'      => 'Найдено писем: %%count%%',
+				'result_empty'      => 'По вашим критериям писем не найдено'
 			)
 		),
 
 		// Черный список
 		'blacklist' => array(
-			// Поля
-			'fields' => array(
-				'talk_blacklist_add' => array(
-					'label' => 'Список пользователей',
-					'note'  => 'Введите один или несколько логинов'
-				),
-			),
+			'title' => 'Черный список',
+			'note'  => 'Добавьте пользователей от которых вы не хотите получать сообщения',
 
 			// Сообщения
-			'alerts' => array(
-				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем'
+			'notices' => array(
+				'blocked' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
+				'user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
 			),
 		),
 
-		// Всплывающие сообщения
-		'notices' => array(
+		// Список участников разговора
+		'users' => array(
+			'title'          => 'Участники разговора',
+			'user_not_found' => 'Пользователь не участвует в разговоре',
 
+			// Сообщения
+			'notices' => array(
+				'user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
+				'deleted'        => 'Участник <b>%%login%%</b> удалил этот разговор',
+			)
 		),
 
 		// Сообщения
-		'alerts' => array(
-			'empty' => 'Нет писем'
+		'notices' => array(
+			'time_limit' => 'Вам нельзя отправлять сообщения слишком часто',
+			'empty'      => 'Нет писем',
+			'deleted'    => 'Отправитель удалил сообщение',
+			'not_found'  => 'Разговор не найден'
 		),
 	),
+
 
 	/**
 	 * Опросы
@@ -553,11 +624,13 @@ return array(
 	 */
 	'emails' => array(
 		'common' => array(
-			'comment_text' => 'Текст комментария'
+			'comment_text' => 'Текст комментария',
+			'regards' => 'С уважением, администрация сайта',
 		),
 
 		// Приглашение в закрытый блог
 		'blog_invite_new' => array(
+			'subject' => 'Вас пригласили вступить в блог',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				приглашает вас вступить в блог <a href="%%blog_url%%">%%blog_name%%</a>.
@@ -569,6 +642,7 @@ return array(
 
 		// Оповещение о новом комментарии в топике
 		'comment_new' => array(
+			'subject' => 'Новый комментарий к топику',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				оставил новый комментарий к топику <b>%%topic_name%%</b>,
@@ -581,6 +655,7 @@ return array(
 
 		// Оповещение об ответе на комментарий
 		'comment_reply' => array(
+			'subject' => 'Вам ответили на ваш комментарий',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				ответил на ваш комментарий в топике <b>%%topic_name%%</b>,
@@ -591,6 +666,7 @@ return array(
 
 		// Приглашение на сайт
 		'invite' => array(
+			'subject' => 'Приглашение на регистрацию',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				пригласил вас зарегистрироваться на сайте <a href="%%website_url%%">%%website_name%%</a>
@@ -602,6 +678,7 @@ return array(
 
 		// Повторная активация
 		'reactivation' => array(
+			'subject' => 'Повторный запрос активации',
 			'text' =>
 				'Вы запросили повторную активацию на сайте <a href="%%website_url%%">%%website_name%%</a>
 				<br><br>
@@ -612,6 +689,7 @@ return array(
 
 		// Регистрация
 		'registration' => array(
+			'subject' => 'Регистрация',
 			'text' =>
 				'Вы зарегистрировались на сайте <a href="%%website_url%%">%%website_name%%</a>
 				<br><br>
@@ -623,6 +701,7 @@ return array(
 
 		// Подтверждение регистрации
 		'registration_activate' => array(
+			'subject' => 'Регистрация',
 			'text' =>
 				'Вы зарегистрировались на сайте <a href="%%website_url%%">%%website_name%%</a>
 				<br><br>
@@ -637,6 +716,7 @@ return array(
 
 		// Смена пароля
 		'reminder_code' => array(
+			'subject' => 'Восстановление пароля',
 			'text' =>
 				'Если вы хотите сменить себе пароль на сайте <a href="%%website_url%%">%%website_name%%</a>, то перейдите по ссылке ниже:<br>
 				<a href="%%recover_url%%">%%recover_url%%</a>'
@@ -644,12 +724,14 @@ return array(
 
 		// Новый пароль
 		'reminder_password' => array(
+			'subject' => 'Новый пароль',
 			'text' =>
 				'Вам присвоен новый пароль: <b>%%password%%</b>'
 		),
 
 		// Оповещение о новом сообщении в диалоге
 		'talk_comment_new' => array(
+			'subject' => 'У вас новый комментарий к письму',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				оставил новый комментарий к письму <b>%%talk_name%%</b>,
@@ -662,6 +744,7 @@ return array(
 
 		// Оповещение о новом сообщении
 		'talk_new' => array(
+			'subject' => 'У вас новое письмо',
 			'text' =>
 				'Вам пришло новое письмо от пользователя <a href="%%user_url%%">%%user_name%%</a>,
 				прочитать его можно перейдя по <a href="%%talk_url%%">этой ссылке</a>
@@ -674,6 +757,7 @@ return array(
 
 		// Оповещение о новом топике
 		'topic_new' => array(
+			'subject' => 'Новый топик в блоге',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				опубликовал в блоге <b>%%blog_name%%</b>,
@@ -682,6 +766,7 @@ return array(
 
 		// Смена почты
 		'user_changemail' => array(
+			'subject' => 'Подтверждение смены емайла',
 			'text' =>
 				'Вами отправлен запрос на смену e-mail адреса пользователя <a href="%%user_url%%">%%user_name%%</a>
 				на сайте <a href="%%website_url%%">%%website_name%%</a>.
@@ -695,6 +780,7 @@ return array(
 
 		// Жалоба
 		'user_complaint' => array(
+			'subject' => 'Жалоба на пользователя',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				пожаловался на пользователя <a href="%%user_target_url%%">%%user_target_url%%</a>.
@@ -706,6 +792,7 @@ return array(
 
 		// Заявка в друзья
 		'user_friend_new' => array(
+			'subject' => 'Вас добавили в друзья',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				<br><br>
@@ -718,6 +805,7 @@ return array(
 
 		// Новое сообщение на стене
 		'wall_new' => array(
+			'subject' => 'Новое сообщение на вашей стене',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				оставил сообщение на <a href="%%wall_url%%">вашей стене</a>
@@ -728,6 +816,7 @@ return array(
 
 		// Ответ на сообщение на стене
 		'wall_reply' => array(
+			'subject' => 'Ответ на ваше сообщение на стене',
 			'text' =>
 				'Пользователь <a href="%%user_url%%">%%user_name%%</a>
 				ответил на ваше сообщение на <a href="%%wall_url%%">стене</a>
@@ -1020,58 +1109,6 @@ return array(
 
 	// TODO: Удалить, используется в ActionSubscribe
 	'registration_mail_error' => 'Неверный формат e-mail',
-
-	/**
-	 * Почта
-	 */
-	'talk_filter_error' => 'Ошибка фильтрации',
-	'talk_filter_error_date_format' => 'Указан неверный формат даты',
-	'talk_filter_result_count' => 'Найдено писем: %%count%%',
-	'talk_filter_result_empty' => 'По вашим критериям писем не найдено',
-
-	'talk_user_in_blacklist' => 'Пользователь <b>%%login%%</b> не принимает от вас писем',
-	'talk_blacklist_user_not_found' => 'Пользователя <b>%%login%%</b> нет в вашем black list`е',
-
-	'talk_favourite_inbox' => 'Избранные письма',
-
-	'talk_menu_inbox' => 'Сообщения',
-	'talk_menu_inbox_new' => 'Только новые',
-	'talk_menu_inbox_list' => 'Переписка',
-	'talk_menu_inbox_create' => 'Новое письмо',
-	'talk_menu_inbox_favourites' => 'Избранное',
-	'talk_menu_inbox_blacklist' => 'Блокировать',
-
-	'talk_inbox' => 'Почтовый ящик',
-	'talk_inbox_target' => 'Адресаты',
-	'talk_inbox_title' => 'Тема',
-	'talk_inbox_date' => 'Дата',
-	'talk_inbox_make_read' => 'Отметить как прочитанное',
-	'talk_inbox_delete' => 'Удалить выделенное',
-	'talk_inbox_delete_confirm' => 'Действительно удалить переписку?',
-
-	'talk_comments' => 'Переписка',
-	'talk_comment_add_text_error' => 'Текст комментария должен быть от 2 до 3000 символов',
-
-	'talk_create' => 'Новое письмо',
-	'talk_create_users' => 'Кому',
-	'talk_create_users_error' => 'Необходимо указать, кому вы хотите отправить сообщение',
-	'talk_create_users_error_not_found' => 'У нас нет пользователя с логином',
-	'talk_create_users_error_many' => 'Слишком много адресатов',
-	'talk_create_title' => 'Заголовок',
-	'talk_create_title_error' => 'Заголовок сообщения должен быть от 2 до 200 символов',
-	'talk_create_text' => 'Сообщение',
-	'talk_create_text_error' => 'Текст сообщения должен быть от 2 до 3000 символов',
-	'talk_create_submit' => 'Отправить',
-
-	'talk_time_limit' => 'Вам нельзя отправлять инбоксы слишком часто',
-
-	'talk_speaker_title' => 'Участники разговора',
-	'talk_speaker_user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
-	'talk_speaker_not_found' => 'Пользователь не участвует в разговоре',
-	'talk_speaker_delete_by_self' => 'Участник <b>%%login%%</b> удалил этот разговор',
-
-	'talk_not_found' => 'Разговор не найден',
-	'talk_deleted' => 'Отправитель удалил сообщение',
 
 	/**
 	 * Блоги
@@ -1531,27 +1568,6 @@ return array(
 	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
 	'uploadimg_cancel' => 'Отмена',
 	'uploadimg_title' => 'Описание',
-	/**
-	 * Уведомления
-	 */
-	'notify_subject_comment_new' => 'Новый комментарий к топику',
-	'notify_subject_comment_reply' => 'Вам ответили на ваш комментарий',
-	'notify_subject_topic_new' => 'Новый топик в блоге',
-	'notify_subject_registration_activate' => 'Регистрация',
-	'notify_subject_registration' => 'Регистрация',
-	'notify_subject_invite' => 'Приглашение на регистрацию',
-	'notify_subject_talk_new' => 'У вас новое письмо',
-	'notify_subject_talk_comment_new' => 'У вас новый комментарий к письму',
-	'notify_subject_user_friend_new' => 'Вас добавили в друзья',
-	'notify_subject_blog_invite_new' => 'Вас пригласили вступить в блог',
-	'notify_subject_reminder_code' => 'Восстановление пароля',
-	'notify_subject_reminder_password' => 'Новый пароль',
-	'notify_subject_wall_reply' => 'Ответ на ваше сообщение на стене',
-	'notify_subject_wall_new' => 'Новое сообщение на вашей стене',
-	'notify_subject_reactvation' => 'Повторный запрос активации',
-	'notify_subject_user_changemail' => 'Подтверждение смены емайла',
-	'notify_subject_user_complaint' => 'Жалоба на пользователя',
-	'notify_regards' => 'С уважением, администрация сайта',
 	/**
 	 * Админка
 	 */
