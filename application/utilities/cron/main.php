@@ -19,6 +19,7 @@ class CronMain extends Cron {
 	 * Запускаем обработку
 	 */
 	public function Client() {
+		set_time_limit(0);
 		$this->Cron_RunMain();
 	}
 }
