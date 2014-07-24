@@ -91,13 +91,15 @@
 {block 'entry_footer_info_items'}
 	{* Голосование *}
 	<li class="topic-info-item topic-info-item-vote">
+		{$isExpired = strtotime($oTopic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
+
 		{include 'components/vote/vote.tpl'
 				 oObject     = $oTopic
 				 sClasses    = 'js-vote-topic'
 				 sMods       = 'small white topic'
 				 bUseAbstain = true
-				 bIsLocked   = $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()
-				 bShowRating = $oTopic->getVote() || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || strtotime($oTopic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
+				 bIsLocked   = ( $oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId() ) || $isExpired
+				 bShowRating = $oTopic->getVote() || ($oUserCurrent && $oTopic->getUserId() == $oUserCurrent->getId()) || $isExpired}
 	</li>
 
 	{$smarty.block.parent}
