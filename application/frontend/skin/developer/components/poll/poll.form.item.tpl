@@ -24,6 +24,6 @@
 
 	{* Кнопка удаления *}
 	{if $bPollIsAllowRemove|default:true}
-		<i class="icon-remove poll-form-answer-item-remove js-poll-form-answer-item-remove" title="{$aLang.common.remove}"></i>
+		<i class="icon-remove poll-form-answer-item-remove js-poll-form-answer-item-remove" title="{$aLang.common.remove}" {if ! $smarty.local.showRemove|default:true}style="display: none"{/if}></i>
 	{/if}
 </li>

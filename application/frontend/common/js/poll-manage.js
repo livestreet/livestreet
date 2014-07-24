@@ -159,10 +159,14 @@
 		 * @param {jQuery} list Список ответов
 		 */
 		answerAdd: function( list ) {
+			var answers = list.find( this.option( 'selectors.form.item' ) );
+
 			// Ограничиваем кол-во добавляемых ответов
-			if ( list.find( this.option( 'selectors.form.item' ) ).length == this.option( 'max' ) ) {
+			if ( answers.length == this.option( 'max' ) ) {
 				ls.msg.error( null, ls.lang.get( 'poll.notices.error_answers_max' ) );
 				return;
+			} else if ( answers.length == 2 ) {
+				answers.find( this.option( 'selectors.form.item_remove' ) ).show();
 			}
 
 			var item = $( this.option( 'selectors.form.item' ) + '[data-is-template=true]' ).clone().removeAttr( 'data-is-template' ).show();
@@ -178,10 +182,10 @@
 		 * @param {jQuery} button Кнопка удаления
 		 */
 		answerRemove: function( list, button ) {
-			if ( list.find( this.option( 'selectors.form.item' ) ).length == 1 ) {
-				// TODO: Fix text
-				ls.msg.error( null, ls.lang.get( 'poll.notices.error_answers_max' ) );
-				return;
+			var answers = list.find( this.option( 'selectors.form.item' ) );
+
+			if ( answers.length == 3 ) {
+				answers.find( this.option( 'selectors.form.item_remove' ) ).hide();
 			}
 
 			button.closest( this.option( 'selectors.form.item' ) ).fadeOut(200, function () {

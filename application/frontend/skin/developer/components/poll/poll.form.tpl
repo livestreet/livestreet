@@ -63,7 +63,8 @@
 								 bPollIsAllowRemove = $oPoll->isAllowUpdate() && ! $oAnswer->getCountVote()}
 					{/foreach}
 				{else}
-					{include './poll.form.item.tpl'}
+					{include './poll.form.item.tpl' showRemove=false}
+					{include './poll.form.item.tpl' showRemove=false}
 				{/if}
 			</ul>
 		</div>
