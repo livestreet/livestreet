@@ -115,7 +115,7 @@
                     {include 'components/vote/vote.tpl'
                             sClasses  = "{$sComponent}-vote js-vote-{$sComponent}"
                             oObject   = $oComment
-                            bIsLocked = ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId())}
+                            bIsLocked = ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId()) || strtotime($oComment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
                 </li>
             {/if}
 
