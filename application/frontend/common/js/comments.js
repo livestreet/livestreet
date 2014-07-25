@@ -44,6 +44,8 @@
 				comment_list: '.js-comment-list',
 				// Подписаться на новые комментарии
 				subscribe: '.js-comments-subscribe',
+				// Сообщение о пустом списке
+				empty: '.js-comments-empty',
 
 				// Комментарий
 				comment: {
@@ -106,6 +108,7 @@
 				fold_all_toggle: this.element.find(this.options.selectors.fold_all_toggle),
 				comment_list:    this.element.find(this.options.selectors.comment_list),
 				subscribe:       this.element.find(this.options.selectors.subscribe),
+				empty:           this.element.find(this.options.selectors.empty),
 				form: {
 					text:          this.form.find(this.options.selectors.form.text),
 					submit:        this.form.find(this.options.selectors.form.submit),
@@ -344,6 +347,9 @@
 
 					// Если комментарии подгружаются после сабмита формы текущим пользователем
 					if ( сommentSelfId ) this.formToggle(this.formTargetId, true);
+
+					// Скрываем сообщение о пустом списке
+					this.getComments().length == 0 && this.elements.empty.hide();
 
 					// Вставляем новые комментарии
 					$.each(сommentsLoaded, function(index, item) {

@@ -58,5 +58,5 @@
 		{section closewrappers2 loop=$iCurrentLevel + 1}</div>{/section}
 	{/if}
 {foreachelse}
-	{include 'components/alert/alert.tpl' sMods='empty' mAlerts=$aLang.common.empty}
+	{include 'components/alert/alert.tpl' sMods='empty' sClasses='js-comments-empty' mAlerts=$aLang.common.empty}
 {/foreach}
