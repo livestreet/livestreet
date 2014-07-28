@@ -1,0 +1,1 @@
+Ошибка: <?php echo $this->get('msg'); ?>
