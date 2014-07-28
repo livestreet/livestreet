@@ -5,52 +5,60 @@
  * @scripts <framework>/js/livestreet/topic.js
  *}
 
-{block 'entry_options'}{/block}
+{* Название компонента *}
+{$component = 'article'}
 
-{$oUser = $oEntry->getUser()}
-{$_sType = ($oEntry->getType()) ? $oEntry->getType() : $sEntryType}
+{block 'article_options'}
+	{$user = $article->getUser()}
+	{$type = ($article->getType()) ? $article->getType() : $smarty.local.type}
+	{$isList = $smarty.local.isList}
+	{$mods = $smarty.local.mods}
+	{$classes = $smarty.local.classes}
 
-{block 'entry'}
-	<article class="topic topic-type-{$_sType} js-topic {if ! $bTopicList}topic-single{/if} {block 'entry_class'}{/block}" 
-			 id="{block 'entry_id'}{/block}" 
-			 {block 'entry_attributes'}{/block}>
+	{if ! $isList}
+		{$mods = "{$mods} single"}
+	{/if}
+{/block}
+
+{block 'article'}
+	<article class="{$component} {mod name=$component mods=$mods} {$classes}" {$smarty.local.attributes}>
 		{**
 		 * Хидер
 		 *}
-		{block 'entry_header'}
-			<header class="topic-header">
+		{block 'article_header'}
+			<header class="{$component}-header">
 				{* Заголовок *}
-				<h1 class="topic-title word-wrap">
-					{block 'entry_title'}
-						{if $bTopicList}
-							<a href="{$oEntry->getUrl()}">{$oEntry->getTitle()|escape}</a>
+				<h1 class="{$component}-title word-wrap">
+					{block 'article_title'}
+						{if $isList}
+							<a href="{$article->getUrl()}">{$article->getTitle()|escape}</a>
 						{else}
-							{$oEntry->getTitle()|escape}
+							{$article->getTitle()|escape}
 						{/if}
 					{/block}
 				</h1>
 
 				{* Информация *}
-				<ul class="topic-info">
-					{block 'entry_header_info'}
-						<li class="topic-info-item topic-info-item-date">
-							<time datetime="{date_format date=$oEntry->getDateAdd() format='c'}" title="{date_format date=$oEntry->getDateAdd() format='j F Y, H:i'}">
-								{date_format date=$oEntry->getDateAdd() format="j F Y, H:i"}
+				<ul class="{$component}-info">
+					{block 'article_header_info'}
+						<li class="{$component}-info-item {$component}-info-item--date">
+							<time datetime="{date_format date=$article->getDateAdd() format='c'}" title="{date_format date=$article->getDateAdd() format='j F Y, H:i'}">
+								{date_format date=$article->getDateAdd() format="j F Y, H:i"}
 							</time>
 						</li>
 					{/block}
 				</ul>
 
 				{* Управление *}
-				{if $oEntry->getIsAllowAction()}
-					{$aActionbarItems = [
-						[ 'icon' => 'icon-edit', 'url' => $oEntry->getUrlEdit(), 'text' => $aLang.common.edit, 'show' => $oEntry->getIsAllowEdit() ],
-						[ 'icon' => 'icon-trash', 'url' => "{$oEntry->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => $aLang.common.remove, 'show' => $oEntry->getIsAllowDelete() ]
-					]}
+				{if $article->getIsAllowAction()}
+					{block 'article_header_actions'}
+						{$items = [
+							[ 'icon' => 'icon-edit', 'url' => $article->getUrlEdit(), 'text' => $aLang.common.edit, 'show' => $article->getIsAllowEdit() ],
+							[ 'icon' => 'icon-trash', 'url' => "{$article->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => $aLang.common.remove, 'show' => $article->getIsAllowDelete() ]
+						]}
+					{/block}
 
-					{block 'entry_header_actions'}{/block}
-
-					{include 'components/actionbar/actionbar.tpl' aItems=$aActionbarItems}
+					{include 'components/actionbar/actionbar.tpl' aItems=$items}
 				{/if}
 			</header>
 		{/block}
@@ -59,21 +67,21 @@
 		{**
 		 * Текст
 		 *}
-		{block 'entry_body'}
-			<div class="topic-content text">
-				{block 'entry_content_text'}
-					{if $bTopicList}
-						{$oEntry->getTextShort()}
+		{block 'article_body'}
+			<div class="{$component}-content text">
+				{block 'article_content_text'}
+					{if $isList}
+						{$article->getTextShort()}
 
 						{* Кат *}
-						{if $oEntry->getTextShort() != $oEntry->getText()}
+						{if $article->getTextShort() != $article->getText()}
 	                        <br/>
-	                        <a href="{$oEntry->getUrl()}#cut" title="{$aLang.topic_read_more}">
-								{$oEntry->getCutText()|default:$aLang.topic_read_more}
+	                        <a href="{$article->getUrl()}#cut" title="{$aLang.topic.read_more}">
+								{$article->getCutText()|default:$aLang.topic.read_more}
 	                        </a>
 						{/if}
 					{else}
-						{$oEntry->getText()}
+						{$article->getText()}
 					{/if}
 				{/block}
 			</div>
@@ -83,39 +91,32 @@
 		{**
 		 * Футер
 		 *}
-		{block 'entry_footer'}
-			<footer class="topic-footer">
+		{block 'article_footer'}
+			<footer class="{$component}-footer">
 				{* Информация *}
-				{block 'entry_footer_info'}
-					<ul class="topic-info clearfix">
-						{block 'entry_footer_info_items'}
+				{block 'article_footer_info'}
+					<ul class="{$component}-info clearfix">
+						{block 'article_footer_info_items'}
 							{* Автор топика *}
-							<li class="topic-info-item topic-info-item-author">
-								{include 'components/user_item/user_item.tpl' oUser=$oUser iUserItemAvatarSize=48 sUserItemStyle='rounded'}
+							<li class="{$component}-info-item {$component}-info-item--author">
+								{include 'components/user_item/user_item.tpl' oUser=$user iUserItemAvatarSize=48 sUserItemStyle='rounded'}
 							</li>
-
-							{if ! $bTopicList}
-								{* Избранное *}
-								<li class="topic-info-item topic-info-item-favourite">
-									{include 'components/favourite/favourite.tpl' sClasses="js-favourite-{$_sType}" oObject=$oEntry}
-								</li>
-							{/if}
 
 							{* Ссылка на комментарии *}
 							{* Не показываем если комментирование запрещено и кол-во комментариев равно нулю *}
-							{if $bTopicList && ( ! $oTopic->getForbidComment() || ( $oTopic->getForbidComment() && $oEntry->getCountComment() ) )}
-								<li class="topic-info-item topic-info-item-comments">
-									<a href="{$oEntry->getUrl()}#comments" title="{$aLang.topic_comment_read}">
-										{lang name='comments.comments_declension' count=$oEntry->getCountComment() plural=true}
+							{if $isList && ( ! $article->getForbidComment() || ( $article->getForbidComment() && $article->getCountComment() ) )}
+								<li class="{$component}-info-item {$component}-info-item--comments">
+									<a href="{$article->getUrl()}#comments">
+										{lang name='comments.comments_declension' count=$article->getCountComment() plural=true}
 									</a>
 
-									{if $oEntry->getCountCommentNew()}<span>+{$oEntry->getCountCommentNew()}</span>{/if}
+									{if $article->getCountCommentNew()}<span>+{$article->getCountCommentNew()}</span>{/if}
 								</li>
 							{/if}
-						{/block}
+						{/block} {* /article_footer_info_items *}
 					</ul>
-				{/block}
+				{/block} {* /article_footer_info *}
 			</footer>
-		{/block}
+		{/block} {* /article_footer *}
 	</article>
 {/block}
