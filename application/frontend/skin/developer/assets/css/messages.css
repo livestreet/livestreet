@@ -9,7 +9,7 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.topic-type-talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
+.talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
 
 /**
  * Message user list

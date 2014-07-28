@@ -2,4 +2,4 @@
  * Первое сообщение в диалоге
  *}
 
-{extends 'components/article/article.tpl'}
+{include 'components/article/article.tpl' article=$smarty.local.talk type='talk' classes='talk'}

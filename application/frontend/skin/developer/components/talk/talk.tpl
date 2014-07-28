@@ -8,7 +8,7 @@
 {$talk = $smarty.local.talk}
 
 {* Первое сообщение *}
-{include './talk-message-root.tpl' oEntry=$talk sEntryType='talk'}
+{include './talk-message-root.tpl' talk=$talk}
 
 {* Участники личного сообщения *}
 {include './talk-users.tpl'}
@@ -22,6 +22,5 @@
 	iCountComment     = $talk->getCountComment()
 	sDateReadLast     = $talk->getTalkUser()->getDateLast()
 	bForbidAdd        = $bNoComments
-	sNoticeCommentAdd = $aLang.topic_comment_add
 	sNoticeNotAllow   = $aLang.talk.notices.deleted
 	bShowFavourite    = false}
