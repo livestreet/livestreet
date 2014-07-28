@@ -77,6 +77,14 @@ class InstallStepInstall2 extends InstallStep {
 				}
 			}
 		}
+
+		$sPathRootWeb=$this->getPathRootWeb();
+		$aDirs=array();
+		$sDirs=trim(str_replace('http://'.$_SERVER['HTTP_HOST'],'',$sPathRootWeb),'/');
+		if ($sDirs!='') {
+			$aDirs=explode('/',$sDirs);
+		}
+
 		/**
 		 * Прописываем параметры в конфиг
 		 */
@@ -88,16 +96,11 @@ class InstallStepInstall2 extends InstallStep {
 			'db.params.pass' => InstallCore::getRequest('db.params.pass'),
 			'db.table.prefix' => InstallCore::getRequest('db.table.prefix'),
 			'db.tables.engine' => $sEngineDB,
+			'path.root.web' => $sPathRootWeb,
+			'path.offset_request_url' => count($aDirs),
 		);
 		if (!InstallConfig::save($aSave)) {
 			return $this->addError(InstallConfig::$sLastError);
-		}
-		/**
-		 * Проверяем на дубль выполнения дампа
-		 */
-		$sHash=md5('install_db_'.InstallCore::getRequest('db.params.host').InstallCore::getRequest('db.params.dbname'));
-		if (!InstallCore::getStoredData($sHash,false)) {
-
 		}
 		/**
 		 * Запускаем импорт дампов, сначала GEO DB
@@ -115,4 +118,8 @@ class InstallStepInstall2 extends InstallStep {
 		return $this->addError(join('<br/>',$aErrors));
 	}
 
+	protected function getPathRootWeb() {
+		$sPath=rtrim('http://'.$_SERVER['HTTP_HOST'],'/').str_replace('/install/index.php','',$_SERVER['PHP_SELF']);
+		return preg_replace('#\/application$#','',$sPath);
+	}
 }

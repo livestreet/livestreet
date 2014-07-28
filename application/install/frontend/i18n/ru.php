@@ -93,6 +93,21 @@ return array(
 				'db_table_prefix' => 'Неверный формат префикс таблиц, допустимы только латински буквы, цифры и знак "_"',
 			),
 		),
+		'install3' => array(
+			'title' => 'Данные администратора сайта',
+			'form' => array(
+				'mail' => array(
+					'title' => 'E-mail'
+				),
+				'passwd' => array(
+					'title' => 'Пароль'
+				),
+			),
+			'errors' => array(
+				'mail' => 'Неверный формат e-mail адреса',
+				'passwd' => 'Пароль должен быть от 3-х символов',
+			),
+		),
 	),
 
 	'config' => array(

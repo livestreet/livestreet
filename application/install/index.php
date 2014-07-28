@@ -11,7 +11,7 @@ require_once('bootstrap.php');
  */
 $aGroups=array(
 	'install'=>array(
-		'install1','install2','install3'
+		'install1','install2','install3','installcomplete'
 	),
 
 	'update'=>array(
