@@ -102,8 +102,8 @@ class ActionUserfeed extends Action {
 		 * Загружаем данные в ajax ответ
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('aTopics', $aTopics);
-		$this->Viewer_AssignAjax('html', $oViewer->Fetch('topics/topic_list.tpl'));
+		$oViewer->Assign('topics', $aTopics, true);
+		$this->Viewer_AssignAjax('html', $oViewer->Fetch('components/topic/topic-list.tpl'));
 		$this->Viewer_AssignAjax('count_loaded', count($aTopics));
 
 		if (count($aTopics)) {

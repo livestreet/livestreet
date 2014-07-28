@@ -364,11 +364,11 @@ class ActionRss extends Action {
 	protected function getTopicText($oTopic) {
 		$sText=$oTopic->getTextShort();
 		if ($oTopic->getTextShort()!=$oTopic->getText()) {
-			$sText.="<br><a href=\"{$oTopic->getUrl()}#cut\" title=\"{$this->Lang_Get('topic_read_more')}\">";
+			$sText.="<br><a href=\"{$oTopic->getUrl()}#cut\" title=\"{$this->Lang_Get('topic.read_more')}\">";
 			if ($oTopic->getCutText()) {
 				$sText.=htmlspecialchars($oTopic->getCutText());
 			} else {
-				$sText.=$this->Lang_Get('topic_read_more');
+				$sText.=$this->Lang_Get('topic.read_more');
 			}
 			$sText.="</a>";
 		}

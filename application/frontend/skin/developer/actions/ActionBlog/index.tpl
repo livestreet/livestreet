@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'topics/topic_list.tpl'}
+	{include 'components/topic/topic-list.tpl' topics=$aTopics paging=$aPaging}
 {/block}

@@ -17,7 +17,7 @@
 	{block 'block_content'}
 		<span id="blog_user_count_{$oBlog->getId()}">{$oBlog->getCountUser()}</span>
 		{$oBlog->getCountUser()|declension:$aLang.blog.readers_declension}<br />
-		{$oBlog->getCountTopic()} {$oBlog->getCountTopic()|declension:$aLang.topic_declension}
+		{$oBlog->getCountTopic()} {lang name=$aLang.topic.topic_plural count=$oBlog->getCountTopic() plural=true}
 
 		<br />
 		<br />

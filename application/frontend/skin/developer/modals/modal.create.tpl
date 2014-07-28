@@ -27,7 +27,7 @@
 		{/foreach}
 		{modal_create_item sName='blog' sTitle=$aLang.block_create_blog}
 		{modal_create_item sName='talk' sTitle=$aLang.block_create_talk}
-		{modal_create_item sName='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic_menu_drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
+		{modal_create_item sName='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic.drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
 
 		{hook run='write_item' isPopup=true}
 	</ul>

@@ -2,25 +2,25 @@
  * Страница с формой поиска
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	{$aLang.search.search}
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	{include 'forms/search_forms/search_form.main.tpl'}
 	{include 'navs/nav.search.tpl'}
 
 	{if $aResultItems}
 		{if $sSearchType == 'topics'}
-			{include file='topics/topic_list.tpl' aTopics=$aResultItems}
+			{include 'components/topic/topic-list.tpl' topics=$aResultItems paging=$aPaging}
 		{elseif $sSearchType == 'comments'}
-			{include file='comments/comment_list.tpl' aComments=$aResultItems}
+			{include 'comments/comment_list.tpl' aComments=$aResultItems}
 		{else}
 			{hook run='search_result' sType=$sSearchType}
 		{/if}

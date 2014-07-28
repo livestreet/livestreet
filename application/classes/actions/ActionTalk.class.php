@@ -668,7 +668,7 @@ class ActionTalk extends Action {
 		 * Проверка на дублирующий коммент
 		 */
 		if ($this->Comment_GetCommentUnique($oTalk->getId(),'talk',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.spam'),$this->Lang_Get('error'));
 			return;
 		}
 		/**

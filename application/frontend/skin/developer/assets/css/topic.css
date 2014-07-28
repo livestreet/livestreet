@@ -3,7 +3,7 @@
  *
  * @template topics/*.tpl
  * @scripts <frontend>/common/js/topics.js
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -20,48 +20,48 @@
 /**
  * Шапка
  */
-.topic-header                         { margin-bottom: 25px; }
+.article-header                         { margin-bottom: 25px; }
 
-.topic-header .topic-title            { font: 400 32px/1.3em "Open Sans", sans-serif; margin: 0 0 15px; }
-.topic-header .topic-title a          { text-decoration: none; }
-.topic-header .topic-title a:visited  { color: #000; }
-.topic-header .topic-title i          { position: relative; top: 8px; cursor: help; }
+.article-header .article-title            { font: 400 32px/1.3em "Open Sans", sans-serif; margin: 0 0 15px; }
+.article-header .article-title a          { text-decoration: none; }
+.article-header .article-title a:visited  { color: #000; }
+.article-header .article-title i          { position: relative; top: 8px; cursor: help; }
 
-.topic-header .topic-info             { color: #777; margin-bottom: 15px; overflow: hidden; }
-.topic-header .topic-info-item        { float: left; margin-right: 15px; }
+.article-header .article-info             { color: #777; margin-bottom: 15px; overflow: hidden; }
+.article-header .article-info-item        { float: left; margin-right: 15px; }
 
 
 /**
  * Содержимое топика
  */
-.topic-content      { margin-bottom: 20px; }
-.topic-content.text { color: #333; font-size: 15px; line-height: 1.6em; }
+.article-content      { margin-bottom: 20px; }
+.article-content.text { color: #333; font-size: 15px; line-height: 1.6em; }
 
 
 /**
  * Подвал
  */
-.topic-footer .topic-info-item { float: left; padding: 8px; margin-right: 20px; }
+.article-footer .article-info-item { float: left; padding: 8px; margin-right: 20px; }
 
-.topic-info a       { text-decoration: none; }
-.topic-info a:hover { text-decoration: underline; }
+.article-info a       { text-decoration: none; }
+.article-info a:hover { text-decoration: underline; }
 
 /* Автор */
-.topic-info-item.topic-info-item-author       { padding: 2px; }
-.topic-info-item .user-item-avatar-link:hover { text-decoration: none; }
-.topic-info-item .user-item-avatar            { width: 30px; height: 30px; }
-.topic-info-item .user-item-name              { color: #333; position: relative; top: 2px; /* TODO: Fix */; }
+.article-info-item.article-info-item--author       { padding: 2px; }
+.article-info-item .user-item-avatar-link:hover { text-decoration: none; }
+.article-info-item .user-item-avatar            { width: 30px; height: 30px; }
+.article-info-item .user-item-name              { color: #333; position: relative; top: 2px; /* TODO: Fix */; }
 
 /* Ссылка на комментарии */
-.topic-info-item.topic-info-item-comments a span { color: #777; }
+.article-info-item.article-info-item--comments a span { color: #777; }
 
 /* Голосование */
-.topic-info-item.topic-info-item-vote { padding: 0; }
+.article-info-item.article-info-item--vote { padding: 0; }
 
 
 /**
  * Предпросмотр топика
- * 
+ *
  * @template topics/topic_preview_X.tpl
  */
 .topic-preview                      { margin-top: 30px; }

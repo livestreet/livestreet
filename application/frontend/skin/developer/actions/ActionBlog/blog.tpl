@@ -36,6 +36,6 @@
 	{if $bPrivateBlog}
 		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.private sMods='error'}
 	{else}
-		{include 'topics/topic_list.tpl'}
+		{include 'components/topic/topic-list.tpl' topics=$aTopics paging=$aPaging}
 	{/if}
 {/block}

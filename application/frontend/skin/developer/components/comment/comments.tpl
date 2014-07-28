@@ -97,7 +97,7 @@
 		{if $oUserCurrent}
 			{* Кнопка открывающая форму *}
 			<h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
-				<a href="#" class="link-dotted">{$sNoticeCommentAdd}</a>
+				<a href="#" class="link-dotted">{$sNoticeCommentAdd|default:$aLang.comments.form.title}</a>
 			</h4>
 		{else}
 			{include 'components/alert/alert.tpl' sMods='info' mAlerts=$aLang.comments.alerts.unregistered}

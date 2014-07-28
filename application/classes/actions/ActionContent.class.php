@@ -66,7 +66,7 @@ class ActionContent extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_title'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic.topics'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -118,7 +118,7 @@ class ActionContent extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_menu_'.$this->sCurrentEvent));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic.nav.'.$this->sCurrentEvent));
 	}
 
 	protected function EventDelete() {
@@ -177,7 +177,7 @@ class ActionContent extends Action {
 		 */
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
 		$this->Viewer_Assign('oTopicType',$oTopicType);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_edit'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.edit'));
 
 		$this->Viewer_Assign('oTopicEdit', $oTopic);
 		$this->SetTemplateAction('add');
@@ -202,7 +202,7 @@ class ActionContent extends Action {
 		 */
 		$this->Viewer_Assign('oTopicType',$oTopicType);
 		$this->Viewer_Assign('aBlogsAllow',$this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic_topic_create'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.add'));
 		$this->SetTemplateAction('add');
 	}
 
@@ -220,7 +220,7 @@ class ActionContent extends Action {
 		 * Проверяем разрешено ли постить топик по времени
 		 */
 		if (isPost('submit_topic_publish') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'),$this->Lang_Get('error'));
 			return;
 		}
 
@@ -283,7 +283,7 @@ class ActionContent extends Action {
 			 * Проверяем права на постинг в блог
 			 */
 			if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
+				$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_blog_not_allowed'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
@@ -359,7 +359,7 @@ class ActionContent extends Action {
 		 * Проверяем разрешено ли постить топик по времени
 		 */
 		if (isPost('submit_topic_publish') and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_time_limit'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
@@ -409,7 +409,7 @@ class ActionContent extends Action {
 			 * Проверяем права на постинг в блог
 			 */
 			if (!$this->ACL_IsAllowBlog($oBlog,$this->oUserCurrent)) {
-				$this->Message_AddErrorSingle($this->Lang_Get('topic_create_blog_error_noallow'),$this->Lang_Get('error'));
+				$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_blog_not_allowed'),$this->Lang_Get('error'));
 				return false;
 			}
 			/**
@@ -493,7 +493,7 @@ class ActionContent extends Action {
 		 * Допустимый тип топика?
 		 */
 		if (!$this->Topic_IsAllowTopicType($sType=getRequestStr('topic_type'))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_create_type_error'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_type'),$this->Lang_Get('error'));
 			return;
 		}
 		/**

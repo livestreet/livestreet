@@ -6,7 +6,7 @@
 
 {block 'layout_content'}
 	{* Топик *}
-	{include 'topics/topic.tpl'}
+	{include 'components/topic/topic.tpl' topic=$oTopic}
 
 	{* Комментарии *}
 	{include 'components/comment/comments.tpl'
@@ -14,13 +14,12 @@
 			 iTargetId         = $oTopic->getId()
 			 iAuthorId         = $oTopic->getUserId()
 			 aComments         = $aComments
-			 sAuthorNotice     = $aLang.topic_author
+			 sAuthorNotice     = $aLang.topic.author
 			 sTargetType       = 'topic'
 			 iCountComment     = $oTopic->getCountComment()
 			 sDateReadLast     = $oTopic->getDateRead()
 			 bForbidAdd        = $oTopic->getForbidComment()
-			 sNoticeNotAllow   = $aLang.topic_comment_notallow
-			 sNoticeCommentAdd = $aLang.topic_comment_add
+			 sNoticeNotAllow   = $aLang.topic.comments.notices.not_allowed
 			 bAllowSubscribe   = true
 			 oSubscribeComment = $oTopic->getSubscribeNewComment()
 			 aPagingCmt        = $aPagingCmt

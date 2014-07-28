@@ -1399,7 +1399,7 @@ class ActionAjax extends Action {
 		 * Пропускаем топик из черновиков
 		 */
 		if (!$oTopic->getPublish()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('error_favorite_topic_is_draft'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_favourite_draft'),$this->Lang_Get('error'));
 			return;
 		}
 		/**
@@ -1417,7 +1417,7 @@ class ActionAjax extends Action {
 			);
 			$oTopic->setCountFavourite($oTopic->getCountFavourite()+1);
 			if ($this->Topic_AddFavouriteTopic($oFavouriteTopicNew) and $this->Topic_UpdateTopic($oTopic)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_add_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',true);
 				$this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
 			} else {
@@ -1425,17 +1425,17 @@ class ActionAjax extends Action {
 			}
 		}
 		if (!$oFavouriteTopic and !$iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_favourite_add_no'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('favourite.notices.already_removed'),$this->Lang_Get('error'));
 			return;
 		}
 		if ($oFavouriteTopic and $iType) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_favourite_add_already'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('favourite.notices.already_added'),$this->Lang_Get('error'));
 			return;
 		}
 		if ($oFavouriteTopic and !$iType) {
 			$oTopic->setCountFavourite($oTopic->getCountFavourite()-1);
 			if ($this->Topic_DeleteFavouriteTopic($oFavouriteTopic) and $this->Topic_UpdateTopic($oTopic)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('topic_favourite_del_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),$this->Lang_Get('attention'));
 				$this->Viewer_AssignAjax('bState',false);
 				$this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
 			} else {
@@ -1882,7 +1882,7 @@ class ActionAjax extends Action {
 		 * Проверяем текст комментария
 		 */
 		if (!$this->Validate_Validate('string',$sText,array('min'=>2,'max'=>10000,'allowEmpty'=>false))) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.error_text'),$this->Lang_Get('error'));
 			return;
 		}
 

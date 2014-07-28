@@ -1026,28 +1026,28 @@ class ActionBlog extends Action {
          * Проверяем разрешено ли постить комменты
          */
         if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic) and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_acl'),$this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.acl'),$this->Lang_Get('error'));
             return;
         }
         /**
          * Проверяем разрешено ли постить комменты по времени
          */
         if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_limit'),$this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.limit'),$this->Lang_Get('error'));
             $bOk = false;
         }
         /**
          * Проверяем запрет на добавления коммента автором топика
          */
         if ($oTopic->getForbidComment()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_notallow'),$this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.not_allowed'),$this->Lang_Get('error'));
             $bOk = false;
         }
         /**
          * Проверяем текст комментария
          */
         if (!func_check($sText,'text',2,10000)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_add_text_error'),$this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.error_text'),$this->Lang_Get('error'));
             $bOk = false;
         }
 
@@ -1104,7 +1104,7 @@ class ActionBlog extends Action {
          * Проверка на дублирующий коммент
          */
         if ($this->Comment_GetCommentUnique($oTopic->getId(),'topic',$this->oUserCurrent->getId(),$sParentId,md5($sText))) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic_comment_spam'),$this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.spam'),$this->Lang_Get('error'));
             $bOk = false;
         }
 

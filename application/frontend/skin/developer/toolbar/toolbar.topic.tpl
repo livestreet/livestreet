@@ -11,7 +11,7 @@
 {block 'toolbar_item_options' append}
 	{$_sMods = 'topic'}
 	{$_sClasses = 'js-toolbar-topics'}
-	{$_bShow = $params.iCountTopic}
+	{$_bShow = $params.show}
 {/block}
 
 {block 'toolbar_item'}

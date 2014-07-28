@@ -44,9 +44,9 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	public function Init() {
 		parent::Init();
-		$this->aValidateRules[]=array('topic_title','string','max'=>Config::Get('module.topic.title_max_length'),'min'=>Config::Get('module.topic.title_min_length'),'allowEmpty'=>Config::Get('module.topic.title_allow_empty'),'label'=>$this->Lang_Get('topic_create_title'));
-		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>Config::Get('module.topic.min_length'),'allowEmpty'=>Config::Get('module.topic.allow_empty'),'condition'=>'isNeedValidateText','label'=>$this->Lang_Get('topic_create_text'));
-		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'condition'=>'isNeedValidateTags','label'=>$this->Lang_Get('topic_create_tags'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'));
+		$this->aValidateRules[]=array('topic_title','string','max'=>Config::Get('module.topic.title_max_length'),'min'=>Config::Get('module.topic.title_min_length'),'allowEmpty'=>Config::Get('module.topic.title_allow_empty'),'label'=>$this->Lang_Get('topic.add.fields.title.label'));
+		$this->aValidateRules[]=array('topic_text_source','string','max'=>Config::Get('module.topic.max_length'),'min'=>Config::Get('module.topic.min_length'),'allowEmpty'=>Config::Get('module.topic.allow_empty'),'condition'=>'isNeedValidateText','label'=>$this->Lang_Get('topic.add.fields.text.label'));
+		$this->aValidateRules[]=array('topic_tags','tags','count'=>15,'condition'=>'isNeedValidateTags','label'=>$this->Lang_Get('topic.add.fields.tags.label'),'allowEmpty'=>Config::Get('module.topic.allow_empty_tags'));
 
 		$this->aValidateRules[]=array('blog_id','blog_id');
 		$this->aValidateRules[]=array('topic_text_source','topic_unique');
@@ -86,7 +86,7 @@ class ModuleTopic_EntityTopic extends Entity {
 		if ($this->Topic_IsAllowTopicType($sValue)) {
 			return true;
 		}
-		return $this->Lang_Get('topic_create_type_error');
+		return $this->Lang_Get('topic.add.notices.error_type');
 	}
 	/**
 	 * Проверка топика на уникальность
@@ -102,7 +102,7 @@ class ModuleTopic_EntityTopic extends Entity {
 				if ($iId=$this->getId() and $oTopicEquivalent->getId()==$iId) {
 					return true;
 				}
-				return $this->Lang_Get('topic_create_text_error_unique');
+				return $this->Lang_Get('topic.add.notices.error_text_unique');
 			}
 		}
 		return true;
@@ -125,7 +125,7 @@ class ModuleTopic_EntityTopic extends Entity {
 			$this->setBlogId($oBlog->getId());
 			return true;
 		}
-		return $this->Lang_Get('topic_create_blog_error_unknown');
+		return $this->Lang_Get('topic.add.notices.error_blog_not_found');
 	}
 
 	/**

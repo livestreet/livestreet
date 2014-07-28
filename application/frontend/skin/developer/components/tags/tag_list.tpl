@@ -6,7 +6,7 @@
 
 {if $aTags}
 	<ul class="tag-list tag-list-topic js-tags-topic-{$oTopic->getId()}" data-type="{$sTagsFavouriteType}" data-id="{$iTagsFavouriteId}">
-		<li class="tag-list-item tag-list-item-label">{$aLang.topic_tags}:</li>
+		<li class="tag-list-item tag-list-item-label">{$aLang.topic.tags}:</li>
 
 		{strip}
 			{foreach $aTags as $sTag}

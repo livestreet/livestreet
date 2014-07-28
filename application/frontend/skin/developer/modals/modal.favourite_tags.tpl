@@ -9,7 +9,7 @@
 
 {block name='modal_id'}favourite-form-tags{/block}
 {block name='modal_class'}modal-favourite-tags js-modal-default{/block}
-{block name='modal_title'}{$aLang.add_favourite_tags}{/block}
+{block name='modal_title'}{$aLang.topic.add_favourite_tags}{/block}
 
 {block name='modal_content'}
 	<form id="js-favourite-form">

@@ -13,7 +13,7 @@
 	{if $topics}
 		{* Список *}
 		<ul class="{$component}-topic-list js-{$component}-topic-list">
-			{include 'topics/topic_list.tpl' aTopics=$topics}
+			{include 'components/topic/topic-list.tpl' topics=$topics paging=$aPaging}
 		</ul>
 
 		{* Кнопка подгрузки *}
