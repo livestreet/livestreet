@@ -9,13 +9,21 @@ abstract class InstallStep {
 
 	public function __construct($sGroup,$aParams=array()) {
 		$this->aParams=array_merge($this->aParams,$aParams);
-		$this->oTemplate=new InstallTemplate('steps/'.$this->getName().'.tpl.php');
+		$this->oTemplate=new InstallTemplate($this->getTemplateName());
 		$this->sGroup=$sGroup;
 		$this->init();
 	}
 
 	public function init() {
 
+	}
+
+	public function getParam($sName,$mDefault=null) {
+		return array_key_exists($sName,$this->aParams) ? $this->aParams[$sName] : $mDefault;
+	}
+
+	protected function getTemplateName() {
+		return 'steps/'.$this->getName().'.tpl.php';
 	}
 
 	public function getErrors() {
@@ -29,7 +37,11 @@ abstract class InstallStep {
 
 	public function getName() {
 		$aPath=explode('_',install_func_underscore(get_class($this)));
-		return array_pop($aPath);
+		array_shift($aPath);
+		array_shift($aPath);
+		$sName=ucfirst(install_func_camelize(join('_',$aPath)));
+		$sName{0}=strtolower($sName{0});
+		return $sName;
 	}
 
 	public function getStepTitle() {

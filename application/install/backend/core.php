@@ -5,6 +5,7 @@ class InstallCore {
 	const COOKIE_NAME='install_data';
 
 	static public $aGroups=array();
+	static public $aGroupsParams=array();
 	static public $oLayout=null;
 	static public $aLangMsg=array();
 	static public $aStoredData=array();
@@ -13,10 +14,28 @@ class InstallCore {
 		if (!$aGroups) {
 			throw new Exception('Empty groups');
 		}
-		self::$aGroups=$aGroups;
+
+		$this->defineGroups($aGroups);
 		$this->loadLang();
 		$this->loadStoredData();
 		self::$oLayout=new InstallTemplate('layout.tpl.php');
+	}
+
+	protected function defineGroups($aGroups) {
+		$aGroupsResult=array();
+		$aParamsResult=array();
+		foreach($aGroups as $sGroup=>$aSteps) {
+			foreach($aSteps as $sStep=>$aParams) {
+				if (is_int($sStep)) {
+					$sStep=$aParams;
+					$aParams=array();
+				}
+				$aParamsResult[$sGroup][$sStep]=$aParams;
+				$aGroupsResult[$sGroup][]=$sStep;
+			}
+		}
+		self::$aGroups=$aGroupsResult;
+		self::$aGroupsParams=$aParamsResult;
 	}
 
 	/**
@@ -95,8 +114,8 @@ class InstallCore {
 		if (!class_exists($sClass)) {
 			return self::renderError('Not found step '.$sStep);
 		}
-		$oStep=new $sClass($sGroup);
-
+		$aParams=isset(self::$aGroupsParams[$sGroup][$sStep]) ? self::$aGroupsParams[$sGroup][$sStep] : array();
+		$oStep=new $sClass($sGroup,$aParams);
 		if (isset($_POST['action_next'])) {
 			/**
 			 * Сначала обрабатываем шаг

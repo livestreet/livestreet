@@ -1,6 +1,6 @@
 <?php
 
-class InstallStepInstall2 extends InstallStep {
+class InstallStepInstallDb extends InstallStep {
 
 	protected $sConfigPath;
 
@@ -48,7 +48,7 @@ class InstallStepInstall2 extends InstallStep {
 		$sNameDb=InstallCore::getRequest('db.params.dbname');
 		if (!InstallCore::getRequest('db_create')) {
 			if (!@mysqli_select_db($oDb,$sNameDb)) {
-				return $this->addError(InstallCore::getLang('steps.install2.errors.db_not_found'));
+				return $this->addError(InstallCore::getLang('steps.installDb.errors.db_not_found'));
 			}
 		} else {
 			/**
@@ -56,14 +56,14 @@ class InstallStepInstall2 extends InstallStep {
 			 */
 			@mysqli_query($oDb,"CREATE DATABASE $sNameDb");
 			if (!@mysqli_select_db($oDb,$sNameDb)) {
-				return $this->addError(InstallCore::getLang('steps.install2.errors.db_not_create'));
+				return $this->addError(InstallCore::getLang('steps.installDb.errors.db_not_create'));
 			}
 		}
 		/**
 		 * Проверяем корректность префикса таблиц
 		 */
 		if (!preg_match('#^[a-z0-9\_]*$#i',InstallCore::getRequest('db.table.prefix'))) {
-			return $this->addError(InstallCore::getLang('steps.install2.errors.db_table_prefix'));
+			return $this->addError(InstallCore::getLang('steps.installDb.errors.db_table_prefix'));
 		}
 		/**
 		 * Определяем поддержку InnoDB

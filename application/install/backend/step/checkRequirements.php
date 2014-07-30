@@ -1,6 +1,6 @@
 <?php
 
-class InstallStepInstall1 extends InstallStep {
+class InstallStepCheckRequirements extends InstallStep {
 
 	public function show() {
 		/**

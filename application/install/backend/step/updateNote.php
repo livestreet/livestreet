@@ -1,6 +1,6 @@
 <?php
 
-class InstallStepUpdate2 extends InstallStep {
+class InstallStepUpdateNote extends InstallStep {
 
 	public function show() {
 

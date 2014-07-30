@@ -8,7 +8,7 @@
 
 
 <div class="header">
-	header
+	header - LiveStreet <?php echo VERSION; ?>
 	<br/>
 
 	<?php if (!$this->get('install_reset_hide')) { ?>

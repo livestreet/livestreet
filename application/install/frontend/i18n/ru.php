@@ -13,7 +13,7 @@ return array(
 	),
 
 	'steps' =>array(
-		'install1' => array(
+		'checkRequirements' => array(
 			'title' => 'Проверка требований для установки',
 			'requirements' => array(
 				'php_version' => array(
@@ -62,7 +62,7 @@ return array(
 				),
 			),
 		),
-		'install2' => array(
+		'installDb' => array(
 			'title' => 'Настройка базы данных',
 			'form' => array(
 				'db_host' => array(
@@ -93,7 +93,7 @@ return array(
 				'db_table_prefix' => 'Неверный формат префикс таблиц, допустимы только латински буквы, цифры и знак "_"',
 			),
 		),
-		'install3' => array(
+		'installAdmin' => array(
 			'title' => 'Данные администратора сайта',
 			'form' => array(
 				'mail' => array(

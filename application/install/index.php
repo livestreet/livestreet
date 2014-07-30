@@ -11,11 +11,11 @@ require_once('bootstrap.php');
  */
 $aGroups=array(
 	'install'=>array(
-		'install1','install2','install3','installcomplete'
+		'checkRequirements','installDb','installAdmin','installComplete'
 	),
 
 	'update'=>array(
-		'update1','update2'
+		'updateNote','checkRequirements','updateDb'=>array('hide_create_db'=>true),'updateComplete'
 	),
 
 );
