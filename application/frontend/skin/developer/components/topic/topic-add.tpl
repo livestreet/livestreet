@@ -153,7 +153,7 @@
 
 
 {* Блок с превью текста *}
-<div class="topic-preview" style="display: none;" id="topic-text-preview"></div>
+<div style="display: none;" id="topic-text-preview"></div>
 
 {block name='add_topic_end'}{/block}
 {hook run="add_topic_end"}

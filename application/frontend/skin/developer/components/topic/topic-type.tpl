@@ -1,7 +1,8 @@
 {**
  * Подключение шаблона топика определенного типа
  *
- * @param object $topic
+ * @param object  $topic
+ * @param boolean $isPreview
  *}
 
 {$topic = $smarty.local.topic}
@@ -16,5 +17,5 @@
 		{$template = './topic.tpl'}
 	{/if}
 
-	{include "$template" topic=$topic isList=$smarty.local.isList}
+	{include "$template" topic=$topic isList=$smarty.local.isList isPreview=$smarty.local.isPreview}
 {/if}

@@ -9,6 +9,7 @@
 {$component = 'article'}
 
 {block 'article_options'}
+	{$isPreview = $smarty.local.isPreview}
 	{$user = $article->getUser()}
 	{$type = ($article->getType()) ? $article->getType() : $smarty.local.type}
 	{$isList = $smarty.local.isList}
@@ -50,7 +51,7 @@
 				</ul>
 
 				{* Управление *}
-				{if $article->getIsAllowAction()}
+				{if $article->getIsAllowAction() && ! $isPreview}
 					{block 'article_header_actions'}
 						{$items = [
 							[ 'icon' => 'icon-edit', 'url' => $article->getUrlEdit(), 'text' => $aLang.common.edit, 'show' => $article->getIsAllowEdit() ],

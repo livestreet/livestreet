@@ -508,6 +508,7 @@ class ActionContent extends Action {
 		$oTopic->setDateAdd(date("Y-m-d H:i:s"));
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType($sType);
+		$oTopic->setPublish(1);
 		/**
 		 * Валидируем необходимые поля топика
 		 */
@@ -527,11 +528,8 @@ class ActionContent extends Action {
 		 * Рендерим шаблон для предпросмотра топика
 		 */
 		$oViewer=$this->Viewer_GetLocalViewer();
-		$oViewer->Assign('oTopic',$oTopic);
-		$sTemplate="topics/topic_preview_{$oTopic->getType()}.tpl";
-		if (!$this->Viewer_TemplateExists($sTemplate)) {
-			$sTemplate='topics/topic_preview.tpl';
-		}
+		$oViewer->Assign('topic',$oTopic,true);
+		$sTemplate='components/topic/topic-preview.tpl';
 		$sTextResult=$oViewer->Fetch($sTemplate);
 		/**
 		 * Передаем результат в ajax ответ

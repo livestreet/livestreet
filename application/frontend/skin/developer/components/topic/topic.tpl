@@ -1,7 +1,10 @@
 {**
  * Базовый шаблон топика
+ * Используется также для отображения превью топика
  *
- * @param object $topic
+ * @param object  $topic
+ * @param boolean $isList
+ * @param boolean $isPreview
  *
  * @styles assets/css/topic.css
  * @scripts <framework>/js/livestreet/topic.js
@@ -31,9 +34,11 @@
 {block 'article_header_info' prepend}
 	{$blog = $topic->getBlog()}
 
-	<li class="{$component}-info-item {$component}-info-item--blog">
-		<a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>
-	</li>
+	{if ! $isPreview}
+		<li class="{$component}-info-item {$component}-info-item--blog">
+			<a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>
+		</li>
+	{/if}
 {/block}
 
 
@@ -72,45 +77,51 @@
 	{if ! $isList and $topic->getTypeObject()->getParam('allow_tags')}
 		{$favourite = $topic->getFavourite()}
 
-		{include 'components/tags/tag_list.tpl'
-			aTags              = $topic->getTagsArray()
-			bTagsUseFavourite  = true
-			aTagsFavourite     = ($favourite) ? $favourite->getTagsArray() : []
-			sTagsFavouriteType = 'topic'
-			iTagsFavouriteId   = $topic->getId()}
+		{if ! $isPreview}
+			{include 'components/tags/tag_list.tpl'
+				aTags              = $topic->getTagsArray()
+				bTagsUseFavourite  = true
+				aTagsFavourite     = ($favourite) ? $favourite->getTagsArray() : []
+				sTagsFavouriteType = 'topic'
+				iTagsFavouriteId   = $topic->getId()}
+		{/if}
 	{/if}
 
 	{$smarty.block.parent}
 
 	{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
-	<div class="tooltip" id="topic_share_{$topic->getId()}">
-		<div class="tooltip-content js-tooltip-content">
-			{hookb run="topic_share" topic=$topic isList=$isList}
-				<div class="yashare-auto-init" data-yashareTitle="{$topic->getTitle()|escape}" data-yashareLink="{$topic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
-			{/hookb}
+	{if ! $isPreview}
+		<div class="tooltip" id="topic_share_{$topic->getId()}">
+			<div class="tooltip-content js-tooltip-content">
+				{hookb run="topic_share" topic=$topic isList=$isList}
+					<div class="yashare-auto-init" data-yashareTitle="{$topic->getTitle()|escape}" data-yashareLink="{$topic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
+				{/hookb}
+			</div>
 		</div>
-	</div>
+	{/if}
 {/block}
 
 
 {* Информация *}
 {block 'article_footer_info_items'}
 	{* Голосование *}
-	<li class="{$component}-info-item {$component}-info-item--vote">
-		{$isExpired = strtotime($topic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
+	{if ! $isPreview}
+		<li class="{$component}-info-item {$component}-info-item--vote">
+			{$isExpired = strtotime($topic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
 
-		{include 'components/vote/vote.tpl'
-				 oObject     = $topic
-				 sClasses    = 'js-vote-topic'
-				 sMods       = 'small white topic'
-				 bUseAbstain = true
-				 bIsLocked   = ( $oUserCurrent && $topic->getUserId() == $oUserCurrent->getId() ) || $isExpired
-				 bShowRating = $topic->getVote() || ($oUserCurrent && $topic->getUserId() == $oUserCurrent->getId()) || $isExpired}
-	</li>
+			{include 'components/vote/vote.tpl'
+					 oObject     = $topic
+					 sClasses    = 'js-vote-topic'
+					 sMods       = 'small white topic'
+					 bUseAbstain = true
+					 bIsLocked   = ( $oUserCurrent && $topic->getUserId() == $oUserCurrent->getId() ) || $isExpired
+					 bShowRating = $topic->getVote() || ($oUserCurrent && $topic->getUserId() == $oUserCurrent->getId()) || $isExpired}
+		</li>
+	{/if}
 
 	{$smarty.block.parent}
 
-	{if ! $isList}
+	{if ! $isList && ! $isPreview}
 		{* Избранное *}
 		<li class="{$component}-info-item {$component}-info-item--favourite">
 			{include 'components/favourite/favourite.tpl' sClasses="js-favourite-{$type}" oObject=$article}

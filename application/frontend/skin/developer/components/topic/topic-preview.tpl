@@ -1,22 +1,21 @@
 {**
  * Предпросмотр топика
  *
+ * @param object $topic
+ *
  * @styles css/topic.css
  *}
 
-{$oUser = $oTopic->getUser()}
+<div class="topic-preview">
+	<header class="topic-preview-header">
+		<h3 class="topic-preview-title">{$aLang.common.preview_text}</h3>
+	</header>
 
-<h3 class="profile-page-header">{$aLang.common.preview_text}</h3>
+	<div class="topic-preview-body">
+		{include './topic-type.tpl' topic=$smarty.local.topic isPreview=true}
+	</div>
 
-{include './topic-type.tpl' topic=$oTopic}
-
-{* TODO: Пофиксить кнопки сабмита *}
-<button type="submit" name="submit_topic_publish" class="button button-primary fl-r" onclick="jQuery('#submit_topic_publish').trigger('click');">
-	{if $sEvent == 'add' or ($oTopicEdit and $oTopicEdit->getPublish() == 0)}
-		{$aLang.topic_create_submit_publish}
-	{else}
-		{$aLang.topic_create_submit_update}
-	{/if}
-</button>
-<button type="button" name="submit_preview" class="button js-topic-preview-text-hide-button">{$aLang.common.cancel}</button>
-<button type="submit" name="submit_topic_save" class="button" onclick="jQuery('#submit_topic_save').trigger('click');">{$aLang.topic_create_submit_save}</button>
+	<footer class="topic-preview-footer">
+		<button type="button" name="submit_preview" class="button js-topic-preview-text-hide-button">{$aLang.common.cancel}</button>
+	</footer>
+</div>

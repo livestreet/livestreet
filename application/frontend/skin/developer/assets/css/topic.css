@@ -64,6 +64,8 @@
  *
  * @template topics/topic_preview_X.tpl
  */
-.topic-preview                      { margin-top: 30px; }
-.topic-preview .profile-page-header { border-top: 1px solid #ddd; }
-.topic-preview .topic               { margin-bottom: 20px; }
+.topic-preview        { margin-top: 30px; border: 1px solid #eee; }
+.topic-preview-header { padding: 20px 30px; background: #fafafa; }
+.topic-preview-title  { margin: 0; }
+.topic-preview-body   { padding: 30px; }
+.topic-preview-footer { padding: 0 30px 30px; }
