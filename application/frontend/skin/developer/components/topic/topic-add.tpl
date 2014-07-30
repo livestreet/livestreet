@@ -82,10 +82,10 @@
 
 
 	{* Показывает дополнительные поля *}
-	{$params = [ [ 'target_type' => 'topic_'|cat:$type->getCode() ] ]}
+	{$params = [ 'target_type' => 'topic_'|cat:$type->getCode() ] }
 
 	{if $topic}
-		{$params[] = [ 'target_id' => $topic->getId() ]}
+		{$params.target_id = $topic->getId()}
 	{/if}
 
 	{insert name="block" block="propertyUpdate" params=$params}
@@ -144,7 +144,7 @@
 	{include 'components/button/button.tpl' sType='button' sClasses='js-topic-preview-text-button' sText=$aLang.common.preview_text}
 
 	{* Сохранить в черновиках / Перенести в черновики *}
-	{if $topic->getPublish() != 0}
+	{if $topic && $topic->getPublish() != 0}
 		{include 'components/button/button.tpl'
 			sId   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
 			sText = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
