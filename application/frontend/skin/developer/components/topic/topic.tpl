@@ -9,10 +9,9 @@
 
 {extends 'components/article/article.tpl'}
 
-{block 'article_options' prepend}
+{block 'article_options'}
 	{$article = $smarty.local.topic}
 	{$topic = $article}
-	{$type = 'topic'}
 
 	{$smarty.block.parent}
 
