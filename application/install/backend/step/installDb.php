@@ -36,6 +36,27 @@ class InstallStepInstallDb extends InstallStep {
 	 * @return bool
 	 */
 	public function process() {
+		if (!$aRes=$this->processDbCheck()) {
+			return $aRes;
+		}
+		list($oDb,$sEngineDB)=$aRes;
+		/**
+		 * Запускаем импорт дампов, сначала GEO DB
+		 */
+		list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/geo.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'geo_city')));
+		if ($bResult) {
+			/**
+			 * Запускаем основной дамп
+			 */
+			list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/dump.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'topic')));
+			if ($bResult) {
+				return true;
+			}
+		}
+		return $this->addError(join('<br/>',$aErrors));
+	}
+
+	protected function processDbCheck() {
 		/**
 		 * Коннект к серверу БД
 		 */
@@ -102,20 +123,7 @@ class InstallStepInstallDb extends InstallStep {
 		if (!InstallConfig::save($aSave)) {
 			return $this->addError(InstallConfig::$sLastError);
 		}
-		/**
-		 * Запускаем импорт дампов, сначала GEO DB
-		 */
-		list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/geo.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'geo_city')));
-		if ($bResult) {
-			/**
-			 * Запускаем основной дамп
-			 */
-			list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/dump.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'topic')));
-			if ($bResult) {
-				return true;
-			}
-		}
-		return $this->addError(join('<br/>',$aErrors));
+		return array($oDb,$sEngineDB);
 	}
 
 	protected function getPathRootWeb() {

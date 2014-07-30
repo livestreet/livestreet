@@ -15,7 +15,7 @@ $aGroups=array(
 	),
 
 	'update'=>array(
-		'updateNote','checkRequirements','updateDb'=>array('hide_create_db'=>true),'updateComplete'
+		'checkRequirements','updateDb'=>array('hide_create_db'=>true),'updateVersion','updateComplete'
 	),
 
 );

@@ -11,8 +11,9 @@
 
 <br/>
 Ваша текущая версия:
-<select>
+<select name="from_version">
 	<option value=""></option>
-	<option>1.0.3</option>
-	<option>1.0.2</option>
+	<?php foreach($this->get('convert_versions') as $version) { ?>
+		<option <?php if ($this->get('from_version')==$version) { ?> selected="selected" <?php } ?> ><?php echo $version ?></option>
+	<?php } ?>
 </select>

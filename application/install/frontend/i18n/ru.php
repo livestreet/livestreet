@@ -108,6 +108,11 @@ return array(
 				'passwd' => 'Пароль должен быть от 3-х символов',
 			),
 		),
+		'updateVersion' => array(
+			'errors' => array(
+				'not_found_convert' => 'Для данной версии нет возможности обновления',
+			),
+		),
 	),
 
 	'config' => array(
