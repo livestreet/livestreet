@@ -11,11 +11,11 @@ $config = array();
 $config['view']['grid']['type'] = 'fluid';
 
 /* Fluid settings */
-$config['view']['grid']['fluid_min_width'] = 320;
-$config['view']['grid']['fluid_max_width'] = 1200;
+$config['view']['grid']['fluid_min_width'] = '320px';
+$config['view']['grid']['fluid_max_width'] = '1200px';
 
 /* Fixed settings */
-$config['view']['grid']['fixed_width'] = 1000;
+$config['view']['grid']['fixed_width'] = '1000px';
 
 $config['head']['default']['js'] = Config::Get('head.default.js');
 $config['head']['default']['js'][] = '___path.skin.assets.web___/js/init.js';

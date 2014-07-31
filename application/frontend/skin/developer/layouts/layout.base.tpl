@@ -27,8 +27,8 @@
 			.grid-role-nav .nav--main,
 			.grid-role-header .site-info,
 			.grid-role-container {
-				min-width: {cfg name='view.grid.fluid_min_width'}px;
-				max-width: {cfg name='view.grid.fluid_max_width'}px;
+				min-width: {cfg name='view.grid.fluid_min_width'};
+				max-width: {cfg name='view.grid.fluid_max_width'};
 			}
 		</style>
 	{else}
@@ -36,7 +36,7 @@
 			.grid-role-userbar,
 			.grid-role-nav .nav--main,
 			.grid-role-header .site-info,
-			.grid-role-container { width: {cfg name='view.grid.fixed_width'}px; }
+			.grid-role-container { width: {cfg name='view.grid.fixed_width'}; }
 		</style>
 	{/if}
 {/block}
