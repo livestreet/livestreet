@@ -18,19 +18,20 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_content'}
+{block 'layout_options'}
+	{$sNav = 'topics.sub'}
+{/block}
+
+{block 'layout_content_header'}
 	{include 'components/blog/blog.tpl' blog=$oBlog}
+
+	{$smarty.block.parent}
 
 	{* Сообщение для забаненного пользователя *}
 	{* TODO: Вывод сообщения о бане *}
 	{if false}
 		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.banned sMods='error'}
 	{/if}
-
-	{* Навигация по топикам блога *}
-	<div class="nav-group">
-		{include 'navs/nav.topics.sub.tpl'}
-	</div>
 
 	{* Список топиков *}
 	{if $bPrivateBlog}
