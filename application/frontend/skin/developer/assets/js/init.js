@@ -48,7 +48,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Captcha
 	 */
-	$('[data-type=captcha]').captcha();
+	$('[data-type=captcha]').livequery(function () {
+		$(this).captcha();
+	});
 
 
 	/**
