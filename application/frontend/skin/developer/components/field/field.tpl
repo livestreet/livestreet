@@ -48,7 +48,11 @@
 	{if $smarty.local.sName}name="{$smarty.local.sName}"{/if}
 	{if $smarty.local.sPlaceholder}placeholder="{$smarty.local.sPlaceholder}"{/if}
 	{if $smarty.local.bIsDisabled}disabled{/if}
-	{foreach $_aRules as $sRule}data-{$sRule@key}="{$sRule@value}" {/foreach}
+	{foreach $_aRules as $sRule}
+		{if is_bool( $sRule@value ) && ! $sRule@value}{continue}{/if}
+
+		data-{$sRule@key}="{$sRule@value}"
+	{/foreach}
 	{$_sInputAttributes}
 {/function}
 
