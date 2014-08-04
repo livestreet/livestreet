@@ -4,16 +4,11 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}{$aLang.admin_header}{/block}
+{block name='layout_page_title'}{lang name='admin.title'} {if $bAvailableAdminPlugin} - <a href="{router page='admin/plugins'}?plugin=admin&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}">{lang name='admin.install_plugin_admin'}</a>{/if}{/block}
 
 {block name='layout_content'}
 	<ul>
-	    <li><a href="{router page="admin"}plugins/">{$aLang.admin_list_plugins}</a></li>
-	    <li><a href="{router page="admin"}userfields/">{$aLang.admin_list_userfields}</a></li>
-	    <li><a href="{router page="admin"}restorecomment/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.admin_list_restorecomment}</a></li>
-	    <li><a href="{router page="admin"}recalcfavourite/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.admin_list_recalcfavourite}</a></li>
-	    <li><a href="{router page="admin"}recalcvote/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.admin_list_recalcvote}</a></li>
-	    <li><a href="{router page="admin"}recalctopic/?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.admin_list_recalctopic}</a></li>
+	    <li><a href="{router page="admin"}plugins/">{lang name='admin.items.plugins'}</a></li>
 	    {hook run='admin_action_item'}
 	</ul>
 

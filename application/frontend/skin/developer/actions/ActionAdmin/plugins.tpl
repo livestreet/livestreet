@@ -4,7 +4,7 @@
 	{$bNoSidebar = true}
 {/block}
 
-{block name='layout_page_title'}<a href="{router page='admin'}">{$aLang.admin_header}</a> <span>&raquo;</span> {$aLang.admin_list_plugins}{/block}
+{block name='layout_page_title'}<a href="{router page='admin'}">{lang name='admin.title'}</a> <span>&raquo;</span> {lang name='admin.items.plugins'}{/block}
 
 {block name='layout_content'}
 	<form action="{router page='admin'}plugins/" method="post" id="form_plugins_list">

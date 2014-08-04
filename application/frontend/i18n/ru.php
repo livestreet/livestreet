@@ -1328,23 +1328,9 @@ return array(
 	/**
 	 * UserFields
 	 */
-	'user_field_admin_title' => 'Поля контактов пользователей',
-	'user_field_admin_title_add' => 'Добавить поле',
 	'user_field_add' => 'Добавить',
-	'user_field_cancel' => 'Отмена',
-	'user_field_added' => 'Поле успешно добавлено',
-	'user_field_update' => 'Изменить',
-	'user_field_updated' => 'Поле успешно изменено',
 	'user_field_delete' => 'Удалить',
 	'user_field_delete_confirm' => 'Удалить поле?',
-	'user_field_deleted' => 'Поле удалено',
-	'userfield_form_name' => 'Имя',
-	'userfield_form_type' => 'Тип',
-	'userfield_form_title' => 'Заголовок',
-	'userfield_form_pattern' => 'Шаблон (значение подставляется в токен {*})',
-	'user_field_error_add_no_name' => 'Необходимо указать название поля',
-	'user_field_error_add_no_title' => 'Необходимо указать заголовок поля',
-	'user_field_error_name_exists' => 'Поле с таким именем уже существует',
 	/**
 	 * Жалобы на пользователя
 	 */
@@ -1507,14 +1493,13 @@ return array(
 	/**
 	 * Админка
 	 */
-	'admin_header' => 'Админка',
-	'admin_list_plugins' => 'Управление плагинами',
-	'admin_list_userfields' => 'Настройка пользовательских полей',
-	'admin_list_blogcategory' => 'Настройка категорий блогов',
-	'admin_list_restorecomment' => 'Перестроение дерева комментариев',
-	'admin_list_recalcfavourite' => 'Пересчитать счетчики избранных',
-	'admin_list_recalcvote' => 'Пересчитать счетчики голосований',
-	'admin_list_recalctopic' => 'Пересчитать количество топиков в блогах',
+	'admin' => array(
+		'title' => 'Админка',
+		'items' => array(
+			'plugins' => 'Управление плагинами',
+		),
+		'install_plugin_admin' => 'Установить расширенную админ-панель'
+	),
 	/**
 	 * Управление категориями блогов
 	 */

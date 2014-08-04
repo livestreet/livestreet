@@ -22,10 +22,7 @@ class InstallStepUpdateDb extends InstallStepInstallDb {
 		if (!$aRes=$this->processDbCheck()) {
 			return $aRes;
 		}
-		list($oDb,$sEngineDB)=$aRes;
-		/**
-		 * Запускаем импорт дампов, сначала GEO DB
-		 */
+
 		return true;
 	}
 }
