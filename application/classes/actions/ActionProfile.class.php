@@ -204,7 +204,7 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aFriends',$aFriends);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_friends').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.friends.title').' '.$this->oUserProfile->getLogin());
 
 		$this->SetTemplateAction('friends');
 	}
@@ -242,8 +242,8 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_blog'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.topics'));
 		$this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss').'personal_blog/'.$this->oUserProfile->getLogin().'/',$this->oUserProfile->getLogin());
 		/**
 		 * Устанавливаем шаблон вывода
@@ -276,8 +276,8 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_publication_comment'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.comments'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -318,8 +318,9 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.nav.topics'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -363,8 +364,8 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aTopics',$aTopics);
 		$this->Viewer_Assign('sFavouriteTag',htmlspecialchars($sTag));
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -397,8 +398,9 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aComments',$aComments);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_favourites_comments'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.nav.comments'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -454,8 +456,8 @@ class ActionProfile extends Action {
 		$this->Viewer_Assign('aBlogAdministrators',$aBlogAdministrators);
 		$this->Viewer_Assign('aBlogsOwner',$aBlogsOwner);
 		$this->Viewer_Assign('aUsersFriend',$aUsersFriend['collection']);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_whois'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title')); // TODO: i18n
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -575,8 +577,8 @@ class ActionProfile extends Action {
 		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aUsersList',$aNotes);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile').' '.$this->oUserProfile->getLogin());
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('user_menu_profile_notes'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title').' '.$this->oUserProfile->getLogin());
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.notes'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -611,7 +613,7 @@ class ActionProfile extends Action {
 		 * либо из e-mail письма-уведомления
 		 */
 		if(!$oUser=$this->User_GetUserById($sUserId)) {
-			$this->Message_AddError($this->Lang_Get('user_not_found'),$this->Lang_Get('error'),true);
+			$this->Message_AddError($this->Lang_Get('user.notices.not_found'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('talk'));
 			return ;
 		}
@@ -630,8 +632,8 @@ class ActionProfile extends Action {
 			)
 		) {
 			$sMessage=($oFriend)
-				? $this->Lang_Get('user_friend_offer_already_done')
-				: $this->Lang_Get('user_friend_offer_not_found');
+				? $this->Lang_Get('user.friends.notices.offer_already_done')
+				: $this->Lang_Get('user.friends.notices.offer_not_found');
 			$this->Message_AddError($sMessage,$this->Lang_Get('error'),true);
 
 			Router::Location(Router::GetPath('talk'));
@@ -648,8 +650,8 @@ class ActionProfile extends Action {
 
 		if ($this->User_UpdateFriend($oFriend)) {
 			$sMessage=($sAction=='accept')
-				? $this->Lang_Get('user_friend_add_ok')
-				: $this->Lang_Get('user_friend_offer_reject');
+				? $this->Lang_Get('user.friends.notices.add_success')
+				: $this->Lang_Get('user.friends.rejected');
 
 			$this->Message_AddNoticeSingle($sMessage,$this->Lang_Get('attention'),true);
 			$this->NoticeFriendOffer($oUser,$sAction);
@@ -686,18 +688,14 @@ class ActionProfile extends Action {
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
 		if ($this->oUserCurrent->getId()==$sUserId) {
-			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_add_self'),
-				$this->Lang_Get('error')
-			);
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
 		if( !$oUser=$this->User_GetUserById($sUserId) ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found'),
+				$this->Lang_Get('user.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -720,7 +718,7 @@ class ActionProfile extends Action {
 			 */
 			$oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT,$this->oUserCurrent->getId());
 			if($this->User_UpdateFriend($oFriend)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.add_success'),$this->Lang_Get('attention'));
 				$this->NoticeFriendOffer($oUser,'accept');
 				/**
 				 * Добавляем событие в ленту
@@ -735,7 +733,7 @@ class ActionProfile extends Action {
 
 				$oViewerLocal=$this->GetViewerLocal();
 				$oViewerLocal->Assign('oUserFriend',$oFriend);
-				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
 
 			} else {
 				return $this->EventErrorDebug();
@@ -765,9 +763,9 @@ class ActionProfile extends Action {
 			return false;
 		}
 
-		$sTitle=$this->Lang_Get("user_friend_{$sAction}_notice_title");
+		$sTitle=$this->Lang_Get("user.friends.messages.{$sAction}.title");
 		$sText=$this->Lang_Get(
-			"user_friend_{$sAction}_notice_text",
+			"user.friends.messages.{$sAction}.text",
 			array(
 				'login'=>$this->oUserCurrent->getLogin(),
 			)
@@ -800,18 +798,14 @@ class ActionProfile extends Action {
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
 		if ($this->oUserCurrent->getId()==$sUserId) {
-			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_add_self'),
-				$this->Lang_Get('error')
-			);
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
 		if( !$oUser=$this->User_GetUserById($sUserId) ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found'),
+				$this->Lang_Get('user.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -834,7 +828,7 @@ class ActionProfile extends Action {
 		 */
 		if($oFriend->getFriendStatus()==ModuleUser::USER_FRIEND_OFFER + ModuleUser::USER_FRIEND_ACCEPT) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_already_exist'),
+				$this->Lang_Get('user.friends.notices.already_exist'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -846,7 +840,7 @@ class ActionProfile extends Action {
 		if($oFriend->getUserFrom()==$this->oUserCurrent->getId()
 			&& $oFriend->getStatusTo()==ModuleUser::USER_FRIEND_REJECT ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_offer_reject'),
+				$this->Lang_Get('user.friends.rejected'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -873,11 +867,11 @@ class ActionProfile extends Action {
 					 */
 					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
 					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
-					$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_add_ok'),$this->Lang_Get('attention'));
+					$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.add_success'),$this->Lang_Get('attention'));
 
 					$oViewerLocal=$this->GetViewerLocal();
 					$oViewerLocal->Assign('oUserFriend',$oFriend);
-					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
 
 				} else {
 					return $this->EventErrorDebug();
@@ -885,7 +879,7 @@ class ActionProfile extends Action {
 				return;
 			} else {
 				$this->Message_AddErrorSingle(
-					$this->Lang_Get('user_friend_add_deleted'),
+					$this->Lang_Get('user.friends.notices.rejected'),
 					$this->Lang_Get('error')
 				);
 				return;
@@ -926,7 +920,7 @@ class ActionProfile extends Action {
 		 * Ограничения на добавления в друзья, т.к. приглашение отправляется в личку, то и ограничиваем по ней
 		 */
 		if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('user_friend_add_time_limit'),$this->Lang_Get('error'));
+			$this->Message_AddErrorSingle($this->Lang_Get('user.friends.notices.time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
 		/**
@@ -948,10 +942,10 @@ class ActionProfile extends Action {
 			: !$this->User_AddFriend($oFriendNew);
 
 		if ( !$bStateError ) {
-			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_offer_send'),$this->Lang_Get('attention'));
+			$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.sent'),$this->Lang_Get('attention'));
 
 			$sTitle=$this->Lang_Get(
-				'user_friend_offer_title',
+				'user.friends.messages.offer.title',
 				array(
 					'login'=>$this->oUserCurrent->getLogin(),
 					'friend'=>$oUser->getLogin()
@@ -968,7 +962,7 @@ class ActionProfile extends Action {
 			);
 
 			$sText=$this->Lang_Get(
-				'user_friend_offer_text',
+				'user.friends.messages.offer.text',
 				array(
 					'login'=>$this->oUserCurrent->getLogin(),
 					'accept_path'=>$aPath['accept'],
@@ -994,7 +988,7 @@ class ActionProfile extends Action {
 
 		$oViewerLocal=$this->GetViewerLocal();
 		$oViewerLocal->Assign('oUserFriend',$oFriendNew);
-		$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+		$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
 	}
 	/**
 	 * Удаление пользователя из друзей
@@ -1020,18 +1014,14 @@ class ActionProfile extends Action {
 		 * При попытке добавить в друзья себя, возвращаем ошибку
 		 */
 		if ($this->oUserCurrent->getId()==$sUserId) {
-			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_add_self'),
-				$this->Lang_Get('error')
-			);
-			return;
+			return $this->EventErrorDebug();
 		}
 		/**
 		 * Если пользователь не найден, возвращаем ошибку
 		 */
 		if( !$oUser=$this->User_GetUserById($sUserId) ) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_del_no'),
+				$this->Lang_Get('user.friends.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -1046,7 +1036,7 @@ class ActionProfile extends Action {
 		$aAllowedFriendStatus = array(ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_OFFER,ModuleUser::USER_FRIEND_ACCEPT+ModuleUser::USER_FRIEND_ACCEPT);
 		if(!$oFriend || !in_array($oFriend->getFriendStatus(),$aAllowedFriendStatus)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_friend_del_no'),
+				$this->Lang_Get('user.friends.notices.not_found'),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -1055,24 +1045,24 @@ class ActionProfile extends Action {
 		 * Удаляем из друзей
 		 */
 		if( $this->User_DeleteFriend($oFriend) ) {
-			$this->Message_AddNoticeSingle($this->Lang_Get('user_friend_del_ok'),$this->Lang_Get('attention'));
+			$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.remove_success'),$this->Lang_Get('attention'));
 
 			$oViewerLocal=$this->GetViewerLocal();
 			$oViewerLocal->Assign('oUserFriend',$oFriend);
-			$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("actions/ActionProfile/friend_item.tpl"));
+			$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
 
 			/**
 			 * Отправляем пользователю сообщение об удалении дружеской связи
 			 */
 			if(Config::Get('module.user.friend_notice.delete')) {
 				$sText=$this->Lang_Get(
-					'user_friend_del_notice_text',
+					'user.friends.messages.deleted.text',
 					array(
 						'login'=>$this->oUserCurrent->getLogin(),
 					)
 				);
 				$oTalk=$this->Talk_SendTalk(
-					$this->Lang_Get('user_friend_del_notice_title'),
+					$this->Lang_Get('user.friends.messages.deleted.title'),
 					$sText,$this->oUserCurrent,
 					array($oUser),false,false
 				);

@@ -282,7 +282,7 @@ class ActionStream extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser))),
+					'sMsg'=>$this->Lang_Get('user.notices.not_found',array('login'=>htmlspecialchars($sUser))),
 					'sUserLogin'=>htmlspecialchars($sUser)
 				);
 			}

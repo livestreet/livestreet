@@ -43,7 +43,7 @@ class ActionPeople extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('people'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.users'));
 	}
 	/**
 	 * Регистрируем евенты
@@ -136,7 +136,7 @@ class ActionPeople extends Action {
 		$oViewer->Assign('bUseMore', true);
 		$oViewer->Assign('bHideMore', $bHideMore);
 		$oViewer->Assign('iSearchCount', $aResult['count']);
-		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("components/user_list/user_list.tpl"));
+		$this->Viewer_AssignAjax('sText',$oViewer->Fetch("components/user/user-list.tpl"));
 		/**
 		 * Для подгрузки
 		 */

@@ -810,7 +810,7 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser))),
+					'sMsg'=>$this->Lang_Get('user.notices.not_found',array('login'=>htmlspecialchars($sUser))),
 					'sUserLogin'=>htmlspecialchars($sUser)
 				);
 			}
@@ -845,7 +845,7 @@ class ActionTalk extends Action {
 		 */
 		if (!$oUserTarget=$this->User_GetUserById($iUserId)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
+				$this->Lang_Get('user.notices.not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -907,7 +907,7 @@ class ActionTalk extends Action {
 		 */
 		if (!$oUserTarget=$this->User_GetUserById($iUserId)) {
 			$this->Message_AddErrorSingle(
-				$this->Lang_Get('user_not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
+				$this->Lang_Get('user.notices.not_found_by_id',array('id'=>htmlspecialchars($iUserId))),
 				$this->Lang_Get('error')
 			);
 			return;
@@ -1152,7 +1152,7 @@ class ActionTalk extends Action {
 				$aResult[]=array(
 					'bStateError'=>true,
 					'sMsgTitle'=>$this->Lang_Get('error'),
-					'sMsg'=>$this->Lang_Get('user_not_found',array('login'=>htmlspecialchars($sUser)))
+					'sMsg'=>$this->Lang_Get('user.notices.not_found',array('login'=>htmlspecialchars($sUser)))
 				);
 			}
 		}
