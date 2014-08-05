@@ -2,20 +2,20 @@
  * Список пользователей из определенного города
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_page_title'}
-	{$aLang.user_list}: 
+{block 'layout_page_title'}
+	{$aLang.user.users}:
 
 	<span>
-		{$oCity->getName()|escape:'html'}
-		
-		{if $aPaging} 
+		{$oCity->getName()|escape}
+
+		{if $aPaging}
 			({$aPaging.iCount})
 		{/if}
 	</span>
 {/block}
 
-{block name='layout_content'}
-	{include file='components/user_list/user_list.tpl' aUsersList=$aUsersCity}
+{block 'layout_content'}
+	{include 'components/user/user-list.tpl' aUsersList=$aUsersCity}
 {/block}

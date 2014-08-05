@@ -2,13 +2,13 @@
  * Список пользователей из определенной страны
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_page_title'}
-	{$aLang.user_list}: 
+{block 'layout_page_title'}
+	{$aLang.user.users}:
 
 	<span>
-		{$oCountry->getName()|escape:'html'}
+		{$oCountry->getName()|escape}
 
 		{if $aPaging}
 			({$aPaging.iCount})
@@ -16,6 +16,6 @@
 	</span>
 {/block}
 
-{block name='layout_content'}
-	{include file='components/user_list/user_list.tpl' aUsersList=$aUsersCountry}
+{block 'layout_content'}
+	{include 'components/user/user-list.tpl' aUsersList=$aUsersCountry}
 {/block}

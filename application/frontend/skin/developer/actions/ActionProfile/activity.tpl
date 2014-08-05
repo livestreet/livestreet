@@ -5,7 +5,7 @@
 {extends 'layouts/layout.user.tpl'}
 
 {block 'layout_user_page_title'}
-	{$aLang.activity.title}
+	{lang name='activity.title'}
 {/block}
 
 {block 'layout_content' append}

@@ -7,4 +7,4 @@
 		 sActiveItem    = $sMenuSubItemSelect
 		 sMods          = 'pills'
 		 aHookArguments = [ 'oUserProfile' => $oUserProfile ]
-		 aItems         = [ [ 'text' => $aLang.user_menu_profile_whois, 'url' => $oUserProfile->getUserWebPath(), 'name' => 'main' ] ]}
+		 aItems         = [ [ 'text' => {lang name='user.profile.title'}, 'url' => $oUserProfile->getUserWebPath(), 'name' => 'main' ] ]}

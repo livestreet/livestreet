@@ -5,9 +5,9 @@
 {extends 'layouts/layout.user.tpl'}
 
 {block 'layout_user_page_title'}
-	{$aLang.user_menu_profile_friends}
+	{lang name='user.friends.title'}
 {/block}
 
 {block 'layout_content' append}
-	{include 'components/user_list/user_list.tpl' aUsersList=$aFriends}
+	{include 'components/user/user-list.tpl' aUsersList=$aFriends}
 {/block}

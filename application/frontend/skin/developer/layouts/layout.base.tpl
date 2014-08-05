@@ -11,7 +11,7 @@
 {block 'layout_head' append}
 	<script>
 		ls.lang.load({json var = $aLangJs});
-		ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, geo_select_city, geo_select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last"});
+		ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, geo_select_city, geo_select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last, user.actions.unfollow, user.actions.follow"});
 
 		ls.registry.set({json var = $aVarsJs});
 		ls.registry.set('comment_max_tree', {json var=Config::Get('module.comment.max_tree')});

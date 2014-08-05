@@ -8,6 +8,6 @@
 		 sMods          = 'pills'
 		 aHookArguments = [ 'oUserProfile' => $oUserProfile ]
 		 aItems = [
-		   	[ 'name' => 'topics',   'text' => $aLang.user_menu_profile_favourites_topics,   'url'  => "{$oUserProfile->getUserWebPath()}favourites/topics/",   'count' => $iCountTopicFavourite ],
-		   	[ 'name' => 'comments', 'text' => $aLang.user_menu_profile_favourites_comments, 'url'  => "{$oUserProfile->getUserWebPath()}favourites/comments/", 'count' => $iCountCommentFavourite ]
+		   	[ 'name' => 'topics',   'text' => {lang name='user.favourites.nav.topics'},   'url'  => "{$oUserProfile->getUserWebPath()}favourites/topics/",   'count' => $iCountTopicFavourite ],
+		   	[ 'name' => 'comments', 'text' => {lang name='user.favourites.nav.comments'}, 'url'  => "{$oUserProfile->getUserWebPath()}favourites/comments/", 'count' => $iCountCommentFavourite ]
 		 ]}

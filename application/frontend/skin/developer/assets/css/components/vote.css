@@ -58,7 +58,7 @@
 /**
  * Large (User, Blog)
  */
-.vote--large .vote-heading    { text-transform: uppercase; text-align: right; font-size: 11px; }
+.vote--large .vote-heading    { text-transform: uppercase; text-align: right; font-size: 11px; margin-bottom: 5px; }
 .vote--large .vote-rating     { font: 300 30px/1em 'Open Sans'; text-align: right; }
 .vote--large .vote-item-up,
 .vote--large .vote-item-down  { top: 7px; }

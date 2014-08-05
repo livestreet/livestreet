@@ -4,9 +4,11 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block name='layout_page_title'}{$aLang.user_list}{/block}
+{block 'layout_page_title'}
+	{$aLang.user.users}
+{/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	{include 'forms/search_forms/search_form.users.tpl'}
 	{include 'components/alphanumeric/alphanumeric.tpl' aAlphaLetters=$aPrefixUser sType='users'}
 
@@ -22,6 +24,6 @@
 	}
 
 	<div class="js-search-ajax-container" data-type="users">
-		{include 'components/user_list/user_list.tpl' aUsersList=$aUsers bUseMore=true}
+		{include 'components/user/user-list.tpl' aUsersList=$aUsers bUseMore=true}
 	</div>
 {/block}

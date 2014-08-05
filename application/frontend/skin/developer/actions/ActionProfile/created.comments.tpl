@@ -5,7 +5,7 @@
 {extends 'layouts/layout.user.tpl'}
 
 {block 'layout_user_page_title'}
-	{$aLang.user_menu_publication}
+	{lang name='user.publications.title'}
 {/block}
 
 {block 'layout_content' append}

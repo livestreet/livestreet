@@ -18,7 +18,7 @@
 	{if $sUserListEmpty}
 		{include 'components/alert/alert.tpl' mAlerts=$sUserListEmpty sMods='empty'}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.user_empty sMods='empty'}
+		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
 	{/if}
 {/if}
 
