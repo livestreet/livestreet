@@ -387,6 +387,8 @@ return array(
 	'talk' => array(
 		'title' => 'Сообщения',
 		'participants' => '%%count%% участник;%%count%% участника;%%count%% участников',
+		'new_messages' => 'У вас есть новые сообщения',
+		'send_message' => 'Отправить сообщение',
 
 		// Меню
 		'nav' => array(
@@ -1201,150 +1203,193 @@ return array(
 		)
 	),
 
-	/**
-	 * Избранные теги
-	 */
-	'topic_favourite_tags_block' => 'Теги избранного',
-	'topic_favourite_tags_block_all' => 'Все теги',
-	'topic_favourite_tags_block_user' => 'Мои теги',
 
-	/**
-	 * Люди
-	 */
-	'people' => 'Люди',
 	/**
 	 * Пользователь
 	 */
-	'user' => 'Пользователь',
-	'user_list' => 'Пользователи',
-	'user_list_new' => 'Новые пользователи',
-	'user_list_online_last' => 'Недавно были на сайте',
-	'user_good' => 'Позитивные',
-	'user_bad' => 'Негативные',
-	'user_privat_messages' => 'Сообщения',
-	'user_privat_messages_new' => 'У вас есть новые сообщения',
-	'user_settings' => 'Настройки',
-	'user_settings_profile' => 'профиля',
-	'user_settings_tuning' => 'сайта',
-	'user_write_prvmsg' => 'Написать письмо',
-	'user_friend_add' => 'Добавить в друзья',
-	'user_friend_add_ok' => 'У вас появился новый друг',
-	'user_friend_add_self' => 'Ваш друг - это вы!',
-	'user_friend_del' => 'Удалить из друзей',
-	'user_friend_del_ok' => 'У вас больше нет этого друга',
-	'user_friend_del_no' => 'Друг не найден!',
-	'user_friend_offer_reject' => 'Заявка отклонена',
-	'user_friend_offer_send' => 'Заявка отправлена',
-	'user_friend_already_exist' => 'Пользователь уже является вашим другом',
-	'user_friend_offer_title' => 'Пользователь %%login%% приглашает вас дружить',
-	'user_friend_offer_text' => "Пользователь %%login%% желает добавить вас в друзья.<br/><br/>%%user_text%%<br/><br/><a href='%%accept_path%%'>Принять</a> - <a href='%%reject_path%%'>Отклонить</a>",
-	'user_friend_add_deleted' => 'Этот пользователь отказался с вами дружить',
-	'user_friend_add_text_label' => 'Представьтесь:',
-	'user_friend_add_submit' => 'Отправить',
-	'user_friend_add_cansel' => 'Отмена',
-	'user_friend_add_time_limit' => 'Вы слишком часто отправляете личные сообщения, попробуйте добавить в друзья позже',
-	'user_friend_offer_not_found' => 'Заявка не найдена',
-	'user_friend_offer_already_done' => 'Заявка уже обработана',
-	'user_friend_accept_notice_title' => 'Ваша заявка одобрена',
-	'user_friend_accept_notice_text' => 'Пользователь %%login%% согласился с вами дружить',
-	'user_friend_reject_notice_title' => 'Ваша заявка отклонена',
-	'user_friend_reject_notice_text' => 'Пользователь %%login%% отказался с вами дружить',
-	'user_friend_del_notice_title' => 'Вас удалили из друзей',
-	'user_friend_del_notice_text' => 'У вас больше нет друга %%login%%',
-	'user_rating' => 'Рейтинг',
-	'user_skill' => 'Сила',
-	'user_date_last' => 'Последний визит',
-	'user_date_registration' => 'Дата регистрации',
-	'user_empty' => 'нет таких',
-	'user_stats' => 'Статистика',
-	'user_stats_all' => 'Всего пользователей',
-	'user_stats_active' => 'Активные',
-	'user_stats_noactive' => 'Заблудившиеся',
-	'user_stats_sex_man' => 'Мужчины',
-	'user_stats_sex_woman' => 'Женщины',
-	'user_stats_sex_other' => 'Пол не указан',
-	'user_not_found' => 'Пользователь <b>%%login%%</b> не найден',
-	'user_not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден',
-	'user_search_title_hint' => 'Поиск по логину',
-	'user_search_filter_all' => 'Все',
-	'user_search_empty' => 'Поиск не дал результатов',
-	'user_status_online' => 'Онлайн',
-	'user_status_offline' => 'Оффлайн',
-	'user_status_was_online_male' => 'Заходил',
-	'user_status_was_online_female' => 'Заходила',
-	/**
-	 * Меню профиля пользователя
-	 */
-	'people_menu_users' => 'Пользователи',
-	'people_menu_users_all' => 'Все',
-	'people_menu_users_online' => 'Онлайн',
-	'people_menu_users_new' => 'Новые',
+	'user' => array(
+		'user' => 'Пользователь',
+		'users' => 'Пользователи',
+		'rating' => '___vote.rating___',
 
-	/**
-	 * Меню профиля пользователя
-	 */
-	'user_menu_profile' => 'Профиль',
-	'user_menu_profile_whois' => 'Информация',
-	'user_menu_profile_wall' => 'Стена',
-	'user_menu_profile_friends' => 'Друзья',
-	'user_menu_profile_stream' => 'Активность',
-	'user_menu_profile_notes' => 'Заметки',
-	'user_menu_profile_favourites' => 'Избранное',
-	'user_menu_profile_favourites_topics' => 'Избранные топики',
-	'user_menu_profile_favourites_comments' => 'Избранные комментарии',
-	'user_menu_profile_tags' => 'Метки',
-	'user_menu_publication' => 'Публикации',
-	'user_menu_publication_blog' => 'Блог',
-	'user_menu_publication_comment' => 'Комментарии',
-	'user_menu_publication_comment_rss' => 'RSS лента',
-	/**
-	 * Профиль
-	 */
-	'profile_privat' => 'Личное',
-	'profile_contacts' => 'Контакты',
-	'profile_social' => 'Аккаунты',
-	'profile_sex' => 'Пол',
-	'profile_sex_man' => 'мужской',
-	'profile_sex_woman' => 'женский',
-	'profile_birthday' => 'Дата рождения',
-	'profile_place' => 'Местоположение',
-	'profile_about' => 'О себе',
-	'profile_site' => 'Сайт',
-	'profile_activity' => 'Активность',
-	'profile_friends' => 'Друзья',
-	'profile_friends_self' => 'В друзьях у',
-	'profile_invite_from' => 'Пригласил',
-	'profile_invite_to' => 'Приглашенные',
-	'profile_blogs_self' => 'Создал',
-	'profile_blogs_join' => 'Состоит в',
-	'profile_blogs_moderation' => 'Модерирует',
-	'profile_blogs_administration' => 'Администрирует',
-	'profile_date_registration' => 'Зарегистрирован',
-	'profile_date_last' => 'Последний визит',
-	'profile_social_contacts' => 'Контакты и социальные сервисы',
-	'profile_add_friend' => 'Добавить друга',
-	'profile_user_follow' => 'Подписаться',
-	'profile_user_unfollow' => 'Отписаться',
-	/**
-	 * UserFields
-	 */
-	'user_field_add' => 'Добавить',
-	'user_field_delete' => 'Удалить',
-	'user_field_delete_confirm' => 'Удалить поле?',
-	/**
-	 * Жалобы на пользователя
-	 */
-	'user_complaint_title' => 'Пожаловаться',
-	'user_complaint_type_title' => 'Причина',
-	'user_complaint_text_title' => 'Текст жалобы',
-	'user_complaint_target_error' => 'Неверный пользователь для жалобы',
-	'user_complaint_type_error' => 'Неверный тип жалобы',
-	'user_complaint_submit_result' => 'Ваша жалоба отправлена администрации',
-	'user_complaint_type_list' => array(
-		'spam'=>'Спам',
-		'obscene'=>'Непристойное поведение',
-		'other'=>'Другое',
+		'date_last_session' => 'Последний визит',
+		'date_registration' => 'Дата регистрации',
+
+		// Пол
+		'actions' => array(
+			'send_message' => '___talk.send_message___',
+			'follow'       => 'Подписаться',
+			'unfollow'     => 'Отписаться',
+		),
+
+		// Пол
+		'gender' => array(
+			'gender' => 'Пол',
+			'male'   => 'Мужской',
+			'female' => 'Женский',
+			'men'    => 'Мужчины',
+			'women'  => 'Женщины',
+			'none'   => 'Пол не указан'
+		),
+
+		// Статус
+		'status' => array(
+			'online'            => 'Онлайн',
+			'offline'           => 'Оффлайн',
+			'was_online_male'   => 'Заходил %%date%%',
+			'was_online_female' => 'Заходила %%date%%'
+		),
+
+		// Друзья
+		'friends' => array(
+			'title' => 'Друзья',
+
+			'add'      => 'Добавить в друзья',
+			'remove'   => 'Удалить из друзей',
+			'rejected' => 'Заявка отклонена',
+			'sent'     => 'Заявка отправлена',
+
+			// Форма добавления в друзья
+			'form' => array(
+				'title' => '___user.friends.add___',
+
+				'fields' => array(
+					'text' => array(
+						'label' => 'Представьтесь',
+					),
+					'submit' => array(
+						'text' => '___common.send___',
+					)
+				),
+			),
+
+			// Сообщения
+			'messages' => array(
+				'offer' => array(
+					'title' => 'Пользователь %%login%% приглашает вас дружить',
+					'text'  => "Пользователь %%login%% желает добавить вас в друзья.<br/><br/>%%user_text%%<br/><br/><a href='%%accept_path%%'>Принять</a> - <a href='%%reject_path%%'>Отклонить</a>",
+				),
+				'accept' => array(
+					'title' => 'Ваша заявка одобрена',
+					'text'  => 'Пользователь %%login%% согласился с вами дружить',
+				),
+				'reject' => array(
+					'title' => 'Ваша заявка отклонена',
+					'text'  => 'Пользователь %%login%% отказался с вами дружить',
+				),
+				'deleted' => array(
+					'title' => 'Вас удалили из друзей',
+					'text'  => 'У вас больше нет друга %%login%%',
+				),
+			),
+
+			'notices' => array(
+				'add_success'        => 'У вас появился новый друг',
+				'remove_success'     => 'У вас больше нет этого друга',
+				'not_found'          => 'Друг не найден!', // TODO: Remove?
+				'already_exist'      => 'Пользователь уже является вашим другом',
+				'rejected'           => 'Этот пользователь отказался с вами дружить',
+				'time_limit'         => 'Вы слишком часто отправляете личные сообщения, попробуйте добавить в друзья позже',
+				'offer_not_found'    => 'Заявка не найдена', // TODO: Remove?
+				'offer_already_done' => 'Заявка уже обработана',
+			)
+		),
+
+		// Поиск
+		'search' => array(
+			'placeholder'  => 'Поиск по логину',
+			'result_title' => 'Найден %%count%% пользователь;Найдено %%count%% пользователя;Найдено %%count%% пользователей'
+		),
+
+		// Публикации
+		'publications' => array(
+			'title' => 'Публикации',
+
+			// Меню
+			'nav' => array(
+				'topics'   => '___topic.topics___',
+				'comments' => '___comments.title___',
+				'notes'    => 'Заметки'
+			),
+		),
+
+		// Избранное
+		'favourites' => array(
+			'title' => '___favourite.favourite___',
+
+			// Меню
+			'nav' => array(
+				'topics'   => '___topic.topics___',
+				'comments' => '___comments.title___'
+			),
+		),
+
+		// Профиль
+		'profile' => array(
+			'title' => 'Профиль',
+			'social_networks' => 'Социальные сети',
+			'contact' => 'Контакты',
+
+			// Меню
+			'nav' => array(
+				'info'         => '___user.profile.title___',
+				'wall'         => '___wall.title___',
+				'publications' => '___user.publications.title___',
+				'favourite'    => '___favourite.favourite___',
+				'friends'      => '___user.friends.title___',
+				'activity'     => '___activity.title___',
+				'messages'     => '___talk.title___',
+				'settings'     => 'Настройки',
+			),
+
+			'about' => array(
+				'title' => 'О себе'
+			),
+
+			'personal' => array(
+				'title' => 'Личное',
+
+				'birthday'      => 'Дата рождения',
+				'place'         => 'Местоположение',
+				'gender'        => '___user.gender.gender___',
+				'gender_male'   => '___user.gender.male___',
+				'gender_female' => '___user.gender.female___',
+			),
+
+			'activity' => array(
+				'title' => '___activity.title___',
+
+				'blogs_joined' => 'Состоит в блогах',
+				'blogs_created' => 'Создал блоги',
+				'blogs_admin' => 'Администрирует',
+				'blogs_mod' => 'Модерирует',
+				'invited_by' => 'Приглашен',
+				'invited' => 'Приглашенные',
+			)
+		),
+
+		// Статистика
+		'stats' => array(
+			'title'      => 'Статистика',
+
+			'all'        => 'Всего пользователей',
+
+			'active'     => 'Активные',
+			'not_active' => 'Заблудившиеся',
+
+			'men'        => '___user.gender.men___',
+			'women'      => '___user.gender.women___',
+			'none'       => '___user.gender.none___'
+		),
+
+		// Сообщения
+		'notices' => array(
+			'empty'           => '___common.empty___',
+			'not_found'       => 'Пользователь <b>%%login%%</b> не найден',
+			'not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден'
+		),
 	),
+
 	/**
 	 * Настройки
 	 */
@@ -1385,7 +1430,6 @@ return array(
 	'settings_profile_avatar_upload' => 'Загрузить аватар',
 	'settings_profile_avatar_resize_title' => 'Выбор области',
 	'settings_profile_avatar_resize_apply' => 'Применить',
-	'settings_profile_avatar_resize_cancel' => 'Отменить',
 	'settings_profile_foto' => 'Фото',
 	'settings_profile_foto_error' => 'Не удалось загрузить фото',
 	'settings_profile_foto_delete' => 'Удалить',
@@ -1394,6 +1438,7 @@ return array(
 	'settings_profile_field_error_max' => 'Нельзя добавить больше %%count%% одинаковых контактов',
 	'settings_profile_submit' => 'Сохранить',
 	'settings_profile_submit_ok' => 'Профиль успешно сохранён',
+
 	'settings_invite' => 'Управление приглашениями',
 	'settings_invite_notice' => 'Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку',
 	'settings_invite_available' => 'Доступно',
@@ -1405,6 +1450,7 @@ return array(
 	'settings_invite_many' => 'много',
 	'settings_invite_submit' => 'отправить приглашение',
 	'settings_invite_submit_ok' => 'Приглашение отправлено',
+
 	'settings_tuning' => 'Настройки сайта',
 	'settings_tuning_notice' => 'Уведомления на e-mail',
 	'settings_tuning_notice_new_topic' => 'При новом топике в блоге',
@@ -1416,10 +1462,10 @@ return array(
 	'settings_tuning_general_timezone' => 'Часовой пояс',
 	'settings_tuning_submit' => 'сохранить настройки',
 	'settings_tuning_submit_ok' => 'Настройки успешно сохранены',
+
 	'settings_account' => 'Настройки акаунта',
 	'settings_account_password' => 'Пароль',
 	'settings_account_password_notice' => 'Оставьте поля пустыми если не хотите изменять пароль.',
-	'settings_account_submit' => 'Сохранить изменения',
 	'settings_account_submit_ok' => 'Аккаунт сохранен',
 	/**
 	 * Меню настроек
@@ -1429,6 +1475,35 @@ return array(
 	'settings_menu_tuning' => 'Настройки сайта',
 	'settings_menu_invite' => 'Инвайты',
 	'settings_menu_account' => 'Аккаунт',
+
+	/**
+	 * Избранные теги
+	 */
+	'topic_favourite_tags_block' => 'Теги избранного',
+	'topic_favourite_tags_block_all' => 'Все теги',
+	'topic_favourite_tags_block_user' => 'Мои теги',
+
+	/**
+	 * UserFields
+	 */
+	'user_field_add' => 'Добавить',
+	'user_field_delete' => 'Удалить',
+	'user_field_delete_confirm' => 'Удалить поле?',
+
+	/**
+	 * Жалобы на пользователя
+	 */
+	'user_complaint_title' => 'Пожаловаться',
+	'user_complaint_type_title' => 'Причина',
+	'user_complaint_text_title' => 'Текст жалобы',
+	'user_complaint_target_error' => 'Неверный пользователь для жалобы',
+	'user_complaint_type_error' => 'Неверный тип жалобы',
+	'user_complaint_submit_result' => 'Ваша жалоба отправлена администрации',
+	'user_complaint_type_list' => array(
+		'spam'=>'Спам',
+		'obscene'=>'Непристойное поведение',
+		'other'=>'Другое',
+	),
 	/**
 	 * Панель
 	 */
@@ -1490,6 +1565,7 @@ return array(
 	'block_blog_navigator_button' => 'Смотреть',
 	'site_history_back' => 'Вернуться назад',
 	'site_go_main' => 'перейти на главную',
+
 	/**
 	 * Админка
 	 */
@@ -1500,22 +1576,13 @@ return array(
 		),
 		'install_plugin_admin' => 'Установить расширенную админ-панель'
 	),
-	/**
-	 * Управление категориями блогов
-	 */
-	'admin_blogcategory_add' => 'Добавить новую категорию',
-	'admin_blogcategory_items_title' => 'Название',
-	'admin_blogcategory_items_url' => 'УРЛ',
-	'admin_blogcategory_items_action' => 'Действие',
-	'admin_blogcategory_items_delete_confirm' => 'Действительно удалить категорию со всеми вложенными?',
-	'admin_blogcategory_form_add' => 'Добавление категории',
-	'admin_blogcategory_form_edit' => 'Редактирование категории',
-	'admin_blogcategory_form_field_parent' => 'Вложить в',
-	'admin_blogcategory_form_field_title' => 'Название',
-	'admin_blogcategory_form_field_url' => 'УРЛ',
-	'admin_blogcategory_form_field_sort' => 'Сортировка',
-	'admin_blogcategory_form_add_submit' => 'Добавить',
-	'admin_blogcategory_form_edit_submit' => 'Сохранить',
+
+	'admin_title' => 'Админка',
+	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
+	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
+	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
+	'admin_topics_recalculated' => 'Количество топиков пересчитанно',
+
 	/**
 	 * Рейтинг TOP
 	 */
@@ -1550,14 +1617,7 @@ return array(
 	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
 	'uploadimg_cancel' => 'Отмена',
 	'uploadimg_title' => 'Описание',
-	/**
-	 * Админка
-	 */
-	'admin_title' => 'Админка',
-	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
-	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
-	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
-	'admin_topics_recalculated' => 'Количество топиков пересчитанно',
+
 	/**
 	 * Страница администрирования плагинов
 	 */
@@ -1732,4 +1792,5 @@ return array(
 	'registration_mail_error' => 'Неверный формат e-mail', // TODO: Удалить, используется в ActionSubscribe
 	'draft_declension' => 'черновик;черновика;черновиков',
 	'blog_menu_create' => 'Блог',
+	'user_search_filter_all' => 'Все'
 );

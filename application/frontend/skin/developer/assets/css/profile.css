@@ -2,7 +2,7 @@
  * Профиль пользователя
  *
  * @template actions/ActionProfile/*.tpl
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -11,19 +11,66 @@
 
 /**
  * Шапка профиля
- *
- * @template layouts/layout.user.tpl
  */
-.profile { min-height: 48px; margin-bottom: 0; padding: 0 150px 20px 65px; position: relative; }
+.user-profile {
+	width: 100%;
+	position: relative;
+	min-height: 64px;
+	padding: 30px 40px 30px 40px;
+	margin: -40px 0 25px -40px;
+	border-bottom: 1px solid #eee;
+}
 
-.profile .avatar { position: absolute; top: 0; left: 0; }
+/* Голосование */
+.user-profile .vote {
+	position: absolute;
+	top: 40px;
+	right: 40px;
+}
 
-.profile .vote { position: absolute; top: 0; right: 0; }
+/* Пользователь */
+.user-profile-user {
+	position: relative;
+	padding-left: 80px;
+}
 
-.profile .user-login              { width: 270px; font-size: 27px; line-height: 26px; font-weight: bold; margin-bottom: 5px; }
-.profile .user-login.no-user-name { position: relative; top: 9px; }
-.profile .user-name               { color: #777; }
+.user-profile-user-avatar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 100px;
+}
 
-.profile-page-header { font-size: 12px; font-weight: bold; margin-bottom: 20px; background: #f5f5f5; border-top: 1px solid #eee; color: #555; padding: 5px 10px 6px; }
+.user-profile-user-login {
+	width: 270px;
+	padding-top: 15px;
+	margin-bottom: 5px;
+	font-size: 27px;
+	line-height: 1em;
+}
+.user-profile-user-login a { color: #555; }
+.user-profile-user-login a:hover { color: #f00; }
+.user-profile--has-name .user-profile-user-login { padding-top: 5px; }
 
-.profile-info-about { padding: 20px; margin-bottom: 30px; background: #f7f7f7; color: #000; }
+.user-profile-user-name { color: #aaa; }
+
+
+/**
+ * Заголовок
+ */
+.profile-page-header {
+	font-size: 25px;
+	margin-bottom: 25px;
+	color: #555;
+}
+
+
+/**
+ * О себе
+ */
+.profile-info-about {
+	padding: 20px;
+	margin-bottom: 30px;
+	background: #f7f7f7;
+	color: #000;
+}

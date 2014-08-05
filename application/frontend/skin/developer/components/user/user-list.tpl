@@ -4,16 +4,16 @@
 
 {if $aUsersList}
 	{if $iSearchCount}
-		<h3 class="h3">Найдено {$iSearchCount} человек</h3>
+		<h3 class="h3">{lang name='user.search.result_title' count=$iSearchCount plural=true}</h3>
 	{/if}
 
 	{* Список пользователей *}
 	<ul class="object-list user-list js-more-users-container">
-		{include './user_list.items.tpl' aUsersList=$aUsersList}
+		{include './user-list-loop.tpl' users=$aUsersList}
 	</ul>
 
 	{if $bUseMore}
-		{if !$bHideMore}
+		{if ! $bHideMore}
 			{include 'components/more/more.tpl'
 				sClasses    = 'js-more-search'
 				sTarget     = '.js-more-users-container'
@@ -24,7 +24,7 @@
 	{/if}
 
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=(($sUserListEmpty) ? $sUserListEmpty : $aLang.blog.alerts.empty) sMods='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$sUserListEmpty|default:{lang name='user.notices.empty'} sMods='empty'}
 {/if}
 
 

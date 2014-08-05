@@ -197,7 +197,7 @@ ls.user = (function ($) {
 	 */
 	this.follow = function(oElement, sUserLogin) {
 		ls.ajax.load(this.options.urls.follow, { aUserList: [ sUserLogin ] }, function(oResponse) {
-			oElement.addClass(ls.options.classes.states.active).text( ls.lang.get('profile_user_unfollow') );
+			oElement.addClass(ls.options.classes.states.active).text( ls.lang.get('user.actions.unfollow') );
 		}.bind(this));
 	};
 
@@ -206,7 +206,7 @@ ls.user = (function ($) {
 	 */
 	this.unfollow = function(oElement, iUserId) {
 		ls.ajax.load(this.options.urls.unfollow, { iUserId: iUserId }, function(oResponse) {
-			oElement.removeClass(ls.options.classes.states.active).text( ls.lang.get('profile_user_follow') );
+			oElement.removeClass(ls.options.classes.states.active).text( ls.lang.get('user.actions.follow') );
 		}.bind(this));
 	};
 
