@@ -61,7 +61,7 @@ class ActionSettings extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.title'));
 	}
 	/**
 	 * Регистрация евентов
@@ -157,7 +157,7 @@ class ActionSettings extends Action {
 		$this->sMenuItemSelect='settings';
 		$this->sMenuSubItemSelect='tuning';
 
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_tuning'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.tuning'));
 		$aTimezoneList=array('-12','-11','-10','-9.5','-9','-8','-7','-6','-5','-4.5','-4','-3.5','-3','-2','-1','0','1','2','3','3.5','4','4.5','5','5.5','5.75','6','6.5','7','8','8.75','9','9.5','10','10.5','11','11.5','12','12.75','13','14');
 		$this->Viewer_Assign('aTimezoneList',$aTimezoneList);
 		/**
@@ -181,7 +181,7 @@ class ActionSettings extends Action {
 			 */
 			$this->Hook_Run('settings_tuning_save_before', array('oUser'=>$this->oUserCurrent));
 			if ($this->User_Update($this->oUserCurrent)) {
-				$this->Message_AddNoticeSingle($this->Lang_Get('settings_tuning_submit_ok'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('common.success.save'));
 				$this->Hook_Run('settings_tuning_save_after', array('oUser'=>$this->oUserCurrent));
 			} else {
 				$this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -208,7 +208,7 @@ class ActionSettings extends Action {
 
 		$this->sMenuItemSelect='invite';
 		$this->sMenuSubItemSelect='';
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_invite'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.invites'));
 		/**
 		 * Если отправили форму
 		 */
@@ -220,14 +220,14 @@ class ActionSettings extends Action {
 			 * Есть права на отправку инфайтов?
 			 */
 			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('settings_invite_available_no'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('user.settings.invites.available_no'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
 			 * Емайл корректен?
 			 */
 			if (!func_check(getRequestStr('invite_mail'),'mail')) {
-				$this->Message_AddError($this->Lang_Get('settings_invite_mail_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('user.settings.invites.fields.email.notices.error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
@@ -240,7 +240,7 @@ class ActionSettings extends Action {
 			if (!$bError) {
 				$oInvite=$this->User_GenerateInvite($this->oUserCurrent);
 				$this->Notify_SendInvite($this->oUserCurrent,getRequestStr('invite_mail'),$oInvite);
-				$this->Message_AddNoticeSingle($this->Lang_Get('settings_invite_submit_ok'));
+				$this->Message_AddNoticeSingle($this->Lang_Get('user.settings.invites.notices.success'));
 				$this->Hook_Run('settings_invate_send_after', array('oUser'=>$this->oUserCurrent));
 			}
 		}
@@ -255,7 +255,7 @@ class ActionSettings extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.account'));
 		$this->sMenuSubItemSelect='account';
 		/**
 		 * Если нажали кнопку "Сохранить"
@@ -310,7 +310,7 @@ class ActionSettings extends Action {
 			 */
 			if (!$bError) {
 				if ($this->User_Update($this->oUserCurrent)) {
-					$this->Message_AddNoticeSingle($this->Lang_Get('settings_account_submit_ok'));
+					$this->Message_AddNoticeSingle($this->Lang_Get('common.success.save'));
 					/**
 					 * Подтверждение смены емайла
 					 */
@@ -339,7 +339,7 @@ class ActionSettings extends Action {
 		/**
 		 * Устанавливаем title страницы
 		 */
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('settings_menu_profile'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.profile'));
 		$this->Viewer_Assign('aUserFields',$this->User_getUserFields(''));
 		$this->Viewer_Assign('aUserFieldsContact',$this->User_getUserFields(array('contact','social')));
 		/**
@@ -473,7 +473,7 @@ class ActionSettings extends Action {
 							}
 						}
 					}
-					$this->Message_AddNoticeSingle($this->Lang_Get('settings_profile_submit_ok'));
+					$this->Message_AddNoticeSingle($this->Lang_Get('common.success.save'));
 					$this->Hook_Run('settings_profile_save_after', array('oUser'=>$this->oUserCurrent));
 				} else {
 					$this->Message_AddErrorSingle($this->Lang_Get('system_error'));

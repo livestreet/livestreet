@@ -26,5 +26,3 @@
 {else}
 	{include 'components/alert/alert.tpl' mAlerts=$sUserListEmpty|default:{lang name='user.notices.empty'} sMods='empty'}
 {/if}
-
-

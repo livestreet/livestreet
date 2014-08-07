@@ -1206,6 +1206,7 @@ return array(
 
 	/**
 	 * Пользователь
+	 * !user
 	 */
 	'user' => array(
 		'user' => 'Пользователь',
@@ -1382,6 +1383,125 @@ return array(
 			'none'       => '___user.gender.none___'
 		),
 
+		// Настройки
+		'settings' => array(
+			'title' => 'Настройки',
+
+			// Меню
+			'nav' => array(
+				'profile' => '___user.profile.title___',
+				'account' => 'Аккаунт',
+				'tuning'  => 'Настройки сайта',
+				'invites' => 'Инвайты',
+			),
+
+			// Настройки профиля
+			'profile' => array(
+				'generic' => 'Основная информация',
+				'contact' => '___user.profile.contact___',
+
+				'fields' => array(
+					'name' => array(
+						'label' => 'Имя',
+					),
+					'sex' => array(
+						'label' => '___user.gender.gender___',
+					),
+					'birthday' => array(
+						'label' => '___user.profile.personal.birthday___',
+					),
+					'place' => array(
+						'label' => '___user.profile.personal.place___',
+					),
+					'about' => array(
+						'label' => '___user.profile.about.title___',
+					),
+				),
+			),
+
+			// Настройки аккаунта
+			'account' => array(
+				'account' => 'Настройки аккаунта',
+				'password' => 'Пароль',
+				'password_note' => 'Оставьте поля пустыми если не хотите изменять пароль.',
+
+				'fields' => array(
+					'email' => array(
+						'label' => 'E-mail',
+						'note' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
+						'notices' => array(
+							'settings_profile_mail_error' => 'Неверный формат e-mail',
+							'settings_profile_mail_error_used' => 'Этот емайл уже занят',
+							'settings_profile_mail_change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
+							'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
+							'settings_profile_mail_change_ok' => 'Ваш емайл изменен на <b>%%mail%%</b>',
+						)
+					),
+					'password' => array(
+						'label' => '___auth.labels.password___',
+						'notices' => array(
+							'settings_profile_password_current' => 'Текущий пароль',
+							'settings_profile_password_current_error' => 'Неверный текущий пароль',
+							'settings_profile_password_new' => 'Новый пароль',
+							'settings_profile_password_new_error' => 'Неверный пароль, допустим от 5 символов',
+							'settings_profile_password_confirm' => 'Еще раз новый пароль',
+							'settings_profile_password_confirm_error' => 'Пароли не совпадают',
+						)
+					),
+					'password_new' => array(
+						'label' => 'Новый пароль',
+					),
+					'password_confirm' => array(
+						'label' => '___auth.registration.form.fields.password_confirm.label___',
+					),
+				),
+			),
+
+			// Настройки сайта
+			'tuning' => array(
+				'email_notices' => 'Уведомления на e-mail',
+				'general' => 'Общие настройки',
+
+				'fields' => array(
+					'new_topic'     => 'При новом топике в блоге',
+					'new_comment'   => 'При новом комментарии в топике',
+					'new_talk'      => 'При новом личном сообщении',
+					'reply_comment' => 'При ответе на комментарий',
+					'new_friend'    => 'При добавлении вас в друзья',
+					'timezone'    => array(
+						'label' => 'Часовой пояс'
+					),
+				)
+			),
+
+			// Инвайты
+			'invites' => array(
+				'note'         => 'Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку',
+				'available'    => 'Доступно',
+				'available_no' => 'У вас пока нет доступных инвайтов',
+				'used'         => 'Использовано',
+				'many'         => 'много',
+
+				'fields' => array(
+					'email'    => array(
+						'label' => 'Пригласить по e-mail адресу',
+						'note' => 'На этот e-mail будет выслано приглашение для регистрации',
+
+						'notices' => array(
+							'error' => 'Неверный формат e-mail'
+						)
+					),
+					'submit' => array(
+						'text' => 'Отправить приглашение',
+					),
+				),
+
+				'notices' => array(
+					'success' => 'Приглашение отправлено'
+				)
+			),
+		),
+
 		// Сообщения
 		'notices' => array(
 			'empty'           => '___common.empty___',
@@ -1393,36 +1513,6 @@ return array(
 	/**
 	 * Настройки
 	 */
-	'settings_profile_edit' => 'Изменение профиля',
-	'settings_profile_section_base' => 'Основная информация',
-	'settings_profile_section_contacts' => 'Контакты',
-	'settings_profile_name' => 'Имя',
-	'settings_profile_name_notice' => 'Длина имени не может быть меньше 2 и больше 20 символов.',
-	'settings_profile_mail' => 'E-mail',
-	'settings_profile_mail_error' => 'Неверный формат e-mail',
-	'settings_profile_mail_error_used' => 'Этот емайл уже занят',
-	'settings_profile_mail_notice' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
-	'settings_profile_mail_change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
-	'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
-	'settings_profile_mail_change_ok' => 'Ваш емайл изменен на <b>%%mail%%</b>',
-	'settings_profile_sex' => 'Пол',
-	'settings_profile_sex_man' => 'мужской',
-	'settings_profile_sex_woman' => 'женский',
-	'settings_profile_sex_other' => 'не скажу',
-	'settings_profile_birthday' => 'Дата рождения',
-	'settings_profile_country' => 'Страна',
-	'settings_profile_city' => 'Город',
-	'settings_profile_icq' => 'ICQ',
-	'settings_profile_site' => 'Сайт',
-	'settings_profile_site_url' => 'URL сайта',
-	'settings_profile_site_name' => 'название сайта',
-	'settings_profile_about' => 'О себе',
-	'settings_profile_password_current' => 'Текущий пароль',
-	'settings_profile_password_current_error' => 'Неверный текущий пароль',
-	'settings_profile_password_new' => 'Новый пароль',
-	'settings_profile_password_new_error' => 'Неверный пароль, допустим от 5 символов',
-	'settings_profile_password_confirm' => 'Еще раз новый пароль',
-	'settings_profile_password_confirm_error' => 'Пароли не совпадают',
 	'settings_profile_avatar' => 'Аватар',
 	'settings_profile_avatar_error' => 'Не удалось загрузить аватар',
 	'settings_profile_avatar_delete' => 'Удалить',
@@ -1430,51 +1520,14 @@ return array(
 	'settings_profile_avatar_upload' => 'Загрузить аватар',
 	'settings_profile_avatar_resize_title' => 'Выбор области',
 	'settings_profile_avatar_resize_apply' => 'Применить',
+
 	'settings_profile_foto' => 'Фото',
 	'settings_profile_foto_error' => 'Не удалось загрузить фото',
 	'settings_profile_foto_delete' => 'Удалить',
 	'settings_profile_photo_change' => 'Изменить фотографию',
 	'settings_profile_photo_upload' => 'Загрузить фотографию',
+
 	'settings_profile_field_error_max' => 'Нельзя добавить больше %%count%% одинаковых контактов',
-	'settings_profile_submit' => 'Сохранить',
-	'settings_profile_submit_ok' => 'Профиль успешно сохранён',
-
-	'settings_invite' => 'Управление приглашениями',
-	'settings_invite_notice' => 'Вы можете пригласить на сайт своих друзей и знакомых, для этого просто укажите их e-mail и нажмите кнопку',
-	'settings_invite_available' => 'Доступно',
-	'settings_invite_available_no' => 'У вас пока нет доступных инвайтов',
-	'settings_invite_used' => 'Использовано',
-	'settings_invite_mail' => 'Пригласить по e-mail адресу',
-	'settings_invite_mail_error' => 'Неверный формат e-mail',
-	'settings_invite_mail_notice' => 'На этот e-mail будет выслано приглашение для регистрации',
-	'settings_invite_many' => 'много',
-	'settings_invite_submit' => 'отправить приглашение',
-	'settings_invite_submit_ok' => 'Приглашение отправлено',
-
-	'settings_tuning' => 'Настройки сайта',
-	'settings_tuning_notice' => 'Уведомления на e-mail',
-	'settings_tuning_notice_new_topic' => 'При новом топике в блоге',
-	'settings_tuning_notice_new_comment' => 'При новом комментарии в топике',
-	'settings_tuning_notice_new_talk' => 'При новом личном сообщении',
-	'settings_tuning_notice_reply_comment' => 'При ответе на комментарий',
-	'settings_tuning_notice_new_friend' => 'При добавлении вас в друзья',
-	'settings_tuning_general' => 'Общие настройки',
-	'settings_tuning_general_timezone' => 'Часовой пояс',
-	'settings_tuning_submit' => 'сохранить настройки',
-	'settings_tuning_submit_ok' => 'Настройки успешно сохранены',
-
-	'settings_account' => 'Настройки акаунта',
-	'settings_account_password' => 'Пароль',
-	'settings_account_password_notice' => 'Оставьте поля пустыми если не хотите изменять пароль.',
-	'settings_account_submit_ok' => 'Аккаунт сохранен',
-	/**
-	 * Меню настроек
-	 */
-	'settings_menu' => 'Настройки',
-	'settings_menu_profile' => 'Профиль',
-	'settings_menu_tuning' => 'Настройки сайта',
-	'settings_menu_invite' => 'Инвайты',
-	'settings_menu_account' => 'Аккаунт',
 
 	/**
 	 * Избранные теги

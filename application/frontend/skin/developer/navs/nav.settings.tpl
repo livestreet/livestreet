@@ -7,8 +7,8 @@
 		 sActiveItem = $sMenuSubItemSelect
 		 sMods       = 'pills'
 		 aItems = [
-		   	[ 'url' => "{router page='settings'}profile/", 'text' => $aLang.settings_menu_profile, 'name' => 'profile' ],
-		   	[ 'url' => "{router page='settings'}account/", 'text' => $aLang.settings_menu_account, 'name' => 'account' ],
-		   	[ 'url' => "{router page='settings'}tuning/",  'text' => $aLang.settings_menu_tuning,  'name' => 'tuning' ],
-		   	[ 'url' => "{router page='settings'}invite/",  'text' => $aLang.settings_menu_invite,  'name' => 'invite', 'is_enabled' => Config::Get('general.reg.invite') ]
+		   	[ 'url' => "{router page='settings'}profile/", 'text' => {lang name='user.settings.nav.profile'}, 'name' => 'profile' ],
+		   	[ 'url' => "{router page='settings'}account/", 'text' => {lang name='user.settings.nav.account'}, 'name' => 'account' ],
+		   	[ 'url' => "{router page='settings'}tuning/",  'text' => {lang name='user.settings.nav.tuning'},  'name' => 'tuning' ],
+		   	[ 'url' => "{router page='settings'}invite/",  'text' => {lang name='user.settings.nav.invites'},  'name' => 'invite', 'is_enabled' => Config::Get('general.reg.invite') ]
 		 ]}
