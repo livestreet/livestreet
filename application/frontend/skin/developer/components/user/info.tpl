@@ -1,4 +1,4 @@
-{hook run='user_info_begin' oUserProfile=$oUserProfile}
+{hook run='user_info_begin' user=$oUserProfile}
 
 {**
  * Функции
@@ -38,165 +38,217 @@
 {**
  * Личное
  *}
-{$aUserFieldValues = $oUserProfile->getUserFieldValues(true, array(''))}
+{$items = []}
+{$userfields = $oUserProfile->getUserFieldValues(true, array(''))}
 
-{if $oUserProfile->getProfileSex() != 'other' || $oUserProfile->getProfileBirthday() || $oGeoTarget || $oUserProfile->getProfileAbout() || count($aUserFieldValues)}
-	{capture 'info_private'}
-		{* Пол *}
-		{if $oUserProfile->getProfileSex() != 'other'}
-			{list_item sLabel={lang name='user.profile.personal.gender'} sContent="{if $oUserProfile->getProfileSex() == 'man'}{lang name='user.profile.personal.gender_male'}{else}{lang name='user.profile.personal.gender_female'}{/if}"}
-		{/if}
-
-		{* День рождения *}
-		{if $oUserProfile->getProfileBirthday()}
-			{list_item sLabel={lang name='user.profile.personal.birthday'} sContent={date_format date=$oUserProfile->getProfileBirthday() format="j F Y" notz=true}}
-		{/if}
-
-		{* Местоположение *}
-		{if $oGeoTarget}
-			{capture 'info_private_geo'}
-				<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
-					{if $oGeoTarget->getCountryId()}
-						<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape}</a>{if $oGeoTarget->getCityId()},{/if}
-					{/if}
-
-					{if $oGeoTarget->getCityId()}
-						<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape}</a>
-					{/if}
-				</span>
-			{/capture}
-
-			{list_item sLabel={lang name='user.profile.personal.place'} sContent=$smarty.capture.info_private_geo}
-		{/if}
-
-		{* Контакты *}
-		{if $aUserFieldValues}
-			{foreach $aUserFieldValues as $oField}
-				{list_item sLabel="{$oField->getTitle()|escape}" sContent=$oField->getValue(true, true)}
-			{/foreach}
-		{/if}
-
-		{hook run='profile_whois_privat_item' oUserProfile=$oUserProfile}
-	{/capture}
-
-	{list sTitle={lang name='user.profile.personal.title'} sContent=$smarty.capture.info_private}
+{* Пол *}
+{if $oUserProfile->getProfileSex() != 'other'}
+	{$items[] = [
+		'label'   => {lang name='user.profile.personal.gender'},
+		'content' => "{if $oUserProfile->getProfileSex() == 'man'}{lang name='user.profile.personal.gender_male'}{else}{lang name='user.profile.personal.gender_female'}{/if}"
+	]}
 {/if}
 
-{hook run='profile_whois_item_after_privat' oUserProfile=$oUserProfile}
+{* День рождения *}
+{if $oUserProfile->getProfileBirthday()}
+	{$items[] = [
+		'label'   => {lang name='user.profile.personal.birthday'},
+		'content' => {date_format date=$oUserProfile->getProfileBirthday() format="j F Y" notz=true}
+	]}
+{/if}
+
+{* Местоположение *}
+{if $oGeoTarget}
+	{capture 'info_private_geo'}
+		<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
+			{if $oGeoTarget->getCountryId()}
+				<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/" itemprop="country-name">{$oUserProfile->getProfileCountry()|escape}</a>{if $oGeoTarget->getCityId()},{/if}
+			{/if}
+
+			{if $oGeoTarget->getCityId()}
+				<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/" itemprop="locality">{$oUserProfile->getProfileCity()|escape}</a>
+			{/if}
+		</span>
+	{/capture}
+
+	{$items[] = [
+		'label'   => {lang name='user.profile.personal.place'},
+		'content' => $smarty.capture.info_private_geo
+	]}
+{/if}
+
+{* Контакты *}
+{if $userfields}
+	{foreach $userfields as $oField}
+		{list_item sLabel="{$oField->getTitle()|escape}" sContent=$oField->getValue(true, true)}
+	{/foreach}
+{/if}
+
+{include 'components/user/info-group.tpl' title={lang name='user.profile.personal.title'} items=$items}
 
 
 {**
  * Контакты
  *}
-{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true, array('contact'))}
+{$items = []}
+{$userfields = $oUserProfile->getUserFieldValues(true, array('contact'))}
 
-{if $aUserFieldContactValues}
-	{capture 'info_contacts'}
-		{foreach $aUserFieldContactValues as $oField}
-			{list_item sLabel="<i class=\"icon-contact icon-contact-{$oField->getName()}\"></i> {$oField->getTitle()|escape}" sContent=$oField->getValue(true, true)}
-		{/foreach}
-	{/capture}
+{foreach $userfields as $field}
+	{$items[] = [
+		'label'   => "<i class=\"icon-contact icon-contact-{$field->getName()}\"></i> {$field->getTitle()|escape}",
+		'content' => $field->getValue(true, true)
+	]}
+{/foreach}
 
-	{list sTitle={lang name='user.profile.contact'} sContent=$smarty.capture.info_contacts}
-{/if}
+{include 'components/user/info-group.tpl' title={lang name='user.profile.contact'} items=$items}
 
 
 {**
  * Соц. сети
  *}
-{$aUserFieldContactValues = $oUserProfile->getUserFieldValues(true, array('social'))}
+{$items = []}
+{$userfields = $oUserProfile->getUserFieldValues(true, array('social'))}
 
-{if $aUserFieldContactValues}
-	{capture 'info_social'}
-		{foreach $aUserFieldContactValues as $oField}
-			{list_item sLabel="<i class=\"icon-contact icon-contact-{$oField->getName()}\"></i> {$oField->getTitle()|escape}" sContent=$oField->getValue(true, true)}
-		{/foreach}
-	{/capture}
+{foreach $userfields as $field}
+	{$items[] = [
+		'label'   => "<i class=\"icon-contact icon-contact-{$field->getName()}\"></i> {$field->getTitle()|escape}",
+		'content' => $field->getValue(true, true)
+	]}
+{/foreach}
 
-	{list sTitle={lang name='user.profile.social_networks'} sContent=$smarty.capture.info_social}
-{/if}
+{include 'components/user/info-group.tpl' title={lang name='user.profile.social_networks'} items=$items}
 
-{hook run='profile_whois_item' oUserProfile=$oUserProfile}
 
 
 {**
  * Активность
  *}
-{capture 'info_activity'}
-	{if Config::Get('general.reg.invite')}
-		{* Кто пригласил пользователя *}
-		{if $oUserInviteFrom}
-			{list_item sLabel={lang name='user.profile.activity.invited_by'} sContent="<a href=\"{$oUserInviteFrom->getUserWebPath()}\">{$oUserInviteFrom->getDisplayName()}</a>"}
-		{/if}
+{$items = []}
 
-		{* Приглашенные пользователем *}
-		{if $aUsersInvite}
-			{foreach $aUsersInvite as $oUserInvite}
-				{$sUsers = $sUsers|cat:"<a href=\"{$oUserInvite->getUserWebPath()}\">{$oUserInvite->getDisplayName()}</a>&nbsp;"}
-			{/foreach}
-
-			{list_item sLabel={lang name='user.profile.activity.invited'} sContent=$sUsers}
-		{/if}
+{if Config::Get('general.reg.invite')}
+	{* Кто пригласил пользователя *}
+	{if $oUserInviteFrom}
+		{$items[] = [
+			'label'   => {lang name='user.profile.activity.invited_by'},
+			'content' => "<a href=\"{$oUserInviteFrom->getUserWebPath()}\">{$oUserInviteFrom->getDisplayName()}</a>"
+		]}
 	{/if}
 
-	{* Блоги созданные пользователем *}
-	{if $aBlogsOwner}
-		{foreach $aBlogsOwner as $oBlog}
-			{$sBlogsOwner = $sBlogsOwner|cat:"<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>{if ! $oBlog@last}, {/if}"}
+	{* Приглашенные пользователем *}
+	{if $aUsersInvite}
+		{$users = ''}
+
+		{foreach $aUsersInvite as $user}
+			{$users = $users|cat:"<a href=\"{$user->getUserWebPath()}\">{$user->getDisplayName()}</a>&nbsp;"}
 		{/foreach}
 
-		{list_item sLabel={lang name='user.profile.activity.blogs_created'} sContent=$sBlogsOwner}
+		{$items[] = [
+			'label'   => {lang name='user.profile.activity.invited'},
+			'content' => $users
+		]}
 	{/if}
+{/if}
 
-	{* Блоги администрируемые пользователем *}
-	{if $aBlogAdministrators}
-		{foreach $aBlogAdministrators as $oBlogUser}
-			{$oBlog = $oBlogUser->getBlog()}
-			{$sBlogAdministrators = $sBlogAdministrators|cat:"<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}"}
-		{/foreach}
+{* Блоги созданные пользователем *}
+{if $aBlogsOwner}
+	{$blogs = ''}
 
-		{list_item sLabel={lang name='user.profile.activity.blogs_admin'} sContent=$sBlogAdministrators}
-	{/if}
+	{foreach $aBlogsOwner as $blog}
+		{$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $blog@last}, {/if}"}
+	{/foreach}
 
-	{* Блоги модерируемые пользователем *}
-	{if $aBlogModerators}
-		{foreach $aBlogModerators as $oBlogUser}
-			{$oBlog = $oBlogUser->getBlog()}
-			{$sBlogModerators = $sBlogModerators|cat:"<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}"}
-		{/foreach}
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.blogs_created'},
+		'content' => $blogs
+	]}
+{/if}
 
-		{list_item sLabel={lang name='user.profile.activity.blogs_mod'} sContent=$sBlogModerators}
-	{/if}
+{* Блоги администрируемые пользователем *}
+{if $aBlogAdministrators}
+	{$blogs = ''}
 
-	{* Блоги в которые вступил пользователь *}
-	{if $aBlogUsers}
-		{foreach $aBlogUsers as $oBlogUser}
-			{$oBlog = $oBlogUser->getBlog()}
-			{$sBlogUsers = $sBlogUsers|cat:"<a href=\"{$oBlog->getUrlFull()}\">{$oBlog->getTitle()|escape}</a>{if ! $oBlogUser@last}, {/if}"}
-		{/foreach}
+	{foreach $aBlogAdministrators as $user}
+		{$blog = $user->getBlog()}
+		{$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $user@last}, {/if}"}
+	{/foreach}
 
-		{list_item sLabel={lang name='user.profile.activity.blogs_joined'} sContent=$sBlogUsers}
-	{/if}
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.blogs_admin'},
+		'content' => $blogs
+	]}
+{/if}
 
-	{hook run='profile_whois_activity_item' oUserProfile=$oUserProfile}
+{* Блоги модерируемые пользователем *}
+{if $aBlogModerators}
+	{$blogs = ''}
 
-	{* Дата регистрации *}
-	{list_item sLabel={lang name='user.date_registration'} sContent={date_format date=$oUserProfile->getDateRegister()}}
+	{foreach $aBlogModerators as $user}
+		{$blog = $user->getBlog()}
+		{$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $user@last}, {/if}"}
+	{/foreach}
 
-	{* Дата последнего визита *}
-	{if $oSession}
-		{list_item sLabel={lang name='user.date_last_session'} sContent={date_format date=$oSession->getDateLast()}}
-	{/if}
-{/capture}
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.blogs_mod'},
+		'content' => $blogs
+	]}
+{/if}
 
-{list sTitle={lang name='user.profile.activity.title'} sContent=$smarty.capture.info_activity}
+{* Блоги в которые вступил пользователь *}
+{if $aBlogUsers}
+	{$blogs = ''}
 
+	{foreach $aBlogUsers as $user}
+		{$blog = $user->getBlog()}
+		{$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $user@last}, {/if}"}
+	{/foreach}
+
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.blogs_joined'},
+		'content' => $blogs
+	]}
+{/if}
+
+{* Дата регистрации *}
+{$items[] = [
+	'label'   => {lang name='user.date_registration'},
+	'content' => {date_format date=$oUserProfile->getDateRegister()}
+]}
+
+{* Дата последнего визита *}
+{if $oSession}
+	{$items[] = [
+		'label'   => {lang name='user.date_last_session'},
+		'content' => {date_format date=$oSession->getDateLast()}
+	]}
+{/if}
+
+{include 'components/user/info-group.tpl' title={lang name='user.profile.activity.title'} items=$items}
 
 {**
  * Друзья
  *}
 {if $aUsersFriend}
-	<h2 class="header-table mb-15"><a href="{$oUserProfile->getUserWebPath()}friends/">{$aLang.user.friends.title}</a> ({$iCountFriendsUser})</h2>
+	{capture 'user_info_friends'}
+		{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
+	{/capture}
 
-	{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
+	{include 'components/user/info-group.tpl'
+		title = "<a href=\"{$oUserProfile->getUserWebPath()}friends/\">{$aLang.user.friends.title}</a> ({$iCountFriendsUser})"
+		html  = $smarty.capture.user_info_friends}
 {/if}
+
+
+{**
+ * Стена
+ *}
+{capture 'user_info_wall'}
+	{insert name='block' block='wall' params=[
+		'classes' => 'js-wall-default',
+		'user_id' => $oUserProfile->getId()
+	]}
+{/capture}
+
+{include 'components/user/info-group.tpl' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
+
+
+{hook run='user_info_end' user=$oUserProfile}
