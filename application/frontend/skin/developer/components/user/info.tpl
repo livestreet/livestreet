@@ -100,7 +100,7 @@
 	]}
 {/foreach}
 
-{include 'components/user/info-group.tpl' title={lang name='user.profile.contact'} items=$items}
+{include 'components/user/info-group.tpl' name='contact' title={lang name='user.profile.contact'} items=$items}
 
 
 {**
@@ -116,7 +116,7 @@
 	]}
 {/foreach}
 
-{include 'components/user/info-group.tpl' title={lang name='user.profile.social_networks'} items=$items}
+{include 'components/user/info-group.tpl' name='social-networks' title={lang name='user.profile.social_networks'} items=$items}
 
 
 
@@ -222,7 +222,7 @@
 	]}
 {/if}
 
-{include 'components/user/info-group.tpl' title={lang name='user.profile.activity.title'} items=$items}
+{include 'components/user/info-group.tpl' name='activity' title={lang name='user.profile.activity.title'} items=$items}
 
 {**
  * Друзья
@@ -248,7 +248,7 @@
 	]}
 {/capture}
 
-{include 'components/user/info-group.tpl' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
+{include 'components/user/info-group.tpl' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
 
 
 {hook run='user_info_end' user=$oUserProfile}
