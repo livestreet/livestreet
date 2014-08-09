@@ -83,17 +83,12 @@ ls.user = (function ($) {
 		});
 
 		// Добавление пользователя в свою активность
-		$('.js-user-follow').on('click', function (e) {
-			var oElement = $(this);
-
-			if (oElement.hasClass(ls.options.classes.states.active)) {
-				_this.unfollow(oElement, oElement.data('user-id'));
-			} else {
-				_this.follow(oElement, oElement.data('user-login'));
+		$('.js-user-follow').lsUserFollow({
+			urls: {
+				follow:   aRouter['stream'] + 'ajaxadduser/',
+				unfollow: aRouter['stream'] + 'ajaxremoveuser/'
 			}
-
-			e.preventDefault();
-		});
+		})
 
 		// Добавление выбранных пользователей
 		$(document).on('click', '.js-user-list-select-add', function (e) {
@@ -190,24 +185,6 @@ ls.user = (function ($) {
 			}
 		});
 		return false;
-	};
-
-	/**
-	 * Подписка на пользователя
-	 */
-	this.follow = function(oElement, sUserLogin) {
-		ls.ajax.load(this.options.urls.follow, { aUserList: [ sUserLogin ] }, function(oResponse) {
-			oElement.addClass(ls.options.classes.states.active).text( ls.lang.get('user.actions.unfollow') );
-		}.bind(this));
-	};
-
-	/**
-	 * Отписаться от пользователя
-	 */
-	this.unfollow = function(oElement, iUserId) {
-		ls.ajax.load(this.options.urls.unfollow, { iUserId: iUserId }, function(oResponse) {
-			oElement.removeClass(ls.options.classes.states.active).text( ls.lang.get('user.actions.follow') );
-		}.bind(this));
 	};
 
 	/**

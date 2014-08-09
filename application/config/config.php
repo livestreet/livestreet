@@ -534,6 +534,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/comments.js",
 	"___path.application.web___/frontend/common/js/blog.js",
 	"___path.application.web___/frontend/common/js/user.js",
+	"___path.application.web___/frontend/common/js/user-follow.js",
 	"___path.application.web___/frontend/common/js/feed.js",
 	"___path.application.web___/frontend/common/js/feed-blogs.js",
 	"___path.application.web___/frontend/common/js/activity.js",
