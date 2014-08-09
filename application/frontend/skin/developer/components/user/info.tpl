@@ -1,23 +1,5 @@
 {hook run='user_info_begin' user=$oUserProfile}
 
-{**
- * Функции
- *}
-
-{* Список пунктов *}
-{function list}
-	<h2 class="header-table">{$sTitle}</h2>
-	<table class="table table-profile-info"><tbody>{$sContent}</tbody></table>
-{/function}
-
-{* Пункт списка *}
-{function list_item}
-	<tr>
-		<td class="cell-label">{$sLabel}:</td>
-		<td>{$sContent}</td>
-	</tr>
-{/function}
-
 
 {**
  * О себе

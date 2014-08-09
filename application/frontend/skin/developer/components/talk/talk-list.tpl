@@ -116,7 +116,7 @@
 		</table>
 	</form>
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=$aLang.talk.alerts.empty sMods='empty'}
+	{include 'components/alert/alert.tpl' mAlerts=$aLang.talk.notices.empty sMods='empty'}
 {/if}
 
 {include 'components/pagination/pagination.tpl' aPaging=$aPaging}
