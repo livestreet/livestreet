@@ -1430,29 +1430,30 @@ return array(
 						'label' => 'E-mail',
 						'note' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
 						'notices' => array(
-							'settings_profile_mail_error' => 'Неверный формат e-mail',
-							'settings_profile_mail_error_used' => 'Этот емайл уже занят',
-							'settings_profile_mail_change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
-							'settings_profile_mail_change_to_notice' => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
-							'settings_profile_mail_change_ok' => 'Ваш емайл изменен на <b>%%mail%%</b>',
+							'error'              => 'Неверный формат e-mail',
+							'error_used'         => 'Этот емайл уже занят',
+							'change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
+							'change_to_notice'   => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
+							'change_ok'          => 'Ваш емайл изменен на <b>%%mail%%</b>',
 						)
 					),
 					'password' => array(
 						'label' => '___auth.labels.password___',
 						'notices' => array(
-							'settings_profile_password_current' => 'Текущий пароль',
-							'settings_profile_password_current_error' => 'Неверный текущий пароль',
-							'settings_profile_password_new' => 'Новый пароль',
-							'settings_profile_password_new_error' => 'Неверный пароль, допустим от 5 символов',
-							'settings_profile_password_confirm' => 'Еще раз новый пароль',
-							'settings_profile_password_confirm_error' => 'Пароли не совпадают',
+							'error' => 'Неверный текущий пароль',
 						)
 					),
 					'password_new' => array(
 						'label' => 'Новый пароль',
+						'notices' => array(
+							'error' => 'Неверный пароль, допустим от 5 символов',
+						)
 					),
 					'password_confirm' => array(
 						'label' => '___auth.registration.form.fields.password_confirm.label___',
+						'notices' => array(
+							'confirm_error' => 'Пароли не совпадают',
+						)
 					),
 				),
 			),

@@ -1101,7 +1101,7 @@ class ActionProfile extends Action {
 							   'oChangemail' => $oChangemail,
 						   ));
 
-		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_to_notice'));
+		$this->Viewer_Assign('sText',$this->Lang_Get('user.settings.account.fields.email.notices.change_to_notice'));
 		$this->SetTemplate('actions/ActionSettings/account.change_email_confirm.tpl');
 	}
 	/**
@@ -1131,7 +1131,7 @@ class ActionProfile extends Action {
 			$this->Subscribe_ChangeSubscribeMail($oChangemail->getMailFrom(),$oChangemail->getMailTo(),$oUser->getId());
 		}
 
-		$this->Viewer_Assign('sText',$this->Lang_Get('settings_profile_mail_change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
+		$this->Viewer_Assign('sText',$this->Lang_Get('user.settings.account.fields.email.notices.change_ok',array('mail'=>htmlspecialchars($oChangemail->getMailTo()))));
 		$this->SetTemplate('actions/ActionSettings/account.change_email_confirm.tpl');
 	}
 	/**

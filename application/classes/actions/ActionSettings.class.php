@@ -269,11 +269,11 @@ class ActionSettings extends Action {
 			 */
 			if (func_check(getRequestStr('mail'),'mail')) {
 				if ($oUserMail=$this->User_GetUserByMail(getRequestStr('mail')) and $oUserMail->getId()!=$this->oUserCurrent->getId()) {
-					$this->Message_AddError($this->Lang_Get('settings_profile_mail_error_used'),$this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('user.settings.account.fields.email.notices.error_used'),$this->Lang_Get('error'));
 					$bError=true;
 				}
 			} else {
-				$this->Message_AddError($this->Lang_Get('settings_profile_mail_error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('user.settings.account.fields.email.notices.error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
@@ -286,15 +286,15 @@ class ActionSettings extends Action {
 							$this->oUserCurrent->setPassword(func_encrypt(getRequestStr('password')));
 						} else {
 							$bError=true;
-							$this->Message_AddError($this->Lang_Get('settings_profile_password_current_error'),$this->Lang_Get('error'));
+							$this->Message_AddError($this->Lang_Get('user.settings.account.fields.password.notices.error'),$this->Lang_Get('error'));
 						}
 					} else {
 						$bError=true;
-						$this->Message_AddError($this->Lang_Get('settings_profile_password_confirm_error'),$this->Lang_Get('error'));
+						$this->Message_AddError($this->Lang_Get('user.settings.account.fields.password_confirm.notices.error'),$this->Lang_Get('error'));
 					}
 				} else {
 					$bError=true;
-					$this->Message_AddError($this->Lang_Get('settings_profile_password_new_error'),$this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('user.settings.account.fields.password_new.notices.error'),$this->Lang_Get('error'));
 				}
 			}
 			/**
@@ -317,9 +317,9 @@ class ActionSettings extends Action {
 					if (getRequestStr('mail') and getRequestStr('mail')!=$this->oUserCurrent->getMail()) {
 						if ($oChangemail=$this->User_MakeUserChangemail($this->oUserCurrent,getRequestStr('mail'))) {
 							if ($oChangemail->getMailFrom()) {
-								$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_from_notice'));
+								$this->Message_AddNotice($this->Lang_Get('user.settings.account.fields.email.notices.change_from_notice'));
 							} else {
-								$this->Message_AddNotice($this->Lang_Get('settings_profile_mail_change_to_notice'));
+								$this->Message_AddNotice($this->Lang_Get('user.settings.account.fields.email.notices.change_to_notice'));
 							}
 						}
 					}
