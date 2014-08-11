@@ -18,7 +18,7 @@
 
 	{$smarty.block.parent}
 
-	{$classes = "{$classes} topic"}
+	{$classes = "{$classes} topic js-topic"}
 {/block}
 
 
