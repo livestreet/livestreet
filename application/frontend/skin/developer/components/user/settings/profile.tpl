@@ -21,7 +21,7 @@
         </select>
 
         <input type="text" name="profile_user_field_value[]" value="{if $field}{$field->getValue()|escape}{/if}" class="width-200">
-        <a class="icon-remove" title="{$aLang.user_field_delete}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
+        <a class="icon-remove" title="{$aLang.common.remove}" href="#" onclick="return ls.userfield.removeFormField(this);"></a>
     </div>
 {/function}
 
@@ -115,7 +115,7 @@
 		</div>
 
 		{if $aUserFieldsContact}
-			<button type="button" class="button" onclick="return ls.userfield.addFormField();">{$aLang.user_field_add}</button>
+			<button type="button" class="button" onclick="return ls.userfield.addFormField();">{$aLang.common.add}</button>
 		{/if}
 	</fieldset>
 

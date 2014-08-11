@@ -67,7 +67,7 @@ class ActionSubscribe extends Action {
 			$oSubscribe->setDateRemove(date("Y-m-d H:i:s"));
 			$this->Subscribe_UpdateSubscribe($oSubscribe);
 
-			$this->Message_AddNotice($this->Lang_Get('subscribe_change_ok'),null,true);
+			$this->Message_AddNotice($this->Lang_Get('common.success.save'),null,true);
 		}
 		/**
 		 * Получаем URL для редиректа
@@ -126,7 +126,7 @@ class ActionSubscribe extends Action {
 		if ($oSubscribe=$this->Subscribe_AddSubscribeSimple($sTargetType,$sTargetId,$sMail,$this->oUserCurrent ? $this->oUserCurrent->getId() : null)) {
 			$oSubscribe->setStatus($iValue);
 			$this->Subscribe_UpdateSubscribe($oSubscribe);
-			$this->Message_AddNotice($this->Lang_Get('subscribe_change_ok'),$this->Lang_Get('attention'));
+			$this->Message_AddNotice($this->Lang_Get('common.success.save'),$this->Lang_Get('attention'));
 			return ;
 		}
 		return $this->EventErrorDebug();

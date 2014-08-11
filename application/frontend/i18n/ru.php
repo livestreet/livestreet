@@ -271,13 +271,12 @@ return array(
 		),
 
 		/**
-		 * Страница удаления блога
+		 * Удаление блога
 		 */
 		'remove' => array(
 			'title'         => 'Удаление блога',
 			'remove_topics' => 'Удалить топики',
 			'move_to'       => 'Переместить топики в блог',
-			'confirm'       => 'Вы уверены, что хотите удалить блог?',
 
 			// Сообщения
 			'alerts' => array(
@@ -1519,6 +1518,51 @@ return array(
 
 
 	/**
+	 * Редактор
+	 */
+	'editor' => array(
+		'markup' => array(
+			'help' => array(
+				'link_show'                     => 'Доступны html-теги',
+				'special'                       => 'Специальные теги',
+				'special_cut'                   => 'Используется для больших текстов, скрывает под кат часть текста, следующую за тегом (будет написано «Читать дальше»).',
+				'special_cut_name'              => 'Так можно превратить надпись «Читать дальше» в любой текст.',
+				'special_cut_name_example_name' => 'Подробности',
+				'special_video'                 => 'Добавляет в пост видео со следующих хостингов: YouTube, RuTube, Vimeo и Я.Видео. <br/>Вставляйте между тегами только прямую ссылку на видеоролик.',
+				'special_ls_user'               => 'Выводит имя пользователя посреди текста.',
+				'special_ls_user_example_user'  => 'Ник',
+				'standart'                      => 'Стандартные теги',
+				'standart_h'                    => 'Заголовки разного уровня.',
+				'standart_img'                  => 'Вставка изображения, в атрибуте src нужно указывать полный путь к изображению. Возможно выравнивание картинки атрибутом align.',
+				'standart_a'                    => 'Вставка ссылки, в атрибуте href указывается желаемый интернет-адрес или якорь (anchor) для навигации по странице.',
+				'standart_a_example_href'       => 'Ссылка',
+				'standart_b'                    => 'Выделение важного текста, на странице выделяется жирным начертанием.',
+				'standart_i'                    => 'Выделение важного текста, на странице выделяется курсивом.',
+				'standart_s'                    => 'Текст между этими тегами будет отображаться как зачеркнутый.',
+				'standart_u'                    => 'Текст между этими тегами будет отображаться как подчеркнутый.',
+				'standart_hr'                   => 'Тег для вставки горизонтальной линии.',
+				'standart_blockquote'           => 'Используйте этот тег для выделения цитат.',
+				'standart_table'                => 'Набор тегов для создания таблицы. Тег &lt;td&gt; обозначает ячейку таблицы, тег &lt;th&gt; - ячейку в заголовке, &lt;tr&gt; - строчку таблицы. Все содержимое таблицы помещайте в тег &lt;table&gt;.',
+				'standart_ul'                   => 'Ненумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ul&gt;.',
+				'standart_ol'                   => 'Нумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ol&gt;.',
+			),
+		),
+	),
+
+
+	/**
+	 * Админка
+	 */
+	'admin' => array(
+		'title' => 'Админка',
+		'items' => array(
+			'plugins' => 'Управление плагинами',
+		),
+		'install_plugin_admin' => 'Установить расширенную админ-панель'
+	),
+
+
+	/**
 	 * Настройки
 	 */
 	'settings_profile_avatar' => 'Аватар',
@@ -1543,13 +1587,6 @@ return array(
 	'topic_favourite_tags_block' => 'Теги избранного',
 	'topic_favourite_tags_block_all' => 'Все теги',
 	'topic_favourite_tags_block_user' => 'Мои теги',
-
-	/**
-	 * UserFields
-	 */
-	'user_field_add' => 'Добавить',
-	'user_field_delete' => 'Удалить',
-	'user_field_delete_confirm' => 'Удалить поле?',
 
 	/**
 	 * Жалобы на пользователя
@@ -1628,23 +1665,6 @@ return array(
 	'site_go_main' => 'перейти на главную',
 
 	/**
-	 * Админка
-	 */
-	'admin' => array(
-		'title' => 'Админка',
-		'items' => array(
-			'plugins' => 'Управление плагинами',
-		),
-		'install_plugin_admin' => 'Установить расширенную админ-панель'
-	),
-
-	'admin_title' => 'Админка',
-	'admin_comment_restore_tree' => 'Дерево комментариев перестроенно',
-	'admin_favourites_recalculated' => 'Счетчики избранных пересчитаны',
-	'admin_votes_recalculated' => 'Счетчики голосований пересчитаны',
-	'admin_topics_recalculated' => 'Количество топиков пересчитанно',
-
-	/**
 	 * Рейтинг TOP
 	 */
 	'top' => 'Рейтинг',
@@ -1676,7 +1696,6 @@ return array(
 	'uploadimg_submit' => 'Загрузить',
 	'uploadimg_link_submit_load' => 'Загрузить',
 	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
-	'uploadimg_cancel' => 'Отмена',
 	'uploadimg_title' => 'Описание',
 
 	/**
@@ -1699,11 +1718,6 @@ return array(
 	'plugins_activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
 	'plugins_activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
 	'plugins_submit_delete' => 'Удалить плагины',
-	'plugins_delete_confirm' => 'Вы уверены, что желаете удалить указанные плагины?',
-	/**
-	 * Подписка
-	 */
-	'subscribe_change_ok' => 'Изменение подписки прошло успешно',
 	/**
 	 * Toolbar
 	 */
@@ -1719,8 +1733,6 @@ return array(
 	/**
 	 * Избранное, общее
 	 */
-	'favourite_form_tags_button_save' => 'Сохранить',
-	'favourite_form_tags_button_cancel' => 'Отмена',
 	'favourite_form_tags_button_show' => 'изменить свои теги',
 	/**
 	 * Создание
@@ -1729,31 +1741,6 @@ return array(
 	'block_create_topic_topic' => 'Топик',
 	'block_create_blog' => 'Блог',
 	'block_create_talk' => 'Сообщение',
-	/**
-	 * Описание HTML тегов
-	 */
-	'tags_help_link_show' => 'Доступны html-теги',
-	'tags_help_special' => 'Специальные теги',
-	'tags_help_special_cut' => 'Используется для больших текстов, скрывает под кат часть текста, следующую за тегом (будет написано «Читать дальше»).',
-	'tags_help_special_cut_name' => 'Так можно превратить надпись «Читать дальше» в любой текст.',
-	'tags_help_special_cut_name_example_name' => 'Подробности',
-	'tags_help_special_video' => 'Добавляет в пост видео со следующих хостингов: YouTube, RuTube, Vimeo и Я.Видео. <br/>Вставляйте между тегами только прямую ссылку на видеоролик.',
-	'tags_help_special_ls_user' => 'Выводит имя пользователя посреди текста.',
-	'tags_help_special_ls_user_example_user' => 'Ник',
-	'tags_help_standart' => 'Стандартные теги',
-	'tags_help_standart_h' => 'Заголовки разного уровня.',
-	'tags_help_standart_img' => 'Вставка изображения, в атрибуте src нужно указывать полный путь к изображению. Возможно выравнивание картинки атрибутом align.',
-	'tags_help_standart_a' => 'Вставка ссылки, в атрибуте href указывается желаемый интернет-адрес или якорь (anchor) для навигации по странице.',
-	'tags_help_standart_a_example_href' => 'Ссылка',
-	'tags_help_standart_b' => 'Выделение важного текста, на странице выделяется жирным начертанием.',
-	'tags_help_standart_i' => 'Выделение важного текста, на странице выделяется курсивом.',
-	'tags_help_standart_s' => 'Текст между этими тегами будет отображаться как зачеркнутый.',
-	'tags_help_standart_u' => 'Текст между этими тегами будет отображаться как подчеркнутый.',
-	'tags_help_standart_hr' => 'Тег для вставки горизонтальной линии.',
-	'tags_help_standart_blockquote' => 'Используйте этот тег для выделения цитат.',
-	'tags_help_standart_table' => 'Набор тегов для создания таблицы. Тег &lt;td&gt; обозначает ячейку таблицы, тег &lt;th&gt; - ячейку в заголовке, &lt;tr&gt; - строчку таблицы. Все содержимое таблицы помещайте в тег &lt;table&gt;.',
-	'tags_help_standart_ul' => 'Ненумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ul&gt;.',
-	'tags_help_standart_ol' => 'Нумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ol&gt;.',
 	/**
 	 * Системные сообщения
 	 */
@@ -1769,12 +1756,8 @@ return array(
 	'system_error' => 'Системная ошибка, повторите позже',
 	'exit' => 'Выход',
 	'need_authorization' => 'Необходимо авторизоваться!',
-	'or' => 'или',
-	'window_close' => 'закрыть',
 	'not_access' => 'Нет доступа',
 	'install_directory_exists' => 'Для работы с сайтом удалите директорию /install.',
-	'login' => 'Вход на сайт',
-	'delete' => 'Удалить',
 	'date_day' => 'день',
 	'date_month' => 'месяц',
 	'month_array' => array(
@@ -1801,7 +1784,6 @@ return array(
 	'date_hours_back' => '%%hours%% час назад; %%hours%% часа назад; %%hours%% часов назад',
 	'date_hours_back_less' => 'Менее часа назад',
 	'today' => 'Сегодня',
-	'more' => 'еще',
 
 	'timezone_list'=> array(
 		'-12' => '[UTC − 12] Меридиан смены дат (запад)',
@@ -1852,5 +1834,5 @@ return array(
 	'topic_create' => 'Написать',
 	'draft_declension' => 'черновик;черновика;черновиков',
 	'blog_menu_create' => 'Блог',
-	'user_search_filter_all' => 'Все'
+	'user_search_filter_all' => 'Все',
 );

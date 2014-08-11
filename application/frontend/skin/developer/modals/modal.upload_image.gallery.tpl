@@ -32,7 +32,7 @@
 					<li class="js-media-detail-date"></li>
 					<li><span class="js-media-detail-dimensions"></span>, <span class="js-media-detail-file-size"></span></li>
 					<li>
-						<a href="#" class="link-dotted js-media-item-info-remove">{$aLang.delete}</a>
+						<a href="#" class="link-dotted js-media-item-info-remove">{$aLang.common.remove}</a>
 						&nbsp;&nbsp;
 						{if $aTargetParams.allow_preview}
 							<a href="#" class="link-dotted js-media-item-info-create-preview">Создать превью</a>

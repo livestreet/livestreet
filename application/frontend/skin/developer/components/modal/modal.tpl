@@ -31,7 +31,7 @@
 			{block name='modal_footer_begin'}{/block}
 
 			{block name='modal_footer_cancel'}
-				<button type="button" class="button" data-type="modal-close">{$aLang.favourite_form_tags_button_cancel}</button>
+				<button type="button" class="button" data-type="modal-close">{$aLang.common.cancel}</button>
 			{/block}
 		</div>
 	{/block}

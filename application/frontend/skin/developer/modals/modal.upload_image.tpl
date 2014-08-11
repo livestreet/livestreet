@@ -56,7 +56,7 @@
 
 				<div class="modal-footer">
 					<button type="submit" class="button button--primary js-media-insert-button js-media-insert">Вставить</button>
-					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+					<button type="button" class="button" data-type="modal-close">{$aLang.common.cancel}</button>
 				</div>
 			</div>
 
@@ -92,7 +92,7 @@
 				<div class="modal-footer">
 					<button type="submit" class="button button--primary js-media-link-insert-button">Вставить как ссылку</button>
 					<button type="submit" class="button button--primary js-media-link-upload-button">Загрузить и вставить</button>
-					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+					<button type="button" class="button" data-type="modal-close">{$aLang.common.cancel}</button>
 				</div>
 			</form>
 
@@ -105,7 +105,7 @@
 
 				<div class="modal-footer">
 					<button type="submit" class="button button--primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
-					<button type="button" class="button" data-type="modal-close">{$aLang.uploadimg_cancel}</button>
+					<button type="button" class="button" data-type="modal-close">{$aLang.common.cancel}</button>
 				</div>
 			</div>
 
