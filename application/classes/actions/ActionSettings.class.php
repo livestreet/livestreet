@@ -227,7 +227,7 @@ class ActionSettings extends Action {
 			 * Емайл корректен?
 			 */
 			if (!func_check(getRequestStr('invite_mail'),'mail')) {
-				$this->Message_AddError($this->Lang_Get('user.settings.invites.fields.email.notices.error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('fields.email.notices.error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**
@@ -273,7 +273,7 @@ class ActionSettings extends Action {
 					$bError=true;
 				}
 			} else {
-				$this->Message_AddError($this->Lang_Get('user.settings.account.fields.email.notices.error'),$this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('fields.email.notices.error'),$this->Lang_Get('error'));
 				$bError=true;
 			}
 			/**

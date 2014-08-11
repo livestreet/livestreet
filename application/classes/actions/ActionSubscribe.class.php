@@ -93,7 +93,7 @@ class ActionSubscribe extends Action {
 			$sMail=$this->oUserCurrent->getMail();
 		}
 		if (!func_check($sMail,'mail')) {
-			$this->Message_AddError($this->Lang_Get('registration_mail_error'),$this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('field.email.notices.error'),$this->Lang_Get('error'));
 			return ;
 		}
 		/**

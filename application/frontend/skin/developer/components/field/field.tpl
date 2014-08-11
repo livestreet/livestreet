@@ -10,19 +10,23 @@
 {* Название компонента *}
 {$_sComponentName = 'field'}
 
-{* Уникальный ID *}
-{$_uid = $smarty.local.sId|default:($_sComponentName|cat:rand(0, 10e10))}
+{block 'field_options'}
+	{* Уникальный ID *}
+	{$_uid = $smarty.local.sId|default:($_sComponentName|cat:rand(0, 10e10))}
 
-{* Переменные *}
-{$_sMods = $smarty.local.sMods}
-{$_sValue = $smarty.local.sValue}
-{$_sInputClasses = $smarty.local.sInputClasses}
-{$_sInputAttributes = $smarty.local.sInputAttributes}
-{$_aRules = $smarty.local.aRules}
+	{* Переменные *}
+	{$_sMods = $smarty.local.sMods}
+	{$_sValue = $smarty.local.sValue}
+	{$_sInputClasses = $smarty.local.sInputClasses}
+	{$_sInputAttributes = $smarty.local.sInputAttributes}
+	{$_aRules = $smarty.local.aRules}
+	{$name = $smarty.local.sName}
+	{$label = $smarty.local.sLabel}
+{/block}
 
 {* Правила валидации *}
 {if $smarty.local.sEntity}
-	{field_make_rule entity=$smarty.local.sEntity field=$smarty.local.sEntityField|default:$smarty.local.sName scenario=$smarty.local.sEntityScenario assign=_aRules}
+	{field_make_rule entity=$smarty.local.sEntity field=$smarty.local.sEntityField|default:$name scenario=$smarty.local.sEntityScenario assign=_aRules}
 {/if}
 
 {**
@@ -32,8 +36,8 @@
 {strip}
 	{if $_sValue}
 		{$_sValue}
-	{elseif isset($_aRequest[$smarty.local.sName])}
-		{$_aRequest[$smarty.local.sName]}
+	{elseif isset($_aRequest[$name])}
+		{$_aRequest[$name]}
 	{/if}
 {/strip}
 {/function}
@@ -45,7 +49,7 @@
 	id="{$_uid}"
 	class="{$_sComponentName}-input {$_sInputClasses}"
 	{if $bUseValue}value="{field_input_attr_value}"{/if}
-	{if $smarty.local.sName}name="{$smarty.local.sName}"{/if}
+	{if $name}name="{$name}"{/if}
 	{if $smarty.local.sPlaceholder}placeholder="{$smarty.local.sPlaceholder}"{/if}
 	{if $smarty.local.bIsDisabled}disabled{/if}
 	{foreach $_aRules as $sRule}
@@ -60,8 +64,8 @@
 {block 'field'}
 	<div class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} clearfix {$smarty.local.sClasses} {block 'field_classes'}{/block}" {$smarty.local.sAttributes}>
 		{* Лэйбл *}
-		{if $smarty.local.sLabel}
-			<label for="{$_uid}" class="{$_sComponentName}-label">{$smarty.local.sLabel}</label>
+		{if $label}
+			<label for="{$_uid}" class="{$_sComponentName}-label">{$label}</label>
 		{/if}
 
 		{* Блок с инпутом *}

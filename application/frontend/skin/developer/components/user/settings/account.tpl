@@ -13,12 +13,9 @@
 		<legend>{lang name='user.settings.account.account'}</legend>
 
         {* E-mail *}
-        {include 'components/field/field.text.tpl'
-                 sName  = 'mail'
-                 aRules = [ 'required' => true, 'type'=> 'email' ]
+        {include 'components/field/field.email.tpl'
                  sValue = $user->getMail()|escape
-                 sNote  = {lang name='user.settings.account.fields.email.note'}
-                 sLabel = {lang name='user.settings.account.fields.email.label'}}
+                 sNote  = {lang name='user.settings.account.fields.email.note'}}
 	</fieldset>
 
 

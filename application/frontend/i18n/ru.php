@@ -1010,7 +1010,6 @@ return array(
 		'labels' => array(
 			'login'    => 'Логин',
 			'password' => 'Пароль',
-			'mail'     => 'E-mail',
 			'captcha'  => 'Введите цифры и буквы',
 		),
 
@@ -1427,10 +1426,8 @@ return array(
 
 				'fields' => array(
 					'email' => array(
-						'label' => 'E-mail',
 						'note' => 'Ваш реальный почтовый адрес, на него будут приходить уведомления',
 						'notices' => array(
-							'error'              => 'Неверный формат e-mail',
 							'error_used'         => 'Этот емайл уже занят',
 							'change_from_notice' => 'На вашу старую почту отправлено подтверждение для смены емайла',
 							'change_to_notice'   => 'Спасибо! <br/> На ваш новый емайл адрес отправлено подтверждение для смены старого емайла.',
@@ -1487,10 +1484,6 @@ return array(
 					'email'    => array(
 						'label' => 'Пригласить по e-mail адресу',
 						'note' => 'На этот e-mail будет выслано приглашение для регистрации',
-
-						'notices' => array(
-							'error' => 'Неверный формат e-mail'
-						)
 					),
 					'submit' => array(
 						'text' => 'Отправить приглашение',
@@ -1510,6 +1503,20 @@ return array(
 			'not_found_by_id' => 'Пользователь <b>#%%id%%</b> не найден'
 		),
 	),
+
+
+	/**
+	 * Поля
+	 */
+	'field' => array(
+		'email' => array(
+			'label' => 'E-mail',
+			'notices' => array(
+				'error' => 'Неверный формат e-mail',
+			),
+		),
+	),
+
 
 	/**
 	 * Настройки
@@ -1843,7 +1850,6 @@ return array(
 	 * Temp
 	 */
 	'topic_create' => 'Написать',
-	'registration_mail_error' => 'Неверный формат e-mail', // TODO: Удалить, используется в ActionSubscribe
 	'draft_declension' => 'черновик;черновика;черновиков',
 	'blog_menu_create' => 'Блог',
 	'user_search_filter_all' => 'Все'

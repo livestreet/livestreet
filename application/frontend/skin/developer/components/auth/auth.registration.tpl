@@ -18,10 +18,7 @@
              sLabel  = $aLang.auth.labels.login}
 
 	{* E-mail *}
-    {include 'components/field/field.text.tpl'
-             sName   = 'mail'
-             aRules  = [ 'required' => true, 'type' => 'email' ]
-             sLabel  = $aLang.auth.labels.mail}
+    {include 'components/field/field.email.tpl'}
 
 	{* Пароль *}
     {include 'components/field/field.text.tpl'
