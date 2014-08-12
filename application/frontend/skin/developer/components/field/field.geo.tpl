@@ -8,7 +8,7 @@
 
 {block 'field_input'}
     <p class="mb-15"><select class="js-geo-country width-200" name="{$smarty.local.sName}_country">
-        <option value="">{$aLang.geo_select_country}</option>
+        <option value="">{$aLang.field.geo.select_country}</option>
 
         {if $aGeoCountries}
             {foreach $aGeoCountries as $oGeoCountry}
@@ -18,7 +18,7 @@
     </select></p>
 
     <p class="mb-15"><select class="js-geo-region width-200" name="{$smarty.local.sName}_region" {if ! $oFieldGeoTarget or ! $oFieldGeoTarget->getCountryId()}style="display:none;"{/if}>
-        <option value="">{$aLang.geo_select_region}</option>
+        <option value="">{$aLang.field.geo.select_region}</option>
 
         {if $aGeoRegions}
             {foreach $aGeoRegions as $oGeoRegion}
@@ -28,7 +28,7 @@
     </select></p>
 
     <p><select class="js-geo-city width-200" name="{$smarty.local.sName}_city" {if ! $oFieldGeoTarget or ! $oFieldGeoTarget->getRegionId()}style="display:none;"{/if}>
-        <option value="">{$aLang.geo_select_city}</option>
+        <option value="">{$aLang.field.geo.select_city}</option>
 
         {if $aGeoCities}
             {foreach $aGeoCities as $oGeoCity}

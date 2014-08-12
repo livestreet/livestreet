@@ -53,7 +53,7 @@ class ModuleUser_EntityComplaint extends Entity {
 		if ($oUserTarget=$this->User_GetUserById($sValue) and $this->getUserId()!=$oUserTarget->getId()) {
 			return true;
 		}
-		return $this->Lang_Get('user_complaint_target_error');
+		return $this->Lang_Get('report.notices.target_error');
 	}
 	/**
 	 * Валидация типа жалобы
@@ -67,7 +67,7 @@ class ModuleUser_EntityComplaint extends Entity {
 		if (in_array($sValue,$aTypes)) {
 			return true;
 		}
-		return $this->Lang_Get('user_complaint_type_error');
+		return $this->Lang_Get('report.notices.type_error');
 	}
 
 

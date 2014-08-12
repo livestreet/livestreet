@@ -1514,6 +1514,11 @@ return array(
 				'error' => 'Неверный формат e-mail',
 			),
 		),
+		'geo' => array(
+			'select_country' => 'Выберите страну',
+			'select_region' => 'Укажите регион',
+			'select_city' => 'Укажите город',
+		),
 	),
 
 
@@ -1546,6 +1551,32 @@ return array(
 				'standart_ul'                   => 'Ненумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ul&gt;.',
 				'standart_ol'                   => 'Нумерованный список; каждый элемент списка задается тегом &lt;li&gt;, набор элементов списка помещайте в тег &lt;ol&gt;.',
 			),
+			'toolbar' => array(
+				'b'           => 'Жирный',
+				'i'           => 'Курсив',
+				'u'           => 'Подчеркнутый',
+				's'           => 'Зачеркнутый',
+				'url'         => 'Вставить ссылку',
+				'url_promt'   => 'Введите ссылку',
+				'image_promt' => 'Введите ссылку на изображение',
+				'code'        => 'Код',
+				'video'       => 'Видео',
+				'video_promt' => 'Введите ссылку на видео',
+				'image'       => 'Изображение',
+				'cut'         => 'Кат',
+				'quote'       => 'Цитировать',
+				'list'        => 'Список',
+				'list_ul'     => 'UL LI',
+				'list_ol'     => 'OL LI',
+				'list_li'     => 'Пункт списка',
+				'title'       => 'Заголовок',
+				'title_h4'    => 'H4',
+				'title_h5'    => 'H5',
+				'title_h6'    => 'H6',
+				'clear_tags'  => 'Очистить от тегов',
+				'user'        => 'Вставить пользователя',
+				'user_promt'  => 'Введите логин пользователя',
+			),
 		),
 	),
 
@@ -1556,11 +1587,69 @@ return array(
 	'admin' => array(
 		'title' => 'Админка',
 		'items' => array(
-			'plugins' => 'Управление плагинами',
+			'plugins' => '___admin.plugins.title___',
 		),
-		'install_plugin_admin' => 'Установить расширенную админ-панель'
+		'install_plugin_admin' => 'Установить расширенную админ-панель',
+
+		// Страница администрирования плагинов
+		'plugins' => array(
+			'title' => 'Управление плагинами',
+
+			'plugin_name' => 'Название',
+			'plugin_author' => 'Автор',
+			'plugin_version' => 'Версия',
+			'plugin_activate' => 'Активировать',
+			'plugin_deactivate' => 'Деактивировать',
+			'plugin_settings' => 'Настройки',
+			'submit_delete' => '___common.remove___',
+
+			// Сообщения
+			'notices' => array(
+				'unknown_action' => 'Указано неизвестное действие',
+				'action_ok' => 'Успешно выполнено',
+				'activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',
+				'activation_overlap_inherit' => 'Конфликт с активированным плагином. Ресурс %%resource%% используется как наследник в плагине %%plugin%%.',
+				'activation_file_not_found' => 'Файл плагина не найден',
+				'activation_file_write_error' => 'Файл плагина не доступен для записи',
+				'activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
+				'activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
+			)
+		),
 	),
 
+
+	/**
+	 * Жалобы
+	 */
+	'report' => array(
+		'report' => 'Пожаловаться',
+
+		'form' => array(
+			'title' => '___report.report___',
+
+			'fields' => array(
+				'type' => array(
+					'label' => 'Причина'
+				),
+				'text' => array(
+					'label' => 'Текст жалобы'
+				)
+			)
+		),
+
+		// TODO: Move to 'user'
+		'type_list' => array(
+			'spam'    => 'Спам',
+			'obscene' => 'Непристойное поведение',
+			'other'   => 'Другое',
+		),
+
+		'notices' => array(
+			'target_error' => 'Неверный пользователь для жалобы', // TODO: Move to 'user'
+			'error_type'   => 'Неверный тип жалобы', // TODO: Remove?
+			'success'      => 'Ваша жалоба отправлена администрации',
+		)
+	),
 
 	/**
 	 * Настройки
@@ -1587,48 +1676,8 @@ return array(
 	'topic_favourite_tags_block' => 'Теги избранного',
 	'topic_favourite_tags_block_all' => 'Все теги',
 	'topic_favourite_tags_block_user' => 'Мои теги',
+	'favourite_form_tags_button_show' => 'изменить свои теги',
 
-	/**
-	 * Жалобы на пользователя
-	 */
-	'user_complaint_title' => 'Пожаловаться',
-	'user_complaint_type_title' => 'Причина',
-	'user_complaint_text_title' => 'Текст жалобы',
-	'user_complaint_target_error' => 'Неверный пользователь для жалобы',
-	'user_complaint_type_error' => 'Неверный тип жалобы',
-	'user_complaint_submit_result' => 'Ваша жалоба отправлена администрации',
-	'user_complaint_type_list' => array(
-		'spam'=>'Спам',
-		'obscene'=>'Непристойное поведение',
-		'other'=>'Другое',
-	),
-	/**
-	 * Панель
-	 */
-	'panel_b' => 'жирный',
-	'panel_i' => 'курсив',
-	'panel_u' => 'подчеркнутый',
-	'panel_s' => 'зачеркнутый',
-	'panel_url' => 'вставить ссылку',
-	'panel_url_promt' => 'Введите ссылку',
-	'panel_image_promt' => 'Введите ссылку на изображение',
-	'panel_code' => 'код',
-	'panel_video' => 'видео',
-	'panel_video_promt' => 'Введите ссылку на видео',
-	'panel_image' => 'изображение',
-	'panel_cut' => 'кат',
-	'panel_quote' => 'цитировать',
-	'panel_list' => 'Список',
-	'panel_list_ul' => 'UL LI',
-	'panel_list_ol' => 'OL LI',
-	'panel_list_li' => 'пункт списка',
-	'panel_title' => 'Заголовок',
-	'panel_title_h4' => 'H4',
-	'panel_title_h5' => 'H5',
-	'panel_title_h6' => 'H6',
-	'panel_clear_tags' => 'очистить от тегов',
-	'panel_user' => 'вставить пользователя',
-	'panel_user_promt' => 'Введите логин пользователя',
 	/**
 	 * Блоки
 	 */
@@ -1652,11 +1701,7 @@ return array(
 	'block_stream_topics_no' => 'Нет топиков.',
 	'block_stream_comments' => 'Комментарии',
 	'block_stream_comments_no' => 'Нет комментариев.',
-	'block_stream_comments_all' => 'Весь эфир',
 	'block_friends' => 'Выбрать получателей из списка друзей',
-	'block_friends_check' => 'Отметить всех',
-	'block_friends_uncheck' => 'Снять отметку',
-	'block_friends_empty' => 'Список ваших друзей пуст',
 	'block_category_blog' => 'Категории',
 	'block_category_blog_all' => 'Все',
 	'block_blog_navigator' => 'Навигация по блогам',
@@ -1697,43 +1742,12 @@ return array(
 	'uploadimg_link_submit_load' => 'Загрузить',
 	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
 	'uploadimg_title' => 'Описание',
-
-	/**
-	 * Страница администрирования плагинов
-	 */
-	'plugins_administartion_title' => 'Администрирование плагинов',
-	'plugins_plugin_name' => 'Название',
-	'plugins_plugin_author' => 'Автор',
-	'plugins_plugin_version' => 'Версия',
-	'plugins_plugin_action' => '',
-	'plugins_plugin_activate' => 'Активировать',
-	'plugins_plugin_deactivate' => 'Деактивировать',
-	'plugins_plugin_settings' => 'Настройки',
-	'plugins_unknown_action' => 'Указано неизвестное действие',
-	'plugins_action_ok' => 'Успешно выполнено',
-	'plugins_activation_overlap' => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',
-	'plugins_activation_overlap_inherit' => 'Конфликт с активированным плагином. Ресурс %%resource%% используется как наследник в плагине %%plugin%%.',
-	'plugins_activation_file_not_found' => 'Файл плагина не найден',
-	'plugins_activation_file_write_error' => 'Файл плагина не доступен для записи',
-	'plugins_activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
-	'plugins_activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
-	'plugins_submit_delete' => 'Удалить плагины',
 	/**
 	 * Toolbar
 	 */
 	'toolbar_scrollup_go' => 'Вверх',
 	'toolbar_topic_next' => 'Следующий топик',
 	'toolbar_topic_prev' => 'Предыдущий топик',
-	/**
-	 * География
-	 */
-	'geo_select_country' => 'Выберите страну',
-	'geo_select_region' => 'Укажите регион',
-	'geo_select_city' => 'Укажите город',
-	/**
-	 * Избранное, общее
-	 */
-	'favourite_form_tags_button_show' => 'изменить свои теги',
 	/**
 	 * Создание
 	 */
@@ -1835,4 +1849,5 @@ return array(
 	'draft_declension' => 'черновик;черновика;черновиков',
 	'blog_menu_create' => 'Блог',
 	'user_search_filter_all' => 'Все',
+	'user_complaint_title' => 'Пожаловаться',
 );

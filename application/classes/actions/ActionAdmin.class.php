@@ -108,7 +108,7 @@ class ActionAdmin extends Action {
 		 * Загружаем переменные в шаблон
 		 */
 		$this->Viewer_Assign("aPlugins",$aPlugins);
-		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugins_administartion_title'));
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('admin.plugins.title'));
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
@@ -123,14 +123,14 @@ class ActionAdmin extends Action {
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
 		$this->Security_ValidateSendForm();
 		if(!in_array($sAction,array('activate','deactivate'))) {
-			$this->Message_AddError($this->Lang_Get('plugins_unknown_action'),$this->Lang_Get('error'),true);
+			$this->Message_AddError($this->Lang_Get('admin.plugins.notices.unknown_action'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('plugins'));
 		}
 		/**
 		 * Активируем\деактивируем плагин
 		 */
 		if($bResult=$this->Plugin_Toggle($sPlugin,$sAction)) {
-			$this->Message_AddNotice($this->Lang_Get('plugins_action_ok'),$this->Lang_Get('attention'),true);
+			$this->Message_AddNotice($this->Lang_Get('admin.plugins.notices.action_ok'),$this->Lang_Get('attention'),true);
 		} else {
 			if(!($aMessages=$this->Message_GetErrorSession()) or !count($aMessages)) $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);
 		}
