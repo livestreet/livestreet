@@ -58,11 +58,15 @@ class ActionProfile extends Action {
 	 */
 	protected function RegisterEvent() {
 		$this->AddEvent('friendoffer','EventFriendOffer');
+
 		$this->AddEvent('ajaxfriendadd', 'EventAjaxFriendAdd');
 		$this->AddEvent('ajaxfrienddelete', 'EventAjaxFriendDelete');
 		$this->AddEvent('ajaxfriendaccept', 'EventAjaxFriendAccept');
+		$this->AddEvent('ajax-modal-add-friend', 'EventAjaxModalAddFriend');
+
 		$this->AddEvent('ajax-note-save', 'EventAjaxNoteSave');
 		$this->AddEvent('ajax-note-remove', 'EventAjaxNoteRemove');
+
 		$this->AddEvent('ajax-modal-complaint', 'EventAjaxModalComplaint');
 		$this->AddEvent('ajax-complaint-add', 'EventAjaxComplaintAdd');
 
@@ -147,7 +151,7 @@ class ActionProfile extends Action {
 			 */
 			$oComplaint->setText(htmlspecialchars($oComplaint->getText()));
 			if ($this->User_AddComplaint($oComplaint)) {
-				$this->Message_AddNotice($this->Lang_Get('user_complaint_submit_result'),$this->Lang_Get('attention'));
+				$this->Message_AddNotice($this->Lang_Get('report.notices.success'),$this->Lang_Get('attention'));
 				/**
 				 * Убиваем каптчу
 				 */
@@ -730,11 +734,6 @@ class ActionProfile extends Action {
 				 */
 				$this->Stream_subscribeUser($oFriend->getUserFrom(), $oFriend->getUserTo());
 				$this->Stream_subscribeUser($oFriend->getUserTo(), $oFriend->getUserFrom());
-
-				$oViewerLocal=$this->GetViewerLocal();
-				$oViewerLocal->Assign('oUserFriend',$oFriend);
-				$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
-
 			} else {
 				return $this->EventErrorDebug();
 			}
@@ -868,11 +867,6 @@ class ActionProfile extends Action {
 					$this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
 					$this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
 					$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.add_success'),$this->Lang_Get('attention'));
-
-					$oViewerLocal=$this->GetViewerLocal();
-					$oViewerLocal->Assign('oUserFriend',$oFriend);
-					$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
-
 				} else {
 					return $this->EventErrorDebug();
 				}
@@ -985,10 +979,6 @@ class ActionProfile extends Action {
 		} else {
 			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
 		}
-
-		$oViewerLocal=$this->GetViewerLocal();
-		$oViewerLocal->Assign('oUserFriend',$oFriendNew);
-		$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
 	}
 	/**
 	 * Удаление пользователя из друзей
@@ -1047,10 +1037,6 @@ class ActionProfile extends Action {
 		if( $this->User_DeleteFriend($oFriend) ) {
 			$this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.remove_success'),$this->Lang_Get('attention'));
 
-			$oViewerLocal=$this->GetViewerLocal();
-			$oViewerLocal->Assign('oUserFriend',$oFriend);
-			$this->Viewer_AssignAjax('sToggleText',$oViewerLocal->Fetch("components/user/friend_item.tpl"));
-
 			/**
 			 * Отправляем пользователю сообщение об удалении дружеской связи
 			 */
@@ -1073,6 +1059,24 @@ class ActionProfile extends Action {
 			return $this->EventErrorDebug();
 		}
 	}
+
+	/**
+	 * Показывает модальное окно
+	 */
+	protected function EventAjaxModalAddFriend() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if ( ! $this->oUserCurrent ) {
+			return parent::EventNotFound();
+		}
+
+		$iTarget = (int) getRequest('target');
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+		$oViewer->Assign('target', $iTarget, true);
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.add_friend.tpl"));
+	}
+
 	/**
 	 * Обработка подтверждения старого емайла при его смене
 	 * TODO: Перенести в экшн Settings

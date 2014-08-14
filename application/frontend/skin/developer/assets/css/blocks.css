@@ -127,6 +127,7 @@
 .block-type-profile-actions                  { border: none; }
 .block-type-profile-actions .block-content   { padding: 0; }
 .block-type-profile-actions ul li            { margin-bottom: 0; }
+.block-type-profile-actions ul li span,
 .block-type-profile-actions ul li a          { display: block; padding: 10px 15px; }
 .block-type-profile-actions ul li a:hover    { background: #fafafa; }
 .block-type-profile-actions ul li a.followed { color: #f00; }

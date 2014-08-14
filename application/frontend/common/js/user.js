@@ -90,6 +90,16 @@ ls.user = (function ($) {
 			}
 		})
 
+		// Добавление пользователя в свою активность
+		$('.js-user-friend').lsUserFriend({
+			urls: {
+				add:    aRouter.profile + 'ajaxfriendadd/',
+				remove: aRouter.profile + 'ajaxfrienddelete/',
+				accept: aRouter.profile + 'ajaxfriendaccept/',
+				modal:  aRouter.profile + 'ajax-modal-add-friend'
+			}
+		})
+
 		// Добавление выбранных пользователей
 		$(document).on('click', '.js-user-list-select-add', function (e) {
 			var aCheckboxes = $('.js-user-list-select').find('.js-user-list-small-checkbox:checked'),
@@ -126,65 +136,6 @@ ls.user = (function ($) {
 			_this.changeProfileAvatar($(this).data('userId'));
 			return false;
 		});
-	};
-
-	/**
-	 * Добавление в друзья
-	 */
-	this.addFriend = function(obj, idUser, sAction){
-		if(sAction != 'link' && sAction != 'accept') {
-			var sText = $('#add_friend_text').val();
-			$('#add_friend_form').children().each(function(i, item){$(item).attr('disabled','disabled')});
-		} else {
-			var sText='';
-		}
-
-		if(sAction == 'accept') {
-			var url = aRouter.profile+'ajaxfriendaccept/';
-		} else {
-			var url = aRouter.profile+'ajaxfriendadd/';
-		}
-
-		var params = {idUser: idUser, userText: sText};
-
-		ls.hook.marker('addFriendBefore');
-		ls.ajax.load(url, params, function(result){
-			$('#add_friend_form').children().each(function(i, item){$(item).removeAttr('disabled')});
-			if (!result) {
-				ls.msg.error('Error','Please try again later');
-			}
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				ls.msg.notice(null,result.sMsg);
-				$('#add_friend_form').jqmHide();
-				$('#add_friend_item').remove();
-				$('#profile_actions').prepend($($.trim(result.sToggleText)));
-				ls.hook.run('ls_user_add_friend_after', [idUser,sAction,result], obj);
-			}
-		});
-		return false;
-	};
-
-	/**
-	 * Удаление из друзей
-	 */
-	this.removeFriend = function(obj,idUser,sAction) {
-		var url = aRouter.profile+'ajaxfrienddelete/';
-		var params = {idUser: idUser,sAction: sAction};
-
-		ls.hook.marker('removeFriendBefore');
-		ls.ajax.load(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null,result.sMsg);
-			} else {
-				ls.msg.notice(null,result.sMsg);
-				$('#delete_friend_item').remove();
-				$('#profile_actions').prepend($($.trim(result.sToggleText)));
-				ls.hook.run('ls_user_remove_friend_after', [idUser,sAction,result], obj);
-			}
-		});
-		return false;
 	};
 
 	/**

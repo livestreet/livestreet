@@ -1248,6 +1248,16 @@ return array(
 			'rejected' => 'Заявка отклонена',
 			'sent'     => 'Заявка отправлена',
 
+			// Статусы
+			'status' => array(
+				'notfriends' => '___user.friends.add___',
+				'added'      => '___user.friends.remove___',
+				'pending'    => '___user.friends.status.notfriends___',
+				'rejected'   => '___user.friends.rejected___',
+				'sent'       => '___user.friends.sent___',
+				'linked'     => '___user.friends.status.notfriends___',
+			),
+
 			// Форма добавления в друзья
 			'form' => array(
 				'title' => '___user.friends.add___',

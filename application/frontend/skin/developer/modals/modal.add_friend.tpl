@@ -13,7 +13,8 @@
 {/block}
 
 {block 'modal_content'}
-	<form id="add_friend_form" onsubmit="return ls.user.addFriend(this,{$oUserProfile->getId()},'add');">
+	{* TODO: Form validation (front-end / back-end) *}
+	<form id="add_friend_form" class="js-user-friend-form">
 		{include 'components/field/field.textarea.tpl'
 				 sName     = 'add_friend_text'
 				 aRules    = [ 'required' => true, 'rangelength' => '[2,200]' ]

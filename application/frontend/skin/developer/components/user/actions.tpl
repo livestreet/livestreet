@@ -6,7 +6,7 @@
 
 <ul class="profile-actions" id="profile_actions">
 	{* Добавление в друзья *}
-	{include 'components/user/friend_item.tpl' oUserFriend=$user->getUserFriend()}
+	{include 'components/user/friend_item.tpl' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'}
 
 	{* Отправить сообщение *}
 	<li>
@@ -18,11 +18,7 @@
 	{* Подписаться *}
 	<li>
 		<a href="#" class="js-user-follow {if $user->isFollow()}active{/if}" data-id="{$user->getId()}" data-login="{$user->getLogin()}">
-			{if $user->isFollow()}
-				{$aLang.user.actions.unfollow}
-			{else}
-				{$aLang.user.actions.follow}
-			{/if}
+			{lang name="user.actions.{( $user->isFollow() ) ? 'unfollow' : 'follow'}"}
 		</a>
 	</li>
 

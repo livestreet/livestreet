@@ -48,9 +48,7 @@
 		 * Подписаться
 		 */
 		follow: function() {
-			ls.ajax.load( this.option( 'urls.follow' ), { aUserList: [ this.element.data('login') ] }, function( response ) {
-				this.onFollow( response );
-			}.bind(this));
+			ls.ajax.load( this.option( 'urls.follow' ), { aUserList: [ this.element.data('login') ] }, this.onFollow.bind(this) );
 		},
 
 		/**
@@ -64,9 +62,7 @@
 		 * Отписаться
 		 */
 		unfollow: function() {
-			ls.ajax.load( this.option( 'urls.follow' ), { iUserId: [ this.element.data('id') ] }, function( response ) {
-				this.onUnfollow( response );
-			}.bind(this));
+			ls.ajax.load( this.option( 'urls.follow' ), { iUserId: [ this.element.data('id') ] }, this.onUnfollow.bind(this) );
 		},
 
 		/**
