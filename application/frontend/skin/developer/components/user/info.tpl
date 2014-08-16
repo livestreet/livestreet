@@ -59,13 +59,6 @@
 	]}
 {/if}
 
-{* Контакты *}
-{if $userfields}
-	{foreach $userfields as $oField}
-		{list_item sLabel="{$oField->getTitle()|escape}" sContent=$oField->getValue(true, true)}
-	{/foreach}
-{/if}
-
 {include 'components/user/info-group.tpl' title={lang name='user.profile.personal.title'} items=$items}
 
 
