@@ -128,7 +128,15 @@ class ModuleTools extends Module {
 		}
 		return $sText;
 	}
-
+	/**
+	 * Отдает файл на загрузку в браузер пользователя
+	 *
+	 * @param      $sFilePath
+	 * @param      $sFileName
+	 * @param null $iFileSize
+	 *
+	 * @return bool
+	 */
 	public function DownloadFile($sFilePath,$sFileName,$iFileSize=null) {
 		if (file_exists($sFilePath) and $file=fopen($sFilePath,"r")) {
 			header("Content-Type: application/octet-stream");
@@ -144,5 +152,27 @@ class ModuleTools extends Module {
 			exit(0);
 		}
 		return false;
+	}
+	/**
+	 * Запускает задачу рассылки емайлов (отложенная отправка)
+	 */
+	public function SystemTaskNotify() {
+		$aNotifyTasks = $this->Notify_GetTasksDelayed(Config::Get('module.notify.per_process'));
+		if(!$aNotifyTasks) {
+			return 'empty';
+		}
+		/**
+		 * Последовательно загружаем задания
+		 */
+		$aArrayId=array();
+		foreach ($aNotifyTasks as $oTask) {
+			$this->Notify_SendTask($oTask);
+			$aArrayId[]=$oTask->getTaskId();
+		}
+		/**
+		 * Удаляем отработанные задания
+		 */
+		$this->Notify_DeleteTaskByArrayId($aArrayId);
+		return "Send notify: ".count($aArrayId);
 	}
 }

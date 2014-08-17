@@ -628,3 +628,8 @@ CREATE TABLE IF NOT EXISTS `prefix_cron_task` (
   KEY `method` (`method`(255)),
   KEY `period_run` (`period_run`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 17.08.2014
+INSERT INTO `prefix_cron_task` (`id`, `title`, `method`, `plugin`, `state`, `count_run`, `period_run`, `date_create`, `date_run_last`) VALUES (NULL, 'Отложенная отправка емайлов', 'Tools_SystemTaskNotify', '', '1', '0', '2', '2014-08-17 00:00:00', NULL);
+INSERT INTO `prefix_cron_task` (`id`, `title`, `method`, `plugin`, `state`, `count_run`, `period_run`, `date_create`, `date_run_last`) VALUES (NULL, 'Удаление старого кеша данных', 'Cache_ClearOldCache', '', '1', '0', '1500', '2014-08-17 00:00:00', NULL);
