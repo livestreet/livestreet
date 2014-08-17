@@ -7,11 +7,11 @@ if ($requirements=$this->get('requirements')) { ?>
 
 			<div>
 				<div>
-					<?php echo $this->lang('steps.install1.requirements.'.$requirement['name'].'.title'); ?> &mdash; <?php echo $requirement['current']; ?>
+					<?php echo $this->lang('steps.checkRequirements.requirements.'.$requirement['name'].'.title'); ?> &mdash; <?php echo $requirement['current']; ?>
 				</div>
 
 				<div>
-					<?php echo $this->lang('steps.install1.requirements.'.$requirement['name'].'.solution'); ?>
+					<?php echo $this->lang('steps.checkRequirements.requirements.'.$requirement['name'].'.solution'); ?>
 				</div>
 			</div>
 
