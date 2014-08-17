@@ -3,8 +3,15 @@
 class InstallStepUpdateVersion extends InstallStep {
 
 	protected $aVersionConvert=array(
-		'1.0.3','1.0.2','1.0.1'
+		'1.0.3'
 	);
+
+	public function init() {
+		/**
+		 * Полчаем данные коннекта к БД из конфига
+		 */
+		InstallConfig::$sFileConfig=dirname(INSTALL_DIR).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.local.php';
+	}
 
 	public function show() {
 		$this->assign('from_version',InstallCore::getStoredData('update_from_version'));
@@ -12,10 +19,6 @@ class InstallStepUpdateVersion extends InstallStep {
 	}
 
 	public function process() {
-		/**
-		 * Полчаем данные коннекта к БД из конфига
-		 */
-		InstallConfig::$sFileConfig=dirname(INSTALL_DIR).DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.local.php';
 		/**
 		 * Коннект к серверу БД
 		 */
@@ -50,8 +53,22 @@ class InstallStepUpdateVersion extends InstallStep {
 	 * Конвертор версии 1.0.3 в 2.0.0
 	 *
 	 * @param $oDb
+	 *
+	 * @return bool
 	 */
 	public function convertFrom_1_0_3_to_2_0_0($oDb) {
+		/**
+		 * Запускаем SQL патч
+		 */
+		$sFile='sql'.DIRECTORY_SEPARATOR.'patch_1.0.3_to_2.0.0.sql';
+		list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath($sFile),array('engine'=>InstallConfig::get('db.tables.engine'),'prefix'=>InstallConfig::get('db.table.prefix'),'check_table'=>'cron_task')));
+		if ($bResult) {
+			/**
+			 * Здесь нужно выполнить конвертацию данных
+			 */
 
+			return true;
+		}
+		return $this->addError(join('<br/>',$aErrors));
 	}
 }

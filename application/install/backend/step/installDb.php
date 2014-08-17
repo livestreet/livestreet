@@ -50,7 +50,13 @@ class InstallStepInstallDb extends InstallStep {
 			 */
 			list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/dump.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'topic')));
 			if ($bResult) {
-				return true;
+				/**
+				 * todo: убрать перед релизом и добавить его в основной дамп
+				 */
+				list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/patch_1.0.3_to_2.0.0.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'cron_task')));
+				if ($bResult) {
+					return true;
+				}
 			}
 		}
 		return $this->addError(join('<br/>',$aErrors));

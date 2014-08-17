@@ -1781,7 +1781,7 @@ return array(
 	'exit' => 'Выход',
 	'need_authorization' => 'Необходимо авторизоваться!',
 	'not_access' => 'Нет доступа',
-	'install_directory_exists' => 'Для работы с сайтом удалите директорию /install.',
+	'install_directory_exists' => 'Для работы с сайтом удалите директорию /application/install.',
 	'date_day' => 'день',
 	'date_month' => 'месяц',
 	'month_array' => array(

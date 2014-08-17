@@ -1,5 +1,5 @@
 /application/config/config.local.php
-/application/config/config.test.php
+/application/config/config.testing.php
 /application/logs/*
 /application/plugins/*
 /application/tmp/*
