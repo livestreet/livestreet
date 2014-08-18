@@ -1623,6 +1623,7 @@ return array(
 				'activation_file_write_error' => 'Файл плагина не доступен для записи',
 				'activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
 				'activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
+				'deactivation_requires_error' => 'От плагина зависит другой плагин, сначала отключите его -  <b>%%plugin%%</b>',
 			)
 		),
 	),
