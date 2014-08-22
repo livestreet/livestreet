@@ -4,16 +4,16 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_options'}
+{block 'block_options' append}
+	{$mods = "{$mods} profile-actions"}
+
 	{if ! $oUserCurrent or ( $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId() )}
-		{$bBlockNotShow = true}
+		{$show = false}
 	{/if}
 {/block}
 
-{block name='block_type'}profile-actions{/block}
-
-{block name='block_content'}
+{block 'block_content'}
 	{include 'components/user/actions.tpl' user=$oUserProfile}
 {/block}

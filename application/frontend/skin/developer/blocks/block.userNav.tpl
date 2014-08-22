@@ -4,9 +4,11 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_type'}profile-nav{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} user-nav"}
+{/block}
 
 {block 'block_content_after'}
 	{include 'navs/nav.user.tpl'}

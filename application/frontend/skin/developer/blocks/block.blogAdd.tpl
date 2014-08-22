@@ -4,13 +4,13 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_type'}blog-add{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} blog-add"}
 
-{block 'block_options'}
 	{if ! $oUserCurrent}
-		{$bBlockNotShow = true}
+		{$show = false}
 	{/if}
 {/block}
 

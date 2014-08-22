@@ -4,11 +4,15 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_title'}{$aLang.block_blogs}{/block}
-{block 'block_type'}blogs{/block}
-{block 'block_class'}block-nopadding{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} blogs nopadding"}
+{/block}
+
+{block 'block_title'}
+	{$aLang.block_blogs}
+{/block}
 
 {block 'block_nav'}
 	{include 'components/nav/nav.tabs.tpl' sName='block_blogs' sActiveItem='top' sMods='pills' sClasses='js-block-nav' aItems=[

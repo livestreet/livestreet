@@ -4,19 +4,23 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_title'}<a href="{router page='stream'}">{$aLang.activity.title}</a>{/block}
-{block name='block_type'}stream{/block}
-{block name='block_class'}block-nopadding{/block}
+{block 'block_title'}
+	<a href="{router page='stream'}">{$aLang.activity.title}</a>
+{/block}
+
+{block 'block_options' append}
+	{$mods = "{$mods} stream nopadding"}
+{/block}
 
 {* Кнопка обновления *}
-{block name='block_header_end'}
+{block 'block_header_end'}
 	<div class="block-update" id="js-stream-update"></div>
 {/block}
 
 {* Навигация *}
-{block name='block_nav'}
+{block 'block_nav'}
 	{include 'components/nav/nav.tabs.tpl' sName='block_activity' sActiveItem='comments' sMods='pills' sClasses='' aItems=[
 		[ 'name' => 'comments', 'url' => "{router page='ajax'}stream/comment", 'text' => $aLang.block_stream_comments, 'pane' => 'js-tab-pane-stream' ],
 		[ 'name' => 'topics',   'url' => "{router page='ajax'}stream/topic",   'text' => $aLang.block_stream_topics,   'pane' => 'js-tab-pane-stream' ]
@@ -42,7 +46,7 @@
 {/block}
 
 {* Контент *}
-{block name='block_content_after'}
+{block 'block_content_after'}
 	<div class="tab-pane" id="js-tab-pane-stream" style="display: block">
 		{$sStreamComments}
 	</div>

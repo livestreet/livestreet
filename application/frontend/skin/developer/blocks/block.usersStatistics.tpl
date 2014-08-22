@@ -4,7 +4,11 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
+
+{block 'block_options' append}
+	{$mods = "{$mods} users-stats"}
+{/block}
 
 {block 'block_title'}
 	{$aLang.user.stats.title}

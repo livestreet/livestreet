@@ -5,12 +5,14 @@
  * @scripts <framework>/js/livestreet/user.js
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_type'}profile-photo{/block}
-{block name='block_class'}js-ajax-photo-upload{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} user-photo"}
+	{$classes = "{$classes} js-ajax-photo-upload"}
+{/block}
 
-{block name='block_content'}
+{block 'block_content'}
 	<div class="profile-photo-wrapper">
 		{* Статус онлайн\оффлайн *}
 		{if $oSession}

@@ -4,10 +4,15 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_title'}{$aLang.blog.administrators}{/block}
-{block 'block_type'}blog-admins{/block}
+{block 'block_title'}
+	{$aLang.blog.administrators}
+{/block}
+
+{block 'block_options' append}
+	{$mods = "{$mods} blog-admins"}
+{/block}
 
 {block 'block_content'}
 	{* Создатель *}

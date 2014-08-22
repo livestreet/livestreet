@@ -4,19 +4,24 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_title'}{$aLang.block_tags}{/block}
-{block name='block_type'}tags{/block}
+{block 'block_title'}
+	{$aLang.block_tags}
+{/block}
 
-{block name='block_nav'}
+{block 'block_options' append}
+	{$mods = "{$mods} tags"}
+{/block}
+
+{block 'block_nav'}
 	{include 'components/nav/nav.tabs.tpl' sName='block_tags' sActiveItem='all' sMods='pills' sClasses='' aItems=[
 		[ 'name' => 'all', 'text' => $aLang.topic_favourite_tags_block_all,  'pane' => 'js-tab-pane-tags-all' ],
 		[ 'name' => 'my',  'text' => $aLang.topic_favourite_tags_block_user, 'pane' => 'js-tab-pane-tags-my', 'is_enabled' => !! $oUserCurrent ]
 	]}
 {/block}
 
-{block name='block_content'}
+{block 'block_content'}
 	{include 'forms/search_forms/search_form.tags.tpl' sMods='light'}
 
 	<div data-type="tab-panes">

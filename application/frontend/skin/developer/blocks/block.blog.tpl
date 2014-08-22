@@ -4,9 +4,10 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_options'}
+{block 'block_options' append}
+	{$mods = "{$mods} blog"}
 	{$oBlog = $oTopic->getBlog()}
 {/block}
 

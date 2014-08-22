@@ -4,13 +4,19 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_title'}Поиск по пользователям{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} users-search"}
+{/block}
 
-{block name='block_content'}
+{block 'block_title'}
+	Поиск по пользователям
+{/block}
+
+{block 'block_content'}
 	{* Сейчас на сайте *}
-	{include file='components/field/field.checkbox.tpl'
+	{include 'components/field/field.checkbox.tpl'
 			 sName            = 'is_online'
 			 sInputClasses    = 'js-search-ajax-option'
 			 sInputAttributes = 'data-search-type="users"'

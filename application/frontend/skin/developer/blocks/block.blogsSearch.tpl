@@ -4,11 +4,17 @@
  * @styles css/blocks.css
  *}
 
-{extends file='blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block name='block_title'}Поиск по блогам{/block}
+{block 'block_title'}
+	Поиск по блогам
+{/block}
 
-{block name='block_content'}
+{block 'block_options' append}
+	{$mods = "{$mods} blogs-search"}
+{/block}
+
+{block 'block_content'}
 	<h3>{$aLang.block_category_blog}</h3>
 
 	{if $aBlogCategories}
@@ -46,7 +52,7 @@
 
 	{* Тип блога *}
 	<p class="mb-10">Тип блога</p>
-	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue=''  bChecked=true sLabel='Любой'}
-	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='open' sLabel='Открытый'}
-	{include file='components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='close' sLabel='Закрытый'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue=''  bChecked=true sLabel='Любой'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='open' sLabel='Открытый'}
+	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='close' sLabel='Закрытый'}
 {/block}

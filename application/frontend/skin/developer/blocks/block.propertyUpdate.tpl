@@ -5,6 +5,6 @@
 
 {if $aProperties}
 	{foreach $aProperties as $oProperty}
-		{include file="forms/property/form.field_render.tpl" oProperty=$oProperty}
+		{include "forms/property/form.field_render.tpl" oProperty=$oProperty}
 	{/foreach}
 {/if}

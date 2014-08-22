@@ -4,10 +4,13 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
 {block 'block_title'}{$aLang.activity.users.title}{/block}
-{block 'block_type'}activity-users{/block}
+
+{block 'block_options' append}
+	{$mods = "{$mods} activity-users"}
+{/block}
 
 {block 'block_content'}
 	{include 'components/activity/users.tpl' users=$users}

@@ -4,7 +4,16 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
-{block 'block_title'}{$aLang.block_blog_info_note}{/block}
-{block 'block_content'}{$aLang.block_blog_info_note_text}{/block}
+{block 'block_options' append}
+	{$mods = "{$mods} blog-info-note"}
+{/block}
+
+{block 'block_title'}
+	{$aLang.block_blog_info_note}
+{/block}
+
+{block 'block_content'}
+	{$aLang.block_blog_info_note_text}
+{/block}

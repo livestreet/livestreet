@@ -4,9 +4,13 @@
  * @styles css/blocks.css
  *}
 
-{extends 'blocks/block.aside.base.tpl'}
+{extends 'components/block/block.tpl'}
 
 {block 'block_type'}blog-actions{/block}
+
+{block 'block_options' append}
+	{$mods = "{$mods} blog-actions"}
+{/block}
 
 {block 'block_content'}
 	<a href="{$oBlog->getUrlFull()}">
