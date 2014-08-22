@@ -155,6 +155,7 @@ $config['module']['user']['complaint_text_max'] = 2000;  // Максимальн
 $config['module']['user']['complaint_type'] = array(	// Список типов жалоб на пользователя
 	'spam','obscene','other'
 );
+$config['module']['user']['rbac_role_default'] = 'user'; // Роль, которая автоматически назначается пользователю при регистрации
 
 // Модуль Comment
 $config['module']['comment']['per_page'] = 20;          // Число комментариев на одну страницу(это касается только полного списка комментариев прямого эфира)
@@ -310,7 +311,7 @@ $config['db']['table']['media_target']  	  = '___db.table.prefix___media_target'
 $config['db']['table']['rbac_role'] 		  = '___db.table.prefix___rbac_role';
 $config['db']['table']['rbac_permission'] 	  = '___db.table.prefix___rbac_permission';
 $config['db']['table']['rbac_role_permission']= '___db.table.prefix___rbac_role_permission';
-$config['db']['table']['rbac_user_role'] 	  = '___db.table.prefix___rbac_user_role';
+$config['db']['table']['rbac_role_user'] 	  = '___db.table.prefix___rbac_role_user';
 $config['db']['table']['storage']			  = '___db.table.prefix___storage';
 $config['db']['table']['poll']			  = '___db.table.prefix___poll';
 $config['db']['table']['poll_answer']			  = '___db.table.prefix___poll_answer';

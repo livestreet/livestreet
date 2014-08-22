@@ -633,3 +633,26 @@ CREATE TABLE IF NOT EXISTS `prefix_cron_task` (
 -- 17.08.2014
 INSERT INTO `prefix_cron_task` (`id`, `title`, `method`, `plugin`, `state`, `count_run`, `period_run`, `date_create`, `date_run_last`) VALUES (NULL, 'Отложенная отправка емайлов', 'Tools_SystemTaskNotify', '', '1', '0', '2', '2014-08-17 00:00:00', NULL);
 INSERT INTO `prefix_cron_task` (`id`, `title`, `method`, `plugin`, `state`, `count_run`, `period_run`, `date_create`, `date_run_last`) VALUES (NULL, 'Удаление старого кеша данных', 'Cache_ClearOldCache', '', '1', '0', '1500', '2014-08-17 00:00:00', NULL);
+
+-- 19.08.2014
+ALTER TABLE `prefix_rbac_permission` ADD `plugin` VARCHAR( 50 ) NOT NULL AFTER `code` ,
+ADD INDEX ( `plugin` );
+
+CREATE TABLE IF NOT EXISTS `prefix_rbac_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `prefix_rbac_role_permission` DROP FOREIGN KEY `prefix_rbac_role_permission_ibfk_1` ;
+ALTER TABLE `prefix_rbac_user_role` DROP FOREIGN KEY `prefix_rbac_user_role_ibfk_2` ;
+ALTER TABLE `prefix_rbac_user_role` DROP FOREIGN KEY `prefix_rbac_user_role_ibfk_1` ;
+
+ALTER TABLE `prefix_rbac_permission` ADD `group_id` INT NULL DEFAULT NULL AFTER `id` ,
+ADD INDEX ( `group_id` );
+ALTER TABLE `prefix_rbac_group` ADD `date_create` DATETIME NOT NULL ;
+RENAME TABLE `prefix_rbac_user_role` TO `prefix_rbac_role_user`;
+
+INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES (NULL, NULL, 'guest', 'Гость', '2014-08-22 00:00:00', '1'), (NULL, NULL, 'user', 'Пользователь', '2014-08-22 00:00:00', '1');

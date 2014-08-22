@@ -19,8 +19,22 @@
  *
  */
 
+/**
+ * Сущность связи роли с разрешениями
+ */
 class ModuleRbac_EntityRolePermission extends EntityORM {
-
-
+	/**
+	 * Выполняется перед сохранением
+	 *
+	 * @return bool
+	 */
+	protected function beforeSave() {
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			}
+		}
+		return $bResult;
+	}
 
 }

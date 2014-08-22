@@ -27,11 +27,16 @@
  */
 class ModuleRbac_MapperRbac extends Mapper {
 
-
+	/**
+	 * Получает список всех задействованых в ролях разрешений
+	 *
+	 * @return array|null
+	 */
 	public function GetRoleWithPermissions() {
 		$sql = "SELECT
 					r.role_id,
 					p.code,
+					p.plugin,
 					p.title,
 					p.msg_error
 				FROM
@@ -42,6 +47,6 @@ class ModuleRbac_MapperRbac extends Mapper {
 		if ($aRows=$this->oDb->select($sql,ModuleRbac::PERMISSION_STATE_ACTIVE)) {
 			return $aRows;
 		}
-		return null;
+		return array();
 	}
 }

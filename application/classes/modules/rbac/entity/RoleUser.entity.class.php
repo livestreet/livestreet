@@ -19,8 +19,22 @@
  *
  */
 
-class ModuleRbac_EntityUserRole extends EntityORM {
-
-
+/**
+ * Сущность связи роли с пользователям
+ */
+class ModuleRbac_EntityRoleUser extends EntityORM {
+	/**
+	 * Выполняется перед сохранением
+	 *
+	 * @return bool
+	 */
+	protected function beforeSave() {
+		if ($bResult=parent::beforeSave()) {
+			if ($this->_isNew()) {
+				$this->setDateCreate(date("Y-m-d H:i:s"));
+			}
+		}
+		return $bResult;
+	}
 
 }

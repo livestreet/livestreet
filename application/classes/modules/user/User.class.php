@@ -417,6 +417,10 @@ class ModuleUser extends Module {
 			 * Создаем персональный блог
 			 */
 			$this->Blog_CreatePersonalBlog($oUser);
+			/**
+			 * Добавляем пользователю дефолтную роль для управления правами
+			 */
+			$this->Rbac_AddRoleToUser(Config::Get('module.user.rbac_role_default'),$oUser);
 			return $oUser;
 		}
 		return false;
