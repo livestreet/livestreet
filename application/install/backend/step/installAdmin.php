@@ -11,14 +11,14 @@ class InstallStepInstallAdmin extends InstallStep {
 		/**
 		 * Проверяем корректность емайла
 		 */
-		$sMail=InstallCore::getRequest('admin_mail');
+		$sMail=InstallCore::getRequestStr('admin_mail');
 		if (!preg_match("/^[\da-z\_\-\.\+]+@[\da-z_\-\.]+\.[a-z]{2,5}$/i",$sMail)) {
 			return $this->addError(InstallCore::getLang('steps.installAdmin.errors.mail'));
 		}
 		/**
 		 * Проверяем корректность пароль
 		 */
-		$sPasswd=InstallCore::getRequest('admin_passwd');
+		$sPasswd=InstallCore::getRequestStr('admin_passwd');
 		if (mb_strlen($sPasswd,'UTF-8')<3) {
 			return $this->addError(InstallCore::getLang('steps.installAdmin.errors.passwd'));
 		}

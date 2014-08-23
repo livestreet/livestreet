@@ -49,7 +49,7 @@ class InstallCore {
 		/**
 		 * Получаем текущую группу
 		 */
-		$sGroup=self::getRequest('group');
+		$sGroup=self::getRequestStr('group');
 		if ($sGroup) {
 			return $this->runGroup($sGroup);
 		}
@@ -183,6 +183,11 @@ class InstallCore {
 	static public function getRequest($sName,$mDefault=null) {
 		$sName=str_replace('.','_',$sName);
 		return isset($_REQUEST[$sName]) ? $_REQUEST[$sName] : $mDefault;
+	}
+
+	static public function getRequestStr($sName,$mDefault=null) {
+		$sVal=self::getRequest($sName,$mDefault);
+		return is_scalar($sVal) ? (string)$sVal : '';
 	}
 
 	static public function getLang($sName) {

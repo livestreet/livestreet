@@ -32,7 +32,7 @@ class InstallStepUpdateVersion extends InstallStep {
 			return $this->addError(InstallCore::getLang('db.errors.db_query'));
 		}
 
-		$sVersion=(string)InstallCore::getRequest('from_version');
+		$sVersion=InstallCore::getRequestStr('from_version');
 		/**
 		 * Проверяем наличие конвертора
 		 * Конвертор представляет собой отдельный метод вида converFrom_X1_Y1_Z1_to_X2_Y2_Z2

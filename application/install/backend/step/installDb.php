@@ -43,17 +43,17 @@ class InstallStepInstallDb extends InstallStep {
 		/**
 		 * Запускаем импорт дампов, сначала GEO DB
 		 */
-		list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/geo.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'geo_city')));
+		list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/geo.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequestStr('db.table.prefix'),'check_table'=>'geo_city')));
 		if ($bResult) {
 			/**
 			 * Запускаем основной дамп
 			 */
-			list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/dump.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'topic')));
+			list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/dump.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequestStr('db.table.prefix'),'check_table'=>'topic')));
 			if ($bResult) {
 				/**
 				 * todo: убрать перед релизом и добавить его в основной дамп
 				 */
-				list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/patch_1.0.3_to_2.0.0.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequest('db.table.prefix'),'check_table'=>'cron_task')));
+				list($bResult,$aErrors)=array_values($this->importDumpDB($oDb,InstallCore::getDataFilePath('sql/patch_1.0.3_to_2.0.0.sql'),array('engine'=>$sEngineDB,'prefix'=>InstallCore::getRequestStr('db.table.prefix'),'check_table'=>'cron_task')));
 				if ($bResult) {
 					return true;
 				}
@@ -66,13 +66,13 @@ class InstallStepInstallDb extends InstallStep {
 		/**
 		 * Коннект к серверу БД
 		 */
-		if (!$oDb=$this->getDBConnection(InstallCore::getRequest('db.params.host'),InstallCore::getRequest('db.params.port'),InstallCore::getRequest('db.params.user'),InstallCore::getRequest('db.params.pass'))) {
+		if (!$oDb=$this->getDBConnection(InstallCore::getRequestStr('db.params.host'),InstallCore::getRequestStr('db.params.port'),InstallCore::getRequestStr('db.params.user'),InstallCore::getRequestStr('db.params.pass'))) {
 			return false;
 		}
 		/**
 		 * Выбор БД
 		 */
-		$sNameDb=InstallCore::getRequest('db.params.dbname');
+		$sNameDb=InstallCore::getRequestStr('db.params.dbname');
 		if (!InstallCore::getRequest('db_create')) {
 			if (!@mysqli_select_db($oDb,$sNameDb)) {
 				return $this->addError(InstallCore::getLang('steps.installDb.errors.db_not_found'));
@@ -89,7 +89,7 @@ class InstallStepInstallDb extends InstallStep {
 		/**
 		 * Проверяем корректность префикса таблиц
 		 */
-		if (!preg_match('#^[a-z0-9\_]*$#i',InstallCore::getRequest('db.table.prefix'))) {
+		if (!preg_match('#^[a-z0-9\_]*$#i',InstallCore::getRequestStr('db.table.prefix'))) {
 			return $this->addError(InstallCore::getLang('steps.installDb.errors.db_table_prefix'));
 		}
 		/**
@@ -116,12 +116,12 @@ class InstallStepInstallDb extends InstallStep {
 		 * Прописываем параметры в конфиг
 		 */
 		$aSave=array(
-			'db.params.host' => InstallCore::getRequest('db.params.host'),
-			'db.params.port' => InstallCore::getRequest('db.params.port'),
-			'db.params.dbname' => InstallCore::getRequest('db.params.dbname'),
-			'db.params.user' => InstallCore::getRequest('db.params.user'),
-			'db.params.pass' => InstallCore::getRequest('db.params.pass'),
-			'db.table.prefix' => InstallCore::getRequest('db.table.prefix'),
+			'db.params.host' => InstallCore::getRequestStr('db.params.host'),
+			'db.params.port' => InstallCore::getRequestStr('db.params.port'),
+			'db.params.dbname' => InstallCore::getRequestStr('db.params.dbname'),
+			'db.params.user' => InstallCore::getRequestStr('db.params.user'),
+			'db.params.pass' => InstallCore::getRequestStr('db.params.pass'),
+			'db.table.prefix' => InstallCore::getRequestStr('db.table.prefix'),
 			'db.tables.engine' => $sEngineDB,
 			'path.root.web' => $sPathRootWeb,
 			'path.offset_request_url' => count($aDirs),
