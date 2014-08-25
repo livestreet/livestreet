@@ -69,6 +69,24 @@ class ModuleRbac_EntityGroup extends EntityORM {
 		return $bResult;
 	}
 	/**
+	 * Выполняется перед удалением сущности
+	 *
+	 * @return bool
+	 */
+	protected function beforeDelete() {
+		if ($bResult=parent::beforeDelete()) {
+			/**
+			 * Нужно сбросить группу у разрешений
+			 */
+			$aPermissionItems=$this->Rbac_GetPermissionItemsByGroupId($this->getId());
+			foreach($aPermissionItems as $oPermission) {
+				$oPermission->setGroupId(null);
+				$oPermission->Update();
+			}
+		}
+		return $bResult;
+	}
+	/**
 	 * Возвращает URL админки для редактирования
 	 *
 	 * @return string

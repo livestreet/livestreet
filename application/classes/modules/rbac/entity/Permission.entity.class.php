@@ -37,6 +37,14 @@ class ModuleRbac_EntityPermission extends EntityORM {
 	);
 
 	/**
+	 * Связи ORM
+	 *
+	 * @var array
+	 */
+	protected $aRelations=array(
+		'roles' => array(self::RELATION_TYPE_MANY_TO_MANY,'ModuleRbac_EntityRole', 'role_id', 'ModuleRbac_EntityRolePermission', 'permission_id'),
+	);
+	/**
 	 * Валидация группы
 	 *
 	 * @return bool|string

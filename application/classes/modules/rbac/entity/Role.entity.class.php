@@ -69,6 +69,24 @@ class ModuleRbac_EntityRole extends EntityORM {
 		return $bResult;
 	}
 	/**
+	 * Выполняется перед удалением
+	 *
+	 * @return bool
+	 */
+	protected function beforeDelete() {
+		if ($bResult=parent::beforeDelete()) {
+			/**
+			 * Запускаем удаление дочерних ролей
+			 */
+			if ($aCildren=$this->getChildren()) {
+				foreach($aCildren as $oChildren) {
+					$oChildren->Delete();
+				}
+			}
+		}
+		return $bResult;
+	}
+	/**
 	 * Валидация кода
 	 *
 	 * @return bool|string
