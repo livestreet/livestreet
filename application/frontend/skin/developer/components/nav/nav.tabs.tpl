@@ -3,7 +3,7 @@
  *}
 
 {foreach $smarty.local.aItems as $aItem}
-	{$aItem['attributes'] = "data-type=\"tab\" data-tab-url=\"{$aItem['url']}\" data-tab-target=\"{$aItem['pane']}\""}
+	{$aItem['attributes'] = "{$aItem['attributes']} data-type=\"tab\" data-tab-url=\"{$aItem['url']}\" data-tab-target=\"{$aItem['pane']}\""}
 	{$aItem['url'] = "#"}
 
 	{$_aTabItems[] = $aItem}

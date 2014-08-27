@@ -49,7 +49,7 @@
 .block-update.active { background-position: -16px 0; }
 
 /* Блок без отступов у контента */
-.block.block-nopadding .block-content { padding: 0; }
+.block--nopadding .block-content { padding: 0; }
 
 
 /**
@@ -58,7 +58,7 @@
  * @modifier blog-categories
  * @template blocks/block.blogCategories.tpl
  */
-.block-type-blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
+.block--blog-categories .block-header .blog-categories-admin { position: absolute; top: 13px; right: 13px; }
 
 
 /**
@@ -67,8 +67,8 @@
  * @modifier blog-add
  * @template blocks/block.blogAdd.tpl
  */
-.block.block-type-blog-add .block-content { padding: 30px; text-align: center; }
-.block.block-type-blog-add p { margin-bottom: 25px; }
+.block.block--blog-add .block-content { padding: 30px; text-align: center; }
+.block.block--blog-add p { margin-bottom: 25px; }
 
 
 /**
@@ -77,8 +77,8 @@
  * @modifier blog-navigation
  * @template blocks/block.blogNav.tpl
  */
-.block-type-blog-navigation p { margin-bottom: 15px; }
-.block-type-blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }
+.block--blog-navigation p { margin-bottom: 15px; }
+.block--blog-navigation .blog-navigator-categories option:first-child { color: #aaa; }
 
 
 /**
@@ -87,47 +87,47 @@
  * @modifier blog-actions
  * @template blocks/block.blogActions.tpl
  */
-.block.block-type-blog-actions .block-content { padding: 0; }
-.block.block-type-blog-actions .avatar        { max-width: 100%; vertical-align: top; }
-.block.block-type-blog-actions .block-footer  { text-align: center; }
+.block--blog-actions .block-content { padding: 0; }
+.block--blog-actions .avatar        { max-width: 100%; vertical-align: top; }
+.block--blog-actions .block-footer  { text-align: center; }
 
 
 /**
  * Фото пользователя
  *
- * @modifier profile
- * @template blocks/block.profilePhoto.tpl
+ * @modifier user
+ * @template blocks/block.userPhoto.tpl
  */
-.block-type-profile-photo .block-content         { padding: 0; }
-.block-type-profile-photo .profile-photo-wrapper { position: relative; min-width: 100%; min-height: 50px; display: inline-block; }
-.block-type-profile-photo .profile-photo         { vertical-align: top; min-width: 100%; }
+.block--user-photo .block-content         { padding: 0; }
+.block--user-photo .profile-photo-wrapper { position: relative; min-width: 100%; min-height: 50px; display: inline-block; }
+.block--user-photo .profile-photo         { vertical-align: top; min-width: 100%; }
 
-.block-type-profile-photo .status                { position: absolute; top: 20px; left: 0; padding: 12px 15px; font: 300 16px/1em 'Open Sans'; }
-.block-type-profile-photo .status.status-online  { background: #b7bc1c; background: rgba(183, 188, 28, .8); color: #fff; }
-.block-type-profile-photo .status.status-offline { background: #333; background: rgba(0, 0, 0, .6); color: #fff; }
+.block--user-photo .status                { position: absolute; top: 20px; left: 0; padding: 12px 15px; font: 300 16px/1em 'Open Sans'; }
+.block--user-photo .status.status-online  { background: #b7bc1c; background: rgba(183, 188, 28, .8); color: #fff; }
+.block--user-photo .status.status-offline { background: #333; background: rgba(0, 0, 0, .6); color: #fff; }
 
-.block-type-profile-photo .upload-photo          { padding: 7px 10px 10px; background: #f7f7f7; }
+.block--user-photo .upload-photo          { padding: 7px 10px 10px; background: #f7f7f7; }
 
 
 /**
  * Навигация по профилю пользователя
  *
- * @modifier profile-nav
- * @template blocks/block.profileNav.tpl
+ * @modifier user-nav
+ * @template blocks/block.userNav.tpl
  */
-.block-type-profile-nav { padding: 0; background: none; }
+.block--user-nav { padding: 0; background: none; }
 
 
 /**
  * Блок управления на странице пользователя
  *
- * @modifier profile-actions
- * @template blocks/block.profileActions.tpl
+ * @modifier user-actions
+ * @template blocks/block.userActions.tpl
  */
-.block-type-profile-actions                  { border: none; }
-.block-type-profile-actions .block-content   { padding: 0; }
-.block-type-profile-actions ul li            { margin-bottom: 0; }
-.block-type-profile-actions ul li span,
-.block-type-profile-actions ul li a          { display: block; padding: 10px 15px; }
-.block-type-profile-actions ul li a:hover    { background: #fafafa; }
-.block-type-profile-actions ul li a.followed { color: #f00; }
+.block--user-actions                  { border: none; }
+.block--user-actions .block-content   { padding: 0; }
+.block--user-actions ul li            { margin-bottom: 0; }
+.block--user-actions ul li span,
+.block--user-actions ul li a          { display: block; padding: 10px 15px; }
+.block--user-actions ul li a:hover    { background: #fafafa; }
+.block--user-actions ul li a.followed { color: #f00; }

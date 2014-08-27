@@ -14,7 +14,7 @@
 {if $show}
 	{block 'block_before'}{/block}
 
-	<div class="{$component} {mod name=$component mods=$mods} {$classes}" {$smarty.local.attributes}>
+	<div class="{$component} {mod name=$component mods=$mods} {$classes}" {$attributes}>
 		{* Шапка *}
 		{block 'block_title' hide}
 			<header class="{$component}-header">
