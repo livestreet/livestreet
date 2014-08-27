@@ -1,0 +1,20 @@
+/**
+ * Media
+ */
+
+.modal-upload-image .modal-content { min-height: 300px; }
+.modal-upload-image .grid-row { background: #222; }
+
+.modal-upload-image-pane { overflow: hidden; }
+
+
+/* Nav */
+.media-nav { float: left; width: 160px; padding-top: 15px; }
+.media-nav li { float: none; }
+.media-nav li a { float: none; display: block; padding: 10px 15px; color: #eee; }
+.media-nav li a:hover { background: #2a2a2a; }
+.media-nav li.active a { background: #333; }
+
+
+/* Content */
+.modal-upload-image-content { min-height: 300px; margin-left: 160px; background: #fff; border-left: 1px solid #eee; }

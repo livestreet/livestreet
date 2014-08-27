@@ -693,10 +693,10 @@ class ActionAjax extends Action {
 		$sTemplate='';
 		foreach($aMediaItems as $oMediaItem) {
 			$oViewer->Assign('oMediaItem',$oMediaItem);
-			$sTemplate.=$oViewer->Fetch('modals/modal.upload_image.gallery.item.tpl');
+			$sTemplate.=$oViewer->Fetch('components/uploader/uploader-file.tpl');
 		}
 
-		$this->Viewer_AssignAjax('sTemplate',$sTemplate);
+		$this->Viewer_AssignAjax('html',$sTemplate);
 
 		/**
 		 * Дополнительно загружам превью
@@ -712,7 +712,7 @@ class ActionAjax extends Action {
 		}
 		$aTargetItems=$this->Media_GetTargetItemsByFilter($aFilter);
 		$oViewer->Assign('aTargetItems',$aTargetItems);
-		$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('modals/modal.upload_image.preview.tpl'));
+		//$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('components/media/preview.tpl'));
 	}
 
 	protected function EventMediaLoadPreviewItems() {
@@ -740,7 +740,7 @@ class ActionAjax extends Action {
 		$aTargetItems=$this->Media_GetTargetItemsByFilter($aFilter);
 		$oViewer=$this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aTargetItems',$aTargetItems);
-		$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('modals/modal.upload_image.preview.tpl'));
+		$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('components/media/preview.tpl'));
 	}
 
 	protected function EventMediaSubmitInsert() {
@@ -866,7 +866,7 @@ class ActionAjax extends Action {
 			$oViewer=$this->Viewer_GetLocalViewer();
 			$oViewer->Assign('oMediaItem',$mResult);
 
-			$sTemplateFile=$oViewer->Fetch('modals/modal.upload_image.gallery.item.tpl');
+			$sTemplateFile=$oViewer->Fetch('components/uploader/uploader-file.tpl');
 
 			$this->Viewer_AssignAjax('sTemplateFile',$sTemplateFile);
 		} else {

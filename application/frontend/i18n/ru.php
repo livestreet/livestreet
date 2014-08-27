@@ -1665,6 +1665,56 @@ return array(
 		)
 	),
 
+
+	/**
+	 * Загрузкчик файлов
+	 */
+	'uploader' => array(
+		'actions' => array(
+			'remove' => '___common.remove___'
+		),
+
+		'info' => array(
+			'empty' => 'Выберите файл'
+		)
+	),
+
+
+	/**
+	 * Загрузка изображений
+	 */
+	'media' => array(
+		'title' => 'Загрузка медиа-файлов',
+
+		'nav' => array(
+			'insert'   => 'Вставить',
+			'photoset' => 'Создать фотосет',
+			'url'      => 'Вставить по ссылке',
+			'preview'  => 'Превью',
+		)
+	),
+
+	'uploadimg' => 'Вставка изображения',
+	'uploadimg_from_pc' => 'С компьютера',
+	'uploadimg_from_link' => 'Из интернета',
+	'uploadimg_file' => 'Файл',
+	'uploadimg_file_error' => 'Невозможно обработать файл, проверьте тип и размер файла',
+	'uploadimg_url' => 'Ссылка на изображение',
+	'uploadimg_url_error_type' => 'Файл не является изображением',
+	'uploadimg_url_error_read' => 'Невозможно прочитать внешний файл',
+	'uploadimg_url_error_size' => 'Размер файла превышает максимальный в 500кБ',
+	'uploadimg_url_error' => 'Невозможно обработать внешний файл',
+	'uploadimg_align' => 'Выравнивание',
+	'uploadimg_align_no' => 'нет',
+	'uploadimg_align_left' => 'слева',
+	'uploadimg_align_right' => 'справа',
+	'uploadimg_align_center' => 'по центру',
+	'uploadimg_submit' => 'Загрузить',
+	'uploadimg_link_submit_load' => 'Загрузить',
+	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
+	'uploadimg_title' => 'Описание',
+
+
 	/**
 	 * Настройки
 	 */
@@ -1734,28 +1784,6 @@ return array(
 	 * Поиск по тегам
 	 */
 	'tag_title' => 'Поиск по тегам',
-	/**
-	 * Загрузка изображений
-	 */
-	'uploadimg' => 'Вставка изображения',
-	'uploadimg_from_pc' => 'С компьютера',
-	'uploadimg_from_link' => 'Из интернета',
-	'uploadimg_file' => 'Файл',
-	'uploadimg_file_error' => 'Невозможно обработать файл, проверьте тип и размер файла',
-	'uploadimg_url' => 'Ссылка на изображение',
-	'uploadimg_url_error_type' => 'Файл не является изображением',
-	'uploadimg_url_error_read' => 'Невозможно прочитать внешний файл',
-	'uploadimg_url_error_size' => 'Размер файла превышает максимальный в 500кБ',
-	'uploadimg_url_error' => 'Невозможно обработать внешний файл',
-	'uploadimg_align' => 'Выравнивание',
-	'uploadimg_align_no' => 'нет',
-	'uploadimg_align_left' => 'слева',
-	'uploadimg_align_right' => 'справа',
-	'uploadimg_align_center' => 'по центру',
-	'uploadimg_submit' => 'Загрузить',
-	'uploadimg_link_submit_load' => 'Загрузить',
-	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
-	'uploadimg_title' => 'Описание',
 	/**
 	 * Toolbar
 	 */
