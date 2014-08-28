@@ -18,7 +18,7 @@
              sLabel  = $aLang.auth.labels.login}
 
 	{* E-mail *}
-    {include 'components/field/field.email.tpl'}
+    {include 'components/field/field.email.tpl' aRules=[ 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]}
 
 	{* Пароль *}
     {include 'components/field/field.text.tpl'

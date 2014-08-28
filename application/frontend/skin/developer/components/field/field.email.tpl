@@ -7,5 +7,5 @@
 {block 'field_options' append}
 	{$name = $name|default:'mail'}
 	{$label = $label|default:{lang name='field.email.label'}}
-	{$_aRules = $_aRules|default:[ 'required' => true, 'type'=> 'email' ]}
+	{$_aRules = array_merge([ 'required' => true, 'type'=> 'email' ], $_aRules)}
 {/block}
