@@ -19,7 +19,7 @@
 	{$_sValue = $smarty.local.sValue}
 	{$_sInputClasses = $smarty.local.sInputClasses}
 	{$_sInputAttributes = $smarty.local.sInputAttributes}
-	{$_aRules = $smarty.local.aRules}
+	{$_aRules = $smarty.local.aRules|default:[]}
 	{$name = $smarty.local.sName}
 	{$label = $smarty.local.sLabel}
 {/block}
