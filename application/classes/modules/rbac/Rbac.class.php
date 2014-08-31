@@ -198,7 +198,7 @@ class ModuleRbac extends ModuleORM {
 		if (isset($this->aPermissionCache[$sPlugin][$sPermissionCode])) {
 			$aPerm=$this->aPermissionCache[$sPlugin][$sPermissionCode];
 			if ($aPerm['msg_error']) {
-				$sMsg=$aPerm['msg_error'];
+				$sMsg=$this->Lang_Get($aPerm['msg_error']);
 			} else {
 				$sMsg='У вас нет прав на "'.($aPerm['title'] ? $aPerm['title'] : $aPerm['code']).'"';
 			}
@@ -509,6 +509,21 @@ class ModuleRbac extends ModuleORM {
 			foreach($aPermissions as $oPermission) {
 				$oPermission->Delete();
 			}
+		}
+	}
+	/**
+	 * Алиас для перенаправления экшена на страницу ошибки с сообщением
+	 *
+	 * @param bool $bFromAdmin	Необходимо указать true, если метод вызывается из стандартной админки
+	 *
+	 * @return string
+	 */
+	public function ReturnActionError($bFromAdmin=false) {
+		if ($bFromAdmin) {
+			$this->Message_AddErrorSingle($this->GetMsgLast());
+			return Router::Action('admin', 'error');
+		} else {
+			return Router::ActionError($this->GetMsgLast());
 		}
 	}
 }
