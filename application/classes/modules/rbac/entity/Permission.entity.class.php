@@ -32,6 +32,7 @@ class ModuleRbac_EntityPermission extends EntityORM {
 		array('title','string','max'=>200,'min'=>1,'allowEmpty'=>false),
 		array('msg_error','string','max'=>250,'min'=>1,'allowEmpty'=>true),
 		array('code','regexp','pattern'=>'/^[\w\-_]+$/i','allowEmpty'=>false),
+		array('plugin','regexp','pattern'=>'/^[\w\-_]+$/i','allowEmpty'=>true),
 		array('code','check_code'),
 		array('group_id','check_group'),
 	);

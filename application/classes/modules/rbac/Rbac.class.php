@@ -363,4 +363,152 @@ class ModuleRbac extends ModuleORM {
 		}
 		return $oRoleUser;
 	}
+	/**
+	 * Создает разрешений для управления правами
+	 * В качестве основного параметра передается массив с данными, массив имеет тип корневых ключа: groups, roles и permissions.
+	 * <pre>
+	 * $aData=array(
+	 * 		'groups' => array(
+	 * 			array('article','Статьи'),
+	 * 		),
+	 * 		'roles' => array(
+	 * 			array('article_moderator','Модератор статей'),
+	 * 		),
+	 * 		'permissions' => array(
+	 * 			array('view','Просмотр статьи','msg_error'=>'У вас нет прав на просмотр статьи','group'=>'article','roles'=>array('guest','user')),
+	 * 			array('create','Создание статей','msg_error'=>'У вас нет прав на создание статьи','group'=>'article','roles'=>'user'),
+	 * 			array('update_all','Правка всех статей','msg_error'=>'У вас нет прав на редактирование статьи','group'=>'article','roles'=>'article_moderator'),
+	 * 		),
+	 * );
+	 * </pre>
+	 *
+	 * @param array $aData	Набор данных
+	 * @param mixed $sPlugin	Плагин, можно указать код плагина, название класса или объект
+	 *
+	 * @return bool
+	 */
+	public function CreatePermissions($aData,$sPlugin=null) {
+		$sPlugin=$sPlugin ? Plugin::GetPluginCode($sPlugin) : '';
+		/**
+		 * Создаем группы
+		 */
+		if (isset($aData['groups'])) {
+			foreach($aData['groups'] as $aGroup) {
+				$sCode=$aGroup[0];
+				$sTitle=isset($aGroup[1]) ? $aGroup[1] : $sCode;
+				if (!$this->GetGroupByCode($sCode)) {
+					$oGroup=Engine::GetEntity('ModuleRbac_EntityGroup');
+					$oGroup->setCode($sCode);
+					$oGroup->setTitle($sTitle);
+					if ($oGroup->_Validate()) {
+						$oGroup->setTitle(htmlspecialchars($oGroup->getTitle()));
+						$oGroup->Add();
+					}
+				}
+			}
+		}
+		/**
+		 * Создаем роли
+		 */
+		if (isset($aData['roles'])) {
+			foreach($aData['roles'] as $aRole) {
+				$sCode=$aRole[0];
+				$sTitle=isset($aRole[1]) ? $aRole[1] : $sCode;
+				if (!$this->GetRoleByCode($sCode)) {
+					$oRole=Engine::GetEntity('ModuleRbac_EntityRole');
+					$oRole->setCode($sCode);
+					$oRole->setTitle($sTitle);
+					if ($oRole->_Validate()) {
+						$oRole->setTitle(htmlspecialchars($oRole->getTitle()));
+						$oRole->Add();
+					}
+				}
+			}
+		}
+		/**
+		 * Создаем разрешения
+		 */
+		if (isset($aData['permissions'])) {
+			foreach($aData['permissions'] as $aPermission) {
+				$sCode=$aPermission[0];
+				$sTitle=isset($aPermission[1]) ? $aPermission[1] : $sCode;
+				$aFilter=array(
+					'code' => $sCode
+				);
+				if ($sPlugin) {
+					$aFilter['plugin']=$sPlugin;
+				}
+				if (!$this->GetPermissionByFilter($aFilter)) {
+					$oPermission=Engine::GetEntity('ModuleRbac_EntityPermission');
+					$oPermission->setCode($sCode);
+					$oPermission->setTitle($sTitle);
+					$oPermission->setPlugin($sPlugin);
+					$oPermission->setMsgError(isset($aPermission['msg_error']) ? $aPermission['msg_error'] : '');
+					if (isset($aPermission['group']) and $oGroup=$this->GetGroupByCode($aPermission['group'])) {
+						$oPermission->setGroupId($oGroup->getId());
+					}
+					if ($oPermission->_Validate()) {
+						$oPermission->setTitle(htmlspecialchars($oPermission->getTitle()));
+						$oPermission->setMsgError(htmlspecialchars($oPermission->getMsgError()));
+						if ($oPermission->Add()) {
+							/**
+							 * Создаем связь с ролями
+							 */
+							if (isset($aPermission['roles'])) {
+								$aRoles=is_array($aPermission['roles']) ? $aPermission['roles'] : array($aPermission['roles']);
+								foreach($aRoles as $sRoleCode) {
+									if ($oRole=$this->GetRoleByCode($sRoleCode)) {
+										$oRolePermission=Engine::GetEntity('ModuleRbac_EntityRolePermission');
+										$oRolePermission->setRoleId($oRole->getId());
+										$oRolePermission->setPermissionId($oPermission->getId());
+										$oRolePermission->Add();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+	/**
+	 * Удаляет разрешения - группы, роли, разрешения
+	 *
+	 * <pre>
+	 * $aData=array(
+	 * 		'groups' => array('article'),
+	 * 		'roles' => array('article_moderator'),
+	 * );
+	 * </pre>
+	 * @param array $aData	Данные для удаления
+	 * @param mixed $sPlugin	Плагин, можно указать код плагина, название класса или объект
+	 */
+	public function RemovePermissions($aData,$sPlugin) {
+		if (isset($aData['groups'])) {
+			$aGroups=is_array($aData['groups']) ? $aData['groups'] : array($aData['groups']);
+			foreach($aGroups as $sGroupCode) {
+				if ($oGroup=$this->GetGroupByCode($sGroupCode)) {
+					$oGroup->Delete();
+				}
+			}
+		}
+		if (isset($aData['roles'])) {
+			$aRoles=is_array($aData['roles']) ? $aData['roles'] : array($aData['roles']);
+			foreach($aRoles as $sRoleCode) {
+				if ($oRole=$this->GetRoleByCode($sRoleCode)) {
+					$oRole->Delete();
+				}
+			}
+		}
+		/**
+		 * Удаляем разрешения
+		 */
+		$sPlugin=$sPlugin ? Plugin::GetPluginCode($sPlugin) : '';
+		if ($sPlugin and $aPermissions=$this->GetPermissionItemsByPlugin($sPlugin)) {
+			foreach($aPermissions as $oPermission) {
+				$oPermission->Delete();
+			}
+		}
+	}
 }
