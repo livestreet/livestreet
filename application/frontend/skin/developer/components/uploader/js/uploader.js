@@ -18,16 +18,36 @@
 		options: {
 			// Ссылки
 			urls: {
+				// Загрузка файла
 				upload: aRouter['ajax'] + 'media/upload/',
+				// Генерация временного хэша
 				generate_target_tmp: aRouter['ajax'] + 'media/generate-target-tmp/',
 			},
 
 			// Селекторы
 			selectors: {
-				list:         '.js-media-upload-gallery-list',
-				info:         '.js-media-info',
-				upload_zone:  '.js-media-upload-area',
-				upload_input: '.js-media-upload-file',
+				// Список файлов
+				list: '.js-uploader-list',
+				// Информация о файле
+				info: '.js-uploader-info',
+
+				// Контейнер с элементами blocks и empty
+				aside: '.js-uploader-aside',
+				// Контейнер который отображается когда есть активный файл
+				// и скрывается когда активного файла нет
+				blocks: '.js-uploader-blocks',
+				// Сообщение об отсутствии активного файла
+				empty: '.js-uploader-aside-empty',
+
+				// Drag & drop зона
+				upload_zone:  '.js-uploader-area',
+				// Инпут
+				upload_input: '.js-uploader-file',
+			},
+
+			// Классы
+			classes: {
+				empty: 'is-empty'
 			},
 
 			// Настройки загрузчика
@@ -38,11 +58,12 @@
 				limitConcurrentUploads: 3
 			},
 
+			// Параметры
 			target_type: null,
 			target_id: null,
 			target_tmp: null,
 
-			// Подгрузка списк сразу после иниц-ии
+			// Подгрузка файлов сразу после иниц-ии
 			autoload: true,
 		},
 
@@ -53,17 +74,18 @@
 		 * @private
 		 */
 		_create: function () {
-			this.elements = {
-				list: this.element.find( this.option( 'selectors.list' ) ),
-				info: this.element.find( this.option( 'selectors.info' ) ),
-				upload_zone: this.element.find( this.option( 'selectors.upload_zone' ) ),
-				upload_input: this.element.find( this.option( 'selectors.upload_input' ) ),
-			};
+			// Получение элементов
+			this.elements = {};
 
-			this.option( 'params', this.element.data( 'params' ) );
+			$.each( this.option( 'selectors' ), function ( key, value ) {
+				this.elements[ key ] = this.element.find( value );
+			}.bind( this ));
+
+			// Получение параметров
+			this.option( 'params',      this.element.data( 'params' ) );
 			this.option( 'target_type', this.element.data( 'type' ) );
-			this.option( 'target_id', this.element.data( 'id' ) );
-			this.option( 'target_tmp', this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'target_type' ) ) );
+			this.option( 'target_id',   this.element.data( 'id' ) );
+			this.option( 'target_tmp',  this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'target_type' ) ) );
 
 			// Генерация временного хэша для привязки
 			if ( ! this.option( 'target_id' ) && ! this.option( 'target_tmp' ) ) {
@@ -83,7 +105,7 @@
 		},
 
 		/**
-		 * Method
+		 * Иниц-ия загрузчика
 		 */
 		initUploader: function() {
 			// Настройки загрузчика
@@ -117,8 +139,7 @@
 		 * 
 		 */
 		onUploadProgress: function( file, percent ) {
-			file.find( file.lsUploaderFile( 'option', 'selectors.progress.value' ) ).height( percent + '%' );
-			file.find( file.lsUploaderFile( 'option', 'selectors.progress.label' ) ).text( percent + '%' );
+			file.lsUploaderFile( 'setProgress', percent );
 		},
 
 		/**
@@ -132,11 +153,14 @@
 		 * 
 		 */
 		onUploadDone: function( file, response ) {
+			file.lsUploaderFile( 'destroy' );
 			file.replaceWith(
 				$( $.trim( response.sTemplateFile ) )
 					.lsUploaderFile({ uploader: this.element })
+					.lsUploaderFile( 'uploaded' )
 					.lsUploaderFile( 'activate' )
 			);
+			file = null;
 		},
 
 		/**
@@ -145,8 +169,7 @@
 		onUploadError: function( file, response ) {
 			ls.msg.error( response.sMsgTitle, response.sMsg );
 
-			file.find( file.lsUploaderFile( 'option', 'selectors.progress.value' ) ).height( 0 );
-			file.find( file.lsUploaderFile( 'option', 'selectors.progress.label' ) ).text( 'ERROR' );
+			file.lsUploaderFile( 'error' );
 		},
 
 		/**
@@ -161,21 +184,37 @@
 		},
 
 		/**
+		 * Скрывает контейнер с блоками
+		 */
+		hideBlocks: function() {
+			this.getElement( 'blocks' ).hide();
+			this.getElement( 'empty' ).show();
+		},
+
+		/**
+		 * Показывает контейнер с блоками
+		 */
+		showBlocks: function() {
+			this.getElement( 'empty' ).hide();
+			this.getElement( 'blocks' ).show();
+		},
+
+		/**
 		 * Помечает загрузчик как пустой
 		 */
 		markAsEmpty: function() {
-			this.element.addClass('is-empty');
+			this.element.addClass( this.option( 'classes.empty' ) );
 		},
 
 		/**
 		 * Помечает загрузчик как не пустой
 		 */
 		markAsNotEmpty: function() {
-			this.element.removeClass('is-empty');
+			this.element.removeClass( this.option( 'classes.empty' ) );
 		},
 
 		/**
-		 * 
+		 * Получает элемент
 		 */
 		getElement: function( name ) {
 			return this.elements[ name ];

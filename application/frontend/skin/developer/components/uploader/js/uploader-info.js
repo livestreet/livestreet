@@ -16,8 +16,8 @@
 		 * Дефолтные опции
 		 */
 		options: {
+			// Основной блок загрузчика
 			uploader: $(),
-			list: $(),
 
 			// Ссылки
 			urls: {
@@ -25,14 +25,12 @@
 
 			// Селекторы
 			selectors: {
-				// Блок с информацией о файле
-				info: '.js-media-properties',
 				// Группа с информацией уникальной для каждого типа
-				group: '.js-media-info-group',
+				group: '.js-uploader-info-group',
 				// Свойство
-				property: '.js-media-info-property',
-				// Сообщение об отсутствии выделенного файла
-				empty: '.js-media-info-empty'
+				property: '.js-uploader-info-property',
+				// Кнопка удаления
+				remove: '.js-uploader-info-remove',
 			}
 		},
 
@@ -45,8 +43,7 @@
 		_create: function () {
 			this.elements = {
 				groups: this.element.find( this.option( 'selectors.group' ) ),
-				empty:  this.element.find( this.option( 'selectors.empty' ) ),
-				info:  this.element.find( this.option( 'selectors.info' ) ),
+				info:   this.element.find( this.option( 'selectors.info' ) ),
 				properties: {
 					image:    this.element.find( this.option( 'selectors.property' ) + '[data-name=image]' ),
 					name:     this.element.find( this.option( 'selectors.property' ) + '[data-name=name]' ),
@@ -59,7 +56,7 @@
 			this.file = $();
 
 			// Удаление файла
-			this.element.on( 'click', '.js-media-item-info-remove', function () {
+			this.element.on( 'click', this.option( 'selectors.remove' ), function () {
 				this.file.lsUploaderFile( 'remove' );
 			}.bind( this ));
 		},
@@ -72,10 +69,6 @@
 				group = this._getGroupByType( data.type );
 
 			this.file = file;
-
-			// Показываем блок с информацией
-			this.elements.empty.hide();
-			this.elements.info.show();
 
 			// Устанавливаем общие для всех типов свойства
 			this._setProperty( this.elements.properties.image,    data['preview'] );
@@ -96,14 +89,9 @@
 
 		/**
 		 * Помечает блок как пустой
-		 *
-		 * TODO: Перенести в lsUploader
 		 */
 		empty: function() {
 			this.file = $();
-
-			this.elements.info.hide();
-			this.elements.empty.show();
 		},
 
 		/**
@@ -117,7 +105,6 @@
 		 * @private
 		 */
 		_activateGroup: function( group ) {
-			this.elements.empty.hide();
 			this.elements.groups.hide();
 			group.show();
 		},

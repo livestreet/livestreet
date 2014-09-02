@@ -1,1 +1,0 @@
-{extends 'components/block/block.tpl'}

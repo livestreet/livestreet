@@ -6,7 +6,7 @@
 
 {$file = $oMediaItem}
 
-<li class="{$component} {if $bIsSelected}is-selected{/if} {if $bIsActive}active{/if} js-media-upload-gallery-item"
+<li class="{$component} {if $bIsSelected}is-selected{/if} {if $bIsActive}active{/if} js-{$component}"
 		data-media-id="{$file->getId()}"
 		data-media-type="{$file->getType()}"
 		data-media-date-add="{date_format date=$file->getDateAdd() format='j F Y, H:i'}"

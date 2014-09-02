@@ -4,7 +4,7 @@
 
 {$component = 'uploader'}
 
-{block 'block_options'}
+{block 'uploader_options'}
 	{$mods = $smarty.local.mods}
 	{$classes = $smarty.local.classes}
 	{$attributes = $smarty.local.attributes}
@@ -17,24 +17,42 @@
 	data-id={json var=$smarty.local.targetId}
 	data-tmp={json var=$smarty.local.targetTmp}>
 
+	{* @hook Начало основного блока загрузчика *}
+	{hook run='uploader_begin'}
+
 	{block 'uploader_content'}
 		{* Drag & drop зона *}
 		{include 'components/field/field.upload-area.tpl'
-			classes      = 'js-media-upload-area'
-			inputClasses = 'js-media-upload-file'
+			classes      = 'js-uploader-area'
+			inputClasses = 'js-uploader-file'
 			inputName    = 'filedata'}
 
-		{* Галерея *}
-		<div class="{$component}-wrapper clearfix">
-			{* Список файлов *}
-			<ul class="{$component}-file-list js-media-upload-gallery-list"></ul>
+		{* @hook Хук после зоны загрузки *}
+		{hook run='uploader_area_after'}
 
-			{* Информация о выделенном файле *}
-			<div class="{$component}-aside">
-				{block 'uploader_aside'}
-					{include './uploader-info.tpl'}
-				{/block}
+		{* Враппер *}
+		<div class="{$component}-wrapper clearfix">
+			{* Сайдбар *}
+			<div class="{$component}-aside js-uploader-aside">
+				{* Блок отображаемый когда нет активного файла *}
+				{include 'components/alert/alert.tpl'
+					sMods    = 'empty'
+					mAlerts  = {lang name='uploader.info.empty'}
+					sClasses = "js-{$component}-aside-empty"}
+
+				{* Блоки *}
+				<div class="js-uploader-blocks" style="display: none">
+					{block 'uploader_aside'}
+						{include './uploader-block.info.tpl'}
+					{/block}
+				</div>
 			</div>
+
+			{* Список файлов *}
+			<ul class="{$component}-file-list js-uploader-list"></ul>
 		</div>
 	{/block}
+
+	{* @hook Конец основного блока загрузчика *}
+	{hook run='uploader_end'}
 </div>

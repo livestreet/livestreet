@@ -29,14 +29,14 @@
 
 			// Селекторы
 			selectors: {
-				file: '.js-media-upload-gallery-item'
+				file: '.js-uploader-file'
 			},
 
 			// HTML
 			// TODO: Move to template
 			html: {
 				file:
-					'<li class="uploader-file js-media-upload-gallery-item">' +
+					'<li class="uploader-file js-uploader-file">' +
 						'<div class="progress">' +
 							'<div class="progress-value js-uploader-file-progress-value"></div>' +
 							'<span class="progress-info js-uploader-file-progress-label">0%</span>' +
@@ -90,7 +90,9 @@
 		 * Добавляет файл в список
 		 */
 		addFile: function( data ) {
-			data.context = $( this.option( 'html.file' ) ).lsUploaderFile({ uploader: this.option( 'uploader' ) });
+			data.context = $( this.option( 'html.file' ) )
+				.lsUploaderFile({ uploader: this.option( 'uploader' ) })
+				.lsUploaderFile( 'uploading' );
 
 			this.option( 'uploader' ).lsUploader( 'markAsNotEmpty' );
 			this.element.prepend( data.context );
@@ -108,7 +110,7 @@
 		 */
 		getSelectedFiles: function() {
 			return this.getFiles().filter(function () {
-				return $( this ).lsUploaderFile( 'isSelected' );
+				return $( this ).lsUploaderFile( 'getState', 'selected' );
 			});
 		},
 
