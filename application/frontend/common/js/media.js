@@ -316,8 +316,6 @@ ls.media = (function ($) {
 	this.activateInfoBlock = function( name ) {
 		var blocks = $( '.js-media-info-block' ).hide();
 
-		console.log(blocks)
-
 		blocks.filter( '[data-type=' + name + ']' ).show();
 	};
 

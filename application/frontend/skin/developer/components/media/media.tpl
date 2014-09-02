@@ -19,9 +19,9 @@
 
 	{* Содержимое табов *}
 	<div data-type="tab-panes" class="modal-upload-image-content">
-		{include './pane.insert.tpl' isActive=true}
-		{include './pane.url.tpl'}
-		{include './pane.photoset.tpl'}
-		{include './pane.preview.tpl'}
+		{include './panes/pane.insert.tpl' isActive=true}
+		{include './panes/pane.url.tpl'}
+		{include './panes/pane.photoset.tpl'}
+		{include './panes/pane.preview.tpl'}
 	</div>
 </div>

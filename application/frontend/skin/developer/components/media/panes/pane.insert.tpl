@@ -5,7 +5,7 @@
 {/block}
 
 {block 'media_pane_content'}
-	{include './uploader/uploader.tpl'
+	{include './../uploader/uploader.tpl'
 		attributes   = 'id="media-uploader"'
 		classes      = 'js-media-gallery'
 		targetParams = $aTargetParams
