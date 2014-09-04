@@ -5,11 +5,9 @@
 .uploader-wrapper {
 	min-height: 150px;
 }
-.uploader-file-list {
+.uploader-content {
 	overflow: auto;
 	margin-right: 320px;
-	min-height: 30px;
-	max-height: 354px;
 }
 .uploader-aside {
 	width: 300px;
@@ -33,6 +31,15 @@
 	text-align: center;
 	padding-top: 30px;
 	padding-bottom: 30px;
+}
+
+
+/**
+ * Список файлов
+ */
+.uploader-file-list {
+	min-height: 30px;
+	max-height: 354px;
 }
 
 
@@ -155,4 +162,13 @@
 	position: absolute;
 	top: 20px;
 	left: 20px;
+}
+.uploader-info-property-name {
+	display: block;
+	margin-bottom: 5px;
+}
+.uploader-info-property-date,
+.uploader-info-property-size {
+	color: #aaa;
+	font-size: 11px;
 }

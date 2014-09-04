@@ -93,11 +93,8 @@
 			}
 
 			// Иниц-ия саб-компонентов
-			this.elements.info.lsUploaderInfo();
-			this.elements.list.lsUploaderFileList({
-				uploader: this.element,
-				info: this.elements.info
-			});
+			this.elements.info.lsUploaderInfo({ uploader: this.element });
+			this.elements.list.lsUploaderFileList({ uploader: this.element });
 			this.initUploader();
 
 			// Подгрузка списка файлов

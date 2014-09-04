@@ -21,9 +21,9 @@
 
 			{* Информация *}
 			<ul class="{$component_info}-base-properties">
-				<li><strong class="word-wrap js-{$component_info}-property" data-name="name"></strong></li>
-				<li class="js-{$component_info}-property" data-name="date"></li>
-				<li><span class="js-{$component_info}-property" data-name="size"></span></li>
+				<li><strong class="{$component_info}-property-name word-wrap js-{$component_info}-property" data-name="name"></strong></li>
+				<li class="{$component_info}-property-date js-{$component_info}-property" data-name="date"></li>
+				<li><span class="{$component_info}-property-size js-{$component_info}-property" data-name="size"></span></li>
 			</ul>
 		</div>
 

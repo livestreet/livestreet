@@ -73,7 +73,7 @@
 			// Устанавливаем общие для всех типов свойства
 			this._setProperty( this.elements.properties.image,    data['preview'] );
 			this._setProperty( this.elements.properties.name,     data['file-name'] );
-			this._setProperty( this.elements.properties.filesize, data['file-size'] );
+			this._setProperty( this.elements.properties.filesize, Math.floor( data['file-size'] / 1024 ) + ' KB' );
 			this._setProperty( this.elements.properties.date,     data['date-add'] );
 
 			// Активируем группу свойств данного типа

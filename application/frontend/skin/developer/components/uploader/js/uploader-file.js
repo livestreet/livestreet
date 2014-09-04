@@ -64,14 +64,24 @@
 				error: false
 			};
 
-			this._on({ click: this.toggle.bind( this ) });
+			this._on({ click: this.onClick.bind( this ) });
+		},
+
+		/**
+		 * Коллбэк вызываемый при клике по файлу
+		 */
+		onClick: function( event ) {
+			var multiselect      = this._getComponent( 'list' ).lsUploaderFileList( 'option', 'multiselect' ),
+				multiselect_ctrl = this._getComponent( 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl' );
+
+			this.toggleActive( ! multiselect || ( multiselect && multiselect_ctrl && ! event.ctrlKey ) );
 		},
 
 		/**
 		 * Изменение состояния файла активен/не активен
 		 */
-		toggle: function() {
-			this[ this.getState( 'active' ) ? 'unselect' : 'activate' ]();
+		toggleActive: function( clearSelected ) {
+			this[ this.getState( 'active' ) ? 'unselect' : 'activate' ]( clearSelected );
 		},
 
 		/**
@@ -131,11 +141,11 @@
 		/**
 		 * Помечает файл как активный
 		 */
-		activate: function() {
+		activate: function( clearSelected ) {
 			// Не активируем незагруженный файл
 			if ( this.getState( 'error' ) || this.getState( 'uploading' ) ) return;
 
-			if ( ! this._getComponent( 'list' ).lsUploaderFileList( 'option', 'multiselect' ) ) {
+			if ( clearSelected ) {
 				this._getComponent( 'list' ).lsUploaderFileList( 'clearSelected' );
 			}
 

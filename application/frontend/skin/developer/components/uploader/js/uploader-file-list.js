@@ -17,10 +17,12 @@
 		 */
 		options: {
 			uploader: $(),
-			info: $(),
 
 			// Множественный выбор
 			multiselect: true,
+
+			// Множественный выбор только при нажатии на CTRL
+			multiselect_ctrl: true,
 
 			// Ссылки
 			urls: {
@@ -130,7 +132,7 @@
 			if ( last.length ) {
 				last.lsUploaderFile( 'activate' );
 			} else {
-				this.option( 'info' ).lsUploaderInfo( 'empty' );
+				this.option( 'uploader' ).lsUploader( 'getElement', 'info' ).lsUploaderInfo( 'empty' );
 			}
 		},
 

@@ -48,8 +48,17 @@
 				</div>
 			</div>
 
-			{* Список файлов *}
-			<ul class="{$component}-file-list js-uploader-list"></ul>
+			{* Основное содержимое *}
+			<div class="{$component}-content js-uploader-content">
+				{* @hook Начало контента *}
+				{hook run='uploader_content_begin'}
+
+				{* Список файлов *}
+				<ul class="{$component}-file-list js-uploader-list"></ul>
+
+				{* @hook Конец контента *}
+				{hook run='uploader_content_end'}
+			</div>
 		</div>
 	{/block}
 
