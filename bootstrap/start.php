@@ -58,3 +58,13 @@ require_once($sPathToFramework."/bootstrap/start.php");
  */
 require_once($sPathToFramework."/config/loader.php");
 
+/**
+ * Определяем дополнительные параметры роутинга
+ */
+$aRouterParams=array(
+	/*
+	'callback_after_parse_url' => function() {
+
+	}
+	*/
+);

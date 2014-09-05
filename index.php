@@ -23,4 +23,4 @@ header('X-Powered-By: LiveStreet CMS');
 require_once(__DIR__.'/bootstrap/start.php');
 
 $oRouter=Router::getInstance();
-$oRouter->Exec();
+$oRouter->Exec(isset($aRouterParams) ? $aRouterParams : array());
