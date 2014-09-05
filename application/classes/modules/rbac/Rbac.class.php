@@ -29,7 +29,7 @@
  *	$this->Rbac_IsAllowUser($oUser,'topic_update',array('topic'=>$oTopic));
  *  // для плагина 'article', указывается код плагина
  *	$this->Rbac_IsAllow('article_create','article');
- *  // для плагина, где $this - любой текущий объект плагина
+ *  // для плагина, где $this - любой текущий объект плагина (кроме Inherit классов)
  *	$this->Rbac_IsAllow('article_create',$this);
  *  // для плагина с параметрами
  *	$this->Rbac_IsAllow('article_update',$this,array('article'=>$oArticle));
