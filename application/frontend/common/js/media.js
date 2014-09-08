@@ -124,7 +124,10 @@ ls.media = (function ($) {
 		};
 
 		this.elements.uploader.lsUploader({
-			autoload: false
+			autoload: false,
+			params: {
+				security_ls_key: LIVESTREET_SECURITY_KEY
+			}
 		});
 
 		this.activateInfoBlock( 'insert' );
@@ -428,39 +431,6 @@ ls.media = (function ($) {
 	};
 
 	/**
-	 * Сохраняет настройки файла
-	 *
-	 * @param {String} name  Имя переменной
-	 * @param {String} value Значение переменной
-	 */
-	this.saveDataFile = function(name, value) {
-		var item = this.elements.gallery.fileList.lsUploaderFileList( 'getActiveFile' );
-
-		if (item.length) {
-			var id = item.data('mediaId');
-
-			ls.ajax.load(this.options.routers.save_data_file, { name: name, value: value, id: id }, function(result) {
-				if (result.bStateError) {
-					ls.msg.error(result.sMsgTitle,result.sMsg);
-				} else {
-					$(this.options.selectors.gallery.file + '[data-media-id=' + id + ']').data('mediaData' + name.charAt(0).toUpperCase() + name.slice(1), value);
-				}
-			}.bind(this));
-		}
-	};
-
-	/**
-	 *
-	 */
-	this.hideDetail = function() {
-		$('.js-media-detail-area').hide();
-		this.elements.buttonsInsert.prop('disabled', true);
-		this.elements.info.self.lsUploaderInfo( 'empty' );
-		this.hideSettingsMode();
-		this.resizeFileList();
-	};
-
-	/**
 	 * Вставка файлов в редактор
 	 */
 	this.insert = function(url, params) {
@@ -490,19 +460,6 @@ ls.media = (function ($) {
 	this.insertTextToEditor = function(text) {
 		$.markItUp({
 			replaceWith: text
-		});
-	};
-
-	/**
-	 * Ресайз списка файлов, чтобы его высота была не меньше блока с инфой
-	 */
-	this.resizeFileList = function() {
-		var fileListHeight = this.elements.gallery.fileList.outerHeight(),
-			infoHeight = this.elements.info.self.outerHeight();
-
-		this.elements.gallery.fileList.css({
-			// 'min-height' : fileListHeight <= infoHeight || ( fileListHeight > this.options.file_list_max_height && fileListHeight > infoHeight ) ? infoHeight : this.options.file_list_max_height
-			'min-height' : 30
 		});
 	};
 

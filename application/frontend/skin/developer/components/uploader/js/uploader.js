@@ -58,10 +58,8 @@
 				limitConcurrentUploads: 3
 			},
 
-			// Параметры
-			target_type: null,
-			target_id: null,
-			target_tmp: null,
+			// Доп-ые параметры передаваемые в аякс запросах
+			params: {},
 
 			// Подгрузка файлов сразу после иниц-ии
 			autoload: true,
@@ -82,13 +80,13 @@
 			}.bind( this ));
 
 			// Получение параметров
-			this.option( 'params',      this.element.data( 'params' ) );
-			this.option( 'target_type', this.element.data( 'type' ) );
-			this.option( 'target_id',   this.element.data( 'id' ) );
-			this.option( 'target_tmp',  this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'target_type' ) ) );
+			this.option( 'params', $.extend( {}, this.option( 'params' ), ls.utils.getDataOptions( this.element, 'param' ) ) );
 
 			// Генерация временного хэша для привязки
-			if ( ! this.option( 'target_id' ) && ! this.option( 'target_tmp' ) ) {
+			// TODO: Перенести в media
+			this.option( 'params.target_tmp',  this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'target_type' ) ) );
+
+			if ( ! this.option( 'params.target_id' ) && ! this.option( 'params.target_tmp' ) ) {
 				this.generateTargetTmp();
 			}
 
@@ -107,14 +105,9 @@
 		initUploader: function() {
 			// Настройки загрузчика
 			$.extend( this.option( 'fileupload' ), {
-				url: this.option( 'urls.upload' ),
+				url:      this.option( 'urls.upload' ),
 				dropZone: this.elements.upload_zone,
-				formData: {
-					security_ls_key: LIVESTREET_SECURITY_KEY,
-					target_type:     this.options.target_type || '',
-					target_id:       this.options.target_id || '',
-					target_tmp:      this.options.target_tmp || ''
-				}
+				formData: this.option( 'params' )
 			});
 
 			// Иниц-ия плагина
@@ -167,6 +160,11 @@
 			ls.msg.error( response.sMsgTitle, response.sMsg );
 
 			file.lsUploaderFile( 'error' );
+
+			setTimeout(function () {
+				file.lsUploaderFile( 'removeDom' );
+				file = null;
+			}.bind( this ), 500 );
 		},
 
 		/**
@@ -184,16 +182,14 @@
 		 * Скрывает контейнер с блоками
 		 */
 		hideBlocks: function() {
-			this.getElement( 'blocks' ).hide();
-			this.getElement( 'empty' ).show();
+			this.getElement( 'aside' ).addClass( this.option( 'classes.empty' ) );
 		},
 
 		/**
 		 * Показывает контейнер с блоками
 		 */
 		showBlocks: function() {
-			this.getElement( 'empty' ).hide();
-			this.getElement( 'blocks' ).show();
+			this.getElement( 'aside' ).removeClass( this.option( 'classes.empty' ) );
 		},
 
 		/**

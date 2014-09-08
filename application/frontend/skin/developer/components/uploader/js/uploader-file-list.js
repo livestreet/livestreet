@@ -24,6 +24,9 @@
 			// Множественный выбор только при нажатии на CTRL
 			multiselect_ctrl: true,
 
+			// Максимальная высота списка при отсутствии активного файла
+			max_height: 113 * 3 + 15,
+
 			// Ссылки
 			urls: {
 				load: aRouter['ajax'] + "media/load-gallery/"
@@ -56,13 +59,10 @@
 		_create: function () {
 			this.elements = {};
 
-			this.params = this.option( 'uploader' ).data( 'params' );
-			this.type = this.option( 'uploader' ).data( 'type' );
-			this.id = this.option( 'uploader' ).data( 'id' );
-			this.tmp = this.option( 'uploader' ).data( 'tmp' );
-
 			this.files = null;
 			this.activeFile = $();
+
+			this.resizeHeight();
 		},
 
 		/**
@@ -72,11 +72,11 @@
 			this.getFiles().lsUploaderFile( 'destroy' );
 			this.element.empty().addClass( ls.options.classes.states.loading );
 
-			ls.ajax.load( this.option( 'urls.load' ), {
-				target_type: this.type,
-				target_id:   this.id,
-				target_tmp:  this.tmp
-			}, this.onLoad.bind( this ));
+			ls.ajax.load(
+				this.option( 'urls.load' ),
+				this.option( 'uploader' ).lsUploader( 'option', 'params' ),
+				this.onLoad.bind( this )
+			);
 		},
 
 		/**
@@ -133,6 +133,20 @@
 				last.lsUploaderFile( 'activate' );
 			} else {
 				this.option( 'uploader' ).lsUploader( 'getElement', 'info' ).lsUploaderInfo( 'empty' );
+			}
+		},
+
+		/**
+		 * Изменяет высоту списка так, чтобы она была равна высоте сайдбара
+		 */
+		resizeHeight: function() {
+			var aside = this.option( 'uploader' ).lsUploader( 'getElement', 'aside' ),
+				asideHeight = aside.outerHeight();
+
+			if ( ! aside.hasClass( 'is-empty' ) && asideHeight > this.option( 'max_height' ) ) {
+				this.element.css( 'max-height', asideHeight );
+			} else {
+				this.element.css( 'max-height', this.option( 'max_height' ) );
 			}
 		},
 

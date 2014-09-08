@@ -93,12 +93,12 @@
 			var result = {};
 
 			$.each( this.element[ 0 ].attributes, function( index, attr ) {
-                if ( ~ attr.name.indexOf( 'data-media' ) ) {
-                	result[ attr.name.slice( 11 ) ] = attr.value;
-                }
-            });
+				if ( ~ attr.name.indexOf( 'data-media' ) ) {
+					result[ attr.name.slice( 11 ) ] = attr.value;
+				}
+			});
 
-            return result;
+			return result;
 		},
 
 		/**
@@ -120,15 +120,22 @@
 				if ( response.bStateError ) {
 					ls.msg.error( null, response.sMsg );
 				} else {
-					this.element.fadeOut( 500, this.onRemove.bind( this, response ) );
+					this.removeDom();
 				}
 			}.bind( this ));
 		},
 
 		/**
-		 * Коллбэк вызываемый после удаление
+		 * Удаляет файл
 		 */
-		onRemove: function( response ) {
+		removeDom: function() {
+			this.element.fadeOut( 500, this.onRemoveDom.bind( this ) );
+		},
+
+		/**
+		 * Коллбэк вызываемый после удаления
+		 */
+		onRemoveDom: function() {
 			this.destroy();
 			this.element.remove();
 			this.element = null;
@@ -140,6 +147,8 @@
 
 		/**
 		 * Помечает файл как активный
+		 *
+		 * @param {Boolean} clearSelected Убрать выделение со всех файлов
 		 */
 		activate: function( clearSelected ) {
 			// Не активируем незагруженный файл
@@ -158,6 +167,7 @@
 
 			this.option( 'uploader' ).lsUploader( 'showBlocks' );
 			this._getComponent( 'info' ).lsUploaderInfo( 'setFile', this.element );
+			this._getComponent( 'list' ).lsUploaderFileList( 'resizeHeight' );
 		},
 
 		/**
@@ -169,6 +179,7 @@
 
 			this.option( 'uploader' ).lsUploader( 'hideBlocks' );
 			this._getComponent( 'info' ).lsUploaderInfo( 'empty' );
+			this._getComponent( 'list' ).lsUploaderFileList( 'resizeHeight' );
 		},
 
 		/**
@@ -221,6 +232,8 @@
 
 		/**
 		 * Устанавливает процент загрузки
+		 *
+		 * @param {Number} percent Процент загрузки
 		 */
 		setProgress: function( percent ) {
 			this.element.find( this.option( 'selectors.progress.value' ) ).height( percent + '%' );
@@ -229,6 +242,8 @@
 
 		/**
 		 * Получает состяние
+		 *
+		 * @param {String} state Название состояния
 		 */
 		getState: function( state ) {
 			return this.states[ state ];
@@ -236,6 +251,9 @@
 
 		/**
 		 * Устанавливает состяние
+		 *
+		 * @param {String}  state Название состояния
+		 * @param {Boolean} value Значение состояния
 		 */
 		setState: function( state, value ) {
 			this.states[ state ] = value;

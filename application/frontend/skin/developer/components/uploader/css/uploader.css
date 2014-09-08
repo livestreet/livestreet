@@ -6,13 +6,18 @@
 	min-height: 150px;
 }
 .uploader-content {
-	overflow: auto;
 	margin-right: 320px;
 }
 .uploader-aside {
 	width: 300px;
 	float: right;
 }
+.uploader-aside-empty {
+	display: none;
+}
+
+.uploader-aside.is-empty .uploader-aside-empty { display: block; }
+.uploader-aside.is-empty .uploader-aside-blocks { display: none; }
 
 /* TODO: Responsive */
 @media (max-width: 999px)  {
@@ -39,7 +44,7 @@
  */
 .uploader-file-list {
 	min-height: 30px;
-	max-height: 354px;
+	overflow: auto;
 }
 
 
