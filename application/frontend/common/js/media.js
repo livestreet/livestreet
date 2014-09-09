@@ -17,26 +17,8 @@ ls.media = (function ($) {
 	 * @private
 	 */
 	var _defaults = {
-		target_params: {},
-		target_type: '',
-		target_id: '',
-		target_tmp: '',
-		// Настройки загрузчика
-		fileupload: {
-			url: null,
-			sequentialUploads: false,
-			singleFileUploads: true,
-			limitConcurrentUploads: 3
-		},
 		// Селекторы
 		selectors: {
-			gallery: {
-				self:         '.js-media-gallery',
-				upload_area:  '.js-media-upload-area',
-				upload_input: '.js-media-upload-file',
-				file_list:    '.js-media-upload-gallery-list',
-				file:         '.js-media-upload-gallery-item'
-			},
 			link: {
 				form: '.js-media-link-form',
 				url: 'input[name=url]',
@@ -58,14 +40,6 @@ ls.media = (function ($) {
 			button_insert_photoset: '.js-media-insert-photoset',
 			modal: '#modal-image-upload'
 		},
-		// Классы
-		classes: {
-			selected: 'is-selected',
-			progress: {
-				value: 'js-progress-value',
-				info: 'js-progress-info'
-			}
-		},
 		// Роуты
 		routers: {
 			upload:              aRouter['ajax'] + "media/upload/",
@@ -79,16 +53,12 @@ ls.media = (function ($) {
 			submit_photoset:     aRouter['ajax'] + "media/submit-create-photoset/",
 			save_data_file:      aRouter['ajax'] + "media/save-data-file/",
 			upload_link:         aRouter['ajax'] + "media/upload-link/"
-		},
-		// Дефолтная высота списка файлов
-		file_list_max_height: 354
+		}
 	};
 
 	var _countCheckLink = 0;
 
 	var _blockCheckLink = -1;
-
-	this.mode = 'insert';
 
 	/**
 	 * Инициализация
@@ -102,10 +72,6 @@ ls.media = (function ($) {
 			buttonInsert:         $(this.options.selectors.button_insert),
 			buttonInsertPhotoset: $(this.options.selectors.button_insert_photoset),
 			modal:                $(this.options.selectors.modal),
-			gallery: {
-				self: $(this.options.selectors.gallery.self),
-				fileList: $(this.options.selectors.gallery.file_list)
-			},
 			link: {
 				url: $(this.options.selectors.link.form).find(this.options.selectors.link.url),
 				align: $(this.options.selectors.link.form).find(this.options.selectors.link.align),
@@ -154,43 +120,19 @@ ls.media = (function ($) {
 		$('.js-tab-show-gallery').on('tabactivate', function(event, tab) {
 			this.elements.uploader.appendTo( $( '#' + tab.options.target ).find( '.modal-content' ) );
 			this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'clearSelected' );
-			this.activateInfoBlock( $(event.target).data('mediaMode') );
+			this.activateInfoBlock( $( event.target ).data( 'mediaMode' ) );
 		}.bind(this));
 
-		// Сохранение настроек файла
-		$('.js-media-detail-area .js-input-title').on('blur', function(e) {
-			this.saveDataFile($(e.currentTarget).attr('name'),$(e.currentTarget).val());
-		}.bind(this));
-
-		// Инициализация фоторамы при предпросмотре топика
-		ls.hook.add('ls_topic_preview_after',function(){
-			$('.fotorama').fotorama();
+		// Инициализация фоторамы
+		$( '.fotorama' ).livequery(function() {
+			$( this ).fotorama();
 		});
-
-		// Инициализация фоторамы после обновления комментов
-		ls.hook.add('ls_comments_load_after',function(){
-			$('.fotorama').fotorama();
-		}.bind(this));
-
-		// Инициализация фоторамы после hедактирования коммента
-		ls.hook.add('ls_comments_submit_comment_update_after',function(){
-			$('.fotorama').fotorama();
-		}.bind(this));
 
 		// После добавления комментария необходимо получить новый временный идентификатор и очистить галлерею
 		ls.hook.add('ls_comments_add_after',function(){
-			this.options.target_id='';
-			this.options.target_tmp='';
-			ls.media.generateTargetTmp(this.options.target_type);
-			this.elements.gallery.fileList.lsUploaderFileList( 'clearSelected' );
-			this.elements.gallery.fileList.empty();
-			this.markAsEmpty();
+			this.elements.uploader.lsUploader( 'generateTargetTmp' ).lsUploader( 'markAsEmpty' );
+			this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'empty' );
 		}.bind(this));
-
-		// Инициализация фоторамы при предпросмотре
-		ls.hook.inject([ls.utils,'textPreview'], function() {
-			$('.fotorama').fotorama();
-		},'textPreviewDisplayAfter');
 
 		// Проверка корректности урла при вставке ссылки на медиа-объект
 		this.elements.link.url.on('input', function() {
@@ -222,7 +164,7 @@ ls.media = (function ($) {
 				} else {
 					this.insertTextToEditor(data.sText);
 					this.elements.modal.modal('hide');
-					this.elements.gallery.fileList.lsUploaderFileList( 'load' );
+					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
 				}
 			}.bind(this), {
 				// TODO: Fix validation
@@ -249,6 +191,11 @@ ls.media = (function ($) {
 			this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
 		}.bind(this));
 	};
+
+
+	//
+	// Загрузка по ссылки
+	//
 
 	/**
 	 * Проверка корректности ссылки на медиа
@@ -313,6 +260,165 @@ ls.media = (function ($) {
 		$('.js-media-link-settings-image').hide();
 	};
 
+
+
+	//
+	// Превью
+	//
+
+	/**
+	 * Создание превью из активного файла
+	 */
+	this.createPreviewActiveFile = function() {
+		var file = this._getActiveFile();
+
+		return file.length ? this.createPreviewFile( file.lsUploaderFile( 'getProperty', 'id' ) ) : false;
+	};
+
+	/**
+	 * Удаление превью у активного файла
+	 */
+	this.removePreviewActiveFile = function() {
+		var file = this._getActiveFile();
+
+		return file.length ? this.removePreviewFile( file.lsUploaderFile( 'getProperty', 'id' ) ) : false;
+	};
+
+	/**
+	 * Создание превью
+	 *
+	 * @param {Number} id
+	 */
+	this.createPreviewFile = function( id ) {
+		ls.ajax.load(
+			this.options.routers.create_preview_file,
+			{
+				id:          id,
+				target_type: this.options.target_type,
+				target_id:   this.options.target_id,
+				target_tmp:  this.options.target_tmp
+			},
+			function( response ) {
+				if ( response.bStateError ) {
+					ls.msg.error( null, response.sMsg );
+				} else {
+					if ( response.bUnsetOther ) {
+						this.elements.uploader
+							.lsUploader( 'getElement', 'list' )
+							.lsUploaderFileList( 'getFiles' )
+							.lsUploaderFile( 'setProperty', 'media_relation_is_preview', false );
+					}
+
+					var file = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getFileById', id );
+
+					file.lsUploaderFileList( 'setProperty', 'media_relation_is_preview', true );
+
+					// Обновляем отображение информации
+					this.showDetail( file );
+					this.loadPreviewItems();
+				}
+			}.bind( this )
+		);
+	};
+
+	/**
+	 * Удаление превью
+	 *
+	 * @param {Number} id
+	 */
+	this.removePreviewFile = function( id ) {
+		ls.ajax.load(
+			this.options.routers.remove_preview_file,
+			{
+				id: id,
+				target_type: this.options.target_type,
+				target_id:   this.options.target_id,
+				target_tmp:  this.options.target_tmp
+			},
+			function( response ) {
+				if ( response.bStateError ) {
+					ls.msg.error( null, response.sMsg );
+				} else {
+					var file = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getFileById', id );
+
+					file.lsUploaderFileList( 'setProperty', 'media_relation_is_preview', false );
+
+					// Обновляем отображение информации
+					this.showDetail( file );
+					this.loadPreviewItems();
+			}
+		}.bind( this ));
+	};
+
+	/**
+	 * Подгрузка превьюшек
+	 */
+	this.loadPreviewItems = function() {
+		ls.ajax.load(
+			this.options.routers.load_preview_items,
+			{
+				target_type: this.options.target_type,
+				target_id:   this.options.target_id,
+				target_tmp:  this.options.target_tmp
+			},
+			function( response ) {
+				this.renderPreviewItems( response.sTemplatePreview );
+			}.bind( this )
+		);
+	};
+
+	/**
+	 * Отображение превьюшек
+	 */
+	this.renderPreviewItems = function( html ) {
+		$( '#tab-media-preview' ).find( '.modal-content' ).html( html );
+	};
+
+
+
+	//
+	// Вставка
+	//
+
+	/**
+	 * Вставка файлов в редактор
+	 */
+	this.insert = function( url, params ) {
+		var files = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getSelectedFiles' );
+
+		if ( ! files.length ) return false;
+
+		/* Формируем список ID элементов */
+		var ids = $.map(files, function (value, index) {
+			return $(value).data('mediaId');
+		});
+
+		ls.ajax.load( url, $.extend( true, {}, { ids: ids }, params ), function( response ) {
+			if ( response.bStateError ) {
+				ls.msg.error( response.sMsgTitle, response.sMsg );
+			} else {
+				this.insertTextToEditor( response.sTextResult );
+				this.elements.modal.modal( 'hide' );
+			}
+		}.bind( this ));
+	};
+
+	/**
+	 * Вставляет текст в редактор
+	 * @param  {String} text Текст
+	 */
+	this.insertTextToEditor = function( text ) {
+		$.markItUp({
+			replaceWith: text
+		});
+	};
+
+
+
+	//
+	// Блоки
+	//
+
 	/**
 	 * Устанавливает текущий режим вставки медиа файлов
 	 */
@@ -327,140 +433,26 @@ ls.media = (function ($) {
 	 *
 	 * @param  {Object} item Выделенный файл
 	 */
-	this.showSettingsMode = function(item) {
-		this.hideSettingsMode();
+	this.updateInsertSettings = function() {
+		var file = this._getActiveFile();
 
-		/* Показываем только если есть выделенные элементы */
-		if (this.elements.gallery.fileList.lsUploaderFileList( 'getSelectedFiles' ).length) {
-			$('#media-settings-mode-' + this.mode).show();
-			item = item || this.elements.gallery.fileList.lsUploaderFileList( 'getActiveFile' );
+		if ( file.length && file.lsUploaderFile( 'getProperty', 'type' ) === 1 ) {
+			// Выставляем настройки по вставке медиа
+			this.elements.info.sizes.find( 'option:not([value=original])' ).remove();
+			this.elements.info.sizes.append($.map(file.data('mediaImageSizes'), function ( v, k ) {
+				// Расчитываем пропорциональную высоту изображения
+				var height = v.h || parseInt( v.w * file.data('mediaHeight') / file.data('mediaWidth') );
 
-			/* Выставляем настройки по вставке медиа */
-			this.elements.info.sizes.find('option:not([value=original])').remove();
-			this.elements.info.sizes.append($.map(item.data('mediaImageSizes'), function (v, k) {
-				/* Расчитываем пропорциональную высоту изображения */
-				var height = v.h || parseInt(v.w * item.data('mediaHeight') / item.data('mediaWidth'));
-
-				return '<option value="'+ v.w + 'x' + (v.h ? v.h : '') + (v.crop ? 'crop' : '') + '">' + v.w + ' × ' + height + '</option>';
+				return '<option value="' + v.w + 'x' + (v.h ? v.h : '') + (v.crop ? 'crop' : '') + '">' + v.w + ' × ' + height + '</option>';
 			}).join(''));
 		}
 	};
 
 	/**
-	 * Скрывает форму с настройками
+	 * Получает активный файл
 	 */
-	this.hideSettingsMode = function() {
-		$('.js-media-settings-mode').hide();
-	};
-
-	/**
-	 * Создание превью из активного файла
-	 */
-	this.createPreviewActiveFile = function() {
-		var item = this.elements.gallery.fileList.lsUploaderFileList( 'getActiveFile' );
-
-		return item.length ? this.createPreviewFile(item.data('mediaId')) : false;
-	};
-
-	/**
-	 * Создание превью
-	 *
-	 * @param {Number} id
-	 */
-	this.createPreviewFile = function(id) {
-		var _this = this;
-
-		ls.ajax.load(this.options.routers.create_preview_file, { id: id, target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				if (result.bUnsetOther) {
-					$(_this.options.selectors.gallery.file).data('mediaRelationIsPreview',0);
-				}
-				var item=$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']');
-				item.data('mediaRelationIsPreview',1);
-				/**
-				 * Обновляем отображение информации
-				 */
-				this.showDetail(item);
-				this.loadPreviewItems();
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Удаление превью у активного файла
-	 */
-	this.removePreviewActiveFile = function() {
-		var item = this.elements.gallery.fileList.lsUploaderFileList( 'getActiveFile' );
-
-		return item.length ? this.removePreviewFile(item.data('mediaId')) : false;
-	};
-
-	/**
-	 * Удаление превью
-	 *
-	 * @param {Number} id
-	 */
-	this.removePreviewFile = function(id) {
-		var _this = this;
-
-		ls.ajax.load(this.options.routers.remove_preview_file, { id: id, target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				var item=$(_this.options.selectors.gallery.file + '[data-media-id=' + id + ']');
-				item.data('mediaRelationIsPreview',0);
-				/**
-				 * Обновляем отображение информации
-				 */
-				this.showDetail(item);
-				this.loadPreviewItems();
-			}
-		}.bind(this));
-	};
-
-	this.loadPreviewItems = function() {
-		ls.ajax.load(this.options.routers.load_preview_items, { target_type: this.options.target_type, target_id: this.options.target_id, target_tmp: this.options.target_tmp }, function(result) {
-			this.renderPreviewItems(result.sTemplatePreview);
-		}.bind(this));
-	};
-
-	this.renderPreviewItems = function(sTemplatePreview) {
-		$('#tab-media-preview').find('.modal-content').html(sTemplatePreview);
-	};
-
-	/**
-	 * Вставка файлов в редактор
-	 */
-	this.insert = function(url, params) {
-		var items = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getSelectedFiles' );
-
-		if ( ! items.length ) return false;
-
-		/* Формируем список ID элементов */
-		var aIds = $.map(items, function (value, index) {
-			return $(value).data('mediaId');
-		});
-
-		ls.ajax.load(url, $.extend(true, {}, { ids: aIds }, params), function(result) {
-			if (result.bStateError) {
-				ls.msg.error(result.sMsgTitle,result.sMsg);
-			} else {
-				this.insertTextToEditor(result.sTextResult);
-				this.elements.modal.modal('hide');
-			}
-		}.bind(this));
-	};
-
-	/**
-	 * Вставляет текст в редактор
-	 * @param  {String} text Текст
-	 */
-	this.insertTextToEditor = function(text) {
-		$.markItUp({
-			replaceWith: text
-		});
+	this._getActiveFile = function() {
+		return this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getActiveFile' );
 	};
 
 	return this;
