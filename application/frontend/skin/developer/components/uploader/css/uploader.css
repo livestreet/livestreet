@@ -2,12 +2,35 @@
  * Загрузка и управление файлами
  */
 
+/* Пустой список */
+.uploader.is-empty .field-upload-area {
+	padding: 150px 20px;
+	margin-bottom: 0;
+}
+.uploader.is-empty .uploader-wrapper {
+	display: none;
+}
+
+
+/**
+ * Обертка
+ */
 .uploader-wrapper {
 	min-height: 150px;
 }
+
+
+/**
+ * Содержимое
+ */
 .uploader-content {
 	margin-right: 320px;
 }
+
+
+/**
+ * Сайдбар
+ */
 .uploader-aside {
 	width: 300px;
 	float: right;
@@ -18,6 +41,7 @@
 
 .uploader-aside.is-empty .uploader-aside-empty { display: block; }
 .uploader-aside.is-empty .uploader-aside-blocks { display: none; }
+
 
 /* TODO: Responsive */
 @media (max-width: 999px)  {

@@ -57,20 +57,14 @@
 		 * @private
 		 */
 		_create: function () {
-			this.elements = {};
-
-			this.files = null;
-			this.activeFile = $();
-
 			this.resizeHeight();
 		},
 
 		/**
-		 * Подгрузки списка файлов
+		 * Подгрузка списка файлов
 		 */
 		load: function() {
-			this.getFiles().lsUploaderFile( 'destroy' );
-			this.element.empty().addClass( ls.options.classes.states.loading );
+			this.empty();
 
 			ls.ajax.load(
 				this.option( 'urls.load' ),
@@ -80,11 +74,26 @@
 		},
 
 		/**
+		 * Очистка списка
+		 */
+		empty: function() {
+			this.getFiles().lsUploaderFile( 'destroy' ).remove();
+			this.element.empty().addClass( ls.options.classes.states.loading );
+		},
+
+		/**
+		 * Пустой список или нет
+		 */
+		isEmpty: function() {
+			return ! this.getFiles().length;
+		},
+
+		/**
 		 * Коллбэк вызываемый после подгрузки списка файлов
 		 */
 		onLoad: function( respone ) {
 			this.element.removeClass( ls.options.classes.states.loading ).html( $.trim( respone.html ) );
-			this.option( 'uploader' ).lsUploader( respone.html ? 'markAsNotEmpty' : 'markAsEmpty' );
+			this.option( 'uploader' ).lsUploader( 'checkEmpty' );
 			this.getFiles().lsUploaderFile({ uploader: this.option( 'uploader' ) });
 		},
 
@@ -113,6 +122,15 @@
 		getSelectedFiles: function() {
 			return this.getFiles().filter(function () {
 				return $( this ).lsUploaderFile( 'getState', 'selected' );
+			});
+		},
+
+		/**
+		 * Получает файл по ID
+		 */
+		getFileById: function( id ) {
+			return this.getFiles().filter(function () {
+				return $( this ).lsUploaderFile( 'getProperty', 'id' ) === id;
 			});
 		},
 

@@ -84,7 +84,7 @@
 
 			// Генерация временного хэша для привязки
 			// TODO: Перенести в media
-			this.option( 'params.target_tmp',  this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'target_type' ) ) );
+			this.option( 'params.target_tmp', this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'params.target_type' ) ) );
 
 			if ( ! this.option( 'params.target_id' ) && ! this.option( 'params.target_tmp' ) ) {
 				this.generateTargetTmp();
@@ -106,8 +106,7 @@
 			// Настройки загрузчика
 			$.extend( this.option( 'fileupload' ), {
 				url:      this.option( 'urls.upload' ),
-				dropZone: this.elements.upload_zone,
-				formData: this.option( 'params' )
+				dropZone: this.elements.upload_zone
 			});
 
 			// Иниц-ия плагина
@@ -136,6 +135,17 @@
 		 * 
 		 */
 		onUploadAdd: function( event, file ) {
+			// TODO: Перенести в иниц-ию fileuploader'а
+
+			// В параметрах заменяем null на пустую строку
+			$.each( this.option( 'params' ), function ( key, value ) {
+				value === null && this.option( 'params.' + key, '' );
+			}.bind( this ));
+
+			// Устанавливаем актуальные параметры для загрузчика,
+			// т.к. они могли измениться с момента иниц-ии (например target_tmp)
+			$( event.target ).fileupload( 'option', 'formData', this.option( 'params' ) );
+
 			this.elements.list.lsUploaderFileList( 'addFile', file );
 		},
 
@@ -172,10 +182,10 @@
 		 */
 		generateTargetTmp: function() {
 			ls.ajax.load( this.option( 'urls.generate_target_tmp' ), {
-				type: this.option( 'target_type' )
+				type: this.option( 'params.target_type' )
 			}, function( response ) {
-				this.options.target_tmp = response.sTmpKey || null;
-			}.bind(this));
+				this.option( 'params.target_tmp', response.sTmpKey || null );
+			}.bind( this ));
 		},
 
 		/**
@@ -190,6 +200,17 @@
 		 */
 		showBlocks: function() {
 			this.getElement( 'aside' ).removeClass( this.option( 'classes.empty' ) );
+		},
+
+		/**
+		 * Помечает загрузчик как пустой
+		 */
+		checkEmpty: function() {
+			if ( this.getElement( 'list' ).lsUploaderFileList( 'isEmpty' ) ) {
+				this.markAsEmpty();
+			} else {
+				this.markAsNotEmpty();
+			}
 		},
 
 		/**

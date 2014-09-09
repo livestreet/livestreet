@@ -102,6 +102,13 @@
 		},
 
 		/**
+		 * Устанавливает свойство файла
+		 */
+		setProperty: function( name, value ) {
+			this.info[ name ] = value;
+		},
+
+		/**
 		 * Получает свойство файла
 		 */
 		getProperty: function( name ) {
@@ -140,9 +147,7 @@
 			this.element.remove();
 			this.element = null;
 
-			if ( ! this._getComponent( 'list' ).lsUploaderFileList( 'getFiles' ).length ) {
-				this.option( 'uploader' ).lsUploader( 'markAsEmpty' );
-			}
+			this.option( 'uploader' ).lsUploader( 'checkEmpty' );
 		},
 
 		/**
@@ -151,6 +156,8 @@
 		 * @param {Boolean} clearSelected Убрать выделение со всех файлов
 		 */
 		activate: function( clearSelected ) {
+			this._trigger( 'beforeactivate', null, this );
+
 			// Не активируем незагруженный файл
 			if ( this.getState( 'error' ) || this.getState( 'uploading' ) ) return;
 
@@ -168,18 +175,24 @@
 			this.option( 'uploader' ).lsUploader( 'showBlocks' );
 			this._getComponent( 'info' ).lsUploaderInfo( 'setFile', this.element );
 			this._getComponent( 'list' ).lsUploaderFileList( 'resizeHeight' );
+
+			this._trigger( 'afteractivate', null, this );
 		},
 
 		/**
 		 * Помечает файл как неактивный
 		 */
 		deactivate: function() {
+			this._trigger( 'beforeadectivate', null, this );
+
 			this.setState( 'active', false );
 			this.element.removeClass( this.option( 'classes.active' ) );
 
 			this.option( 'uploader' ).lsUploader( 'hideBlocks' );
 			this._getComponent( 'info' ).lsUploaderInfo( 'empty' );
 			this._getComponent( 'list' ).lsUploaderFileList( 'resizeHeight' );
+
+			this._trigger( 'afterdeactivate', null, this );
 		},
 
 		/**
