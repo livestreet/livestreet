@@ -13,7 +13,6 @@
 
 	{* Информация о файле *}
 	<div class="{$component_info}-block">
-
 		{* Основная информация о файле *}
 		<div class="{$component_info}-base">
 			{* Превью *}
@@ -27,26 +26,13 @@
 			</ul>
 		</div>
 
-		{* Информация о файле *}
-		<div class="{$component_info}-group js-{$component_info}-group" data-type="1">
-			{* Действия *}
-			<ul class="{$component_info}-actions">
-				<li><a href="#" class="link-dotted js-{$component_info}-remove">{lang name='uploader.actions.remove'}</a></li>
-			</ul>
+		{* Информация о изображении *}
+		{include './uploader-block.info-group.tpl'
+			type             = '1'
+			properties       = [[ 'name' => 'dimensions', 'label' => {lang name='uploader.info.types.image.dimensions'} ]]
+			propertiesFields = [[ 'name' => 'title', 'label' => {lang name='uploader.info.types.image.title'} ]]}
 
-			{* Уникальные св-ва для каждого типа *}
-			<div class="{$component_info}-properties">
-				<div class="{$component_info}-type-info">
-					Разрешение: <span class="js-{$component_info}-property" data-name="dimensions"></span>
-				</div>
-
-				{* Описание *}
-				{include 'components/field/field.text.tpl'
-					sName  = 'title'
-					sInputClasses  = 'js-{$component_info}-property'
-					sInputAttributes  = 'data-name="title"'
-					sLabel = $aLang.uploadimg_title}
-			</div>
-		</div>
+		{* @hook Конец блока с информацией о файле *}
+		{hook run='uploader_info_end'}
 	</div>
 {/block}

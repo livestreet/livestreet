@@ -63,6 +63,10 @@
 
 			// Подгрузка файлов сразу после иниц-ии
 			autoload: true,
+
+			info_options: {},
+			list_options: {},
+			file_options: {}
 		},
 
 		/**
@@ -91,9 +95,10 @@
 			}
 
 			// Иниц-ия саб-компонентов
-			this.elements.info.lsUploaderInfo({ uploader: this.element });
-			this.elements.list.lsUploaderFileList({ uploader: this.element });
-			this.initUploader();
+			this.elements.info.lsUploaderInfo( $.extend( {}, this.option( 'info_options' ), { uploader: this.element } ) );
+			this.elements.list.lsUploaderFileList( $.extend( {}, this.option( 'list_options' ), { uploader: this.element, file_options: this.option( 'file_options' ) } ) );
+
+			this.initFileUploader();
 
 			// Подгрузка списка файлов
 			this.option( 'autoload' ) && this.elements.list.lsUploaderFileList( 'load' );
@@ -102,7 +107,7 @@
 		/**
 		 * Иниц-ия загрузчика
 		 */
-		initUploader: function() {
+		initFileUploader: function() {
 			// Настройки загрузчика
 			$.extend( this.option( 'fileupload' ), {
 				url:      this.option( 'urls.upload' ),
@@ -156,7 +161,7 @@
 			file.lsUploaderFile( 'destroy' );
 			file.replaceWith(
 				$( $.trim( response.sTemplateFile ) )
-					.lsUploaderFile({ uploader: this.element })
+					.lsUploaderFile( $.extend( {}, this.option( 'file_options' ), { uploader: this.element } ) )
 					.lsUploaderFile( 'uploaded' )
 					.lsUploaderFile( 'activate' )
 			);

@@ -21,6 +21,8 @@
 
 			// Ссылки
 			urls: {
+				// Обновление св-ва
+				update_property: aRouter['ajax'] + 'media/save-data-file/'
 			},
 
 			// Селекторы
@@ -31,7 +33,7 @@
 				property: '.js-uploader-info-property',
 				// Кнопка удаления
 				remove: '.js-uploader-info-remove',
-			}
+			},
 		},
 
 		/**
@@ -41,6 +43,8 @@
 		 * @private
 		 */
 		_create: function () {
+			var _this = this;
+
 			this.elements = {
 				groups: this.element.find( this.option( 'selectors.group' ) ),
 				info:   this.element.find( this.option( 'selectors.info' ) ),
@@ -56,13 +60,20 @@
 			this.file = $();
 
 			// Удаление файла
-			this.element.on( 'click', this.option( 'selectors.remove' ), function () {
+			this.element.on( 'click' + this.eventNamespace, this.option( 'selectors.remove' ), function () {
 				this.file.lsUploaderFile( 'remove' );
 			}.bind( this ));
+
+			// Удаление файла
+			this.element.on( 'blur' + this.eventNamespace, '.js-uploader-info-property[type=text]', function () {
+				var input = $( this );
+
+				_this._updateProperty( input.attr( 'name' ), input.val() );
+			});
 		},
 
 		/**
-		 * Устанвливает файл
+		 * Устанавливает файл
 		 */
 		setFile: function( file ) {
 			var data = file.lsUploaderFile( 'getInfo' ),
@@ -83,8 +94,15 @@
 			this._getPropertiesByGroup( group ).each( function ( index, property ) {
 				var property = $( property );
 
-				this._setProperty( property, data[ property.data( 'name' ) ] );
+				this._setProperty( property, this.getFile().lsUploaderFile( 'getProperty', property.data( 'name' ) ) );
 			}.bind( this ));
+		},
+
+		/**
+		 * Получает текущий файл
+		 */
+		getFile: function() {
+			return this.file;
 		},
 
 		/**
@@ -102,14 +120,11 @@
 		},
 
 		/**
-		 * @private
-		 */
-		_activateGroup: function( group ) {
-			this.elements.groups.hide();
-			group.show();
-		},
-
-		/**
+		 * Устанавливает значение св-ва
+		 *
+		 * @param {jQuery} element Св-во
+		 * @param {String} value   Значение
+		 *
 		 * @private
 		 */
 		_setProperty: function( element, value ) {
@@ -124,6 +139,39 @@
 				default:
 					element.text( value );
 			}
+		},
+
+		/**
+		 * Обновляет текстовое св-во
+		 *
+		 * @param {String} name  Название св-ва
+		 * @param {String} value Значение св-ва
+		 *
+		 * @private
+		 */
+		_updateProperty: function( name, value ) {
+			// Кэшируем файл, т.к. он может измениться к концу ajax запроса
+			var file = this.getFile();
+
+			ls.ajax.load( this.option( 'urls.update_property' ), {
+				name:  name,
+				value: value,
+				id:    file.lsUploaderFile( 'getProperty', 'id' )
+			}, function( response ) {
+				if ( response.bStateError ) {
+					ls.msg.error( response.sMsgTitle, response.sMsg );
+				} else {
+					file.lsUploaderFile( 'setProperty', name, value );
+				}
+			}.bind( this ));
+		},
+
+		/**
+		 * @private
+		 */
+		_activateGroup: function( group ) {
+			this.elements.groups.hide();
+			group.show();
 		},
 
 		/**

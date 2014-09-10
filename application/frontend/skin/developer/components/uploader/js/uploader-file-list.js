@@ -48,6 +48,8 @@
 						'</div>' +
 					'</li>'
 			},
+
+			file_options: {}
 		},
 
 		/**
@@ -94,7 +96,7 @@
 		onLoad: function( respone ) {
 			this.element.removeClass( ls.options.classes.states.loading ).html( $.trim( respone.html ) );
 			this.option( 'uploader' ).lsUploader( 'checkEmpty' );
-			this.getFiles().lsUploaderFile({ uploader: this.option( 'uploader' ) });
+			this.getFiles().lsUploaderFile( $.extend( {}, this.option( 'file_options' ), { uploader: this.option( 'uploader' ) } ) )
 		},
 
 		/**
@@ -102,7 +104,7 @@
 		 */
 		addFile: function( data ) {
 			data.context = $( this.option( 'html.file' ) )
-				.lsUploaderFile({ uploader: this.option( 'uploader' ) })
+				.lsUploaderFile( $.extend( {}, this.option( 'file_options' ), { uploader: this.option( 'uploader' ) } ) )
 				.lsUploaderFile( 'uploading' );
 
 			this.option( 'uploader' ).lsUploader( 'markAsNotEmpty' );

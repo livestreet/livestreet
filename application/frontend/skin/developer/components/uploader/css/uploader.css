@@ -176,11 +176,25 @@
 	padding: 10px 20px;
 	border-bottom: 1px solid #eee;
 }
-.uploader-info-properties {
-	padding: 20px;
+.uploader-info-list-item {
 	background: #fafafa;
+	padding: 10px 20px;
+	line-height: 1em;
+	border-bottom: 1px solid #fff;
 }
-
+.uploader-info-list-item-label {
+	color: #aaa;
+}
+.uploader-info-list-item:nth-child(even) {
+	background: #F5F5F5;
+}
+.uploader-info-list-item:last-child {
+	border: none;
+}
+.uploader-info-fields {
+	border-top: 1px solid #eee;
+	padding: 20px 20px;
+}
 .uploader-info-base {
 	padding: 20px 20px 20px 135px;
 	position: relative;
