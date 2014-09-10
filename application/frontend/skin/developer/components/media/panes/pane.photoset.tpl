@@ -5,5 +5,8 @@
 {/block}
 
 {block 'media_pane_footer' prepend}
-	<button type="submit" class="button button--primary js-media-insert-button js-media-insert-photoset">Создать фотосет</button>
+	{include 'components/button/button.tpl'
+		sMods    = 'primary'
+		sClasses = 'js-media-insert-button js-media-insert-photoset'
+		sText    = {lang name='media.photoset.submit'}}
 {/block}

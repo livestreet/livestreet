@@ -1,9 +1,9 @@
 {* Массив со значениями для селекта Выравнивание *}
-{$aSelectImageAlign = [
-	[ 'value' => '',       'text' => $aLang.uploadimg_align_no ],
-	[ 'value' => 'left',   'text' => $aLang.uploadimg_align_left ],
-	[ 'value' => 'right',  'text' => $aLang.uploadimg_align_right ],
-	[ 'value' => 'center', 'text' => $aLang.uploadimg_align_center ]
+{$imageAlign = [
+	[ 'value' => '',       'text' => {lang name='media.image_align.no'} ],
+	[ 'value' => 'left',   'text' => {lang name='media.image_align.left'} ],
+	[ 'value' => 'right',  'text' => {lang name='media.image_align.right'} ],
+	[ 'value' => 'center', 'text' => {lang name='media.image_align.center'} ]
 ]}
 
 {$aTargetParams = $LS->Media_GetTargetTypeParams( $sMediaTargetType )}

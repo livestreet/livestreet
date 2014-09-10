@@ -1675,7 +1675,14 @@ return array(
 		),
 
 		'info' => array(
-			'empty' => 'Выберите файл'
+			'empty' => 'Выберите файл',
+
+			'types' => array(
+				'image' => array(
+					'dimensions' => 'Разрешение',
+					'title'      => 'Описание'
+				)
+			)
 		)
 	),
 
@@ -1691,28 +1698,62 @@ return array(
 			'photoset' => 'Создать фотосет',
 			'url'      => 'Вставить по ссылке',
 			'preview'  => 'Превью',
-		)
-	),
+		),
 
-	'uploadimg' => 'Вставка изображения',
-	'uploadimg_from_pc' => 'С компьютера',
-	'uploadimg_from_link' => 'Из интернета',
-	'uploadimg_file' => 'Файл',
-	'uploadimg_file_error' => 'Невозможно обработать файл, проверьте тип и размер файла',
-	'uploadimg_url' => 'Ссылка на изображение',
-	'uploadimg_url_error_type' => 'Файл не является изображением',
-	'uploadimg_url_error_read' => 'Невозможно прочитать внешний файл',
-	'uploadimg_url_error_size' => 'Размер файла превышает максимальный в 500кБ',
-	'uploadimg_url_error' => 'Невозможно обработать внешний файл',
-	'uploadimg_align' => 'Выравнивание',
-	'uploadimg_align_no' => 'нет',
-	'uploadimg_align_left' => 'слева',
-	'uploadimg_align_right' => 'справа',
-	'uploadimg_align_center' => 'по центру',
-	'uploadimg_submit' => 'Загрузить',
-	'uploadimg_link_submit_load' => 'Загрузить',
-	'uploadimg_link_submit_paste' => 'Вставить как ссылку',
-	'uploadimg_title' => 'Описание',
+		'image_align' => array(
+			'title'  => 'Выравнивание',
+			'no'     => 'Нет',
+			'left'   => 'Слева',
+			'right'  => 'Справа',
+			'center' => 'По центру',
+		),
+
+		'insert' => array(
+			'submit'  => 'Вставить',
+
+			'settings' => array(
+				'title' => 'Опции вставки',
+
+				'fields' => array(
+					'size' => array(
+						'label'    => 'Размер',
+						'original' => 'Оригинал'
+					),
+				)
+			),
+		),
+
+		'photoset' => array(
+			'submit'  => 'Создать фотосет',
+
+			'settings' => array(
+				'title' => 'Опции фотосета',
+
+				'fields' => array(
+					'use_thumbs' => array(
+						'label' => 'Показывать ленту с превьюшками'
+					),
+					'show_caption' => array(
+						'label' => 'Показывать описания фотографий'
+					)
+				)
+			),
+		),
+
+		'url' => array(
+			'fields' => array(
+				'url' => array(
+					'label'  => 'Ссылка',
+				),
+				'title' => array(
+					'label'  => 'Описание',
+				),
+			),
+
+			'submit_insert' => 'Вставить как ссылку',
+			'submit_upload' => 'Загрузить и вставить'
+		),
+	),
 
 
 	/**

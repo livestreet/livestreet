@@ -64,6 +64,8 @@ ls.media = (function ($) {
 	 * Инициализация
 	 */
 	this.init = function(options) {
+		var _this = this;
+
 		this.options = $.extend(true, {}, _defaults, options);
 
 		this.elements = {
@@ -93,6 +95,11 @@ ls.media = (function ($) {
 			autoload: false,
 			params: {
 				security_ls_key: LIVESTREET_SECURITY_KEY
+			},
+			file_options: {
+				beforeactivate: function ( event, context ) {
+					_this.updateInsertSettings( context.element );
+				}
 			}
 		});
 
@@ -122,11 +129,6 @@ ls.media = (function ($) {
 			this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'clearSelected' );
 			this.activateInfoBlock( $( event.target ).data( 'mediaMode' ) );
 		}.bind(this));
-
-		// Инициализация фоторамы
-		$( '.fotorama' ).livequery(function() {
-			$( this ).fotorama();
-		});
 
 		// После добавления комментария необходимо получить новый временный идентификатор и очистить галлерею
 		ls.hook.add('ls_comments_add_after',function(){
@@ -433,15 +435,13 @@ ls.media = (function ($) {
 	 *
 	 * @param  {Object} item Выделенный файл
 	 */
-	this.updateInsertSettings = function() {
-		var file = this._getActiveFile();
-
-		if ( file.length && file.lsUploaderFile( 'getProperty', 'type' ) === 1 ) {
+	this.updateInsertSettings = function( file ) {
+		if ( file.lsUploaderFile( 'getProperty', 'type' ) === '1' ) {
 			// Выставляем настройки по вставке медиа
 			this.elements.info.sizes.find( 'option:not([value=original])' ).remove();
-			this.elements.info.sizes.append($.map(file.data('mediaImageSizes'), function ( v, k ) {
+			this.elements.info.sizes.append($.map( file.data('mediaImageSizes'), function ( v, k ) {
 				// Расчитываем пропорциональную высоту изображения
-				var height = v.h || parseInt( v.w * file.data('mediaHeight') / file.data('mediaWidth') );
+				var height = v.h || parseInt( v.w * file.lsUploaderFile( 'getProperty', 'height' ) / file.lsUploaderFile( 'getProperty', 'width' ) );
 
 				return '<option value="' + v.w + 'x' + (v.h ? v.h : '') + (v.crop ? 'crop' : '') + '">' + v.w + ' × ' + height + '</option>';
 			}).join(''));

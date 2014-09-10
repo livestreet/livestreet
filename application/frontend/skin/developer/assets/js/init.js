@@ -387,6 +387,14 @@ jQuery(document).ready(function($){
 	ls.search.init();
 
 
+	/**
+	 * Fotorama
+	 */
+	$( '.fotorama' ).livequery(function() {
+		$( this ).fotorama();
+	});
+
+
 	// Временный костыль для сабмита форм
 	// TODO: Перенести в плагин button
 	$(document).on('click', 'button[data-button-submit-form]', function () {

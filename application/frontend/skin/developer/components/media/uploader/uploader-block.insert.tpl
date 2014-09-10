@@ -10,18 +10,18 @@
 {/block}
 
 {block 'block_title'}
-	Опции вставки
+	{lang name='media.insert.settings.title'}
 {/block}
 
 {block 'block_content'}
 	{* Выравнивание *}
 	{include 'components/field/field.select.tpl'
 			 sName  = 'align'
-			 sLabel = $aLang.uploadimg_align
-			 aItems = $aSelectImageAlign}
+			 sLabel = {lang name='media.image_align.title'}
+			 aItems = $imageAlign}
 
     {* Размер *}
-    {$selectImageSizes = [ [ 'value' => 'original', 'text' => 'Оригинал' ] ]}
+    {$selectImageSizes = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
 
 	{foreach Config::Get('module.media.image.sizes') as $aSize}
 		{$selectImageSizes[] = [
@@ -32,7 +32,7 @@
 
 	{include 'components/field/field.select.tpl'
 			 sName          = 'size'
-			 sLabel         = 'Размер'
+			 sLabel         = {lang name='media.insert.settings.fields.size.label'}
 			 sSelectedValue = $_aRequest.blog_category
 			 aItems         = $selectImageSizes}
 {/block}

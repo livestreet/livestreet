@@ -10,7 +10,7 @@
 {/block}
 
 {block 'block_title'}
-	Опции фотосета
+	{lang name='media.photoset.settings.title'}
 {/block}
 
 {block 'block_content'}
@@ -18,10 +18,10 @@
 	{include 'components/field/field.checkbox.tpl'
 			 sName    = 'use_thumbs'
 			 bChecked = true
-			 sLabel   = 'Показывать ленту с превьюшками'}
+			 sLabel   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
 
 	{* Показывать описания фотографий *}
 	{include 'components/field/field.checkbox.tpl'
 			 sName    = 'show_caption'
-			 sLabel   = 'Показывать описания фотографий'}
+			 sLabel   = {lang name='media.photoset.settings.fields.show_caption.label'}}
 {/block}
