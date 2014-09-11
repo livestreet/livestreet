@@ -8,7 +8,7 @@
 
 {$aTargetParams = $LS->Media_GetTargetTypeParams( $sMediaTargetType )}
 
-<div class="grid-row">
+<div class="media clearfix">
 	{* Боковое меню *}
 	{include 'components/nav/nav.tabs.tpl' sName='media' sClasses='media-nav' aItems=[
 		[ 'name' => 'insert',   'pane' => 'tab-media-insert',   'text' => {lang name='media.nav.insert'},   'classes' => 'js-tab-show-gallery active', 'attributes' => 'data-media-mode="insert"' ],
@@ -18,7 +18,7 @@
 	]}
 
 	{* Содержимое табов *}
-	<div data-type="tab-panes" class="modal-upload-image-content">
+	<div data-type="tab-panes" class="media-panes">
 		{include './panes/pane.insert.tpl' isActive=true}
 		{include './panes/pane.url.tpl'}
 		{include './panes/pane.photoset.tpl'}
