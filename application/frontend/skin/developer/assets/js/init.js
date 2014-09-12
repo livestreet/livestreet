@@ -303,10 +303,12 @@ jQuery(document).ready(function($){
 	$('.js-favourite-topic').lsFavouriteTopic();
 
 	// Комментарий
-	$('.js-favourite-comment').lsFavourite({
-		urls: {
-			toggle: aRouter['ajax'] + 'favourite/comment/'
-		}
+	$('.js-favourite-comment').livequery(function () {
+		$(this).lsFavourite({
+			urls: {
+				toggle: aRouter['ajax'] + 'favourite/comment/'
+			}
+		});
 	});
 
 	// Личное сообщение
