@@ -811,9 +811,20 @@ class ModuleBlog extends Module {
 		}
 		/**
 		 * Получаем идентификаторы топиков блога. Удаляем топики блога.
-		 * При удалении топиков удаляются комментарии к ним и голоса.
+		 * При удалении топиков удаляются комментарии к ним, голоса и т.п.
 		 */
-		$aTopicIds = $this->Topic_GetTopicsByBlogId($iBlogId);
+		$iPage=1;
+		while($aTopicIds=$this->Topic_GetTopicsByBlogId($iBlogId,$iPage,100)) {
+			if(is_array($aTopicIds) and count($aTopicIds)) {
+				/**
+				 * Удаляем топики
+				 */
+				foreach ($aTopicIds as $iTopicId) {
+					$this->Topic_DeleteTopic($iTopicId);
+				}
+			}
+			$iPage++;
+		}
 		/**
 		 * Если блог не удален, возвращаем false
 		 */
@@ -829,15 +840,6 @@ class ModuleBlog extends Module {
 			)
 		);
 		$this->Cache_Delete("blog_{$iBlogId}");
-
-		if(is_array($aTopicIds) and count($aTopicIds)) {
-			/**
-			 * Удаляем топики
-			 */
-			foreach ($aTopicIds as $iTopicId) {
-				$this->Topic_DeleteTopic($iTopicId);
-			}
-		}
 		/**
 		 * Удаляем связи пользователей блога.
 		 */

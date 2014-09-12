@@ -905,11 +905,11 @@ class ModuleTopic extends Module {
 	 * @param  bool  $bIdsOnly	Возвращать только ID или список объектов
 	 * @return array
 	 */
-	public function GetTopicsByBlogId($iBlogId,$iPage=0,$iPerPage=0,$aAllowData=array(),$bIdsOnly=true) {
+	public function GetTopicsByBlogId($iBlogId,$iPage=1,$iPerPage=20,$aAllowData=array(),$bIdsOnly=true) {
 		$aFilter=array('blog_id'=>$iBlogId);
 
 		if(!$aTopics = $this->GetTopicsByFilter($aFilter,$iPage,$iPerPage,$aAllowData) ) {
-			return false;
+			return array();
 		}
 
 		return ($bIdsOnly)
