@@ -19,8 +19,12 @@
 	{include 'components/user_list_small/user_list_small.tpl' aUserList=[ $oBlog->getOwner() ] sUserListSmallTitle=$aLang.blog.owner}
 
 	{* Администраторы *}
-	{include 'components/user_list_small/user_list_small.tpl' aUserList=$aBlogAdministrators sUserListSmallTitle="{$aLang.blog.administrators} ({$iCountBlogAdministrators})"}
+	{if count($aBlogAdministrators)}
+		{include 'components/user_list_small/user_list_small.tpl' aUserList=$aBlogAdministrators sUserListSmallTitle="{$aLang.blog.administrators} ({count($aBlogAdministrators)})"}
+	{/if}
 
 	{* Модераторы *}
-	{include 'components/user_list_small/user_list_small.tpl' aUserList=$aBlogModerators sUserListSmallTitle="{$aLang.blog.moderators} ({$iCountBlogModerators})"}
+	{if count($aBlogModerators)}
+		{include 'components/user_list_small/user_list_small.tpl' aUserList=$aBlogModerators sUserListSmallTitle="{$aLang.blog.moderators} ({count($aBlogModerators)})"}
+	{/if}
 {/block}
