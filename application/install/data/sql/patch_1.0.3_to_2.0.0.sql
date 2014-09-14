@@ -656,3 +656,29 @@ ALTER TABLE `prefix_rbac_group` ADD `date_create` DATETIME NOT NULL ;
 RENAME TABLE `prefix_rbac_user_role` TO `prefix_rbac_role_user`;
 
 INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES (NULL, NULL, 'guest', 'Гость', '2014-08-22 00:00:00', '1'), (NULL, NULL, 'user', 'Пользователь', '2014-08-22 00:00:00', '1');
+
+
+-- 14.09.2014
+
+CREATE TABLE IF NOT EXISTS `prefix_plugin_migration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `version` varchar(50) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `file` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `file` (`file`(255)),
+  KEY `code` (`code`),
+  KEY `version` (`version`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `prefix_plugin_version` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `version` varchar(50) NOT NULL,
+  `date_update` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`),
+  KEY `version` (`version`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
