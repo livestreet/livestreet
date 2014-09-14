@@ -84,17 +84,6 @@ class ActionAdmin extends Action {
 	protected function EventPlugins() {
 		$this->sMenuHeadItemSelect='plugins';
 		/**
-		 * Обработка удаления плагинов
-		 */
-		if (isPost('submit_plugins_del')) {
-			$this->Security_ValidateSendForm();
-
-			$aPluginsDelete=getRequest('plugin_del');
-			if (is_array($aPluginsDelete)) {
-				$this->Plugin_Delete(array_keys($aPluginsDelete));
-			}
-		}
-		/**
 		 * Получаем название плагина и действие
 		 */
 		if($sPlugin=getRequestStr('plugin',null,'get') and $sAction=getRequestStr('action',null,'get')) {
@@ -103,7 +92,7 @@ class ActionAdmin extends Action {
 		/**
 		 * Получаем список блогов
 		 */
-		$aPlugins=$this->Plugin_GetList(array('order'=>'name'));
+		$aPlugins=$this->PluginManager_GetPluginsItems(array('order'=>'name'));
 		/**
 		 * Загружаем переменные в шаблон
 		 */
@@ -122,14 +111,22 @@ class ActionAdmin extends Action {
 	 */
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
 		$this->Security_ValidateSendForm();
-		if(!in_array($sAction,array('activate','deactivate'))) {
+		if(!in_array($sAction,array('activate','deactivate','remove'))) {
 			$this->Message_AddError($this->Lang_Get('admin.plugins.notices.unknown_action'),$this->Lang_Get('error'),true);
-			Router::Location(Router::GetPath('plugins'));
+			Router::Location(Router::GetPath('admin/plugins'));
 		}
+		$bResult=false;
 		/**
 		 * Активируем\деактивируем плагин
 		 */
-		if($bResult=$this->Plugin_Toggle($sPlugin,$sAction)) {
+		if ($sAction=='activate') {
+			$bResult=$this->PluginManager_ActivatePlugin($sPlugin);
+		} elseif ($sAction=='deactivate') {
+			$bResult=$this->PluginManager_DeactivatePlugin($sPlugin);
+		} elseif ($sAction=='remove') {
+			$bResult=$this->PluginManager_RemovePlugin($sPlugin);
+		}
+		if($bResult) {
 			$this->Message_AddNotice($this->Lang_Get('admin.plugins.notices.action_ok'),$this->Lang_Get('attention'),true);
 		} else {
 			if(!($aMessages=$this->Message_GetErrorSession()) or !count($aMessages)) $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'),true);

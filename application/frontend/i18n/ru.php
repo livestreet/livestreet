@@ -1614,7 +1614,7 @@ return array(
 			'plugin_activate' => 'Активировать',
 			'plugin_deactivate' => 'Деактивировать',
 			'plugin_settings' => 'Настройки',
-			'submit_delete' => '___common.remove___',
+			'plugin_delete' => '___common.remove___',
 
 			// Сообщения
 			'notices' => array(
@@ -1626,6 +1626,8 @@ return array(
 				'activation_file_write_error' => 'Файл плагина не доступен для записи',
 				'activation_version_error' => 'Для работы плагина необходимо ядро LiveStreet версии не ниже %%version%%',
 				'activation_requires_error' => 'Для работы плагина необходим активированный плагин <b>%%plugin%%</b>',
+				'activation_already_error' => 'Плагин уже активирован',
+				'deactivation_already_error' => 'Плагин не активирован',
 				'deactivation_requires_error' => 'От плагина зависит другой плагин, сначала отключите его -  <b>%%plugin%%</b>',
 			)
 		),

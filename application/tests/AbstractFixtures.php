@@ -29,7 +29,7 @@ abstract class AbstractFixtures
     {
         $this->oEngine = $oEngine;
         $this->aReferences = $aReferences;
-        $this->aActivePlugins = $oEngine->Plugin_GetActivePlugins();
+        $this->aActivePlugins = $oEngine->PluginManager_GetPluginsActive();
     }
 
     /**
