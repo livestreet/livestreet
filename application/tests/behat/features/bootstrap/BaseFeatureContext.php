@@ -210,7 +210,7 @@ class BaseFeatureContext extends BehatContext
      */
     public function CheckIsPluginActive($sPluginName)
     {
-        $activePlugins = $this->getEngine()->Plugin_GetActivePlugins();
+        $activePlugins = $this->getEngine()->PluginManager_GetPluginsActive();
 
         if (!in_array($sPluginName, $activePlugins)) {
             throw new ExpectationException( sprintf('Plugin %s is not active', $sPluginName), $this->getMinkContext()->getSession());

@@ -11,11 +11,9 @@
 {/block}
 
 {block 'layout_content'}
-	<form action="{router page='admin'}plugins/" method="post" id="form_plugins_list">
 		<table class="table table-plugins">
 			<thead>
 				<tr>
-					<th class="cell-checkbox"><input type="checkbox" name="" onclick="ls.tools.checkAll('form_plugins_checkbox', this, true);" /></th>
 					<th>{$aLang.admin.plugins.plugin_name}</th>
 					<th>{$aLang.admin.plugins.plugin_version}</th>
 					<th>{$aLang.admin.plugins.plugin_author}</th>
@@ -27,7 +25,6 @@
 			<tbody>
 				{foreach $aPlugins as $aPlugin}
 					<tr {if $aPlugin.is_active}class="active"{/if}>
-						<td class="cell-checkbox"><input type="checkbox" name="plugin_del[{$aPlugin.code}]" class="form_plugins_checkbox" /></td>
 						<td>
 							<h3>{$aPlugin.property->name->data}</h3>
 							{$aPlugin.property->description->data}
@@ -52,17 +49,10 @@
 							{else}
 								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button button-primary">{$aLang.admin.plugins.plugin_activate}</a>
 							{/if}
+							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button" onclick="return confirm('{$aLang.common.remove_confirm}');">{lang name='admin.plugins.plugin_delete'}</a>
 						</td>
 					</tr>
 				{/foreach}
 			</tbody>
 		</table>
-
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-		<input type="submit"
-			   name="submit_plugins_del"
-			   value="{lang name='admin.plugins.submit_delete'}"
-			   class="button"
-			   onclick="return (jQuery('.form_plugins_checkbox:checked').length==0)?false:confirm('{$aLang.common.remove_confirm}');" />
-	</form>
 {/block}
