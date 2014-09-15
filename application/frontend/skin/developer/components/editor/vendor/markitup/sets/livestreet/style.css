@@ -1,0 +1,27 @@
+/* -------------------------------------------------------------------
+// markItUp!
+// By Jay Salvat - http://markitup.jaysalvat.com/
+// ------------------------------------------------------------------*/
+.markItUp a { background: url(images/icons.png) no-repeat; }
+.markItUp .editor-h4 a 			{ background-position: -11px -9px; }
+.markItUp .editor-h5 a 			{ background-position: -39px -9px; }
+.markItUp .editor-h6 a 			{ background-position: -65px -9px; }
+.markItUp .editor-bold a 		{ background-position: -107px -9px; }
+.markItUp .editor-italic a 		{ background-position: -134px -9px; }
+.markItUp .editor-stroke a 		{ background-position: -188px -9px; }
+.markItUp .editor-underline a 	{ background-position: -161px -9px; }
+.markItUp .editor-quote a 		{ background-position: -326px -9px; }
+.markItUp .editor-code a 		{ background-position: -353px -9px; }
+.markItUp .editor-ul a 			{ background-position: -257px -9px; }
+.markItUp .editor-ol a 			{ background-position: -230px -9px; }
+.markItUp .editor-li a 			{ background-position: -550px -9px; }
+
+.markItUp .editor-picture a 	{ background-position: -423px -9px; }
+.markItUp .editor-image a 		{ background-position: -423px -9px; }
+.markItUp .editor-link a 		{ background-position: -299px -9px; }
+
+.markItUp .editor-clean a 		{ background-position: -519px -9px; }
+.markItUp .editor-preview a 	{ background-position: -11px -9px; }
+.markItUp .editor-cut a 		{ background-position: -491px -9px; }
+.markItUp .editor-video a 		{ background-position: -450px -9px; }
+.markItUp .editor-user a 		{ background-position: -380px -9px; }
