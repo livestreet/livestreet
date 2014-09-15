@@ -3,17 +3,17 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'editor'}
+{$component = 'editor'}
 
 {* Получаем тип редактора *}
-{$_sType = ( Config::Get('view.wysiwyg') ) ? 'visual' : 'markup'}
-{$_sSet = $smarty.local.sSet|default:'default'}
+{$type = ( ( $smarty.local.type ) ? $smarty.local.type : ( Config::Get('view.wysiwyg') ) ? 'visual' : 'markup' )}
+{$set = $smarty.local.sSet|default:'default'}
 
 {* Уникальный ID *}
-{$_uid = $smarty.local.sId|default:($_sComponentName|cat:rand(0, 10e10))}
+{$_uid = $smarty.local.sId|default:($component|cat:rand(0, 10e10))}
 
 {* Класс на который вешается обработчик редактора *}
-{$_sBindClass = $smarty.local.sBindClass|default:"js-{$_sComponentName}"}
+{$_sBindClass = $smarty.local.sBindClass|default:"js-{$component}"}
 
 {**
  * Textarea
@@ -31,16 +31,17 @@
 			sEntityField     = $smarty.local.sEntityField
 			sEntity          = $smarty.local.sEntity
 			sInputClasses    = "$_sBindClass {$smarty.local.sInputClasses}"
-			sInputAttributes = "{$smarty.local.sAttributes} data-editor-type=\"{$_sType}\" data-editor-set=\"{$_sSet}\""
+			sInputAttributes = "{$smarty.local.sAttributes} data-editor-type=\"{$type}\" data-editor-set=\"{$set}\""
 			sNote            = $smarty.local.sNote
 			iRows            = $smarty.local.iRows|default:10}
 {/function}
 
 {* Визуальный редактор *}
-{if Config::Get('view.wysiwyg')}
+{if $type == 'visual'}
 	{hookb run='editor_visual'}
-		{asset type='js' name='editor_visual' file="{Config::Get('path.framework.frontend.web')}/js/vendor/tinymce/tiny_mce.js"}
-		{asset type='js' name='editor_visual_options' file="{Config::Get('path.application.web')}/frontend/common/js/editor.visual.js"}
+		{asset type='js' name='editor_visual' file="{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/tinymce.min.js"}
+		{asset type='js' name='editor_visual_1' file="{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/jquery.tinymce.min.js"}
+		{asset type='js' name='editor_visual_2' file="{Config::Get('path.skin.web')}/components/editor/js/editor.visual.js"}
 
 		{editor_textarea}
 	{/hookb}
@@ -48,12 +49,12 @@
 {* Markup редактор *}
 {else}
 	{hookb run='editor_markup'}
-		{asset type='js' name='editor_markup' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/jquery.markitup.js"}
-		{asset type='js' name='editor_markup_options' file="{Config::Get('path.application.web')}/frontend/common/js/editor.markup.js"}
+		{asset type='js' name='editor_markup' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/jquery.markitup.js"}
+		{asset type='js' name='editor_markup_options' file="{Config::Get('path.skin.web')}/components/editor/js/editor.markup.js"}
 
-		{asset type='css' name='editor_markup' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/skins/synio/style.css"}
-		{asset type='css' name='editor_markup_set' file="{Config::Get('path.framework.frontend.web')}/js/vendor/markitup/sets/synio/style.css"}
-		{asset type='css' name='editor_markup_component' file="{Config::Get('path.skin.assets.web')}/css/components/editor.css"}
+		{asset type='css' name='editor_markup' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/skins/livestreet/style.css"}
+		{asset type='css' name='editor_markup_set' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/sets/livestreet/style.css"}
+		{asset type='css' name='editor_markup_help' file="{Config::Get('path.skin.web')}/components/editor/css/editor.css"}
 
 		{editor_textarea}
 

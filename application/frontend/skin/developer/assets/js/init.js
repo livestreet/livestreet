@@ -232,7 +232,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Editor
 	 */
-	ls.editor.init('.js-editor');
+	$( '.js-editor' ).lsEditor();
 
 
 	/**

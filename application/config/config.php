@@ -521,7 +521,7 @@ $config['head']['default']['js'] = array(
 	"___path.application.web___/frontend/common/js/favourite_topic.js",
 	"___path.application.web___/frontend/common/js/blocks.js",
 	"___path.application.web___/frontend/common/js/pagination.js",
-	"___path.application.web___/frontend/common/js/editor.js",
+	"___path.skin.web___/components/editor/js/editor.js",
 	"___path.application.web___/frontend/common/js/talk.js",
 	"___path.application.web___/frontend/common/js/vote.js",
 	"___path.application.web___/frontend/common/js/poll.js",
