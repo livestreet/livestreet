@@ -72,10 +72,10 @@
 
         {* Местоположение *}
         {include 'components/field/field.geo.tpl'
-                 sName           = 'geo'
-                 bInline         = true
-                 sLabel          = {lang name='user.settings.profile.fields.place.label'}
-                 fieldGeoTarget = $oGeoTarget}
+                 sName   = 'geo'
+                 bInline = true
+                 sLabel  = {lang name='user.settings.profile.fields.place.label'}
+                 place   = $oGeoTarget}
 
 
 		{* О себе *}
