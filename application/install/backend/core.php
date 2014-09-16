@@ -134,7 +134,11 @@ class InstallCore {
 	}
 
 	protected function loadStoredData() {
-		self::$aStoredData=isset($_COOKIE[self::COOKIE_NAME]) ? @unserialize($_COOKIE[self::COOKIE_NAME]) : array();
+		$aData=isset($_COOKIE[self::COOKIE_NAME]) ? $_COOKIE[self::COOKIE_NAME] : '';
+		if (get_magic_quotes_gpc()) {
+			$this->stripslashes($aData);
+		}
+		self::$aStoredData=$aData ? @unserialize($aData) : array();
 	}
 
 	static public function saveStoredData() {
@@ -268,5 +272,19 @@ class InstallCore {
 
 	static public function setPreviousStepDisable($bDisable=true) {
 		self::$oLayout->assign('previous_step_disable',$bDisable);
+	}
+
+	protected function stripslashes(&$data) {
+		if (is_array($data)) {
+			foreach ($data as $sKey => $value) {
+				if (is_array($value)) {
+					$this->stripslashes($data[$sKey]);
+				} else {
+					$data[$sKey]=stripslashes($value);
+				}
+			}
+		} else {
+			$data=stripslashes($data);
+		}
 	}
 }
