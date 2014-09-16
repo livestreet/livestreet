@@ -111,7 +111,7 @@ class ActionAdmin extends Action {
 	 */
 	protected function SubmitManagePlugin($sPlugin,$sAction) {
 		$this->Security_ValidateSendForm();
-		if(!in_array($sAction,array('activate','deactivate','remove'))) {
+		if(!in_array($sAction,array('activate','deactivate','remove','apply_update'))) {
 			$this->Message_AddError($this->Lang_Get('admin.plugins.notices.unknown_action'),$this->Lang_Get('error'),true);
 			Router::Location(Router::GetPath('admin/plugins'));
 		}
@@ -125,6 +125,9 @@ class ActionAdmin extends Action {
 			$bResult=$this->PluginManager_DeactivatePlugin($sPlugin);
 		} elseif ($sAction=='remove') {
 			$bResult=$this->PluginManager_RemovePlugin($sPlugin);
+		} elseif ($sAction=='apply_update') {
+			$this->PluginManager_ApplyPluginUpdate($sPlugin);
+			$bResult=true;
 		}
 		if($bResult) {
 			$this->Message_AddNotice($this->Lang_Get('admin.plugins.notices.action_ok'),$this->Lang_Get('attention'),true);

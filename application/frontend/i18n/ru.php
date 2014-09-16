@@ -1615,6 +1615,7 @@ return array(
 			'plugin_deactivate' => 'Деактивировать',
 			'plugin_settings' => 'Настройки',
 			'plugin_delete' => '___common.remove___',
+			'plugin_apply_update' => 'Применить обновление',
 
 			// Сообщения
 			'notices' => array(

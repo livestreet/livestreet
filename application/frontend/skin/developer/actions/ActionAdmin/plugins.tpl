@@ -49,6 +49,11 @@
 							{else}
 								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button button-primary">{$aLang.admin.plugins.plugin_activate}</a>
 							{/if}
+
+							{if $aPlugin.apply_update and $aPlugin.is_active}
+								<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button">{lang name='admin.plugins.plugin_apply_update'}</a>
+							{/if}
+
 							<a href="{router page='admin'}plugins/?plugin={$aPlugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button" onclick="return confirm('{$aLang.common.remove_confirm}');">{lang name='admin.plugins.plugin_delete'}</a>
 						</td>
 					</tr>
