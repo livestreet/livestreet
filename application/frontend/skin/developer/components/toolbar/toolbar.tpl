@@ -10,7 +10,7 @@
 {$_sComponentName = 'toolbar'}
 
 {function toolbar_item_icon}
-	<{if $sUrl}a href="{$sUrl}"{else}div{/if} class="toolbar-item-button {$sClasses}" {$sAttributes}>
+	<{if $sUrl}a href="{$sUrl}"{else}div{/if} class="toolbar-item-button {$sClasses}" {$sAttributes} {if $sTitle}title="{$sTitle}"{/if}>
 		<i class="{$sIcon}"></i>
 	</{if $sUrl}a{else}div{/if}>
 {/function}
