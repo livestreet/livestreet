@@ -174,14 +174,14 @@ jQuery(document).ready(function($){
 		urls: {
 			add:  aRouter['blog'] + 'ajaxaddcomment/',
 			load: aRouter['blog'] + 'ajaxresponsecomment/'
-		},
+		}
 	});
 
 	$('.js-comments-talk').lsComments({
 		urls: {
 			add:  aRouter['talk'] + 'ajaxaddcomment/',
 			load: aRouter['talk'] + 'ajaxresponsecomment/'
-		},
+		}
 	});
 
 

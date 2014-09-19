@@ -218,6 +218,8 @@ class ModuleACL extends Module {
 			if(!$oBlogUser || $oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST) {
 				return self::CAN_VOTE_BLOG_ERROR_CLOSE;
 			}
+		} elseif($oBlog->getType()=='personal') {
+			return self::CAN_VOTE_BLOG_FALSE;
 		}
 		if ($oUser->getRating()>=Config::Get('acl.vote.blog.rating')) {
 			return self::CAN_VOTE_BLOG_TRUE;
@@ -376,6 +378,31 @@ class ModuleACL extends Module {
 		return false;
 	}
 	/**
+	 * Проверка на возможность добавления комментария в избранное
+	 *
+	 * @param $oComment
+	 * @param $oUser
+	 *
+	 * @return bool
+	 */
+	public function IsAllowFavouriteComment($oComment,$oUser) {
+		if (!in_array($oComment->getTargetType(),array('topic'))) {
+			return false;
+		}
+		if (!$oTarget=$oComment->getTarget()) {
+			return false;
+		}
+		if ($oComment->getTargetType()=='topic') {
+			/**
+			 * Проверяем права на просмотр топика
+			 */
+			if (!$this->IsAllowShowTopic($oTarget,$oUser)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
 	 * Проверка на удаление комментария
 	 *
 	 * @param ModuleComment_EntityComment $oComment
@@ -429,6 +456,32 @@ class ModuleACL extends Module {
 			}
 		}
 		return false;
+	}
+	/**
+	 * Проверка на возможность просмотра топика
+	 *
+	 * @param $oTopic
+	 * @param $oUser
+	 *
+	 * @return bool
+	 */
+	public function IsAllowShowTopic($oTopic,$oUser) {
+		if (!$oTopic) {
+			return false;
+		}
+		/**
+		 * Проверяем права на просмотр топика
+		 */
+		if (!$oTopic->getPublish() and (!$oUser or ($oUser->getId()!=$oTopic->getUserId() and !$oUser->isAdministrator()))) {
+			return false;
+		}
+		/**
+		 * Определяем права на отображение записи из закрытого блога
+		 */
+		if (!$this->IsAllowShowBlog($oTopic->getBlog(),$oUser)) {
+			return false;
+		}
+		return true;
 	}
 	/**
 	 * Проверяет можно или нет пользователю удалять данный блог

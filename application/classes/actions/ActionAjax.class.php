@@ -1013,6 +1013,14 @@ class ActionAjax extends Action {
 		if (!in_array($oComment->getTargetType(),(array)Config::Get('module.comment.vote_target_allow'))) {
 			return $this->EventErrorDebug();
 		}
+		if ($oComment->getTargetType()=='topic') {
+			/**
+			 * Проверяем права на просмотр топика
+			 */
+			if (!$this->ACL_IsAllowShowTopic($oComment->getTarget(),$this->oUserCurrent)) {
+				return parent::EventNotFound();
+			}
+		}
 		/**
 		 * Голосует автор комментария?
 		 */
@@ -1091,6 +1099,12 @@ class ActionAjax extends Action {
 		 */
 		if (!($oTopic=$this->Topic_GetTopicById(getRequestStr('iTargetId',null,'post')))) {
 			return $this->EventErrorDebug();
+		}
+		/**
+		 * Проверяем права на просмотр топика
+		 */
+		if (!$this->ACL_IsAllowShowTopic($oTopic,$this->oUserCurrent)) {
+			return parent::EventNotFound();
 		}
 		/**
 		 * Голосует автор топика?
@@ -1396,6 +1410,12 @@ class ActionAjax extends Action {
 			return $this->EventErrorDebug();
 		}
 		/**
+		 * Есть доступ к комментариям этого топика? Закрытый блог?
+		 */
+		if (!$this->ACL_IsAllowShowBlog($oTopic->getBlog(),$this->oUserCurrent)) {
+			return $this->EventErrorDebug();
+		}
+		/**
 		 * Пропускаем топик из черновиков
 		 */
 		if (!$oTopic->getPublish()) {
@@ -1469,6 +1489,12 @@ class ActionAjax extends Action {
 			return $this->EventErrorDebug();
 		}
 		/**
+		 * Есть доступ к комментарию?
+		 */
+		if (!$this->ACL_IsAllowFavouriteComment($oComment,$this->oUserCurrent)) {
+			return $this->EventErrorDebug();
+		}
+		/**
 		 * Комментарий уже в избранном?
 		 */
 		$oFavouriteComment=$this->Comment_GetFavouriteComment($oComment->getId(),$this->oUserCurrent->getId());
@@ -1530,6 +1556,12 @@ class ActionAjax extends Action {
 		 *	Сообщение существует?
 		 */
 		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('iTargetId',null,'post')))) {
+			return $this->EventErrorDebug();
+		}
+		/**
+		 * Есть доступ?
+		 */
+		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return $this->EventErrorDebug();
 		}
 		/**

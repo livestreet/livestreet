@@ -630,6 +630,7 @@ class ModuleComment extends Module {
 		$aCmt=array();
 		foreach ($aCmts as $oComment) {
 			$oViewerLocal->Assign('oComment',$oComment,true);
+			$oViewerLocal->Assign('bIsHidden',$oComment->getDelete(),true);
 			$sText=$oViewerLocal->Fetch($this->GetTemplateCommentByTarget($sId,$sTargetType));
 			$aCmt[]=array(
 				'html' => $sText,

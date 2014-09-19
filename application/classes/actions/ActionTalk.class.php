@@ -558,6 +558,9 @@ class ActionTalk extends Action {
 		if (!($oTalk=$this->Talk_GetTalkById(getRequestStr('idTarget')))) {
 			return $this->EventErrorDebug();
 		}
+		/**
+		 * Доступен?
+		 */
 		if (!($oTalkUser=$this->Talk_GetTalkUser($oTalk->getId(),$this->oUserCurrent->getId()))) {
 			return $this->EventErrorDebug();
 		}

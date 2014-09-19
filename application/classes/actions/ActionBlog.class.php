@@ -705,22 +705,8 @@ class ActionBlog extends Action {
 		/**
 		 * Проверяем права на просмотр топика
 		 */
-		if (!$oTopic->getPublish() and (!$this->oUserCurrent or ($this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()))) {
+		if (!$this->ACL_IsAllowShowTopic($oTopic,$this->oUserCurrent)) {
 			return parent::EventNotFound();
-		}
-		/**
-		 * Определяем права на отображение записи из закрытого блога
-		 */
-		if($oTopic->getBlog()->getType()=='close'
-			and (!$this->oUserCurrent
-				|| !in_array(
-					$oTopic->getBlog()->getId(),
-					$this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent)
-				)
-			)
-		) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog_close_show'),$this->Lang_Get('not_access'));
-			return Router::Action('error');
 		}
 		/**
 		 * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
@@ -1015,13 +1001,13 @@ class ActionBlog extends Action {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
             return false;
         }
-        /**
-         * Возможность постить коммент в топик в черновиках
-         */
-        if (!$oTopic->getPublish() and $this->oUserCurrent->getId()!=$oTopic->getUserId() and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
-            $bOk = false;
-        }
+		/**
+		 * Права на просмотр топика
+		 */
+		if (!$this->ACL_IsAllowShowTopic($oTopic,$this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error'),$this->Lang_Get('error'));
+			$bOk = false;
+		}
         /**
          * Проверяем разрешено ли постить комменты
          */
@@ -1138,14 +1124,14 @@ class ActionBlog extends Action {
         }
 
         /**
-         * Проверка на соответсвие коментария требованиям безопасности
+         * Проверка на соответсвие комментария требованиям безопасности
          */
         if (!$this->CheckComment($oTopic, $sText)) {
             return;
         }
 
         /**
-         * Проверка на соответсвие коментария родительскому коментарию
+         * Проверка на соответсвие комментария родительскому коментарию
          */
         if (!$this->CheckParentComment($oTopic, $sText, $oCommentParent)) {
             return;
@@ -1334,6 +1320,12 @@ class ActionBlog extends Action {
 			return $this->EventErrorDebug();
 		}
 		/**
+		 * Проверяем тип блога
+		 */
+		if ($oBlog->getType()!='close') {
+			return $this->EventErrorDebug();
+		}
+		/**
 		 * Проверяем, имеет ли право текущий пользователь добавлять invite в blog
 		 */
 		$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$this->oUserCurrent->getId());
@@ -1343,7 +1335,7 @@ class ActionBlog extends Action {
 		}
 		/**
 		 * Получаем список пользователей блога (любого статуса)
-		 * Это полный АХТУНГ - исправить!
+		 * todo: Это полный АХТУНГ - исправить!
 		 */
 		$aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId(
 			$oBlog->getId(),
