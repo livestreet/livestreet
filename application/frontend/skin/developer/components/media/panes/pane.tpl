@@ -3,7 +3,7 @@
 {/block}
 
 <div id="{$id}" data-type="tab-pane" class="tab-pane media-pane" {if $smarty.local.isActive}style="display: block;"{/if}>
-	<div class="media-pane-content">
+	<div class="media-pane-content js-media-pane-content">
 		{block 'media_pane_content'}{/block}
 	</div>
 

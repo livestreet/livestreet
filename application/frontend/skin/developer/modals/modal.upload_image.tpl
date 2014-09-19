@@ -12,7 +12,7 @@
 {block 'modal_attributes'}data-modal-center="false"{/block}
 
 {block 'modal_content_after'}
-	{include 'components/media/media.tpl'}
+	{include 'components/media/media.tpl' classes='js-media'}
 {/block}
 
 {block 'modal_footer'}{/block}

@@ -345,7 +345,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Медиа файлы
 	 */
-	ls.media.init();
+	$( '.js-media' ).lsMedia();
+
+
 	/**
 	 * Стена
 	 */

@@ -552,6 +552,7 @@ $config['head']['default']['js'] = array(
 	"___path.skin.web___/components/uploader/js/uploader-file-list.js",
 	"___path.skin.web___/components/uploader/js/uploader-file.js",
 	"___path.skin.web___/components/uploader/js/uploader-info.js",
+	"___path.skin.web___/components/media/js/media.js",
 	"___path.application.web___/frontend/common/js/tags.js",
 	"___path.application.web___/frontend/common/js/content.js",
 	"___path.application.web___/frontend/common/js/user_list_add.js",
