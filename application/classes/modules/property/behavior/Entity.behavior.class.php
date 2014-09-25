@@ -19,7 +19,7 @@
  *
  */
 
-class ModuleProperty_BehaviorPropertyEntity extends Behavior {
+class ModuleProperty_BehaviorEntity extends Behavior {
 	/**
 	 * Дефолтные параметры
 	 *

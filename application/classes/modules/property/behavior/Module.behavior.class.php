@@ -19,7 +19,7 @@
  *
  */
 
-class ModuleProperty_BehaviorPropertyModule extends Behavior {
+class ModuleProperty_BehaviorModule extends Behavior {
 	/**
 	 * Список хуков
 	 *

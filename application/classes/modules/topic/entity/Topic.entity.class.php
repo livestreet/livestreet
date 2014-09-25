@@ -37,7 +37,7 @@ class ModuleTopic_EntityTopic extends Entity {
 		/**
 		 * Дополнительные поля
 		 */
-		'property'=>'ModuleProperty_BehaviorPropertyEntity',
+		'property'=>'ModuleProperty_BehaviorEntity',
 	);
 	/**
 	 * Определяем правила валидации

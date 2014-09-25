@@ -82,13 +82,8 @@
 
 
 	{* Показывает дополнительные поля *}
-	{$params = [ 'target_type' => 'topic_'|cat:$type->getCode() ] }
+	{insert name="block" block="propertyUpdate" params=[ 'target' => $topic, 'entity' => 'ModuleTopic_EntityTopic', 'target_type' => 'topic_'|cat:$type->getCode() ]}
 
-	{if $topic}
-		{$params.target_id = $topic->getId()}
-	{/if}
-
-	{insert name="block" block="propertyUpdate" params=$params}
 
 
 	{* Вставка опросов *}
