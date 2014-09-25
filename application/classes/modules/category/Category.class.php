@@ -496,5 +496,19 @@ class ModuleCategory extends ModuleORM {
 			$oType->Save();
 		}
 	}
+	/**
+	 * Парсинг текста с учетом конкретной категории
+	 *
+	 * @param string $sText
+	 * @param ModuleCategory_EntityCategory $oCategory
+	 *
+	 * @return string
+	 */
+	public function ParserText($sText,$oCategory) {
+		$this->Text_AddParams(array('oCategory'=>$oCategory));
+		$sResult=$this->Text_Parser($sText);
+		$this->Text_RemoveParams(array('oCategory'));
+		return $sResult;
+	}
 
 }
