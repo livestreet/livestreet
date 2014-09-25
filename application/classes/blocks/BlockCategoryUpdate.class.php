@@ -36,8 +36,7 @@ class BlockCategoryUpdate extends Block {
 		if ($oTarget) {
 			$aBehaviors=$oTarget->GetBehaviors();
 			foreach($aBehaviors as $oBehavior) {
-				$sClassRoot=$this->Plugin_GetRootDelegater('entity',get_class($oBehavior));
-				if ($sClassRoot=='ModuleCategory_BehaviorEntity') {
+				if ($oBehavior instanceof ModuleCategory_BehaviorEntity) {
 					/**
 					 * Нужное нам поведение - получаем список текущих категорий
 					 */
