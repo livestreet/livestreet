@@ -509,14 +509,19 @@ class ActionContent extends Action {
 		$oTopic->setUserId($this->oUserCurrent->getId());
 		$oTopic->setType($sType);
 		$oTopic->setPublish(1);
+		$oTopic->setProperties(getRequest('property'));
 		/**
 		 * Валидируем необходимые поля топика
 		 */
-		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type'),false);
+		$oTopic->_Validate(array('topic_title','topic_text','topic_tags','topic_type','properties'),false);
 		if ($oTopic->_hasValidateErrors()) {
 			$this->Message_AddErrorSingle($oTopic->_getValidateError());
 			return false;
 		}
+		/**
+		 * Аттачим дополнительные поля к топику
+		 */
+		$this->Property_AttachPropertiesForTarget($oTopic,$oTopic->getPropertiesObject());
 		/**
 		 * Формируем текст топика
 		 */

@@ -235,7 +235,7 @@ class ModuleProperty extends ModuleORM {
 			$oValueType->setValueForValidate($sValue);
 			if (true===($sRes=$oValueType->validate())) {
 				$oValueType->setValue($oValueType->getValueForValidate());
-				$aPropertiesResult[]=$oProperty;
+				$aPropertiesResult[$oProperty->getId()]=$oProperty;
 			} else {
 				return $sRes ? $sRes : 'Неверное значение аттрибута: '.$oProperty->getTitle();
 			}
@@ -298,7 +298,7 @@ class ModuleProperty extends ModuleORM {
 	 * @param Entity $oTarget Объект сущности
 	 * @param array $aProperties	Список свойств
 	 */
-	protected function AttachPropertiesForTarget($oTarget,$aProperties) {
+	public function AttachPropertiesForTarget($oTarget,$aProperties) {
 		$oTarget->setPropertyList($aProperties);
 		$oTarget->setPropertyIsLoadAll(true);
 		$aMapperCode=array();
