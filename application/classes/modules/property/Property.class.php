@@ -371,6 +371,9 @@ class ModuleProperty extends ModuleORM {
 			return;
 		}
 		$oEntityFirst=reset($aEntitiesWork);
+		if (!$oEntityFirst->property) {
+			return;
+		}
 		$sTargetType=$oEntityFirst->property->getPropertyTargetType();
 		/**
 		 * Проверяем зарегистрирован ли такой тип
@@ -448,6 +451,9 @@ class ModuleProperty extends ModuleORM {
 	 */
 	public function RewriteFilter($aFilter,$sEntityFull) {
 		$oEntitySample=Engine::GetEntity($sEntityFull);
+		if (!$oEntitySample->property) {
+			return $aFilter;
+		}
 
 		if (!isset($aFilter['#join'])) {
 			$aFilter['#join']=array();
