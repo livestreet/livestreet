@@ -81,7 +81,7 @@ class InstallStepInstallDb extends InstallStep {
 			/**
 			 * Пытаемся создать БД
 			 */
-			@mysqli_query($oDb,"CREATE DATABASE $sNameDb");
+			@mysqli_query($oDb,"CREATE DATABASE IF NOT EXISTS `{$sNameDb}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
 			if (!@mysqli_select_db($oDb,$sNameDb)) {
 				return $this->addError(InstallCore::getLang('steps.installDb.errors.db_not_create'));
 			}
