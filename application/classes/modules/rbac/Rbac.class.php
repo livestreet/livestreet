@@ -174,36 +174,59 @@ class ModuleRbac extends ModuleORM {
 		 * Получаем пермишены для ролей
 		 */
 		$sPermissionCode=func_underscore($sPermissionCode);
+		$mResult=false;
 		foreach($aRoles as $oRole) {
+			/**
+			 * У роли есть необходимый пермишен, то проверим на возможную кастомную обработку с параметрами
+			 */
 			if ($this->CheckPermissionByRole($oRole,$sPermissionCode,$sPlugin)) {
 				/**
-				 * У роли есть необходимый пермишен, теперь проверим на возможную кастомную обработку с параметрами
-				 * Для плагинов: CheckCustomPluginArticleCreate
-				 * Для ядра: CheckCustomCreate
+				 * Проверяем на передачу коллбека
 				 */
-				$sAdd=$sPlugin ? ('Plugin'.func_camelize($sPlugin)) : '';
-				$sMethod='CheckCustom'.$sAdd.func_camelize($sPermissionCode);
-				if (method_exists($this,$sMethod)) {
-					if (call_user_func(array($this,$sMethod),$oUser,$aParams)) {
+				if (isset($aParams['callback']) and is_callable($aParams['callback'])) {
+					$mResult=call_user_func($aParams['callback'],$oUser,$aParams);
+				} else {
+					/**
+					 * Для плагинов: CheckCustomPluginArticleCreate
+					 * Для ядра: CheckCustomCreate
+					 */
+					$sAdd=$sPlugin ? ('Plugin'.func_camelize($sPlugin)) : '';
+					$sMethod='CheckCustom'.$sAdd.func_camelize($sPermissionCode);
+					if (method_exists($this,$sMethod)) {
+						$mResult=call_user_func(array($this,$sMethod),$oUser,$aParams);
+					} else {
 						return true;
 					}
-				} else {
-					return true;
 				}
+				break;
 			}
 		}
 		/**
-		 * Формируем сообщение об ошибке
+		 * Дефолтное сообщение об ошибке
 		 */
-		if (isset($this->aPermissionCache[$sPlugin][$sPermissionCode])) {
-			$aPerm=$this->aPermissionCache[$sPlugin][$sPermissionCode];
-			if ($aPerm['msg_error']) {
-				$sMsg=$this->Lang_Get($aPerm['msg_error']);
-			} else {
-				$sMsg='У вас нет прав на "'.($aPerm['title'] ? $aPerm['title'] : $aPerm['code']).'"';
-			}
+		$sMsg='У вас нет прав на "'.$sPermissionCode.'"';
+		/**
+		 * Проверяем результат кастомной обработки
+		 */
+		if ($mResult===true) {
+			return true;
+		} elseif(is_string($mResult)) {
+			/**
+			 * Вернули кастомное сообщение об ошибке
+			 */
+			$sMsg=$mResult;
 		} else {
-			$sMsg='У вас нет прав на "'.$sPermissionCode.'"';
+			/**
+			 * Формируем сообщение об ошибке
+			 */
+			if (isset($this->aPermissionCache[$sPlugin][$sPermissionCode])) {
+				$aPerm=$this->aPermissionCache[$sPlugin][$sPermissionCode];
+				if ($aPerm['msg_error']) {
+					$sMsg=$this->Lang_Get($aPerm['msg_error']);
+				} else {
+					$sMsg='У вас нет прав на "'.($aPerm['title'] ? $aPerm['title'] : $aPerm['code']).'"';
+				}
+			}
 		}
 		$this->sMessageLast=$sMsg;
 		return false;
@@ -301,7 +324,7 @@ class ModuleRbac extends ModuleORM {
 		}
 	}
 	/**
-	 * Проверяет наличие разрешения у конкретной роли, читывается наследование ролей
+	 * Проверяет наличие разрешения у конкретной роли, учитывается наследование ролей
 	 *
 	 * @param ModuleRbac_EntityRole $oRole	Объект роли
 	 * @param string $sPermissionCode	Код разрешения
