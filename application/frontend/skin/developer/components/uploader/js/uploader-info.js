@@ -76,16 +76,15 @@
 		 * Устанавливает файл
 		 */
 		setFile: function( file ) {
-			var data = file.lsUploaderFile( 'getInfo' ),
-				group = this._getGroupByType( data.type );
-
 			this.file = file;
 
+			var group = this._getGroupByType( this.file.lsUploaderFile( 'getProperty', 'type' ) );
+
 			// Устанавливаем общие для всех типов свойства
-			this._setProperty( this.elements.properties.image,    data['preview'] );
-			this._setProperty( this.elements.properties.name,     data['file-name'] );
-			this._setProperty( this.elements.properties.filesize, Math.floor( data['file-size'] / 1024 ) + ' KB' );
-			this._setProperty( this.elements.properties.date,     data['date-add'] );
+			this._setProperty( this.elements.properties.image,    this.file.lsUploaderFile( 'getProperty', 'preview' ) );
+			this._setProperty( this.elements.properties.name,     this.file.lsUploaderFile( 'getProperty', 'file-name' ) );
+			this._setProperty( this.elements.properties.filesize, Math.floor( this.file.lsUploaderFile( 'getProperty', 'file-size' ) / 1024 ) + ' KB' );
+			this._setProperty( this.elements.properties.date,     this.file.lsUploaderFile( 'getProperty', 'date-add' ) );
 
 			// Активируем группу свойств данного типа
 			this._activateGroup( group );

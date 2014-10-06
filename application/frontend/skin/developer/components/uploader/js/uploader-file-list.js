@@ -175,6 +175,27 @@
 		 */
 		getFiles: function() {
 			return this.element.find( this.option( 'selectors.file' ) );
+		},
+
+		/**
+		 * Показывает файлы только определенного типа, файлы других типов скрываются
+		 */
+		filterFilesByType: function( types ) {
+			this.clearSelected();
+			this.getFiles().each(function () {
+				var file = $( this );
+
+				if ( !~ types.indexOf( file.lsUploaderFile( 'getProperty', 'type' ) ) ) {
+					file.hide();
+				}
+			});
+		},
+
+		/**
+		 * Сбрасывает текущий фильтр (показывает все файлы)
+		 */
+		resetFilter: function() {
+			this.getFiles().show();
 		}
 	});
 })(jQuery);
