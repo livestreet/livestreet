@@ -10,7 +10,7 @@
 
 {block 'modal_id'}modal-image-crop{/block}
 {block 'modal_class'}modal-image-crop js-modal-default{/block}
-{block 'modal_title'}{$aLang.uploadimg}{/block}
+{block 'modal_title'}{lang 'modal_image_crop.title'}{/block}
 
 {block 'modal_content'}
 	<div class="crop">

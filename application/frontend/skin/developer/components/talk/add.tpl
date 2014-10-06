@@ -15,7 +15,7 @@
 			 aRules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
 			 sLabel   = $aLang.talk.add.fields.users.label
 			 sInputClasses = 'autocomplete-users-sep js-input-talk-users'
-			 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">Выбрать из списка друзей</a>"}
+			 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">{lang 'talk.add.choose_friends'}</a>"}
 
 	{* Заголовок *}
 	{include 'components/field/field.text.tpl'

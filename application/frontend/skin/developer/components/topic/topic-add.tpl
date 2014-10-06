@@ -57,13 +57,14 @@
 	{* Текст топика *}
 	{if $type->getParam('allow_text')}
 		{include 'components/editor/editor.tpl'
-				sName            = 'topic[topic_text_source]'
-				sValue           = (( $topic ) ? $topic->getTextSource() : '')|escape
-				sLabel           = $aLang.topic.add.fields.text.label
-				sEntityField	 = 'topic_text_source'
-				sEntity			 = 'ModuleTopic_EntityTopic'
-				sMediaTargetType = 'topic'
-				sMediaTargetId   = ( $topic ) ? $topic->getId() : ''}
+			sName            = 'topic[topic_text_source]'
+			sValue           = (( $topic ) ? $topic->getTextSource() : '')|escape
+			sLabel           = $aLang.topic.add.fields.text.label
+			sEntityField     = 'topic_text_source'
+			sEntity          = 'ModuleTopic_EntityTopic'
+			classes          = 'js-editor-default'
+			sMediaTargetType = 'topic'
+			sMediaTargetId   = ( $topic ) ? $topic->getId() : ''}
 	{/if}
 
 	{block name='add_topic_form_text_after'}{/block}

@@ -346,7 +346,7 @@ class ActionSettings extends Action {
 		 * Загружаем в шаблон JS текстовки
 		 */
 		$this->Lang_AddLangJs(array(
-								  'settings_profile_field_error_max'
+								  'user.settings.profile.notices.error_max_userfields'
 							  ));
 		/**
 		 * Если нажали кнопку "Сохранить"

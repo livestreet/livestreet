@@ -8,7 +8,7 @@
 
 {block name='modal_id'}modal-write{/block}
 {block name='modal_class'}modal-write js-modal-default{/block}
-{block name='modal_title'}{$aLang.block_create}{/block}
+{block name='modal_title'}{lang 'modal_create.title'}{/block}
 
 {block name='modal_content'}
 	{function modal_create_item}
@@ -21,12 +21,14 @@
 	{/function}
 
 	<ul class="write-list clearfix">
-		{$aTopicTypes=$LS->Topic_GetTopicTypes()}
-		{foreach $aTopicTypes as $oTopicType}
-			{modal_create_item sName='topic' url=$oTopicType->getUrlForAdd() sTitle=$oTopicType->getName()}
+		{$types = $LS->Topic_GetTopicTypes()}
+
+		{foreach $types as $type}
+			{modal_create_item sName='topic' url=$type->getUrlForAdd() sTitle=$type->getName()}
 		{/foreach}
-		{modal_create_item sName='blog' sTitle=$aLang.block_create_blog}
-		{modal_create_item sName='talk' sTitle=$aLang.block_create_talk}
+
+		{modal_create_item sName='blog' sTitle={lang 'modal_create.items.blog'}}
+		{modal_create_item sName='talk' sTitle={lang 'modal_create.items.talk'}}
 		{modal_create_item sName='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic.drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
 
 		{hook run='write_item' isPopup=true}

@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-	{$aLang.block_blog_info}
+	{lang 'blog.blocks.info.title'}
 {/block}
 
 {block 'block_options' append}

@@ -11,12 +11,12 @@
 			{$oUser = $oTopic->getUser()}
 			{$oBlog = $oTopic->getBlog()}
 
-			<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape:'html'}">
+			<li class="js-title-topic" title="{$oTopic->getText()|strip_tags|trim|truncate:150:'...'|escape}">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 
 				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a> &rarr;
-				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
-				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape:'html'}</a>
+				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape}</a> &rarr;
+				<a href="{$oTopic->getUrl()}">{$oTopic->getTitle()|escape}</a>
 
 				<p>
 					<time datetime="{date_format date=$oTopic->getDate() format='c'}">
@@ -29,7 +29,3 @@
 		{/foreach}
 	</ul>
 </div>
-
-<footer class="block-footer">
-	<a href="{router page='rss'}new/">RSS</a>
-</footer>

@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-	{$aLang.block_city_tags}
+	{lang 'user.blocks.cities.title'}
 {/block}
 
 {block 'block_options' append}

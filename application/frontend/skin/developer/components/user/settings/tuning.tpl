@@ -46,18 +46,17 @@
 	<fieldset>
 		<legend>{lang name='user.settings.tuning.general'}</legend>
 
-		{foreach $aTimezoneList as $sTimezone}
-			{$aTimezones[] = [
-				'value' => $sTimezone,
-				'text' => $aLang.timezone_list[$sTimezone]
+		{foreach $aTimezoneList as $timezone}
+			{$timezones[] = [
+				'value' => $timezone,
+				'text' => $aLang.date.timezones[ $timezone ]
 			]}
 		{/foreach}
 
 		{include 'components/field/field.select.tpl'
 				 sName          = 'settings_general_timezone'
 				 sLabel         = {lang name='user.settings.tuning.fields.timezone.label'}
-				 sClasses       = 'width-500 js-topic-add-title'
-				 aItems         = $aTimezones
+				 aItems         = $timezones
 				 sSelectedValue = $_aRequest.settings_general_timezone}
 	</fieldset>
 

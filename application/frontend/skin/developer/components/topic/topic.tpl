@@ -81,6 +81,7 @@
 			{include 'components/tags/tag_list.tpl'
 				aTags              = $topic->getTagsArray()
 				bTagsUseFavourite  = true
+				showEditButton     = ! $favourite
 				aTagsFavourite     = ($favourite) ? $favourite->getTagsArray() : []
 				sTagsFavouriteType = 'topic'
 				iTagsFavouriteId   = $topic->getId()}

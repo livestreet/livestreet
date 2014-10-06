@@ -19,14 +19,14 @@
 			{if $oUserCurrent && $bTagsUseFavourite}
 				{foreach $aTagsFavourite as $sTag}
 					<li class="tag-list-item tag-list-item-tag tag-list-item-tag-personal js-tag-list-item-tag-personal">
-						, <a href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/" 
-						     rel="tag" 
+						, <a href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$sTag|escape:'url'}/"
+						     rel="tag"
 						     class="">{$sTag|escape}</a>
 					</li>
 				{/foreach}
 
-				<li class="tag-list-item tag-list-item-edit js-favourite-tag-edit" data-type="{$sTagsFavouriteType}" data-id="{$iTagsFavouriteId}" {if ! $oFavourite}style="display:none;"{/if}>
-					<a href="#" class="link-dotted">{$aLang.favourite_form_tags_button_show}</a>
+				<li class="tag-list-item tag-list-item-edit js-favourite-tag-edit" data-type="{$sTagsFavouriteType}" data-id="{$iTagsFavouriteId}" {if $smarty.local.showEditButton}style="display:none;"{/if}>
+					<a href="#" class="link-dotted">{lang 'favourite_tags.edit'}</a>
 				</li>
 			{/if}
 		{/strip}

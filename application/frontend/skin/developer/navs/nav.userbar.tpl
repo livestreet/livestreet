@@ -2,7 +2,7 @@
 	{$aItems = [
 		[
 			'text'       => "<img src=\"{$oUserCurrent->getProfileAvatarPath(24)}\" alt=\"{$oUserCurrent->getDisplayName()}\" class=\"avatar\" /> {$oUserCurrent->getDisplayName()}",
-			'url'        => "{router page='content'}add/topic",
+			'url'        => "{$oUserCurrent->getUserWebPath()}",
 			'classes'    => 'nav-item--userbar-username',
 			'menu'       => [
 				[ 'name' => 'whois',      'text' => {lang name='user.profile.nav.info'},         'url' => "{$oUserCurrent->getUserWebPath()}" ],
@@ -16,9 +16,9 @@
 				[ 'name' => 'admin',      'text' => {lang name='admin.title'},                   'url' => "{router page='admin'}", 'is_enabled' => $oUserCurrent && $oUserCurrent->isAdministrator() ]
 			]
 		],
-		[ 'text' => $aLang.block_create, 'url' => "{router page='content'}add/topic", 'attributes' => 'data-modal-target="modal-write"' ],
+		[ 'text' => $aLang.common.create, 'url' => "{router page='content'}add/topic", 'attributes' => 'data-modal-target="modal-write"' ],
 		[ 'text' => $aLang.talk.title,   'url' => "{router page='talk'}", 'title' => $aLang.talk.new_messages, 'is_enabled' => $iUserCurrentCountTalkNew, 'count' => $iUserCurrentCountTalkNew ],
-		[ 'text' => $aLang.exit,         'url' => "{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
+		[ 'text' => $aLang.auth.logout,  'url' => "{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
 	]}
 {else}
 	{$aItems = [

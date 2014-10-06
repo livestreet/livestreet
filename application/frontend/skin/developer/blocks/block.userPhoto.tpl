@@ -40,12 +40,11 @@
 	{if $oUserProfile->isAllowEdit()}
 		<p class="upload-photo">
 			<label for="photo" class="form-input-file">
-                <span class="js-ajax-user-photo-upload-choose link-dotted">{if $oUserProfile->getProfileFoto()}{$aLang.settings_profile_photo_change}{else}{$aLang.settings_profile_photo_upload}{/if}</span>
+                <span class="js-ajax-user-photo-upload-choose link-dotted">{if $oUserProfile->getProfileFoto()}{lang 'user.blocks.photo.change_photo'}{else}{lang 'user.blocks.photo.upload_photo'}{/if}</span>
                 <input type="file" name="photo" id="photo" class="js-ajax-user-photo-upload" data-user-id="{$oUserProfile->getId()}">
             </label>
-            &nbsp;&nbsp;&nbsp;
-			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-avatar-change link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_avatar_change}</a>
-			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-photo-upload-remove link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{$aLang.settings_profile_foto_delete}</a>
+			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-avatar-change link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{lang 'user.blocks.photo.change_avatar'}</a>
+			<a href="#" data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-photo-upload-remove link-dotted" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">{lang 'user.blocks.photo.remove'}</a>
 		</p>
 	{/if}
 {/block}

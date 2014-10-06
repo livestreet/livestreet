@@ -1,8 +1,6 @@
 {**
  * Прямой эфир
  * Топики отсортированные по времени последнего комментария
- *
- * @styles css/blocks.css
  *}
 
 <div class="block-content">
@@ -12,12 +10,12 @@
 			{$oTopic = $oComment->getTarget()}
 			{$oBlog = $oTopic->getBlog()}
 
-			<li class="js-title-comment" title="{$oComment->getText()|strip_tags|trim|truncate:100:'...'|escape:'html'}">
+			<li class="js-title-comment" title="{$oComment->getText()|strip_tags|trim|truncate:100:'...'|escape}">
 				<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 
 				<a href="{$oUser->getUserWebPath()}" class="author">{$oUser->getDisplayName()}</a> &rarr;
-				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape:'html'}</a> &rarr;
-				<a href="{if Config::Get('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}">{$oTopic->getTitle()|escape:'html'}</a>
+				<a href="{$oBlog->getUrlFull()}" class="blog-name">{$oBlog->getTitle()|escape}</a> &rarr;
+				<a href="{if Config::Get('module.comment.nested_per_page')}{router page='comments'}{else}{$oTopic->getUrl()}#comment{/if}{$oComment->getId()}">{$oTopic->getTitle()|escape}</a>
 
 				<p>
 					<time datetime="{date_format date=$oComment->getDate() format='c'}">
@@ -30,7 +28,3 @@
 		{/foreach}
 	</ul>
 </div>
-
-<footer class="block-footer">
-	<a href="{router page='rss'}allcomments/">RSS</a>
-</footer>

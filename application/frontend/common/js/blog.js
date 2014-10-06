@@ -180,7 +180,7 @@ ls.blog = (function ($) {
 			}.bind(this));
 		} else {
 			this.elements.nav.submit.removeClass(ls.options.classes.states.loading);
-			this.elements.nav.blogs.html('<option>' + ls.lang.get('blog.blog') + '</option>');
+			this.elements.nav.blogs.html('<option>' + ls.lang.get('blog.blocks.navigator.blog') + '</option>');
 		}
 	};
 

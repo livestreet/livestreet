@@ -9,7 +9,7 @@
 {/block}
 
 {block 'layout_page_title'}
-	{$aLang.topic_create}
+	{$aLang.topic.add.title.add}
 {/block}
 
 {block 'layout_content'}

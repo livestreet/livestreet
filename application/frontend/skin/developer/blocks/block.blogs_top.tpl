@@ -8,12 +8,17 @@
 <ul class="item-list">
 	{foreach $aBlogs as $oBlog}
 		<li>
-			<a href="{$oBlog->getUrlFull()}"><img src="{$oBlog->getAvatarPath(48)}" alt="{$oBlog->getTitle()|escape}" class="avatar" /></a>
+			<a href="{$oBlog->getUrlFull()}">
+				<img src="{$oBlog->getAvatarPath(48)}" alt="{$oBlog->getTitle()|escape}" class="avatar" />
+			</a>
 
-			{if $oBlog->getType() == 'close'}<i title="{$aLang.blog.private}" class="icon icon-lock"></i>{/if}
+			{if $oBlog->getType() == 'close'}
+				<i title="{lang 'blog.blocks.blogs.item.private'}" class="icon icon-lock"></i>
+			{/if}
+
 			<a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>
 
-			<p>{$aLang.vote.rating}: <strong>{$oBlog->getRating()}</strong></p>
+			<p>{lang 'blog.blocks.blogs.item.rating'}: <strong>{$oBlog->getRating()}</strong></p>
 		</li>
 	{/foreach}
 </ul>

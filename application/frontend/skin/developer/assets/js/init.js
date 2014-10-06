@@ -232,7 +232,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Editor
 	 */
-	$( '.js-editor' ).lsEditor();
+	$( '.js-editor-default' ).lsEditor();
 
 
 	/**
@@ -340,12 +340,6 @@ jQuery(document).ready(function($){
 			rangetags: "Кол-во тегов должно быть от %s до %s"
 		}
 	});
-
-
-	/**
-	 * Медиа файлы
-	 */
-	$( '.js-media' ).lsMedia();
 
 
 	/**

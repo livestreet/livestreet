@@ -11,9 +11,9 @@
 {/block}
 
 {block 'block_title'}
-	{$aLang.block_blog_info_note}
+	{lang 'topic.blocks.tip.title'}
 {/block}
 
 {block 'block_content'}
-	{$aLang.block_blog_info_note_text}
+	{lang 'topic.blocks.tip.text'}
 {/block}

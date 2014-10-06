@@ -1633,7 +1633,7 @@ class ActionAjax extends Action {
 			$sTextResult=$oViewer->Fetch("blocks/block.stream_topic.tpl");
 			$this->Viewer_AssignAjax('sText',$sTextResult);
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('block_stream_topics_no'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.topics_empty'),$this->Lang_Get('attention'));
 			return;
 		}
 	}
@@ -1750,7 +1750,7 @@ class ActionAjax extends Action {
 			}
 			$this->Viewer_AssignAjax('aBlogs',$aResult);
 		} else {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog.categories.empty'),$this->Lang_Get('attention'));
+			$this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.navigator.empty'),$this->Lang_Get('attention'));
 			return;
 		}
 	}

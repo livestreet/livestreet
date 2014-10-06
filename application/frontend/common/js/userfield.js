@@ -136,7 +136,7 @@ ls.userfield =( function ($) {
 			tpl.find('select').val(value);
 			$('#user-field-contact-contener').append(tpl.show());
 		} else {
-			ls.msg.error('',ls.lang.get('settings_profile_field_error_max',{count: this.iCountMax}));
+			ls.msg.error('',ls.lang.get('user.settings.profile.notices.error_max_userfields',{count: this.iCountMax}));
 		}
 		return false;
 	};
@@ -144,7 +144,7 @@ ls.userfield =( function ($) {
 	this.changeFormField = function(obj) {
 		var iCount=this.getCountFormField($(obj).val());
 		if (iCount>this.iCountMax) {
-			ls.msg.error('',ls.lang.get('settings_profile_field_error_max',{count: this.iCountMax}));
+			ls.msg.error('',ls.lang.get('user.settings.profile.notices.error_max_userfields',{count: this.iCountMax}));
 		}
 	};
 

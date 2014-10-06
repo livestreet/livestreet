@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-	{$aLang.block_blog_navigator}
+	{lang 'blog.blocks.navigator.title'}
 {/block}
 
 {block 'block_options' append}
@@ -17,7 +17,7 @@
 {block 'block_content'}
 	{if $aNavigatorBlogCategories}
 		<p><select class="width-full js-blog-nav-categories">
-			<option value="0">{$aLang.blog.categories.category}</option>
+			<option value="0">{lang 'blog.blocks.navigator.category'}</option>
 
 			{foreach $aNavigatorBlogCategories as $aCategoryItem}
 				{$oCategoryItem=$aCategoryItem.entity}
@@ -26,15 +26,15 @@
 		</select></p>
 
 		<p><select class="width-full js-blog-nav-blogs" disabled>
-			<option value="0">{$aLang.blog.blog}</option>
+			<option value="0">{lang 'blog.blocks.navigator.blog'}</option>
 
 			{foreach $aNavigatorBlogs as $oBlogItem}
 				<option value="{$oBlogItem->getId()}" data-url="{$oBlogItem->getUrlFull()}">{$oBlogItem->getTitle()|escape}</option>
 			{/foreach}
 		</select></p>
 
-		{include 'components/button/button.tpl' sText=$aLang.block_blog_navigator_button sClasses='js-blog-nav-submit' bIsDisabled=true}
+		{include 'components/button/button.tpl' sText={lang 'blog.blocks.navigator.submit'} sClasses='js-blog-nav-submit' bIsDisabled=true}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.categories.empty sMods='empty'}
+		{include 'components/alert/alert.tpl' mAlerts={lang 'blog.blocks.navigator.empty'} sMods='empty'}
 	{/if}
 {/block}

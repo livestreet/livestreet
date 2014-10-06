@@ -43,5 +43,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-	<button type="submit" class="button button-primary" onclick="ls.user.addComplaint('#form-complaint-user');">{$aLang.user_complaint_title}</button>
+	<button type="submit" class="button button--primary" onclick="ls.user.addComplaint('#form-complaint-user');">{lang 'report.form.submit'}</button>
 {/block}

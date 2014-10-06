@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-	Поиск по блогам
+	{lang 'blog.blocks.search.title'}
 {/block}
 
 {block 'block_options' append}
@@ -15,17 +15,17 @@
 {/block}
 
 {block 'block_content'}
-	<h3>{$aLang.block_category_blog}</h3>
+	<h3>{lang 'blog.blocks.search.categories.title'}</h3>
 
 	{if $aBlogCategories}
-		{$aItems = [ [
+		{$aItems = [[
 			'name'       => 'all',
-			'text'       => $aLang.block_category_blog_all,
+			'text'       => {lang 'blog.blocks.search.categories.all'},
 			'url'        => {router page='blogs'},
 			'attributes' => "data-search-type=\"blogs\" data-name=\"category\" data-value=\"0\"",
 			'classes'    => 'js-search-ajax-option',
 			'count'      => $iCountBlogsAll
-		] ]}
+		]]}
 
 		{foreach $aBlogCategories as $aCategory}
 			{$oCategory=$aCategory.entity}
@@ -51,7 +51,8 @@
     <br>
 
 	{* Тип блога *}
-	<p class="mb-10">Тип блога</p>
+	<h3>{lang 'blog.blocks.search.type.title'}</h3>
+
 	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue=''  bChecked=true sLabel='Любой'}
 	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='open' sLabel='Открытый'}
 	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="blogs"' sName='type' sValue='close' sLabel='Закрытый'}

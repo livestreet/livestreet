@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-	<a href="{router page='stream'}">{$aLang.activity.title}</a>
+	<a href="{router page='stream'}">{lang 'activity.block_recent.title'}</a>
 {/block}
 
 {block 'block_options' append}
@@ -22,8 +22,8 @@
 {* Навигация *}
 {block 'block_nav'}
 	{include 'components/nav/nav.tabs.tpl' sName='block_activity' sActiveItem='comments' sMods='pills' sClasses='' aItems=[
-		[ 'name' => 'comments', 'url' => "{router page='ajax'}stream/comment", 'text' => $aLang.block_stream_comments, 'pane' => 'js-tab-pane-stream' ],
-		[ 'name' => 'topics',   'url' => "{router page='ajax'}stream/topic",   'text' => $aLang.block_stream_topics,   'pane' => 'js-tab-pane-stream' ]
+		[ 'name' => 'comments', 'url' => "{router page='ajax'}stream/comment", 'text' => {lang 'activity.block_recent.comments'}, 'pane' => 'js-tab-pane-stream' ],
+		[ 'name' => 'topics',   'url' => "{router page='ajax'}stream/topic",   'text' => {lang 'activity.block_recent.topics'},   'pane' => 'js-tab-pane-stream' ]
 	]}
 
 	{**
@@ -34,14 +34,14 @@
 	<div
 		class="dropdown dropdown-toggle js-dropdown-default"
 		id="js-stream-dropdown"
-		data-type="dropdown-toggle" 
+		data-type="dropdown-toggle"
 		data-dropdown-target="js-dropdown-menu-stream"
 		data-dropdown-selectable="true"
-		{if !$sItemsHook}style="display: none;"{/if}>{$aLang.block_stream_comments}</div>
+		{if !$sItemsHook}style="display: none;"{/if}>{lang 'activity.block_recent.comments'}</div>
 
 	<ul class="dropdown-menu js-block-nav" id="js-dropdown-menu-stream" data-type="tabs">
-		<li class="active" data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments"><a href="#">{$aLang.block_stream_comments}</a></li>
-		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{$aLang.block_stream_topics}</a></li>
+		<li class="active" data-type="tab" data-tab-url="{router page='ajax'}stream/comment" data-tab-target="js-tab-pane-stream" data-name="block-stream-comments"><a href="#">{lang 'activity.block_recent.comments'}</a></li>
+		<li data-type="tab" data-tab-url="{router page='ajax'}stream/topic" data-tab-target="js-tab-pane-stream"><a href="#">{lang 'activity.block_recent.topics'}</a></li>
 	</ul>
 {/block}
 
@@ -50,4 +50,8 @@
 	<div class="tab-pane" id="js-tab-pane-stream" style="display: block">
 		{$sStreamComments}
 	</div>
+
+	<footer class="block-footer">
+		<a href="{router page='rss'}allcomments/">{lang 'activity.block_recent.feed'}</a>
+	</footer>
 {/block}
