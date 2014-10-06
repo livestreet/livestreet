@@ -14,14 +14,16 @@
 {/block}
 
 {block 'block_content'}
-	{* Показывать ленту с превьюшками *}
-	{include 'components/field/field.checkbox.tpl'
-			 sName    = 'use_thumbs'
-			 bChecked = true
-			 sLabel   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
+	<form method="post" action="" enctype="multipart/form-data">
+		{* Показывать ленту с превьюшками *}
+		{include 'components/field/field.checkbox.tpl'
+				 sName    = 'use_thumbs'
+				 bChecked = true
+				 sLabel   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
 
-	{* Показывать описания фотографий *}
-	{include 'components/field/field.checkbox.tpl'
-			 sName    = 'show_caption'
-			 sLabel   = {lang name='media.photoset.settings.fields.show_caption.label'}}
+		{* Показывать описания фотографий *}
+		{include 'components/field/field.checkbox.tpl'
+				 sName    = 'show_caption'
+				 sLabel   = {lang name='media.photoset.settings.fields.show_caption.label'}}
+	</form>
 {/block}

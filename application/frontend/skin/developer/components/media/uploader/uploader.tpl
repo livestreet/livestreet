@@ -6,7 +6,7 @@
 
 {block 'uploader_aside' append}
 	{* Основные настройки *}
-	{include './uploader-block.insert.tpl'}
+	{include './uploader-block.insert.image.tpl'}
 
 	{* Опции фотосета *}
 	{include './uploader-block.photoset.tpl'}
