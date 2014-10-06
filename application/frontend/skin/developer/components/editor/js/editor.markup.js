@@ -13,6 +13,7 @@ $.widget( "livestreet.lsEditorMarkup", {
 	 * Дефолтные опции
 	 */
 	options: {
+		media: null,
 		sets: {
 			default: {
 				onShiftEnter: { keepDefault:false, replaceWith: '<br />\n' },
@@ -34,7 +35,7 @@ $.widget( "livestreet.lsEditorMarkup", {
 					{ name: ls.lang.get('panel_list'), className: 'editor-ol', openWith: '    <li>', closeWith: '</li>', multiline: true, openBlockWith: '<ol>\n', closeBlockWith: '\n</ol>' },
 					{ name: ls.lang.get('panel_list_li'), className: 'editor-li', openWith: '<li>', closeWith: '</li>' },
 					{ separator: '---------------' },
-					{ name: ls.lang.get('panel_image'), className: 'editor-picture', key: 'P', beforeInsert: function(h) { jQuery('#modal-image-upload').modal('show'); } },
+					{ name: ls.lang.get('panel_image'), className: 'editor-picture', key: 'P', beforeInsert: function ( markitup ) { $( markitup.textarea ).lsEditorMarkup( 'showMedia' ); } },
 					{ name: ls.lang.get('panel_video'), className: 'editor-video', replaceWith: '<video>[![' + ls.lang.get('panel_video_promt') + ':!:http://]!]</video>' },
 					{ name: ls.lang.get('panel_url'), className: 'editor-link', key: 'L', openWith: '<a href="[![' + ls.lang.get('panel_url_promt') + ':!:http://]!]"(!( title="[![Title]!]")!)>', closeWith: '</a>', placeHolder: 'Your text to link...' },
 					{ name: ls.lang.get('panel_user'), className: 'editor-user', replaceWith: '<ls user="[![' + ls.lang.get('panel_user_promt') + ']!]" />' },
@@ -54,7 +55,7 @@ $.widget( "livestreet.lsEditorMarkup", {
 					{ separator: '---------------' },
 					{ name: ls.lang.get('panel_quote'), className: 'editor-quote', key: 'Q', replaceWith: function(m) { if (m.selectionOuter) return '<blockquote>' + m.selectionOuter + '</blockquote>'; else if (m.selection) return '<blockquote>' + m.selection + '</blockquote>'; else return '<blockquote></blockquote>' } },
 					{ name: ls.lang.get('panel_code'), className: 'editor-code', openWith: '<(!(code|!|codeline)!)>', closeWith: '</(!(code|!|codeline)!)>' },
-					{ name: ls.lang.get('panel_image'), className: 'editor-picture', key: 'P', beforeInsert: function(h) { jQuery('#modal-image-upload').modal('show'); } },
+					{ name: ls.lang.get('panel_image'), className: 'editor-picture', key: 'P', beforeInsert: function ( markitup ) { $( markitup.textarea ).lsEditorMarkup( 'showMedia' ); } },
 					{ name: ls.lang.get('panel_url'), className: 'editor-link', key: 'L', openWith: '<a href="[![' + ls.lang.get('panel_url_promt') + ':!:http://]!]"(!( title="[![Title]!]")!)>', closeWith: '</a>', placeHolder: 'Your text to link...' },
 					{ name: ls.lang.get('panel_user'), className: 'editor-user', replaceWith: '<ls user="[![' + ls.lang.get('panel_user_promt') + ']!]" />' },
 					{ separator: '---------------' },
@@ -71,6 +72,8 @@ $.widget( "livestreet.lsEditorMarkup", {
 	 * @private
 	 */
 	_create: function () {
+		var _this = this;
+
 		this.element.markItUp( this.option( 'sets.' + this.option( 'set' ) ) );
 	},
 
@@ -81,5 +84,12 @@ $.widget( "livestreet.lsEditorMarkup", {
 	 */
 	insert: function ( text ) {
 		$.markItUp({ target: this.element, replaceWith: text });
+	},
+
+	/**
+	 * 
+	 */
+	showMedia: function ( text ) {
+		this.option( 'media' ).lsMedia( 'show' );
 	}
 });

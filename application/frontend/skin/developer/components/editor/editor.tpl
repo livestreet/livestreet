@@ -12,28 +12,28 @@
 {* Уникальный ID *}
 {$_uid = $smarty.local.sId|default:($component|cat:rand(0, 10e10))}
 
-{* Класс на который вешается обработчик редактора *}
-{$_sBindClass = $smarty.local.sBindClass|default:"js-{$component}"}
+{* Уникальный ID окна загрузки файлов *}
+{$_mediaUid = "media{$_uid}"}
 
 {**
  * Textarea
  *}
 {function editor_textarea}
 	{include 'components/field/field.textarea.tpl'
-			sName            = $smarty.local.sName
-			sValue           = $smarty.local.sValue
-			sLabel           = $smarty.local.sLabel
-			sMods            = $smarty.local.sMods
-			sClasses         = $smarty.local.sClasses
-			sId              = $_uid
-			sAttributes      = $smarty.local.sAttributes
-			aRules           = $smarty.local.aRules
-			sEntityField     = $smarty.local.sEntityField
-			sEntity          = $smarty.local.sEntity
-			sInputClasses    = "$_sBindClass {$smarty.local.sInputClasses}"
-			sInputAttributes = "{$smarty.local.sAttributes} data-editor-type=\"{$type}\" data-editor-set=\"{$set}\""
-			sNote            = $smarty.local.sNote
-			iRows            = $smarty.local.iRows|default:10}
+		sName            = $smarty.local.sName
+		sValue           = $smarty.local.sValue
+		sLabel           = $smarty.local.sLabel
+		sMods            = $smarty.local.sMods
+		sClasses         = $smarty.local.sClasses
+		sId              = $_uid
+		sAttributes      = $smarty.local.sAttributes
+		aRules           = $smarty.local.aRules
+		sEntityField     = $smarty.local.sEntityField
+		sEntity          = $smarty.local.sEntity
+		sInputClasses    = "{$smarty.local.classes} {$smarty.local.sInputClasses}"
+		sInputAttributes = "{$smarty.local.sAttributes} data-editor-type=\"{$type}\" data-editor-set=\"{$set}\" data-editor-media=\"{$_mediaUid}\""
+		sNote            = $smarty.local.sNote
+		iRows            = $smarty.local.iRows|default:10}
 {/function}
 
 {* Визуальный редактор *}
@@ -58,14 +58,18 @@
 
 		{editor_textarea}
 
-		{if $smarty.local.bShowHelp|default:true}
+		{if $smarty.local.help|default:true}
 			{include './editor.markup.help.tpl' sTargetId=$_uid}
 		{/if}
 	{/hookb}
 {/if}
 
-{* TODO: Исправить повторный инклуд при подключении нескольких редакторов *}
-{include 'modals/modal.upload_image.tpl' sMediaTargetType=$smarty.local.sMediaTargetType sMediaTargetId=$smarty.local.sMediaTargetId assign='sMediaModal'}
+{* Управление медиа-файлами *}
+{include 'components/media/media.tpl'
+	sMediaTargetType = $smarty.local.sMediaTargetType
+	sMediaTargetId   = $smarty.local.sMediaTargetId
+	id               = $_mediaUid
+	assign           = 'sMediaModal'}
 
-{* Добавляем модальное окно в конец лэйаута чтобы избежать вложенных форм *}
+{* Добавляем модальное окно (компонент media) в конец лэйаута чтобы избежать вложенных форм *}
 {$sLayoutAfter = "$sLayoutAfter $sMediaModal" scope='root'}

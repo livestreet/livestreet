@@ -14,6 +14,8 @@ $.widget( "livestreet.lsEditor", {
 	 */
 	options: {
 		type: null,
+		media: null,
+		media_options: {},
 		set: 'default'
 	},
 
@@ -25,8 +27,15 @@ $.widget( "livestreet.lsEditor", {
 	 */
 	_create: function() {
 		this.strategy = this.element.data( 'editor-type' ) == 'visual' ? 'lsEditorVisual' : 'lsEditorMarkup';
-		this.option( 'set', this.element.data('editor-set') || this.option( 'set' ) );
 
+		this.option( 'set', this.element.data('editor-set') || this.option( 'set' ) );
+		this.option( 'media', $( '#' + this.element.data('editor-media') || this.option( 'media' ) ) );
+
+		// Иниц-ия компонента media (вставка медиа-файлов)
+		this.options.media_options.editor = this.element;
+		this.option( 'media' ).lsMedia( this.option( 'media_options' ) );
+
+		// Иниц-ия редактора определенного типа
 		this.element[ this.strategy ]( this.options );
 	},
 

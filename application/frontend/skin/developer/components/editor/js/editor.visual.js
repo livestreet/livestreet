@@ -16,22 +16,26 @@
 		 * Дефолтные опции
 		 */
 		options: {
+			set: 'default',
 			sets: {
-				default: {
+				common: {
 					language: LANGUAGE,
-					plugins: 'pagebreak code autoresize',
-					toolbar: 'undo redo | bold italic strikethrough underline blockquote | bullist numlist | removeformat pagebreak code',
+					plugins: 'media table fullscreen autolink link pagebreak code autoresize emoticons',
+					external_plugins: {
+						// 'lsuser': PATH_SKIN + '/components/editor/js/tinymce/plugins/lsuser/plugin.js'
+					},
+					// skin_url: PATH_SKIN + '/components/editor/js/tinymce/skins/livestreet/',
 					menubar: false,
 					statusbar: false,
-					pagebreak_separator: '<cut>'
+					pagebreak_separator: '<cut>',
+					// extended_valid_elements: 'user',
+					// custom_elements: '~user'
+				},
+				default: {
+					toolbar: 'undo redo | styleselect bold italic strikethrough underline blockquote table | bullist numlist | link unlink emoticons media | lsuser removeformat pagebreak code fullscreen',
 				},
 				light: {
-					language: LANGUAGE,
-					plugins: 'pagebreak code autoresize',
 					toolbar: 'undo redo | bold italic strikethrough underline blockquote | bullist numlist | removeformat pagebreak code',
-					menubar: false,
-					statusbar: false,
-					pagebreak_separator: '<cut>'
 				},
 			}
 		},
@@ -43,7 +47,7 @@
 		 * @private
 		 */
 		_create: function () {
-			this.element.tinymce( this.option( 'sets.' + this.option( 'set' ) ) );
+			this.element.tinymce( $.extend( {}, this.option( 'sets.common' ), this.option( 'sets.' + this.option( 'set' ) ) ) );
 		},
 
 		/**
