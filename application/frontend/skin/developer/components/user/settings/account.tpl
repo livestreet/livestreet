@@ -36,13 +36,13 @@
                  sName    = 'password'
                  aRules   = [ 'rangelength' => '[5,20]' ]
                  sType    = 'password'
-                 sInputClasses = 'width-200'
+                 sInputClasses = 'width-200 js-user-settings-password'
                  sLabel   = {lang name='user.settings.account.fields.password_new.label'}}
 
-        {* Повторить овый пароль *}
+        {* Повторить новый пароль *}
         {include 'components/field/field.text.tpl'
                  sName    = 'password_confirm'
-                 aRules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-input-password' ]
+                 aRules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-user-settings-password' ]
                  sType    = 'password'
                  sInputClasses = 'width-200'
                  sLabel   = {lang name='user.settings.account.fields.password_confirm.label'}}
