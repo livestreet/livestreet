@@ -24,13 +24,6 @@
  */
 class ModuleACL extends Module {
 	/**
-	 * Коды ответов на запрос о возможности
-	 * пользователя голосовать за блог
-	 */
-	const CAN_VOTE_BLOG_FALSE = 0;
-	const CAN_VOTE_BLOG_TRUE = 1;
-	const CAN_VOTE_BLOG_ERROR_CLOSE = 2;
-	/**
 	 * Коды механизма удаления блога
 	 */
 	const CAN_DELETE_BLOG_EMPTY_ONLY  = 1;
@@ -49,66 +42,94 @@ class ModuleACL extends Module {
 	 * @param ModuleUser_EntityUser $oUser	Пользователь
 	 * @return bool
 	 */
-	public function CanCreateBlog(ModuleUser_EntityUser $oUser) {
-		if ($oUser->getRating()>=Config::Get('acl.create.blog.rating')) {
-			return true;
-		}
-		return false;
+	public function CanCreateBlog($oUser) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_blog',array('callback'=>function($oUser,$aParams) use($that) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				/**
+				 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
+				 */
+				if ($oUser->getRating()<Config::Get('acl.create.blog.rating')) {
+					return $that->Lang_Get('blog.add.alerts.acl');
+				}
+				return true;
+			}));
 	}
 	/**
-	 * Проверяет может ли пользователь создавать топики в определенном блоге
+	 * Проверяет может ли пользователь создавать топики
 	 *
 	 * @param ModuleUser_EntityUser $oUser	Пользователь
-	 * @param ModuleBlog_EntityBlog $oBlog	Блог
+	 * @param ModuleTopic_EntityTopicType $oTopicType	Объект типа топика
 	 * @return bool
 	 */
-	public function CanAddTopic(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
-		/**
-		 * Если юзер является создателем блога то разрешаем ему постить
-		 */
-		if ($oUser->getId()==$oBlog->getOwnerId()) {
-			return true;
-		}
-		/**
-		 * Если рейтинг юзера больше либо равен порогу постинга в блоге то разрешаем постинг
-		 */
-		if ($oUser->getRating()>=$oBlog->getLimitRatingTopic()) {
-			return true;
-		}
-		return false;
+	public function CanAddTopic($oUser,$oTopicType) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_topic',array('callback'=>function($oUser,$aParams) use($that) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				/**
+				 * Проверяем хватает ли рейтинга юзеру чтоб создать топик
+				 */
+				if ($oUser->getRating()<=Config::Get('acl.create.topic.limit_rating')) {
+					return $that->Lang_Get('topic.add.notices.rating_limit');
+				}
+				/**
+				 * Проверяем лимит по времени
+				 */
+				if (!$that->CanPostTopicTime($oUser)) {
+					return $that->Lang_Get('topic.add.notices.time_limit');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь создавать комментарии
 	 *
 	 * @param  ModuleUser_EntityUser $oUser	Пользователь
+	 * @param  ModuleTopic_EntityTopic|null $oTopic Топик
 	 * @return bool
 	 */
-	public function CanPostComment(ModuleUser_EntityUser $oUser,$oTopic=null) {
-		/**
-		 * Проверяем на закрытый блог
-		 */
-		if ($oTopic and !$this->IsAllowShowBlog($oTopic->getBlog(),$oUser)) {
-			return false;
-		}
-		if ($oUser->getRating()>=Config::Get('acl.create.comment.rating')) {
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * Проверяет может ли пользователь создавать комментарии по времени(например ограничение максимум 1 коммент в 5 минут)
-	 *
-	 * @param ModuleUser_EntityUser $oUser	Пользователь
-	 * @return bool
-	 */
-	public function CanPostCommentTime(ModuleUser_EntityUser $oUser) {
-		if (Config::Get('acl.create.comment.limit_time')>0 and $oUser->getDateCommentLast()) {
-			$sDateCommentLast=strtotime($oUser->getDateCommentLast());
-			if ($oUser->getRating()<Config::Get('acl.create.comment.limit_time_rating') and ((time()-$sDateCommentLast)<Config::Get('acl.create.comment.limit_time'))) {
-				return false;
-			}
-		}
-		return true;
+	public function CanPostComment($oUser,$oTopic=null) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_topic_comment',array('callback'=>function($oUser,$aParams) use($that,$oTopic) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				/**
+				 * Проверяем на закрытый блог
+				 */
+				if ($oTopic and !$that->IsAllowShowBlog($oTopic->getBlog(),$oUser)) {
+					return $that->Lang_Get('topic.comments.notices.acl');
+				}
+				/**
+				 * Ограничение на рейтинг
+				 */
+				if ($oUser->getRating()<Config::Get('acl.create.comment.rating')) {
+					return $that->Lang_Get('topic.comments.notices.acl');
+				}
+				/**
+				 * Ограничение по времени
+				 */
+				if (Config::Get('acl.create.comment.limit_time')>0 and $oUser->getDateCommentLast()) {
+					$sDateCommentLast=strtotime($oUser->getDateCommentLast());
+					if ($oUser->getRating()<Config::Get('acl.create.comment.limit_time_rating') and ((time()-$sDateCommentLast)<Config::Get('acl.create.comment.limit_time'))) {
+						return $that->Lang_Get('topic.comments.notices.limit');
+					}
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь создавать топик по времени
@@ -116,7 +137,7 @@ class ModuleACL extends Module {
 	 * @param  ModuleUser_EntityUser $oUser	Пользователь
 	 * @return bool
 	 */
-	public function CanPostTopicTime(ModuleUser_EntityUser $oUser) {
+	public function CanPostTopicTime($oUser) {
 		// Для администраторов ограничение по времени не действует
 		if($oUser->isAdministrator()
 			or Config::Get('acl.create.topic.limit_time')==0
@@ -133,12 +154,33 @@ class ModuleACL extends Module {
 		return true;
 	}
 	/**
+	 * Проверяет возможность отправки личного сообщения
+	 *
+	 * @param  ModuleUser_EntityUser $oUser	Пользователь
+	 * @return bool
+	 */
+	public function CanAddTalk($oUser) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_talk',array('callback'=>function($oUser,$aParams) use($that) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				if (!$that->CanSendTalkTime($oUser)) {
+					return $that->Lang_Get('talk.notices.time_limit');
+				}
+				return true;
+			}));
+	}
+	/**
 	 * Проверяет может ли пользователь отправить инбокс по времени
 	 *
 	 * @param  ModuleUser_EntityUser $oUser	Пользователь
 	 * @return bool
 	 */
-	public function CanSendTalkTime(ModuleUser_EntityUser $oUser) {
+	public function CanSendTalkTime($oUser) {
 		// Для администраторов ограничение по времени не действует
 		if($oUser->isAdministrator()
 			or Config::Get('acl.create.talk.limit_time')==0
@@ -155,39 +197,38 @@ class ModuleACL extends Module {
 		return true;
 	}
 	/**
-	 * Проверяет может ли пользователь создавать комментарии к инбоксу по времени
+	 * Проверяет может ли пользователь создавать комментарии к личным сообщениям
 	 *
 	 * @param  ModuleUser_EntityUser $oUser	Пользователь
 	 * @return bool
 	 */
-	public function CanPostTalkCommentTime(ModuleUser_EntityUser $oUser) {
-		/**
-		 * Для администраторов ограничение по времени не действует
-		 */
-		if($oUser->isAdministrator()
-			or Config::Get('acl.create.talk_comment.limit_time')==0
-			or $oUser->getRating()>=Config::Get('acl.create.talk_comment.limit_time_rating'))
-			return true;
-		/**
-		 * Проверяем, если топик опубликованный меньше чем acl.create.topic.limit_time секунд назад
-		 */
-		$aTalkComments=$this->Comment_GetCommentsByUserId($oUser->getId(),'talk',1,1);
-		/**
-		 * Если комментариев не было
-		 */
-		if(!is_array($aTalkComments) or $aTalkComments['count']==0){
-			return true;
-		}
-		/**
-		 * Достаем последний комментарий
-		 */
-		$oComment = array_shift($aTalkComments['collection']);
-		$sDate = strtotime($oComment->getDate());
+	public function CanPostTalkComment($oUser) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_talk_comment',array('callback'=>function($oUser,$aParams) use($that) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				$aTalkComments=$that->Comment_GetCommentsByUserId($oUser->getId(),'talk',1,1);
+				/**
+				 * Если комментариев не было
+				 */
+				if(!is_array($aTalkComments) or $aTalkComments['count']==0){
+					return true;
+				}
+				/**
+				 * Достаем последний комментарий
+				 */
+				$oComment=array_shift($aTalkComments['collection']);
+				$sDate=strtotime($oComment->getDate());
 
-		if($sDate and ((time()-$sDate)<Config::Get('acl.create.talk_comment.limit_time'))) {
-			return false;
-		}
-		return true;
+				if($sDate and ((time()-$sDate)<Config::Get('acl.create.talk_comment.limit_time'))) {
+					return $that->Lang_Get('talk.add.notices.time_limit');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь голосовать за конкретный комментарий
@@ -196,11 +237,38 @@ class ModuleACL extends Module {
 	 * @param ModuleComment_EntityComment $oComment	Комментарий
 	 * @return bool
 	 */
-	public function CanVoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment) {
-		if ($oUser->getRating()>=Config::Get('acl.vote.comment.rating')) {
-			return true;
-		}
-		return false;
+	public function CanVoteComment($oUser,$oComment) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'vote_comment',array('callback'=>function($oUser,$aParams) use($that,$oComment) {
+				if (!$oUser) {
+					return false;
+				}
+				/**
+				 * Голосует автор комментария?
+				 */
+				if ($oComment->getUserId()==$oUser->getId()) {
+					return $that->Lang_Get('vote.notices.error_self');
+				}
+				/**
+				 * Пользователь уже голосовал?
+				 */
+				if ($oTopicCommentVote=$that->Vote_GetVote($oComment->getId(),'comment',$oUser->getId())) {
+					return $that->Lang_Get('vote.notices.error_already_voted');
+				}
+				/**
+				 * Ограничение по рейтингу
+				 */
+				if ($oUser->getRating()<Config::Get('acl.vote.comment.rating')) {
+					return $that->Lang_Get('vote.notices.error_acl');
+				}
+				/**
+				 * Время голосования истекло?
+				 */
+				if (strtotime($oComment->getDate())<=time()-Config::Get('acl.vote.comment.limit_time')) {
+					return $that->Lang_Get('vote.notices.error_time');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь голосовать за конкретный блог
@@ -209,35 +277,81 @@ class ModuleACL extends Module {
 	 * @param ModuleBlog_EntityBlog $oBlog	Блог
 	 * @return bool
 	 */
-	public function CanVoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
-		/**
-		 * Если блог закрытый, проверяем является ли пользователь его читателем
-		 */
-		if($oBlog->getType()=='close') {
-			$oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
-			if(!$oBlogUser || $oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST) {
-				return self::CAN_VOTE_BLOG_ERROR_CLOSE;
-			}
-		} elseif($oBlog->getType()=='personal') {
-			return self::CAN_VOTE_BLOG_FALSE;
-		}
-		if ($oUser->getRating()>=Config::Get('acl.vote.blog.rating')) {
-			return self::CAN_VOTE_BLOG_TRUE;
-		}
-		return self::CAN_VOTE_BLOG_FALSE;
+	public function CanVoteBlog($oUser, $oBlog) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'vote_blog',array('callback'=>function($oUser,$aParams) use($that,$oBlog) {
+				if (!$oUser) {
+					return false;
+				}
+				/**
+				 * Голосует за свой блог?
+				 */
+				if ($oBlog->getOwnerId()==$oUser->getId()) {
+					return $that->Lang_Get('vote.notices.error_self');
+				}
+				/**
+				 * Уже голосовал?
+				 */
+				if ($oBlogVote=$that->Vote_GetVote($oBlog->getId(),'blog',$oUser->getId())) {
+					return $that->Lang_Get('vote.notices.error_already_voted');
+				}
+				/**
+				 * Если блог закрытый, проверяем является ли пользователь его читателем
+				 */
+				if($oBlog->getType()=='close') {
+					$oBlogUser = $that->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId());
+					if(!$oBlogUser || $oBlogUser->getUserRole()<ModuleBlog::BLOG_USER_ROLE_GUEST) {
+						return $that->Lang_Get('blog.vote.notices.error_close');
+					}
+				} elseif($oBlog->getType()=='personal') {
+					return $that->Lang_Get('vote.notices.error_acl');
+				}
+				if ($oUser->getRating()<Config::Get('acl.vote.blog.rating')) {
+					return $that->Lang_Get('vote.notices.error_acl');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь голосовать за конкретный топик
 	 *
 	 * @param ModuleUser_EntityUser $oUser	Пользователь
 	 * @param ModuleTopic_EntityTopic $oTopic	Топик
+	 * @param int $iValue	Направление голосования
 	 * @return bool
 	 */
-	public function CanVoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic) {
-		if ($oUser->getRating()>=Config::Get('acl.vote.topic.rating')) {
-			return true;
-		}
-		return false;
+	public function CanVoteTopic($oUser, $oTopic, $iValue) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'vote_topic',array('callback'=>function($oUser,$aParams) use($that,$oTopic,$iValue) {
+				if (!$oUser) {
+					return false;
+				}
+				/**
+				 * Голосует автор топика?
+				 */
+				if ($oTopic->getUserId()==$oUser->getId()) {
+					return $that->Lang_Get('vote.notices.error_self');
+				}
+				/**
+				 * Пользователь уже голосовал?
+				 */
+				if ($oTopicVote=$that->Vote_GetVote($oTopic->getId(),'topic',$oUser->getId())) {
+					return $that->Lang_Get('vote.notices.error_already_voted');
+				}
+				/**
+				 * Время голосования истекло?
+				 */
+				if (strtotime($oTopic->getDateAdd())<=time()-Config::Get('acl.vote.topic.limit_time')) {
+					return $that->Lang_Get('vote.notices.error_time');
+				}
+				/**
+				 * Ограничение по рейтингу
+				 */
+				if ($iValue!=0 and $oUser->getRating()<Config::Get('acl.vote.topic.rating')) {
+					return $that->Lang_Get('vote.notices.error_acl');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет может ли пользователь голосовать за конкретного пользователя
@@ -246,11 +360,32 @@ class ModuleACL extends Module {
 	 * @param ModuleUser_EntityUser $oUserTarget	Пользователь за которого голосуем
 	 * @return bool
 	 */
-	public function CanVoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget) {
-		if ($oUser->getRating()>=Config::Get('acl.vote.user.rating')) {
-			return true;
-		}
-		return false;
+	public function CanVoteUser($oUser, $oUserTarget) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'vote_user',array('callback'=>function($oUser,$aParams) use($that,$oUserTarget) {
+				if (!$oUser) {
+					return false;
+				}
+				/**
+				 * Голосует за себя?
+				 */
+				if ($oUserTarget->getId()==$oUser->getId()) {
+					return $that->Lang_Get('vote.notices.error_self');
+				}
+				/**
+				 * Уже голосовал?
+				 */
+				if ($oUserVote=$that->Vote_GetVote($oUserTarget->getId(),'user',$oUser->getId())) {
+					return $that->Lang_Get('vote.notices.error_already_voted');
+				}
+				/**
+				 * Ограничение по рейтингу
+				 */
+				if ($oUser->getRating()<Config::Get('acl.vote.user.rating')) {
+					return $that->Lang_Get('vote.notices.error_acl');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет можно ли юзеру слать инвайты
@@ -258,11 +393,20 @@ class ModuleACL extends Module {
 	 * @param ModuleUser_EntityUser $oUser	Пользователь
 	 * @return bool
 	 */
-	public function CanSendInvite(ModuleUser_EntityUser $oUser) {
-		if ($this->User_GetCountInviteAvailable($oUser)==0) {
-			return false;
-		}
-		return true;
+	public function CanSendInvite($oUser) {
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'vote_user',array('callback'=>function($oUser,$aParams) use($that) {
+				if (!$oUser) {
+					return false;
+				}
+				if ($oUser->isAdministrator()) {
+					return true;
+				}
+				if ($that->User_GetCountInviteAvailable($oUser)==0) {
+					return $that->Lang_Get('user.settings.invites.available_no');
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверяет можно или нет юзеру постить в данный блог
@@ -275,14 +419,11 @@ class ModuleACL extends Module {
 		if ($oUser->isAdministrator()) {
 			return true;
 		}
-		if ($oUser->getRating()<=Config::Get('acl.create.topic.limit_rating')) {
-			return false;
-		}
 		if ($oBlog->getOwnerId()==$oUser->getId()) {
 			return true;
 		}
 		if ($oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(),$oUser->getId())) {
-			if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+			if ($oUser->getRating()>=$oBlog->getLimitRatingTopic() or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
 				return true;
 			}
 		}
@@ -386,21 +527,27 @@ class ModuleACL extends Module {
 	 * @return bool
 	 */
 	public function IsAllowFavouriteComment($oComment,$oUser) {
-		if (!in_array($oComment->getTargetType(),array('topic'))) {
-			return false;
-		}
-		if (!$oTarget=$oComment->getTarget()) {
-			return false;
-		}
-		if ($oComment->getTargetType()=='topic') {
-			/**
-			 * Проверяем права на просмотр топика
-			 */
-			if (!$this->IsAllowShowTopic($oTarget,$oUser)) {
-				return false;
-			}
-		}
-		return true;
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'create_comment_favourite',array('callback'=>function($oUser,$aParams) use($that,$oComment) {
+				if (!$oUser) {
+					return false;
+				}
+				if (!in_array($oComment->getTargetType(),array('topic'))) {
+					return false;
+				}
+				if (!$oTarget=$oComment->getTarget()) {
+					return false;
+				}
+				if ($oComment->getTargetType()=='topic') {
+					/**
+					 * Проверяем права на просмотр топика
+					 */
+					if (!$that->IsAllowShowTopic($oTarget,$oUser)) {
+						return false;
+					}
+				}
+				return true;
+			}));
 	}
 	/**
 	 * Проверка на удаление комментария
@@ -427,35 +574,41 @@ class ModuleACL extends Module {
 	 * @return bool
 	 */
 	public function IsAllowDeleteTopic($oTopic,$oUser) {
-		/**
-		 * Разрешаем если это админ сайта или автор топика
-		 */
-		if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
-			return true;
-		}
-		/**
-		 * Если автор(смотритель) блога
-		 */
-		if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
-			return true;
-		}
-		/**
-		 * Если модер или админ блога
-		 */
-		if ($this->User_GetUserCurrent() and $this->User_GetUserCurrent()->getId()==$oUser->getId()) {
-			/**
-			 * Для авторизованного пользователя данный код будет работать быстрее
-			 */
-			if ($oTopic->getBlog()->getUserIsAdministrator() or $oTopic->getBlog()->getUserIsModerator()) {
-				return true;
-			}
-		} else {
-			$oBlogUser=$this->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
-			if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
-				return true;
-			}
-		}
-		return false;
+		$that=$this; // fix for PHP < 5.4
+		return $this->Rbac_IsAllowUser($oUser,'remove_topic',array('callback'=>function($oUser,$aParams) use($that,$oTopic) {
+				if (!$oUser) {
+					return false;
+				}
+				/**
+				 * Разрешаем если это админ сайта или автор топика
+				 */
+				if ($oTopic->getUserId()==$oUser->getId() or $oUser->isAdministrator()) {
+					return true;
+				}
+				/**
+				 * Если автор(смотритель) блога
+				 */
+				if ($oTopic->getBlog()->getOwnerId()==$oUser->getId()) {
+					return true;
+				}
+				/**
+				 * Если модер или админ блога
+				 */
+				if ($that->User_GetUserCurrent() and $that->User_GetUserCurrent()->getId()==$oUser->getId()) {
+					/**
+					 * Для авторизованного пользователя данный код будет работать быстрее
+					 */
+					if ($oTopic->getBlog()->getUserIsAdministrator() or $oTopic->getBlog()->getUserIsModerator()) {
+						return true;
+					}
+				} else {
+					$oBlogUser=$that->Blog_GetBlogUserByBlogIdAndUserId($oTopic->getBlogId(),$oUser->getId());
+					if ($oBlogUser and ($oBlogUser->getIsModerator() or $oBlogUser->getIsAdministrator())) {
+						return true;
+					}
+				}
+				return false;
+			}));
 	}
 	/**
 	 * Проверка на возможность просмотра топика

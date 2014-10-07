@@ -727,7 +727,7 @@ class ModuleBlog extends Module {
 			$aBlogUsers=$this->GetBlogUsersByUserId($oUser->getId());
 			foreach ($aBlogUsers as $oBlogUser) {
 				$oBlog=$oBlogUser->getBlog();
-				if ($this->ACL_CanAddTopic($oUser,$oBlog) or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+				if ($oUser->getRating()>=$oBlog->getLimitRatingTopic() or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
 					$aAllowBlogsUser[$oBlog->getId()]=$oBlog;
 				}
 			}

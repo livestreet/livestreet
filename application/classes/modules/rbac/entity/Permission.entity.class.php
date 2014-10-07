@@ -106,4 +106,7 @@ class ModuleRbac_EntityPermission extends EntityORM {
 		return Router::GetPath('admin/users/rbac/permission-remove/'.$this->getId());
 	}
 
+	public function getTitleLang() {
+		return $this->Lang_Get($this->getTitle());
+	}
 }

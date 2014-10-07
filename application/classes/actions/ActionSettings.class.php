@@ -217,10 +217,10 @@ class ActionSettings extends Action {
 
 			$bError=false;
 			/**
-			 * Есть права на отправку инфайтов?
+			 * Есть права на отправку инвайтов?
 			 */
-			if (!$this->ACL_CanSendInvite($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-				$this->Message_AddError($this->Lang_Get('user.settings.invites.available_no'),$this->Lang_Get('error'));
+			if (!$this->ACL_CanSendInvite($this->oUserCurrent)) {
+				$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
 				$bError=true;
 			}
 			/**

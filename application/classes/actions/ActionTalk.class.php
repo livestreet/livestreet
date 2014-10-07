@@ -369,16 +369,16 @@ class ActionTalk extends Action {
 			return false;
 		}
 		/**
+		 * Проверяем разрешено ли отправлять личное сообщение
+		 */
+		if (!$this->ACL_CanAddTalk($this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			return Router::Action('error');
+		}
+		/**
 		 * Проверка корректности полей формы
 		 */
 		if (!$this->checkTalkFields()) {
-			return false;
-		}
-		/**
-		 * Проверяем разрешено ли отправлять инбокс по времени
-		 */
-		if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk.notices.time_limit'),$this->Lang_Get('error'));
 			return false;
 		}
 		/**
@@ -626,11 +626,11 @@ class ActionTalk extends Action {
 			return $this->EventErrorDebug();
 		}
 		/**
-		 * Проверяем разрешено ли отправлять инбокс по времени
+		 * Проверяем разрешено ли постить комменты
 		 */
-		if (!$this->ACL_CanPostTalkCommentTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('talk.add.notices.time_limit'),$this->Lang_Get('error'));
-			return false;
+		if (!$this->ACL_CanPostTalkComment($this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			return;
 		}
 		/**
 		 * Проверяем текст комментария

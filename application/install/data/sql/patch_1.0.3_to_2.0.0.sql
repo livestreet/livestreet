@@ -682,3 +682,20 @@ CREATE TABLE IF NOT EXISTS `prefix_plugin_version` (
   KEY `code` (`code`),
   KEY `version` (`version`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- 07.10.2014
+
+INSERT INTO `prefix_rbac_permission` (`code`, `plugin`, `title`, `msg_error`, `date_create`, `state`) VALUES
+('create_topic', '', 'rbac.permission.create_topic.title', 'rbac.permission.create_topic.error', '2014-08-31 07:59:56', 1),
+('create_blog', '', 'rbac.permission.create_blog.title', 'rbac.permission.create_blog.error', '2014-10-02 16:08:54', 1),
+('create_topic_comment', '', 'rbac.permission.create_topic_comment.title', 'rbac.permission.create_topic_comment.error', '2014-10-05 11:02:31', 1),
+('create_talk', '', 'rbac.permission.create_talk.title', 'rbac.permission.create_talk.error', '2014-10-05 11:54:22', 1),
+('create_talk_comment', '', 'rbac.permission.create_talk_comment.title', 'rbac.permission.create_talk_comment.error', '2014-10-05 14:08:15', 1),
+('vote_comment', '', 'rbac.permission.vote_comment.title', 'rbac.permission.vote_comment.error', '2014-10-05 14:31:29', 1),
+('vote_blog', '', 'rbac.permission.vote_blog.title', 'rbac.permission.vote_blog.error', '2014-10-05 16:51:53', 1),
+('vote_topic', '', 'rbac.permission.vote_topic.title', 'rbac.permission.vote_topic.error', '2014-10-05 17:22:56', 1),
+('vote_user', '', 'rbac.permission.vote_user.title', 'rbac.permission.vote_user.error', '2014-10-05 17:27:19', 1),
+('create_invite', '', 'rbac.permission.create_invite.title', 'rbac.permission.create_invite.error', '2014-10-05 17:28:46', 1),
+('create_comment_favourite', '', 'rbac.permission.create_comment_favourite.title', 'rbac.permission.create_comment_favourite.error', '2014-10-05 17:56:23', 1),
+('remove_topic', '', 'rbac.permission.remove_topic.title', 'rbac.permission.remove_topic.error', '2014-10-05 18:06:09', 1);

@@ -193,10 +193,10 @@ class ActionBlog extends Action {
 			return Router::Action('error');
 		}
 		/**
-		 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
+		 * Проверяем права на создание блога
 		 */
-		if (!$this->ACL_CanCreateBlog($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-			$this->Message_AddErrorSingle($this->Lang_Get('blog.add.alerts.acl'),$this->Lang_Get('error'));
+		if (!$this->ACL_CanCreateBlog($this->oUserCurrent)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
 			return Router::Action('error');
 		}
 		$this->Hook_Run('blog_add_show');
@@ -1011,17 +1011,10 @@ class ActionBlog extends Action {
         /**
          * Проверяем разрешено ли постить комменты
          */
-        if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic) and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.acl'),$this->Lang_Get('error'));
-            return;
-        }
-        /**
-         * Проверяем разрешено ли постить комменты по времени
-         */
-        if (!$this->ACL_CanPostCommentTime($this->oUserCurrent) and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.limit'),$this->Lang_Get('error'));
-            $bOk = false;
-        }
+		if (!$this->ACL_CanPostComment($this->oUserCurrent,$oTopic)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			$bOk = false;
+		}
         /**
          * Проверяем запрет на добавления коммента автором топика
          */

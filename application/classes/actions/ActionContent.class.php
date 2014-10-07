@@ -134,7 +134,8 @@ class ActionContent extends Action {
 		 * проверяем есть ли право на удаление топика
 		 */
 		if (!$this->ACL_IsAllowDeleteTopic($oTopic,$this->oUserCurrent)) {
-			return parent::EventNotFound();
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			return Router::Action('error');
 		}
 		/**
 		 * Удаляем топик
@@ -191,6 +192,13 @@ class ActionContent extends Action {
 		$sTopicType=$this->GetParam(0);
 		if (!$oTopicType=$this->Topic_GetTopicType($sTopicType)) {
 			return parent::EventNotFound();
+		}
+		/**
+		 * Проверяем права на создание топика
+		 */
+		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oTopicType)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			return Router::Action('error');
 		}
 		$this->sMenuSubItemSelect=$sTopicType;
 		/**
@@ -349,18 +357,18 @@ class ActionContent extends Action {
 	protected function EventAjaxAdd() {
 		$this->Viewer_SetResponseAjax();
 		/**
-		 * TODO: Здесь нужна проверка прав на создание топика
+		 * Проверяем тип топика
 		 */
 		$sTopicType=getRequestStr('topic_type');
 		if (!$oTopicType=$this->Topic_GetTopicType($sTopicType)) {
 			return $this->EventErrorDebug();
 		}
 		/**
-		 * Проверяем разрешено ли постить топик по времени
+		 * Проверяем права на создание топика
 		 */
-		if (isPost('submit_topic_publish') and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'),$this->Lang_Get('error'));
-			return;
+		if (!$this->ACL_CanAddTopic($this->oUserCurrent,$oTopicType)) {
+			$this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
+			return false;
 		}
 		/**
 		 * Создаем топик
