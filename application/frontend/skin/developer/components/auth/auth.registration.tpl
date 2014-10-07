@@ -24,7 +24,7 @@
     {include 'components/field/field.text.tpl'
              sName         = 'password'
              sType         = 'password'
-             aRules        = [ 'required' => true, 'rangelength' => '[2,20]' ]
+             aRules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
              sLabel        = $aLang.auth.labels.password
              sInputClasses = 'js-input-password-reg'}
 
@@ -32,7 +32,7 @@
     {include 'components/field/field.text.tpl'
              sName   = 'password_confirm'
              sType   = 'password'
-             aRules  = [ 'required' => true, 'rangelength' => '[2,20]', 'equalto' => '.js-input-password-reg' ]
+             aRules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
              sLabel  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}
