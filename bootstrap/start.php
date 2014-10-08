@@ -1,7 +1,7 @@
 <?php
-/**
+/*
  * LiveStreet CMS
- * Copyright © 2014 OOO "ЛС-СОФТ"
+ * Copyright © 2013 OOO "ЛС-СОФТ"
  *
  * ------------------------------------------------------
  *
@@ -14,7 +14,7 @@
  * ------------------------------------------------------
  *
  * @link http://www.livestreetcms.com
- * @copyright 2014 OOO "ЛС-СОФТ"
+ * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Maxim Mzhelskiy <rus.engine@gmail.com>
  *
  */
@@ -30,12 +30,12 @@
 /**
  * Формируем путь до фреймворка
  */
-$sPathToFramework=dirname(__DIR__).'/framework/';
+$sPathToFramework = dirname(__DIR__) . '/framework/';
 
 /**
  * Подключаем ядро
  */
-require_once($sPathToFramework."/classes/engine/Engine.class.php");
+require_once($sPathToFramework . "/classes/engine/Engine.class.php");
 
 /**
  * Определяем окружение
@@ -43,26 +43,25 @@ require_once($sPathToFramework."/classes/engine/Engine.class.php");
  * Например, для окружения "production" будет загружен конфиг /application/config/config.production.php
  * По дефолту работает окружение "local"
  */
-$sEnv=Engine::DetectEnvironment(array(
-                                 'production' => array('your-machine-name'),
-                             ));
+$sEnv = Engine::DetectEnvironment(array(
+    'production' => array('your-machine-name'),
+));
 
 
 /**
  * Дополнительные подготовка фреймворка
  */
-require_once($sPathToFramework."/bootstrap/start.php");
+require_once($sPathToFramework . "/bootstrap/start.php");
 
 /**
  * Подключаем загрузчик конфигов
  */
-require_once($sPathToFramework."/config/loader.php");
+require_once($sPathToFramework . "/config/loader.php");
 
 /**
  * Определяем дополнительные параметры роутинга
  */
-$aRouterParams=array(
-	/*
+$aRouterParams = array(/*
 	'callback_after_parse_url' => function() {
 
 	}
