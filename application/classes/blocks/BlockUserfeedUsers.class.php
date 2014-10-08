@@ -33,7 +33,8 @@ class BlockUserfeedUsers extends Block {
 			/**
 			 * Получаем необходимые переменные и прогружаем в шаблон
 			 */
-			$this->Viewer_Assign('users', $this->Userfeed_getUserSubscribes($oUserCurrent->getId())['users']);
+			$aResult=$this->Userfeed_getUserSubscribes($oUserCurrent->getId());
+			$this->Viewer_Assign('users', $aResult['users']);
 		}
 	}
 }
