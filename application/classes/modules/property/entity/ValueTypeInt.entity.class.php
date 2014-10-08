@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Объект управления типом int
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueTypeInt extends ModuleProperty_EntityValueType {
 
 	public function getValueForDisplay() {

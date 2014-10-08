@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Базовый объект значения поля
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueType extends Entity {
 
 	protected $oValue=null;

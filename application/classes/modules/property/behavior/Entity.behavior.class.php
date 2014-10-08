@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Поведение для подключения функционала дополнительных полей к сущностям
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_BehaviorEntity extends Behavior {
 	/**
 	 * Дефолтные параметры

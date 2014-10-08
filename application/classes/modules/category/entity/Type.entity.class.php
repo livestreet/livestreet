@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -17,6 +17,13 @@
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Maxim Mzhelskiy <rus.engine@gmail.com>
  *
+ */
+
+/**
+ * Сущность типа категории
+ *
+ * @package application.modules.category
+ * @since 2.0
  */
 class ModuleCategory_EntityType extends EntityORM {
 

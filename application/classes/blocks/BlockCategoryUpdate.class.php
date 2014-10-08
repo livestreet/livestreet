@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -22,7 +22,7 @@
 /**
  * Обработка блока с редактированием категорий объекта
  *
- * @package blocks
+ * @package application.blocks
  * @since   2.0
  */
 class BlockCategoryUpdate extends Block {

@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -17,6 +17,13 @@
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Maxim Mzhelskiy <rus.engine@gmail.com>
  *
+ */
+
+/**
+ * Модуль управления дополнительными полями
+ *
+ * @package application.modules.property
+ * @since 2.0
  */
 class ModuleProperty extends ModuleORM {
 	/**

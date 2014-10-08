@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -23,8 +23,8 @@
  * Объект типа топика
  * TODO: при удалении типа топика необходимо удалять дополнительные поля
  *
- * @package modules.topic
- * @since 1.0
+ * @package application.modules.topic
+ * @since 2.0
  */
 class ModuleTopic_EntityTopicType extends Entity {
 

@@ -1,31 +1,35 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/*
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ *
+ * ------------------------------------------------------
+ *
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ *
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * ------------------------------------------------------
+ *
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Maxim Mzhelskiy <rus.engine@gmail.com>
+ *
+ */
 
 /**
  * Сущность пользователя
  *
- * @package modules.user
+ * @package application.modules.user
  * @since 1.0
  */
 class ModuleUser_EntityUser extends Entity {
 	/**
 	 * Определяем дополнительные правила валидации
 	 *
-	 * @param array
+	 * @param array|bool $aParam
 	 */
 	public function __construct($aParam = false) {
 		if (Config::Get('module.user.captcha_use_registration')) {

@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Объект управления типом image
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueTypeFile {
 
 	public function getValueForDisplay() {

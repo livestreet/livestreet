@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Объект управления типом varchar
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueTypeVarchar extends ModuleProperty_EntityValueType {
 
 	public function getValueForDisplay() {

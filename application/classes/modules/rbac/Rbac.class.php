@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -34,6 +34,9 @@
  *  // для плагина с параметрами
  *	$this->Rbac_IsAllow('article_update',$this,array('article'=>$oArticle));
  * </pre>
+ *
+ * @package application.modules.rbac
+ * @since 2.0
  */
 class ModuleRbac extends ModuleORM {
 	/**

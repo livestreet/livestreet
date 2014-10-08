@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Сущность значений поля типа Select
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueSelect extends EntityORM {
 
 	protected $aRelations=array(

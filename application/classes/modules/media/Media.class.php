@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -21,6 +21,9 @@
 
 /**
  * Модуль управления медиа-данными (изображения, видео и т.п.)
+ *
+ * @package application.modules.media
+ * @since 2.0
  */
 class ModuleMedia extends ModuleORM {
 	/**

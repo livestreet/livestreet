@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -21,6 +21,9 @@
 
 /**
  * Модуль управления универсальными категориями
+ *
+ * @package application.modules.category
+ * @since 2.0
  */
 class ModuleCategory extends ModuleORM {
 	/**

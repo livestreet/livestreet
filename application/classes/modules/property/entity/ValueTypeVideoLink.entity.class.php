@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Объект управления типом video link
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityValueTypeVideoLink extends ModuleProperty_EntityValueType {
 
 	const VIDEO_PROVIDER_YOUTUBE='youtube';

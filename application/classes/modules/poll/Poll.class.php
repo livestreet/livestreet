@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Модуль опросов
+ *
+ * @package application.modules.poll
+ * @since 2.0
+ */
 class ModulePoll extends ModuleORM {
 
 	/**

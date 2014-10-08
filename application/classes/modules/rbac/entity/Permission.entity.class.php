@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -21,6 +21,9 @@
 
 /**
  * Сущность разрешения
+ *
+ * @package application.modules.rbac
+ * @since 2.0
  */
 class ModuleRbac_EntityPermission extends EntityORM {
 	/**

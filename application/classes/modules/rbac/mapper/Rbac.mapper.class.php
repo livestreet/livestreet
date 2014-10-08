@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -22,8 +22,8 @@
 /**
  * Маппер для работы с БД
  *
- * @package modules.rbac
- * @since 1.0
+ * @package application.modules.rbac
+ * @since 2.0
  */
 class ModuleRbac_MapperRbac extends Mapper {
 

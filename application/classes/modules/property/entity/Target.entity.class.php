@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Сущность связи поля с объектом
+ *
+ * @package application.modules.property
+ * @since 2.0
+ */
 class ModuleProperty_EntityTarget extends EntityORM {
 
 	protected $aValidateRules=array(

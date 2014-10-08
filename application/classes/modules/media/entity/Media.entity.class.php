@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -19,6 +19,12 @@
  *
  */
 
+/**
+ * Сущность медиа данных (изображение, видео и т.п.)
+ *
+ * @package application.modules.media
+ * @since 2.0
+ */
 class ModuleMedia_EntityMedia extends EntityORM {
 
 	protected $aValidateRules=array(

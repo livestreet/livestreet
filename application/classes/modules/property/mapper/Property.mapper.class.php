@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -22,8 +22,8 @@
 /**
  * Маппер для работы с БД
  *
- * @package modules.property
- * @since 1.0
+ * @package application.modules.property
+ * @since 2.0
  */
 class ModuleProperty_MapperProperty extends Mapper {
 

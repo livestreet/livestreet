@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
  *
@@ -21,6 +21,9 @@
 
 /**
  * Поведение, которое необходимо добавлять к ORM модулю сущности у которой добавляются категории
+ *
+ * @package application.modules.category
+ * @since 2.0
  */
 class ModuleCategory_BehaviorModule extends Behavior {
 	/**
