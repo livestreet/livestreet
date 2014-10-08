@@ -28,12 +28,14 @@ class LoadFixtures
      */
     private $sDirFixtures;
 
-    public function __construct($oEngine) {
+    public function __construct($oEngine)
+    {
         $this->oEngine = $oEngine;
         $this->sDirFixtures = realpath((dirname(__FILE__)) . "/fixtures/");
     }
 
-    public function load() {
+    public function load()
+    {
         $this->loadFixtures();
     }
 
@@ -42,7 +44,8 @@ class LoadFixtures
      *
      * @return bool
      */
-    public function purgeDB() {
+    public function purgeDB()
+    {
         $sDbname = Config::Get('db.params.dbname');
 
         if (mysql_select_db($sDbname)) {
@@ -84,8 +87,8 @@ class LoadFixtures
                 echo "ExportSQL DATABASE $sDbname -> install_base.sql \n";
                 // Load dump from geo_base.sql
 
-                if(file_exists(Config::Get('path.application.server') . '/tests/fixtures/sql/patch.sql')) {
-                $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/patch.sql');
+                if (file_exists(Config::Get('path.application.server') . '/tests/fixtures/sql/patch.sql')) {
+                    $result = $this->oEngine->Database_ExportSQL(dirname(__FILE__) . '/fixtures/sql/patch.sql');
 
                     if (!$result['result']) {
                         // exception
@@ -128,7 +131,8 @@ class LoadFixtures
      * @var array $iOrder
      * @return void
      */
-    private function loadFixtures() {
+    private function loadFixtures()
+    {
         $aFiles = glob("{$this->sDirFixtures}/*Fixtures.php");
         $aFixtures = array();
         foreach ($aFiles as $sFilePath) {
@@ -164,7 +168,8 @@ class LoadFixtures
      * @param string $plugin
      * @return void
      */
-    public function loadPluginFixtures($plugin) {
+    public function loadPluginFixtures($plugin)
+    {
         $sPath = Config::Get('path.application.plugins.server') . '/' . $plugin . '/tests/fixtures';
         if (!is_dir($sPath)) {
             throw new InvalidArgumentException('Plugin not found by LS directory: ' . $sPath, 10);

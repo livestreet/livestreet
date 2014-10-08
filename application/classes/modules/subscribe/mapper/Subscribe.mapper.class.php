@@ -25,103 +25,113 @@
  * @package application.modules.subscribe
  * @since 1.0
  */
-class ModuleSubscribe_MapperSubscribe extends Mapper {
-	/**
-	 * Добавляет подписку в БД
-	 *
-	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe	Объект подписки
-	 * @return int|bool
-	 */
-	public function AddSubscribe($oSubscribe) {
-		$sql = "INSERT INTO ".Config::Get('db.table.subscribe')." SET ?a ";
-		if ($iId=$this->oDb->query($sql,$oSubscribe->_getData())) {
-			return $iId;
-		}
-		return false;
-	}
-	/**
-	 * Получение подписки по типы и емайлу
-	 *
-	 * @param string $sType	Тип
-	 * @param string $sMail	Емайл
-	 * @return ModuleSubscribe_EntitySubscribe|null
-	 */
-	public function GetSubscribeByTypeAndMail($sType,$sMail) {
-		$sql = "SELECT * FROM ".Config::Get('db.table.subscribe')." WHERE target_type = ? and mail = ?";
-		if ($aRow=$this->oDb->selectRow($sql,$sType,$sMail)) {
-			return Engine::GetEntity('Subscribe',$aRow);
-		}
-		return null;
-	}
-	/**
-	 * Обновление подписки
-	 *
-	 * @param ModuleSubscribe_EntitySubscribe $oSubscribe	Объект подписки
-	 * @return int
-	 */
-	public function UpdateSubscribe($oSubscribe) {
-		$sql = "UPDATE ".Config::Get('db.table.subscribe')." 
+class ModuleSubscribe_MapperSubscribe extends Mapper
+{
+    /**
+     * Добавляет подписку в БД
+     *
+     * @param ModuleSubscribe_EntitySubscribe $oSubscribe Объект подписки
+     * @return int|bool
+     */
+    public function AddSubscribe($oSubscribe)
+    {
+        $sql = "INSERT INTO " . Config::Get('db.table.subscribe') . " SET ?a ";
+        if ($iId = $this->oDb->query($sql, $oSubscribe->_getData())) {
+            return $iId;
+        }
+        return false;
+    }
+
+    /**
+     * Получение подписки по типы и емайлу
+     *
+     * @param string $sType Тип
+     * @param string $sMail Емайл
+     * @return ModuleSubscribe_EntitySubscribe|null
+     */
+    public function GetSubscribeByTypeAndMail($sType, $sMail)
+    {
+        $sql = "SELECT * FROM " . Config::Get('db.table.subscribe') . " WHERE target_type = ? and mail = ?";
+        if ($aRow = $this->oDb->selectRow($sql, $sType, $sMail)) {
+            return Engine::GetEntity('Subscribe', $aRow);
+        }
+        return null;
+    }
+
+    /**
+     * Обновление подписки
+     *
+     * @param ModuleSubscribe_EntitySubscribe $oSubscribe Объект подписки
+     * @return int
+     */
+    public function UpdateSubscribe($oSubscribe)
+    {
+        $sql = "UPDATE " . Config::Get('db.table.subscribe') . "
 			SET 
 			 	status = ?, 
 			 	date_remove = ?
 			WHERE id = ?d
 		";
-		$res=$this->oDb->query($sql,$oSubscribe->getStatus(),
-								 $oSubscribe->getDateRemove(),
-								 $oSubscribe->getId());
-		return $this->IsSuccessful($res);
-	}
-	/**
-	 * Смена емайла в подписках
-	 *
-	 * @param string $sMailOld Старый емайл
-	 * @param string $sMailNew Новый емайл
-	 * @param int|null $iUserId Id пользователя
-	 *
-	 * @return int
-	 */
-	public function ChangeSubscribeMail($sMailOld,$sMailNew,$iUserId=null) {
-		$sql = "UPDATE ".Config::Get('db.table.subscribe')."
+        $res = $this->oDb->query($sql, $oSubscribe->getStatus(),
+            $oSubscribe->getDateRemove(),
+            $oSubscribe->getId());
+        return $this->IsSuccessful($res);
+    }
+
+    /**
+     * Смена емайла в подписках
+     *
+     * @param string $sMailOld Старый емайл
+     * @param string $sMailNew Новый емайл
+     * @param int|null $iUserId Id пользователя
+     *
+     * @return int
+     */
+    public function ChangeSubscribeMail($sMailOld, $sMailNew, $iUserId = null)
+    {
+        $sql = "UPDATE " . Config::Get('db.table.subscribe') . "
 			SET
 			 	mail = ?
 			WHERE mail = ? { and user_id = ?d }
 		";
-		$res=$this->oDb->query($sql,$sMailNew,$sMailOld,$iUserId ? $iUserId : DBSIMPLE_SKIP);
-		return $this->IsSuccessful($res);
-	}
-	/**
-	 * Возвращает список подписок по фильтру
-	 *
-	 * @param array $aFilter	Фильтр
-	 * @param array $aOrder	Сортировка
-	 * @param int $iCount	Возвращает общее количество элементов
-	 * @param int $iCurrPage	Номер страницы
-	 * @param int $iPerPage	Количество элементов на страницу
-	 * @return array
-	 */
-	public function GetSubscribes($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
-		$aOrderAllow=array('id','date_add','status');
-		$sOrder='';
-		foreach ($aOrder as $key=>$value) {
-			if (!in_array($key,$aOrderAllow)) {
-				unset($aOrder[$key]);
-			} elseif (in_array($value,array('asc','desc'))) {
-				$sOrder.=" {$key} {$value},";
-			}
-		}
-		$sOrder=trim($sOrder,',');
-		if ($sOrder=='') {
-			$sOrder=' id desc ';
-		}
+        $res = $this->oDb->query($sql, $sMailNew, $sMailOld, $iUserId ? $iUserId : DBSIMPLE_SKIP);
+        return $this->IsSuccessful($res);
+    }
 
-		if (isset($aFilter['exclude_mail']) and !is_array($aFilter['exclude_mail'])) {
-			$aFilter['exclude_mail']=array($aFilter['exclude_mail']);
-		}
+    /**
+     * Возвращает список подписок по фильтру
+     *
+     * @param array $aFilter Фильтр
+     * @param array $aOrder Сортировка
+     * @param int $iCount Возвращает общее количество элементов
+     * @param int $iCurrPage Номер страницы
+     * @param int $iPerPage Количество элементов на страницу
+     * @return array
+     */
+    public function GetSubscribes($aFilter, $aOrder, &$iCount, $iCurrPage, $iPerPage)
+    {
+        $aOrderAllow = array('id', 'date_add', 'status');
+        $sOrder = '';
+        foreach ($aOrder as $key => $value) {
+            if (!in_array($key, $aOrderAllow)) {
+                unset($aOrder[$key]);
+            } elseif (in_array($value, array('asc', 'desc'))) {
+                $sOrder .= " {$key} {$value},";
+            }
+        }
+        $sOrder = trim($sOrder, ',');
+        if ($sOrder == '') {
+            $sOrder = ' id desc ';
+        }
 
-		$sql = "SELECT
+        if (isset($aFilter['exclude_mail']) and !is_array($aFilter['exclude_mail'])) {
+            $aFilter['exclude_mail'] = array($aFilter['exclude_mail']);
+        }
+
+        $sql = "SELECT
 					*
 				FROM
-					".Config::Get('db.table.subscribe')."
+					" . Config::Get('db.table.subscribe') . "
 				WHERE
 					1 = 1
 					{ AND target_type = ? }
@@ -133,20 +143,21 @@ class ModuleSubscribe_MapperSubscribe extends Mapper {
 				ORDER by {$sOrder}
 				LIMIT ?d, ?d ;
 					";
-		$aResult=array();
-		if ($aRows=$this->oDb->selectPage($iCount,$sql,
-										  isset($aFilter['target_type']) ? $aFilter['target_type'] : DBSIMPLE_SKIP,
-										  isset($aFilter['target_id']) ? $aFilter['target_id'] : DBSIMPLE_SKIP,
-										  isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
-										  (isset($aFilter['exclude_mail']) and count($aFilter['exclude_mail']) ) ? $aFilter['exclude_mail'] : DBSIMPLE_SKIP,
-										  isset($aFilter['key']) ? $aFilter['key'] : DBSIMPLE_SKIP,
-										  isset($aFilter['status']) ? $aFilter['status'] : DBSIMPLE_SKIP,
-										  ($iCurrPage-1)*$iPerPage, $iPerPage
-		)) {
-			foreach ($aRows as $aRow) {
-				$aResult[]=Engine::GetEntity('Subscribe',$aRow);
-			}
-		}
-		return $aResult;
-	}
+        $aResult = array();
+        if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            isset($aFilter['target_type']) ? $aFilter['target_type'] : DBSIMPLE_SKIP,
+            isset($aFilter['target_id']) ? $aFilter['target_id'] : DBSIMPLE_SKIP,
+            isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
+            (isset($aFilter['exclude_mail']) and count($aFilter['exclude_mail'])) ? $aFilter['exclude_mail'] : DBSIMPLE_SKIP,
+            isset($aFilter['key']) ? $aFilter['key'] : DBSIMPLE_SKIP,
+            isset($aFilter['status']) ? $aFilter['status'] : DBSIMPLE_SKIP,
+            ($iCurrPage - 1) * $iPerPage, $iPerPage
+        )
+        ) {
+            foreach ($aRows as $aRow) {
+                $aResult[] = Engine::GetEntity('Subscribe', $aRow);
+            }
+        }
+        return $aResult;
+    }
 }

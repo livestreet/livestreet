@@ -25,28 +25,30 @@
  * @package application.modules.rbac
  * @since 2.0
  */
-class ModuleRbac_MapperRbac extends Mapper {
+class ModuleRbac_MapperRbac extends Mapper
+{
 
-	/**
-	 * Получает список всех задействованых в ролях разрешений
-	 *
-	 * @return array|null
-	 */
-	public function GetRoleWithPermissions() {
-		$sql = "SELECT
+    /**
+     * Получает список всех задействованых в ролях разрешений
+     *
+     * @return array|null
+     */
+    public function GetRoleWithPermissions()
+    {
+        $sql = "SELECT
 					r.role_id,
 					p.code,
 					p.plugin,
 					p.title,
 					p.msg_error
 				FROM
-					".Config::Get('db.table.rbac_role_permission')." as r
-					LEFT JOIN ".Config::Get('db.table.rbac_permission')." as p ON r.permission_id=p.id
+					" . Config::Get('db.table.rbac_role_permission') . " as r
+					LEFT JOIN " . Config::Get('db.table.rbac_permission') . " as p ON r.permission_id=p.id
 				WHERE
 					p.state = ?d ; ";
-		if ($aRows=$this->oDb->select($sql,ModuleRbac::PERMISSION_STATE_ACTIVE)) {
-			return $aRows;
-		}
-		return array();
-	}
+        if ($aRows = $this->oDb->select($sql, ModuleRbac::PERMISSION_STATE_ACTIVE)) {
+            return $aRows;
+        }
+        return array();
+    }
 }

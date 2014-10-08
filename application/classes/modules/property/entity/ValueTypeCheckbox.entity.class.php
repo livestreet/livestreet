@@ -25,19 +25,23 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueType {
+class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueType
+{
 
-	public function getValueForDisplay() {
-		return (bool)$this->getValueObject()->getValueInt();
-	}
+    public function getValueForDisplay()
+    {
+        return (bool)$this->getValueObject()->getValueInt();
+    }
 
-	public function validate() {
-		return $this->validateStandart('boolean');
-	}
+    public function validate()
+    {
+        return $this->validateStandart('boolean');
+    }
 
-	public function setValue($mValue) {
-		$this->resetAllValue();
-		$oValue=$this->getValueObject();
-		$oValue->setValueInt($mValue ? 1 : 0);
-	}
+    public function setValue($mValue)
+    {
+        $this->resetAllValue();
+        $oValue = $this->getValueObject();
+        $oValue->setValueInt($mValue ? 1 : 0);
+    }
 }

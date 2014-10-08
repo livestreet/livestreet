@@ -25,20 +25,22 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockUserfeedUsers extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		/**
-		 * Пользователь авторизован?
-		 */
-		if ($oUserCurrent = $this->User_getUserCurrent()) {
-			/**
-			 * Получаем необходимые переменные и прогружаем в шаблон
-			 */
-			$aResult=$this->Userfeed_getUserSubscribes($oUserCurrent->getId());
-			$this->Viewer_Assign('users', $aResult['users']);
-		}
-	}
+class BlockUserfeedUsers extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        /**
+         * Пользователь авторизован?
+         */
+        if ($oUserCurrent = $this->User_getUserCurrent()) {
+            /**
+             * Получаем необходимые переменные и прогружаем в шаблон
+             */
+            $aResult = $this->Userfeed_getUserSubscribes($oUserCurrent->getId());
+            $this->Viewer_Assign('users', $aResult['users']);
+        }
+    }
 }

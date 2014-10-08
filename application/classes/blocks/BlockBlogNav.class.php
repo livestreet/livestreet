@@ -25,15 +25,17 @@
  * @package application.blocks
  * @since 2.0
  */
-class BlockBlogNav extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		if (!Config::Get('module.blog.category_allow')) {
-			return;
-		}
-		$aCategories=$this->Blog_GetCategoriesTree();
-		$this->Viewer_Assign("aNavigatorBlogCategories",$aCategories);
-	}
+class BlockBlogNav extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        if (!Config::Get('module.blog.category_allow')) {
+            return;
+        }
+        $aCategories = $this->Blog_GetCategoriesTree();
+        $this->Viewer_Assign("aNavigatorBlogCategories", $aCategories);
+    }
 }

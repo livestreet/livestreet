@@ -25,22 +25,24 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockStream extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		/**
-		 * Получаем комментарии
-		 */
-		if ($aComments=$this->Comment_GetCommentsOnline('topic',Config::Get('block.stream.row'))) {
-			$oViewer=$this->Viewer_GetLocalViewer();
-			$oViewer->Assign('aComments',$aComments);
-			/**
-			 * Формируем результат в виде шаблона и возвращаем
-			 */
-			$sTextResult=$oViewer->Fetch("blocks/block.stream_comment.tpl");
-			$this->Viewer_Assign('sStreamComments',$sTextResult);
-		}
-	}
+class BlockStream extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        /**
+         * Получаем комментарии
+         */
+        if ($aComments = $this->Comment_GetCommentsOnline('topic', Config::Get('block.stream.row'))) {
+            $oViewer = $this->Viewer_GetLocalViewer();
+            $oViewer->Assign('aComments', $aComments);
+            /**
+             * Формируем результат в виде шаблона и возвращаем
+             */
+            $sTextResult = $oViewer->Fetch("blocks/block.stream_comment.tpl");
+            $this->Viewer_Assign('sStreamComments', $sTextResult);
+        }
+    }
 }

@@ -25,38 +25,45 @@
  * @package application.hooks
  * @since 1.0
  */
-class HookMain extends Hook {
-	/**
-	 * Регистрируем хуки
-	 */
-	public function RegisterHook() {
-		$this->AddHook('init_action','InitAction',__CLASS__,1000);
-	}
-	/**
-	 * Обработка хука инициализации экшенов
-	 */
-	public function InitAction() {
-		/**
-		 * Проверяем наличие директории install
-		 */
-		if(is_dir(rtrim(Config::Get('path.application.server'),'/').'/install') && (!isset($_SERVER['HTTP_APP_ENV']) or $_SERVER['HTTP_APP_ENV']!='test')){
-			if (Config::Get('install_completed')) {
-				$this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
-				Router::Action('error');
-			} else {
-				Router::Location(rtrim(str_replace('index.php','',$_SERVER['PHP_SELF']),'/\\').'/application/install/');
-			}
-		}
-		/**
-		 * Проверка на закрытый режим
-		 */
-		$oUserCurrent=$this->User_GetUserCurrent();
-		if (!$oUserCurrent and Config::Get('general.close') and Router::GetAction()!='registration' and Router::GetAction()!='login') {
-			Router::Action('login');
-		}
-		/**
-		 * Запуск обработки сборщика
-		 */
-		$this->Ls_SenderRun();
-	}
+class HookMain extends Hook
+{
+    /**
+     * Регистрируем хуки
+     */
+    public function RegisterHook()
+    {
+        $this->AddHook('init_action', 'InitAction', __CLASS__, 1000);
+    }
+
+    /**
+     * Обработка хука инициализации экшенов
+     */
+    public function InitAction()
+    {
+        /**
+         * Проверяем наличие директории install
+         */
+        if (is_dir(rtrim(Config::Get('path.application.server'),
+                    '/') . '/install') && (!isset($_SERVER['HTTP_APP_ENV']) or $_SERVER['HTTP_APP_ENV'] != 'test')
+        ) {
+            if (Config::Get('install_completed')) {
+                $this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
+                Router::Action('error');
+            } else {
+                Router::Location(rtrim(str_replace('index.php', '', $_SERVER['PHP_SELF']),
+                        '/\\') . '/application/install/');
+            }
+        }
+        /**
+         * Проверка на закрытый режим
+         */
+        $oUserCurrent = $this->User_GetUserCurrent();
+        if (!$oUserCurrent and Config::Get('general.close') and Router::GetAction() != 'registration' and Router::GetAction() != 'login') {
+            Router::Action('login');
+        }
+        /**
+         * Запуск обработки сборщика
+         */
+        $this->Ls_SenderRun();
+    }
 }

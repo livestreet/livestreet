@@ -26,94 +26,108 @@
  * @package application.modules.topic
  * @since 2.0
  */
-class ModuleTopic_EntityTopicType extends Entity {
+class ModuleTopic_EntityTopicType extends Entity
+{
 
-	protected $aValidateRules=array(
-		array('name, name_many','string','max'=>200,'min'=>1,'allowEmpty'=>false),
-		array('code','regexp','pattern'=>"#^[a-z0-9_]{1,30}$#",'allowEmpty'=>false),
-		array('code','code_unique'),
-		array('params','check_params'),
-		array('name','check_name'),
-		array('name_many','check_name_many'),
-	);
+    protected $aValidateRules = array(
+        array('name, name_many', 'string', 'max' => 200, 'min' => 1, 'allowEmpty' => false),
+        array('code', 'regexp', 'pattern' => "#^[a-z0-9_]{1,30}$#", 'allowEmpty' => false),
+        array('code', 'code_unique'),
+        array('params', 'check_params'),
+        array('name', 'check_name'),
+        array('name_many', 'check_name_many'),
+    );
 
-	public function ValidateCheckParams() {
-		$aParamsResult=array();
-		$aParams=$this->getParamsArray();
+    public function ValidateCheckParams()
+    {
+        $aParamsResult = array();
+        $aParams = $this->getParamsArray();
 
-		$aParamsResult['allow_poll']=(isset($aParams['allow_poll']) and $aParams['allow_poll']) ? true : false;
-		$aParamsResult['allow_text']=(isset($aParams['allow_text']) and $aParams['allow_text']) ? true : false;
-		$aParamsResult['allow_tags']=(isset($aParams['allow_tags']) and $aParams['allow_tags']) ? true : false;
+        $aParamsResult['allow_poll'] = (isset($aParams['allow_poll']) and $aParams['allow_poll']) ? true : false;
+        $aParamsResult['allow_text'] = (isset($aParams['allow_text']) and $aParams['allow_text']) ? true : false;
+        $aParamsResult['allow_tags'] = (isset($aParams['allow_tags']) and $aParams['allow_tags']) ? true : false;
 
-		$this->setParams($aParamsResult);
-		return true;
-	}
+        $this->setParams($aParamsResult);
+        return true;
+    }
 
-	public function ValidateCheckName() {
-		$this->setName(htmlspecialchars($this->getName()));
-		return true;
-	}
+    public function ValidateCheckName()
+    {
+        $this->setName(htmlspecialchars($this->getName()));
+        return true;
+    }
 
-	public function ValidateCheckNameMany() {
-		$this->setNameMany(htmlspecialchars($this->getNameMany()));
-		return true;
-	}
+    public function ValidateCheckNameMany()
+    {
+        $this->setNameMany(htmlspecialchars($this->getNameMany()));
+        return true;
+    }
 
-	public function ValidateCodeUnique() {
-		if ($oType=$this->Topic_GetTopicTypeByCode($this->getCode())) {
-			if ($oType->getId()!=$this->getId()) {
-				return 'Тип с таким кодом уже существует';
-			}
-		}
-		return true;
-	}
-	/**
-	 * Возвращает список дополнительных параметров типа
-	 *
-	 * @return array|mixed
-	 */
-	public function getParamsArray() {
-		$aData=@unserialize($this->_getDataOne('params'));
-		if (!$aData) {
-			$aData=array();
-		}
-		return $aData;
-	}
-	/**
-	 * Устанавливает список дополнительных параметров типа
-	 *
-	 * @param array $aParams
-	 */
-	public function setParams($aParams) {
-		$this->_aData['params']=@serialize($aParams);
-	}
-	/**
-	 * Возвращает конкретный параметр типа
-	 *
-	 * @param string $sName
-	 *
-	 * @return null
-	 */
-	public function getParam($sName) {
-		$aParams=$this->getParamsArray();
-		return isset($aParams[$sName]) ? $aParams[$sName] : null;
-	}
+    public function ValidateCodeUnique()
+    {
+        if ($oType = $this->Topic_GetTopicTypeByCode($this->getCode())) {
+            if ($oType->getId() != $this->getId()) {
+                return 'Тип с таким кодом уже существует';
+            }
+        }
+        return true;
+    }
 
-	public function getStateText() {
-		if ($this->getState()==ModuleTopic::TOPIC_TYPE_STATE_ACTIVE) {
-			return 'активен';
-		}
-		if ($this->getState()==ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE) {
-			return 'не активен';
-		}
-		return 'неизвестный статус';
-	}
+    /**
+     * Возвращает список дополнительных параметров типа
+     *
+     * @return array|mixed
+     */
+    public function getParamsArray()
+    {
+        $aData = @unserialize($this->_getDataOne('params'));
+        if (!$aData) {
+            $aData = array();
+        }
+        return $aData;
+    }
 
-	public function getUrlForAdd() {
-		return Router::GetPath('content/add').$this->getCode().'/';
-	}
+    /**
+     * Устанавливает список дополнительных параметров типа
+     *
+     * @param array $aParams
+     */
+    public function setParams($aParams)
+    {
+        $this->_aData['params'] = @serialize($aParams);
+    }
 
-	public function getPropertyTargetType() {
-		return 'topic_'.$this->getCode();
-	}
+    /**
+     * Возвращает конкретный параметр типа
+     *
+     * @param string $sName
+     *
+     * @return null
+     */
+    public function getParam($sName)
+    {
+        $aParams = $this->getParamsArray();
+        return isset($aParams[$sName]) ? $aParams[$sName] : null;
+    }
+
+    public function getStateText()
+    {
+        if ($this->getState() == ModuleTopic::TOPIC_TYPE_STATE_ACTIVE) {
+            return 'активен';
+        }
+        if ($this->getState() == ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE) {
+            return 'не активен';
+        }
+        return 'неизвестный статус';
+    }
+
+    public function getUrlForAdd()
+    {
+        return Router::GetPath('content/add') . $this->getCode() . '/';
+    }
+
+    public function getPropertyTargetType()
+    {
+        return 'topic_' . $this->getCode();
+    }
 }

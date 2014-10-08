@@ -25,56 +25,62 @@
  * @package application.modules.category
  * @since 2.0
  */
-class ModuleCategory_EntityType extends EntityORM {
+class ModuleCategory_EntityType extends EntityORM
+{
 
-	protected $aRelations=array(
+    protected $aRelations = array();
 
-	);
+    /**
+     * Выполняется перед сохранением
+     *
+     * @return bool
+     */
+    protected function beforeSave()
+    {
+        if ($bResult = parent::beforeSave()) {
+            if ($this->_isNew()) {
+                $this->setDateCreate(date("Y-m-d H:i:s"));
+            } else {
+                $this->setDateUpdate(date("Y-m-d H:i:s"));
+            }
+        }
+        return $bResult;
+    }
 
-	/**
-	 * Выполняется перед сохранением
-	 *
-	 * @return bool
-	 */
-	protected function beforeSave() {
-		if ($bResult=parent::beforeSave()) {
-			if ($this->_isNew()) {
-				$this->setDateCreate(date("Y-m-d H:i:s"));
-			} else {
-				$this->setDateUpdate(date("Y-m-d H:i:s"));
-			}
-		}
-		return $bResult;
-	}
-	/**
-	 * Возвращает список дополнительных параметров
-	 *
-	 * @return array|mixed
-	 */
-	public function getParams() {
-		$aData=@unserialize($this->_getDataOne('params'));
-		if (!$aData) {
-			$aData=array();
-		}
-		return $aData;
-	}
-	/**
-	 * Устанавливает список дополнительных параметров
-	 *
-	 * @param $aParams
-	 */
-	public function setParams($aParams) {
-		$this->_aData['params']=@serialize($aParams);
-	}
-	/**
-	 * Возвращает конкретный параметр
-	 *
-	 * @param $sName
-	 *
-	 * @return null
-	 */
-	public function getParam($sName) {
-		$aParams=$this->getParams();
-		return isset($aParams[$sName]) ? $aParams[$sName] : null;
-	}
+    /**
+     * Возвращает список дополнительных параметров
+     *
+     * @return array|mixed
+     */
+    public function getParams()
+    {
+        $aData = @unserialize($this->_getDataOne('params'));
+        if (!$aData) {
+            $aData = array();
+        }
+        return $aData;
+    }
+
+    /**
+     * Устанавливает список дополнительных параметров
+     *
+     * @param $aParams
+     */
+    public function setParams($aParams)
+    {
+        $this->_aData['params'] = @serialize($aParams);
+    }
+
+    /**
+     * Возвращает конкретный параметр
+     *
+     * @param $sName
+     *
+     * @return null
+     */
+    public function getParam($sName)
+    {
+        $aParams = $this->getParams();
+        return isset($aParams[$sName]) ? $aParams[$sName] : null;
+    }
 }

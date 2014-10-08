@@ -25,17 +25,19 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockActivitySettings extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		/**
-		 * пользователь авторизован?
-		 */
-		if ($oUserCurrent = $this->User_getUserCurrent()) {
-			$this->Viewer_Assign('types', $this->Stream_getEventTypes());
-			$this->Viewer_Assign('typesActive', $this->Stream_getTypesList($oUserCurrent->getId()));
-		}
-	}
+class BlockActivitySettings extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        /**
+         * пользователь авторизован?
+         */
+        if ($oUserCurrent = $this->User_getUserCurrent()) {
+            $this->Viewer_Assign('types', $this->Stream_getEventTypes());
+            $this->Viewer_Assign('typesActive', $this->Stream_getTypesList($oUserCurrent->getId()));
+        }
+    }
 }

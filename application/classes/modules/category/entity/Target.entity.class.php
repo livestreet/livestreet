@@ -25,23 +25,23 @@
  * @package application.modules.category
  * @since 2.0
  */
-class ModuleCategory_EntityTarget extends EntityORM {
+class ModuleCategory_EntityTarget extends EntityORM
+{
 
-	protected $aRelations=array(
-		
-	);
+    protected $aRelations = array();
 
-	/**
-	 * Выполняется перед сохранением
-	 *
-	 * @return bool
-	 */
-	protected function beforeSave() {
-		if ($bResult=parent::beforeSave()) {
-			if ($this->_isNew()) {
-				$this->setDateCreate(date("Y-m-d H:i:s"));
-			}
-		}
-		return $bResult;
-	}
+    /**
+     * Выполняется перед сохранением
+     *
+     * @return bool
+     */
+    protected function beforeSave()
+    {
+        if ($bResult = parent::beforeSave()) {
+            if ($this->_isNew()) {
+                $this->setDateCreate(date("Y-m-d H:i:s"));
+            }
+        }
+        return $bResult;
+    }
 }

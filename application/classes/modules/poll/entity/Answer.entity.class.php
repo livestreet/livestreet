@@ -25,29 +25,32 @@
  * @package application.modules.poll
  * @since 2.0
  */
-class ModulePoll_EntityAnswer extends EntityORM {
+class ModulePoll_EntityAnswer extends EntityORM
+{
 
-	protected $aValidateRules=array(
-		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250),
-		array('title','check_title'),
-	);
+    protected $aValidateRules = array(
+        array('title', 'string', 'allowEmpty' => false, 'min' => 1, 'max' => 250),
+        array('title', 'check_title'),
+    );
 
-	protected $aRelations=array(
-		'poll' => array(self::RELATION_TYPE_BELONGS_TO,'ModulePoll_EntityPoll','poll_id'),
-	);
+    protected $aRelations = array(
+        'poll' => array(self::RELATION_TYPE_BELONGS_TO, 'ModulePoll_EntityPoll', 'poll_id'),
+    );
 
-	protected function beforeSave() {
-		if ($bResult=parent::beforeSave()) {
-			if ($this->_isNew()) {
-				$this->setDateCreate(date("Y-m-d H:i:s"));
-			}
-		}
-		return $bResult;
-	}
+    protected function beforeSave()
+    {
+        if ($bResult = parent::beforeSave()) {
+            if ($this->_isNew()) {
+                $this->setDateCreate(date("Y-m-d H:i:s"));
+            }
+        }
+        return $bResult;
+    }
 
-	public function ValidateCheckTitle() {
-		$this->setTitle(htmlspecialchars($this->getTitle()));
-		return true;
-	}
+    public function ValidateCheckTitle()
+    {
+        $this->setTitle(htmlspecialchars($this->getTitle()));
+        return true;
+    }
 
 }

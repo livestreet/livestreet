@@ -115,8 +115,17 @@ abstract class AbstractFixtures
      *
      * @return ModuleTopic_EntityTopic
      */
-    protected function _createTopic($iBlogId, $iUserId, $sTitle, $sText, $sTags, $sDate, $bPublish = true, $bPublishMain = true, $bPublishDraft = true)
-    {
+    protected function _createTopic(
+        $iBlogId,
+        $iUserId,
+        $sTitle,
+        $sText,
+        $sTags,
+        $sDate,
+        $bPublish = true,
+        $bPublishMain = true,
+        $bPublishDraft = true
+    ) {
         $oTopic = Engine::GetEntity('Topic');
         /* @var $oTopic ModuleTopic_EntityTopic */
         $oTopic->setBlogId($iBlogId);

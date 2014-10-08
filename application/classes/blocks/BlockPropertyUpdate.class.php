@@ -25,35 +25,38 @@
  * @package application.blocks
  * @since 2.0
  */
-class BlockPropertyUpdate extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		$sEntity = $this->GetParam('entity');
-		$oTarget = $this->GetParam('target');
-		$sTargetType = $this->GetParam('target_type');
+class BlockPropertyUpdate extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        $sEntity = $this->GetParam('entity');
+        $oTarget = $this->GetParam('target');
+        $sTargetType = $this->GetParam('target_type');
 
-		if (!$oTarget) {
-			$oTarget=Engine::GetEntity($sEntity);
-		}
+        if (!$oTarget) {
+            $oTarget = Engine::GetEntity($sEntity);
+        }
 
-		$aBehaviors=$oTarget->GetBehaviors();
-		foreach($aBehaviors as $oBehavior) {
-			/**
-			 * Определяем нужное нам поведение
-			 */
-			if ($oBehavior instanceof ModuleProperty_BehaviorEntity) {
-				/**
-				 * Если в параметрах был тип, то переопределяем значение. Это необходимо для корректной работы, когда тип динамический.
-				 */
-				if ($sTargetType) {
-					$oBehavior->setParam('target_type',$sTargetType);
-				}
-				$aProperties = $this->Property_GetPropertiesForUpdate($oBehavior->getPropertyTargetType(),$oTarget->getId());
-				$this->Viewer_Assign('aProperties',$aProperties);
-				break;
-			}
-		}
-	}
+        $aBehaviors = $oTarget->GetBehaviors();
+        foreach ($aBehaviors as $oBehavior) {
+            /**
+             * Определяем нужное нам поведение
+             */
+            if ($oBehavior instanceof ModuleProperty_BehaviorEntity) {
+                /**
+                 * Если в параметрах был тип, то переопределяем значение. Это необходимо для корректной работы, когда тип динамический.
+                 */
+                if ($sTargetType) {
+                    $oBehavior->setParam('target_type', $sTargetType);
+                }
+                $aProperties = $this->Property_GetPropertiesForUpdate($oBehavior->getPropertyTargetType(),
+                    $oTarget->getId());
+                $this->Viewer_Assign('aProperties', $aProperties);
+                break;
+            }
+        }
+    }
 }

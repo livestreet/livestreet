@@ -14,7 +14,8 @@ class FeatureContext extends MinkContext
         $this->useContext('base', new BaseFeatureContext($parameters));
     }
 
-    public function getEngine() {
+    public function getEngine()
+    {
         return $this->getSubcontext('base')->getEngine();
     }
 }

@@ -25,16 +25,18 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockActivityUsers extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		/**
-		 * пользователь авторизован?
-		 */
-		if ($oUserCurrent = $this->User_getUserCurrent()) {
-			$this->Viewer_Assign('users', $this->Stream_getUserSubscribes($oUserCurrent->getId()));
-		}
-	}
+class BlockActivityUsers extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        /**
+         * пользователь авторизован?
+         */
+        if ($oUserCurrent = $this->User_getUserCurrent()) {
+            $this->Viewer_Assign('users', $this->Stream_getUserSubscribes($oUserCurrent->getId()));
+        }
+    }
 }

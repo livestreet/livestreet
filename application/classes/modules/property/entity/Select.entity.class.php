@@ -25,14 +25,11 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_EntitySelect extends EntityORM {
+class ModuleProperty_EntitySelect extends EntityORM
+{
 
-	protected $aValidateRules=array(
+    protected $aValidateRules = array();
 
-	);
-
-	protected $aRelations=array(
-
-	);
+    protected $aRelations = array();
 
 }

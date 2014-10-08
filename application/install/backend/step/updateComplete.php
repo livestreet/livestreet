@@ -1,5 +1,6 @@
 <?php
 
-class InstallStepUpdateComplete extends InstallStepInstallComplete {
+class InstallStepUpdateComplete extends InstallStepInstallComplete
+{
 
 }

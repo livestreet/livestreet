@@ -25,41 +25,48 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_BehaviorModule extends Behavior {
-	/**
-	 * Список хуков
-	 *
-	 * @var array
-	 */
-	protected $aHooks=array(
-		'module_orm_GetItemsByFilter_after'=>array(
-			'CallbackGetItemsByFilterAfter',1000
-		),
-		'module_orm_GetItemsByFilter_before'=>array(
-			'CallbackGetItemsByFilterBefore',1000
-		),
-		'module_orm_GetByFilter_before'=>array(
-			'CallbackGetItemsByFilterBefore',1000
-		),
-	);
+class ModuleProperty_BehaviorModule extends Behavior
+{
+    /**
+     * Список хуков
+     *
+     * @var array
+     */
+    protected $aHooks = array(
+        'module_orm_GetItemsByFilter_after'  => array(
+            'CallbackGetItemsByFilterAfter',
+            1000
+        ),
+        'module_orm_GetItemsByFilter_before' => array(
+            'CallbackGetItemsByFilterBefore',
+            1000
+        ),
+        'module_orm_GetByFilter_before'      => array(
+            'CallbackGetItemsByFilterBefore',
+            1000
+        ),
+    );
 
-	/**
-	 * Модифицирует фильтр в ORM запросе
-	 *
-	 * @param $aParams
-	 */
-	public function CallbackGetItemsByFilterAfter($aParams) {
-		$aEntities=$aParams['aEntities'];
-		$aFilter=$aParams['aFilter'];
-		$this->Property_RewriteGetItemsByFilter($aEntities,$aFilter);
-	}
-	/**
-	 * Модифицирует результат ORM запроса
-	 *
-	 * @param $aParams
-	 */
-	public function CallbackGetItemsByFilterBefore($aParams) {
-		$aFilter=$this->Property_RewriteFilter($aParams['aFilter'],$aParams['sEntityFull']);
-		$aParams['aFilter']=$aFilter;
-	}
+    /**
+     * Модифицирует фильтр в ORM запросе
+     *
+     * @param $aParams
+     */
+    public function CallbackGetItemsByFilterAfter($aParams)
+    {
+        $aEntities = $aParams['aEntities'];
+        $aFilter = $aParams['aFilter'];
+        $this->Property_RewriteGetItemsByFilter($aEntities, $aFilter);
+    }
+
+    /**
+     * Модифицирует результат ORM запроса
+     *
+     * @param $aParams
+     */
+    public function CallbackGetItemsByFilterBefore($aParams)
+    {
+        $aFilter = $this->Property_RewriteFilter($aParams['aFilter'], $aParams['sEntityFull']);
+        $aParams['aFilter'] = $aFilter;
+    }
 }

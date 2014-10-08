@@ -10,7 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
 $sDirRoot = dirname(realpath((dirname(__FILE__)) . "/../../../"));
-set_include_path(get_include_path().PATH_SEPARATOR.$sDirRoot);
+set_include_path(get_include_path() . PATH_SEPARATOR . $sDirRoot);
 
 require_once("tests/LoadFixtures.php");
 
@@ -21,7 +21,7 @@ class BaseFeatureContext extends BehatContext
 {
 
     protected $fixturesLoader = null;
-    protected $oEngine = NULL;
+    protected $oEngine = null;
 
     public function __construct()
     {
@@ -36,7 +36,7 @@ class BaseFeatureContext extends BehatContext
 
     public function initEngine()
     {
-        if(!$this->oEngine) {
+        if (!$this->oEngine) {
             $this->oEngine = Engine::getInstance();
             $this->oEngine->Init();
         }
@@ -97,14 +97,15 @@ class BaseFeatureContext extends BehatContext
      *
      * @Then /^the response have sets:$/
      */
-    public function ResponseHaveSets( $table)
+    public function ResponseHaveSets($table)
     {
         $actual = $this->getMinkContext()->getSession()->getPage()->getContent();
 
         foreach ($table->getHash() as $genreHash) {
-            $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
+            $regex = '/' . preg_quote($genreHash['value'], '/') . '/ui';
             if (!preg_match($regex, $actual)) {
-                $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $genreHash['value']);
+                $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.',
+                    $genreHash['value']);
                 throw new ExpectationException($message, $this->getMinkContext()->getSession());
             }
         }
@@ -121,14 +122,13 @@ class BaseFeatureContext extends BehatContext
             $content = $element->getHtml();
 
             foreach ($table->getHash() as $genreHash) {
-                $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
+                $regex = '/' . preg_quote($genreHash['value'], '/') . '/ui';
                 if (!preg_match($regex, $content)) {
                     $message = sprintf('The string "%s" was not found anywhere in container', $genreHash['value']);
                     throw new ExpectationException($message, $this->getMinkContext()->getSession());
                 }
             }
-        }
-        else {
+        } else {
             throw new ExpectationException('Container not found', $this->getMinkContext()->getSession());
         }
     }
@@ -144,14 +144,13 @@ class BaseFeatureContext extends BehatContext
             $content = $element->getHtml();
 
             foreach ($table->getHash() as $genreHash) {
-                $regex  = '/'.preg_quote($genreHash['value'], '/').'/ui';
+                $regex = '/' . preg_quote($genreHash['value'], '/') . '/ui';
                 if (preg_match($regex, $content)) {
                     $message = sprintf('The string "%s" was found in container', $genreHash['value']);
                     throw new ExpectationException($message, $this->getMinkContext()->getSession());
                 }
             }
-        }
-        else {
+        } else {
             throw new ExpectationException('Container not found', $this->getMinkContext()->getSession());
         }
     }
@@ -167,7 +166,8 @@ class BaseFeatureContext extends BehatContext
         $header = $this->getMinkContext()->getSession()->getResponseHeaders();
 
         if ($contentType != $header['Content-Type']) {
-            $message = sprintf('Current content type is "%s", but "%s" expected.', $header['Content-Type'], $contentType);
+            $message = sprintf('Current content type is "%s", but "%s" expected.', $header['Content-Type'],
+                $contentType);
             throw new ExpectationException($message, $this->getMinkContext()->getSession());
         }
     }
@@ -181,13 +181,14 @@ class BaseFeatureContext extends BehatContext
     {
         $oUser = $this->getEngine()->User_GetUserByLogin($sUserLogin);
         if (!$oUser) {
-            throw new ExpectationException( sprintf('User %s not found', $sUserLogin), $this->getMinkContext()->getSession());
+            throw new ExpectationException(sprintf('User %s not found', $sUserLogin),
+                $this->getMinkContext()->getSession());
         }
 
         $this->getEngine()->User_Authorization($oUser, false);
         $oSession = $this->getEngine()->User_GetSessionByUserId($oUser->getId());
         if (!$oSession) {
-            throw new ExpectationException( 'Session non created', $this->getMinkContext()->getSession());
+            throw new ExpectationException('Session non created', $this->getMinkContext()->getSession());
         }
 
         $this->getMinkContext()->getSession()->getDriver()->setCookie("key", $oSession->getKey());
@@ -198,8 +199,8 @@ class BaseFeatureContext extends BehatContext
      */
     public function iWantToLogout()
     {
-        $this->getMinkContext()->getSession()->getDriver()->setCookie("key", NULL);
-        $this->getMinkContext()->getSession()->getDriver()->setCookie('PHPSESSID', NULL);
+        $this->getMinkContext()->getSession()->getDriver()->setCookie("key", null);
+        $this->getMinkContext()->getSession()->getDriver()->setCookie('PHPSESSID', null);
         $this->getMinkContext()->getSession()->reload();
     }
 
@@ -213,7 +214,8 @@ class BaseFeatureContext extends BehatContext
         $activePlugins = $this->getEngine()->PluginManager_GetPluginsActive();
 
         if (!in_array($sPluginName, $activePlugins)) {
-            throw new ExpectationException( sprintf('Plugin %s is not active', $sPluginName), $this->getMinkContext()->getSession());
+            throw new ExpectationException(sprintf('Plugin %s is not active', $sPluginName),
+                $this->getMinkContext()->getSession());
         }
     }
 
@@ -222,11 +224,10 @@ class BaseFeatureContext extends BehatContext
      */
     public function IPressElementCss($path)
     {
-        $element = $this->getMinkContext()->getSession()->getPage()->find('css', $path );
+        $element = $this->getMinkContext()->getSession()->getPage()->find('css', $path);
         if ($element) {
             $element->click();
-        }
-        else {
+        } else {
             throw new ExpectationException('Button not found', $this->getMinkContext()->getSession());
         }
     }

@@ -25,17 +25,19 @@
  * @package application.blocks
  * @since 2.0
  */
-class BlockBlogsSearch extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		if (!Config::Get('module.blog.category_allow')) {
-			return;
-		}
-		$aCategories=$this->Blog_GetCategoriesTree();
-		$aBlogsAll=$this->Blog_GetBlogsByFilter(array('exclude_type' => 'personal'),array(),1,1,array());
-		$this->Viewer_Assign("aBlogCategories",$aCategories);
-		$this->Viewer_Assign("iCountBlogsAll",$aBlogsAll['count']);
-	}
+class BlockBlogsSearch extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        if (!Config::Get('module.blog.category_allow')) {
+            return;
+        }
+        $aCategories = $this->Blog_GetCategoriesTree();
+        $aBlogsAll = $this->Blog_GetBlogsByFilter(array('exclude_type' => 'personal'), array(), 1, 1, array());
+        $this->Viewer_Assign("aBlogCategories", $aCategories);
+        $this->Viewer_Assign("iCountBlogsAll", $aBlogsAll['count']);
+    }
 }

@@ -21,7 +21,7 @@ class CommentFixtures extends AbstractFixtures
         $oUserFirst = $this->getReference('user-golfer');
         $oTopic = $this->getReference('topic-toshiba');
 
-        $oTopicComment = $this->_createComment($oTopic, $oUserFirst, NULL, 'fixture comment text');
+        $oTopicComment = $this->_createComment($oTopic, $oUserFirst, null, 'fixture comment text');
         $this->addReference('topic-toshiba-comment', $oTopicComment);
 
     }

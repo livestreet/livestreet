@@ -25,6 +25,7 @@
  * @package application.modules.stream
  * @since 1.0
  */
-class ModuleStream_EntityEvent extends Entity {
+class ModuleStream_EntityEvent extends Entity
+{
 
 }

@@ -11,7 +11,7 @@ class UserFixtures extends AbstractFixtures
 
     public function load()
     {
-        $oUserFirst = $this->_createUser('user-golfer', 'qwerty','user_first@info.com', '2012-11-1 00:10:20');
+        $oUserFirst = $this->_createUser('user-golfer', 'qwerty', 'user_first@info.com', '2012-11-1 00:10:20');
 
         $oUserFirst->setProfileName('Golfer FullName');
         $oUserFirst->setProfileAbout('... Golfer profile description');
@@ -20,7 +20,7 @@ class UserFixtures extends AbstractFixtures
         $this->oEngine->User_Update($oUserFirst);
         $this->addReference('user-golfer', $oUserFirst);
 
-        $oUserFriend = $this->_createUser('user-friend', 'qwerty','user_friend@info.com', '2012-11-1 10:20:30');
+        $oUserFriend = $this->_createUser('user-friend', 'qwerty', 'user_friend@info.com', '2012-11-1 10:20:30');
         $oUserFriend->setProfileName('Friend FullName');
         $oUserFriend->setProfileAbout('... Friend profile description');
         $oUserFriend->setProfileSex('man');

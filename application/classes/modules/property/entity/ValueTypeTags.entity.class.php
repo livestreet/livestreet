@@ -25,69 +25,81 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_EntityValueTypeTags extends ModuleProperty_EntityValueType {
+class ModuleProperty_EntityValueTypeTags extends ModuleProperty_EntityValueType
+{
 
-	public function getValueForDisplay() {
-		return htmlspecialchars($this->getValueObject()->getValueVarchar());
-	}
+    public function getValueForDisplay()
+    {
+        return htmlspecialchars($this->getValueObject()->getValueVarchar());
+    }
 
-	public function validate() {
-		return $this->validateStandart('tags');
-	}
+    public function validate()
+    {
+        return $this->validateStandart('tags');
+    }
 
-	public function setValue($mValue) {
-		$this->resetAllValue();
-		$oValue=$this->getValueObject();
-		$oValue->setValueVarchar($mValue ? $mValue : null);
-	}
+    public function setValue($mValue)
+    {
+        $this->resetAllValue();
+        $oValue = $this->getValueObject();
+        $oValue->setValueVarchar($mValue ? $mValue : null);
+    }
 
-	/**
-	 * Дополнительная обработка перед сохранением значения
-	 */
-	public function beforeSaveValue() {
-		/**
-		 * Заливаем теги в отдельную таблицу
-		 */
-		if ($aTags=$this->getTagsArray()) {
-			$oValue=$this->getValueObject();
-			foreach($aTags as $sTag) {
-				$oTag=Engine::GetEntity('ModuleProperty_EntityValueTag');
-				$oTag->setPropertyId($oValue->getPropertyId());
-				$oTag->setTargetType($oValue->getTargetType());
-				$oTag->setTargetId($oValue->getTargetId());
-				$oTag->setText($sTag);
-				$oTag->Add();
-			}
-		}
-	}
+    /**
+     * Дополнительная обработка перед сохранением значения
+     */
+    public function beforeSaveValue()
+    {
+        /**
+         * Заливаем теги в отдельную таблицу
+         */
+        if ($aTags = $this->getTagsArray()) {
+            $oValue = $this->getValueObject();
+            foreach ($aTags as $sTag) {
+                $oTag = Engine::GetEntity('ModuleProperty_EntityValueTag');
+                $oTag->setPropertyId($oValue->getPropertyId());
+                $oTag->setTargetType($oValue->getTargetType());
+                $oTag->setTargetId($oValue->getTargetId());
+                $oTag->setText($sTag);
+                $oTag->Add();
+            }
+        }
+    }
 
-	public function getTagsArray() {
-		$sTags=$this->getValueObject()->getValueVarchar();
-		if ($sTags) {
-			return explode(',',$sTags);
-		}
-		return array();
-	}
+    public function getTagsArray()
+    {
+        $sTags = $this->getValueObject()->getValueVarchar();
+        if ($sTags) {
+            return explode(',', $sTags);
+        }
+        return array();
+    }
 
-	public function prepareValidateRulesRaw($aRulesRaw) {
-		$aRules=array();
-		$aRules['allowEmpty']=isset($aRulesRaw['allowEmpty']) ? false : true;
+    public function prepareValidateRulesRaw($aRulesRaw)
+    {
+        $aRules = array();
+        $aRules['allowEmpty'] = isset($aRulesRaw['allowEmpty']) ? false : true;
 
-		if (isset($aRulesRaw['count']) and ($iCount=(int)$aRulesRaw['count']) > 0) {
-			$aRules['count']=$iCount;
-		}
-		return $aRules;
-	}
+        if (isset($aRulesRaw['count']) and ($iCount = (int)$aRulesRaw['count']) > 0) {
+            $aRules['count'] = $iCount;
+        }
+        return $aRules;
+    }
 
-	public function removeValue() {
-		$oValue=$this->getValueObject();
-		/**
-		 * Удаляем теги из дополнительной таблицы
-		 */
-		if ($aTags=$this->Property_GetValueTagItemsByFilter(array('property_id'=>$oValue->getPropertyId(),'target_id'=>$oValue->getTargetId()))) {
-			foreach($aTags as $oTag) {
-				$oTag->Delete();
-			}
-		}
-	}
+    public function removeValue()
+    {
+        $oValue = $this->getValueObject();
+        /**
+         * Удаляем теги из дополнительной таблицы
+         */
+        if ($aTags = $this->Property_GetValueTagItemsByFilter(array(
+                'property_id' => $oValue->getPropertyId(),
+                'target_id'   => $oValue->getTargetId()
+            ))
+        ) {
+            foreach ($aTags as $oTag) {
+                $oTag->Delete();
+            }
+        }
+    }
 }

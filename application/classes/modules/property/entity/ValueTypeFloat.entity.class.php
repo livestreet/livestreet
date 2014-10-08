@@ -25,32 +25,37 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_EntityValueTypeFloat extends ModuleProperty_EntityValueType {
+class ModuleProperty_EntityValueTypeFloat extends ModuleProperty_EntityValueType
+{
 
-	public function getValueForDisplay() {
-		return $this->getValueObject()->getValueFloat();
-	}
+    public function getValueForDisplay()
+    {
+        return $this->getValueObject()->getValueFloat();
+    }
 
-	public function validate() {
-		return $this->validateStandart('number',array('integerOnly'=>false));
-	}
+    public function validate()
+    {
+        return $this->validateStandart('number', array('integerOnly' => false));
+    }
 
-	public function setValue($mValue) {
-		$this->resetAllValue();
-		$oValue=$this->getValueObject();
-		$oValue->setValueFloat($mValue ? $mValue : null);
-	}
+    public function setValue($mValue)
+    {
+        $this->resetAllValue();
+        $oValue = $this->getValueObject();
+        $oValue->setValueFloat($mValue ? $mValue : null);
+    }
 
-	public function prepareValidateRulesRaw($aRulesRaw) {
-		$aRules=array();
-		$aRules['allowEmpty']=isset($aRulesRaw['allowEmpty']) ? false : true;
+    public function prepareValidateRulesRaw($aRulesRaw)
+    {
+        $aRules = array();
+        $aRules['allowEmpty'] = isset($aRulesRaw['allowEmpty']) ? false : true;
 
-		if (isset($aRulesRaw['max']) and is_numeric($aRulesRaw['max'])) {
-			$aRules['max']=(int)$aRulesRaw['max'];
-		}
-		if (isset($aRulesRaw['min']) and is_numeric($aRulesRaw['min'])) {
-			$aRules['min']=(int)$aRulesRaw['min'];
-		}
-		return $aRules;
-	}
+        if (isset($aRulesRaw['max']) and is_numeric($aRulesRaw['max'])) {
+            $aRules['max'] = (int)$aRulesRaw['max'];
+        }
+        if (isset($aRulesRaw['min']) and is_numeric($aRulesRaw['min'])) {
+            $aRules['min'] = (int)$aRulesRaw['min'];
+        }
+        return $aRules;
+    }
 }

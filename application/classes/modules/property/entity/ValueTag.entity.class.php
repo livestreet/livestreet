@@ -25,10 +25,9 @@
  * @package application.modules.property
  * @since 2.0
  */
-class ModuleProperty_EntityValueTag extends EntityORM {
+class ModuleProperty_EntityValueTag extends EntityORM
+{
 
-	protected $aRelations=array(
-
-	);
+    protected $aRelations = array();
 
 }
