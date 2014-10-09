@@ -11,9 +11,13 @@
 {block 'modal_content'}
 	{* Экшнбар *}
 	{if $aUserList && $bSelectable}
-		{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-user-list-select .js-user-list-small-item' assign=sUsersSelect}
-		{include 'components/actionbar/actionbar.tpl' aItems=[
-			[ 'html' => $sUsersSelect ]
+		{include 'components/actionbar/actionbar-item.select.tpl'
+			classes = 'js-user-list-modal-actionbar'
+			target  = '.js-user-list-select .js-user-list-small-item'
+			assign  = users}
+
+		{include 'components/actionbar/actionbar.tpl' items=[
+			[ 'html' => $users ]
 		]}
 	{/if}
 

@@ -83,6 +83,6 @@
 			]}
 		{/if}
 
-		{include 'components/actionbar/actionbar.tpl' aItems=$aActionbarItems}
+		{include 'components/actionbar/actionbar.tpl' items=$aActionbarItems}
 	{/if}
 </div>

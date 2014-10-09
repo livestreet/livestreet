@@ -4,11 +4,12 @@
 
 {if $sPeriodSelectCurrent}
 	{include 'components/dropdown/dropdown.tpl'
-		sName = 'sort_by_date'
-		sText = 'Loading...'
-		sAttributes = "data-dropdown-selectable=\"true\""
-		sActiveItem = $sPeriodSelectCurrent
-		aMenu = [
+		classes    = 'js-dropdown-default'
+		name       = 'sort_by_date'
+		text       = 'Loading...'
+		attributes = "data-dropdown-selectable=\"true\""
+		activeItem = $sPeriodSelectCurrent
+		menu       = [
 			[ 'name' => '1',   'url' => "{$sPeriodSelectRoot}?period=1",   'text' => {lang name='blog.menu.top_period_1'} ],
 			[ 'name' => '7',   'url' => "{$sPeriodSelectRoot}?period=7",   'text' => {lang name='blog.menu.top_period_7'}  ],
 			[ 'name' => '30',  'url' => "{$sPeriodSelectRoot}?period=30",  'text' => {lang name='blog.menu.top_period_30'} ],

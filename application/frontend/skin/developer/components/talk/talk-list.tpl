@@ -13,12 +13,16 @@
 
 		{* Экшнбар *}
 		{if $smarty.local.selectable}
-			{include 'components/actionbar/actionbar.item.select.tpl' sItemSelector='.js-message-list-item' assign=select aItems=[
-				[ 'text' => $aLang.talk.actionbar.read, 'filter' => ":not('.message-unread')" ],
-				[ 'text' => $aLang.talk.actionbar.unread, 'filter' => ".message-unread" ]
-			]}
+			{include 'components/actionbar/actionbar-item.select.tpl'
+				classes  = 'js-talk-actionbar-select'
+				target   = '.js-message-list-item'
+				assign   = select
+				items    = [
+					[ 'text' => $aLang.talk.actionbar.read, 'filter' => ":not('.message-unread')" ],
+					[ 'text' => $aLang.talk.actionbar.unread, 'filter' => ".message-unread" ]
+				]}
 
-			{include 'components/actionbar/actionbar.tpl' aItems=[
+			{include 'components/actionbar/actionbar.tpl' items=[
 				[ 'html' => $select ],
 				[ 'icon' => 'icon-ok', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="mark_as_read"', 'text' => $aLang.talk.actionbar.mark_as_read ],
 				[ 'icon' => 'icon-remove', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="remove"', 'text' => $aLang.common.remove ]

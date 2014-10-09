@@ -9,6 +9,16 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.actionbar           { background: #fafafa; padding: 10px 10px 0; margin-bottom: 10px; }
-.actionbar-item      { float: left; white-space: nowrap; margin-right: 10px; }
-.actionbar-item-link { margin-bottom: 10px; }
+.actionbar {
+    background: #fafafa;
+    padding: 10px 10px 0;
+    margin-bottom: 10px;
+}
+.actionbar-item {
+    float: left;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+.actionbar-item-link {
+    margin-bottom: 10px;
+}

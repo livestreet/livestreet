@@ -21,6 +21,24 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Actionbar
+	 */
+	$('.js-talk-actionbar-select').lsActionbarItemSelect({
+		selectors: {
+			target_item: '.js-message-list-item'
+		}
+	});
+
+	$('.js-user-list-modal-actionbar').livequery(function () {
+		$( this ).lsActionbarItemSelect({
+			selectors: {
+				target_item: '.js-user-list-select .js-user-list-small-item'
+			}
+		});
+	});
+
+
+	/**
 	 * Modals
 	 */
 	$('.js-modal-default').modal();
@@ -36,7 +54,7 @@ jQuery(document).ready(function($){
 	 * Dropdowns
 	 */
 	$('.js-dropdown-default').livequery(function () {
-		$(this).dropdown();
+		$(this).lsDropdown();
 	});
 
 
@@ -397,30 +415,6 @@ jQuery(document).ready(function($){
 	// TODO: Перенести в плагин button
 	$(document).on('click', 'button[data-button-submit-form]', function () {
 		$( $(this).data('button-submit-form') ).submit();
-	});
-
-	// Временный код экшнбара (кнопка выделения объектов)
-	// TODO: Перенести в виджет
-	$(document).on('click', 'li[data-select-item]', function (e) {
-		var oElement       = $(this),
-			sItemSelector  = $(this).data('select-item'),
-			sItemFilter    = $(this).data('select-filter') || '*',
-			aItems         = $( sItemSelector ),
-			aItemsFiltered = aItems.filter( sItemFilter ),
-			aCheckboxes    = aItems.find('input[type=checkbox]');
-
-		aItems.removeClass('selected');
-		aCheckboxes.prop('checked', false);
-		aItemsFiltered.addClass('selected').find('input[type=checkbox]').prop('checked', true);
-		e.preventDefault();
-	});
-
-	$(document).on('click', '.js-message-list-item input[type=checkbox]', function (e) {
-		$(this).closest('.js-message-list-item').toggleClass('selected');
-	});
-
-	$(document).on('click', '.js-user-list-small-item input[type=checkbox]', function (e) {
-		$(this).closest('.js-user-list-small-item').toggleClass('selected');
 	});
 
 	// Хук конца инициализации javascript-составляющих шаблона

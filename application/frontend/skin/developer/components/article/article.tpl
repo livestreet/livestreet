@@ -59,7 +59,7 @@
 						]}
 					{/block}
 
-					{include 'components/actionbar/actionbar.tpl' aItems=$items}
+					{include 'components/actionbar/actionbar.tpl' items=$items}
 				{/if}
 			</header>
 		{/block}

@@ -1758,6 +1758,19 @@ return array(
         'all' => 'Все'
     ),
     /**
+     * Экшнбар
+     */
+    'actionbar' => array(
+        'select' => array(
+            'title' => 'Выбрать',
+            'menu' => array(
+                'all'      => 'Все',
+                'deselect' => 'Убрать выделение',
+                'invert'   => 'Инвертировать',
+            ),
+        ),
+    ),
+    /**
      * Управление правами (RBAC)
      */
     'rbac'                          => array(

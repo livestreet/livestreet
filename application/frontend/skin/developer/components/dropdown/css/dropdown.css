@@ -1,0 +1,68 @@
+/**
+ * Dropdowns
+ *
+ * @module ls/dropdown
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.dropdown {
+    display: inline-block;
+    background: #2891d3;
+    color: #fff;
+    padding: 7px 35px 7px 13px;
+    margin-bottom: 10px;
+    min-height: 18px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
+    text-decoration: none;
+    position: relative;
+}
+
+
+ /* Dropdown toggle */
+.dropdown-toggle {
+    position: relative;
+    cursor: pointer;
+    padding-right: 25px;
+}
+.dropdown-toggle:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    height: 0;
+    width: 0;
+    margin-top: -1px;
+    border: 4px solid transparent;
+    border-top-color: #333;
+}
+.dropdown-toggle.open:after { border-top-color: #fff; }
+.dropdown-toggle.open { background: #08c; color: #fff; }
+
+
+.dropdown .dropdown-toggle {
+    border-left: 1px solid #40BAF7;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 25px;
+}
+.dropdown .dropdown-toggle.open { border-color: transparent; }
+.dropdown .dropdown-toggle:hover { background: #08c; }
+
+
+/**
+ * Выпадающее меню
+ */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 900;
+}

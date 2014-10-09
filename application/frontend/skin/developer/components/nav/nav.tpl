@@ -36,7 +36,10 @@
 							   {if $_bIsDropdown}{$_sComponentName}-item--has-children{/if}
 							   {$aItem['classes']}"
 						{if isset($aItem['title'])}title="{$aItem['title']}"{/if}
-						{$aItem['attributes']}>
+						{$aItem['attributes']}
+						{foreach $aItem['data'] as $data}
+							data-{$data@key}={$data@value}
+						{/foreach}>
 
 						{* Ссылка *}
 						<a href="{if $aItem['url']}{$aItem['url']}{else}#{/if}">

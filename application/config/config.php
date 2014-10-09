@@ -535,6 +535,7 @@ $config['head']['default']['js'] = array(
     "___path.framework.frontend.web___/js/ui/alert.js",
     "___path.framework.frontend.web___/js/ui/captcha.js",
     /* LiveStreet */
+    "___path.skin.web___/components/dropdown/js/dropdown.js",
     "___path.application.web___/frontend/common/js/favourite.js",
     "___path.application.web___/frontend/common/js/favourite_topic.js",
     "___path.application.web___/frontend/common/js/blocks.js",
@@ -579,6 +580,7 @@ $config['head']['default']['js'] = array(
     "___path.application.web___/frontend/common/js/search.js",
     "___path.application.web___/frontend/common/js/more.js",
     "___path.application.web___/frontend/common/js/init.js",
+    "___path.skin.web___/components/actionbar/js/actionbar-item-select.js",
     "//yandex.st/share/share.js"                               => array('merge' => false),
 );
 
@@ -587,7 +589,7 @@ $config['head']['default']['css'] = array(
     "___path.framework.frontend.web___/css/reset.css",
     "___path.framework.frontend.web___/css/helpers.css",
     "___path.framework.frontend.web___/css/text.css",
-    "___path.framework.frontend.web___/css/dropdowns.css",
+    "___path.skin.web___/components/dropdown/css/dropdown.css",
     "___path.framework.frontend.web___/css/buttons.css",
     "___path.framework.frontend.web___/css/forms.css",
     "___path.framework.frontend.web___/css/navs.css",

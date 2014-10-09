@@ -37,7 +37,7 @@ $aCss = array(
 
 	// Components
 	"___path.skin.assets.web___/css/components/vote.css",
-	"___path.skin.assets.web___/css/components/actionbar.css",
+	"___path.skin.web___/components/actionbar/css/actionbar.css",
 	"___path.skin.assets.web___/css/components/more.css",
 	"___path.skin.assets.web___/css/components/favourite.css",
 	"___path.skin.assets.web___/css/components/user_note.css",

@@ -63,7 +63,7 @@
 
 	{* TODO: Добавить хук *}
 
-	{include 'components/actionbar/actionbar.tpl' aItems=$aItems sClasses='comments-actions'}
+	{include 'components/actionbar/actionbar.tpl' items=$aItems classes='comments-actions'}
 
 
 	{**

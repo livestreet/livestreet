@@ -1,28 +1,26 @@
 {**
  * Выпадающее меню
  *
- * @param string sName
- * @param string sText
- * @param string sActiveItem
- * @param array  aMenu
+ * @param string text
+ * @param string activeItem
+ * @param array  menu
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'dropdown'}
+{$component = 'dropdown'}
 
-{* Дефолтные значения *}
-{$_sName = ($smarty.local.sName) ? $smarty.local.sName : rand(0, 9999999)}
-
+{* Уникальный ID для привязки кнопки к меню *}
+{$uid = "dropdown{rand( 0, 10e10 )}"}
 
 {* Кнопка *}
 {include 'components/button/button.tpl'
-		 sClasses    = "{$_sComponentName}-toggle js-dropdown-default {$smarty.local.sClasses}"
-		 sAttributes = "data-{$_sComponentName}-target=\"js-{$_sComponentName}-{$_sName}-menu\" {$smarty.local.sAttributes}"
-		 sText       = $smarty.local.sText}
+    sType       = 'button'
+    sClasses    = "{$component}-toggle {$smarty.local.classes}"
+    sAttributes = "data-{$component}-target=\"{$uid}\" {$smarty.local.attributes}"
+    sText       = $smarty.local.text}
 
-{* Выпадающее меню *}
+{* Меню *}
 {include './dropdown.menu.tpl'
-		 sName          = "{$_sName}_menu"
-		 sActiveItem    = $smarty.local.sActiveItem
-		 sAttributes    = "id=\"js-{$_sComponentName}-{$_sName}-menu\""
-		 aItems         = $smarty.local.aMenu}
+    id         = $uid
+    activeItem = $smarty.local.activeItem
+    items      = $smarty.local.menu}

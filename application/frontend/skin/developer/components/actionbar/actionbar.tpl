@@ -1,24 +1,22 @@
 {**
  * Экшнбар
  *
- * @param array  $aItems  Массив с кнопками
- *
- * @styles css/common.css
+ * @param array $items Массив с кнопками
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'actionbar'}
+{$component = 'actionbar'}
 
-{if $smarty.local.aItems}
-	<ul class="{$_sComponentName} clearfix {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses}" {$smarty.local.sAttributes}>
-		{foreach $smarty.local.aItems as $aItem}
-			{if $aItem['html']}
-				{$aItem['html']}
-			{else}
-				{if $aItem['show']|default:true}
-					{include './actionbar.item.tpl'}
-				{/if}
-			{/if}
-		{/foreach}
-	</ul>
+{if $smarty.local.items}
+    <ul class="{$component} clearfix {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
+        {foreach $smarty.local.items as $item}
+            {if $item['html']}
+                {$item['html']}
+            {else}
+                {if $item['show']|default:true}
+                    {include './actionbar-item.tpl' item=$item}
+                {/if}
+            {/if}
+        {/foreach}
+    </ul>
 {/if}
