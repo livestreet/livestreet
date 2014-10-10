@@ -74,7 +74,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Alerts
 	 */
-	$('.js-alert').alert();
+	$('.js-alert').lsAlert();
 
 
 	/**
@@ -110,12 +110,6 @@ jQuery(document).ready(function($){
 	ls.autocomplete.add($(".autocomplete-tags"), aRouter['ajax']+'autocompleter/tag/', false);
 	ls.autocomplete.add($(".autocomplete-users-sep"), aRouter['ajax']+'autocompleter/user/', true);
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
-
-
-	/**
-	 * Scroll
-	 */
-	$(window)._scrollable();
 
 
 	/**
@@ -206,6 +200,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
+	$(window)._scrollable();
 	$('.js-toolbar').toolbar({
 		target: '.grid-role-wrapper',
 		offsetX: 20
@@ -238,7 +233,7 @@ jQuery(document).ready(function($){
 	 * User Note
 	 */
 	$('.js-user-note').livequery(function () {
-		$(this).usernote({
+		$(this).lsNote({
 			urls: {
 				save:   aRouter['profile'] + 'ajax-note-save/',
 				remove: aRouter['profile'] + 'ajax-note-remove/'
@@ -262,6 +257,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Topic
 	 */
+	$( '.js-topic' ).lsTopic();
 	ls.topic.init();
 	ls.content.init();
 
@@ -269,14 +265,6 @@ jQuery(document).ready(function($){
 	/**
 	 * Vote
 	 */
-
-	// Голосование за топик
-	$('.js-vote-topic').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/topic/',
-			info: aRouter['ajax'] + 'vote/get/info/topic'
-		}
-	});
 
 	// Голосование за пользователя
 	$('.js-vote-user').vote({
@@ -290,15 +278,6 @@ jQuery(document).ready(function($){
 		urls: {
 			vote: aRouter['ajax'] + 'vote/blog/'
 		}
-	});
-
-	// Голосование за комментарий
-	$('.js-vote-comment').livequery(function () {
-		$(this).vote({
-			urls: {
-				vote: aRouter['ajax'] + 'vote/comment/'
-			}
-		});
 	});
 
 
@@ -316,18 +295,6 @@ jQuery(document).ready(function($){
 	/**
 	 * Избранное
 	 */
-
-	// Топик
-	$('.js-favourite-topic').lsFavouriteTopic();
-
-	// Комментарий
-	$('.js-favourite-comment').livequery(function () {
-		$(this).lsFavourite({
-			urls: {
-				toggle: aRouter['ajax'] + 'favourite/comment/'
-			}
-		});
-	});
 
 	// Личное сообщение
 	$('.js-favourite-talk').lsFavourite({
@@ -378,7 +345,7 @@ jQuery(document).ready(function($){
 	 */
 
 	// Приглашение пользователей в блог
-	$('.js-user-list-add-blog-invite').blog_invite_users();
+	$('.js-user-list-add-blog-invite').lsBlogInvites();
 
 	// Добавление участников личного сообщения
 	$('.js-message-users').message_users();
@@ -408,13 +375,6 @@ jQuery(document).ready(function($){
 	 */
 	$( '.fotorama' ).livequery(function() {
 		$( this ).fotorama();
-	});
-
-
-	// Временный костыль для сабмита форм
-	// TODO: Перенести в плагин button
-	$(document).on('click', 'button[data-button-submit-form]', function () {
-		$( $(this).data('button-submit-form') ).submit();
 	});
 
 	// Хук конца инициализации javascript-составляющих шаблона

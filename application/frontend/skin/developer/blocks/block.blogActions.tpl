@@ -20,7 +20,7 @@
 
 {block 'block_footer'}
 	{* Подписаться через RSS *}
-	{include 'components/button/button.tpl' sUrl="{router page='rss'}blog/{$oBlog->getUrl()}/" sText=$aLang.blog.rss}
+	{include 'components/button/button.tpl' url="{router page='rss'}blog/{$oBlog->getUrl()}/" text=$aLang.blog.rss}
 
 	{* Вступить / Покинуть блог *}
 	{include 'components/blog/join.tpl'}

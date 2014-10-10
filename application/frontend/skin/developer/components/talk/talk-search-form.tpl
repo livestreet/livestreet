@@ -49,11 +49,11 @@
 
 		{* Кнопки *}
 		{include 'components/button/button.tpl'
-				sName  = 'submit_talk_filter'
-				sValue = '1'
-				sMods  = 'primary'
-				sText  = $aLang.search.find}
+				name  = 'submit_talk_filter'
+				value = '1'
+				mods  = 'primary'
+				text  = $aLang.search.find}
 
-		{include 'components/button/button.tpl' sType='reset' sText=$aLang.common.form_reset}
+		{include 'components/button/button.tpl' type='reset' text=$aLang.common.form_reset}
 	</form>
 </div>

@@ -16,9 +16,9 @@
 	</ul>
 {else}
 	{if $sUserListEmpty}
-		{include 'components/alert/alert.tpl' mAlerts=$sUserListEmpty sMods='empty'}
+		{include 'components/alert/alert.tpl' text=$sUserListEmpty mods='empty'}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
+		{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
 	{/if}
 {/if}
 

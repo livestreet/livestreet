@@ -1,43 +1,43 @@
 {**
  * Кнопка
  *
- * @param sType       string  ('submit') Тип кнопки (submit, button)
- * @param sText       string  (null)     Текст кнопки
- * @param sUrl        string  (null)     Ссылка
- * @param sId         string  (null)     Атрибут id
- * @param sName       string  (null)     Атрибут name
- * @param bIsDisabled boolean (false)    Атрибут disabled
- * @param sForm       string  (null)     Селектор формы для сабмита
- * @param sIcon       string  (null)     Класс иконки
- * @param sClasses    string  (null)     Дополнительные классы (указываются через пробел)
- * @param sMods       string  (null)     Список классов-модификаторов (указываются через пробел)
- * @param sAttributes string  (null)     Атрибуты (указываются через пробел)
+ * @param type       string  (submit)   Тип кнопки (submit, reset, button)
+ * @param text       string  (null)     Текст кнопки
+ * @param url        string  (null)     Ссылка
+ * @param id         string  (null)     Атрибут id
+ * @param name       string  (null)     Атрибут name
+ * @param isDisabled boolean (false)    Атрибут disabled
+ * @param form       string  (null)     Селектор формы для сабмита
+ * @param icon       string  (null)     Класс иконки
+ * @param classes    string  (null)     Дополнительные классы (указываются через пробел)
+ * @param mods       string  (null)     Список классов-модификаторов (указываются через пробел)
+ * @param attributes string  (null)     Атрибуты (указываются через пробел)
  *
  * @styles <framework>/css/button.css
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'button'}
+{$component = 'button'}
 
-{* Если указана ссылка sUrl то заменяем тег <button> на <a> *}
-<{($smarty.local.sUrl) ? 'a' : 'button'}
-		{if ! $smarty.local.sUrl}
-			type="{($smarty.local.sType) ? $smarty.local.sType : 'submit'}"
-	    	value="{if $smarty.local.sValue}{$smarty.local.sValue}{elseif isset($_aRequest[$smarty.local.sName])}{$_aRequest[$smarty.local.sName]}{/if}"
-	    	{if $smarty.local.bIsDisabled}disabled{/if}
-	    	{if $smarty.local.sForm}data-button-submit-form="{$smarty.local.sForm}"{/if}
-	    {else}
-	    	href="{$smarty.local.sUrl}"
-		{/if}
-	    {if $smarty.local.sId}id="{$smarty.local.sId}"{/if}
-	    {if $smarty.local.sName}name="{$smarty.local.sName}"{/if}
-	    class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses}"
-	    {$smarty.local.sAttributes}>
-	{* Иконка *}
-	{if $smarty.local.sIcon}
-		<i class="{$smarty.local.sIcon}"></i>
-	{/if}
+{* Если указана ссылка url то заменяем тег <button> на <a> *}
+<{( $smarty.local.url ) ? 'a' : 'button'}
+        {if ! $smarty.local.url}
+            type="{( $smarty.local.type ) ? $smarty.local.type : 'submit'}"
+            value="{if $smarty.local.value}{$smarty.local.value}{elseif isset( $_aRequest[ $smarty.local.name ] )}{$_aRequest[ $smarty.local.name ]}{/if}"
+            {if $smarty.local.isDisabled}disabled{/if}
+            {if $smarty.local.form}form="{$smarty.local.form}"{/if}
+        {else}
+            href="{$smarty.local.url}"
+        {/if}
+        {if $smarty.local.id}id="{$smarty.local.id}"{/if}
+        {if $smarty.local.name}name="{$smarty.local.name}"{/if}
+        class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+        {$smarty.local.attributes}>
+    {* Иконка *}
+    {if $smarty.local.icon}
+        <i class="{$smarty.local.icon}"></i>
+    {/if}
 
-	{* Текст *}
-	{$smarty.local.sText}
-</{($smarty.local.sUrl) ? 'a' : 'button'}>
+    {* Текст *}
+    {$smarty.local.text}
+</{($smarty.local.url) ? 'a' : 'button'}>

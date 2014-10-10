@@ -10,10 +10,10 @@
 {* Уведомление о пустом списке *}
 {if ! $aUserList || $smarty.local.bHideableEmptyAlert}
 	{include 'components/alert/alert.tpl'
-			 mAlerts  = $aLang.common.empty
-			 sMods    = 'empty'
-			 sClasses = 'js-user-list-small-empty'
-			 bVisible = ! $aUserList}
+		text    = $aLang.common.empty
+		mods    = 'empty'
+		classes = 'js-user-list-small-empty'
+		visible = ! $aUserList}
 {/if}
 
 {* Список пользователей *}

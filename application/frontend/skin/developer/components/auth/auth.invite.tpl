@@ -8,5 +8,5 @@
 			aRules        = [ 'required' => true, 'type' => 'alphanum' ]
 			sLabel        = $aLang.auth.invite.form.fields.code.label}
 
-	{include 'components/button/button.tpl' sName='submit_invite' sMods='primary' sText=$aLang.auth.invite.form.fields.submit.text}
+	{include 'components/button/button.tpl' name='submit_invite' mods='primary' text=$aLang.auth.invite.form.fields.submit.text}
 </form>

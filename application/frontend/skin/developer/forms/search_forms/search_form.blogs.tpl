@@ -4,7 +4,7 @@
  * @styles css/forms.css
  *}
 
-{include 'components/search_form/search_form.tpl'
+{include 'components/search-form/search-form.tpl'
 		sName            = 'blog'
 		sMethod          = 'post'
 		sPlaceholder     = $aLang.blog.search.placeholder

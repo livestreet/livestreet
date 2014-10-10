@@ -125,7 +125,7 @@
     {include 'components/field/field.hidden.security_key.tpl'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl' sName='submit_profile_edit' sMods='primary' sText=$aLang.common.save}
+    {include 'components/button/button.tpl' name='submit_profile_edit' mods='primary' text=$aLang.common.save}
 </form>
 
 {hook run='settings_profile_end'}

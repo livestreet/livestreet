@@ -51,13 +51,13 @@
 		 *}
 
 		{* Кнопка добавления *}
-		{include 'components/button/button.tpl' sName='submit_comment' sText=$aLang.common.add sMods='primary' sClasses='js-comment-form-submit'}
+		{include 'components/button/button.tpl' name='submit_comment' text=$aLang.common.add mods='primary' classes='js-comment-form-submit'}
 
 		{* Кнопки редактирования *}
-		{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.save sMods='primary' sClasses='js-comment-form-update-submit hide'}
-		{include 'components/button/button.tpl' sName='submit_comment' sType='button' sText=$aLang.common.cancel sClasses='js-comment-form-update-cancel fl-r hide'}
+		{include 'components/button/button.tpl' name='submit_comment' type='button' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
+		{include 'components/button/button.tpl' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r hide'}
 
 		{* Кнопка превью текста *}
-		{include 'components/button/button.tpl' sText=$aLang.common.preview_text sType='button' sClasses='js-comment-form-preview'}
+		{include 'components/button/button.tpl' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}
 	{/block}
 </form>

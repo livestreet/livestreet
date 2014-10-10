@@ -26,7 +26,7 @@
 
 		{* Заметка *}
 		{if $usernote}
-			{include 'components/user_note/user_note.tpl' sClasses='js-user-note' oObject=$usernote iUserId=$user->getId()}
+			{include 'components/note/note.tpl' sClasses='js-user-note' oObject=$usernote iUserId=$user->getId()}
 		{/if}
 
 		{* Информация *}
@@ -34,7 +34,7 @@
 			{$lastSessionDate = {date_format date=$session->getDateLast() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}}
 		{/if}
 
-		{include 'components/info_list/info_list.tpl' sInfoListClasses='object-list-item-info' aInfoList=[
+		{include 'components/info-list/info-list.tpl' sInfoListClasses='object-list-item-info' aInfoList=[
 			[ 'label' => "{$aLang.user.date_last_session}:", 'content' => ( $session ) ? $lastSessionDate : '&mdash;' ],
 			[ 'label' => "{$aLang.user.date_registration}:", 'content' => {date_format date=$user->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ],
 			[ 'label' => "{$aLang.vote.rating}:",            'content' => $user->getRating() ]

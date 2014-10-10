@@ -27,12 +27,12 @@
 
 	{if $oUserCurrent}
 		{* Проголосовать *}
-		{include 'components/button/button.tpl' sText=$aLang.poll.vote sType='button' sMods='primary' sClasses='js-poll-vote'}
+		{include 'components/button/button.tpl' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
 
 		{* Воздержаться *}
-		{include 'components/button/button.tpl' sText=$aLang.poll.abstain sType='button' sClasses='js-poll-abstain'}
+		{include 'components/button/button.tpl' text=$aLang.poll.abstain type='button' classes='js-poll-abstain'}
 	{else}
 		{* Предупрежение: голосовать могут только авторизованные пользователи *}
-		{include 'components/alert/alert.tpl' sMods='info' mAlerts=$aLang.poll.only_auth}
+		{include 'components/alert/alert.tpl' mods='info' text=$aLang.poll.only_auth}
 	{/if}
 </form>

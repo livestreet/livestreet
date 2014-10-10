@@ -113,16 +113,16 @@
                 <li>
                     {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
                     {include 'components/vote/vote.tpl'
-                            sClasses  = "{$sComponent}-vote js-vote-{$sComponent}"
-                            oObject   = $oComment
-                            bIsLocked = ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId()) || strtotime($oComment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
+                            classes  = "{$sComponent}-vote js-vote-{$sComponent}"
+                            target   = $oComment
+                            isLocked = ($oUserCurrent && $oUserCurrent->getId() == $oUser->getId()) || strtotime($oComment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
                 </li>
             {/if}
 
             {* Избранное *}
             {if $oUserCurrent && $smarty.local.bShowFavourite}
                 <li>
-                    {include 'components/favourite/favourite.tpl' sClasses='comment-favourite js-favourite-comment' oObject=$oComment}
+                    {include 'components/favourite/favourite.tpl' classes='comment-favourite js-favourite-comment' target=$oComment}
                 </li>
             {/if}
         </ul>

@@ -47,7 +47,7 @@
         {include 'components/field/field.hidden.tpl' sName='return-path' sValue=$redirectUrl}
     {/if}
 
-    {include 'components/button/button.tpl' sName='submit_register' sMods='primary' sText=$aLang.auth.registration.form.fields.submit.text}
+    {include 'components/button/button.tpl' name='submit_register' mods='primary' text=$aLang.auth.registration.form.fields.submit.text}
 </form>
 
 {hook run='registration_end'}

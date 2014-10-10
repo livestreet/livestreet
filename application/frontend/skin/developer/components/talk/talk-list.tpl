@@ -52,7 +52,7 @@
 
 						{* Избранное *}
 						<td class="cell-favourite">
-							{include 'components/favourite/favourite.tpl' sClasses='js-favourite-talk' oObject=$talk}
+							{include 'components/favourite/favourite.tpl' classes='js-favourite-talk' target=$talk}
 						</td>
 
 						{* Основная информация о диалоге *}
@@ -120,7 +120,7 @@
 		</table>
 	</form>
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=$aLang.talk.notices.empty sMods='empty'}
+	{include 'components/alert/alert.tpl' text=$aLang.talk.notices.empty mods='empty'}
 {/if}
 
 {include 'components/pagination/pagination.tpl' aPaging=$aPaging}

@@ -1,12 +1,12 @@
 {**
  * Добавление в избранное
  *
- * @param object $oObject    Объект сущности
- * @param string $sType      Название сущности (blog, topic и т.д.)
- * @param string $sClasses
- * @param string $sAttributes
- * @param string $oUserCurrent         Текущий залогиненый пользователь
- * @param boolean $bHideZeroCounter (true)
+ * @param object  $target                  Объект сущности
+ * @param string  $type                    Название сущности (blog, topic и т.д.)
+ * @param string  $classes
+ * @param string  $attributes
+ * @param string  $isActive
+ * @param boolean $hideZeroCounter (true)
  *
  * @styles assets/css/common.css
  * @scripts <common>/js/favourite.js
@@ -15,42 +15,39 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'favourite'}
+{$component = 'favourite'}
 
 {* Переменные *}
-{$sMods = $smarty.local.sMods}
+{$mods = $smarty.local.mods}
 
 {* True если объект находится в избранном *}
-{$_bIsActive = $oUserCurrent && $oObject->getIsFavourite()}
+{$isActive = $target && $target->getIsFavourite()}
 
 {* Кол-во объектов в избранном *}
-{$_iCount = $oObject->getCountFavourite()}
+{$count = $target->getCountFavourite()}
 
-{**
- * Добавляем модификаторы
- *}
-
-{if $_iCount}
-    {$sMods = "$sMods has-counter"}
+{* Добавляем модификаторы *}
+{if $count}
+    {$mods = "$mods has-counter"}
 {/if}
 
-{if $_bIsActive}
-    {$sMods = "$sMods added"}
+{if $isActive}
+    {$mods = "$mods added"}
 {/if}
 
 
-<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} {if $_bIsActive}active{/if} {$smarty.local.sClasses}"
-	 data-param-i-target-id="{$oObject->getId()}"
-	 title="{$aLang.$_sComponentName[ ($_bIsActive) ? 'remove' : 'add' ]}"
-	 {$smarty.local.sAttributes}>
+<div class="{$component} {mod name=$component mods=$mods} {if $isActive}active{/if} {$smarty.local.classes}"
+	 data-param-i-target-id="{$target->getId()}"
+	 title="{$aLang.$component[ ($isActive) ? 'remove' : 'add' ]}"
+	 {$smarty.local.attributes}>
 
 	{* Кнопка добавления/удаления из избранного *}
-	<div class="{$_sComponentName}-toggle js-{$_sComponentName}-toggle"></div>
+	<div class="icon-heart {$component}-toggle js-{$component}-toggle"></div>
 
 	{* Кол-во объектов в избранном *}
-	{if isset($_iCount)}
-		<span class="{$_sComponentName}-count js-{$_sComponentName}-count" {if ! $_iCount && $smarty.local.bHideZeroCounter|default:true}style="display: none;"{/if}>
-			{$_iCount}
+	{if isset( $count )}
+		<span class="{$component}-count js-{$component}-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
+			{$count}
 		</span>
 	{/if}
 </div>

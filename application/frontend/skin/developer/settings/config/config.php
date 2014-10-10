@@ -36,38 +36,39 @@ $aCss = array(
 	"___path.skin.assets.web___/css/common.css",
 
 	// Components
-	"___path.skin.assets.web___/css/components/vote.css",
+	"___path.skin.web___/components/vote/css/vote.css",
 	"___path.skin.web___/components/actionbar/css/actionbar.css",
-	"___path.skin.assets.web___/css/components/more.css",
-	"___path.skin.assets.web___/css/components/favourite.css",
-	"___path.skin.assets.web___/css/components/user_note.css",
+	"___path.skin.web___/components/favourite/css/favourite.css",
+	"___path.skin.web___/components/comment/css/comment.css",
+	"___path.skin.web___/components/topic/css/topic.css",
+	"___path.skin.web___/components/wall/css/wall.css",
+	"___path.skin.web___/components/blog/css/blog.css",
+	"___path.skin.web___/components/poll/css/poll.css",
+	"___path.skin.web___/components/more/css/more.css",
+	"___path.skin.web___/components/alphanumeric/css/alphanumeric.css",
+	"___path.skin.web___/components/media/css/media.css",
+	"___path.skin.web___/components/pagination/css/pagination.css",
+	"___path.skin.web___/components/field/css/field.css",
+	"___path.skin.web___/components/search-form/css/search-form.css",
+	"___path.skin.web___/components/note/css/note.css",
+	"___path.skin.web___/components/info-list/css/info-list.css",
+	"___path.skin.web___/components/uploader/css/uploader.css",
+	"___path.skin.web___/components/activity/css/activity.css",
+	"___path.skin.web___/components/block/css/block.css",
 	"___path.skin.assets.web___/css/components/user_item.css",
 	"___path.skin.assets.web___/css/components/user_list_small.css",
 	"___path.skin.assets.web___/css/components/user_list_add.css",
 	"___path.skin.assets.web___/css/components/user_list_avatar.css",
-	"___path.skin.assets.web___/css/components/pagination.css",
-	"___path.skin.assets.web___/css/components/info_list.css",
 	"___path.skin.assets.web___/css/components/tags.css",
-	"___path.skin.assets.web___/css/components/alphanumeric.css",
-	"___path.skin.assets.web___/css/components/search_form.css",
-	"___path.skin.assets.web___/css/components/field.css",
-	"___path.skin.web___/components/uploader/css/uploader.css",
-	"___path.skin.assets.web___/css/components/media.css",
 
 	// Template's styles
 	"___path.skin.assets.web___/css/icons.css",
 	"___path.skin.assets.web___/css/tables.css",
-	"___path.skin.assets.web___/css/topic.css",
-	"___path.skin.assets.web___/css/comments.css",
 	"___path.skin.assets.web___/css/blocks.css",
-	"___path.skin.assets.web___/css/blog.css",
 	"___path.skin.assets.web___/css/modals.css",
 	"___path.skin.assets.web___/css/profile.css",
-	"___path.skin.assets.web___/css/wall.css",
-	"___path.skin.assets.web___/css/activity.css",
 	"___path.skin.assets.web___/css/admin.css",
 	"___path.skin.assets.web___/css/toolbar.css",
-	"___path.skin.assets.web___/css/poll.css",
 	"___path.skin.assets.web___/css/messages.css",
 	"___path.skin.assets.web___/css/sort.css",
 	"___path.skin.assets.web___/css/print.css",
@@ -80,7 +81,7 @@ if ( Config::Get('view.theme') ) {
 
 // Стили для RTL языков
 if ( Config::Get('view.rtl') ) {
-	$aCss[] = "___path.skin.assets.web___/css/components/vote-rtl.css";
+	$aCss[] = "___path.skin.web___/components/vote/css/vote-rtl.css";
 }
 
 // Подключение фронтенд фреймворка

@@ -23,8 +23,8 @@
 
 {block name='modal_footer_begin'}
 	{include 'components/button/button.tpl'
-			 sForm    = '#js-favourite-form'
-			 sText    = $aLang.common.save
-			 sClasses = 'js-tags-form-submit'
-			 sMods   = 'primary'}
+			 form    = 'js-favourite-form'
+			 text    = $aLang.common.save
+			 classes = 'js-tags-form-submit'
+			 mods   = 'primary'}
 {/block}

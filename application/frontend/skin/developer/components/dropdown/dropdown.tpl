@@ -14,10 +14,10 @@
 
 {* Кнопка *}
 {include 'components/button/button.tpl'
-    sType       = 'button'
-    sClasses    = "{$component}-toggle {$smarty.local.classes}"
-    sAttributes = "data-{$component}-target=\"{$uid}\" {$smarty.local.attributes}"
-    sText       = $smarty.local.text}
+    type       = 'button'
+    classes    = "{$component}-toggle {$smarty.local.classes}"
+    attributes = "data-{$component}-target=\"{$uid}\" {$smarty.local.attributes}"
+    text       = $smarty.local.text}
 
 {* Меню *}
 {include './dropdown.menu.tpl'

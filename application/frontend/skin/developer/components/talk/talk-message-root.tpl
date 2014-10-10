@@ -17,6 +17,6 @@
 {block 'article_footer_info_items' append}
 	{* Избранное *}
 	<li class="{$component}-info-item {$component}-info-item--favourite">
-		{include 'components/favourite/favourite.tpl' sClasses="js-favourite-{$type}" oObject=$article}
+		{include 'components/favourite/favourite.tpl' classes="js-favourite-{$type}" target=$article}
 	</li>
 {/block}

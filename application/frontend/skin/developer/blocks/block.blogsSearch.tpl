@@ -45,7 +45,7 @@
 				sMods       = 'stacked pills'
 				aItems      = $aItems}
     {else}
-    	{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.categories.empty sMods='empty'}
+    	{include 'components/alert/alert.tpl' text=$aLang.blog.categories.empty mods='empty'}
     {/if}
 
     <br>

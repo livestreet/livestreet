@@ -20,14 +20,14 @@
 
 	{test_heading sText='Default'}
 
-	{include 'components/search_form/search_form.tpl'
+	{include 'components/search-form/search-form.tpl'
 			 sName  = 'text'
 			 sNote  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'}
 
 
 	{test_heading sText='Light'}
 
-	{include 'components/search_form/search_form.tpl'
+	{include 'components/search-form/search-form.tpl'
 			 sName  = 'text'
 			 sMods  = 'light'
 			 sNote  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'}

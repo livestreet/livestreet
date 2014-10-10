@@ -30,11 +30,11 @@
 		{* Голосование *}
 		{block 'blog_vote'}
 			{include 'components/vote/vote.tpl'
-				 	 sClasses   = 'js-vote-blog'
-				 	 sMods      = 'large'
-					 oObject    = $blog
-					 bIsLocked  = $isBlogAdmin
-					 bShowLabel = true}
+				 	 classes   = 'js-vote-blog'
+				 	 mods      = 'large'
+					 target    = $blog
+					 isLocked  = $isBlogAdmin
+					 showLabel = true}
 		{/block}
 
 		{* Заголовок *}
@@ -56,7 +56,7 @@
 		</div>
 
 		{* Информация *}
-		{include 'components/info_list/info_list.tpl' aInfoList=[
+		{include 'components/info-list/info-list.tpl' aInfoList=[
 			[ 'label' => $aLang.blog.date_created, 'content' => "{date_format date=$blog->getDateAdd() hours_back='12' minutes_back='60' now='60' day='day H:i' format='j F Y'}" ],
 			[ 'label' => $aLang.blog.topics_total, 'content' => $blog->getCountTopic() ],
 			[ 'label' => $aLang.blog.rating_limit, 'content' => $blog->getLimitRatingTopic() ]

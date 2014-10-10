@@ -9,10 +9,10 @@
 <li class="actionbar-item">
     {block 'actionbar_item'}
         {include 'components/button/button.tpl'
-            sUrl        = $item['url']
-            sClasses    = "actionbar-item-link {$item['classes']}"
-            sText       = $item['text']
-            sIcon       = $item['icon']
-            sAttributes = $item['attributes']}
+            url        = $item['url']
+            classes    = "actionbar-item-link {$item['classes']}"
+            text       = $item['text']
+            icon       = $item['icon']
+            attributes = $item['attributes']}
     {/block}
 </li>

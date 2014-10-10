@@ -9,32 +9,32 @@
 
 | Опция         | Тип         | По&nbsp;умолчанию  | Описание |
 | :------------ | :---------- | :----------------- | :------- |
-| `sType`       | string      | 'submit'           | Тип кнопки (submit, button) |
-| `sText`       | string      | null               | Текст кнопки |
-| `sUrl`        | string      | null               | Ссылка |
-| `sId`         | string      | null               | Атрибут id |
-| `sName`       | string      | null               | Атрибут name |
-| `bIsDisabled` | boolean     | false              | Атрибут disabled |
-| `sForm`       | string      | null               | Селектор формы для сабмита |
-| `sIcon`       | string      | null               | Класс иконки |
-| `sClasses`    | string      | null               | Дополнительные классы (указываются через пробел) |
-| `sMods`       | string      | null               | Список классов-модификаторов (указываются через пробел) |
-| `sAttributes` | string      | null               | Атрибуты (указываются через пробел) |
+| `type`        | string      | 'submit'           | Тип кнопки (submit, button) |
+| `text`        | string      | null               | Текст кнопки |
+| `url`         | string      | null               | Ссылка |
+| `id`          | string      | null               | Атрибут id |
+| `name`        | string      | null               | Атрибут name |
+| `isDisabled`  | boolean     | false              | Атрибут disabled |
+| `form`        | string      | null               | Селектор формы для сабмита |
+| `icon`        | string      | null               | Класс иконки |
+| `classes`     | string      | null               | Дополнительные классы (указываются через пробел) |
+| `mods`        | string      | null               | Список классов-модификаторов (указываются через пробел) |
+| `attributes`  | string      | null               | Атрибуты (указываются через пробел) |
 
 
 ## Использование
 
 Кнопка с дефолтным оформлением:
 ```smarty
-{include 'components/button/button.tpl' sText='Отправить'}
+{include 'components/button/button.tpl' text='Отправить'}
 ```
 
 Primary-кнопка:
 ```smarty
-{include 'components/button/button.tpl' sMods='primary' sText='Отправить'}
+{include 'components/button/button.tpl' mods='primary' text='Отправить'}
 ```
 
 Кнопка-ссылка:
 ```smarty
-{include 'components/button/button.tpl' sUrl='/topic/edit/1' sText='Редактировать'}
+{include 'components/button/button.tpl' url='/topic/edit/1' text='Редактировать'}
 ```

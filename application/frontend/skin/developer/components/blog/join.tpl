@@ -8,9 +8,9 @@
  *}
 
 {if $oUserCurrent && $oUserCurrent->getId() != $oBlog->getOwnerId() && $oBlog->getType() == 'open'}
-	{include 'components/button/button.tpl'
-			 sAttributes = "data-blog-id=\"{$oBlog->getId()}\""
-			 sClasses    = 'js-blog-join'
-			 sText       = ($oBlog->getUserIsJoin()) ? $aLang.blog.join.leave : $aLang.blog.join.join
-			 sMods      = ($oBlog->getUserIsJoin()) ? false : 'primary'}
+    {include 'components/button/button.tpl'
+        attributes = "data-blog-id=\"{$oBlog->getId()}\""
+        classes    = 'js-blog-join'
+        text       = ($oBlog->getUserIsJoin()) ? $aLang.blog.join.leave : $aLang.blog.join.join
+        mods       = ($oBlog->getUserIsJoin()) ? false : 'primary'}
 {/if}

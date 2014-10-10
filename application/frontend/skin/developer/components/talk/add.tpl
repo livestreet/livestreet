@@ -38,8 +38,12 @@
 	{hook run='form_add_talk_end'}
 
 	{* Кнопки *}
-	{include 'components/button/button.tpl' sName='submit_talk_add' sMods='primary' sText=$aLang.common.send}
-	{include 'components/button/button.tpl' sName='submit_preview' sType='button' sText=$aLang.common.preview_text sAttributes='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
+	{include 'components/button/button.tpl' name='submit_talk_add' mods='primary' text=$aLang.common.send}
+	{include 'components/button/button.tpl'
+		name       ='submit_preview'
+		type       ='button'
+		text       =$aLang.common.preview_text
+		attributes ='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
 </form>
 
 {hook run='talk_add_end'}

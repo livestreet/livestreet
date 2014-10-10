@@ -33,8 +33,8 @@
 			{/foreach}
 		</select></p>
 
-		{include 'components/button/button.tpl' sText={lang 'blog.blocks.navigator.submit'} sClasses='js-blog-nav-submit' bIsDisabled=true}
+		{include 'components/button/button.tpl' text={lang 'blog.blocks.navigator.submit'} classes='js-blog-nav-submit' isDisabled=true}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts={lang 'blog.blocks.navigator.empty'} sMods='empty'}
+		{include 'components/alert/alert.tpl' text={lang 'blog.blocks.navigator.empty'} mods='empty'}
 	{/if}
 {/block}

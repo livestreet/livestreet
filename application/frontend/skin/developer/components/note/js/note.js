@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.usernote", {
+	$.widget( "livestreet.lsNote", {
 		/**
 		 * Дефолтные опции
 		 */

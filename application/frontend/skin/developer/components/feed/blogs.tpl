@@ -22,7 +22,7 @@
 						 sLabel           = "<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>"}
 			{/foreach}
 		{else}
-			{include 'components/alert/alert.tpl' mAlerts=$aLang.feed.blogs.empty sMods='info'}
+			{include 'components/alert/alert.tpl' text=$aLang.feed.blogs.empty mods='info'}
 		{/if}
 	</div>
 {/if}

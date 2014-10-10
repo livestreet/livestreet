@@ -22,11 +22,11 @@
 			{$last = end($events)}
 
 			{include 'components/more/more.tpl'
-					 iCount      = $smarty.local.count
-					 sClasses    = "js-activity-more"
-					 sAttributes = "data-proxy-last_id=\"{$last->getId()}\" data-param-target_id=\"{$smarty.local.targetId}\""}
+					 count      = $smarty.local.count
+					 classes    = "js-activity-more"
+					 attributes = "data-proxy-last_id=\"{$last->getId()}\" data-param-target_id=\"{$smarty.local.targetId}\""}
 		{/if}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
+		{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
 	{/if}
 </div>

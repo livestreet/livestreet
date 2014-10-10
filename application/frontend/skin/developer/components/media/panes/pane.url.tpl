@@ -31,12 +31,12 @@
 
 {block 'media_pane_footer' prepend}
 	{include 'components/button/button.tpl'
-		sMods    = 'primary'
-		sClasses = 'js-media-url-submit-insert'
-		sText    = {lang 'media.url.submit_insert'}}
+		mods    = 'primary'
+		classes = 'js-media-url-submit-insert'
+		text    = {lang 'media.url.submit_insert'}}
 
 	{include 'components/button/button.tpl'
-		sMods    = 'primary'
-		sClasses = 'js-media-url-submit-upload'
-		sText    = {lang 'media.url.submit_upload'}}
+		mods    = 'primary'
+		classes = 'js-media-url-submit-upload'
+		text    = {lang 'media.url.submit_upload'}}
 {/block}

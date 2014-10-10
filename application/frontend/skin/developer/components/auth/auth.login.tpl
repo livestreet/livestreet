@@ -42,7 +42,7 @@
         {include 'components/field/field.hidden.tpl' sName='return-path' sValue=$redirectUrl}
     {/if}
 
-	{include 'components/button/button.tpl' sName='submit_login' sMods='primary' sText=$aLang.auth.login.form.fields.submit.text}
+	{include 'components/button/button.tpl' name='submit_login' mods='primary' text=$aLang.auth.login.form.fields.submit.text}
 </form>
 
 {if $smarty.local.showExtra}

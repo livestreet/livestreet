@@ -41,10 +41,10 @@
 		{include 'components/field/field.hidden.security_key.tpl'}
 
 		{* Кнопки *}
-		{include 'components/button/button.tpl' sName='submit_blog_admin' sText=$aLang.common.save sMods='primary'}
+		{include 'components/button/button.tpl' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
 	</form>
 
 	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.admin.alerts.empty sMods='empty'}
+	{include 'components/alert/alert.tpl' text=$aLang.blog.admin.alerts.empty mods='empty'}
 {/if}

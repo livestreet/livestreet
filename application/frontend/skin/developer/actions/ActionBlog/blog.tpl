@@ -30,12 +30,12 @@
 	{* Сообщение для забаненного пользователя *}
 	{* TODO: Вывод сообщения о бане *}
 	{if false}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.banned sMods='error'}
+		{include 'components/alert/alert.tpl' text=$aLang.blog.alerts.banned mods='error'}
 	{/if}
 
 	{* Список топиков *}
 	{if $bPrivateBlog}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.blog.alerts.private sMods='error'}
+		{include 'components/alert/alert.tpl' text=$aLang.blog.alerts.private mods='error'}
 	{else}
 		{include 'components/topic/topic-list.tpl' topics=$aTopics paging=$aPaging}
 	{/if}

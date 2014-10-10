@@ -25,6 +25,6 @@
 			{hook run='search_result' sType=$sSearchType}
 		{/if}
 	{elseif $_aRequest.q}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.search.alerts.empty aMods='empty'}
+		{include 'components/alert/alert.tpl' text=$aLang.search.alerts.empty mods='empty'}
 	{/if}
 {/block}

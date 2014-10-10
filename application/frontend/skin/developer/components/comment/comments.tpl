@@ -90,7 +90,7 @@
 
 	{* Проверяем запрещено комментирование или нет *}
 	{if $bForbidAdd}
-		{include 'components/alert/alert.tpl' sMods='info' mAlerts=$sNoticeNotAllow}
+		{include 'components/alert/alert.tpl' mods='info' text=$sNoticeNotAllow}
 
 	{* Если разрешено то показываем форму добавления комментария *}
 	{else}
@@ -100,7 +100,7 @@
 				<a href="#" class="link-dotted">{$sNoticeCommentAdd|default:$aLang.comments.form.title}</a>
 			</h4>
 		{else}
-			{include 'components/alert/alert.tpl' sMods='info' mAlerts=$aLang.comments.alerts.unregistered}
+			{include 'components/alert/alert.tpl' mods='info' text=$aLang.comments.alerts.unregistered}
 		{/if}
 	{/if}
 

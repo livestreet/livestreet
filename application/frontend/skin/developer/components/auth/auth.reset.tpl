@@ -6,5 +6,5 @@
 	{* E-mail *}
     {include 'components/field/field.email.tpl' sLabel=$aLang.auth.reset.form.fields.mail.label}
 
-	{include 'components/button/button.tpl' sName='submit_reset' sMods='primary' sText=$aLang.auth.reset.form.fields.submit.text}
+	{include 'components/button/button.tpl' name='submit_reset' mods='primary' text=$aLang.auth.reset.form.fields.submit.text}
 </form>

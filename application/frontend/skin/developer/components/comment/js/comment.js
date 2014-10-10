@@ -174,6 +174,24 @@
 
 			this.elements.form.text.bind( 'keydown' + this.eventNamespace, 'ctrl+return', function() { _this.form.submit() } );
 
+			// Голосование за комментарий
+			this.element.find('.js-vote-comment').livequery(function () {
+				$(this).vote({
+					urls: {
+						vote: aRouter['ajax'] + 'vote/comment/'
+					}
+				});
+			});
+
+			// Комментарий
+			this.element.find('.js-favourite-comment').livequery(function () {
+				$(this).lsFavourite({
+					urls: {
+						toggle: aRouter['ajax'] + 'favourite/comment/'
+					}
+				});
+			});
+
 			// Удаление
 			this.element.on('click' + this.eventNamespace, this.options.selectors.comment.remove, function(e) {
 				var element = $(this),

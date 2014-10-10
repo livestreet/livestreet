@@ -4,7 +4,7 @@
  * @styles css/forms.css
  *}
 
-{include 'components/search_form/search_form.tpl'
+{include 'components/search-form/search-form.tpl'
 		sName         = 'tags'
 		sMods         = $smarty.local.sMods
 		sPlaceholder  = {lang 'tags.search.label'}

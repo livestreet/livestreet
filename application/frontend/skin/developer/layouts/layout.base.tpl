@@ -113,11 +113,11 @@
 					{* Системные сообщения *}
 					{if ! $bNoSystemMessages}
 						{if $aMsgError}
-							{include 'components/alert/alert.tpl' sMods='error' mAlerts=$aMsgError bClose=true}
+							{include 'components/alert/alert.tpl' text=$aMsgError mods='error' close=true}
 						{/if}
 
 						{if $aMsgNotice}
-							{include 'components/alert/alert.tpl' mAlerts=$aMsgNotice bClose=true}
+							{include 'components/alert/alert.tpl' text=$aMsgNotice close=true}
 						{/if}
 					{/if}
 				{/block}

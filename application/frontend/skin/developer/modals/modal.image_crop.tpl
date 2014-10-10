@@ -29,5 +29,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-	{include 'components/button/button.tpl' sText=$aLang.common.save sClasses='js-ajax-image-crop-submit' sMods='primary'}
+	{include 'components/button/button.tpl' text=$aLang.common.save sClasses='js-ajax-image-crop-submit' mods='primary'}
 {/block}

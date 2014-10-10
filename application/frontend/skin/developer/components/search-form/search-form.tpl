@@ -1,7 +1,7 @@
 {**
  * Форма поиска
  *
- * @styles components/search_form/search_form.css
+ * @styles components/search-form/search-form.css
  *
  * TODO: Fix submit icon position
  *}
@@ -20,7 +20,7 @@
 				sName         = $smarty.local.sInputName|default:'q'}
 
 		{if ! $bNoSubmitButton}
-			{include 'components/button/button.tpl' sMods='icon' sClasses="{$_sComponentName}-submit" sIcon='icon-search'}
+			{include 'components/button/button.tpl' mods='icon' classes="{$_sComponentName}-submit" icon='icon-search'}
 		{/if}
 	{/block}
 </form>

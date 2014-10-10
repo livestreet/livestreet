@@ -1,30 +1,25 @@
 {**
  * Подгрузка контента
  *
- * @param string  $sText
- * @param string  $sTarget
- * @param integer $iCount
- * @param integer $iTargetId
- * @param integer $iLastId
- * @param boolean $bAppend
- *
- * @styles assets/css/components/more.css
- * @scripts <common>/js/more.js
+ * @param string  $text
+ * @param string  $target
+ * @param integer $count
+ * @param boolean $append
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'more'}
+{$component = 'more'}
 
-<div class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses}"
-	 data-more-append="{$smarty.local.bAppend|default:true}"
-	 {if $smarty.local.sTarget}data-more-target="{$smarty.local.sTarget}"{/if}
-	 {$smarty.local.sAttributes}>
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+	 data-more-append="{$smarty.local.append|default:true}"
+	 {if $smarty.local.target}data-more-target="{$smarty.local.target}"{/if}
+	 {$smarty.local.attributes}>
 
 	{* Текст *}
-	{$smarty.local.sText|default:'Подгрузить еще'}
+	{$smarty.local.text|default:{lang 'more.text'}}
 
 	{* Счетчик *}
-	{if $smarty.local.iCount}
-		(<span class="js-more-count">{$smarty.local.iCount}</span>)
+	{if $smarty.local.count}
+		(<span class="js-more-count">{$smarty.local.count}</span>)
 	{/if}
 </div>

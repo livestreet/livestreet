@@ -62,7 +62,7 @@
 
 	{hook run='form_settings_tuning_end'}
 
-    {include 'components/button/button.tpl' sName='submit_settings_tuning' sText=$aLang.common.save sMods='primary'}
+    {include 'components/button/button.tpl' name='submit_settings_tuning' text=$aLang.common.save mods='primary'}
 </form>
 
 {hook run='settings_tuning_end'}

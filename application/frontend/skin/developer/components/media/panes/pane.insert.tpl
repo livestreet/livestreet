@@ -16,7 +16,7 @@
 
 {block 'media_pane_footer' prepend}
 	{include 'components/button/button.tpl'
-		sMods    = 'primary'
-		sClasses = 'js-media-insert-submit'
-		sText    = {lang name='media.insert.submit'}}
+		mods    = 'primary'
+		classes = 'js-media-insert-submit'
+		text    = {lang name='media.insert.submit'}}
 {/block}

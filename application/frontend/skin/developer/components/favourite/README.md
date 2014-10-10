@@ -10,7 +10,7 @@
 _Шаблон с изображением_ **image.tpl**
 ```smarty
 ...
-{include 'components/favourite/favourite.tpl' sClasses='js-plugin-gallery-image-favourite'}
+{include 'components/favourite/favourite.tpl' classes='js-plugin-gallery-image-favourite' target=$image}
 ...
 ```
 

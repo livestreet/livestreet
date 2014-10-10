@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsFavouriteTopic", $.livestreet.lsFavourite, {
+	$.widget( "livestreet.lsTopicFavourite", $.livestreet.lsFavourite, {
 		/**
 		 * Дефолтные опции
 		 */

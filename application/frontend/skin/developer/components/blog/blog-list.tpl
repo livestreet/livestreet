@@ -40,7 +40,7 @@
 					[ 'label' => "{$aLang.blog.topics_total}:",        'content' => $oBlog->getCountTopic() ]
 				]}
 
-				{include 'components/info_list/info_list.tpl' aInfoList=$info sInfoListClasses='object-list-item-info'}
+				{include 'components/info-list/info-list.tpl' aInfoList=$info sInfoListClasses='object-list-item-info'}
 
 				{* Действия *}
 				<div class="object-list-item-actions">
@@ -55,14 +55,14 @@
 	{if $bUseMore}
 		{if ! $bHideMore}
 			{include 'components/more/more.tpl'
-					 sClasses    = 'js-more-search'
-					 sTarget     = '.js-more-blogs-container'
-					 sAttributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
+					 classes    = 'js-more-search'
+					 target     = '.js-more-blogs-container'
+					 attributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
 		{/if}
 	{else}
 		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 	{/if}
 
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) sMods='empty'}
+	{include 'components/alert/alert.tpl' text=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) mods='empty'}
 {/if}

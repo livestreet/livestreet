@@ -28,7 +28,7 @@
 					 sLabel   = $aLang.user_list_add.form.fields.add.label
 					 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
 
-			{include 'components/button/button.tpl' sText=$aLang.common.add sMods='primary' sClasses="js-$_sComponentName-form-submit"}
+			{include 'components/button/button.tpl' text=$aLang.common.add mods='primary' classes="js-$_sComponentName-form-submit"}
 		</form>
 	{/if}
 

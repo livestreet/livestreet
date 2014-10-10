@@ -91,5 +91,5 @@
 		{$sSubmitInputText = $aLang.common.save}
 	{/if}
 
-	{include 'components/button/button.tpl' sName='submit_blog_add' sText=$sSubmitInputText sMods='primary'}
+	{include 'components/button/button.tpl' name='submit_blog_add' text=$sSubmitInputText mods='primary'}
 </form>

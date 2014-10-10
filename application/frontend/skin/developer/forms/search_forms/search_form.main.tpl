@@ -4,4 +4,4 @@
  * @styles css/forms.css
  *}
 
-{include 'components/search_form/search_form.tpl' sName='main' sAction="{router page='search'}{$sSearchType|default:'topics'}" sMods=$smarty.local.sMods}
+{include 'components/search-form/search-form.tpl' sName='main' sAction="{router page='search'}{$sSearchType|default:'topics'}" sMods=$smarty.local.sMods}

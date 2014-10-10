@@ -25,5 +25,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-	 {include 'components/button/button.tpl' sMods='primary' sForm='#add_friend_form' sText={lang name='user.friends.form.fields.submit.text'}}
+	 {include 'components/button/button.tpl' mods='primary' form='add_friend_form' text={lang name='user.friends.form.fields.submit.text'}}
 {/block}

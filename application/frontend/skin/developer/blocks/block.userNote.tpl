@@ -15,5 +15,5 @@
 {/block}
 
 {block 'block_content_after'}
-	{include 'components/user_note/user_note.tpl' sClasses='js-user-note' oObject=$oUserProfile->getUserNote() iUserId=$oUserProfile->getId()}
+	{include 'components/note/note.tpl' sClasses='js-user-note' oObject=$oUserProfile->getUserNote() iUserId=$oUserProfile->getId()}
 {/block}

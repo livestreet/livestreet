@@ -16,5 +16,5 @@
 
 	{include 'components/pagination/pagination.tpl' aPaging=$smarty.local.paging sClasses='js-pagination-topics'}
 {else}
-	{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty'}
+	{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
 {/if}

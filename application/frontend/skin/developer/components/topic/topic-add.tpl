@@ -131,19 +131,19 @@
 
 	{* Опубликовать / Сохранить изменения *}
 	{include 'components/button/button.tpl'
-		sId      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
-		sMods    = 'primary'
-		sClasses = 'fl-r'
-		sText    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic and $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
+		id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
+		mods    = 'primary'
+		classes = 'fl-r'
+		text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic and $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
 
 	{* Превью *}
-	{include 'components/button/button.tpl' sType='button' sClasses='js-topic-preview-text-button' sText=$aLang.common.preview_text}
+	{include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
 
 	{* Сохранить в черновиках / Перенести в черновики *}
 	{if $topic && $topic->getPublish() != 0}
 		{include 'components/button/button.tpl'
-			sId   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
-			sText = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
+			id   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
+			text = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
 	{/if}
 </form>
 

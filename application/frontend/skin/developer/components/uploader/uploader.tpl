@@ -31,9 +31,9 @@
 			<div class="{$component}-aside js-uploader-aside is-empty">
 				{* Блок отображаемый когда нет активного файла *}
 				{include 'components/alert/alert.tpl'
-					sMods    = 'empty'
-					mAlerts  = {lang name='uploader.info.empty'}
-					sClasses = "{$component}-aside-empty js-{$component}-aside-empty"}
+					mods    = 'empty'
+					text    = {lang name='uploader.info.empty'}
+					classes = "{$component}-aside-empty js-{$component}-aside-empty"}
 
 				{* Блоки *}
 				<div class="{$component}-aside-blocks js-uploader-blocks">

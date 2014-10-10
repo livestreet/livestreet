@@ -15,9 +15,9 @@
 	{* Подвал формы *}
 	<footer class="wall-form-footer">
 		{include 'components/button/button.tpl'
-				 sType    = 'submit'
-				 sMods    = 'primary'
-				 sClasses = 'js-wall-form-submit'
-				 sText    = $aLang.common.add}
+				 type    = 'submit'
+				 mods    = 'primary'
+				 classes = 'js-wall-form-submit'
+				 text    = $aLang.common.add}
 	</footer>
 </form>

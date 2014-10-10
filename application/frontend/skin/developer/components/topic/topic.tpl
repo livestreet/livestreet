@@ -59,7 +59,7 @@
 				]}
 			{/foreach}
 
-			{include 'components/info_list/info_list.tpl' aInfoList=$info}
+			{include 'components/info-list/info-list.tpl' aInfoList=$info}
 		{/if}
 	{/block}
 
@@ -111,12 +111,12 @@
 			{$isExpired = strtotime($topic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
 
 			{include 'components/vote/vote.tpl'
-					 oObject     = $topic
-					 sClasses    = 'js-vote-topic'
-					 sMods       = 'small white topic'
-					 bUseAbstain = true
-					 bIsLocked   = ( $oUserCurrent && $topic->getUserId() == $oUserCurrent->getId() ) || $isExpired
-					 bShowRating = $topic->getVote() || ($oUserCurrent && $topic->getUserId() == $oUserCurrent->getId()) || $isExpired}
+					 target     = $topic
+					 classes    = 'js-vote-topic'
+					 mods       = 'small white topic'
+					 useAbstain = true
+					 isLocked   = ( $oUserCurrent && $topic->getUserId() == $oUserCurrent->getId() ) || $isExpired
+					 showRating = $topic->getVote() || ($oUserCurrent && $topic->getUserId() == $oUserCurrent->getId()) || $isExpired}
 		</li>
 	{/if}
 
@@ -125,7 +125,7 @@
 	{if ! $isList && ! $isPreview}
 		{* Избранное *}
 		<li class="{$component}-info-item {$component}-info-item--favourite">
-			{include 'components/favourite/favourite.tpl' sClasses="js-favourite-{$type}" oObject=$article}
+			{include 'components/favourite/favourite.tpl' classes="js-favourite-{$type}" target=$article}
 		</li>
 
 		{* Поделиться *}

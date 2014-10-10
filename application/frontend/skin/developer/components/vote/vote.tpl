@@ -1,89 +1,86 @@
 {**
  * Голосование
  *
- * @param object  $oObject     Объект сущности
- * @param string  $sClasses    Дополнительные классы
- * @param string  $sAttributes Атрибуты
- * @param boolean $bShowRating Показывать рейтинг или нет
- * @param boolean $bIsLocked   Блокировка голосования
- *
- * @styles assets/css/components/vote.css
- * @scripts <common>/js/vote.js
+ * @param object  $target     Объект сущности
+ * @param string  $classes    Дополнительные классы
+ * @param string  $attributes Атрибуты
+ * @param boolean $showRating Показывать рейтинг или нет
+ * @param boolean $isLocked   Блокировка голосования
  *
  * TODO: Добавить смарти блоки
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'vote'}
+{$component = 'vote'}
 
 {* Установка дефолтных значений *}
-{$_bShowRating = $smarty.local.bShowRating|default:true}
-{$_oObject = $smarty.local.oObject}
-{$_sMods = $smarty.local.sMods}
+{$showRating = $smarty.local.showRating|default:true}
+{$target = $smarty.local.target}
+{$mods = $smarty.local.mods}
 
 {* Рейтинг *}
-{$_iRating = $_oObject->getRating()}
+{$rating = $target->getRating()}
 
 {* Получаем модификаторы *}
-{if $_bShowRating}
-	{if $_iRating > 0}
-		{$_sMods = "$_sMods count-positive"}
-	{elseif $_iRating < 0}
-		{$_sMods = "$_sMods count-negative"}
+{if $showRating}
+	{if $rating > 0}
+		{$mods = "$mods count-positive"}
+	{elseif $rating < 0}
+		{$mods = "$mods count-negative"}
 	{else}
-		{$_sMods = "$_sMods count-zero"}
+		{$mods = "$mods count-zero"}
 	{/if}
 {/if}
 
-{if $oVote = $_oObject->getVote()}
-	{$_sMods = "$_sMods voted"}
+{if $vote = $target->getVote()}
+	{$mods = "$mods voted"}
 
-	{if $oVote->getDirection() > 0}
-		{$_sMods = "$_sMods voted-up"}
-	{elseif $oVote->getDirection() < 0}
-		{$_sMods = "$_sMods voted-down"}
+	{if $vote->getDirection() > 0}
+		{$mods = "$mods voted-up"}
+	{elseif $vote->getDirection() < 0}
+		{$mods = "$mods voted-down"}
 	{else}
-		{$_sMods = "$_sMods voted-zero"}
+		{$mods = "$mods voted-zero"}
 	{/if}
 {else}
-	{$_sMods = "$_sMods not-voted"}
+	{$mods = "$mods not-voted"}
 {/if}
 
-{if ! $oUserCurrent || $smarty.local.bIsLocked}
-	{$_sMods = "$_sMods locked"}
+{if ! $oUserCurrent || $smarty.local.isLocked}
+	{$mods = "$mods locked"}
 {/if}
 
-{if ! $_bShowRating}
-	{$_sMods = "$_sMods rating-hidden"}
+{if ! $showRating}
+	{$mods = "$mods rating-hidden"}
 {/if}
 
 
-<div class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} {$smarty.local.sClasses}" data-param-i-target-id="{$_oObject->getId()}" {$smarty.local.sAttributes}>
+<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {$smarty.local.attributes}>
 	{* Заголовок *}
-	{if $bShowLabel}
-		<h4 class="{$_sComponentName}-heading">{$aLang.$_sComponentName.rating}</h4>
+	{if $showLabel}
+		<h4 class="{$component}-heading">{$aLang.$component.rating}</h4>
 	{/if}
 
 	{* Основной блок *}
-	<div class="{$_sComponentName}-body">
+	<div class="{$component}-body">
 		{* Рейтинг *}
-		<div class="{$_sComponentName}-rating js-{$_sComponentName}-rating">
-			{if $_bShowRating}
-				{$_iRating}
+		<div class="{$component}-rating js-{$component}-rating">
+			{if $showRating}
+				{$rating}
 			{else}
 				?
 			{/if}
 		</div>
 
 		{* Воздержаться *}
-		{if $smarty.local.bUseAbstain}
-			<div class="{$_sComponentName}-item {$_sComponentName}-item-abstain js-{$_sComponentName}-item" {if ! $oVote}title="{$aLang.$_sComponentName.abstain}"{/if} data-vote-value="0"><i></i></div>
+		{if $smarty.local.useAbstain}
+			<div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"><i></i></div>
 		{/if}
 
 		{* Нравится *}
-		<div class="{$_sComponentName}-item {$_sComponentName}-item-up js-{$_sComponentName}-item" {if ! $oVote}title="{$aLang.$_sComponentName.up}"{/if} data-vote-value="1"><i></i></div>
+		<div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1"><i></i></div>
 
 		{* Не нравится *}
-		<div class="{$_sComponentName}-item {$_sComponentName}-item-down js-{$_sComponentName}-item" {if ! $oVote}title="{$aLang.$_sComponentName.down}"{/if} data-vote-value="-1"><i></i></div>
+		<div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1"><i></i></div>
 	</div>
 </div>

@@ -9,48 +9,6 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-/**
- * Блок
- *
- * @template blocks/block.aside.base.tpl
- */
-.block                 { background: #fff; margin-bottom: 30px; }
-.block:last-child      { margin-bottom: 0; }
-
-.block .text                  { font-size: 13px; line-height: 18px; }
-.block .max-height-200        { overflow: auto; max-height: 200px; position: relative; }
-.block .search-form           { padding: 0; margin-bottom: 20px; }
-.block .block-content.loading { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
-
-/* Шапка */
-.block-header              { padding: 18px 20px 0; position: relative; }
-.block-header .block-title { margin-bottom: 0; font-size: 16px; line-height: 1em; font-weight: normal; }
-
-/* Навигация */
-.block-nav { padding: 20px; border-bottom: 1px solid #eee; }
-.block-nav .nav,
-.block-nav .dropdown { margin-bottom: 0; }
-
-/* Контент */
-.block-content { padding: 20px; }
-
-/* Подвал */
-.block-footer { border-top: 1px solid #eee; padding: 15px 20px; font-size: 12px; }
-
-/* Кнопка обновления блока */
-.block-update {
-	position: absolute;
-	top: 19px;
-	right: 15px;
-	width: 16px;
-	height: 16px;
-	background: url(../images/update.gif) no-repeat; cursor: pointer;
-}
-.block-update.active { background-position: -16px 0; }
-
-/* Блок без отступов у контента */
-.block--nopadding .block-content { padding: 0; }
-
 
 /**
  * Список категорий блогов

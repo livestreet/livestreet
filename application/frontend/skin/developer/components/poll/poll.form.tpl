@@ -72,10 +72,10 @@
 		{if ! $oPoll or $oPoll->isAllowUpdate()}
 			<footer class="fieldset-footer">
 				{include 'components/button/button.tpl'
-						 sType       = 'button'
-						 sText       = $aLang.common.add
-						 sAttributes = 'title="[Ctrl + Enter]"'
-						 sClasses    = 'js-poll-form-answer-add'}
+						 type       = 'button'
+						 text       = $aLang.common.add
+						 attributes = 'title="[Ctrl + Enter]"'
+						 classes    = 'js-poll-form-answer-add'}
 			</footer>
 		{/if}
 	</div>

@@ -35,11 +35,11 @@
 
 	{* Голосование *}
 	{include 'components/vote/vote.tpl'
-			 sClasses   = 'js-vote-user'
-			 sMods      = 'large'
-			 oObject    = $user
-			 bIsLocked  = $oUserCurrent &&  $oUserCurrent->getId() == $user->getId()
-			 bShowLabel = true}
+			 classes   = 'js-vote-user'
+			 mods      = 'large'
+			 target    = $user
+			 isLocked  = $oUserCurrent &&  $oUserCurrent->getId() == $user->getId()
+			 showLabel = true}
 
 	{hook run='profile_top_end' user=$user}
 </div>

@@ -36,7 +36,7 @@
     {include 'components/field/field.hidden.security_key.tpl'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl' sName='submit_invite' sMods='primary' sText={lang name='user.settings.invites.fields.submit.text'}}
+    {include 'components/button/button.tpl' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
 </form>
 
 {hook run='settings_invite_end'}

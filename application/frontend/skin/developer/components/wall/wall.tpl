@@ -21,7 +21,7 @@
 	{if $oUserCurrent}
 		{include './wall.form.tpl'}
 	{else}
-		{include 'components/alert/alert.tpl' sMods='info' sClasses='mt-15' mAlerts=$aLang.wall.alerts.unregistered}
+		{include 'components/alert/alert.tpl' text=$aLang.wall.alerts.unregistered mods='info' classes='mt-15'}
 	{/if}
 
 	{* Список записей *}
@@ -31,14 +31,14 @@
 
 	{* Уведомление о пустом списке *}
 	{if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
-		{include 'components/alert/alert.tpl' mAlerts=$aLang.common.empty sMods='empty' sClasses='mt-15 js-wall-alert-empty' sAttributes='id="wall-empty"' bVisible=!$loadedCount}
+		{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes='id="wall-empty"' visible=!$loadedCount}
 	{/if}
 
 	{* Кнопка подгрузки записей *}
 	{if $moreCount}
 		{include 'components/more/more.tpl'
-				 sClasses    = 'js-wall-more'
-				 iCount      = $moreCount
-				 sAttributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-last_id=\"{$smarty.local.lastId}\""}
+			classes    = 'js-wall-more'
+			count      = $moreCount
+			attributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-last_id=\"{$smarty.local.lastId}\""}
 	{/if}
 </div>

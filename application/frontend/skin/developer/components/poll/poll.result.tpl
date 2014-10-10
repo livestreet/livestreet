@@ -34,7 +34,7 @@
 </ul>
 
 {* Кнопка сортировки *}
-{include 'components/button/button.tpl' sMods='icon' sClasses='js-poll-result-sort' sIcon='icon-align-left' sAttributes="title=\"{$aLang.poll.result.sort}\""}
+{include 'components/button/button.tpl' mods='icon' classes='js-poll-result-sort' icon='icon-align-left' attributes="title=\"{$aLang.poll.result.sort}\""}
 
 {* Статистика голосования *}
 <span class="poll-result-total">
