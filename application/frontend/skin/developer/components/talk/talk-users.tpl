@@ -2,7 +2,7 @@
  * Участники личного сообщения
  *}
 
-{include 'components/user_list_add/user_list_add.tpl'
+{include 'components/user-list-add/user-list-add.tpl'
 	sUserListAddClasses         = "message-users js-message-users"
 	sUserListAddAttributes      = "data-param-i-target-id=\"{$oTalk->getId()}\""
 	aUserList                   = $oTalk->getTalkUsers()

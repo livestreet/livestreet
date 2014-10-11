@@ -22,7 +22,7 @@
 	{/if}
 
 	{* Список *}
-	{include 'components/user_list_small/user_list_small.tpl'
+	{include 'components/user/user-list-small.tpl'
 		aUserList                = $aUserList
 		bUserListSmallSelectable = $bSelectable
 		bUserListSmallShowEmpty  = true

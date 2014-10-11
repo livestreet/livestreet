@@ -3,7 +3,7 @@
  * Расширяет основной шаблон с пользователем добавляя кнопку "Повторно отправить приглашение" в блоке "Пригласить пользователей в блог"
  *}
 
-{extends 'components/user_list_small/user_list_small_item.tpl'}
+{extends 'components/user/user-list-small-item.tpl'}
 
 {block 'components/user_list_small/user_list_small_item_classes'}
 	{if $oUserContainer && $oUserContainer->getUserActive() != $TALK_USER_ACTIVE}inactive{/if}

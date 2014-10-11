@@ -2,20 +2,11 @@
  * Админка
  *
  * @template actions/ActionAdmin/*.tpl
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
-
-
-/**
- * Настраиваемые поля
- */
-.userfield-list li       { background: #f7f7f7; margin-bottom: 1px; padding: 13px 65px 13px 15px; position: relative; }
-.userfield-list li:hover { background: #eee; }
-.userfield-actions       { position: absolute; top: 15px; right: 15px; }
-
 
 /**
  * Информация о производительности

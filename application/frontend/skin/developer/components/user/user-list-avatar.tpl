@@ -11,7 +11,7 @@
 			{* TODO: Костыль для блогов *}
 			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
 			
-			<li>{include 'components/user_item/user_item.tpl' oUser=$oUser iUserItemAvatarSize=64}</li>
+			<li>{include 'components/user/user-item.tpl' oUser=$oUser iUserItemAvatarSize=64}</li>
 		{/foreach}
 	</ul>
 {else}

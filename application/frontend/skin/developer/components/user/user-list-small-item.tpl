@@ -11,7 +11,7 @@
 	{/if}
 
 	{* Пользователь *}
-	{include 'components/user_item/user_item.tpl' oUser=$oUser}
+	{include 'components/user/user-item.tpl' oUser=$oUser}
 
 	{* Действия *}
 	{if $bUserListSmallShowActions}

@@ -204,7 +204,7 @@
  *}
 {if $aUsersFriend}
 	{capture 'user_info_friends'}
-		{include 'components/user_list_avatar/user_list_avatar.tpl' aUsersList=$aUsersFriend}
+		{include 'components/user/user-list-avatar.tpl' aUsersList=$aUsersFriend}
 	{/capture}
 
 	{include 'components/user/info-group.tpl'

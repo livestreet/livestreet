@@ -100,7 +100,7 @@
 						{block 'article_footer_info_items'}
 							{* Автор топика *}
 							<li class="{$component}-info-item {$component}-info-item--author">
-								{include 'components/user_item/user_item.tpl' oUser=$user iUserItemAvatarSize=48 sUserItemStyle='rounded'}
+								{include 'components/user/user-item.tpl' oUser=$user iUserItemAvatarSize=48 sUserItemStyle='rounded'}
 							</li>
 
 							{* Ссылка на комментарии *}

@@ -1502,7 +1502,7 @@ class ActionBlog extends Action
                         'sUserWebPath'  => $oUser->getUserWebPath(),
                         'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
                         'iUserId'       => $oUser->getId(),
-                        'sHtml'         => $oViewer->Fetch("components/user_list_small/user_list_small_item.blog_invite.tpl")
+                        'sHtml'         => $oViewer->Fetch("components/user/user-list-small-item.blog_invite.tpl")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
                 } else {
