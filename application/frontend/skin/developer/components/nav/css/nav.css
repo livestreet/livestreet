@@ -1,0 +1,168 @@
+/**
+ * Navigation
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+.nav                 {  }
+.nav > li            { float: left; position: relative; }
+.nav > li > a        { float: left; padding: 10px 15px; text-decoration: none; }
+
+
+/* Clearfix */
+.nav:before,
+.nav:after { content: ""; display: table; }
+.nav:after { clear: both; }
+
+
+/**
+ * Group
+ */
+.nav-group { position: relative; margin-bottom: 40px; }
+.nav-group .nav,
+.nav-group .nav.nav-pills { margin-bottom: 10px; }
+.nav-group > *:last-child { margin-bottom: 0; }
+
+
+/**
+ * Stacked
+ */
+.nav--stacked > li     { float: none; margin: 0; position: relative; }
+.nav--stacked > .nav-item--has-counter > a { padding-right: 45px; }
+.nav--stacked > li > a { float: none; display: block; }
+.nav--stacked .badge   { position: absolute; top: 6px; right: 6px; }
+
+
+/**
+ * Sub navigation
+ */
+.nav li { position: relative; }
+.nav li ul { position: absolute; top: 100%; left: 0; z-index: 100; display: none; }
+.nav li:hover > ul { display: block; }
+
+
+/**
+ * Выпадающее меню
+ */
+.nav--dropdown { background: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, .3); min-width: 150px; }
+.nav--dropdown .nav--dropdown { left: 100%; top: 0; display: none; }
+.nav--dropdown > .nav-item:hover      { background: #0088cc; color: #fff; }
+.nav--dropdown > .nav-item:hover > a  { color: #fff; }
+.nav--dropdown > .nav-item.active     { background: #c8ecff; color: #48a4d5; }
+.nav--dropdown > .nav-item.active > a { color: #48a4d5; }
+.nav--dropdown .badge { top: 9px; }
+.nav--dropdown .nav-separator { height: 0; border-top: 1px solid #eee; margin: 5px 0; }
+
+
+/**
+ * Pills
+ */
+.nav--pills                 { margin-bottom: 15px; }
+.nav--pills > li            { margin-right: 5px; }
+.nav--pills > li > a        { padding: 5px 12px; background: #f5f5f5; color: #888; }
+.nav--pills > li > a:hover  { background: #eaeaea; }
+.nav--pills > li.active > a { background: #2891d3; color: #fff; }
+.nav--pills > li > a + a    { margin-left: 1px; }
+
+/* Stacked */
+.nav.nav--pills.nav--stacked          { margin-bottom: 15px; }
+.nav.nav--pills.nav--stacked > li     { float: none; margin-bottom: 3px; margin-right: 0; }
+.nav.nav--pills.nav--stacked > li > a { float: none; display: block; padding: 7px 45px 7px 12px; }
+
+/* Dropdown support */
+.nav.nav--pills .dropdown-toggle:after      { border-top-color: #333; }
+.nav.nav--pills .dropdown-toggle.open       { background: #2891D3; color: #fff; }
+.nav.nav--pills .active .dropdown-toggle:after,
+.nav.nav--pills .dropdown-toggle.open:after { border-top-color: #fff; }
+
+
+/**
+ * Userbar
+ */
+.nav--userbar                   { float: left; }
+.nav--userbar > .nav-item > a       { color: #000; padding: 20px 15px; }
+.nav--userbar > .nav-item > a:hover { background: #fafafa; }
+
+/* Логин */
+.nav--userbar > .nav-item.nav-item--userbar-username > a       { position: relative; padding-left: 40px; padding-right: 25px; font-weight: bold; color: #333; }
+.nav--userbar > .nav-item.nav-item--userbar-username .avatar { position: absolute; top: 18px; left: 8px; }
+
+/* Новые сообщения */
+.nav--userbar > .nav-item--has-counter > a       { background: #65CA34; color: #fff; font-weight: bold; }
+.nav--userbar > .nav-item--has-counter > a:hover { background: #5EBD30; }
+.nav--userbar > .nav-item > a > .badge                           { background: #47B113; }
+
+/* Dropdown support */
+.nav.nav--userbar .dropdown-toggle:after      { border-top-color: #000; }
+.nav.nav--userbar .dropdown-toggle.open       { background: #08c; color: #fff; }
+.nav.nav--userbar .dropdown-toggle.open:after { border-top-color: #fff; }
+
+
+/**
+ * Main
+ */
+.nav--main                        { background: #222; }
+.nav--main > .nav-item > a        { color: #ddd; padding: 15px 20px; }
+.nav--main > .nav-item > a:hover  { background: #333; }
+.nav--main > .nav-item.active > a { background: #3a3a3a; color: #bbb; -webkit-box-shadow: 0 0 7px rgba(0,0,0,.15) inset; box-shadow: 0 0 7px rgba(0,0,0,.15) inset; }
+
+/* Badge */
+.nav-item.active .badge { background: #2279AF; }
+
+
+/**
+ * Tabs
+ */
+.nav-tabs          { border-bottom: 1px solid #ddd; margin-bottom: 15px; }
+.nav-tabs > li     { position: relative; margin: 0 3px -1px 0; }
+.nav-tabs > li > a {
+	border: 1px solid transparent;
+	padding: 10px 15px;
+	border-radius: 3px 3px 0 0;
+	cursor: pointer;
+	font-size: 14px;
+	background: transparent;
+	color: #08c;
+}
+.nav-tabs > li > a:hover  { background: #f1f1f1; border-bottom-color: #ddd; color: #058; }
+.nav-tabs > li.active > a { background: #fff; border-color: #ddd; border-bottom-color: #fff; color: #333; cursor: default; }
+
+/* Pull Left */
+.nav-tabs.pull-left                  { margin: 0 20px 0 0; border: none; border-right: 1px solid #ddd; }
+.nav-tabs.pull-left > li             { margin: 3px -1px 0 0; }
+.nav-tabs.pull-left > li:first-child { margin-top: 0; }
+.nav-tabs.pull-left > li,
+.nav-tabs.pull-left > li > a         { float: none; display: block; border-radius: 3px 0 0 3px; }
+.nav-tabs.pull-left > li > a:hover   { border-color: transparent; border-right-color: #ddd; }
+.nav-tabs.pull-left > li.active > a  { border-color: #ddd; border-right-color: #fff; }
+
+/* Pull Right */
+.nav-tabs.pull-right                  { margin: 0 0 0 20px; border: none; border-left: 1px solid #ddd; }
+.nav-tabs.pull-right > li             { margin: 3px 0 0 -1px; }
+.nav-tabs.pull-right > li:first-child { margin-top: 0; }
+.nav-tabs.pull-right > li,
+.nav-tabs.pull-right > li > a         { float: none; display: block; border-radius: 0 3px 3px 0; }
+.nav-tabs.pull-right > li > a:hover   { border-color: transparent; border-left-color: #ddd; }
+.nav-tabs.pull-right > li.active > a  { border-color: #ddd; border-left-color: #fff; }
+
+/* Pull Bottom */
+.nav-tabs.pull-bottom                  { margin: 15px 0 0; border: none; border-top: 1px solid #ddd; }
+.nav-tabs.pull-bottom > li             { margin: -1px 3px 0 0; }
+.nav-tabs.pull-bottom > li,
+.nav-tabs.pull-bottom > li > a         { border-radius: 0 0 3px 3px; }
+.nav-tabs.pull-bottom > li > a:hover   { border-color: transparent; border-top-color: #ddd; }
+.nav-tabs.pull-bottom > li.active > a  { border-color: #ddd; border-top-color: #fff; }
+
+/* Dropdown support */
+.nav-tabs .dropdown-toggle:after                    { border-top-color: #08c; }
+.nav-tabs .dropdown-toggle.open                     { background: #08c; color: #fff; border-color: transparent !important; }
+.nav-tabs .active .dropdown-toggle:after,
+.nav-tabs .active .dropdown-toggle:hover:after      { border-top-color: #333; }
+.nav-tabs .active .dropdown-toggle.open:after,
+.nav-tabs .dropdown-toggle.open:after,
+.nav-tabs .dropdown-toggle.open:hover:after,
+.nav-tabs .active .dropdown-toggle.open:hover:after { border-top-color: #fff; }
+.nav-tabs .dropdown-toggle:hover:after              { border-top-color: #058; }

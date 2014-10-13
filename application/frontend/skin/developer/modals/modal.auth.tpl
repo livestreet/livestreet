@@ -12,29 +12,20 @@
 {block 'modal_attributes'}data-modal-center="false"{/block}
 
 {block 'modal_content'}
-	{include 'components/nav/nav.tabs.tpl' sName='block_tags' sActiveItem='all' sMods='pills' sClasses='' aItems=[
-		[ 'name' => 'login',        'text' => $aLang.auth.login.title,        'pane' => 'tab-pane-login' ],
-		[ 'name' => 'registration', 'text' => $aLang.auth.registration.title, 'pane' => 'tab-pane-registration' ],
-		[ 'name' => 'reset',        'text' => $aLang.auth.reset.title,        'pane' => 'tab-pane-reset' ]
-	]}
+	{if ! Config::Get('general.reg.invite')}
+		{include 'components/auth/auth.registration.tpl' assign=auth_tab_reg}
+	{else}
+		{include 'components/auth/auth.invite.tpl' assign=auth_tab_reg}
+	{/if}
 
-	<div data-type="tab-panes">
-		<div class="tab-pane" id="tab-pane-login" data-type="tab-pane">
-			{include 'components/auth/auth.login.tpl'}
-		</div>
+    {include 'components/auth/auth.login.tpl' assign=auth_tab_login}
+    {include 'components/auth/auth.reset.tpl' assign=auth_tab_reset}
 
-		<div class="tab-pane" id="tab-pane-registration" data-type="tab-pane">
-			{if ! Config::Get('general.reg.invite')}
-				{include 'components/auth/auth.registration.tpl'}
-			{else}
-				{include 'components/auth/auth.invite.tpl'}
-			{/if}
-		</div>
-
-		<div class="tab-pane" id="tab-pane-reset" data-type="tab-pane">
-			{include 'components/auth/auth.reset.tpl'}
-		</div>
-	</div>
+    {include 'components/tabs/tabs.tpl' classes='js-tabs-auth' tabs=[
+        [ 'text' => {lang 'auth.login.title'},        'content' => $auth_tab_login, 'classes' => 'js-auth-tab-login' ],
+        [ 'text' => {lang 'auth.registration.title'}, 'content' => $auth_tab_reg,   'classes' => 'js-auth-tab-reg' ],
+        [ 'text' => {lang 'auth.reset.title'},        'content' => $auth_tab_reset ]
+    ]}
 {/block}
 
 {block 'modal_footer'}{/block}

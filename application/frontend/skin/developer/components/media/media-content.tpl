@@ -3,17 +3,13 @@
  *}
 
 <div class="media clearfix {$smarty.local.classes}">
-	{* Боковое меню *}
-	{include 'components/nav/nav.tabs.tpl' sName='media' sClasses='media-nav js-media-tabs' aItems=[
-		[ 'name' => 'insert',   'pane' => 'tab-media-insert',   'text' => {lang name='media.nav.insert'},   'classes' => 'js-tab-show-gallery active', 'attributes' => 'data-media-name="insert"' ],
-		[ 'name' => 'photoset', 'pane' => 'tab-media-photoset', 'text' => {lang name='media.nav.photoset'}, 'classes' => 'js-tab-show-gallery',        'attributes' => 'data-media-name="photoset"' ],
-		[ 'name' => 'url',      'pane' => 'tab-media-url',      'text' => {lang name='media.nav.url'}, 'attributes' => 'data-media-name="url"' ]
-	]}
+	{include './panes/pane.insert.tpl' assign=media_tab_insert}
+	{include './panes/pane.photoset.tpl' assign=media_tab_photoset}
+	{include './panes/pane.url.tpl' assign=media_tab_url}
 
-	{* Содержимое табов *}
-	<div data-type="tab-panes" class="media-panes">
-		{include './panes/pane.insert.tpl' isActive=true}
-		{include './panes/pane.url.tpl'}
-		{include './panes/pane.photoset.tpl'}
-	</div>
+    {include 'components/tabs/tabs.tpl' classes='media-nav js-tabs-auth' mods='align-left' tabs=[
+        [ 'text' => {lang 'media.nav.insert'},   'content' => $media_tab_insert,   'classes' => 'js-tab-show-gallery', 'attributes' => 'data-media-name="insert"' ],
+        [ 'text' => {lang 'media.nav.photoset'}, 'content' => $media_tab_photoset, 'classes' => 'js-tab-show-gallery', 'attributes' => 'data-media-name="photoset"' ],
+        [ 'text' => {lang 'media.nav.url'},      'content' => $media_tab_url, 'attributes' => 'data-media-name="url"' ]
+    ]}
 </div>

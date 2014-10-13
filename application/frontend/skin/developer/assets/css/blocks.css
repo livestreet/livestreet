@@ -77,6 +77,14 @@
 
 
 /**
+ * Навигация по профилю пользователя
+ *
+ * @modifier tags
+ */
+.block--tags .tab-pane { padding: 20px; }
+
+
+/**
  * Блок управления на странице пользователя
  *
  * @modifier user-actions

@@ -71,13 +71,13 @@ ls.user = (function ($) {
 		});
 
 		$('.js-modal-toggle-registration').on('click', function (e) {
-			$('[data-tab-target=tab-pane-registration]').tab('activate');
+			$('.js-auth-tab-reg').lsTab('activate');
 			$('#modal-login').modal('show');
 			e.preventDefault();
 		});
 
 		$('.js-modal-toggle-login').on('click', function (e) {
-			$('[data-tab-target=tab-pane-login]').tab('activate');
+			$('.js-auth-tab-login').lsTab('activate');
 			$('#modal-login').modal('show');
 			e.preventDefault();
 		});

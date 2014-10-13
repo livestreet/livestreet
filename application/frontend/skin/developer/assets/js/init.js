@@ -61,7 +61,8 @@ jQuery(document).ready(function($){
 	/**
 	 * Tabs
 	 */
-	$('[data-type=tab]').tab();
+	$( '.js-tabs-auth, .js-tabs-block' ).lsTabs();
+
 
 	/**
 	 * Captcha

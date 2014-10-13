@@ -68,7 +68,7 @@
 			! this.option( 'editor' ).length && this.option( 'editor', $( '#' + this.element.data( 'media-editor') ) );
 
 			this.elements = {
-				tabs: this.element.find( '.js-media-tabs > [data-type=tab]' ),
+				tabs: this.element.find( '[data-tab-type=tab-list] > [data-tab-type=tab]' ),
 				uploader: this.element.find( this.option( 'selectors.uploader' ) ),
 				blocks: this.element.find( this.option( 'selectors.block' ) ),
 				insert: {
@@ -114,7 +114,7 @@
 			}));
 
 			// Табы
-			this.elements.tabs.on( 'tabactivate', function( event, tab ) {
+			this.elements.tabs.on( 'lstabactivate', function( event, tab ) {
 				// Перемещение галереи из одного таба в другой
 				if ( tab.element.hasClass( 'js-tab-show-gallery' ) ) {
 					this.elements.uploader.appendTo( this.element.find( '#' + tab.options.target + ' .js-media-pane-content' ) );
