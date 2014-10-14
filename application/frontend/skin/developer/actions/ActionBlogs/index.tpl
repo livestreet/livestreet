@@ -13,7 +13,7 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'forms/search_forms/search_form.blogs.tpl'}
+	{include 'components/blog/search-form.blogs.tpl'}
 
 	{* Сортировка *}
 	{include 'components/sort/sort.ajax.tpl'

@@ -8,6 +8,7 @@
 
 {block 'block_options' append}
     {$mods = "{$mods} blogs nopadding"}
+    {$classes = "{$classes} js-block-default"}
 {/block}
 
 {block 'block_title'}

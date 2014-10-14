@@ -48,7 +48,7 @@
 	<div class="grid-role-userbar-wrapper">
 		<nav class="grid-row grid-role-userbar">
 			{include 'navs/nav.userbar.tpl'}
-			{include 'forms/search_forms/search_form.main.tpl' sMods='light'}
+			{include 'components/search/search-form.main.tpl' sMods='light'}
 		</nav>
 	</div>
 

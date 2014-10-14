@@ -9,6 +9,6 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/tags/search_form.tags.tpl'}
+	{include 'components/tags/search-form.tags.tpl'}
 	{include 'components/topic/topic-list.tpl' topics=$aTopics paging=$aPaging}
 {/block}

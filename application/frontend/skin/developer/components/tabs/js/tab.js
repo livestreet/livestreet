@@ -33,7 +33,7 @@
             // Callbacks
 
             // Вызывается при активации таба
-            beforeActivate: null,
+            beforeactivate: null,
             // Вызывается в конце активации таба
             activate: null
         },
@@ -73,7 +73,7 @@
          * Активация таба
          */
         activate: function () {
-            this._trigger("beforeActivate", null, this);
+            this._trigger("beforeactivate", null, this);
 
             // Активируем таб
             this.option( 'tabs' ).lsTabs( 'getTabs' ).removeClass( 'active' );

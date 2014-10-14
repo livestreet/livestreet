@@ -12,11 +12,12 @@
 
 {block 'block_options' append}
 	{$mods = "{$mods} stream nopadding"}
+	{$classes = "{$classes} js-block-default"}
 {/block}
 
 {* Кнопка обновления *}
 {block 'block_header_end'}
-	<div class="block-update" id="js-stream-update"></div>
+	<div class="block-update js-block-update-tabs"></div>
 {/block}
 
 {* Навигация *}

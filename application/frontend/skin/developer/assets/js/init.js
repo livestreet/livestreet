@@ -122,7 +122,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Blocks
 	 */
-	ls.blocks.init();
+	$( '.js-block-default' ).lsBlock();
 
 
 	/**

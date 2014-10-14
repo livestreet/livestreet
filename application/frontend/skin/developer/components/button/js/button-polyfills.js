@@ -11,7 +11,7 @@
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-form
  */
 if ( ! document.createElement( 'button' ).hasOwnProperty( 'form' ) ) {
-	$( document ).on( 'click', 'button[form]', function () {
-		$( $( this ).attr( 'form' ) ).submit();
+	jQuery( document ).on( 'click', 'button[form]', function () {
+		jQuery( $( this ).attr( 'form' ) ).submit();
 	});
 }

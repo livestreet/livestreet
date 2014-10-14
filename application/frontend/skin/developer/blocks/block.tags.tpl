@@ -12,6 +12,7 @@
 
 {block 'block_options' append}
 	{$mods = "{$mods} tags nopadding"}
+	{$classes = "{$classes} js-block-default"}
 {/block}
 
 {block 'block_content'}
@@ -26,5 +27,5 @@
 
 {* Подвал *}
 {block 'block_footer'}
-	{include 'components/tags/search_form.tags.tpl' sMods='light'}
+	{include 'components/tags/search-form.tags.tpl' sMods='light'}
 {/block}
