@@ -39,11 +39,11 @@
 		{/foreach}
 
 		{include 'components/nav/nav.tpl'
-				sName       = 'blogs_categories'
-				sClasses    = 'actionbar-item-link'
-				sActiveItem = 'all'
-				sMods       = 'stacked pills'
-				aItems      = $aItems}
+			name       = 'blogs_categories'
+			classes    = 'actionbar-item-link'
+			activeItem = 'all'
+			mods       = 'stacked pills'
+			items      = $aItems}
     {else}
     	{include 'components/alert/alert.tpl' text=$aLang.blog.categories.empty mods='empty'}
     {/if}

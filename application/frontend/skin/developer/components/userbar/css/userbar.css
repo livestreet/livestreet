@@ -1,0 +1,29 @@
+/**
+ * Юзербар
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.userbar {
+    background: #fff;
+}
+.userbar-inner {
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+/* Меню */
+.userbar-nav {
+    float: left;
+}
+
+/* Форма поиска */
+.userbar .search-form {
+    float: right;
+    width: 200px;
+    position: relative;
+    margin: 13px 5px 0 5px;
+    padding: 0;
+}

@@ -10,9 +10,9 @@
  *}
 
 {include 'components/nav/nav.tpl'
-	sName       = "{$smarty.local.name}_menu"
-	sActiveItem = $smarty.local.activeItem
-	sMods       = 'stacked dropdown'
-	sClasses    = "dropdown-menu {$smarty.local.classes}"
-	sAttributes = "{$smarty.local.attributes} id=\"{$smarty.local.id}\""
-	aItems      = $smarty.local.items}
+	name       = "{$smarty.local.name}_menu"
+	activeItem = $smarty.local.activeItem
+	mods       = 'stacked dropdown'
+	classes    = "dropdown-menu {$smarty.local.classes}"
+	attributes = "{$smarty.local.attributes} id=\"{$smarty.local.id}\""
+	items      = $smarty.local.items}

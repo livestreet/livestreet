@@ -1,71 +1,82 @@
 {**
  * Навигация
+ *
+ * @param string  $name
+ * @param array   $items
+ * @param string  $activeItem
+ * @param boolean $is_enabled
+ * @param string  $mods
+ * @param string  $classes
+ * @param string  $attributes
+ * @param array   $data
+ * @param integer $count
+ * @param integer $hookParams
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'nav'}
+{$component = 'nav'}
 
 {* Уникальное имя меню *}
-{$_sName = ( $smarty.local.sName ) ? $smarty.local.sName : rand(0, 9999999)}
+{$name = ( $smarty.local.name ) ? $smarty.local.name : rand(0, 9999999)}
 
 {* Получаем пункты установленные плагинами *}
-{hook run="{$_sComponentName}_{$_sName}" assign='aItemsHook' aItems=$smarty.local.aItems array=true}
+{hook run="{$component}_{$name}" assign='itemsHook' params=$smarty.local.hookParams items=$smarty.local.items array=true}
 
-{$_aItems = ( $aItemsHook ) ? $aItemsHook : $smarty.local.aItems}
+{$items = ( $itemsHook ) ? $itemsHook : $smarty.local.items}
 
-{* Считаем кол-во не активных пунктов *}
-{$_iDisabledItemsCounter = 0}
+{* Считаем кол-во неактивных пунктов *}
+{$disabledItemsCounter = 0}
 
-{foreach $_aItems as $aItem}
-	{$_iDisabledItemsCounter = $_iDisabledItemsCounter + ( ! $aItem['is_enabled']|default:true && $aItem['name'] != '-' )}
+{foreach $items as $item}
+    {$disabledItemsCounter = $disabledItemsCounter + ( ! $item['is_enabled']|default:true && $item['name'] != '-' )}
 {/foreach}
 
 {* Отображем меню только если есть активные пункты *}
-{if count($_aItems) - $_iDisabledItemsCounter}
-	<ul class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses}" {$smarty.local.sAttributes}>
-		{foreach $_aItems as $aItem}
-			{$_bIsEnabled = $aItem['is_enabled']}
-			{$_bIsDropdown = isset($aItem['menu'])}
+{if count( $items ) - $disabledItemsCounter}
+    <ul class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.sAttributes}>
+        {foreach $items as $item}
+            {$isEnabled = $item[ 'is_enabled' ]}
+            {$isDropdown = isset( $item[ 'menu' ] )}
 
-			{if $_bIsEnabled|default:true}
-				{if $aItem['name'] != '-'}
-					{* Пункт меню *}
-					<li class="{$_sComponentName}-item
-							   {if $smarty.local.sActiveItem && $smarty.local.sActiveItem == $aItem['name']}active{/if}
-							   {if isset($aItem['count'])}{$_sComponentName}-item--has-counter{/if}
-							   {if $_bIsDropdown}{$_sComponentName}-item--has-children{/if}
-							   {$aItem['classes']}"
-						{if isset($aItem['title'])}title="{$aItem['title']}"{/if}
-						{$aItem['attributes']}
-						{foreach $aItem['data'] as $data}
-							data-{$data@key}={$data@value}
-						{/foreach}>
+            {if $isEnabled|default:true}
+                {if $item['name'] != '-'}
+                    {* Пункт меню *}
+                    <li class="{$component}-item
+                               {if $smarty.local.activeItem && $smarty.local.activeItem == $item['name']}active{/if}
+                               {if isset($item['count'])}{$component}-item--has-counter{/if}
+                               {if $isDropdown}{$component}-item--has-children{/if}
+                               {$item['classes']}"
+                        {if isset($item['title'])}title="{$item['title']}"{/if}
+                        {$item['attributes']}
+                        {foreach $item['data'] as $data}
+                            data-{$data@key}={$data@value}
+                        {/foreach}>
 
-						{* Ссылка *}
-						<a href="{if $aItem['url']}{$aItem['url']}{else}#{/if}">
-							{$aItem['text']}
+                        {* Ссылка *}
+                        <a href="{if $item['url']}{$item['url']}{else}#{/if}">
+                            {$item['text']}
 
-							{* Счетчик *}
-							{if isset($aItem['count']) && ( $smarty.local.bShowZeroCounter || ( ! $smarty.local.bShowZeroCounter && $aItem['count'] > 0 ) )}
-								<span class="badge">{$aItem['count']}</span>
-							{/if}
-						</a>
+                            {* Счетчик *}
+                            {if isset($item['count']) && ( $smarty.local.showZeroCounter || ( ! $smarty.local.showZeroCounter && $item['count'] > 0 ) )}
+                                <span class="badge">{$item['count']}</span>
+                            {/if}
+                        </a>
 
-						{* Подменю *}
-						{if $_bIsDropdown}
-							{include './nav.tpl'
-									 sName          = $aItem['name']
-									 sActiveItem    = $smarty.local.sActiveItem
-									 sClasses       = "nav--stacked nav--dropdown {$aItem['classes']}"
-									 sAttributes    = $aItem['attributes']
-									 aItems         = $aItem['menu']}
-						{/if}
-					</li>
-				{else}
-					{* Разделитель *}
-					<li class="{$_sComponentName}-separator"></li>
-				{/if}
-			{/if}
-		{/foreach}
-	</ul>
+                        {* Подменю *}
+                        {if $isDropdown}
+                            {include './nav.tpl'
+                                name          = $item['name']
+                                activeItem    = $smarty.local.activeItem
+                                classes       = "nav--stacked nav--dropdown {$item['classes']}"
+                                attributes    = $item['attributes']
+                                items         = $item['menu']}
+                        {/if}
+                    </li>
+                {else}
+                    {* Разделитель *}
+                    <li class="{$component}-separator"></li>
+                {/if}
+            {/if}
+        {/foreach}
+    </ul>
 {/if}

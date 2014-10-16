@@ -1,4 +1,4 @@
-{include 'components/nav/nav.tpl' sName='main' sActiveItem=$sMenuHeadItemSelect sMods='main' aItems=[
+{include 'components/nav/nav.tpl' name='main' activeItem=$sMenuHeadItemSelect mods='main' items=[
 	[ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
 	[ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
 	[ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],

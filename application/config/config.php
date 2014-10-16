@@ -572,6 +572,7 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/media/js/media.js",
     "___path.skin.web___/components/tags/js/tags.js",
     "___path.skin.web___/components/block/js/block.js",
+    "___path.skin.web___/components/userbar/js/userbar.js",
     "___path.skin.web___/components/actionbar/js/actionbar-item-select.js",
     "___path.application.web___/frontend/common/js/subscribe.js",
     "___path.application.web___/frontend/common/js/toolbar.comments.js",

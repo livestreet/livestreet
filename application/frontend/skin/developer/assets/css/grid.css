@@ -1,18 +1,17 @@
 /**
  * Сетка
- * 
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 .grid-role-container { padding: 0 50px; }
-.grid-role-wrapper {  }
 
 .grid-role-content { background: #fff; padding: 40px !important; }
-.grid-role-header { 
-	padding: 65px 50px; 
-	background-color: #000; 
+.grid-role-header {
+	padding: 65px 50px;
+	background-color: #000;
 	background-image: url(../images/header.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
@@ -28,8 +27,3 @@
 	.grid-role-content { width: 100%; margin-bottom: 30px; }
 	.grid-role-sidebar { width: 100%; margin-bottom: 30px; padding: 0; }
 }
-
-
-.grid-role-userbar-wrapper { background: #fff; }
-.grid-role-userbar { background: #ffffff; margin: 0 auto; padding: 0 50px; }
-.grid-role-userbar .search-form { float: right; width: 200px; position: relative; margin: 13px 5px 0 5px; padding: 0; }

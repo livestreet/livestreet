@@ -63,6 +63,7 @@ $aCss = array(
 	"___path.skin.web___/components/user/css/user-list-avatar.css",
 	"___path.skin.web___/components/user-list-add/css/user-list-add.css",
 	"___path.skin.web___/components/talk/css/talk.css",
+	"___path.skin.web___/components/userbar/css/userbar.css",
 
 	// Template's styles
 	"___path.skin.assets.web___/css/icons.css",

@@ -2,17 +2,25 @@
  * Навгиация создания топика
  *}
 
-{$aTopicTypes = $LS->Topic_GetTopicTypes()}
-{$aItems = []}
+{$items = []}
 
-{foreach $aTopicTypes as $oTopicType}
-	{$aItems[] = [ 'name' => $oTopicType->getCode(), 'url' => $oTopicType->getUrlForAdd(), 'text' => $oTopicType->getName() ]}
+{* Формируем список пунктов *}
+{$topicTypes = $LS->Topic_GetTopicTypes()}
+
+{foreach $topicTypes as $type}
+    {$items[] = [ 'name' => $type->getCode(), 'url' => $type->getUrlForAdd(), 'text' => $type->getName() ]}
 {/foreach}
 
-{$aItems[] = [ 'name' => 'drafts', 'url' => "{router page='content'}drafts/", 'text' => $aLang.topic.drafts, 'count' => $iUserCurrentCountTopicDraft ]}
+{* Пункт "Черновики" *}
+{$items[] = [
+    'name'  => 'drafts',
+    'url'   => "{router page='content'}drafts/",
+    'text'  => $aLang.topic.drafts,
+    'count' => $iUserCurrentCountTopicDraft
+]}
 
 {include 'components/nav/nav.tpl'
-		 sName       = 'create'
-		 sActiveItem = $sMenuSubItemSelect
-		 sMods       = 'pills'
-		 aItems      = $aItems}
+    name       = 'create'
+    activeItem = $sMenuSubItemSelect
+    mods       = 'pills'
+    items      = $items}
