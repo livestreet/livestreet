@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		ls.geo.initSelect();
-		ls.userfield.iCountMax='{cfg name="module.user.userfield_max_identical"}';
+		//ls.userfield.iCountMax='{cfg name="module.user.userfield_max_identical"}';
 	});
 </script>
 

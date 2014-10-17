@@ -157,10 +157,7 @@ ls.user = (function ($) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle,data.sMsg);
 			} else {
-				$('.js-ajax-user-photo-image').attr('src',data.sFile);
-				$('.js-ajax-user-photo-upload-choose').html(data.sChooseText);
-				$('.js-ajax-user-photo-upload-remove').show();
-				$('.js-ajax-user-avatar-change').show();
+                this.cropProfilePhoto(data.sTmpFile, input.data('userId'));
 			}
 			form.remove();
 		}.bind(this));
@@ -173,82 +170,146 @@ ls.user = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
-				$('.js-ajax-user-photo-image').attr('src',result.sFile);
-				$('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
-				$('.js-ajax-user-photo-upload-remove').hide();
-				$('.js-ajax-user-avatar-change').hide();
+                $('.js-ajax-user-photo-image').attr('src',result.sFile);
+                $('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
+                $('.js-ajax-user-photo-upload-remove').hide();
+                $('.js-ajax-user-avatar-change').hide();
 			}
-		});
+        }.bind(this));
 		return false;
 	};
+
+    this.cropProfilePhoto = function(src,idUser) {
+        this.showCropImage(src,{
+            crop_params : {
+                minSize: [100, 150]
+            },
+            save_params : {
+                user_id : idUser
+            },
+            save_url : aRouter.settings+'ajax-crop-photo/',
+            save_callback : function(result, modal, image, previews) {
+                $('.js-ajax-user-photo-image').attr('src',result.sFile);
+                $('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
+                $('.js-ajax-user-photo-upload-remove').show();
+                $('.js-ajax-user-avatar-change').show();
+            },
+            modal_close_callback : function(e, modal) {
+                ls.ajax.load(aRouter.settings+'ajax-crop-cancel-photo/', { user_id: idUser });
+            }
+        });
+        return false;
+    };
 
 	this.changeProfileAvatar = function(idUser) {
-		var _this = this;
-		ls.modal.load(aRouter.ajax+'modal/image-crop/', {image_src: $('.js-ajax-user-photo-image').attr('src') }, {
-			aftershow: function( e, modal ) {
-				var image    = modal.element.find('.js-crop-image'),
-					previews = modal.element.find('.js-crop-preview-image'),
-					submit   = modal.element.find('.js-ajax-image-crop-submit');
-
-				function showPreview( coords ) {
-					previews.each(function() {
-						var preview = $( this ),
-							size = preview.data('size'),
-							rx = size / coords.w,
-							ry = size / coords.h;
-
-						preview.css({
-							width:      Math.round( rx * image.width() ) + 'px',
-							height:     Math.round( ry * image.height() ) + 'px',
-							marginLeft: '-' + Math.round( rx * coords.x ) + 'px',
-							marginTop:  '-' + Math.round( ry * coords.y ) + 'px'
-						});
-					})
-				}
-
-				this.jcropImage && this.jcropImage.destroy();
-
-				image.css({
-					'width': 'auto',
-					'height': 'auto'
-				});
-
-				image.Jcrop({
-					minSize: [32, 32],
-					aspectRatio: 1,
-					onChange: showPreview,
-					onSelect: showPreview
-				}, function () {
-					_this.jcropImage = this;
-					var w=image.innerWidth();
-					var h=image.innerHeight();
-
-					w=w/2-75;
-					h=h/2-75;
-					w=w>0 ? Math.round(w) : 0;
-					h=h>0 ? Math.round(h) : 0;
-					this.setSelect([w, h, w+150, h+150]);
-				});
-
-				submit.on('click',function() {
-					var params={
-						user_id: idUser,
-						size: _this.jcropImage.tellSelect(),
-						canvas_width: image.innerWidth()
-					}
-					ls.ajax.load(aRouter.settings+'ajax-change-avatar/', params, function(result) {
-						if (result.bStateError) {
-							ls.msg.error(null,result.sMsg);
-						} else {
-							modal.hide();
-						}
-					});
-				});
-			},
-			center: false
-		});
+        this.showCropImage($('.js-ajax-user-photo-image').attr('src'),{
+            crop_w : 150,
+            crop_h : 150,
+            crop_params : {
+                minSize: [32, 32],
+                aspectRatio: 1
+            },
+            save_params : {
+                user_id : idUser
+            },
+            save_url : aRouter.settings+'ajax-change-avatar/'
+        });
 		return false;
 	};
+
+
+    this.showCropImage = function(src, params) {
+        params = params || {};
+        var _this = this;
+        ls.modal.load(aRouter.ajax+'modal/image-crop/', {image_src: src }, {
+            aftershow: function( e, modal ) {
+                var image    = modal.element.find('.js-crop-image'),
+                    previews = modal.element.find('.js-crop-preview-image'),
+                    submit   = modal.element.find('.js-ajax-image-crop-submit');
+
+                function showPreview( coords ) {
+                    previews.each(function() {
+                        var preview = $( this ),
+                            size = preview.data('size'),
+                            rx = size / coords.w,
+                            ry = size / coords.h;
+
+                        preview.css({
+                            width:      Math.round( rx * image.width() ) + 'px',
+                            height:     Math.round( ry * image.height() ) + 'px',
+                            marginLeft: '-' + Math.round( rx * coords.x ) + 'px',
+                            marginTop:  '-' + Math.round( ry * coords.y ) + 'px'
+                        });
+                    })
+                }
+
+                _this.jcropImage && _this.jcropImage.destroy();
+
+                image.css({
+                    'width': 'auto',
+                    'height': 'auto'
+                });
+
+                var cropParams={
+                    minSize: [32, 32],
+                    aspectRatio: 0,
+                    onChange: showPreview,
+                    onSelect: showPreview
+                };
+
+                cropParams = $.extend({}, cropParams, params.crop_params || { });
+
+                image.Jcrop(cropParams, function () {
+                    _this.jcropImage = this;
+                    var iw=image.innerWidth();
+                    var ih=image.innerHeight();
+
+                    var sw = 0, sh = 0, ew = iw, eh = ih;
+
+                    if (params.crop_w) {
+                        if (!params.crop_h) {
+                            params.crop_h = params.crop_w;
+                        }
+
+                        sw=iw/2-params.crop_w/2;
+                        sh=ih/2-params.crop_h/2;
+                        sw=sw>0 ? Math.round(sw) : 0;
+                        sh=sh>0 ? Math.round(sh) : 0;
+
+                        ew=sw+params.crop_w;
+                        eh=sh+params.crop_h;
+                    }
+
+                    this.setSelect([sw, sh, ew, eh]);
+                });
+
+                submit.on('click',function() {
+                    var paramsRequest={
+                        size: _this.jcropImage.tellSelect(),
+                        canvas_width: image.innerWidth()
+                    };
+                    paramsRequest = $.extend({}, paramsRequest, params.save_params || { });
+                    ls.ajax.load(params.save_url, paramsRequest, function(result) {
+                        if (result.bStateError) {
+                            ls.msg.error(null,result.sMsg);
+                        } else {
+                            modal.hide();
+                            if (params.save_callback) {
+                                params.save_callback(result, modal, image, previews);
+                            }
+                        }
+                    });
+                });
+            },
+            afterhide: function( e, modal ) {
+                if (params.modal_close_callback) {
+                    params.modal_close_callback(e, modal);
+                }
+            },
+            center: false
+        });
+        return false;
+    };
 
 	return this;
 }).call(ls.user || {}, jQuery);

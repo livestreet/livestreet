@@ -947,6 +947,10 @@ class ModuleBlog extends Module
         );
         $this->Cache_Delete("blog_{$iBlogId}");
         /**
+         * Удаляем аватар
+         */
+        $this->DeleteBlogAvatar($oBlog);
+        /**
          * Удаляем связи пользователей блога.
          */
         $this->oMapperBlog->DeleteBlogUsersByBlogId($iBlogId);

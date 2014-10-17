@@ -1259,6 +1259,68 @@ class ModuleUser extends Module
     }
 
     /**
+     * Создает фото пользователя на основе области из изображения
+     *
+     * @param      $sFileFrom
+     * @param      $oUser
+     * @param      $aSize
+     * @param null $iCanvasWidth
+     *
+     * @return bool
+     */
+    public function CreateProfilePhoto($sFileFrom, $oUser, $aSize = null, $iCanvasWidth = null)
+    {
+        $aParams = $this->Image_BuildParams('profile_photo');
+        /**
+         * Если объект изображения не создан, возвращаем ошибку
+         */
+        if (!$oImage = $this->Image_OpenFrom($sFileFrom, $aParams)) {
+            return $this->Image_GetLastError();
+        }
+        /**
+         * Вырезаем область из исходного файла
+         */
+        if ($aSize) {
+            $oImage->cropFromSelected($aSize, $iCanvasWidth);
+        }
+        if ($sError = $this->Image_GetLastError()) {
+            return $sError;
+        }
+        /**
+         * Сохраняем во временный файл для дальнейшего ресайза
+         */
+        if (false === ($sFileTmp = $oImage->saveTmp())) {
+            return $this->Image_GetLastError();
+        }
+        $sPath = $this->Image_GetIdDir($oUser->getId(), 'users');
+        /**
+         * Имя файла для сохранения
+         */
+        $sFileName = func_generator(8);
+        /**
+         * Сохраняем копию нужного размера
+         */
+        $aSize = $this->Media_ParsedImageSize(Config::Get('module.user.profile_photo_size'));
+        if ($aSize['crop']) {
+            $oImage->cropProportion($aSize['w'] / $aSize['h'], 'center');
+        }
+        if (!$sFileResult = $oImage->resize($aSize['w'], $aSize['h'], true)->saveSmart($sPath, $sFileName)) {
+            return $this->Image_GetLastError();
+        }
+        /**
+         * Теперь можно удалить временный файл
+         */
+        $this->Fs_RemoveFileLocal($sFileTmp);
+        /**
+         * Если было старое фото, то удаляем
+         */
+        $this->DeleteProfilePhoto($oUser);
+        $oUser->setProfileFoto($sFileResult);
+        $this->User_Update($oUser);
+        return true;
+    }
+
+    /**
      * Загрузка фото в профиль пользователя
      *
      * @param $aFile

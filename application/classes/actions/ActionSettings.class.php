@@ -81,6 +81,8 @@ class ActionSettings extends Action
         $this->AddEvent('account', 'EventAccount');
 
         $this->AddEventPreg('/^ajax-upload-photo$/i', '/^$/i', 'EventAjaxUploadPhoto');
+        $this->AddEventPreg('/^ajax-crop-photo$/i', '/^$/i', 'EventAjaxCropPhoto');
+        $this->AddEventPreg('/^ajax-crop-cancel-photo$/i', '/^$/i', 'EventAjaxCropCancelPhoto');
         $this->AddEventPreg('/^ajax-remove-photo$/i', '/^$/i', 'EventAjaxRemovePhoto');
         $this->AddEventPreg('/^ajax-change-avatar$/i', '/^$/i', 'EventAjaxChangeAvatar');
     }
@@ -110,18 +112,109 @@ class ActionSettings extends Action
         if (!$oUser->isAllowEdit()) {
             return $this->EventErrorDebug();
         }
-
-        if (true !== $sResult = $this->User_UploadProfilePhoto($_FILES['photo'], $oUser)) {
-            $this->Message_AddError(is_bool($sResult) ? '' : $sResult, $this->Lang_Get('error'));
+        /**
+         * Копируем загруженный файл
+         */
+        $sFileTmp = Config::Get('sys.cache.dir') . func_generator();
+        if (!move_uploaded_file($_FILES['photo']['tmp_name'], $sFileTmp)) {
             return false;
         }
         /**
-         * Создаем аватар на основе фото
+         * Если объект изображения не создан, возвращаем ошибку
          */
-        $this->User_CreateProfileAvatar($oUser->getProfileFoto(), $oUser);
+        if (!$oImage = $this->Image_Open($sFileTmp)) {
+            $this->Fs_RemoveFileLocal($sFileTmp);
+            $this->Message_AddError($this->Image_GetLastError());
+            return;
+        }
+        /**
+         * Ресайзим и сохраняем именьшенную копию
+         * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
+         */
+        $sDir = Config::Get('path.uploads.images') . "/tmp/userphoto/{$oUser->getId()}";
+        if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
+            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
+                /**
+                 * Сохраняем в сессии временный файл с изображением
+                 */
+                $this->Session_Set('sPhotoFileTmp', $sFileOriginal);
+                $this->Session_Set('sPhotoFilePreviewTmp', $sFilePreview);
+                $this->Viewer_AssignAjax('sTmpFile', $this->Fs_GetPathWeb($sFilePreview));
+                $this->Fs_RemoveFileLocal($sFileTmp);
+                return;
+            }
+        }
+        $this->Message_AddError($this->Image_GetLastError());
+        $this->Fs_RemoveFileLocal($sFileTmp);
+    }
 
-        $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('settings_profile_photo_change'));
-        $this->Viewer_AssignAjax('sFile', $oUser->getProfileFotoPath());
+    /**
+     * Обрезка фотографии в профиль пользователя
+     */
+    protected function EventAjaxCropPhoto()
+    {
+        /**
+         * Устанавливаем формат Ajax ответа
+         */
+        $this->Viewer_SetResponseAjax('json');
+
+        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oUser->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+
+        $sFile = $this->Session_Get('sPhotoFileTmp');
+        $sFilePreview = $this->Session_Get('sPhotoFilePreviewTmp');
+        if (!$this->Image_IsExistsFile($sFile)) {
+            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            return;
+        }
+
+        if (true === ($res = $this->User_CreateProfilePhoto($sFile, $oUser, getRequest('size'),
+                getRequestStr('canvas_width')))
+        ) {
+            $this->Image_RemoveFile($sFile);
+            $this->Image_RemoveFile($sFilePreview);
+            $this->Session_Drop('sPhotoFileTmp');
+            $this->Session_Drop('sPhotoFilePreviewTmp');
+            /**
+             * Создаем аватар на основе фото
+             */
+            $this->User_CreateProfileAvatar($oUser->getProfileFoto(), $oUser);
+
+            $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('user.blocks.photo.change_photo'));
+            $this->Viewer_AssignAjax('sFile', $oUser->getProfileFotoPath());
+        } else {
+            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
+        }
+    }
+
+    /**
+     * Удаляет временные файлы кропа фото
+     */
+    protected function EventAjaxCropCancelPhoto()
+    {
+        /**
+         * Устанавливаем формат Ajax ответа
+         */
+        $this->Viewer_SetResponseAjax('json');
+
+        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oUser->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+
+        $sFile = $this->Session_Get('sPhotoFileTmp');
+        $sFilePreview = $this->Session_Get('sPhotoFilePreviewTmp');
+
+        $this->Image_RemoveFile($sFile);
+        $this->Image_RemoveFile($sFilePreview);
+        $this->Session_Drop('sPhotoFileTmp');
+        $this->Session_Drop('sPhotoFilePreviewTmp');
     }
 
     /**
@@ -141,7 +234,7 @@ class ActionSettings extends Action
         $this->User_DeleteProfilePhoto($oUser);
         $this->User_DeleteProfileAvatar($oUser);
         $this->User_Update($oUser);
-        $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('settings_profile_photo_upload'));
+        $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('user.blocks.photo.upload_photo'));
         $this->Viewer_AssignAjax('sFile', $oUser->getProfileFotoPath());
     }
 
@@ -463,8 +556,8 @@ class ActionSettings extends Action
                     2) and func_check(getRequestStr('profile_birthday_year'), 'id', 4, 4)
             ) {
                 $this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",
-                        mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'),
-                            getRequestStr('profile_birthday_year'))));
+                    mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'),
+                        getRequestStr('profile_birthday_year'))));
             } else {
                 $this->oUserCurrent->setProfileBirthday(null);
             }
