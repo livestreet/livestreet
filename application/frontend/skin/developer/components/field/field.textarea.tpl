@@ -5,5 +5,5 @@
 {extends './field.tpl'}
 
 {block 'field_input'}
-	<textarea {field_input_attr_common bUseValue=false} rows="{$iRows}">{field_input_attr_value}</textarea>
+	<textarea {field_input_attr_common useValue=false} rows="{$rows}">{field_input_attr_value}</textarea>
 {/block}

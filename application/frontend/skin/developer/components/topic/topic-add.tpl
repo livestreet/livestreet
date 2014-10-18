@@ -9,147 +9,147 @@
 {$topic = $smarty.local.topic}
 {$type = $smarty.local.type}
 
-{block name='add_topic_options'}{/block}
+{block 'add_topic_options'}{/block}
 
 {hook run="add_topic_begin"}
-{block name='add_topic_header_after'}{/block}
+{block 'add_topic_header_after'}{/block}
 
 
 <form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="js-form-validate" onsubmit="return false;">
-	{hook run="form_add_topic_begin"}
-	{block name='add_topic_form_begin'}{/block}
+    {hook run="form_add_topic_begin"}
+    {block 'add_topic_form_begin'}{/block}
 
 
-	{* Выбор блога *}
-	{$items = [[
-		'value' => 0,
-		'text' => $aLang.topic.add.fields.blog.option_personal
-	]]}
+    {* Выбор блога *}
+    {$items = [[
+        'value' => 0,
+        'text' => $aLang.topic.add.fields.blog.option_personal
+    ]]}
 
-	{foreach $smarty.local.blogs as $blog}
-		{$items[] = [
-			'value' => $blog->getId(),
-			'text' => $blog->getTitle()
-		]}
-	{/foreach}
+    {foreach $smarty.local.blogs as $blog}
+        {$items[] = [
+            'value' => $blog->getId(),
+            'text' => $blog->getTitle()
+        ]}
+    {/foreach}
 
-	{include 'components/field/field.select.tpl'
-		sName          = 'topic[blog_id]'
-		sLabel         = $aLang.topic.add.fields.blog.label
-		sNote          = $aLang.topic.add.fields.blog.note
-		sInputClasses  = 'js-topic-add-title'
-		aItems         = $items
-		sSelectedValue = {( $topic ) ? $topic->getBlogId() : '' }}
-
-
-	{* Заголовок топика *}
-	{include 'components/field/field.text.tpl'
-		sName        = 'topic[topic_title]'
-		sValue       = {(( $topic ) ? $topic->getTitle() : '')|escape:'html' }
-		sEntityField = 'topic_title'
-		sEntity      = 'ModuleTopic_EntityTopic'
-		sLabel       = $aLang.topic.add.fields.title.label}
-
-	{block name='add_topic_form_text_before'}{/block}
+    {include 'components/field/field.select.tpl'
+        name          = 'topic[blog_id]'
+        label         = $aLang.topic.add.fields.blog.label
+        note          = $aLang.topic.add.fields.blog.note
+        inputClasses  = 'js-topic-add-title'
+        items         = $items
+        selectedValue = {( $topic ) ? $topic->getBlogId() : '' }}
 
 
+    {* Заголовок топика *}
+    {include 'components/field/field.text.tpl'
+        name        = 'topic[topic_title]'
+        value       = {(( $topic ) ? $topic->getTitle() : '')|escape}
+        entityField = 'topic_title'
+        entity      = 'ModuleTopic_EntityTopic'
+        label       = $aLang.topic.add.fields.title.label}
 
-	{* Текст топика *}
-	{if $type->getParam('allow_text')}
-		{include 'components/editor/editor.tpl'
-			sName            = 'topic[topic_text_source]'
-			sValue           = (( $topic ) ? $topic->getTextSource() : '')|escape
-			sLabel           = $aLang.topic.add.fields.text.label
-			sEntityField     = 'topic_text_source'
-			sEntity          = 'ModuleTopic_EntityTopic'
-			classes          = 'js-editor-default'
-			sMediaTargetType = 'topic'
-			sMediaTargetId   = ( $topic ) ? $topic->getId() : ''}
-	{/if}
-
-	{block name='add_topic_form_text_after'}{/block}
-
-
-	{* Теги *}
-	{if $type->getParam('allow_tags')}
-		{include 'components/field/field.text.tpl'
-			sName    = 'topic[topic_tags]'
-			sValue	  = {(( $topic ) ? $topic->getTags() : '')|escape:'html' }
-			aRules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
-			sLabel   = $aLang.topic.add.fields.tags.label
-			sNote    = $aLang.topic.add.fields.tags.note
-			sClasses = 'width-full autocomplete-tags-sep'}
-	{/if}
-
-
-	{* Показывает дополнительные поля *}
-	{insert name="block" block="propertyUpdate" params=[ 'target' => $topic, 'entity' => 'ModuleTopic_EntityTopic', 'target_type' => 'topic_'|cat:$type->getCode() ]}
+    {block 'add_topic_form_text_before'}{/block}
 
 
 
-	{* Вставка опросов *}
-	{if $type->getParam('allow_poll')}
-		{include 'components/poll/poll.manage.tpl'
-			sTargetType = 'topic'
-			sTargetId   = ( $topic ) ? $topic->getId() : ''}
-	{/if}
+    {* Текст топика *}
+    {if $type->getParam('allow_text')}
+        {include 'components/editor/editor.tpl'
+            name            = 'topic[topic_text_source]'
+            value           = (( $topic ) ? $topic->getTextSource() : '')|escape
+            label           = $aLang.topic.add.fields.text.label
+            entityField     = 'topic_text_source'
+            entity          = 'ModuleTopic_EntityTopic'
+            classes          = 'js-editor-default'
+            mediaTargetType = 'topic'
+            mediaTargetId   = ( $topic ) ? $topic->getId() : ''}
+    {/if}
+
+    {block 'add_topic_form_text_after'}{/block}
 
 
-	{* Запретить комментарии *}
-	{include 'components/field/field.checkbox.tpl'
-		sName    = 'topic[topic_forbid_comment]'
-		bChecked = {( $topic && $topic->getForbidComment() ) ? true : false }
-		sNote    = $aLang.topic.add.fields.forbid_comments.note
-		sLabel   = $aLang.topic.add.fields.forbid_comments.label}
+    {* Теги *}
+    {if $type->getParam('allow_tags')}
+        {include 'components/field/field.text.tpl'
+            name    = 'topic[topic_tags]'
+            value     = {(( $topic ) ? $topic->getTags() : '')|escape}
+            rules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
+            label   = $aLang.topic.add.fields.tags.label
+            note    = $aLang.topic.add.fields.tags.note
+            classes = 'width-full autocomplete-tags-sep'}
+    {/if}
 
 
-	{* Принудительный вывод топиков на главную (доступно только админам) *}
-	{if $oUserCurrent->isAdministrator()}
-		{include 'components/field/field.checkbox.tpl'
-			sName    = 'topic[topic_publish_index]'
-			bChecked = {($topic && $topic->getPublishIndex()) ? true : false }
-			sNote    = $aLang.topic.add.fields.publish_index.note
-			sLabel   = $aLang.topic.add.fields.publish_index.label}
-	{/if}
+    {* Показывает дополнительные поля *}
+    {insert name="block" block="propertyUpdate" params=[ 'target' => $topic, 'entity' => 'ModuleTopic_EntityTopic', 'target_type' => 'topic_'|cat:$type->getCode() ]}
 
 
-	{block name='add_topic_form_end'}{/block}
-	{hook run="form_add_topic_end"}
+
+    {* Вставка опросов *}
+    {if $type->getParam('allow_poll')}
+        {include 'components/poll/poll.manage.tpl'
+            targetType = 'topic'
+            targetId   = ( $topic ) ? $topic->getId() : ''}
+    {/if}
 
 
-	{* Скрытые поля *}
-	{include 'components/field/field.hidden.tpl' sName='topic_type' sValue=$type->getCode()}
+    {* Запретить комментарии *}
+    {include 'components/field/field.checkbox.tpl'
+        name    = 'topic[topic_forbid_comment]'
+        checked = {( $topic && $topic->getForbidComment() ) ? true : false }
+        note    = $aLang.topic.add.fields.forbid_comments.note
+        label   = $aLang.topic.add.fields.forbid_comments.label}
 
-	{if $topic}
-		{include "components/field/field.hidden.tpl" sName='topic[id]' sValue=$topic->getId()}
-	{/if}
+
+    {* Принудительный вывод топиков на главную (доступно только админам) *}
+    {if $oUserCurrent->isAdministrator()}
+        {include 'components/field/field.checkbox.tpl'
+            name    = 'topic[topic_publish_index]'
+            checked = {($topic && $topic->getPublishIndex()) ? true : false }
+            note    = $aLang.topic.add.fields.publish_index.note
+            label   = $aLang.topic.add.fields.publish_index.label}
+    {/if}
 
 
-	{**
-	 * Кнопки
-	 *}
+    {block 'add_topic_form_end'}{/block}
+    {hook run="form_add_topic_end"}
 
-	{* Опубликовать / Сохранить изменения *}
-	{include 'components/button/button.tpl'
-		id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
-		mods    = 'primary'
-		classes = 'fl-r'
-		text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic and $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
 
-	{* Превью *}
-	{include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
+    {* Скрытые поля *}
+    {include 'components/field/field.hidden.tpl' name='topic_type' value=$type->getCode()}
 
-	{* Сохранить в черновиках / Перенести в черновики *}
-	{if $topic && $topic->getPublish() != 0}
-		{include 'components/button/button.tpl'
-			id   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
-			text = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
-	{/if}
+    {if $topic}
+        {include "components/field/field.hidden.tpl" name='topic[id]' value=$topic->getId()}
+    {/if}
+
+
+    {**
+     * Кнопки
+     *}
+
+    {* Опубликовать / Сохранить изменения *}
+    {include 'components/button/button.tpl'
+        id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
+        mods    = 'primary'
+        classes = 'fl-r'
+        text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic and $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
+
+    {* Превью *}
+    {include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
+
+    {* Сохранить в черновиках / Перенести в черновики *}
+    {if $topic && $topic->getPublish() != 0}
+        {include 'components/button/button.tpl'
+            id   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
+            text = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
+    {/if}
 </form>
 
 
 {* Блок с превью текста *}
 <div style="display: none;" id="topic-text-preview"></div>
 
-{block name='add_topic_end'}{/block}
+{block 'add_topic_end'}{/block}
 {hook run="add_topic_end"}

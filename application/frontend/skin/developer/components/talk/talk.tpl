@@ -16,7 +16,7 @@
 
 	{* Вывод комментариев к сообщению *}
 	{include 'components/comment/comments.tpl'
-		sClasses          = 'js-comments-talk'
+		classes          = 'js-comments-talk'
 		iTargetId         = $talk->getId()
 		sTargetType       = 'talk'
 		aComments         = $smarty.local.comments

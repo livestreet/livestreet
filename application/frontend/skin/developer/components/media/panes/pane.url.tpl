@@ -9,19 +9,19 @@
 		{* Типы файлов *}
 		{* TODO: Add hook *}
 		{include 'components/field/field.select.tpl'
-			sName          = 'filetype'
-			sLabel         = 'Type'
-			sInputClasses  = 'width-300 js-media-url-type'
-			aItems         = [
+			name          = 'filetype'
+			label         = 'Type'
+			inputClasses  = 'width-300 js-media-url-type'
+			items         = [
 				[ 'value' => '1', 'text' => 'Image' ]
 			]}
 
 		{* Ссылка *}
 		{include 'components/field/field.text.tpl'
-				 sName    = 'url'
-				 sValue   = 'http://'
-				 sInputClasses = 'js-media-url-form-url'
-				 sLabel   = {lang 'media.url.fields.url.label'}}
+				 name    = 'url'
+				 value   = 'http://'
+				 inputClasses = 'js-media-url-form-url'
+				 label   = {lang 'media.url.fields.url.label'}}
 	</form>
 
 	<div class="js-media-url-settings-blocks">

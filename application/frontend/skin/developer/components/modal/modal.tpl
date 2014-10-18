@@ -2,39 +2,39 @@
  * Базовый шаблон модальных окон
  *}
 
-{block name='modal_options'}{/block}
+{block 'modal_options'}{/block}
 
 
-<div class="modal {block name='modal_class'}{/block}" id="{block name='modal_id'}{/block}" data-type="modal" {block name='modal_attributes'}{/block}>
+<div class="modal {block 'modal_class'}{/block}" id="{block 'modal_id'}{/block}" data-type="modal" {block 'modal_attributes'}{/block}>
 	{* Header *}
-	{block name='modal_title' hide}
+	{block 'modal_title' hide}
 		<header class="modal-header">
 			<h3 class="modal-title">{$smarty.block.child}</h3>
-			<a href="#" class="modal-close" data-type="modal-close"></a>
+			<span class="modal-close" data-type="modal-close"></span>
 		</header>
 	{/block}
 
-	{block name='modal_header_after'}{/block}
+	{block 'modal_header_after'}{/block}
 
 	{* Content *}
-	{block name='modal_content' hide}
+	{block 'modal_content' hide}
 		<div class="modal-content">
 			{$smarty.block.child}
 		</div>
 	{/block}
 
-	{block name='modal_content_after'}{/block}
+	{block 'modal_content_after'}{/block}
 
 	{* Footer *}
-	{block name='modal_footer'}
+	{block 'modal_footer'}
 		<div class="modal-footer">
-			{block name='modal_footer_begin'}{/block}
+			{block 'modal_footer_begin'}{/block}
 
-			{block name='modal_footer_cancel'}
+			{block 'modal_footer_cancel'}
 				<button type="button" class="button" data-type="modal-close">{$aLang.common.cancel}</button>
 			{/block}
 		</div>
 	{/block}
 
-	{block name='modal_footer_after'}{/block}
+	{block 'modal_footer_after'}{/block}
 </div>

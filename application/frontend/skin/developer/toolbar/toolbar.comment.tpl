@@ -9,10 +9,10 @@
 {extends 'components/toolbar/toolbar.item.tpl'}
 
 {block 'toolbar_item_options' append}
-	{$_sMods = 'comments'}
+	{$_mods = 'comments'}
 	{$_bShow = !! $oUserCurrent}
-	{$_sClasses = 'js-toolbar-comments'}
-	{$_sAttributes = 'data-target=".js-comment"'}
+	{$_classes = 'js-toolbar-comments'}
+	{$_attributes = 'data-target=".js-comment"'}
 {/block}
 
 {block 'toolbar_item'}

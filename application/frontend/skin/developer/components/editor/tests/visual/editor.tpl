@@ -26,10 +26,10 @@
 	{* Полная версия *}
 	{test_heading sText='Default'}
 
-	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' sName='text'}
+	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' name='text'}
 
 	{* Облегченная версия *}
 	{test_heading sText='Light'}
 
-	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' sSet='light' sName='text'}
+	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' sSet='light' name='text'}
 {/block}

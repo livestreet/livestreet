@@ -1,11 +1,11 @@
 {$oValue = $oProperty->getValue()}
 
-{include file="components/field/field.text.tpl"
-		 sName  = "property[{$oProperty->getId()}]"
-		 sValue = $oValue->getValueVarchar()
-		 sId    = "property-value-tags-{$oProperty->getId()}"
-		 sNote = $oProperty->getDescription()
-		 sLabel = $oProperty->getTitle()}
+{include "components/field/field.text.tpl"
+		 name  = "property[{$oProperty->getId()}]"
+		 value = $oValue->getValueVarchar()
+		 id    = "property-value-tags-{$oProperty->getId()}"
+		 note = $oProperty->getDescription()
+		 label = $oProperty->getTitle()}
 
 <script>
 	jQuery(function($){

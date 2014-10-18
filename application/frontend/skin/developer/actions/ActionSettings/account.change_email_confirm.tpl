@@ -2,13 +2,13 @@
  * Уведомления о смене емэйла
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends 'layouts/layout.base.tpl'}
 
-{block name='layout_options'}
+{block 'layout_options'}
 	{$bNoSidebar = true}
 	{$bNoSystemMessages = true}
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	{$sText}
 {/block}

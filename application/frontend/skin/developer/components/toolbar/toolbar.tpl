@@ -7,14 +7,14 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'toolbar'}
+{$component = 'toolbar'}
 
 {function toolbar_item_icon}
-	<{if $sUrl}a href="{$sUrl}"{else}div{/if} class="toolbar-item-button {$sClasses}" {$sAttributes} {if $sTitle}title="{$sTitle}"{/if}>
+	<{if $sUrl}a href="{$sUrl}"{else}div{/if} class="toolbar-item-button {$classes}" {$attributes} {if $sTitle}title="{$sTitle}"{/if}>
 		<i class="{$sIcon}"></i>
 	</{if $sUrl}a{else}div{/if}>
 {/function}
 
-<aside class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses} js-toolbar" {$smarty.local.sAttributes}>
+<aside class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-toolbar" {$smarty.local.attributes}>
 	{include 'blocks.tpl' group='toolbar'}
 </aside>

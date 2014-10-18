@@ -5,12 +5,12 @@
 {extends './field.tpl'}
 
 {block 'field_input'}
-    <select {field_input_attr_common bUseValue=false} {if $smarty.local.isMultiple}multiple{/if}>
-        {foreach $aItems as $aItem}
-			{$isSelected = ( is_array( $sSelectedValue ) ) ? in_array( $aItem.value, $sSelectedValue ) : ( $aItem.value == $sSelectedValue )}
+    <select {field_input_attr_common useValue=false} {if $smarty.local.isMultiple}multiple{/if}>
+        {foreach $smarty.local.items as $item}
+			{$isSelected = ( is_array( $selectedValue ) ) ? in_array( $item.value, $selectedValue ) : ( $item.value == $selectedValue )}
 
-            <option value="{$aItem.value}" {if $isSelected}selected{/if}>
-            	{$aItem.text|indent:( $aItem.level * 5 ):'&nbsp;'}
+            <option value="{$item.value}" {if $isSelected}selected{/if}>
+            	{$item.text|indent:( $item.level * 5 ):'&nbsp;'}
             </option>
         {/foreach}
     </select>

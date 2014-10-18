@@ -8,10 +8,10 @@
 <form action="" method="post" id="js-poll-form" data-action="{if $oPoll}update{else}add{/if}">
 	{* Заголовок *}
 	{include 'components/field/field.text.tpl'
-			 sName  = 'poll[title]'
-			 sValue = {($oPoll) ? $oPoll->getTitle() : '' }
-			 sLabel = $aLang.poll.answer
-			 sInputAttributes="autofocus"}
+			 name  = 'poll[title]'
+			 value = {($oPoll) ? $oPoll->getTitle() : '' }
+			 label = $aLang.poll.answer
+			 inputAttributes="autofocus"}
 
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
@@ -22,26 +22,26 @@
 	<p class="mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
 	{include 'components/field/field.radio.tpl'
-			 sName  = 'poll[type]'
-			 sValue = 'one'
-			 sLabel = $aLang.poll.form.fields.type.label_one
-			 bChecked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
-			 bIsDisabled = $bDisableChangeType}
+			 name  = 'poll[type]'
+			 value = 'one'
+			 label = $aLang.poll.form.fields.type.label_one
+			 checked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
+			 isDisabled = $bDisableChangeType}
 
 	{include 'components/field/field.radio.tpl'
-			 bDisplayInline = true
-			 sName          = 'poll[type]'
-			 sValue         = 'many'
-			 sLabel         = $aLang.poll.form.fields.type.label_many
-			 bChecked       = $oPoll and $oPoll->getCountAnswerMax() > 1
-			 bIsDisabled    = $bDisableChangeType}
+			 displayInline = true
+			 name          = 'poll[type]'
+			 value         = 'many'
+			 label         = $aLang.poll.form.fields.type.label_many
+			 checked       = $oPoll and $oPoll->getCountAnswerMax() > 1
+			 isDisabled    = $bDisableChangeType}
 
 	{include 'components/field/field.text.tpl'
-			 bDisplayInline = true
-			 sName          = 'poll[count_answer_max]'
-			 sValue         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
-			 sClasses       = 'width-50'
-			 bIsDisabled    = $bDisableChangeType}
+			 displayInline = true
+			 name          = 'poll[count_answer_max]'
+			 value         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
+			 classes       = 'width-50'
+			 isDisabled    = $bDisableChangeType}
 
 
 	{* Варианты ответов *}
@@ -83,13 +83,13 @@
 
 	{* Скрытые поля *}
 	{if $oPoll}
-		{include 'components/field/field.hidden.tpl' sName='poll_id' sValue=$oPoll->getId()}
+		{include 'components/field/field.hidden.tpl' name='poll_id' value=$oPoll->getId()}
 	{else}
-		{include 'components/field/field.hidden.tpl' sName='target[type]' sValue=$sTargetType}
-		{include 'components/field/field.hidden.tpl' sName='target[id]' sValue=$sTargetId}
+		{include 'components/field/field.hidden.tpl' name='target[type]' value=$sTargetType}
+		{include 'components/field/field.hidden.tpl' name='target[id]' value=$sTargetId}
 	{/if}
 
-	{include 'components/field/field.hidden.tpl' sName='target[tmp]' sValue=$sTargetTmp}
+	{include 'components/field/field.hidden.tpl' name='target[tmp]' value=$sTargetTmp}
 </form>
 
 {* Шаблон ответа для добавления с помощью js *}

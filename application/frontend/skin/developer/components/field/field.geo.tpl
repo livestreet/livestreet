@@ -9,7 +9,7 @@
 {block 'field_input'}
     {$place = $smarty.local.place}
 
-    <p class="mb-15"><select class="js-geo-country width-200" name="{$smarty.local.sName}_country">
+    <p class="mb-15"><select class="js-geo-country width-200" name="{$smarty.local.name}_country">
         <option value="">{$aLang.field.geo.select_country}</option>
 
         {if $aGeoCountries}
@@ -19,7 +19,7 @@
         {/if}
     </select></p>
 
-    <p class="mb-15"><select class="js-geo-region width-200" name="{$smarty.local.sName}_region" {if ! $place or ! $place->getCountryId()}style="display:none;"{/if}>
+    <p class="mb-15"><select class="js-geo-region width-200" name="{$smarty.local.name}_region" {if ! $place or ! $place->getCountryId()}style="display:none;"{/if}>
         <option value="">{$aLang.field.geo.select_region}</option>
 
         {if $aGeoRegions}
@@ -29,7 +29,7 @@
         {/if}
     </select></p>
 
-    <p><select class="js-geo-city width-200" name="{$smarty.local.sName}_city" {if ! $place or ! $place->getRegionId()}style="display:none;"{/if}>
+    <p><select class="js-geo-city width-200" name="{$smarty.local.name}_city" {if ! $place or ! $place->getRegionId()}style="display:none;"{/if}>
         <option value="">{$aLang.field.geo.select_city}</option>
 
         {if $aGeoCities}

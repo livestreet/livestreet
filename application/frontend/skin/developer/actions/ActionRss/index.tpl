@@ -11,7 +11,7 @@
 		<copyright>{Router::GetPath('/')}</copyright>
 		<generator>{$aChannel.generator}</generator>
 		
-		{foreach $aItems as $oItem}
+		{foreach $items as $oItem}
 			<item>
 				<title>{$oItem.title|escape:'html'}</title>
 				<guid isPermaLink="true">{$oItem.guid}</guid>

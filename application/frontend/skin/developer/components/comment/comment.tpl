@@ -6,9 +6,9 @@
  * @scripts   js/comments.js
  *
  * @param object   $oComment          Комментарий
- * @param string   $sClasses          Дополнительные классы
- * @param string   $sAttributes       Атрибуты
- * @param string   $sMods             Модификаторы
+ * @param string   $classes          Дополнительные классы
+ * @param string   $attributes       Атрибуты
+ * @param string   $mods             Модификаторы
  * @param boolean  $bShowVote         (true) Показывать или нет голосование
  * @param boolean  $bShowReply        (true) Показывать или нет кнопку Ответить
  * @param integer  $iAuthorId
@@ -20,7 +20,7 @@
 
 {* Переменные *}
 {$oComment   = $smarty.local.oComment}
-{$sMods      = $smarty.local.sMods}
+{$mods      = $smarty.local.mods}
 {$bShowEdit  = $smarty.local.bShowEdit|default:true}
 {$bIsHidden  = $smarty.local.bIsHidden}
 {$oUser      = $oComment->getUser()}
@@ -37,25 +37,25 @@
 
 {* Комментарий с отрицательным рейтингом *}
 {if $smarty.local.bShowVote && $oComment->isBad()}
-    {$sMods = "$sMods bad"}
+    {$mods = "$mods bad"}
 {/if}
 
 {* Автор комментария является автором объекта к которому оставлен комментарий *}
 {if $smarty.local.iAuthorId == $oUser->getId()}
-    {$sMods = "$sMods author"}
+    {$mods = "$mods author"}
 {/if}
 
 {* Комментарий удален *}
 {if $bIsHidden}
-    {$sMods = "$sMods deleted"}
+    {$mods = "$mods deleted"}
 
 {* Комментарий текущего залогиненого пользователя *}
 {elseif $oUserCurrent && $oComment->getUserId() == $oUserCurrent->getId()}
-    {$sMods = "$sMods self"}
+    {$mods = "$mods self"}
 
 {* Непрочитанный комментарий *}
 {elseif $smarty.local.sDateReadLast && strtotime($smarty.local.sDateReadLast) <= strtotime($oComment->getDate())}
-    {$sMods = "$sMods new"}
+    {$mods = "$mods new"}
 {/if}
 
 
@@ -63,10 +63,10 @@
  * Комментарий
  * Атрибут id используется для ссылки на комментарий через хэш в урл #comment123
  *}
-<section class   = "{$sComponent} {mod name=$sComponent mods=$sMods} {$smarty.local.sClasses} open js-{$sComponent}"
+<section class   = "{$sComponent} {mod name=$sComponent mods=$mods} {$smarty.local.classes} open js-{$sComponent}"
          id      = "comment{$iCommentId}"
          data-id = "{$iCommentId}"
-         {$smarty.local.sAttributes}>
+         {$smarty.local.attributes}>
 
     {* Показываем удаленные комментарии только администраторам *}
     {if ! $bIsHidden || ( $oUserCurrent && $oUserCurrent->isAdministrator() )}

@@ -37,6 +37,6 @@
             {include 'components/nav/nav.tpl' name='userbar' activeItem=$sMenuHeadItemSelect mods='userbar' items=$items}
         </nav>
 
-        {include 'components/search/search-form.main.tpl' sMods='light'}
+        {include 'components/search/search-form.main.tpl' mods='light'}
     </div>
 </div>

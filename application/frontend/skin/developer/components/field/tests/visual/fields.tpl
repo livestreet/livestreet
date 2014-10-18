@@ -26,20 +26,20 @@
 		{test_heading sText='Text'}
 
 		{include 'components/field/field.text.tpl'
-				 sName  = 'text'
-				 sNote  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
-				 sLabel = 'Text field'}
+				 name  = 'text'
+				 note  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
+				 label = 'Text field'}
 
 
 		{* Select *}
 		{test_heading sText='Select'}
 
 		{include 'components/field/field.select.tpl'
-				 sSelectedValue = 'item2'
-				 sName          = 'select'
-				 sLabel         = 'Select'
-				 sNote          = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
-				 aItems         = [
+				 selectedValue = 'item2'
+				 name          = 'select'
+				 label         = 'Select'
+				 note          = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
+				 items         = [
 				     [ 'value' => 'item1', 'text' => 'Item 1' ],
 				     [ 'value' => 'item2', 'text' => 'Item 2' ]
 		         ]}
@@ -48,52 +48,52 @@
 		{test_heading sText='Textarea'}
 
 		{include 'components/field/field.textarea.tpl'
-				 sName    = 'textarea'
-				 sLabel   = 'Textarea'
-				 sNote    = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
-				 iRows    = 5}
+				 name    = 'textarea'
+				 label   = 'Textarea'
+				 note    = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
+				 rows    = 5}
 
 
 		{* Checkbox *}
 		{test_heading sText='Checkbox'}
 
 		{include 'components/field/field.checkbox.tpl'
-				 sName  = 'checkbox'
-				 sLabel = 'Checkbox'}
+				 name  = 'checkbox'
+				 label = 'Checkbox'}
 
 		{include 'components/field/field.checkbox.tpl'
-				 sName  = 'checkbox'
-				 sLabel = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, expedita, quos, eum sunt recusandae vitae vel voluptates molestias quae nesciunt perferendis quaerat voluptatem facere hic odio esse placeat amet nam iure deserunt animi a accusantium necessitatibus error praesentium laudantium unde.'}
+				 name  = 'checkbox'
+				 label = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, expedita, quos, eum sunt recusandae vitae vel voluptates molestias quae nesciunt perferendis quaerat voluptatem facere hic odio esse placeat amet nam iure deserunt animi a accusantium necessitatibus error praesentium laudantium unde.'}
 
 
 		{* Radio *}
 		{test_heading sText='Radio'}
 
 		{include 'components/field/field.radio.tpl'
-				 sName  = 'radio'
-				 sLabel = 'Radio'}
+				 name  = 'radio'
+				 label = 'Radio'}
 
 		{include 'components/field/field.radio.tpl'
-				 sName  = 'radio'
-				 sLabel = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, expedita, quos, eum sunt recusandae vitae vel voluptates molestias quae nesciunt perferendis quaerat voluptatem facere hic odio esse placeat amet nam iure deserunt animi a accusantium necessitatibus error praesentium laudantium unde.'
-				 sNote = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, hic, placeat.'}
+				 name  = 'radio'
+				 label = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, expedita, quos, eum sunt recusandae vitae vel voluptates molestias quae nesciunt perferendis quaerat voluptatem facere hic odio esse placeat amet nam iure deserunt animi a accusantium necessitatibus error praesentium laudantium unde.'
+				 note = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, hic, placeat.'}
 
 
 		{* File *}
 		{test_heading sText='File'}
 
 		{include 'components/field/field.file.tpl'
-				 sName  = 'file'
-				 sLabel = 'File'}
+				 name  = 'file'
+				 label = 'File'}
 
 
 		{* Captcha *}
 		{test_heading sText='Captcha'}
 
 		{include 'components/field/field.captcha.tpl'
-				 sName  = 'captcha'
-				 sLabel = 'Captcha'
-				 sNote  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
-				 sInputClasses  = 'width-50'}
+				 name  = 'captcha'
+				 label = 'Captcha'
+				 note  = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, libero.'
+				 inputClasses  = 'width-50'}
 	</form>
 {/block}

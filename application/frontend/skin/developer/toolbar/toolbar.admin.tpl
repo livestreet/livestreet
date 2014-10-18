@@ -9,7 +9,7 @@
 {extends 'components/toolbar/toolbar.item.tpl'}
 
 {block 'toolbar_item_options' append}
-	{$_sMods = 'admin'}
+	{$_mods = 'admin'}
 	{$_bShow = $oUserCurrent and $oUserCurrent->isAdministrator()}
 {/block}
 

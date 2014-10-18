@@ -12,33 +12,33 @@
 
 {block 'modal_content'}
 	<form action="" method="post" onsubmit="return false;" id="form-complaint-user">
-		{foreach Config::Get('module.user.complaint_type') as $sType}
+		{foreach Config::Get('module.user.complaint_type') as $type}
 			{$aTypes[] = [
-				'value' => $sType,
-				'text' => $aLang.report.type_list.{$sType}
+				'value' => $type,
+				'text' => $aLang.report.type_list.{$type}
 			]}
 		{/foreach}
 
 		{include 'components/field/field.select.tpl'
-			sName    = 'type'
-			sLabel   = {lang name='report.form.fields.type.label'}
-			sClasses = 'width-full'
-			aItems   = $aTypes }
+			name    = 'type'
+			label   = {lang name='report.form.fields.type.label'}
+			classes = 'width-full'
+			items   = $aTypes }
 
 		{include 'components/field/field.textarea.tpl'
-			sName    = 'text'
-			iRows    = 5
-			sLabel   = {lang name='report.form.fields.text.label'}
-			sClasses = 'width-full'}
+			name    = 'text'
+			rows    = 5
+			label   = {lang name='report.form.fields.text.label'}
+			classes = 'width-full'}
 
 		{* Каптча *}
 		{if Config::Get('module.user.complaint_captcha')}
 			{include 'components/field/field.captcha.tpl'
-				sCaptchaName = 'complaint_user'
-				sName        = 'captcha'}
+				captchaName = 'complaint_user'
+				name        = 'captcha'}
 		{/if}
 
-		{include 'components/field/field.hidden.tpl' sName='user_id' sValue=$_aRequest.user_id}
+		{include 'components/field/field.hidden.tpl' name='user_id' value=$_aRequest.user_id}
 	</form>
 {/block}
 

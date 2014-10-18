@@ -9,42 +9,42 @@
 {hook run='registration_begin'}
 
 <form action="{router page='registration'}" method="post" class="js-auth-registration-form">
-	{hook run='form_registration_begin'}
+    {hook run='form_registration_begin'}
 
-	{* Логин *}
+    {* Логин *}
     {include 'components/field/field.text.tpl'
-             sName   = 'login'
-             aRules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
-             sLabel  = $aLang.auth.labels.login}
+             name   = 'login'
+             rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
+             label  = $aLang.auth.labels.login}
 
-	{* E-mail *}
-    {include 'components/field/field.email.tpl' aRules=[ 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]}
+    {* E-mail *}
+    {include 'components/field/field.email.tpl' rules=[ 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]}
 
-	{* Пароль *}
+    {* Пароль *}
     {include 'components/field/field.text.tpl'
-             sName         = 'password'
-             sType         = 'password'
-             aRules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
-             sLabel        = $aLang.auth.labels.password
-             sInputClasses = 'js-input-password-reg'}
+             name         = 'password'
+             type         = 'password'
+             rules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
+             label        = $aLang.auth.labels.password
+             inputClasses = 'js-input-password-reg'}
 
-	{* Повторите пароль *}
+    {* Повторите пароль *}
     {include 'components/field/field.text.tpl'
-             sName   = 'password_confirm'
-             sType   = 'password'
-             aRules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
-             sLabel  = $aLang.auth.registration.form.fields.password_confirm.label}
+             name   = 'password_confirm'
+             type   = 'password'
+             rules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
+             label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}
     {include 'components/field/field.captcha.tpl'
-             sName        = 'captcha'
-             sCaptchaName = 'user_signup'
-             sLabel       = $aLang.auth.labels.captcha}
+             name        = 'captcha'
+             captchaName = 'user_signup'
+             label       = $aLang.auth.labels.captcha}
 
-	{hook run='form_registration_end'}
+    {hook run='form_registration_end'}
 
     {if $redirectUrl}
-        {include 'components/field/field.hidden.tpl' sName='return-path' sValue=$redirectUrl}
+        {include 'components/field/field.hidden.tpl' name='return-path' value=$redirectUrl}
     {/if}
 
     {include 'components/button/button.tpl' name='submit_register' mods='primary' text=$aLang.auth.registration.form.fields.submit.text}

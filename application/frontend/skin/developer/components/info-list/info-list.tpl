@@ -5,13 +5,13 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'info-list'}
+{$component = 'info-list'}
 
 {if $aInfoList}
-	<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} {$smarty.local.sClasses}" {$smarty.local.sAttributes}>
+	<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" {$smarty.local.attributes}>
 		{* Заголовок *}
 		{if $sTitle}
-			<h2 class="{$_sComponentName}-title">{$sTitle}</h2>
+			<h2 class="{$component}-title">{$sTitle}</h2>
 		{/if}
 
 		{* Список *}

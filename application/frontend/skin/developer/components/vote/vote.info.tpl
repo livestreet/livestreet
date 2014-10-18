@@ -3,9 +3,9 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'vote'}
+{$component = 'vote'}
 
-<ul class="{$_sComponentName}-info">
+<ul class="{$component}-info">
 	<li><i class="icon-plus icon-white"></i> {$oObject->getCountVoteUp()}</li>
 	<li><i class="icon-minus icon-white"></i> {$oObject->getCountVoteDown()}</li>
 	<li><i class="icon-eye-open icon-white"></i> {$oObject->getCountVoteAbstain()}</li>

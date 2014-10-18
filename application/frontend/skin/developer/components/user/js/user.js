@@ -88,7 +88,7 @@ ls.user = (function ($) {
 				follow:   aRouter['stream'] + 'ajaxadduser/',
 				unfollow: aRouter['stream'] + 'ajaxremoveuser/'
 			}
-		})
+		});
 
 		// Добавление пользователя в свою активность
 		$('.js-user-friend').lsUserFriend({
@@ -98,7 +98,7 @@ ls.user = (function ($) {
 				accept: aRouter.profile + 'ajaxfriendaccept/',
 				modal:  aRouter.profile + 'ajax-modal-add-friend'
 			}
-		})
+		});
 
 		// Добавление выбранных пользователей
 		$(document).on('click', '.js-user-list-select-add', function (e) {
@@ -136,6 +136,13 @@ ls.user = (function ($) {
 			_this.changeProfileAvatar($(this).data('userId'));
 			return false;
 		});
+
+		//
+		// НАСТРОЙКИ
+		//
+
+		// Управление кастомными полями
+		$( '.js-user-fields' ).lsUserFields();
 	};
 
 	/**

@@ -26,10 +26,10 @@
 		<div class="{$component_info}-fields">
 			{foreach $smarty.local.propertiesFields as $property}
 				{include 'components/field/field.text.tpl'
-					sName            = $property['name']
-					sInputClasses    = "js-{$component_info}-property"
-					sInputAttributes = "data-name=\"{$property['name']}\""
-					sLabel           = $property['label']}
+					name            = $property['name']
+					inputClasses    = "js-{$component_info}-property"
+					inputAttributes = "data-name=\"{$property['name']}\""
+					label           = $property['label']}
 			{/foreach}
 		</div>
 	</div>

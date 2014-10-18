@@ -43,13 +43,6 @@ jQuery(document).ready(function($){
 	 */
 	$('.js-modal-default').modal();
 
-
-	/**
-	 * Datepicker
-	 */
-	$('.js-date-picker').datepicker();
-
-
 	/**
 	 * Dropdowns
 	 */
@@ -65,8 +58,12 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Captcha
+	 * Fields
 	 */
+	ls.geo.initSelect();
+
+	$('.js-date-picker').datepicker();
+
 	$('[data-type=captcha]').livequery(function () {
 		$(this).captcha();
 	});

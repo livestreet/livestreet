@@ -16,11 +16,11 @@
 	{* TODO: Form validation (front-end / back-end) *}
 	<form id="add_friend_form" class="js-user-friend-form">
 		{include 'components/field/field.textarea.tpl'
-				 sName     = 'add_friend_text'
-				 aRules    = [ 'required' => true, 'rangelength' => '[2,200]' ]
-				 iRows     = 3
-				 bNoMargin = true
-				 sLabel    = {lang name='user.friends.form.fields.text.label'}}
+				 name     = 'add_friend_text'
+				 rules    = [ 'required' => true, 'rangelength' => '[2,200]' ]
+				 rows     = 3
+				 noMargin = true
+				 label    = {lang name='user.friends.form.fields.text.label'}}
 	</form>
 {/block}
 

@@ -11,16 +11,16 @@
 
 	{* ID *}
 	{include 'components/field/field.hidden.tpl'
-		sName    = "answers[{$iPollItemIndex|default:0}][id]"
-		sValue   = "{if $oPollItem}{$oPollItem->getId()}{/if}"
-		sClasses = "js-poll-form-answer-item-id"}
+		name    = "answers[{$iPollItemIndex|default:0}][id]"
+		value   = "{if $oPollItem}{$oPollItem->getId()}{/if}"
+		classes = "js-poll-form-answer-item-id"}
 
 	{* Текст *}
 	{include 'components/field/field.text.tpl'
-		sName         = 'answers[]'
-		sValue        = ($oPollItem) ? $oPollItem->getTitle() : ''
-		bIsDisabled   = ! $bPollIsAllowUpdate|default:true
-		sInputClasses = 'width-full js-poll-form-answer-item-text'}
+		name         = 'answers[]'
+		value        = ($oPollItem) ? $oPollItem->getTitle() : ''
+		isDisabled   = ! $bPollIsAllowUpdate|default:true
+		inputClasses = 'width-full js-poll-form-answer-item-text'}
 
 	{* Кнопка удаления *}
 	{if $bPollIsAllowRemove|default:true}

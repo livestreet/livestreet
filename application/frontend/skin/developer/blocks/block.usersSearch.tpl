@@ -7,25 +7,25 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_options' append}
-	{$mods = "{$mods} users-search"}
+    {$mods = "{$mods} users-search"}
 {/block}
 
 {block 'block_title'}
-	Поиск по пользователям
+    Поиск по пользователям
 {/block}
 
 {block 'block_content'}
-	{* Сейчас на сайте *}
-	{include 'components/field/field.checkbox.tpl'
-			 sName            = 'is_online'
-			 sInputClasses    = 'js-search-ajax-option'
-			 sInputAttributes = 'data-search-type="users"'
-			 bChecked         = false
-			 sLabel           = 'Сейчас на сайте'}
+    {* Сейчас на сайте *}
+    {include 'components/field/field.checkbox.tpl'
+        name            = 'is_online'
+        inputClasses    = 'js-search-ajax-option'
+        inputAttributes = 'data-search-type="users"'
+        checked         = false
+        label           = 'Сейчас на сайте'}
 
-	{* Пол *}
-	<p class="mb-10">Пол</p>
-	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='' bChecked=true sLabel='Любой'}
-	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='man' sLabel='Мужской'}
-	{include 'components/field/field.radio.tpl' sInputClasses='js-search-ajax-option' sInputAttributes='data-search-type="users"' sName='sex' sValue='woman' sLabel='Женский'}
+    {* Пол *}
+    <p class="mb-10">Пол</p>
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-option' inputAttributes='data-search-type="users"' name='sex' value='' checked=true label='Любой'}
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-option' inputAttributes='data-search-type="users"' name='sex' value='man' label='Мужской'}
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-option' inputAttributes='data-search-type="users"' name='sex' value='woman' label='Женский'}
 {/block}

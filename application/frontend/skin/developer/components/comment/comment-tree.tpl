@@ -6,9 +6,9 @@
  * @scripts   js/comments.js
  *
  * @param array    $aComments         Комментарии
- * @param string   $sClasses          Дополнительные классы
- * @param string   $sAttributes       Атрибуты
- * @param string   $sMods
+ * @param string   $classes          Дополнительные классы
+ * @param string   $attributes       Атрибуты
+ * @param string   $mods
  * @param boolean  $bShowVote         (true) Показывать или нет голосование
  * @param boolean  $bShowReply        (true) Показывать или нет кнопку Ответить
  * @param integer  $iAuthorId

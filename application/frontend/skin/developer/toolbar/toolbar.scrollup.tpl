@@ -9,9 +9,9 @@
 {extends 'components/toolbar/toolbar.item.tpl'}
 
 {block 'toolbar_item_options' append}
-	{$_sMods = 'scrollup'}
-	{$_sClasses = 'js-toolbar-scrollup'}
-	{$_sAttributes = 'id="toolbar_scrollup"'}
+	{$_mods = 'scrollup'}
+	{$_classes = 'js-toolbar-scrollup'}
+	{$_attributes = 'id="toolbar_scrollup"'}
 {/block}
 
 {block 'toolbar_item'}

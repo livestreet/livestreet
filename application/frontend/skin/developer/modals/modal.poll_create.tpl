@@ -6,9 +6,9 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block name='modal_id'}modal-poll-create{/block}
-{block name='modal_class'}modal-poll-create js-modal-default{/block}
-{block name='modal_title'}
+{block 'modal_id'}modal-poll-create{/block}
+{block 'modal_class'}modal-poll-create js-modal-default{/block}
+{block 'modal_title'}
 	{if $oPoll}
 		{$aLang.poll.form.title.edit}
 	{else}
@@ -16,11 +16,11 @@
 	{/if}
 {/block}
 
-{block name='modal_content'}
+{block 'modal_content'}
 	{include 'components/poll/poll.form.tpl'}
 {/block}
 
-{block name='modal_footer_begin'}
+{block 'modal_footer_begin'}
 	{include 'components/button/button.tpl'
 			 form    = 'js-poll-form'
 			 text    =  ($oPoll) ? $aLang.common.save : $aLang.common.add

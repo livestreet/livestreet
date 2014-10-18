@@ -5,10 +5,10 @@
  *}
 
 {include 'components/search-form/search-form.tpl'
-		sName         = 'tags'
-		sMods         = $smarty.local.sMods
-		sPlaceholder  = {lang 'tags.search.label'}
-		sClasses      = 'js-tag-search-form'
-		sInputClasses = 'autocomplete-tags js-tag-search'
-		sInputName    = 'tag'
-		sValue        = $sTag|escape}
+		name         = 'tags'
+		mods         = $smarty.local.mods
+		placeholder  = {lang 'tags.search.label'}
+		classes      = 'js-tag-search-form'
+		inputClasses = 'autocomplete-tags js-tag-search'
+		inputName    = 'tag'
+		value        = $sTag|escape}

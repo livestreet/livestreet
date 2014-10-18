@@ -1,12 +1,12 @@
 {$oValue = $oProperty->getValue()}
 {$oValueType = $oValue->getValueTypeObject()}
 
-{include file="components/field/field.text.tpl"
-		sName         = "property[{$oProperty->getId()}][date]"
-		sValue        = $oValue->getValueForForm()
-		sInputClasses = 'width-150 js-date-picker'
-		sNote         = $oProperty->getDescription()
-		sLabel        = $oProperty->getTitle()}
+{include "components/field/field.text.tpl"
+		name         = "property[{$oProperty->getId()}][date]"
+		value        = $oValue->getValueForForm()
+		inputClasses = 'width-150 js-date-picker'
+		note         = $oProperty->getDescription()
+		label        = $oProperty->getTitle()}
 
 {if $oProperty->getParam('use_time')}
 

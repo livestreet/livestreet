@@ -4,7 +4,7 @@
 
 {function editor_help_item}
 {strip}
-	{foreach $aItems as $aItem}
+	{foreach $items as $aItem}
 		<dl class="editor-help-item">
 			{foreach $aItem['tags'] as $aTag}
 				<dt>
@@ -21,7 +21,7 @@
 {/function}
 
 
-<div class="editor-help js-editor-help" data-form-id="{$smarty.local.sTargetId}">
+<div class="editor-help js-editor-help" data-form-id="{$smarty.local.targetId}">
 	<header class="editor-help-header clearfix">
 		<a href="#" class="link-dotted help-link js-editor-help-toggle">{$aLang.editor.markup.help.link_show}</a>
 	</header>
@@ -30,7 +30,7 @@
 		<h3 class="h3">{$aLang.editor.markup.help.special}</h3>
 
 		<div class="mb-30">
-			{editor_help_item aItems=[
+			{editor_help_item items=[
 				[ 'tags' => [ [ 'text' => '&lt;cut&gt;' ] ], 'def' => $aLang.editor.markup.help.special_cut ],
 				[ 'tags' => [ [ 'text' => "&lt;cut name=\"{$aLang.editor.markup.help.special_cut_name_example_name}\"&gt;" ] ], 'def' => $aLang.editor.markup.help.special_cut_name ],
 				[ 'tags' => [ [ 'text' => "&lt;video&gt;http://...&lt;/video&gt;", 'insert' => '&lt;video&gt;&lt;/video&gt;' ] ], 'def' => $aLang.editor.markup.help.special_video ],
@@ -42,7 +42,7 @@
 
 		<div class="clearfix">
 			<ul class="editor-help-col">
-				{editor_help_item aItems=[
+				{editor_help_item items=[
 					[ 'tags' => [
 						[ 'text' => '&lt;h4&gt;&lt;/h4&gt;' ],
 						[ 'text' => '&lt;h5&gt;&lt;/h5&gt;' ],
@@ -60,7 +60,7 @@
 			</ul>
 
 			<ul class="editor-help-col">
-				{editor_help_item aItems=[
+				{editor_help_item items=[
 					[ 'tags' => [ [ 'text' => "&lt;hr /&gt;" ] ], 'def' => $aLang.editor.markup.help.standart_hr ],
 					[ 'tags' => [ [ 'text' => "&lt;blockquote&gt;&lt;/blockquote&gt;" ] ], 'def' => $aLang.editor.markup.help.standart_blockquote ],
 					[ 'tags' => [

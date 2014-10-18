@@ -3,9 +3,9 @@
  *
  * @param integer $iTargetId
  * @param string  $sTargetType
- * @param string  $sClasses          Дополнительные классы
- * @param string  $sAttributes       Атрибуты
- * @param string  $sMods             Модификаторы
+ * @param string  $classes          Дополнительные классы
+ * @param string  $attributes       Атрибуты
+ * @param string  $mods             Модификаторы
  * @param string  $sEditorSet        (light) Стиль редактора
  *
  * @styles css/comments.css
@@ -21,25 +21,25 @@
 
 {* Форма *}
 <form method           = "post"
-	  class            = "{$sComponent} {mod name=$sComponent mods=$sMods} {$smarty.local.classes} js-comment-form"
+	  class            = "{$sComponent} {mod name=$sComponent mods=$mods} {$smarty.local.classes} js-comment-form"
 	  enctype          = "multipart/form-data"
 	  data-target-id   = "{$iTargetId}"
 	  data-target-type = "{$sTargetType}"
-	  {$smarty.local.sAttributes}>
+	  {$smarty.local.attributes}>
 
 	{block 'comment-form'}
 		{hook run='comment-form-begin'}
 
 		{block 'comment-form-fields'}
 			{* Скрытые поля *}
-			{include 'components/field/field.hidden.tpl' sName='reply' sValue='0' sId='form_comment_reply'}
-			{include 'components/field/field.hidden.tpl' sName='cmt_target_id' sValue=$iTargetId}
+			{include 'components/field/field.hidden.tpl' name='reply' value='0' id='form_comment_reply'}
+			{include 'components/field/field.hidden.tpl' name='cmt_target_id' value=$iTargetId}
 
 			{* Текст комментария *}
 			{include 'components/editor/editor.tpl'
 				sSet             = $smarty.local.sEditorSet|default:'light'
-				sName            = 'comment_text'
-				sInputClasses    = 'js-comment-form-text'
+				name            = 'comment_text'
+				inputClasses    = 'js-comment-form-text'
 				bShowHelp        = false
 				sMediaTargetType = 'comment'}
 		{/block}

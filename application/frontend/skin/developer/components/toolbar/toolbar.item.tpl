@@ -1,15 +1,15 @@
 {* Название компонента *}
-{$_sComponentName = 'toolbar-item'}
+{$component = 'toolbar-item'}
 
 {block 'toolbar_item_options'}
-	{$_sMods = ''}
-	{$_sClasses = ''}
-	{$_sAttributes = ''}
+	{$_mods = ''}
+	{$_classes = ''}
+	{$_attributes = ''}
 	{$_bShow = true}
 {/block}
 
 {if $_bShow}
-	<section class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} {$_sClasses}" {$_sAttributes}>
+	<section class="{$component} {mod name=$component mods=$_mods} {$_classes}" {$_attributes}>
 		{block 'toolbar_item'}{/block}
 	</section>
 {/if}

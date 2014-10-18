@@ -14,7 +14,7 @@
 	</div>
 {/if}
 
-{hook run='user_info_about_after' oUserProfile=$oUserProfile}
+{hook run='user_info_about_after' user=$oUserProfile}
 
 
 {**

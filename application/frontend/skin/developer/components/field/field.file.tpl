@@ -5,7 +5,7 @@
 {extends './field.tpl'}
 
 {block 'field' prepend}
-	{$_sMods = "$_sMods file"}
+	{$_mods = "$_mods file"}
 {/block}
 
 {block 'field_input'}

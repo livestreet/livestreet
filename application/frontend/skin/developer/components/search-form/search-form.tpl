@@ -7,20 +7,20 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'search-form'}
+{$component = 'search-form'}
 
-<form action="{$smarty.local.sAction}" method="{$smarty.local.sMethod|default:'get'}" class="{$_sComponentName} {mod name=$_sComponentName mods=$smarty.local.sMods} {$smarty.local.sClasses}" {$smarty.local.sAttributes}>
+<form action="{$smarty.local.action}" method="{$smarty.local.method|default:'get'}" class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
 	{block 'search_form'}
 		{include 'components/field/field.text.tpl'
-				sPlaceholder  = ( $smarty.local.sPlaceholder ) ? $smarty.local.sPlaceholder : $aLang.search.search
-				sNote         = $smarty.local.sNote
-				sValue        = $smarty.local.sValue
-				sInputClasses = "{$_sComponentName}-input {$smarty.local.sInputClasses}"
-				sInputAttributes   = $smarty.local.sInputAttributes
-				sName         = $smarty.local.sInputName|default:'q'}
+				placeholder  = ( $smarty.local.placeholder ) ? $smarty.local.placeholder : $aLang.search.search
+				note         = $smarty.local.note
+				value        = $smarty.local.value
+				inputClasses = "{$component}-input {$smarty.local.inputClasses}"
+				inputAttributes   = $smarty.local.inputAttributes
+				name         = $smarty.local.inputName|default:'q'}
 
-		{if ! $bNoSubmitButton}
-			{include 'components/button/button.tpl' mods='icon' classes="{$_sComponentName}-submit" icon='icon-search'}
+		{if ! $smarty.local.noSubmitButton}
+			{include 'components/button/button.tpl' mods='icon' classes="{$component}-submit" icon='icon-search'}
 		{/if}
 	{/block}
 </form>

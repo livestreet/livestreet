@@ -22,7 +22,7 @@
 		{elseif $sSearchType == 'comments'}
 			{include 'comments/comment_list.tpl' aComments=$aResultItems}
 		{else}
-			{hook run='search_result' sType=$sSearchType}
+			{hook run='search_result' type=$sSearchType}
 		{/if}
 	{elseif $_aRequest.q}
 		{include 'components/alert/alert.tpl' text=$aLang.search.alerts.empty mods='empty'}

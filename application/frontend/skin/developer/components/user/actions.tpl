@@ -1,5 +1,6 @@
 {**
  * Список действий
+ * TODO: Add hook
  *}
 
 {$user = $smarty.local.user}

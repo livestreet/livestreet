@@ -15,15 +15,15 @@
 		{foreach $poll->getAnswers() as $answer}
 			<li class="poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$answer->getId()}">
 				{include "components/field/field.{$type}.tpl"
-						 sName    = 'answers[]'
-						 sValue   = $answer->getId()
-						 sLabel   = $answer->getTitle()
-						 sClasses = 'js-poll-answer-$type'}
+						 name    = 'answers[]'
+						 value   = $answer->getId()
+						 label   = $answer->getTitle()
+						 classes = 'js-poll-answer-$type'}
 			</li>
 		{/foreach}
 	</ul>
 
-	{include 'components/field/field.hidden.tpl' sName='id' sValue=$poll->getId()}
+	{include 'components/field/field.hidden.tpl' name='id' value=$poll->getId()}
 
 	{if $oUserCurrent}
 		{* Проголосовать *}

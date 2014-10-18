@@ -21,13 +21,13 @@
 	{$bForbidAdd    = $smarty.local.bForbidAdd}
 
 	{if $bForbidAdd}
-		{$sMods = "$sMods forbid"}
+		{$mods = "$mods forbid"}
 	{/if}
 {/block}
 
 {add_block group='toolbar' name='toolbar/toolbar.comment.tpl' target='.js-comment'}
 
-<div class="{$sComponent} js-comments {mod name=$sComponent mods=$sMods} {$smarty.local.sClasses}"
+<div class="{$sComponent} js-comments {mod name=$sComponent mods=$mods} {$smarty.local.classes}"
 	id="comments"
 	data-target-type="{$sTargetType}"
 	data-target-id="{$iTargetId}"
@@ -47,14 +47,14 @@
 	 *}
 
 	{* Свернуть/развернуть все комментарии *}
-	{$aItems = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
+	{$items = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
 
 	{* Подписка на комментарии *}
 	{if $bAllowSubscribe and $oUserCurrent}
 		{* Подписан пользователь на комментарии или нет *}
 		{$bIsSubscribed = $oSubscribeComment && $oSubscribeComment->getStatus()}
 
-		{$aItems[] = [
+		{$items[] = [
 			'classes'    => "comments-subscribe js-comments-subscribe {if $bIsSubscribed}active{/if}",
 			'attributes' => "data-type=\"{$sTargetType}\" data-target-id=\"{$iTargetId}\"",
 			'text'       => ( $bIsSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
@@ -63,7 +63,7 @@
 
 	{* TODO: Добавить хук *}
 
-	{include 'components/actionbar/actionbar.tpl' items=$aItems classes='comments-actions'}
+	{include 'components/actionbar/actionbar.tpl' items=$items classes='comments-actions'}
 
 
 	{**

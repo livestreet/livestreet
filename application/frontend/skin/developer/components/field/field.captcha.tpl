@@ -7,14 +7,14 @@
 {extends './field.text.tpl'}
 
 {block 'field_input' prepend}
-	<span data-type="captcha" data-captcha-name="{$smarty.local.sCaptchaName}" class="form-auth-captcha"></span>
+	<span data-type="captcha" data-captcha-name="{$smarty.local.captchaName}" class="form-auth-captcha"></span>
 
-	{$_aRules = [
+	{$_rules = [
 		'required'          => true,
 		'remote'            => {router page='ajax/captcha/validate'},
 		'remote-method'     => 'POST',
-		'remote-param-name' => $smarty.local.sCaptchaName
+		'remote-param-name' => $smarty.local.captchaName
 	]}
 
-	{$_sInputClasses = "$_sInputClasses width-100"}
+	{$_inputClasses = "$_inputClasses width-100"}
 {/block}

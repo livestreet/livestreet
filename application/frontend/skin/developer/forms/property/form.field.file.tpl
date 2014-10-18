@@ -1,17 +1,18 @@
-{$oValue = $oProperty->getValue()}
-{$oValueType = $oValue->getValueTypeObject()}
+{$value = $oProperty->getValue()}
+{$valueType = $value->getValueTypeObject()}
 
-{include file="components/field/field.file.tpl"
-		 sName    = "property[{$oProperty->getId()}][file]"
-		 sClasses = 'width-300'
-		 sNote = $oProperty->getDescription()
-		 sLabel   = $oProperty->getTitle()}
+{include 'components/field/field.file.tpl'
+         name    = "property[{$oProperty->getId()}][file]"
+         classes = 'width-300'
+         note    = $oProperty->getDescription()
+         label   = $oProperty->getTitle()}
 
-{$aFile=$oValue->getDataOne('file')}
-{if $aFile}
-	Загружен файл: {$aFile.name}.{$aFile.extension} <br/>
-	<label>
-		<input type="checkbox" name="property[{$oProperty->getId()}][remove]" value="1"> &mdash; удалить файл
-	</label>
-	<br/>
+{$file = $value->getDataOne('file')}
+
+{if $file}
+    Загружен файл: {$file.name}.{$file.extension} <br/>
+    <label>
+        <input type="checkbox" name="property[{$oProperty->getId()}][remove]" value="1"> &mdash; удалить файл
+    </label>
+    <br/>
 {/if}

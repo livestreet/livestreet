@@ -9,7 +9,7 @@
 	<form action="{router page='talk'}" method="post" id="talk-form">
 		{* Скрытые поля *}
 		{include 'components/field/field.hidden.security_key.tpl'}
-		{include 'components/field/field.hidden.tpl' sName='form_action' sId='talk-form-action'}
+		{include 'components/field/field.hidden.tpl' name='form_action' id='talk-form-action'}
 
 		{* Экшнбар *}
 		{if $smarty.local.selectable}

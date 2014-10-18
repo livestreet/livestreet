@@ -17,9 +17,9 @@
 	<form method="post" action="" enctype="multipart/form-data">
 		{* Выравнивание *}
 		{include 'components/field/field.select.tpl'
-			sName  = 'align'
-			sLabel = {lang name='media.image_align.title'}
-			aItems = [
+			name  = 'align'
+			label = {lang name='media.image_align.title'}
+			items = [
 				[ 'value' => '',       'text' => {lang name='media.image_align.no'} ],
 				[ 'value' => 'left',   'text' => {lang name='media.image_align.left'} ],
 				[ 'value' => 'right',  'text' => {lang name='media.image_align.right'} ],
@@ -28,9 +28,9 @@
 
 	    {* Размер *}
 		{include 'components/field/field.select.tpl'
-			sName          = 'size'
-			sLabel         = {lang name='media.insert.settings.fields.size.label'}
-			sSelectedValue = $_aRequest.blog_category
-			aItems         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
+			name          = 'size'
+			label         = {lang name='media.insert.settings.fields.size.label'}
+			selectedValue = $_aRequest.blog_category
+			items         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
 	</form>
 {/block}

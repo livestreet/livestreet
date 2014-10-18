@@ -11,7 +11,7 @@
 		{/if}
 
 		{if $aBlock.type == 'template'}
-			{include file=$aBlock.name params=$aBlock.params}
+			{include $aBlock.name params=$aBlock.params}
 		{/if}
 	{/foreach}
 {/if}

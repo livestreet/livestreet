@@ -31,4 +31,4 @@
 
 {* Селект *}
 {* TODO: i18n *}
-{include 'components/field/field.select.tpl' sName="{$params.form_field}[]" aItems=$items sLabel='Категория' sSelectedValue=$selected}
+{include 'components/field/field.select.tpl' name="{$params.form_field}[]" items=$items label='Категория' selectedValue=$selected}

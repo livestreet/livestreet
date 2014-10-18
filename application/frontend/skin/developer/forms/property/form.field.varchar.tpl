@@ -1,7 +1,7 @@
 {$oValue = $oProperty->getValue()}
 
-{include file="components/field/field.text.tpl"
-		 sName  = "property[{$oProperty->getId()}]"
-		 sValue = $oValue->getValueVarchar()
-		 sNote = $oProperty->getDescription()
-		 sLabel = $oProperty->getTitle()}
+{include "components/field/field.text.tpl"
+		 name  = "property[{$oProperty->getId()}]"
+		 value = $oValue->getValueVarchar()
+		 note = $oProperty->getDescription()
+		 label = $oProperty->getTitle()}

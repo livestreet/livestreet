@@ -26,9 +26,9 @@
 
     {* E-mail *}
     {include 'components/field/field.text.tpl'
-             sName  = 'invite_mail'
-             sNote  = {lang name='user.settings.invites.fields.email.note'}
-             sLabel = {lang name='user.settings.invites.fields.email.label'}}
+             name  = 'invite_mail'
+             note  = {lang name='user.settings.invites.fields.email.note'}
+             label = {lang name='user.settings.invites.fields.email.label'}}
 
 	{hook run='form_settings_invite_end'}
 

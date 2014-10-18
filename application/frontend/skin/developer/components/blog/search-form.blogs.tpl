@@ -5,11 +5,11 @@
  *}
 
 {include 'components/search-form/search-form.tpl'
-		sName            = 'blog'
-		sMethod          = 'post'
-		sPlaceholder     = $aLang.blog.search.placeholder
-		sClasses         = 'js-tag-search-form'
-		sInputClasses    = 'js-search-ajax-option js-search-text-main'
-		sInputAttributes = 'data-type="blogs"'
-		sInputName       = 'blog_title'
-		bNoSubmitButton  = true}
+		name            = 'blog'
+		method          = 'post'
+		placeholder     = $aLang.blog.search.placeholder
+		classes         = 'js-tag-search-form'
+		inputClasses    = 'js-search-ajax-option js-search-text-main'
+		inputAttributes = 'data-type="blogs"'
+		inputName       = 'blog_title'
+		noSubmitButton  = true}

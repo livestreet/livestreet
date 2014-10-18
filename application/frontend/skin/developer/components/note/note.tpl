@@ -10,17 +10,17 @@
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'user-note'}
+{$component = 'user-note'}
 
 {* Установка дефолтных значений *}
 {$_oNote = $smarty.local.oObject}
 {$_bIsEditable = $smarty.local.bIsEditable|default:true}
 
-<div class="{$_sComponentName} {mod name=$_sComponentName mods=$sMods} {$smarty.local.sClasses}" data-param-i-user-id="{$smarty.local.iUserId}" {$smarty.local.sAttributes}>
+<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-user-id="{$smarty.local.iUserId}" {$smarty.local.attributes}>
 	{* Заметка *}
-	<div class="{$_sComponentName}-body js-{$_sComponentName}-body">
+	<div class="{$component}-body js-{$component}-body">
 		{* Текст *}
-		<p class="{$_sComponentName}-text js-{$_sComponentName}-text" {if ! $_oNote}style="display: none"{/if}>
+		<p class="{$component}-text js-{$component}-text" {if ! $_oNote}style="display: none"{/if}>
 			{if $_oNote}
 				{$_oNote->getText()}
 			{/if}
@@ -28,23 +28,23 @@
 
 		{* Действия *}
 		{if $_bIsEditable}
-			<ul class="{$_sComponentName}-actions js-{$_sComponentName}-actions" {if ! $_oNote}style="display: none;"{/if}>
-				<li><a href="#" class="link-dotted js-{$_sComponentName}-actions-edit">{$aLang.common.edit}</a></li>
-				<li><a href="#" class="link-dotted js-{$_sComponentName}-actions-remove">{$aLang.common.remove}</a></li>
+			<ul class="{$component}-actions js-{$component}-actions" {if ! $_oNote}style="display: none;"{/if}>
+				<li><a href="#" class="link-dotted js-{$component}-actions-edit">{$aLang.common.edit}</a></li>
+				<li><a href="#" class="link-dotted js-{$component}-actions-remove">{$aLang.common.remove}</a></li>
 			</ul>
 
 			{* Добавить *}
-			<a href="#" class="link-dotted {$_sComponentName}-add js-{$_sComponentName}-add" {if $_oNote}style="display:none;"{/if}>{$aLang.user_note.add}</a>
+			<a href="#" class="link-dotted {$component}-add js-{$component}-add" {if $_oNote}style="display:none;"{/if}>{$aLang.user_note.add}</a>
 		{/if}
 	</div>
 
 	{* Форма редактирования *}
 	{if $_bIsEditable}
-		<form class="{$_sComponentName}-form js-{$_sComponentName}-form" style="display: none;">
-			{include 'components/field/field.textarea.tpl' sInputClasses="$_sComponentName-form-text js-$_sComponentName-form-text"}
+		<form class="{$component}-form js-{$component}-form" style="display: none;">
+			{include 'components/field/field.textarea.tpl' inputClasses="$component-form-text js-$component-form-text"}
 
-			{include 'components/button/button.tpl' mods='primary' classes="js-$_sComponentName-form-save" text=$aLang.common.save}
-			{include 'components/button/button.tpl' type='button' classes="js-$_sComponentName-form-cancel" text=$aLang.common.cancel}
+			{include 'components/button/button.tpl' mods='primary' classes="js-$component-form-save" text=$aLang.common.save}
+			{include 'components/button/button.tpl' type='button' classes="js-$component-form-cancel" text=$aLang.common.cancel}
 		</form>
 	{/if}
 </div>

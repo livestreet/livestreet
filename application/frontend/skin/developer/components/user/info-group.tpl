@@ -7,7 +7,7 @@
 {hook run="{$component}-{$smarty.local.name}-before"}
 
 {* Получаем пункты установленные плагинами *}
-{hook run="{$component}-{$smarty.local.name}-items" assign='itemsHook' aItems=$smarty.local.items array=true}
+{hook run="{$component}-{$smarty.local.name}-items" assign='itemsHook' items=$smarty.local.items array=true}
 {$items = $itemsHook|default:$smarty.local.items}
 
 {if $smarty.local.html || $smarty.local.items}
@@ -20,7 +20,7 @@
 			{if $smarty.local.html}
 				{$smarty.local.html}
 			{else}
-				{include 'components/info-list/info-list.tpl' aInfoList=$smarty.local.items sClasses='user-info-group-items'}
+				{include 'components/info-list/info-list.tpl' aInfoList=$smarty.local.items classes='user-info-group-items'}
 			{/if}
 		</div>
 	</div>

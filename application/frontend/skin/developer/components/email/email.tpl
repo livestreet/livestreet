@@ -65,7 +65,7 @@
 									{* Текст *}
 									<tr>
 										<td valign="top">
-											{block name='content'}{/block}
+											{block 'content'}{/block}
 											<br>
 											<br>
 											{$aLang.emails.common.regards} <a href="{Router::GetPath('/')}">{Config::Get('view.name')}</a>

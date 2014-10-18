@@ -1,11 +1,11 @@
 {**
  * Скрытое поле
  *
- * @param sName       string  (null)     Атрибут name
- * @param sId         string  (null)     Атрибут id
- * @param sValue      string  (null)     Атрибут name
- * @param sClasses    string  (null)     Дополнительные классы (указываются через пробел)
- * @param sAttributes string  (null)     Атрибуты (указываются через пробел)
+ * @param name       string  (null)     Атрибут name
+ * @param id         string  (null)     Атрибут id
+ * @param value      string  (null)     Атрибут name
+ * @param classes    string  (null)     Дополнительные классы (указываются через пробел)
+ * @param attributes string  (null)     Атрибуты (указываются через пробел)
  *}
 
 {extends './field.tpl'}

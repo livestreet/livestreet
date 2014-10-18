@@ -17,13 +17,13 @@
 	<form method="post" action="" enctype="multipart/form-data">
 		{* Показывать ленту с превьюшками *}
 		{include 'components/field/field.checkbox.tpl'
-				 sName    = 'use_thumbs'
-				 bChecked = true
-				 sLabel   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
+				 name    = 'use_thumbs'
+				 checked = true
+				 label   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
 
 		{* Показывать описания фотографий *}
 		{include 'components/field/field.checkbox.tpl'
-				 sName    = 'show_caption'
-				 sLabel   = {lang name='media.photoset.settings.fields.show_caption.label'}}
+				 name    = 'show_caption'
+				 label   = {lang name='media.photoset.settings.fields.show_caption.label'}}
 	</form>
 {/block}

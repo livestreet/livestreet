@@ -1,32 +1,32 @@
 {**
  * Базовый шаблон поля формы
  *
- * @param string  sName      Имя поля (параметр name)
- * @param string  sLabel     Текст лэйбла
- * @param string  sNote      Подсказка (отображается под полем)
- * @param string  aRules     Правила валидации
+ * @param string  name      Имя поля (параметр name)
+ * @param string  label     Текст лэйбла
+ * @param string  note      Подсказка (отображается под полем)
+ * @param string  rules     Правила валидации
  *}
 
 {* Название компонента *}
-{$_sComponentName = 'field'}
+{$component = 'field'}
 
 {block 'field_options'}
 	{* Уникальный ID *}
-	{$_uid = $smarty.local.sId|default:($_sComponentName|cat:rand(0, 10e10))}
+	{$_uid = $smarty.local.id|default:($component|cat:rand(0, 10e10))}
 
 	{* Переменные *}
-	{$_sMods = $smarty.local.sMods}
-	{$_sValue = $smarty.local.sValue}
-	{$_sInputClasses = $smarty.local.sInputClasses}
-	{$_sInputAttributes = $smarty.local.sInputAttributes}
-	{$_aRules = $smarty.local.aRules|default:[]}
-	{$name = $smarty.local.sName}
-	{$label = $smarty.local.sLabel}
+	{$_mods = $smarty.local.mods}
+	{$_value = $smarty.local.value}
+	{$_inputClasses = $smarty.local.inputClasses}
+	{$_inputAttributes = $smarty.local.inputAttributes}
+	{$_rules = $smarty.local.rules|default:[]}
+	{$name = $smarty.local.name}
+	{$label = $smarty.local.label}
 {/block}
 
 {* Правила валидации *}
-{if $smarty.local.sEntity}
-	{field_make_rule entity=$smarty.local.sEntity field=$smarty.local.sEntityField|default:$name scenario=$smarty.local.sEntityScenario assign=_aRules}
+{if $smarty.local.entity}
+	{field_make_rule entity=$smarty.local.entity field=$smarty.local.entityField|default:$name scenario=$smarty.local.entityScenario assign=_rules}
 {/if}
 
 {**
@@ -34,10 +34,10 @@
  *}
 {function field_input_attr_value}
 {strip}
-	{if $_sValue}
-		{$_sValue}
-	{elseif isset($_aRequest[$name])}
-		{$_aRequest[$name]}
+	{if $_value}
+		{$_value}
+	{elseif isset($_aRequest[ $name ])}
+		{$_aRequest[ $name ]}
 	{/if}
 {/strip}
 {/function}
@@ -45,37 +45,39 @@
 {**
  * Общие атрибуты
  *}
-{function field_input_attr_common bUseValue=true}
+{function field_input_attr_common useValue=true}
 	id="{$_uid}"
-	class="{$_sComponentName}-input {$_sInputClasses}"
-	{if $bUseValue}value="{field_input_attr_value}"{/if}
+	class="{$component}-input {$_inputClasses}"
+	{if $useValue}value="{field_input_attr_value}"{/if}
 	{if $name}name="{$name}"{/if}
-	{if $smarty.local.sPlaceholder}placeholder="{$smarty.local.sPlaceholder}"{/if}
-	{if $smarty.local.bIsDisabled}disabled{/if}
-	{foreach $_aRules as $sRule}
-		{if is_bool( $sRule@value ) && ! $sRule@value}{continue}{/if}
+	{if $smarty.local.placeholder}placeholder="{$smarty.local.placeholder}"{/if}
+	{if $smarty.local.isDisabled}disabled{/if}
+	{foreach $_rules as $rule}
+		{if is_bool( $rule@value ) && ! $rule@value}
+			{continue}
+		{/if}
 
-		data-{$sRule@key}="{$sRule@value}"
+		data-{$rule@key}="{$rule@value}"
 	{/foreach}
-	{$_sInputAttributes}
+	{$_inputAttributes}
 {/function}
 
 
 {block 'field'}
-	<div class="{$_sComponentName} {mod name=$_sComponentName mods=$_sMods} clearfix {$smarty.local.sClasses} {block 'field_classes'}{/block}" {$smarty.local.sAttributes}>
+	<div class="{$component} {mod name=$component mods=$_mods} clearfix {$smarty.local.classes} {block 'field_classes'}{/block}" {$smarty.local.attributes}>
 		{* Лэйбл *}
 		{if $label}
-			<label for="{$_uid}" class="{$_sComponentName}-label">{$label}</label>
+			<label for="{$_uid}" class="{$component}-label">{$label}</label>
 		{/if}
 
 		{* Блок с инпутом *}
-		<div class="{$_sComponentName}-holder">
+		<div class="{$component}-holder">
 			{block 'field_input'}{/block}
 		</div>
 
 		{* Подсказка *}
-		{if $smarty.local.sNote}
-			<small class="{$_sComponentName}-note js-{$_sComponentName}-note">{$smarty.local.sNote}</small>
+		{if $smarty.local.note}
+			<small class="{$component}-note js-{$component}-note">{$smarty.local.note}</small>
 		{/if}
 	</div>
 {/block}

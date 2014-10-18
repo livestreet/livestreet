@@ -9,5 +9,5 @@
 {include 'components/comment/comment.tpl'
 	oComment    = $smarty.local.entry
 	bShowReply  = $smarty.local.showReply
-	sAttributes = "data-type=\"{$smarty.local.type}\""
-	sClasses    = "wall-comment js-wall-entry {$smarty.local.classes}"}
+	attributes = "data-type=\"{$smarty.local.type}\""
+	classes    = "wall-comment js-wall-entry {$smarty.local.classes}"}

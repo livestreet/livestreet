@@ -27,5 +27,5 @@
 
 {* Подвал *}
 {block 'block_footer'}
-	{include 'components/tags/search-form.tags.tpl' sMods='light'}
+	{include 'components/tags/search-form.tags.tpl' mods='light'}
 {/block}

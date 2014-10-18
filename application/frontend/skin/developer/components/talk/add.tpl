@@ -11,26 +11,26 @@
 
 	{* Получатели *}
 	{include 'components/field/field.text.tpl'
-			 sName    = 'talk_users'
-			 aRules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
-			 sLabel   = $aLang.talk.add.fields.users.label
-			 sInputClasses = 'autocomplete-users-sep js-input-talk-users'
-			 sNote    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">{lang 'talk.add.choose_friends'}</a>"}
+			 name    = 'talk_users'
+			 rules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
+			 label   = $aLang.talk.add.fields.users.label
+			 inputClasses = 'autocomplete-users-sep js-input-talk-users'
+			 note    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">{lang 'talk.add.choose_friends'}</a>"}
 
 	{* Заголовок *}
 	{include 'components/field/field.text.tpl'
-			 sName    = 'talk_title'
-			 aRules   = [ 'required' => true, 'rangelength' => '[2,200]' ]
-			 sLabel   = $aLang.talk.add.fields.title.label}
+			 name    = 'talk_title'
+			 rules   = [ 'required' => true, 'rangelength' => '[2,200]' ]
+			 label   = $aLang.talk.add.fields.title.label}
 
 	{* Текст сообщения *}
 	{include 'components/editor/editor.tpl'
 			sSet             = 'light'
 			sMediaTargetType = 'talk'
-			sName            = 'talk_text'
-			aRules           = [ 'required' => true, 'rangelength' => '[2,3000]' ]
-			sLabel           = $aLang.talk.add.fields.text.label
-			sInputClasses    = 'js-editor'}
+			name            = 'talk_text'
+			rules           = [ 'required' => true, 'rangelength' => '[2,3000]' ]
+			label           = $aLang.talk.add.fields.text.label
+			inputClasses    = 'js-editor'}
 
 	{* Preview *}
 	<div class="text mb-20" id="text_preview" style="display: none;"></div>

@@ -14,8 +14,8 @@
 
         {* E-mail *}
         {include 'components/field/field.email.tpl'
-                 sValue = $user->getMail()|escape
-                 sNote  = {lang name='user.settings.account.fields.email.note'}}
+                 value = $user->getMail()|escape
+                 note  = {lang name='user.settings.account.fields.email.note'}}
 	</fieldset>
 
 
@@ -26,26 +26,26 @@
 
         {* Текущий пароль *}
         {include 'components/field/field.text.tpl'
-                 sName    = 'password_now'
-                 sType    = 'password'
-                 sInputClasses = 'width-200'
-                 sLabel   = {lang name='user.settings.account.fields.password.label'}}
+                 name    = 'password_now'
+                 type    = 'password'
+                 inputClasses = 'width-200'
+                 label   = {lang name='user.settings.account.fields.password.label'}}
 
         {* Новый пароль *}
         {include 'components/field/field.text.tpl'
-                 sName    = 'password'
-                 aRules   = [ 'rangelength' => '[5,20]' ]
-                 sType    = 'password'
-                 sInputClasses = 'width-200 js-user-settings-password'
-                 sLabel   = {lang name='user.settings.account.fields.password_new.label'}}
+                 name    = 'password'
+                 rules   = [ 'rangelength' => '[5,20]' ]
+                 type    = 'password'
+                 inputClasses = 'width-200 js-user-settings-password'
+                 label   = {lang name='user.settings.account.fields.password_new.label'}}
 
         {* Повторить новый пароль *}
         {include 'components/field/field.text.tpl'
-                 sName    = 'password_confirm'
-                 aRules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-user-settings-password' ]
-                 sType    = 'password'
-                 sInputClasses = 'width-200'
-                 sLabel   = {lang name='user.settings.account.fields.password_confirm.label'}}
+                 name    = 'password_confirm'
+                 rules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-user-settings-password' ]
+                 type    = 'password'
+                 inputClasses = 'width-200'
+                 label   = {lang name='user.settings.account.fields.password_confirm.label'}}
 	</fieldset>
 
 

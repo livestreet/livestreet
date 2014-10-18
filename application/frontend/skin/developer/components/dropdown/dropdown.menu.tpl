@@ -10,7 +10,7 @@
  *}
 
 {include 'components/nav/nav.tpl'
-	name       = "{$smarty.local.name}_menu"
+	name       = ( $smarty.local.name ) ? "{$smarty.local.name}_menu" : ''
 	activeItem = $smarty.local.activeItem
 	mods       = 'stacked dropdown'
 	classes    = "dropdown-menu {$smarty.local.classes}"
