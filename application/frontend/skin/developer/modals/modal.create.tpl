@@ -12,8 +12,8 @@
 
 {block 'modal_content'}
 	{function modal_create_item}
-		<li class="write-item-type-{$name}">
-			{$sUrl = "{if ! $url}{router page=$name}add{else}{$url}{/if}"}
+		<li class="write-item-type-{$item}">
+			{$sUrl = "{if ! $url}{router page=$item}add{else}{$url}{/if}"}
 
 			<a href="{$sUrl}" class="write-item-image"></a>
 			<a href="{$sUrl}" class="write-item-link">{$sTitle}</a>
@@ -24,12 +24,12 @@
 		{$types = $LS->Topic_GetTopicTypes()}
 
 		{foreach $types as $type}
-			{modal_create_item name='topic' url=$type->getUrlForAdd() sTitle=$type->getName()}
+			{modal_create_item item='topic' url=$type->getUrlForAdd() sTitle=$type->getName()}
 		{/foreach}
 
-		{modal_create_item name='blog' sTitle={lang 'modal_create.items.blog'}}
-		{modal_create_item name='talk' sTitle={lang 'modal_create.items.talk'}}
-		{modal_create_item name='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic.drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
+		{modal_create_item item='blog' sTitle={lang 'modal_create.items.blog'}}
+		{modal_create_item item='talk' sTitle={lang 'modal_create.items.talk'}}
+		{modal_create_item item='draft' url="{router page='content'}drafts/" sTitle="{$aLang.topic.drafts} {if $iUserCurrentCountTopicDraft}({$iUserCurrentCountTopicDraft}){/if}"}
 
 		{hook run='write_item' isPopup=true}
 	</ul>

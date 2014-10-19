@@ -39,9 +39,9 @@
 {* Визуальный редактор *}
 {if $type == 'visual'}
 	{hookb run='editor_visual'}
-		{asset type='js' name='editor_visual' "{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/tinymce.min.js"}
-		{asset type='js' name='editor_visual_1' "{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/jquery.tinymce.min.js"}
-		{asset type='js' name='editor_visual_2' "{Config::Get('path.skin.web')}/components/editor/js/editor.visual.js"}
+		{asset type='js' name='editor_visual' file="{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/tinymce.min.js"}
+		{asset type='js' name='editor_visual_1' file="{Config::Get('path.skin.web')}/components/editor/vendor/tinymce/js/tinymce/jquery.tinymce.min.js"}
+		{asset type='js' name='editor_visual_2' file="{Config::Get('path.skin.web')}/components/editor/js/editor.visual.js"}
 
 		{editor_textarea}
 	{/hookb}
@@ -49,12 +49,12 @@
 {* Markup редактор *}
 {else}
 	{hookb run='editor_markup'}
-		{asset type='js' name='editor_markup' "{Config::Get('path.skin.web')}/components/editor/vendor/markitup/jquery.markitup.js"}
-		{asset type='js' name='editor_markup_options' "{Config::Get('path.skin.web')}/components/editor/js/editor.markup.js"}
+		{asset type='js' name='editor_markup' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/jquery.markitup.js"}
+		{asset type='js' name='editor_markup_options' file="{Config::Get('path.skin.web')}/components/editor/js/editor.markup.js"}
 
-		{asset type='css' name='editor_markup' "{Config::Get('path.skin.web')}/components/editor/vendor/markitup/skins/livestreet/style.css"}
-		{asset type='css' name='editor_markup_set' "{Config::Get('path.skin.web')}/components/editor/vendor/markitup/sets/livestreet/style.css"}
-		{asset type='css' name='editor_markup_help' "{Config::Get('path.skin.web')}/components/editor/css/editor.css"}
+		{asset type='css' name='editor_markup' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/skins/livestreet/style.css"}
+		{asset type='css' name='editor_markup_set' file="{Config::Get('path.skin.web')}/components/editor/vendor/markitup/sets/livestreet/style.css"}
+		{asset type='css' name='editor_markup_help' file="{Config::Get('path.skin.web')}/components/editor/css/editor.css"}
 
 		{editor_textarea}
 
