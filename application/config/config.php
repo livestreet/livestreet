@@ -383,6 +383,8 @@ $config['router']['config']['default']['event'] = null;
 $config['router']['config']['default']['params'] = null;
 $config['router']['config']['default']['request'] = null;
 $config['router']['config']['action_not_found'] = 'error';
+// Принудительное использование https для экшенов. Например, 'login' и 'registration'
+$config['router']['force_secure'] = array();
 
 /**
  * Настройки вывода блоков
