@@ -68,6 +68,11 @@ $config['block']['tags']['personal_tags_count'] = 70;         // сколько 
  * Общие настройки
  */
 $config['general']['close'] = false; // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
+$config['general']['close_exceptions'] = array(
+    'registration',
+    'login',
+    'ajax' => array('captcha'),
+); // список action/avent для исключения при закрытом режиме
 $config['general']['rss_editor_mail'] = '___sys.mail.from_email___'; // мыло редактора РСС
 $config['general']['reg']['invite'] = false; // использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!
 $config['general']['reg']['activation'] = false; // использовать активацию при регистрации или нет
