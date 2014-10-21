@@ -50,6 +50,7 @@
 			mediaTargetType = 'blog'
 			name            = 'blog_description'
 			rules           = [ 'required' => true, 'rangelength' => '[10,3000]' ]
+            inputClasses    = 'js-editor-default'
 			label           = $aLang.blog.add.fields.description.label}
 
 
@@ -65,15 +66,19 @@
 
 	{* Аватар *}
 	{if $oBlogEdit and $oBlogEdit->getAvatar()}
-		{foreach Config::Get('module.blog.avatar_size') as $iSize}
-			{if $iSize}<img src="{$oBlogEdit->getAvatarPath({$iSize})}">{/if}
-		{/foreach}
+		{$uploadedImages = []}
 
-		{include 'components/field/field.checkbox.tpl' name='avatar_delete' noMargin=true value='on' label=$aLang.common.remove}
+		{foreach Config::Get('module.blog.avatar_size') as $size}
+			{if $image = $oBlogEdit->getAvatarPath( $size )}
+				{$uploadedImages[] = $image}
+			{/if}
+		{/foreach}
 	{/if}
 
-	{include 'components/field/field.file.tpl'
+	{include 'components/field/field.image.tpl'
 			 name  = 'avatar'
+			 removeName  = 'avatar_delete'
+			 uploadedFiles  = $uploadedImages
 			 label = $aLang.blog.add.fields.avatar.label}
 
 

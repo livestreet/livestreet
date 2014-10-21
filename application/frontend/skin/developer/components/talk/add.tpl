@@ -30,7 +30,7 @@
 			name            = 'talk_text'
 			rules           = [ 'required' => true, 'rangelength' => '[2,3000]' ]
 			label           = $aLang.talk.add.fields.text.label
-			inputClasses    = 'js-editor'}
+			inputClasses    = 'js-editor-default'}
 
 	{* Preview *}
 	<div class="text mb-20" id="text_preview" style="display: none;"></div>

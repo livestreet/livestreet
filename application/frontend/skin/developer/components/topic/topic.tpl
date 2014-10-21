@@ -47,19 +47,7 @@
 	{* Дополнительные поля *}
 	{block 'topic_content_properties'}
 		{if ! $isList}
-			{$properties = $topic->property->getPropertyList()}
-			{$info = []}
-
-			{foreach $properties as $property}
-				{$mValue = $property->getValue()->getValueForDisplay()}
-
-				{$info[] = [
-					'label'   => $property->getTitle(),
-					'content' => $property->getValue()->getValueForDisplay()
-				]}
-			{/foreach}
-
-			{include 'components/info-list/info-list.tpl' aInfoList=$info}
+			{include 'components/property/output/list.tpl' properties=$topic->property->getPropertyList()}
 		{/if}
 	{/block}
 

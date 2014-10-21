@@ -536,6 +536,7 @@ $config['head']['default']['js'] = array(
     "___path.framework.frontend.web___/js/ui/autocomplete.js",
     "___path.framework.frontend.web___/js/ui/notification.js",
     /* LiveStreet */
+    "___path.skin.web___/components/ls-vendor/timepicker/jquery-ui-timepicker-addon.js",
     "___path.skin.web___/components/tabs/js/tab.js",
     "___path.skin.web___/components/tabs/js/tabs.js",
     "___path.skin.web___/components/modal/js/modal.js",
@@ -597,6 +598,7 @@ $config['head']['default']['css'] = array(
     "___path.framework.frontend.web___/css/reset.css",
     "___path.framework.frontend.web___/css/helpers.css",
     "___path.framework.frontend.web___/css/text.css",
+    "___path.skin.web___/components/ls-vendor/timepicker/jquery-ui-timepicker-addon.css",
     "___path.skin.web___/components/tabs/css/tabs.css",
     "___path.skin.web___/components/alert/css/alert.css",
     "___path.skin.web___/components/dropdown/css/dropdown.css",
@@ -604,6 +606,7 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/modal/css/modal.css",
     "___path.skin.web___/components/toolbar/css/toolbar.css",
     "___path.skin.web___/components/nav/css/nav.css",
+    "___path.skin.web___/components/property/css/property.css",
     "___path.framework.frontend.web___/css/forms.css",
     "___path.framework.frontend.web___/css/tooltip.css",
     "___path.framework.frontend.web___/css/typography.css",

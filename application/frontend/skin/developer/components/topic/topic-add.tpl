@@ -62,7 +62,7 @@
             label           = $aLang.topic.add.fields.text.label
             entityField     = 'topic_text_source'
             entity          = 'ModuleTopic_EntityTopic'
-            classes          = 'js-editor-default'
+            inputClasses    = 'js-editor-default'
             mediaTargetType = 'topic'
             mediaTargetId   = ( $topic ) ? $topic->getId() : ''}
     {/if}
@@ -76,15 +76,18 @@
             name    = 'topic[topic_tags]'
             value     = {(( $topic ) ? $topic->getTags() : '')|escape}
             rules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
-            label   = $aLang.topic.add.fields.tags.label
-            note    = $aLang.topic.add.fields.tags.note
+            label   = {lang 'topic.add.fields.tags.label'}
+            note    = {lang 'topic.add.fields.tags.note'}
             classes = 'width-full autocomplete-tags-sep'}
     {/if}
 
 
     {* Показывает дополнительные поля *}
-    {insert name="block" block="propertyUpdate" params=[ 'target' => $topic, 'entity' => 'ModuleTopic_EntityTopic', 'target_type' => 'topic_'|cat:$type->getCode() ]}
-
+    {insert name='block' block='propertyUpdate' params=[
+        'target'      => $topic,
+        'entity'      => 'ModuleTopic_EntityTopic',
+        'target_type' => "topic_{$type->getCode()}"
+    ]}
 
 
     {* Вставка опросов *}

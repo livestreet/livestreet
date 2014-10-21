@@ -1040,10 +1040,9 @@ return array(
         'drafts'             => 'Черновики',
         'read_more'          => 'Читать дальше',
         'author'             => 'Автор топика',
-        'tags'               => 'Теги', // Move to component tags
+        'tags'               => '___tags.tags___',
         'share'              => 'Поделиться',
         'is_draft'           => 'Топик находится в черновиках',
-        'add_favourite_tags' => 'Добавить свои теги',
         // Навигация
         'nav'                => array(
             'drafts'    => 'Черновики', // TODO: Remove duplication
@@ -1069,7 +1068,7 @@ return array(
                     'label' => 'Текст'
                 ),
                 'tags'            => array(
-                    'label' => 'Текст',
+                    'label' => '___tags.tags___',
                     'note'  => 'Теги нужно разделять запятой. Например: google, вконтакте, кирпич'
                 ),
                 'forbid_comments' => array(
