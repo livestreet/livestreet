@@ -54,9 +54,11 @@ class BlockPropertyUpdate extends Block
                 }
                 $aProperties = $this->Property_GetPropertiesForUpdate($oBehavior->getPropertyTargetType(),
                     $oTarget->getId());
-                $this->Viewer_Assign('aProperties', $aProperties);
+                $this->Viewer_Assign('properties', $aProperties, true);
                 break;
             }
         }
+
+        $this->SetTemplate('components/property/input/list.tpl');
     }
 }

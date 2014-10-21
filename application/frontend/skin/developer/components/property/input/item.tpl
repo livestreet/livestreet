@@ -1,0 +1,1 @@
+{include "./property.{$property->getType()}.tpl" property=$property}
