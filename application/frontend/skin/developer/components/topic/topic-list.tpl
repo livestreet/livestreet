@@ -8,7 +8,7 @@
 {$topics = $smarty.local.topics}
 
 {if $topics}
-	{add_block group='toolbar' name='toolbar/toolbar.topic.tpl' show=count( $topics )}
+	{add_block group='toolbar' name='components/toolbar-scrollnav/toolbar.scrollnav.tpl' show=count( $topics )}
 
 	{foreach $topics as $topic}
 		{include './topic-type.tpl' topic=$topic isList=true}

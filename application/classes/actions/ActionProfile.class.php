@@ -1162,7 +1162,7 @@ class ActionProfile extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('target', $iTarget, true);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.add_friend.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modal.add-friend.tpl"));
     }
 
     /**

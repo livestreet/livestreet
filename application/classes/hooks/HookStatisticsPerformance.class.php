@@ -48,17 +48,17 @@ class HookStatisticsPerformance extends Hook
          */
         $iTimeInit = $oEngine->GetTimeInit();
         $iTimeFull = round(microtime(true) - $iTimeInit, 3);
-        $this->Viewer_Assign('iTimeFullPerformance', $iTimeFull);
+        $this->Viewer_Assign('timeFullPerformance', $iTimeFull, true);
         /**
          * Получаем статистику по кешу и БД
          */
         $aStats = $oEngine->getStats();
         $aStats['cache']['time'] = round($aStats['cache']['time'], 5);
-        $this->Viewer_Assign('aStatsPerformance', $aStats);
+        $this->Viewer_Assign('stats', $aStats, true);
         $this->Viewer_Assign('bIsShowStatsPerformance', Router::GetIsShowStats());
         /**
          * В ответ рендерим шаблон статистики
          */
-        return $this->Viewer_Fetch('actions/ActionAdmin/statistics_performance.tpl');
+        return $this->Viewer_Fetch('components/perfomance/performance.tpl');
     }
 }

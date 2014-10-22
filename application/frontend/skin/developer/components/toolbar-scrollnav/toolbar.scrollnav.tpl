@@ -1,9 +1,6 @@
 {**
  * Тулбар
  * Кнопка прокручивания к следующему/предыдущему топику
- *
- * @styles css/toolbar.css
- * @scripts js/livestreet/toolbar.js
  *}
 
 {extends 'components/toolbar/toolbar.item.tpl'}

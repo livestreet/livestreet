@@ -224,7 +224,6 @@ ls.user = (function ($) {
 		return false;
 	};
 
-
     this.showCropImage = function(src, params) {
         params = params || {};
         var _this = this;

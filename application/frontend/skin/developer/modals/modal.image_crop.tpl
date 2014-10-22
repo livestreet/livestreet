@@ -1,9 +1,5 @@
 {**
  * Ресайз загруженного изображения
- *
- * @styles css/modals.css
- *
- * TODO: Унифицировать
  *}
 
 {extends 'components/modal/modal.tpl'}

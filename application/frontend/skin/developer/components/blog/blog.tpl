@@ -17,7 +17,7 @@
 
 {* Подключаем модальное окно удаления блога если пользователь админ *}
 {if $oUserCurrent and $oUserCurrent->isAdministrator()}
-	{include 'modals/modal.blog_delete.tpl'}
+	{include './modal.blog-delete.tpl'}
 {/if}
 
 {* Является ли пользователь администратором или управляющим блога *}

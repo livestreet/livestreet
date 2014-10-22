@@ -66,13 +66,12 @@
 		{$favourite = $topic->getFavourite()}
 
 		{if ! $isPreview}
-			{include 'components/tags/tag_list.tpl'
-				aTags              = $topic->getTagsArray()
-				bTagsUseFavourite  = true
-				showEditButton     = ! $favourite
-				aTagsFavourite     = ($favourite) ? $favourite->getTagsArray() : []
-				sTagsFavouriteType = 'topic'
-				iTagsFavouriteId   = $topic->getId()}
+			{include 'components/tags-favourite/tags.tpl'
+				tags          = $topic->getTagsArray()
+				tagsFavourite = ( $favourite ) ? $favourite->getTagsArray() : []
+				isEditable    = ! $favourite
+				targetType    = 'topic'
+				targetId      = $topic->getId()}
 		{/if}
 	{/if}
 

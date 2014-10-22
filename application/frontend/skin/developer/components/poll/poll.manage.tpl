@@ -1,14 +1,14 @@
 {**
  * Управления опросами (добавление/удаление/редактирование)
  *
- * @param string $sTargetId
- * @param string $sTargetType
+ * @param string $targetId
+ * @param string $targetType
  *
  * @styles poll.css
  * @scripts <common>/js/poll.js
  *}
 
-<div class="fieldset poll-manage js-poll-manage" data-type="{$sTargetType}" data-target-id="{$sTargetId}">
+<div class="fieldset poll-manage js-poll-manage" data-type="{$smarty.local.targetType}" data-target-id="{$smarty.local.targetId}">
 	<header class="fieldset-header">
 		<h3 class="fieldset-title">{$aLang.poll.polls}</h3>
 	</header>
@@ -19,8 +19,8 @@
 
 		{* Список добавленных опросов *}
 		{insert name="block" block="pollFormItems" params=[
-			'target_type' => $sTargetType,
-			'target_id'   => $sTargetId
+			'target_type' => $smarty.local.targetType,
+			'target_id'   => $smarty.local.targetId
 		]}
 	</div>
 </div>

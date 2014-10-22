@@ -147,9 +147,9 @@
 	{* Подключение модальных окон *}
 	{if $oUserCurrent}
 		{include 'modals/modal.create.tpl'}
-		{include 'modals/modal.favourite_tags.tpl'}
+		{include 'components/tags-favourite/modal.favourite_tags.tpl'}
 	{else}
-		{include 'modals/modal.auth.tpl'}
+		{include 'components/auth/modal.auth.tpl'}
 	{/if}
 
 
@@ -157,8 +157,8 @@
 	 * Тулбар
 	 * Добавление кнопок в тулбар
 	 *}
-	{add_block group='toolbar' name='toolbar/toolbar.admin.tpl' priority=100}
-	{add_block group='toolbar' name='toolbar/toolbar.scrollup.tpl' priority=-100}
+	{add_block group='toolbar' name='components/admin/toolbar.admin.tpl' priority=100}
+	{add_block group='toolbar' name='components/toolbar-scrollup/toolbar.scrollup.tpl' priority=-100}
 
 	{* Подключение тулбара *}
 	{include 'components/toolbar/toolbar.tpl'}

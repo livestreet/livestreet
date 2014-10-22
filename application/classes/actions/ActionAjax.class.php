@@ -401,7 +401,7 @@ class ActionAjax extends Action
         $oViewer->Assign('sTargetType', $sTargetType);
         $oViewer->Assign('sTargetId', $sTargetId);
         $oViewer->Assign('sTargetTmp', $sTargetTmp);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.poll_create.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/poll/modal.poll-create.tpl"));
     }
 
     protected function EventPollModalUpdate()

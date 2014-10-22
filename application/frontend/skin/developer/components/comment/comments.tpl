@@ -25,7 +25,7 @@
 	{/if}
 {/block}
 
-{add_block group='toolbar' name='toolbar/toolbar.comment.tpl' target='.js-comment'}
+{add_block group='toolbar' name='components/comment/toolbar.comment.tpl' target='.js-comment'}
 
 <div class="{$sComponent} js-comments {mod name=$sComponent mods=$mods} {$smarty.local.classes}"
 	id="comments"
