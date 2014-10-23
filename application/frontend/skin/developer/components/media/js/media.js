@@ -267,7 +267,7 @@
 				if ( response.bStateError ) {
 					ls.msg.error( response.sMsgTitle, response.sMsg );
 				} else {
-					this.insertTextToEditor( response.sText );
+					this.option( 'editor' ).lsEditor( 'insert', response.sText );
 					this.element.modal( 'hide' );
 					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
 				}
