@@ -78,7 +78,7 @@
             rules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
             label   = {lang 'topic.add.fields.tags.label'}
             note    = {lang 'topic.add.fields.tags.note'}
-            classes = 'width-full autocomplete-tags-sep'}
+            inputClasses = 'width-full autocomplete-tags-sep'}
     {/if}
 
 
