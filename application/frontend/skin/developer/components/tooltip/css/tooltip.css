@@ -1,0 +1,73 @@
+/**
+ * Tooltip
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.tooltip {
+	display: none;
+	position: absolute;
+	z-index: 9999;
+	min-width: 50px;
+	max-width: 300px;
+	background-color: #222;
+	color: #fff;
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,.2);
+	        box-shadow: 0 0 5px rgba(0,0,0,.2);
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	        border-radius: 4px;
+}
+.tooltip-title { padding: 13px 15px 0; font-weight: bold; }
+.tooltip-content { padding: 15px 15px; }
+
+/* Loading */
+.tooltip-content.loading { width: 50px; height: 50px; }
+
+/* Arrow */
+.tooltip:after,
+.tooltip:before {
+	content: '';
+	position: absolute;
+	top: auto;
+	right: auto;
+	bottom: auto;
+	left: auto;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+}
+.tooltip:before { border-width: 7px; }
+
+.tooltip.position-y-top:after     { left: 50%; top: -12px; margin-left: -6px; border-bottom-color: #222; }
+.tooltip.position-y-top:before    { left: 50%; top: -14px; margin-left: -7px; border-bottom-color: #222; }
+
+.tooltip.position-y-bottom:after  { left: 50%; bottom: -12px; margin-left: -6px; border-top-color: #222; }
+.tooltip.position-y-bottom:before { left: 50%; bottom: -14px; margin-left: -7px; border-top-color: #222; }
+
+.tooltip.position-x-right:after   { top: 50%; right: -12px; margin-top: -6px; border-left-color: #222; }
+.tooltip.position-x-right:before  { top: 50%; right: -14px; margin-top: -7px; border-left-color: #222; }
+
+.tooltip.position-x-left:after    { top: 50%; left: -12px; margin-top: -6px; border-right-color: #222; }
+.tooltip.position-x-left:before   { top: 50%; left: -14px; margin-top: -7px; border-right-color: #222; }
+
+
+/**
+ * Light skin
+ */
+.tooltip-light { background: #fff; color: #000; border: 1px solid #ddd; }
+.tooltip-light .tooltip-title { color: #000; }
+
+.tooltip-light.position-y-top:after     { border-bottom-color: #fff; }
+.tooltip-light.position-y-top:before    { border-bottom-color: #ccc; }
+
+.tooltip-light.position-y-bottom:after  { border-top-color: #fff; }
+.tooltip-light.position-y-bottom:before { border-top-color: #ccc; }
+
+.tooltip-light.position-x-right:after   { border-left-color: #fff; }
+.tooltip-light.position-x-right:before  { border-left-color: #ccc; }
+
+.tooltip-light.position-x-left:after    { border-right-color: #fff; }
+.tooltip-light.position-x-left:before   { border-right-color: #ccc; }
