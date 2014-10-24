@@ -70,7 +70,7 @@
 			this.elements = {
 				tabs: this.element.find( '[data-tab-type=tab-list] > [data-tab-type=tab]' ),
 				uploader: this.element.find( this.option( 'selectors.uploader' ) ),
-				blocks: this.element.find( this.option( 'selectors.block' ) ),
+				blocks: this.element.find( this.option( 'selectors.uploader' ) + ' ' + this.option( 'selectors.block' ) ),
 				insert: {
 					submit: this.element.find( this.option( 'selectors.insert.submit' ) )
 				},
