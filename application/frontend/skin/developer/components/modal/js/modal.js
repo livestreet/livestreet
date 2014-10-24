@@ -143,7 +143,7 @@ var ls = ls || {};
 	// Plugin
 	// ----------
 
-	$.widget( "livestreet.modal", {
+	$.widget( "livestreet.lsModal", {
 		/**
 		 * Дефолтные опции
 		 */
@@ -217,7 +217,7 @@ var ls = ls || {};
 		show: function () {
 			var isOverlayVisible = _overlay.isVisible();
 
-			_overlay.getActiveModal().modal('hide', false);
+			_overlay.getActiveModal().lsModal('hide', false);
 
 			if ( ! isOverlayVisible ) _overlay.element.css({ 'display' : 'block', 'visibility' : 'hidden' });
 			this.element.css({ 'display' : 'block', 'visibility' : 'hidden' });
@@ -286,7 +286,7 @@ var ls = ls || {};
 		 */
 		this.load = function (url, params, options) {
 			if ( ! _overlay.isVisible() ) _overlay.show();
-			_overlay.getActiveModal().modal('hide', false);
+			_overlay.getActiveModal().lsModal('hide', false);
 			_loader.show();
 
 			options.url = url;
@@ -299,7 +299,7 @@ var ls = ls || {};
 					ls.msg.error('Error', result.sMsg);
 				} else {
 					_loader.hide();
-					$( $.trim( result['sText'] ) ).modal( options ).modal('show');
+					$( $.trim( result['sText'] ) ).lsModal( options ).lsModal('show');
 				}
 			}, {
 				error: function () {
@@ -335,7 +335,7 @@ var ls = ls || {};
 	// Клик по оверлею
 	_overlay.element.on('click', function (e) {
 		if ( e.target == this ) {
-			_overlay.getActiveModal().modal('hide');
+			_overlay.getActiveModal().lsModal('hide');
 			_loader.hide();
 		}
 	});
@@ -344,7 +344,7 @@ var ls = ls || {};
 	$(document).on('keyup.modal', function (e) {
 		var modal = _overlay.getActiveModal();
 
-		if ( e.keyCode === 27 && modal.length ) modal.modal('hide');
+		if ( e.keyCode === 27 && modal.length ) modal.lsModal('hide');
 	});
 
 

@@ -1,0 +1,18 @@
+/**
+ * Информация о производительности
+ */
+
+.performance {
+	margin: 20px;
+	padding: 20px;
+}
+.performance table {
+	width: 100%;
+}
+.performance td {
+	vertical-align: top;
+}
+.performance h4 {
+	font-weight: bold;
+	font-size: 14px;
+}

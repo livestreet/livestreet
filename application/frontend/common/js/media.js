@@ -155,7 +155,7 @@ ls.media = (function ($) {
 			}
 
 			this.insertTextToEditor(sTextInsert);
-			this.elements.modal.modal('hide');
+			this.elements.modal.lsModal('hide');
 		}.bind(this));
 
 		// Загрузка медиа файлы по ссылке
@@ -165,7 +165,7 @@ ls.media = (function ($) {
 					ls.msg.error(data.sMsgTitle,data.sMsg);
 				} else {
 					this.insertTextToEditor(data.sText);
-					this.elements.modal.modal('hide');
+					this.elements.modal.lsModal('hide');
 					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
 				}
 			}.bind(this), {
@@ -400,7 +400,7 @@ ls.media = (function ($) {
 				ls.msg.error( response.sMsgTitle, response.sMsg );
 			} else {
 				this.insertTextToEditor( response.sTextResult );
-				this.elements.modal.modal( 'hide' );
+				this.elements.modal.lsModal( 'hide' );
 			}
 		}.bind( this ));
 	};

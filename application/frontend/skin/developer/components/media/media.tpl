@@ -5,7 +5,7 @@
 {extends 'components/modal/modal.tpl'}
 
 {block 'modal_id'}{$smarty.local.id}{/block}
-{block 'modal_class'}modal-upload-image js-modal-media{/block}
+{block 'modal_class'}modal--media js-modal-media{/block}
 {block 'modal_title'}{lang name='media.title'}{/block}
 {block 'modal_attributes'}data-modal-center="false"{/block}
 

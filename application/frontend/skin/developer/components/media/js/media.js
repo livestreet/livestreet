@@ -90,7 +90,7 @@
 			this.elements.url.blocks = this.elements.url.block_container.find( this.option( 'selectors.block' ) );
 
 			// Иниц-ия модального окна
-			this.element.modal({
+			this.element.lsModal({
 				aftershow: function () {
 					var list = _this.elements.uploader.lsUploader( 'getElement', 'list' );
 
@@ -160,14 +160,14 @@
 		 * 
 		 */
 		show: function() {
-			this.element.modal( 'show' );
+			this.element.lsModal( 'show' );
 		},
 
 		/**
 		 * 
 		 */
 		hide: function() {
-			this.element.modal( 'hide' );
+			this.element.lsModal( 'hide' );
 		},
 
 		/**
@@ -196,7 +196,7 @@
 					ls.msg.error( response.sMsgTitle, response.sMsg );
 				} else {
 					this.option( 'editor' ).lsEditor( 'insert', response.sTextResult );
-					this.element.modal( 'hide' );
+					this.element.lsModal( 'hide' );
 				}
 			}.bind( this ));
 		},
@@ -268,7 +268,7 @@
 					ls.msg.error( response.sMsgTitle, response.sMsg );
 				} else {
 					this.option( 'editor' ).lsEditor( 'insert', response.sText );
-					this.element.modal( 'hide' );
+					this.element.lsModal( 'hide' );
 					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
 				}
 			}.bind( this ), {

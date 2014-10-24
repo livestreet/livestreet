@@ -72,13 +72,13 @@ ls.user = (function ($) {
 
 		$('.js-modal-toggle-registration').on('click', function (e) {
 			$('.js-auth-tab-reg').lsTab('activate');
-			$('#modal-login').modal('show');
+			$('#modal-login').lsModal('show');
 			e.preventDefault();
 		});
 
 		$('.js-modal-toggle-login').on('click', function (e) {
 			$('.js-auth-tab-login').lsTab('activate');
-			$('#modal-login').modal('show');
+			$('#modal-login').lsModal('show');
 			e.preventDefault();
 		});
 
@@ -119,7 +119,7 @@ ls.user = (function ($) {
 			// Мержим логины
 			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
 
-			$('#modal-users-select').modal('hide');
+			$('#modal-users-select').lsModal('hide');
 		});
 
 		// Загрузка фотографии в профиль
@@ -150,7 +150,7 @@ ls.user = (function ($) {
 	 */
 	this.addComplaint = function(oForm) {
 		ls.ajax.submit(aRouter.profile + 'ajax-complaint-add/', oForm, function(result) {
-			$('#modal-complaint-user').modal('hide');
+			$('#modal-complaint-user').lsModal('hide');
 		});
 	};
 

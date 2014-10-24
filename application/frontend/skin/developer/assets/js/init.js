@@ -41,7 +41,8 @@ jQuery(document).ready(function($){
 	/**
 	 * Modals
 	 */
-	$('.js-modal-default').modal();
+	$('.js-modal-default').lsModal();
+
 
 	/**
 	 * Dropdowns
@@ -104,10 +105,33 @@ jQuery(document).ready(function($){
 	/**
 	 * Autocomplete
 	 */
-	ls.autocomplete.add($(".autocomplete-tags-sep"), aRouter['ajax']+'autocompleter/tag/', true);
-	ls.autocomplete.add($(".autocomplete-tags"), aRouter['ajax']+'autocompleter/tag/', false);
-	ls.autocomplete.add($(".autocomplete-users-sep"), aRouter['ajax']+'autocompleter/user/', true);
-	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
+	$( '.autocomplete-tags' ).lsAutocomplete({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/tag/'
+		}
+	});
+
+	$( '.autocomplete-tags-sep' ).lsAutocomplete({
+		multiple: true,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/tag/'
+		}
+	});
+
+	$( '.autocomplete-users' ).lsAutocomplete({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
+
+	$( '.autocomplete-users-sep' ).lsAutocomplete({
+		multiple: true,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
 
 
 	/**
@@ -198,7 +222,6 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
-	$(window)._scrollable();
 	$('.js-toolbar').toolbar({
 		target: '.grid-role-wrapper',
 		offsetX: 20

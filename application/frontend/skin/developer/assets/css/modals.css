@@ -40,12 +40,3 @@
 .crop-image-holder,
 .crop-previews { display: inline-block; vertical-align: top;  }
 .crop-preview { overflow: hidden; margin-bottom: 15px; }
-
-
-/**
- * Add media
- *
- * @template modals/modal.upload_image.tpl
- */
-.modal-upload-image { max-width: 1130px; border: none; }
-

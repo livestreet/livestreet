@@ -142,7 +142,7 @@ ls.tags = (function ($) {
 		});
 
 		this.oSubmitInputList.val( aTags.join(', ') );
-		this.oForm.modal('show');
+		this.oForm.lsModal('show');
 
 		return false;
 	};
@@ -151,7 +151,7 @@ ls.tags = (function ($) {
 	 * Скрывает форму редактирования тегов
 	 */
 	this.hideForm = function() {
-		this.oForm.modal('hide');
+		this.oForm.lsModal('hide');
 	};
 
 	/**

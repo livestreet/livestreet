@@ -7,7 +7,7 @@
 {extends './field.text.tpl'}
 
 {block 'field_input' prepend}
-	<span data-type="captcha" data-captcha-name="{$smarty.local.captchaName}" class="form-auth-captcha"></span>
+	<span data-type="captcha" data-captcha-name="{$smarty.local.captchaName}" class="field--captcha-image"></span>
 
 	{$_rules = [
 		'required'          => true,

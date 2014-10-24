@@ -26,7 +26,7 @@
 
 		{* Заметка *}
 		{if $usernote}
-			{include 'components/note/note.tpl' classes='js-user-note' oObject=$usernote iUserId=$user->getId()}
+			{include 'components/note/note.tpl' classes='js-user-note' note=$usernote targetId=$user->getId()}
 		{/if}
 
 		{* Информация *}
