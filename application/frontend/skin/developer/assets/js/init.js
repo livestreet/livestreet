@@ -45,6 +45,14 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Accordion
+	 */
+	$('.js-accordion-default').accordion({
+		collapsible: true
+	});
+
+
+	/**
 	 * Dropdowns
 	 */
 	$('.js-dropdown-default').livequery(function () {
@@ -242,6 +250,12 @@ jQuery(document).ready(function($){
 	 */
 	ls.talk.init();
 
+	// Форма поиска
+	$('.js-talk-search-form').accordion({
+		collapsible: true,
+		active: false
+	});
+
 
 	/**
 	 * Poll
@@ -329,6 +343,12 @@ jQuery(document).ready(function($){
 	 * Теги
 	 */
 	ls.tags.init();
+
+	// Облако тегов избранного
+	$('.js-tags-favourite-accordion').accordion({
+		collapsible: true,
+		active: false
+	});
 
 
 	/**
