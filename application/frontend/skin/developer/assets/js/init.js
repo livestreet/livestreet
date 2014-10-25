@@ -23,12 +23,6 @@ jQuery(document).ready(function($){
 	/**
 	 * Actionbar
 	 */
-	$('.js-talk-actionbar-select').lsActionbarItemSelect({
-		selectors: {
-			target_item: '.js-message-list-item'
-		}
-	});
-
 	$('.js-user-list-modal-actionbar').livequery(function () {
 		$( this ).lsActionbarItemSelect({
 			selectors: {
@@ -210,24 +204,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Comments
-	 */
-	$('.js-comments-topic').lsComments({
-		urls: {
-			add:  aRouter['blog'] + 'ajaxaddcomment/',
-			load: aRouter['blog'] + 'ajaxresponsecomment/'
-		}
-	});
-
-	$('.js-comments-talk').lsComments({
-		urls: {
-			add:  aRouter['talk'] + 'ajaxaddcomment/',
-			load: aRouter['talk'] + 'ajaxresponsecomment/'
-		}
-	});
-
-
-	/**
 	 * Toolbar
 	 */
 	$('.js-toolbar').toolbar({
@@ -244,6 +220,13 @@ jQuery(document).ready(function($){
 	 */
 	ls.user.init();
 
+	// Голосование за пользователя
+	$('.js-vote-user').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/user/'
+		}
+	});
+
 
 	/**
 	 * Talk
@@ -254,6 +237,39 @@ jQuery(document).ready(function($){
 	$('.js-talk-search-form').accordion({
 		collapsible: true,
 		active: false
+	});
+
+	// Добавление диалога в избранное
+	$('.js-favourite-talk').lsFavourite({
+		urls: {
+			toggle: aRouter['ajax'] + 'favourite/talk/'
+		}
+	});
+
+	// Комментарии
+	$('.js-comments-talk').lsComments({
+		urls: {
+			add:  aRouter['talk'] + 'ajaxaddcomment/',
+			load: aRouter['talk'] + 'ajaxresponsecomment/'
+		}
+	});
+
+	// Экшнбар
+	$('.js-talk-actionbar-select').lsActionbarItemSelect({
+		selectors: {
+			target_item: '.js-message-list-item'
+		}
+	});
+
+	// Добавление участников личного сообщения
+	$('.js-message-users').message_users();
+
+	// Черный список
+	$('.js-user-list-add-blacklist').user_list_add({
+		urls: {
+			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
+			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
+		}
 	});
 
 
@@ -288,6 +304,16 @@ jQuery(document).ready(function($){
 	 */
 	ls.blog.init();
 
+	// Голосование за блог
+	$('.js-vote-blog').vote({
+		urls: {
+			vote: aRouter['ajax'] + 'vote/blog/'
+		}
+	});
+
+	// Приглашение пользователей в блог
+	$('.js-user-list-add-blog-invite').lsBlogInvites();
+
 
 	/**
 	 * Topic
@@ -296,29 +322,7 @@ jQuery(document).ready(function($){
 	ls.topic.init();
 	ls.content.init();
 
-
-	/**
-	 * Vote
-	 */
-
-	// Голосование за пользователя
-	$('.js-vote-user').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/user/'
-		}
-	});
-
-	// Голосование за блог
-	$('.js-vote-blog').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/blog/'
-		}
-	});
-
-
-	/**
-	 * Пагинация
-	 */
+	// Пагинация
 	$('.js-pagination-topics').lsPagination({
 		hash: {
 			next: 'goTopic=first',
@@ -326,15 +330,10 @@ jQuery(document).ready(function($){
 		}
 	});
 
-
-	/**
-	 * Избранное
-	 */
-
-	// Личное сообщение
-	$('.js-favourite-talk').lsFavourite({
+	$('.js-comments-topic').lsComments({
 		urls: {
-			toggle: aRouter['ajax'] + 'favourite/talk/'
+			add:  aRouter['blog'] + 'ajaxaddcomment/',
+			load: aRouter['blog'] + 'ajaxresponsecomment/'
 		}
 	});
 
@@ -380,24 +379,6 @@ jQuery(document).ready(function($){
 		}
 	});
 
-
-	/**
-	 * Блоки добавления пользователей
-	 */
-
-	// Приглашение пользователей в блог
-	$('.js-user-list-add-blog-invite').lsBlogInvites();
-
-	// Добавление участников личного сообщения
-	$('.js-message-users').message_users();
-
-	// Черный список
-	$('.js-user-list-add-blacklist').user_list_add({
-		urls: {
-			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
-			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
-		}
-	});
 
 	/**
 	 * Лайтбокс

@@ -1,0 +1,7 @@
+/**
+ * Кнопка навигации по топикам
+ */
+
+.toolbar-item--topic a.toolbar-topic-prev {
+    border-bottom: 1px solid #eee;
+}

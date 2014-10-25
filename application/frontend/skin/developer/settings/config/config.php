@@ -30,7 +30,6 @@ $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'),
 	"___path.skin.assets.web___/css/tables.css",
 	"___path.skin.assets.web___/css/blocks.css",
 	"___path.skin.assets.web___/css/modals.css",
-	"___path.skin.assets.web___/css/toolbar.css",
 	"___path.skin.assets.web___/css/print.css"
 ));
 
