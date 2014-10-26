@@ -29,6 +29,7 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
 {
 
     protected $sFormatDateInput = 'dd.MM.yyyy';
+    protected $sFormatDateTimeInput = 'dd.MM.yyyy HH:mm';
 
     public function getValueForDisplay()
     {
@@ -42,22 +43,12 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
     public function getValueForForm()
     {
         $oValue = $this->getValueObject();
+        $oProperty = $oValue->getProperty();
 
         $sDate = $oValue->getValueDate();
+        $iTime = strtotime($sDate);
         // TODO: нужен конвертор формата дат вида Y в yyyy для учета $this->sFormatDateInput
-        return $sDate ? date('d.m.Y', strtotime($sDate)) : '';
-    }
-
-    public function getValueTimeH()
-    {
-        $sDate = $this->getValueObject()->getValueDate();
-        return $sDate ? date('H', strtotime($sDate)) : '';
-    }
-
-    public function getValueTimeM()
-    {
-        $sDate = $this->getValueObject()->getValueDate();
-        return $sDate ? date('i', strtotime($sDate)) : '';
+        return $sDate ? date('d.m.Y', $iTime) . ($oProperty->getParam('use_time') ? date(' H:i', $iTime) : '') : '';
     }
 
     public function validate()
@@ -66,36 +57,22 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
          * Данные поступают ввиде массива array( 'date'=>'..', 'time' => array( 'h' => '..', 'm' => '..' ) )
          */
         $aValue = $this->getValueForValidate();
+        $oValueObject = $this->getValueObject();
+        $oProperty = $oValueObject->getProperty();
         $this->setValueForValidateDate(isset($aValue['date']) ? $aValue['date'] : '');
         /**
-         * Сначала проверяем корректность даты
-         * В инпуте дата идет в формате d.m.Y
+         * Формируем формат для валидации даты
+         * В инпуте дата идет в формате d.m.Y и плюс H:i если используется время
          */
-        $mRes = $this->validateStandart('date', array('format' => $this->sFormatDateInput), 'value_for_validate_date');
+        $sFormatValidate = $oProperty->getParam('use_time') ? $this->sFormatDateTimeInput : $this->sFormatDateInput;
+
+        $mRes = $this->validateStandart('date', array('format' => $sFormatValidate), 'value_for_validate_date');
         if ($mRes === true) {
-            /**
-             * Теперь проверяем на требование указывать дату
-             */
-            $iTimeH = 0;
-            $iTimeM = 0;
-            $oValueObject = $this->getValueObject();
-            $oProperty = $oValueObject->getProperty();
-            if ($oProperty->getParam('use_time')) {
-                $iTimeH = isset($aValue['time']['h']) ? $aValue['time']['h'] : 0;
-                $iTimeM = isset($aValue['time']['m']) ? $aValue['time']['m'] : 0;
-                if ($iTimeH < 0 or $iTimeH > 23) {
-                    $iTimeH = 0;
-                }
-                if ($iTimeM < 0 or $iTimeM > 59) {
-                    $iTimeM = 0;
-                }
-            }
             /**
              * Формируем полную дату
              */
             if ($this->getValueForValidateDate()) {
-                $sTimeFull = strtotime($this->getValueForValidateDate()) + 60 * $iTimeM + 60 * 60 * $iTimeH;
-
+                $sTimeFull = strtotime($this->getValueForValidateDate());
                 /**
                  * Проверка на ограничение даты
                  */
@@ -159,7 +136,7 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
     public function getParamsDefault()
     {
         return array(
-            'format_out' => 'Y-m-d H:i:s',
+            'format_out' => 'Y-m-d H:i',
             'use_time'   => true,
         );
     }

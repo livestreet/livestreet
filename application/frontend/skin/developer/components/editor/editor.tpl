@@ -7,7 +7,7 @@
 
 {* Получаем тип редактора *}
 {$type = ( ( $smarty.local.type ) ? $smarty.local.type : ( Config::Get('view.wysiwyg') ) ? 'visual' : 'markup' )}
-{$set = $smarty.local.sSet|default:'default'}
+{$set = $smarty.local.set|default:'default'}
 
 {* Уникальный ID *}
 {$_uid = $smarty.local.id|default:($component|cat:rand(0, 10e10))}
