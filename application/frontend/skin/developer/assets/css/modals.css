@@ -10,26 +10,6 @@
  */
 
 /**
- * Создать
- *
- * @template modals/modal.write.tpl
- */
-.modal.modal-write                { width: 500px; }
-.modal.modal-write .modal-content { padding: 20px 10px 0; }
-
-.write-list li                   { width: 100px; margin: 0 10px 20px; text-align: center; overflow: hidden; float: left; }
-.write-list li a                 { color: #39576B; }
-.write-list li .write-item-image { display: block; width: 100px; height: 100px; border-radius: 3px; text-align: center; background: url(../images/write.png) no-repeat; margin-bottom: 10px; }
-
-.write-list li.write-item-type-topic .write-item-image    { background-position: 0 0; }
-.write-list li.write-item-type-poll .write-item-image     { background-position: -100px 0; }
-.write-list li.write-item-type-link .write-item-image     { background-position: -200px 0; }
-.write-list li.write-item-type-photoset .write-item-image { background-position: -300px 0; }
-.write-list li.write-item-type-blog .write-item-image     { background-position: -400px 0; }
-.write-list li.write-item-type-draft .write-item-image    { background-position: -500px 0; }
-
-
-/**
  * Кроп изображений
  *
  * @template modals/modal.image_crop.tpl

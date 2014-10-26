@@ -40,3 +40,7 @@
         {include 'components/search/search-form.main.tpl' mods='light'}
     </div>
 </div>
+
+{if $oUserCurrent}
+    {include 'components/modal-create/modal-create.tpl'}
+{/if}

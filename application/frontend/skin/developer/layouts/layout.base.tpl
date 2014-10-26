@@ -146,7 +146,6 @@
 
 	{* Подключение модальных окон *}
 	{if $oUserCurrent}
-		{include 'modals/modal.create.tpl'}
 		{include 'components/tags-favourite/modal.favourite_tags.tpl'}
 	{else}
 		{include 'components/auth/modal.auth.tpl'}
