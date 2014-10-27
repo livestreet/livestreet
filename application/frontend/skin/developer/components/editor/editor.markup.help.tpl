@@ -26,7 +26,7 @@
 		<a href="#" class="link-dotted help-link js-editor-help-toggle">{$aLang.editor.markup.help.link_show}</a>
 	</header>
 
-	<div class="editor-help-body">
+	<div class="editor-help-body js-editor-help-body">
 		<h3 class="h3">{$aLang.editor.markup.help.special}</h3>
 
 		<div class="mb-30">

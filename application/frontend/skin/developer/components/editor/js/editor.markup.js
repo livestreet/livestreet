@@ -75,6 +75,24 @@ $.widget( "livestreet.lsEditorMarkup", {
 		var _this = this;
 
 		this.element.markItUp( this.option( 'sets.' + this.option( 'set' ) ) );
+
+		// Помощь
+		var help = $( '.js-editor-help[data-form-id=' + this.element.attr( 'id' ) + ']' ),
+			toggle = help.find( '.js-editor-help-toggle' ),
+			content = help.find( '.js-editor-help-body' );
+
+		toggle.on( 'click' + this.eventNamespace, function ( event ) {
+			content.toggle();
+			event.preventDefault();
+		});
+
+		$( '.js-tags-help-link' ).click(function() {
+			var tag = $( this );
+
+			_this.insert( tag.data( 'insert' ) || tag.text() );
+
+			return false;
+		});
 	},
 
 	/**
