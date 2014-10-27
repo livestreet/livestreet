@@ -520,44 +520,60 @@ class ModuleMedia extends ModuleORM
                 }
             }
 
-
             $sPath = $oMedia->getFileWebPath($sSize == 'original' ? null : $sSize);
-
-            $sCode = '<img src="' . $sPath . '" ';
+            $aParams['image_url'] = $sPath;
+            $aParams['href_url'] = $oMedia->getFileWebPath();
+            $aParams['need_href'] = $bNeedHref;
             if (!isset($aParams['title'])) {
                 $aParams['title'] = $oMedia->getDataOne('title');
             }
-            if (!isset($aParams['skip_title']) and $aParams['title']) {
-                $sCode .= ' title="' . htmlspecialchars($aParams['title']) . '" ';
-                $sCode .= ' alt="' . htmlspecialchars($aParams['title']) . '" ';
-            }
-            if (isset($aParams['align']) and in_array($aParams['align'], array('left', 'right', 'center'))) {
-                if ($aParams['align'] == 'center') {
-                    $sCode .= ' class="image-center"';
-                } else {
-                    $sCode .= ' align="' . htmlspecialchars($aParams['align']) . '" ';
-                }
-            }
-            $sDataParams = '';
-            if (isset($aParams['data']) and is_array($aParams['data'])) {
-                foreach ($aParams['data'] as $sDataName => $sDataValue) {
-                    if ($sDataValue) {
-                        $sDataParams .= ' data-' . $sDataName . '="' . htmlspecialchars($sDataValue) . '"';
-                    }
-                }
-            }
-            if ($bNeedHref) {
-                $sCode .= ' />';
-                $sLbxGroup = '';
-                if (isset($aParams['lbx_group'])) {
-                    $sLbxGroup = ' data-rel="' . htmlspecialchars($aParams['lbx_group']) . '"';
-                }
-                $sCode = '<a class="js-lbx" ' . $sLbxGroup . ' href="' . $oMedia->getFileWebPath() . '" ' . $sDataParams . '>' . $sCode . '</a>';
-            } else {
-                $sCode .= $sDataParams . ' />';
-            }
+            /**
+             * Формируем HTML изображения
+             */
+            $sCode = $this->BuildImageCodeForEditor($aParams);
         }
 
+        return $sCode;
+    }
+
+    /**
+     * Формирует HTML изображения
+     *
+     * @param $aParams
+     * @return string
+     */
+    public function BuildImageCodeForEditor($aParams)
+    {
+        $sCode = '<img src="' . htmlspecialchars($aParams['image_url']) . '" ';
+        if (!isset($aParams['skip_title']) and isset($aParams['title']) and $aParams['title']) {
+            $sCode .= ' title="' . htmlspecialchars($aParams['title']) . '" ';
+            $sCode .= ' alt="' . htmlspecialchars($aParams['title']) . '" ';
+        }
+        if (isset($aParams['align']) and in_array($aParams['align'], array('left', 'right', 'center'))) {
+            if ($aParams['align'] == 'center') {
+                $sCode .= ' class="image-center"';
+            } else {
+                $sCode .= ' align="' . htmlspecialchars($aParams['align']) . '" ';
+            }
+        }
+        $sDataParams = '';
+        if (isset($aParams['data']) and is_array($aParams['data'])) {
+            foreach ($aParams['data'] as $sDataName => $sDataValue) {
+                if ($sDataValue) {
+                    $sDataParams .= ' data-' . $sDataName . '="' . htmlspecialchars($sDataValue) . '"';
+                }
+            }
+        }
+        if (isset($aParams['need_href']) and $aParams['need_href']) {
+            $sCode .= ' />';
+            $sLbxGroup = '';
+            if (isset($aParams['lbx_group'])) {
+                $sLbxGroup = ' data-rel="' . htmlspecialchars($aParams['lbx_group']) . '"';
+            }
+            $sCode = '<a class="js-lbx" ' . $sLbxGroup . ' href="' . htmlspecialchars($aParams['href_url']) . '" ' . $sDataParams . '>' . $sCode . '</a>';
+        } else {
+            $sCode .= $sDataParams . ' />';
+        }
         return $sCode;
     }
 
@@ -711,9 +727,9 @@ class ModuleMedia extends ModuleORM
                 $aMediaIds[] = $oMediaItem->getId();
             }
             $aTargetItems = $this->GetTargetItemsByFilter(array(
-                    'media_id in'  => $aMediaIds,
-                    '#index-group' => 'media_id'
-                ));
+                'media_id in'  => $aMediaIds,
+                '#index-group' => 'media_id'
+            ));
             /**
              * Удаляем медиа данные без оставшихся связей
              */
@@ -745,7 +761,7 @@ class ModuleMedia extends ModuleORM
              */
             if ($this->GetConfigParam('image.autoresize',
                     $oMedia->getTargetType()) and !$this->Image_IsExistsFile($this->GetImagePathBySize($oMedia->getFilePath(),
-                        $sSize))
+                    $sSize))
             ) {
                 /**
                  * Запускаем генерацию изображения нужного размера

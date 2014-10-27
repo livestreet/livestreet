@@ -221,9 +221,10 @@ class ActionAjax extends Action
             /**
              * Корректность ID вариантов
              */
-            $aAnswerItems = $this->Poll_GetAnswerItemsByFilter(array('id in'   => $aAnswerIds,
-                                                                     'poll_id' => $oPoll->getId()
-                ));
+            $aAnswerItems = $this->Poll_GetAnswerItemsByFilter(array(
+                'id in'   => $aAnswerIds,
+                'poll_id' => $oPoll->getId()
+            ));
             if (count($aAnswerItems) != count($aAnswerIds)) {
                 return $this->EventErrorDebug();
             }
@@ -511,47 +512,64 @@ class ActionAjax extends Action
             return $this->EventErrorDebug();
         }
         /**
-         * Проверяем корректность target'а
+         * Необходимо выполнить загрузку файла
          */
-        $sTargetType = getRequestStr('target_type');
-        $sTargetId = getRequestStr('target_id');
+        if (getRequest('upload')) {
+            /**
+             * Проверяем корректность target'а
+             */
+            $sTargetType = getRequestStr('target_type');
+            $sTargetId = getRequestStr('target_id');
 
-        $sTargetTmp = empty($_COOKIE['media_target_tmp_' . $sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_' . $sTargetType];
-        if ($sTargetId) {
-            $sTargetTmp = null;
-            if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
-                    array('user' => $this->oUserCurrent))
+            $sTargetTmp = empty($_COOKIE['media_target_tmp_' . $sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_' . $sTargetType];
+            if ($sTargetId) {
+                $sTargetTmp = null;
+                if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId,
+                        ModuleMedia::TYPE_CHECK_ALLOW_ADD,
+                        array('user' => $this->oUserCurrent))
+                ) {
+                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
+                        $this->Lang_Get('error'));
+                    return false;
+                }
+            } else {
+                $sTargetId = null;
+                if (!$sTargetTmp) {
+                    return $this->EventErrorDebug();
+                }
+                if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
+                        array('user' => $this->oUserCurrent))
+                ) {
+                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
+                        $this->Lang_Get('error'));
+                    return false;
+                }
+            }
+
+            /**
+             * Выполняем загрузку файла
+             */
+            if ($mResult = $this->Media_UploadUrl($sUrl, $sTargetType, $sTargetId, $sTargetTmp) and is_object($mResult)
             ) {
-                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
+                $aParams = array(
+                    'align' => getRequestStr('align'),
+                    'title' => getRequestStr('title')
+                );
+                $this->Viewer_AssignAjax('sText', $this->Media_BuildCodeForEditor($mResult, $aParams));
+            } else {
+                $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'),
                     $this->Lang_Get('error'));
-                return false;
             }
         } else {
-            $sTargetId = null;
-            if (!$sTargetTmp) {
-                return $this->EventErrorDebug();
-            }
-            if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
-                    array('user' => $this->oUserCurrent))
-            ) {
-                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
-                    $this->Lang_Get('error'));
-                return false;
-            }
-        }
-
-        /**
-         * Выполняем загрузку файла
-         */
-        if ($mResult = $this->Media_UploadUrl($sUrl, $sTargetType, $sTargetId, $sTargetTmp) and is_object($mResult)) {
+            /**
+             * Формируем параметры для билдера HTML
+             */
             $aParams = array(
-                'align' => getRequestStr('align'),
-                'title' => getRequestStr('title')
+                'align'     => getRequestStr('align'),
+                'title'     => getRequestStr('title'),
+                'image_url' => $sUrl
             );
-            $this->Viewer_AssignAjax('sText', $this->Media_BuildCodeForEditor($mResult, $aParams));
-        } else {
-            $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'),
-                $this->Lang_Get('error'));
+            $this->Viewer_AssignAjax('sText', $this->Media_BuildImageCodeForEditor($aParams));
         }
     }
 
@@ -1984,7 +2002,7 @@ class ActionAjax extends Action
 
             $oViewerLocal->Assign('oComment', $oComment, true);
             $sHtml = $oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oComment->getTargetId(),
-                    $oComment->getTargetType()));
+                $oComment->getTargetType()));
             $this->Viewer_AssignAjax('sHtml', $sHtml);
         } else {
             return $this->EventErrorDebug();
