@@ -204,18 +204,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Toolbar
-	 */
-	$('.js-toolbar').toolbar({
-		target: '.grid-role-wrapper',
-		offsetX: 20
-	});
-	$('.js-toolbar-scrollup').lsToolbarScrollUp();
-	$('.js-toolbar-comments').lsToolbarComments();
-	$('.js-toolbar-topics').lsToolbarTopics();
-
-
-	/**
 	 * User
 	 */
 	ls.user.init();
@@ -390,6 +378,18 @@ jQuery(document).ready(function($){
 	 * Поиск
 	 */
 	ls.search.init();
+
+
+	/**
+	 * Toolbar
+	 */
+	$('.js-toolbar').toolbar({
+		target: '.grid-role-wrapper',
+		offsetX: 20
+	});
+	$('.js-toolbar-scrollup').lsToolbarScrollUp();
+	$('.js-toolbar-comments').lsToolbarComments();
+	$('.js-toolbar-topics').lsToolbarTopics();
 
 
 	/**
