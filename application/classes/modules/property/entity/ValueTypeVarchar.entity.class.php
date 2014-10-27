@@ -33,6 +33,13 @@ class ModuleProperty_EntityValueTypeVarchar extends ModuleProperty_EntityValueTy
         return $this->getValueObject()->getValueVarchar();
     }
 
+    public function getValueForForm()
+    {
+        $oValue = $this->getValueObject();
+        $oProperty = $oValue->getProperty();
+        return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueVarchar();
+    }
+
     public function validate()
     {
         return $this->validateStandart('string');
@@ -57,5 +64,16 @@ class ModuleProperty_EntityValueTypeVarchar extends ModuleProperty_EntityValueTy
             $aRules['min'] = (int)$aRulesRaw['min'];
         }
         return $aRules;
+    }
+
+    public function prepareParamsRaw($aParamsRaw)
+    {
+        $aParams = array();
+
+        if (isset($aParamsRaw['default'])) {
+            $aParams['default'] = htmlspecialchars($aParamsRaw['default']);
+        }
+
+        return $aParams;
     }
 }

@@ -33,6 +33,13 @@ class ModuleProperty_EntityValueTypeFloat extends ModuleProperty_EntityValueType
         return $this->getValueObject()->getValueFloat();
     }
 
+    public function getValueForForm()
+    {
+        $oValue = $this->getValueObject();
+        $oProperty = $oValue->getProperty();
+        return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueFloat();
+    }
+
     public function validate()
     {
         return $this->validateStandart('number', array('integerOnly' => false));
@@ -57,5 +64,16 @@ class ModuleProperty_EntityValueTypeFloat extends ModuleProperty_EntityValueType
             $aRules['min'] = (int)$aRulesRaw['min'];
         }
         return $aRules;
+    }
+
+    public function prepareParamsRaw($aParamsRaw)
+    {
+        $aParams = array();
+
+        if (isset($aParamsRaw['default'])) {
+            $aParams['default'] = htmlspecialchars($aParamsRaw['default']);
+        }
+
+        return $aParams;
     }
 }

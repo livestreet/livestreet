@@ -33,6 +33,13 @@ class ModuleProperty_EntityValueTypeInt extends ModuleProperty_EntityValueType
         return $this->getValueObject()->getValueInt();
     }
 
+    public function getValueForForm()
+    {
+        $oValue = $this->getValueObject();
+        $oProperty = $oValue->getProperty();
+        return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueInt();
+    }
+
     public function validate()
     {
         return $this->validateStandart('number', array('integerOnly' => true));
@@ -57,5 +64,16 @@ class ModuleProperty_EntityValueTypeInt extends ModuleProperty_EntityValueType
             $aRules['min'] = (int)$aRulesRaw['min'];
         }
         return $aRules;
+    }
+
+    public function prepareParamsRaw($aParamsRaw)
+    {
+        $aParams = array();
+
+        if (isset($aParamsRaw['default'])) {
+            $aParams['default'] = htmlspecialchars($aParamsRaw['default']);
+        }
+
+        return $aParams;
     }
 }

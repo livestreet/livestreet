@@ -33,6 +33,13 @@ class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueT
         return (bool)$this->getValueObject()->getValueInt();
     }
 
+    public function getValueForForm()
+    {
+        $oValue = $this->getValueObject();
+        $oProperty = $oValue->getProperty();
+        return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueInt();
+    }
+
     public function validate()
     {
         return $this->validateStandart('boolean');
@@ -43,5 +50,24 @@ class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueT
         $this->resetAllValue();
         $oValue = $this->getValueObject();
         $oValue->setValueInt($mValue ? 1 : 0);
+    }
+
+    public function prepareParamsRaw($aParamsRaw)
+    {
+        $aParams = array();
+
+        $aParams['default'] = isset($aParamsRaw['default']) ? true : false;
+        if (isset($aParamsRaw['default_value'])) {
+            $aParams['default_value'] = htmlspecialchars($aParamsRaw['default_value']);
+        }
+
+        return $aParams;
+    }
+
+    public function getParamsDefault()
+    {
+        return array(
+            'default_value' => 1,
+        );
     }
 }

@@ -317,7 +317,7 @@ class ModuleRbac extends ModuleORM
     }
 
     /**
-     *    Загружает в кеш разрешения
+     * Загружает в кеш разрешения
      */
     protected function LoadPermissions()
     {
@@ -403,9 +403,9 @@ class ModuleRbac extends ModuleORM
             return false;
         }
         if (!($oRoleUser = $this->Rbac_GetRoleUserByFilter(array(
-                'role_id' => $oRole->getId(),
-                'user_id' => $iUserId
-            )))
+            'role_id' => $oRole->getId(),
+            'user_id' => $iUserId
+        )))
         ) {
             /**
              * Добавляем
