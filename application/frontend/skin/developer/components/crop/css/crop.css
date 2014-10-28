@@ -1,0 +1,12 @@
+/**
+ * Кроп изображений
+ *
+ * @template modals/modal.image_crop.tpl
+ */
+
+.modal-image-crop { max-width: 600px; }
+
+.crop-image-holder { margin-right: 10px; }
+.crop-image-holder,
+.crop-previews { display: inline-block; vertical-align: top;  }
+.crop-preview { overflow: hidden; margin-bottom: 15px; }

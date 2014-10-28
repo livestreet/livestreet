@@ -1,0 +1,39 @@
+/**
+ * Grid
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.grid-row {  }
+.grid-row:before,
+.grid-row:after { content: ""; display: table; line-height: 0; }
+.grid-row:after { clear: both; }
+
+.grid-col {
+    float: left;
+    padding-left: 30px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.grid-col:first-child { padding-left: 0; }
+
+.grid-col-1 { width: 8.333333333333334%; }
+.grid-col-2 { width: 16.666666666666668%; }
+.grid-col-3 { width: 25%; }
+.grid-col-4 { width: 33.333333333333336%; }
+.grid-col-5 { width: 41.66666666666667%; }
+.grid-col-6 { width: 50%; }
+.grid-col-7 { width: 58.333333333333336%; }
+.grid-col-8 { width: 66.66666666666667%; }
+.grid-col-9 { width: 75%; }
+.grid-col-10 { width: 83.33333333333334%; }
+.grid-col-11 { width: 91.66666666666667%; }
+.grid-col-12 { width: 100%; }
+
+/**
+ * Roles
+ */
+.grid-role-container { margin: 0 auto; }

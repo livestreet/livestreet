@@ -1,0 +1,100 @@
+/**
+ * Forms
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Input Text */
+textarea,
+select,
+input[type="password"],
+input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #4d90fe;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+            box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+    outline: none;
+}
+
+select,
+input[type="password"],
+input[type="text"] {
+    height: 28px;
+    line-height: 18px;
+}
+
+
+/* Checkboxes */
+input[type="checkbox"],
+.input-checkbox {
+    position: relative;
+    top: 1px;
+    margin: 0 2px 0 1px;
+}
+
+textarea { line-height: 1.4em; }
+
+
+/* Select */
+select { padding: 4px; }
+
+
+/* Fieldset */
+fieldset        { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
+fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
+
+.fieldset        { margin-bottom: 20px; background: #f7f7f7; }
+.fieldset-header { padding: 15px; }
+.fieldset-body,
+.fieldset-footer { padding: 0 15px 15px; }
+.fieldset-title  { font-size: 20px; line-height: 1em; }
+.note.fieldset-note   { font-size: 13px; margin-top: 15px; }
+
+
+form p                   { margin-bottom: 20px; }
+form .icon-question-sign { cursor: help; }
+
+
+/* Note */
+.note { display: block; margin-top: 3px; font-size: 12px; color: #aaa; }
+.note.note-header { margin-bottom: 20px; }
+
+.captcha-image { vertical-align: top; }
+
+
+/* Placeholder */
+:-moz-placeholder           { color: #afafaf; }
+::-moz-placeholder          { color: #afafaf; opacity: 1; }
+::-webkit-input-placeholder { color: #afafaf; }
+:-ms-input-placeholder      { color: #afafaf; }
+.placeholder                { color: #afafaf; } /* Old IE */
+
+
+/* Validate */
+.parsley-error-list {
+    background: #ffe4e4;
+    color: #ff0000;
+    margin-top: 5px;
+    padding: 5px 10px;
+}
+.parsley-validated.parsley-error {
+    border-color: #FF9B9B;
+    background: #ffe4e4;
+}
+
+
+/* Input File Replacer */
+.form-input-file { position: relative; overflow: hidden; cursor: pointer; display: inline; }
+.form-input-file input[type=file] { position: absolute; top: -999px; left: -999px; }

@@ -1,0 +1,97 @@
+/**
+ * Helpers
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Margins */
+.mt-10 { margin-top: 10px !important; }
+.mt-15 { margin-top: 15px !important; }
+.mt-20 { margin-top: 20px !important; }
+.mt-30 { margin-top: 30px !important; }
+
+.mb-10 { margin-bottom: 10px !important; }
+.mb-15 { margin-bottom: 15px !important; }
+.mb-20 { margin-bottom: 20px !important; }
+.mb-30 { margin-bottom: 30px !important; }
+
+.m-0 { margin: 0 !important; }
+
+
+/* Paddings */
+.pt-10 { padding-top: 10px !important; }
+.pt-15 { padding-top: 15px !important; }
+.pt-20 { padding-top: 20px !important; }
+.pt-30 { padding-top: 30px !important; }
+
+.pb-10 { padding-bottom: 10px !important; }
+.pb-15 { padding-bottom: 15px !important; }
+.pb-20 { padding-bottom: 20px !important; }
+.pb-30 { padding-bottom: 30px !important; }
+
+.p-0 { padding: 0 !important; }
+
+
+/* Text Align */
+.ta-c { text-align: center !important; }
+.ta-r { text-align: right !important; }
+
+
+/* Floats */
+.fl-r, .float-right, .pull-right { float: right !important; }
+.fl-l, .float-left, .pull-left  { float: left !important; }
+
+
+/* Misc */
+.va-m { vertical-align: middle !important; }
+
+
+/* Clearfix */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; line-height: 0; }
+.clearfix:after { clear: both; }
+
+
+/* Word Wrap */
+.word-wrap {
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap; 
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
+/* Width */
+.width-full { width: 100% !important; }
+.width-50   { width: 50px !important; }
+.width-100  { width: 100px !important; }
+.width-150  { width: 150px !important; }
+.width-200  { width: 200px !important; }
+.width-250  { width: 250px !important; }
+.width-300  { width: 300px !important; }
+.width-350  { width: 350px !important; }
+.width-400  { width: 400px !important; }
+.width-450  { width: 450px !important; }
+.width-500  { width: 500px !important; }
+.width-550  { width: 550px !important; }
+.width-600  { width: 600px !important; }
+.width-650  { width: 650px !important; }
+
+
+/* Loader */
+/* TODO: Change gif */
+.loading {
+    background-image: url(../images/loader.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.link-dashed { text-decoration: none; border-bottom: 1px dashed; }
+.link-dotted { text-decoration: none; border-bottom: 1px dotted; }
+
+.hide { display: none; }
