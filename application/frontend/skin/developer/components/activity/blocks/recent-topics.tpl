@@ -7,7 +7,7 @@
 
 <div class="block-content">
 	<ul class="item-list">
-		{foreach $oTopics as $oTopic}
+		{foreach $smarty.local.topics as $oTopic}
 			{$oUser = $oTopic->getUser()}
 			{$oBlog = $oTopic->getBlog()}
 

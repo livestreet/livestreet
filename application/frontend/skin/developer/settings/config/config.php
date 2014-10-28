@@ -25,11 +25,8 @@ $config['head']['default']['js'] = array_merge(Config::Get('head.default.js'), a
 // Подключение стилей шаблона
 $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), array(
 	"___path.skin.assets.web___/css/base.css",
-	"___path.skin.assets.web___/css/grid.css",
-	"___path.skin.assets.web___/css/common.css",
-	"___path.skin.assets.web___/css/tables.css",
+	"___path.skin.assets.web___/css/layout.css",
 	"___path.skin.assets.web___/css/blocks.css",
-	"___path.skin.assets.web___/css/modals.css",
 	"___path.skin.assets.web___/css/print.css"
 ));
 

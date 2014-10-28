@@ -39,5 +39,7 @@ class BlockActivitySettings extends Block
             $this->Viewer_Assign('types', $this->Stream_getEventTypes());
             $this->Viewer_Assign('typesActive', $this->Stream_getTypesList($oUserCurrent->getId()));
         }
+
+        $this->SetTemplate('components/activity/blocks/block.activity-settings.tpl');
     }
 }

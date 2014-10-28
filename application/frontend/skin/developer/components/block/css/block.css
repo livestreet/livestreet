@@ -11,7 +11,6 @@
 
 .block .text                  { font-size: 13px; line-height: 18px; }
 .block .max-height-200        { overflow: auto; max-height: 200px; position: relative; }
-.block .block-content.loading { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
 
 /* Шапка */
 .block-header              { padding: 18px 20px 0; position: relative; }

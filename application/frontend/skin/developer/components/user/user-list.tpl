@@ -22,7 +22,6 @@
 	{else}
 		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 	{/if}
-
 {else}
 	{include 'components/alert/alert.tpl' text=$sUserListEmpty|default:{lang name='user.notices.empty'} mods='empty'}
 {/if}

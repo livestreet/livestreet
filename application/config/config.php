@@ -396,7 +396,7 @@ $config['block']['rule_index_blog'] = array(
     ),
     'blocks' => array(
         'right' => array(
-            'stream' => array('priority' => 100),
+            'activityRecent' => array('priority' => 100),
             'tags'   => array('priority' => 50),
             'blogs'  => array('params' => array(), 'priority' => 1)
         )
@@ -589,12 +589,10 @@ $config['head']['default']['js'] = array(
 );
 
 $config['head']['default']['css'] = array(
-    "___path.framework.frontend.web___/css/reset.css",
-    "___path.framework.frontend.web___/css/helpers.css",
-    "___path.framework.frontend.web___/css/text.css",
-    "___path.framework.frontend.web___/css/forms.css",
-    "___path.framework.frontend.web___/css/typography.css",
-    "___path.framework.frontend.web___/css/grid.css",
+    "___path.skin.web___/components/css-reset/css/css-reset.css",
+    "___path.skin.web___/components/css-helpers/css/css-helpers.css",
+    "___path.skin.web___/components/forms/css/forms.css",
+    "___path.skin.web___/components/grid/css/grid.css",
     "___path.skin.web___/components/ls-vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
     "___path.skin.web___/components/ls-vendor/jcrop/jquery.Jcrop.css",
     "___path.skin.web___/components/ls-vendor/prettify/prettify.css",
@@ -603,10 +601,13 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/ls-vendor/colorbox/colorbox.css",
     "___path.skin.web___/components/ls-vendor/timepicker/jquery-ui-timepicker-addon.css",
     "___path.skin.web___/components/ls-vendor/notifier/jquery.notifier.css",
+    "___path.skin.web___/components/text/css/text.css",
     "___path.skin.web___/components/admin/css/admin.css",
     "___path.skin.web___/components/tabs/css/tabs.css",
     "___path.skin.web___/components/perfomance/css/perfomance.css",
     "___path.skin.web___/components/tooltip/css/tooltip.css",
+    "___path.skin.web___/components/progressbar/css/progressbar.css",
+    "___path.skin.web___/components/badge/css/badge.css",
     "___path.skin.web___/components/alert/css/alert.css",
     "___path.skin.web___/components/accordion/css/accordion.css",
     "___path.skin.web___/components/dropdown/css/dropdown.css",
@@ -641,7 +642,9 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/info-list/css/info-list.css",
     "___path.skin.web___/components/uploader/css/uploader.css",
     "___path.skin.web___/components/activity/css/activity.css",
+    "___path.skin.web___/components/activity/css/block.activity-recent.css",
     "___path.skin.web___/components/block/css/block.css",
+    "___path.skin.web___/components/item/css/item.css",
     "___path.skin.web___/components/tags/css/tags.css",
     "___path.skin.web___/components/user/css/user.css",
     "___path.skin.web___/components/user/css/user-item.css",
@@ -650,7 +653,8 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/user-list-add/css/user-list-add.css",
     "___path.skin.web___/components/talk/css/talk.css",
     "___path.skin.web___/components/userbar/css/userbar.css",
-    "___path.skin.web___/components/modal-create/css/modal-create.css"
+    "___path.skin.web___/components/modal-create/css/modal-create.css",
+    "___path.skin.web___/components/crop/css/crop.css"
 );
 
 // Стили для RTL языков

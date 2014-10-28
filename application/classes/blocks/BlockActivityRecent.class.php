@@ -25,7 +25,7 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockStream extends Block
+class BlockActivityRecent extends Block
 {
     /**
      * Запуск обработки
@@ -37,12 +37,14 @@ class BlockStream extends Block
          */
         if ($aComments = $this->Comment_GetCommentsOnline('topic', Config::Get('block.stream.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
-            $oViewer->Assign('aComments', $aComments);
+            $oViewer->Assign('comments', $aComments, true);
             /**
              * Формируем результат в виде шаблона и возвращаем
              */
-            $sTextResult = $oViewer->Fetch("blocks/block.stream_comment.tpl");
-            $this->Viewer_Assign('sStreamComments', $sTextResult);
+            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-comments.tpl");
+            $this->Viewer_Assign('content', $sTextResult, true);
         }
+
+        $this->SetTemplate('components/activity/blocks/block.activity-recent.tpl');
     }
 }

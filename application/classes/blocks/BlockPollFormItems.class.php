@@ -53,5 +53,7 @@ class BlockPollFormItems extends Block
         $aPollItems = $this->Poll_GetPollItemsByFilter($aFilter);
 
         $this->Viewer_Assign('aPollItems', $aPollItems);
+
+        $this->SetTemplate('components/poll/poll.manage.list.tpl');
     }
 }

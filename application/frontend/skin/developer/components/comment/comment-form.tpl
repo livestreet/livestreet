@@ -37,11 +37,11 @@
 
 			{* Текст комментария *}
 			{include 'components/editor/editor.tpl'
-				sSet             = $smarty.local.sEditorSet|default:'light'
+				set             = $smarty.local.sEditorSet|default:'light'
 				name            = 'comment_text'
-				inputClasses    = 'js-comment-form-text'
-				bShowHelp        = false
-				sMediaTargetType = 'comment'}
+				inputClasses    = 'js-editor-default js-comment-form-text'
+				help            = false
+				mediaTargetType = 'comment'}
 		{/block}
 
 		{hook run='comment-form-end'}

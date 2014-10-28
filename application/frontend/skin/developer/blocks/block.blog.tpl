@@ -27,5 +27,5 @@
 	<a href="{router page='rss'}blog/{$oBlog->getUrl()}/" class="button">RSS</a>
 
 	{* Вступить / Покинуть блог *}
-	{include 'components/blog/join.tpl'}
+	{include 'components/blog/join.tpl' blog=$oBlog}
 {/block}

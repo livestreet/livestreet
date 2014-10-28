@@ -10,7 +10,7 @@
 {$component = 'user-note'}
 
 {* Установка дефолтных значений *}
-{$note = $smarty.local.target}
+{$note = $smarty.local.note}
 {$isEditable = $smarty.local.isEditable|default:true}
 
 <div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-user-id="{$smarty.local.targetId}" {$smarty.local.attributes}>

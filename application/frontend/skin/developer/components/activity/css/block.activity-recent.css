@@ -1,0 +1,17 @@
+/**
+ * Activity Item List
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ *
+ * TODO: Component item
+ */
+
+.item-list li               { min-height: 51px; padding: 17px 15px 20px 80px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
+.item-list li:first-child   { border: none; }
+.item-list li p             { padding-top: 2px; font-size: 11px; }
+.item-list li a             { text-decoration: none; }
+.item-list li .avatar       { position: absolute; top: 20px; left: 20px; margin-right: 10px; }
+.item-list li .author       { font-weight: bold; color: #333; }
+.item-list li .blog-name    { font-weight: bold; }

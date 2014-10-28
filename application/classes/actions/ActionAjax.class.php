@@ -173,7 +173,7 @@ class ActionAjax extends Action
 
         $oViewer->Assign('sImageSrc', getRequestStr('image_src'));
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.image_crop.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/crop/crop.tpl"));
     }
 
     protected function EventPollVote()
@@ -1658,8 +1658,8 @@ class ActionAjax extends Action
     {
         if ($aComments = $this->Comment_GetCommentsOnline('topic', Config::Get('block.stream.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
-            $oViewer->Assign('aComments', $aComments);
-            $sTextResult = $oViewer->Fetch("blocks/block.stream_comment.tpl");
+            $oViewer->Assign('comments', $aComments, true);
+            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-comments.tpl");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_stream_comments_no'), $this->Lang_Get('attention'));
@@ -1676,8 +1676,8 @@ class ActionAjax extends Action
     {
         if ($oTopics = $this->Topic_GetTopicsLast(Config::Get('block.stream.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
-            $oViewer->Assign('oTopics', $oTopics);
-            $sTextResult = $oViewer->Fetch("blocks/block.stream_topic.tpl");
+            $oViewer->Assign('topics', $oTopics, true);
+            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-topics.tpl");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.topics_empty'),

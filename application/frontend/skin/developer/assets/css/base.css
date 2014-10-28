@@ -21,9 +21,6 @@ body {
 a 		{ color: #1A80DB; text-decoration: none; }
 a:hover { color: #058; }
 
-.text a:visited,
-.item-list li a:visited { color: #1D2273; }
-
 
 /**
  * Заголовки
