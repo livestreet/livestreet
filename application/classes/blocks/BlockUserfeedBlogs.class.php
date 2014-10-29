@@ -59,5 +59,7 @@ class BlockUserfeedBlogs extends Block
             $this->Viewer_Assign('blogsSubscribed', $aUserSubscribes['blogs']);
             $this->Viewer_Assign('blogsJoined', $aBlogs);
         }
+
+        $this->SetTemplate('components/userfeed/blocks/block.userfeed-blogs.tpl');
     }
 }

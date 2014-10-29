@@ -1,7 +1,5 @@
 {**
- * Список пользователей блога
- *
- * @styles css/blocks.css
+ * 
  *}
 
 {extends 'components/block/block.tpl'}

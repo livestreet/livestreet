@@ -1,0 +1,9 @@
+/**
+ * Теги
+ *
+ * @modifier tags
+ */
+
+.block--tags .tab-pane {
+	padding: 20px;
+}

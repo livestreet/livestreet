@@ -42,5 +42,7 @@ class BlockUserfeedUsers extends Block
             $aResult = $this->Userfeed_getUserSubscribes($oUserCurrent->getId());
             $this->Viewer_Assign('users', $aResult['users']);
         }
+
+        $this->SetTemplate('components/userfeed/blocks/block.userfeed-users.tpl');
     }
 }

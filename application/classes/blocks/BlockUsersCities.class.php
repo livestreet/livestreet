@@ -20,12 +20,12 @@
  */
 
 /**
- * Обрабатывает блок облака тегов стран юзеров
+ * Обрабатывает блок облака тегов городов юзеров
  *
  * @package application.blocks
  * @since 1.0
  */
-class BlockTagsCountry extends Block
+class BlockUsersCities extends Block
 {
     /**
      * Запуск обработки
@@ -33,16 +33,17 @@ class BlockTagsCountry extends Block
     public function Exec()
     {
         /**
-         * Получаем страны
+         * Получаем города
          */
-        $aCountries = $this->Geo_GetGroupCountriesByTargetType('user', 20);
+        $aCities = $this->Geo_GetGroupCitiesByTargetType('user', 20);
         /**
          * Формируем облако тегов
          */
-        $this->Tools_MakeCloud($aCountries);
+        $this->Tools_MakeCloud($aCities);
         /**
          * Выводим в шаблон
          */
-        $this->Viewer_Assign("aCountryList", $aCountries);
+        $this->Viewer_Assign("cities", $aCities, true);
+        $this->SetTemplate('components/user/blocks/block.users-cities.tpl');
     }
 }

@@ -1700,7 +1700,7 @@ class ActionAjax extends Action
             $aBlogs = $aResult['collection'];
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("blocks/block.blogs_top.tpl");
+            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
@@ -1728,7 +1728,7 @@ class ActionAjax extends Action
         if ($aBlogs = $this->Blog_GetBlogsRatingSelf($this->oUserCurrent->getId(), Config::Get('block.blogs.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("blocks/block.blogs_top.tpl");
+            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_blogs_self_error'), $this->Lang_Get('attention'));
@@ -1756,7 +1756,7 @@ class ActionAjax extends Action
         if ($aBlogs = $this->Blog_GetBlogsRatingJoin($this->oUserCurrent->getId(), Config::Get('block.blogs.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("blocks/block.blogs_top.tpl");
+            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_blogs_join_error'), $this->Lang_Get('attention'));

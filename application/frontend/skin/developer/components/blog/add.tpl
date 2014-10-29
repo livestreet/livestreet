@@ -24,10 +24,8 @@
 
 	{* Категория блога *}
 	{if Config::Get('module.blog.category_allow') and ($oUserCurrent->isAdministrator() or ! Config::Get('module.blog.category_only_admin'))}
-
 		{* Подключаем блок для управления категориями *}
-		{insert name="block" block="categoryUpdate" params=[ 'target' => $oBlogEdit, 'entity' => 'ModuleBlog_EntityBlog' ]}
-
+		{insert name='block' block='categoryUpdate' params=[ 'target' => $oBlogEdit, 'entity' => 'ModuleBlog_EntityBlog' ]}
 	{/if}
 
 

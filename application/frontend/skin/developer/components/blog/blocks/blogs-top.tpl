@@ -2,10 +2,10 @@
  * Блок со списоком блогов
  * Список блогов
  *
- * @styles css/blocks.css
+ * TODO: Component item
  *}
 
-<ul class="item-list">
+<ul class="block-item-list">
 	{foreach $aBlogs as $oBlog}
 		<li>
 			<a href="{$oBlog->getUrlFull()}">

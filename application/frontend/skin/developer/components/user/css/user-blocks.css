@@ -1,0 +1,37 @@
+/**
+ * Фото пользователя
+ *
+ * @modifier user
+ * @template blocks/block.userPhoto.tpl
+ */
+.block--user-photo .block-content         { padding: 0; }
+.block--user-photo .profile-photo-wrapper { position: relative; min-width: 100%; min-height: 50px; display: inline-block; }
+.block--user-photo .profile-photo         { vertical-align: top; min-width: 100%; }
+
+.block--user-photo .status                { position: absolute; top: 20px; left: 0; padding: 12px 15px; font: 300 16px/1em 'Open Sans'; }
+.block--user-photo .status.status-online  { background: #b7bc1c; background: rgba(183, 188, 28, .8); color: #fff; }
+.block--user-photo .status.status-offline { background: #333; background: rgba(0, 0, 0, .6); color: #fff; }
+
+.block--user-photo .upload-photo          { padding: 7px 10px 10px; background: #f7f7f7; }
+
+/**
+ * Блок управления на странице пользователя
+ *
+ * @modifier user-actions
+ * @template blocks/block.userActions.tpl
+ */
+.block--user-actions                  { border: none; }
+.block--user-actions .block-content   { padding: 0; }
+.block--user-actions ul li            { margin-bottom: 0; }
+.block--user-actions ul li span,
+.block--user-actions ul li a          { display: block; padding: 10px 15px; }
+.block--user-actions ul li a:hover    { background: #fafafa; }
+.block--user-actions ul li a.followed { color: #f00; }
+
+/**
+ * Навигация по профилю пользователя
+ *
+ * @modifier user-nav
+ * @template blocks/block.userNav.tpl
+ */
+.block--user-nav { padding: 0; background: none; }

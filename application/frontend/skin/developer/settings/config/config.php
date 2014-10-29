@@ -26,7 +26,6 @@ $config['head']['default']['js'] = array_merge(Config::Get('head.default.js'), a
 $config['head']['default']['css'] = array_merge(Config::Get('head.default.css'), array(
 	"___path.skin.assets.web___/css/base.css",
 	"___path.skin.assets.web___/css/layout.css",
-	"___path.skin.assets.web___/css/blocks.css",
 	"___path.skin.assets.web___/css/print.css"
 ));
 

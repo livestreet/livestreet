@@ -66,5 +66,7 @@ class BlockCategoryUpdate extends Block
                 break;
             }
         }
+
+        $this->SetTemplate('components/field/field.category.tpl');
     }
 }

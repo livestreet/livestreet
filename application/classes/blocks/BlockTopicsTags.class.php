@@ -25,7 +25,7 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockTags extends Block
+class BlockTopicsTags extends Block
 {
     /**
      * Запуск обработки
@@ -44,7 +44,7 @@ class BlockTags extends Block
             /**
              * Устанавливаем шаблон вывода
              */
-            $this->Viewer_Assign("aTags", $aTags);
+            $this->Viewer_Assign("tags", $aTags, true);
         }
         /**
          * Теги пользователя
@@ -60,8 +60,10 @@ class BlockTags extends Block
                 /**
                  * Устанавливаем шаблон вывода
                  */
-                $this->Viewer_Assign("aTagsUser", $aTags);
+                $this->Viewer_Assign("tagsUser", $aTags, true);
             }
         }
+
+        $this->SetTemplate('components/topic/blocks/block.topics-tags.tpl');
     }
 }

@@ -397,7 +397,7 @@ $config['block']['rule_index_blog'] = array(
     'blocks' => array(
         'right' => array(
             'activityRecent' => array('priority' => 100),
-            'tags'   => array('priority' => 50),
+            'topicsTags'   => array('priority' => 50),
             'blogs'  => array('params' => array(), 'priority' => 1)
         )
     ),
@@ -411,7 +411,7 @@ $config['block']['rule_topic_type'] = array(
     'action' => array(
         'content' => array('add', 'edit'),
     ),
-    'blocks' => array('right' => array('blocks/block.blogInfo.tpl', 'blocks/block.blogInfoNote.tpl')),
+    'blocks' => array('right' => array('components/blog/blocks/block.blog-info.tpl', 'components/blog/blocks/block.blog-info-note.tpl')),
 );
 $config['block']['rule_personal_blog'] = array(
     'action' => array('personal_blog'),
@@ -425,7 +425,7 @@ $config['block']['rule_blogs'] = array(
     'action' => array('blogs'),
     'blocks' => array(
         'right' => array(
-            'blocks/block.blogAdd.tpl' => array('priority' => 100),
+            'components/blog/blocks/block.blog-add.tpl' => array('priority' => 100),
             'blogsSearch'              => array('priority' => 50)
         )
     ),
@@ -452,7 +452,7 @@ $config['block']['rule_blog_info'] = array(
         'blog' => array('{topic}')
     ),
     'blocks' => array(
-        'right' => array('blocks/block.blog.tpl' => array('priority' => 300))
+        'right' => array('components/blog/blocks/block.blog.tpl' => array('priority' => 300))
     ),
     'clear'  => false,
 );
@@ -460,10 +460,10 @@ $config['block']['rule_users'] = array(
     'action' => array('people'),
     'blocks' => array(
         'right' => array(
-            'blocks/block.usersStatistics.tpl',
-            'blocks/block.usersSearch.tpl',
-            'tagsCountry',
-            'tagsCity',
+            'components/user/blocks/block.users-statistics.tpl',
+            'components/user/blocks/block.users-search.tpl',
+            'usersCountries',
+            'usersCities',
         )
     )
 );
@@ -471,10 +471,10 @@ $config['block']['rule_profile'] = array(
     'action' => array('profile', 'talk', 'settings'),
     'blocks' => array(
         'right' => array(
-            'blocks/block.userPhoto.tpl'   => array('priority' => 100),
-            'blocks/block.userActions.tpl' => array('priority' => 50),
-            'blocks/block.userNote.tpl'    => array('priority' => 25),
-            'blocks/block.userNav.tpl'     => array('priority' => 1),
+            'components/user/blocks/block.user-photo.tpl'   => array('priority' => 100),
+            'components/user/blocks/block.user-actions.tpl' => array('priority' => 50),
+            'components/user/blocks/block.user-note.tpl'    => array('priority' => 25),
+            'components/user/blocks/block.user-nav.tpl'     => array('priority' => 1),
         )
     )
 );
@@ -482,9 +482,9 @@ $config['block']['rule_blog'] = array(
     'action' => array('blog' => array('{blog}')),
     'blocks' => array(
         'right' => array(
-            'blocks/block.blogActions.tpl' => array('priority' => 300),
-            'blocks/block.blogUsers.tpl'   => array('priority' => 300),
-            'blocks/block.blogAdmins.tpl'  => array('priority' => 300)
+            'components/blog/blocks/block.blog-actions.tpl' => array('priority' => 300),
+            'components/blog/blocks/block.blog-users.tpl'   => array('priority' => 300),
+            'components/blog/blocks/block.blog-admins.tpl'  => array('priority' => 300)
         )
     ),
     'clear'  => true
@@ -578,12 +578,12 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/media/js/media.js",
     "___path.skin.web___/components/tags-favourite/js/tags-favourite.js",
     "___path.skin.web___/components/block/js/block.js",
+    "___path.skin.web___/components/search-ajax/js/search-ajax.js",
     "___path.skin.web___/components/actionbar/js/actionbar-item-select.js",
     "___path.skin.web___/components/toolbar-scrollup/js/toolbar.scrollup.js",
     "___path.skin.web___/components/toolbar-scrollnav/js/toolbar.scrollnav.js",
     "___path.application.web___/frontend/common/js/subscribe.js",
     "___path.application.web___/frontend/common/js/content.js",
-    "___path.application.web___/frontend/common/js/search.js",
     "___path.application.web___/frontend/common/js/init.js",
     "//yandex.st/share/share.js" => array('merge' => false),
 );
@@ -630,6 +630,7 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/topic/css/topic.css",
     "___path.skin.web___/components/wall/css/wall.css",
     "___path.skin.web___/components/blog/css/blog.css",
+    "___path.skin.web___/components/blog/css/blog-blocks.css",
     "___path.skin.web___/components/poll/css/poll.css",
     "___path.skin.web___/components/more/css/more.css",
     "___path.skin.web___/components/sort/css/sort.css",
@@ -645,11 +646,13 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/activity/css/block.activity-recent.css",
     "___path.skin.web___/components/block/css/block.css",
     "___path.skin.web___/components/item/css/item.css",
+    "___path.skin.web___/components/tags/css/tags-blocks.css",
     "___path.skin.web___/components/tags/css/tags.css",
     "___path.skin.web___/components/user/css/user.css",
     "___path.skin.web___/components/user/css/user-item.css",
     "___path.skin.web___/components/user/css/user-list-small.css",
     "___path.skin.web___/components/user/css/user-list-avatar.css",
+    "___path.skin.web___/components/user/css/user-blocks.css",
     "___path.skin.web___/components/user-list-add/css/user-list-add.css",
     "___path.skin.web___/components/talk/css/talk.css",
     "___path.skin.web___/components/userbar/css/userbar.css",

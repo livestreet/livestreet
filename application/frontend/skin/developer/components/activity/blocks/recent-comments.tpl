@@ -4,7 +4,7 @@
  *}
 
 <div class="block-content">
-	<ul class="item-list">
+	<ul class="block-item-list">
 		{foreach $smarty.local.comments as $comment}
 			{$user = $comment->getUser()}
 			{$topic = $comment->getTarget()}

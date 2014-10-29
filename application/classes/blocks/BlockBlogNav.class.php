@@ -37,5 +37,6 @@ class BlockBlogNav extends Block
         }
         $aCategories = $this->Blog_GetCategoriesTree();
         $this->Viewer_Assign("aNavigatorBlogCategories", $aCategories);
+        $this->SetTemplate('components/blog/blocks/block.blog-nav.tpl');
     }
 }
