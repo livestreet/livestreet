@@ -100,7 +100,7 @@ class ActionPeople extends Action
             $iPage = 1;
         }
         /**
-         * Получаем из реквеста первые быквы для поиска пользователей по логину
+         * Получаем из реквеста первые буквы для поиска пользователей по логину
          */
         $sTitle = getRequest('sText');
         if (is_string($sTitle) and mb_strlen($sTitle, 'utf-8')) {
@@ -109,7 +109,7 @@ class ActionPeople extends Action
             $sTitle = '';
         }
         /**
-         * Как именно искать: совпадение в любой частилогина, или только начало или конец логина
+         * Как именно искать: совпадение в любой части логина, или только начало или конец логина
          */
         if ($sTitle) {
             if (getRequest('isPrefix')) {
@@ -183,7 +183,7 @@ class ActionPeople extends Action
          */
         $iPage = $this->GetParamEventMatch(1, 2) ? $this->GetParamEventMatch(1, 2) : 1;
         /**
-         * Получаем список вязей пользователей со страной
+         * Получаем список связей пользователей со страной
          */
         $aResult = $this->Geo_GetTargets(array('country_id' => $oCountry->getId(), 'target_type' => 'user'), $iPage,
             Config::Get('module.user.per_page'));
