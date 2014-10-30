@@ -1,7 +1,7 @@
 {**
  * Жалоба на пользователя
  *
- * @styles css/modals.css
+ * TODO: Универсализировать
  *}
 
 {extends 'components/modal/modal.tpl'}
@@ -23,7 +23,7 @@
 			name    = 'type'
 			label   = {lang name='report.form.fields.type.label'}
 			classes = 'width-full'
-			items   = $aTypes }
+			items   = $aTypes}
 
 		{include 'components/field/field.textarea.tpl'
 			name    = 'text'
@@ -43,5 +43,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-	<button type="submit" class="button button--primary" onclick="ls.user.addComplaint('#form-complaint-user');">{lang 'report.form.submit'}</button>
+	{include 'components/button/button.tpl' text={lang 'report.form.submit'} mods='primary' form='form-complaint-user'}
 {/block}

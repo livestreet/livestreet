@@ -14,7 +14,7 @@
 {$component = 'alert'}
 
 {* Уведомление *}
-<div class="{$component} {mod name=$component mods=$mods default='success'} {$smarty.local.classes} js-{$component}"
+<div class="{$component} {mod name=$component mods=$smarty.local.mods default='success'} {$smarty.local.classes} js-{$component}"
     {if ! $smarty.local.visible|default:true}style="display: none"{/if}
     {$smarty.local.attributes}
     role="alert">

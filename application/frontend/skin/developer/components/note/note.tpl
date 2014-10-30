@@ -31,7 +31,7 @@
 			</ul>
 
 			{* Добавить *}
-			<a href="#" class="link-dotted {$component}-add js-{$component}-add" {if $note}style="display:none;"{/if}>{$aLang.usernote.add}</a>
+			<a href="#" class="link-dotted {$component}-add js-{$component}-add" {if $note}style="display:none;"{/if}>{$aLang.user_note.add}</a>
 		{/if}
 	</div>
 

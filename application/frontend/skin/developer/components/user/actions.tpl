@@ -7,7 +7,7 @@
 
 <ul class="profile-actions" id="profile_actions">
 	{* Добавление в друзья *}
-	{include 'components/user/friend_item.tpl' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'}
+	{include './friend-item.tpl' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'}
 
 	{* Отправить сообщение *}
 	<li>

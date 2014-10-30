@@ -1,0 +1,9 @@
+.page-header {
+    color: #333;
+    font-size: 30px;
+    line-height: 1em;
+    margin-bottom: 20px;
+}
+.page-header span {
+    color: #aaa;
+}

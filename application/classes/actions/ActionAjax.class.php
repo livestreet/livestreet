@@ -160,7 +160,7 @@ class ActionAjax extends Action
         $oViewer->Assign('bSelectable', $bSelectable);
         $oViewer->Assign('sTarget', $sTarget);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.user_list.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.user-list.tpl"));
     }
 
     /**

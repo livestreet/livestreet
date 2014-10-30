@@ -88,7 +88,7 @@
 
 				{* Основной заголовок страницы *}
 				{block 'layout_page_title' hide}
-					<h2 class="page-header">{$smarty.block.child}</h2>
+					{include 'components/page-header/page-header.tpl' text={$smarty.block.child}}
 				{/block}
 
 				{block 'layout_content_header'}
