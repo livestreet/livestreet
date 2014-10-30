@@ -21,5 +21,5 @@
 	{include 'components/button/button.tpl' url="{router page='rss'}blog/{$oBlog->getUrl()}/" text=$aLang.blog.rss}
 
 	{* Вступить / Покинуть блог *}
-	{include 'components/blog/join.tpl'}
+	{include 'components/blog/join.tpl' blog=$oBlog}
 {/block}
