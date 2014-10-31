@@ -1,0 +1,19 @@
+/**
+ * Уведомления (RTL)
+ *
+ * @module ls/alerts
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.alert.alert--dismissible {
+    padding-right: 10px;
+    padding-left: 35px;
+}
+
+.alert-close {
+    left: 12px;
+    right: auto;
+}

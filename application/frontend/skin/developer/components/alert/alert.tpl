@@ -3,30 +3,33 @@
  *
  * @param string  $title            Заголовок
  * @param mixed   $text             Массив либо строка с текстом уведомления
- * @param string  $mods (success)   Модификаторы (error, info и т.д.)
+ * @param string  $mods (success)   Модификаторы
  * @param string  $attributes       Дополнительные атрибуты основного блока
  * @param string  $classes          Дополнительные классы
  * @param bool    $visible (true)   Показывать или нет уведомление
- * @param bool    $close (true)     Показывать или нет кнопку закрытия
+ * @param bool    $close (false)    Показывать или нет кнопку закрытия
  *}
 
 {* Название компонента *}
 {$component = 'alert'}
 
+{$visible = $smarty.local.visible|default:true}
+{$mods = $smarty.local.mods}
+{$uid = "{$component}{rand( 0, 10e10 )}"}
+
+{if $smarty.local.close}
+    {$mods = "$mods dismissible"}
+{/if}
+
 {* Уведомление *}
-<div class="{$component} {mod name=$component mods=$smarty.local.mods default='success'} {$smarty.local.classes} js-{$component}"
-    {if ! $smarty.local.visible|default:true}style="display: none"{/if}
+<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes} js-alert"
+    {if ! $visible}hidden{/if}
     {$smarty.local.attributes}
     role="alert">
 
     {* Заголовок *}
     {if $smarty.local.title}
         <h4 class="{$component}-title">{$smarty.local.title}</h4>
-    {/if}
-
-    {* Кнопка закрытия *}
-    {if $smarty.local.close}
-        <div class="{$component}-close" data-type="alert-close">×</div>
     {/if}
 
     {* Контент *}
@@ -49,4 +52,12 @@
             {/if}
         {/block}
     </div>
+
+    {* Кнопка закрытия *}
+    {if $smarty.local.close}
+        <button class="{$component}-close js-alert-close" aria-labelledby="{$uid}">
+            <span class="icon-remove"></span>
+            <span id="{$uid}" aria-hidden="true" hidden>{lang 'common.close'}</span>
+        </button>
+    {/if}
 </div>

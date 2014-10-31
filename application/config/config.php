@@ -665,6 +665,7 @@ $config['head']['default']['css'] = array(
 // Стили для RTL языков
 if ( Config::Get('view.rtl') ) {
     $aCss[] = "___path.skin.web___/components/vote/css/vote-rtl.css";
+    $aCss[] = "___path.skin.web___/components/alert/css/alert-rtl.css";
 }
 
 // Подключение темы

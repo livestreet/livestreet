@@ -16,10 +16,15 @@ $.widget( "livestreet.lsAlert", {
         // Селекторы
         selectors: {
             // Кнопка закрывающая уведомление
-            close: '[data-type=alert-close]'
+            close: '.js-alert-close'
         },
         // Анимация при скрытии
         hide: {
+            effect: 'fade',
+            duration: 200
+        },
+        // Анимация при показывании
+        show: {
             effect: 'fade',
             duration: 200
         }
@@ -42,5 +47,12 @@ $.widget( "livestreet.lsAlert", {
      */
     hide: function () {
         this.element.hide( this.option( 'hide' ) );
+    },
+
+    /**
+     * Показывает уведомление
+     */
+    show: function () {
+        this.element.show( this.option( 'show' ) );
     }
 });
