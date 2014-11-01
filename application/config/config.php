@@ -40,6 +40,7 @@ $config['path']['offset_request_url'] = 0;
  */
 $config['view']['skin'] = 'developer';        // Название текущего шаблона
 $config['view']['theme'] = 'default';            // тема оформления шаблона (шаблон должен поддерживать темы)
+$config['view']['rtl'] = false;
 $config['view']['name'] = 'Мой сайт';                   // название сайта
 $config['view']['description'] = 'Описание сайта'; // seo description
 $config['view']['keywords'] = 'site, google, internet';      // seo keywords
