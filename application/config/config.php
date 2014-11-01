@@ -490,7 +490,6 @@ $config['block']['rule_blog'] = array(
     'clear'  => true
 );
 
-
 $config['head']['default']['js'] = array(
     "___path.skin.web___/components/ls-vendor/html5shiv.js" => array('browser' => 'lt IE 9'),
     "___path.skin.web___/components/ls-vendor/jquery-1.9.1.min.js",
@@ -663,14 +662,14 @@ $config['head']['default']['css'] = array(
 );
 
 // Стили для RTL языков
-if ( Config::Get('view.rtl') ) {
-    $aCss[] = "___path.skin.web___/components/vote/css/vote-rtl.css";
-    $aCss[] = "___path.skin.web___/components/alert/css/alert-rtl.css";
+if ( $config['view']['rtl'] ) {
+    $config['head']['default']['css'][] = "___path.skin.web___/components/vote/css/vote-rtl.css";
+    $config['head']['default']['css'][] = "___path.skin.web___/components/alert/css/alert-rtl.css";
 }
 
 // Подключение темы
-if ( Config::Get('view.theme') ) {
-    $aCss[] = "___path.skin.web___/themes/___view.theme___/style.css";
+if ( $config['view']['theme'] ) {
+    $config['head']['default']['css'][] = "___path.skin.web___/themes/___view.theme___/style.css";
 }
 
 /**
