@@ -23,8 +23,9 @@
             [ 'label' => "{$aLang.blog.topics_total}:",        'content' => $blog->getCountTopic() ]
         ]}
 
-        {include 'components/info-list/info-list.tpl' aInfoList=$info sInfoListClasses='object-list-item-info'}{* Действия *}
+        {include 'components/info-list/info-list.tpl' list=$info classes='object-list-item-info'}
 
+        {* Действия *}
         <div class="object-list-item-actions">
             {* Вступить/покинуть блог *}
             {include './join.tpl' blog=$blog}

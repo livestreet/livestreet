@@ -44,7 +44,7 @@
 		{include 'components/button/button.tpl' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
 	</form>
 
-	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+	{include 'components/pagination/pagination.tpl' paging=$aPaging}
 {else}
 	{include 'components/alert/alert.tpl' text=$aLang.blog.admin.alerts.empty mods='empty'}
 {/if}

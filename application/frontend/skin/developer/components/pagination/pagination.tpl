@@ -1,7 +1,7 @@
 {**
  * Пагинация
  *
- * @param string $aPaging     Массив с параметрами пагинации
+ * @param string $paging     Массив с параметрами пагинации
  * @param string $classes    Дополнительные классы
  * @param string $mods       Список классов-модификаторов
  * @param string $attributes Атрибуты
@@ -15,22 +15,22 @@
 {$component = 'pagination'}
 
 {* Переменные *}
-{$_aPaging = $smarty.local.aPaging}
+{$_paging = $smarty.local.paging}
 
 {**
  * Элемент пагинации
  *
- * @param bool   $bIsActive (false) Если true, то элемент помечается как активный (текущая страница)
- * @param string $sUrl              Ссылка
- * @param string $sText             Текст
- * @param string $sLinkClasses      Дополнительные классы для ссылки
+ * @param bool   $isActive (false) Если true, то элемент помечается как активный (текущая страница)
+ * @param string $url              Ссылка
+ * @param string $text             Текст
+ * @param string $linkClasses      Дополнительные классы для ссылки
  *}
 {function item}
-	<li class="{$component}-item {if $bIsActive}active{/if}">
-		{if $sUrl}
-			<a class="{$component}-item-inner {$component}-item-link {$sLinkClasses}" href="{$sUrl}">{$sText}</a>
+	<li class="{$component}-item {if $isActive}active{/if}">
+		{if $url}
+			<a class="{$component}-item-inner {$component}-item-link {$linkClasses}" href="{$url}">{$text}</a>
 		{else}
-			<span class="{$component}-item-inner">{$sText}</span>
+			<span class="{$component}-item-inner">{$text}</span>
 		{/if}
 	</li>
 {/function}
@@ -38,48 +38,48 @@
 {**
  * Страницы
  *}
-{if $_aPaging and $_aPaging.iCountPage > 1}
+{if $_paging and $_paging.iCountPage > 1}
 	<nav class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-{$component}" role="navigation" {$smarty.local.attributes}>
 		{* Следущая / предыдущая страница *}
 		<ul class="{$component}-list">
 			{* Следущая страница *}
-			{if $_aPaging.iPrevPage}
-				{item sUrl="{$_aPaging.sBaseUrl}{if $_aPaging.iPrevPage > 1}/page{$_aPaging.iPrevPage}{/if}/{$_aPaging.sGetParams}" sText="&larr; {$aLang.pagination.previous}" sLinkClasses="js-{$component}-prev"}
+			{if $_paging.iPrevPage}
+				{item url="{$_paging.sBaseUrl}{if $_paging.iPrevPage > 1}/page{$_paging.iPrevPage}{/if}/{$_paging.sGetParams}" text="&larr; {$aLang.pagination.previous}" linkClasses="js-{$component}-prev"}
 			{else}
-				{item sText="&larr; {$aLang.pagination.previous}"}
+				{item text="&larr; {$aLang.pagination.previous}"}
 			{/if}
 
 			{* Предыдущая страница *}
-			{if $_aPaging.iNextPage}
-				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iNextPage}/{$_aPaging.sGetParams}" sText="{$aLang.pagination.next} &rarr;" sLinkClasses="js-{$component}-next"}
+			{if $_paging.iNextPage}
+				{item url="{$_paging.sBaseUrl}/page{$_paging.iNextPage}/{$_paging.sGetParams}" text="{$aLang.pagination.next} &rarr;" linkClasses="js-{$component}-next"}
 			{else}
-				{item sText="{$aLang.pagination.next} &rarr;"}
+				{item text="{$aLang.pagination.next} &rarr;"}
 			{/if}
 		</ul>
 
 		{* Список страниц *}
 		<ul class="{$component}-list">
 			{* Первая страница *}
-			{if $_aPaging.iCurrentPage > 1}
-				{item sUrl="{$_aPaging.sBaseUrl}/{$_aPaging.sGetParams}" sText=$aLang.pagination.first}
+			{if $_paging.iCurrentPage > 1}
+				{item url="{$_paging.sBaseUrl}/{$_paging.sGetParams}" text=$aLang.pagination.first}
 			{/if}
 
 			{* Страницы слева от текущей *}
-			{foreach $_aPaging.aPagesLeft as $iPage}
-				{item sUrl="{$_aPaging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$_aPaging.sGetParams}" sText=$iPage}
+			{foreach $_paging.aPagesLeft as $iPage}
+				{item url="{$_paging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$_paging.sGetParams}" text=$iPage}
 			{/foreach}
 
 			{* Текущая активная страница *}
-			{item bIsActive=true sText=$_aPaging.iCurrentPage}
+			{item isActive=true text=$_paging.iCurrentPage}
 
 			{* Страницы справа от текущей *}
-			{foreach $_aPaging.aPagesRight as $iPage}
-				{item sUrl="{$_aPaging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$_aPaging.sGetParams}" sText=$iPage}
+			{foreach $_paging.aPagesRight as $iPage}
+				{item url="{$_paging.sBaseUrl}{if $iPage > 1}/page{$iPage}{/if}/{$_paging.sGetParams}" text=$iPage}
 			{/foreach}
 
 			{* Последняя страница *}
-			{if $_aPaging.iCurrentPage < $_aPaging.iCountPage}
-				{item sUrl="{$_aPaging.sBaseUrl}/page{$_aPaging.iCountPage}/{$_aPaging.sGetParams}" sText=$aLang.pagination.last}
+			{if $_paging.iCurrentPage < $_paging.iCountPage}
+				{item url="{$_paging.sBaseUrl}/page{$_paging.iCountPage}/{$_paging.sGetParams}" text=$aLang.pagination.last}
 			{/if}
 		</ul>
 	</nav>

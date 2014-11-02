@@ -14,5 +14,5 @@
 {/block}
 
 {block 'toolbar_item'}
-	{toolbar_item_icon sUrl="{router page='admin'}" sTitle="{lang name='admin.title'}" sIcon="icon-cog"}
+	{toolbar_item_icon url="{router page='admin'}" title="{lang name='admin.title'}" icon="icon-cog"}
 {/block}

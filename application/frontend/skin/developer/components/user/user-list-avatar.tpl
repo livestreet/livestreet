@@ -23,5 +23,5 @@
 {/if}
 
 {if isset($bShowPagination) && bShowPagination === true}
-	{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+	{include 'components/pagination/pagination.tpl' paging=$aPaging}
 {/if}

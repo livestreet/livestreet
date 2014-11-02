@@ -20,7 +20,7 @@
 			{if $smarty.local.html}
 				{$smarty.local.html}
 			{else}
-				{include 'components/info-list/info-list.tpl' aInfoList=$smarty.local.items classes='user-info-group-items'}
+				{include 'components/info-list/info-list.tpl' list=$smarty.local.items classes='user-info-group-items'}
 			{/if}
 		</div>
 	</div>

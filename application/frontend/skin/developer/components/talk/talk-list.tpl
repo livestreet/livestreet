@@ -123,4 +123,4 @@
 	{include 'components/alert/alert.tpl' text=$aLang.talk.notices.empty mods='empty'}
 {/if}
 
-{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+{include 'components/pagination/pagination.tpl' paging=$aPaging}

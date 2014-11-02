@@ -12,6 +12,6 @@
 {/block}
 
 {block 'toolbar_item'}
-	{toolbar_item_icon classes='toolbar-topic-prev js-toolbar-topics-prev' sTitle="{lang 'toolbar.topic_nav.prev'}" sIcon="icon-arrow-up"}
-	{toolbar_item_icon classes='toolbar-topic-next js-toolbar-topics-next' sTitle="{lang 'toolbar.topic_nav.next'}" sIcon="icon-arrow-down"}
+	{toolbar_item_icon classes='toolbar-topic-prev js-toolbar-topics-prev' title="{lang 'toolbar.topic_nav.prev'}" icon="icon-arrow-up"}
+	{toolbar_item_icon classes='toolbar-topic-next js-toolbar-topics-next' title="{lang 'toolbar.topic_nav.next'}" icon="icon-arrow-down"}
 {/block}

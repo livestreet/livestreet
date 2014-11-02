@@ -20,7 +20,7 @@
 				attributes = 'data-search-type="users" data-proxy-page-next="2"'}
 		{/if}
 	{else}
-		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+		{include 'components/pagination/pagination.tpl' paging=$aPaging}
 	{/if}
 {else}
 	{include 'components/alert/alert.tpl' text=$sUserListEmpty|default:{lang name='user.notices.empty'} mods='empty'}

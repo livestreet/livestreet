@@ -28,7 +28,7 @@
                 attributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
         {/if}
     {else}
-        {include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+        {include 'components/pagination/pagination.tpl' paging=$aPaging}
     {/if}
 {else}
     {include 'components/alert/alert.tpl' text=(($sBlogsEmptyList) ? $sBlogsEmptyList : $aLang.blog.alerts.empty) mods='empty'}
