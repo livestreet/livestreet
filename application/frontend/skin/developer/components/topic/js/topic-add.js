@@ -36,18 +36,30 @@ ls.topic = (function ($) {
 	 * @param  {Object} options Опции
 	 */
 	this.init = function(options) {
-		var self = this;
+		var _this = this;
 
 		this.options = $.extend({}, defaults, options);
+		this.form = $( '#topic-add-form' );
+
+		this.form.lsContent({
+			urls: {
+				add: aRouter['content'] + 'ajax/add/',
+				edit: aRouter['content'] + 'ajax/edit/'
+			}
+		});
+
+		this.form.find( '.js-topic-draft-button' ).on( 'click', function () {
+			_this.form.lsContent( 'submit', { is_draft: 1 });
+		});
 
 		// Превью текста
 		$(this.options.selectors.previewTopicTextButton).on('click', function (e) {
-			self.showPreviewText('form-topic-add', 'topic-text-preview');
+			_this.showPreviewText('form-topic-add', 'topic-text-preview');
 		});
 
 		// Закрытие превью текста
 		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
-			self.hidePreviewText();
+			_this.hidePreviewText();
 		});
 
 		// Подгрузка информации о выбранном блоге при создании топика

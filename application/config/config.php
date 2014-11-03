@@ -530,7 +530,9 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/ls-core/registry.js",
     "___path.skin.web___/components/ls-core/utils.js",
     "___path.skin.web___/components/ls-core/timer.js",
+    "___path.skin.web___/components/subscribe/js/subscribe.js",
     "___path.skin.web___/components/tooltip/js/tooltip.js",
+    "___path.skin.web___/components/content/js/content.js",
     "___path.skin.web___/components/notification/js/notification.js",
     "___path.skin.web___/components/autocomplete/js/autocomplete.js",
     "___path.skin.web___/components/tabs/js/tab.js",
@@ -582,9 +584,6 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/actionbar/js/actionbar-item-select.js",
     "___path.skin.web___/components/toolbar-scrollup/js/toolbar.scrollup.js",
     "___path.skin.web___/components/toolbar-scrollnav/js/toolbar.scrollnav.js",
-    "___path.application.web___/frontend/common/js/subscribe.js",
-    "___path.application.web___/frontend/common/js/content.js",
-    "___path.application.web___/frontend/common/js/init.js",
     "//yandex.st/share/share.js" => array('merge' => false),
 );
 

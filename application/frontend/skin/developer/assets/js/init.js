@@ -10,6 +10,8 @@ jQuery(document).ready(function($){
 	// Хук начала инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_start',[],window);
 
+	$('html').removeClass('no-js');
+
 	/**
 	 * Иниц-ия модулей ядра
 	 */
@@ -307,8 +309,9 @@ jQuery(document).ready(function($){
 	 * Topic
 	 */
 	$( '.js-topic' ).lsTopic();
+
+	// Добавление/редактирование
 	ls.topic.init();
-	ls.content.init();
 
 	// Пагинация
 	$('.js-pagination-topics').lsPagination({
@@ -318,6 +321,7 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	// Комментарии
 	$('.js-comments-topic').lsComments({
 		urls: {
 			add:  aRouter['blog'] + 'ajaxaddcomment/',
@@ -335,6 +339,17 @@ jQuery(document).ready(function($){
 	$('.js-tags-favourite-accordion').accordion({
 		collapsible: true,
 		active: false
+	});
+
+	// Поиск по тегам
+	$('.js-tag-search-form').submit(function() {
+		var val = $(this).find('.js-tag-search').val();
+
+		if ( val ) {
+			window.location = aRouter['tag'] + encodeURIComponent( val ) + '/';
+		}
+
+		return false;
 	});
 
 
@@ -397,6 +412,19 @@ jQuery(document).ready(function($){
 	 */
 	$( '.fotorama' ).livequery(function() {
 		$( this ).fotorama();
+	});
+
+
+	/**
+	 * Фикс бага с z-index у встроенных видео
+	 */
+	$( 'iframe' ).each(function() {
+		var iframe = $( this ),
+			src = iframe.attr( 'src' );
+
+		if ( src ) {
+			iframe.attr( 'src', src + ( ~ src.indexOf( '?' ) ? '?' : '&' ) + 'wmode=opaque' );
+		}
 	});
 
 	// Хук конца инициализации javascript-составляющих шаблона

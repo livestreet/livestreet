@@ -36,39 +36,39 @@
 		{block 'layout_head_styles'}
 			{* Подключение стилей указанных в конфиге *}
 			{$aHtmlHeadFiles.css}
-
-			<link href="{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
-			<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
 		{/block}
+
+		<link href="{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
+		<link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
+
+		<script>
+			var	PATH_ROOT 					= '{router page='/'}',
+				PATH_SKIN		 			= '{cfg name="path.skin.web"}',
+				PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
+				PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
+				/**
+				 * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
+				 */
+				DIR_WEB_ROOT 				= '{cfg name="path.root.web"}',
+				DIR_STATIC_SKIN 			= '{cfg name="path.skin.web"}',
+				DIR_STATIC_FRAMEWORK 		= '{cfg name="path.framework.frontend.web"}',
+				DIR_ENGINE_LIBS	 			= '{cfg name="path.framework.web"}/libs',
+
+				LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
+				LANGUAGE				= '{Config::Get('lang.current')}',
+				WYSIWYG					= {if Config::Get('view.wysiwyg')}true{else}false{/if};
+
+			var aRouter = [];
+			{foreach $aRouter as $sPage => $sPath}
+				aRouter['{$sPage}'] = '{$sPath}';
+			{/foreach}
+		</script>
 
 		{**
 		 * JavaScript файлы
 		 * JS файлы подключаются в конфиге шаблона (ваш_шаблон/settings/config.php)
 		 *}
 		{block 'layout_head_scripts'}
-			<script>
-				var	PATH_ROOT 					= '{router page='/'}',
-					PATH_SKIN		 			= '{cfg name="path.skin.web"}',
-					PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
-					PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
-					/**
-					 * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
-					 */
-					DIR_WEB_ROOT 				= '{cfg name="path.root.web"}',
-					DIR_STATIC_SKIN 			= '{cfg name="path.skin.web"}',
-					DIR_STATIC_FRAMEWORK 		= '{cfg name="path.framework.frontend.web"}',
-					DIR_ENGINE_LIBS	 			= '{cfg name="path.framework.web"}/libs',
-
-					LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
-					LANGUAGE				= '{Config::Get('lang.current')}',
-					WYSIWYG					= {if Config::Get('view.wysiwyg')}true{else}false{/if};
-
-				var aRouter = [];
-				{foreach $aRouter as $sPage => $sPath}
-					aRouter['{$sPage}'] = '{$sPath}';
-				{/foreach}
-			</script>
-
 			{* Подключение скриптов указанных в конфиге *}
 			{$aHtmlHeadFiles.js}
 		{/block}

@@ -242,7 +242,7 @@ class ActionContent extends Action
         /**
          * Проверяем разрешено ли постить топик по времени
          */
-        if (isPost('submit_topic_publish') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
+        if ( ! isPost('is_draft') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
             $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'), $this->Lang_Get('error'));
             return;
         }
@@ -268,7 +268,7 @@ class ActionContent extends Action
          * Публикуем или сохраняем в черновиках
          */
         $bSendNotify = false;
-        if (isset($_REQUEST['submit_topic_publish'])) {
+        if ( ! isset($_REQUEST['is_draft'])) {
             $oTopic->setPublish(1);
             if ($oTopic->getPublishDraft() == 0) {
                 $oTopic->setPublishDraft(1);
@@ -406,7 +406,7 @@ class ActionContent extends Action
         /**
          * Публикуем или сохраняем
          */
-        if (isset($_REQUEST['submit_topic_publish'])) {
+        if ( ! isset($_REQUEST['is_draft'])) {
             $oTopic->setPublish(1);
             $oTopic->setPublishDraft(1);
         } else {

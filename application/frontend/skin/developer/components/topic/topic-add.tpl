@@ -15,7 +15,7 @@
 {block 'add_topic_header_after'}{/block}
 
 
-<form action="" method="POST" enctype="multipart/form-data" id="form-topic-add" class="js-form-validate" onsubmit="return false;">
+<form action="" method="POST" enctype="multipart/form-data" id="topic-add-form" class="js-form-validate" data-content-action="{( $topic ) ? 'edit' : 'add'}">
     {hook run="form_add_topic_begin"}
     {block 'add_topic_form_begin'}{/block}
 
@@ -143,10 +143,8 @@
     {include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
 
     {* Сохранить в черновиках / Перенести в черновики *}
-    {if $topic && $topic->getPublish() != 0}
-        {include 'components/button/button.tpl'
-            id   = {( $topic ) ? 'submit-edit-topic-save' : 'submit-add-topic-save' }
-            text = $aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
+    {if ! $topic || ( $topic && $topic->getPublish() != 0 )}
+        {include 'components/button/button.tpl' type='button' classes='js-topic-draft-button' text=$aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
     {/if}
 </form>
 
