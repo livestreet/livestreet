@@ -23,6 +23,10 @@
             [ 'label' => "{$aLang.blog.topics_total}:",        'content' => $blog->getCountTopic() ]
         ]}
 
+        {if $blog->category->getCategory()}
+            {$info[] = [ 'label' => "{$aLang.blog.categories.category}:", 'content' => $blog->category->getCategory()->getTitle() ]}
+        {/if}
+
         {include 'components/info-list/info-list.tpl' list=$info classes='object-list-item-info'}
 
         {* Действия *}

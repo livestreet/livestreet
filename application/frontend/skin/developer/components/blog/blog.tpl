@@ -56,11 +56,17 @@
 		</div>
 
 		{* Информация *}
-		{include 'components/info-list/info-list.tpl' list=[
+		{$info = [
 			[ 'label' => $aLang.blog.date_created, 'content' => "{date_format date=$blog->getDateAdd() hours_back='12' minutes_back='60' now='60' day='day H:i' format='j F Y'}" ],
 			[ 'label' => $aLang.blog.topics_total, 'content' => $blog->getCountTopic() ],
 			[ 'label' => $aLang.blog.rating_limit, 'content' => $blog->getLimitRatingTopic() ]
 		]}
+
+        {if $blog->category->getCategory()}
+            {$info[] = [ 'label' => "{$aLang.blog.categories.category}:", 'content' => $blog->category->getCategory()->getTitle() ]}
+        {/if}
+
+		{include 'components/info-list/info-list.tpl' list=$info}
 	</div>
 
 
