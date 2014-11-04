@@ -14,7 +14,10 @@
         {$percent = $oPoll->getAnswerPercent($answer)}
 
         {* Ответ *}
-        <li class         = "poll-result-item {if $oPoll->getCountVoteAnswerMax() == $votes}poll-result-item--most{/if} js-poll-result-item"
+        <li class="poll-result-item
+                {if $oPoll->getCountVoteAnswerMax() == $votes}poll-result-item--most{/if}
+                {if in_array( $answer->getId(), $oPoll->getVoteCurrent()->getAnswers() )}poll-result-item--voted{/if}
+                js-poll-result-item"
             data-count    = "{$votes}"
             data-position = "{$count - $answer@index - 1}">
 

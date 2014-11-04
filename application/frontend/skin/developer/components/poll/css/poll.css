@@ -33,6 +33,7 @@
 .poll-result-item-bar          { height: 10px; margin-top: 5px; background: #ccc; overflow: hidden; border-radius: 2px; }
 
 .poll-result-item--most .poll-result-item-bar { background: #AC90DF; }
+.poll-result-item--voted .poll-result-item-count strong { background: yellow; }
 
 .poll-result-total { color: #aaa; margin-left: 10px; }
 
