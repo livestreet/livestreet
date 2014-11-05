@@ -1,5 +1,7 @@
 {**
  * Форма входа
+ *
+ * @param string $redirectUrl
  *}
 
 {$redirectUrl = $smarty.local.redirectUrl|default:$PATH_WEB_CURRENT}

@@ -1,5 +1,5 @@
 /**
- * Activity Item List
+ * Последняя активность
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -8,10 +8,34 @@
  * TODO: Component item
  */
 
-.block-item-list li               { min-height: 51px; padding: 17px 15px 20px 80px; border-top: 1px solid #eee; position: relative; zoom: 1; background: #fff; }
-.block-item-list li:first-child   { border: none; }
-.block-item-list li p             { padding-top: 2px; font-size: 11px; }
-.block-item-list li a             { text-decoration: none; }
-.block-item-list li .avatar       { position: absolute; top: 20px; left: 20px; margin-right: 10px; }
-.block-item-list li .author       { font-weight: bold; color: #333; }
-.block-item-list li .blog-name    { font-weight: bold; }
+.block-item-list li {
+    min-height: 51px;
+    padding: 17px 15px 20px 80px;
+    border-top: 1px solid #eee;
+    position: relative;
+    zoom: 1;
+    background: #fff;
+}
+.block-item-list li:first-child {
+    border: none;
+}
+.block-item-list li p {
+    padding-top: 2px;
+    font-size: 11px;
+}
+.block-item-list li a {
+    text-decoration: none;
+}
+.block-item-list li .avatar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin-right: 10px;
+}
+.block-item-list li .author {
+    font-weight: bold;
+    color: #333;
+}
+.block-item-list li .blog-name {
+    font-weight: bold;
+}

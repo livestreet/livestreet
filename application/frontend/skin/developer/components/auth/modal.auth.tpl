@@ -1,7 +1,5 @@
 {**
  * Модальное окно с формами входа, регистрации и напоминанием пароля
- *
- * @styles css/modals.css
  *}
 
 {extends 'components/modal/modal.tpl'}
@@ -12,11 +10,11 @@
 {block 'modal_attributes'}data-modal-center="false"{/block}
 
 {block 'modal_content'}
-	{if ! Config::Get('general.reg.invite')}
-		{include 'components/auth/auth.registration.tpl' assign=auth_tab_reg}
-	{else}
-		{include 'components/auth/auth.invite.tpl' assign=auth_tab_reg}
-	{/if}
+    {if ! Config::Get('general.reg.invite')}
+        {include 'components/auth/auth.registration.tpl' assign=auth_tab_reg}
+    {else}
+        {include 'components/auth/auth.invite.tpl' assign=auth_tab_reg}
+    {/if}
 
     {include 'components/auth/auth.login.tpl' assign=auth_tab_login}
     {include 'components/auth/auth.reset.tpl' assign=auth_tab_reset}

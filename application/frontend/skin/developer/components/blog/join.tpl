@@ -1,10 +1,7 @@
 {**
  * Кнопка Вступить / Покинуть блог
  *
- * @param object $blog        Блог
- * @param object $oUserCurrent Текущий пользователь
- *
- * @scripts <framework>/js/livestreet/blog.js
+ * @param object $blog Блог
  *}
 
 {if $oUserCurrent && $oUserCurrent->getId() != $blog->getOwnerId() && $blog->getType() == 'open'}

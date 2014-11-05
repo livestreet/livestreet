@@ -9,6 +9,7 @@
 .table {
     width: 100%;
     margin-bottom: 15px;
+    border-top: 1px solid #eee;
 }
 .table th {
     text-align: left;
@@ -16,10 +17,10 @@
 }
 .table td, .table th {
     border-bottom: 1px solid #eee;
-    padding: 10px;
+    padding: 15px;
 }
 .table tr.active td {
-    background: #CBF4BC;
+    background: #F6F6FA;
 }
 .table a.asc:after {
     content: "▲";

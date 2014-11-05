@@ -50,7 +50,7 @@
 	{$items = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
 
 	{* Подписка на комментарии *}
-	{if $bAllowSubscribe and $oUserCurrent}
+	{if $bAllowSubscribe && $oUserCurrent}
 		{* Подписан пользователь на комментарии или нет *}
 		{$bIsSubscribed = $oSubscribeComment && $oSubscribeComment->getStatus()}
 

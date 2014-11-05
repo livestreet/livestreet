@@ -10,7 +10,7 @@
 
 {block 'toolbar_item_options' append}
 	{$_mods = 'admin'}
-	{$_bShow = $oUserCurrent and $oUserCurrent->isAdministrator()}
+	{$_bShow = $oUserCurrent && $oUserCurrent->isAdministrator()}
 {/block}
 
 {block 'toolbar_item'}

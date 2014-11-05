@@ -46,39 +46,39 @@
 	{* Текст события *}
 	{if $type == 'add_topic'}
 		{* Добавлен топик *}
-		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'add_comment'}
 		{* Добавлен комментарий *}
-		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
 
 		{activity_event_text text=$target->getText()}
 	{elseif $type == 'add_blog'}
 		{* Создан блог *}
-		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_blog'}
 		{* Проголосовали за блог *}
-		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_topic'}
 		{* Проголосовали за топик *}
-		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_comment_topic'}
 		{* Проголосовали за комментарий *}
-		{lang name="activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
 	{elseif $type == 'vote_user'}
 		{* Проголосовали за пользователя *}
-		{lang name="activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
+		{lang "activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
 	{elseif $type == 'join_blog'}
 		{* Вступили в блог *}
-		{lang name="activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
+		{lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
 	{elseif $type == 'add_friend'}
 		{* Добавили в друзья *}
-		{lang name="activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
+		{lang "activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
 	{elseif $type == 'add_wall'}
 		{* Написали на стене *}
 		{if $target->getWallUser()->getId() == $user->getId()}
-			{lang name="activity.events.{$type}_self_{$gender}" url=$target->getUrlWall()}
+			{lang "activity.events.{$type}_self_{$gender}" url=$target->getUrlWall()}
 		{else}
-			{lang name="activity.events.{$type}_{$gender}" url=$target->getUrlWall() user=$target->getWallUser()->getDisplayName()}
+			{lang "activity.events.{$type}_{$gender}" url=$target->getUrlWall() user=$target->getWallUser()->getDisplayName()}
 		{/if}
 
 		{activity_event_text text=$target->getText()}

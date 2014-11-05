@@ -1,10 +1,6 @@
 /**
  * Активность
  *
- * @version 2.0.dev
- * @template actions/ActionStream/*.tpl
- * @scripts <frontend>/common/js/stream.js
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -14,14 +10,42 @@
 /**
  * Список событий
  */
-.activity-event-list { margin: 0 0 20px; }
-.activity-date       { font-family: 'Open Sans', sans-serif; font-size: 20px; margin-top: 45px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-
+.activity-event-list {
+    margin: 0 0 20px;
+}
+.activity-date {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    margin-top: 45px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
 
 /**
  * Событие
  */
-.activity-event        { margin-bottom: 5px; min-height: 48px; background: #fafafa; padding: 15px 15px 15px 75px; position: relative; }
-.activity-event-avatar { position: absolute; top: 15px; left: 15px; }
-.activity-event-date   { display: block; color: #999; margin-bottom: 4px; }
-.activity-event-text   { padding: 10px 15px; background: #fff; border: 1px solid #eee; border-bottom-color: #ddd; margin-top: 10px; font-size: 13px; }
+.activity-event {
+    margin-bottom: 5px;
+    min-height: 48px;
+    background: #fafafa;
+    padding: 15px 15px 15px 75px;
+    position: relative;
+}
+.activity-event-avatar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+.activity-event-date {
+    display: block;
+    color: #999;
+    margin-bottom: 4px;
+}
+.activity-event-text {
+    padding: 10px 15px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-bottom-color: #ddd;
+    margin-top: 10px;
+    font-size: 13px;
+}

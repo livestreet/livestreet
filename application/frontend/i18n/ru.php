@@ -57,7 +57,7 @@ return array(
     /**
      * Голосование
      */
-    'vote'                          => array(
+    'vote'  => array(
         'up'      => 'Нравится',
         'down'    => 'Не нравится',
         'abstain' => 'Воздержаться от голосования и посмотреть рейтинг',
@@ -108,7 +108,7 @@ return array(
     /**
      * Сортировка
      */
-    'sort'                          => array(
+    'sort'  => array(
         'label'                => 'Сортировать',
         'by_login'             => 'по логину',
         'by_name'              => 'по имени',
@@ -130,7 +130,7 @@ return array(
     /**
      * Блог
      */
-    'blog'                          => array(
+    'blog'  => array(
         'blog'                 => 'Блог',
         'blogs'                => 'Блоги',
         'readers_declension'   => 'читатель;читателя;читателей',
@@ -381,7 +381,7 @@ return array(
     /**
      * Личные сообщения
      */
-    'talk'                          => array(
+    'talk'  => array(
         'title'        => 'Сообщения',
         'participants' => '%%count%% участник;%%count%% участника;%%count%% участников',
         'new_messages' => 'У вас есть новые сообщения',
@@ -501,7 +501,7 @@ return array(
     /**
      * Опросы
      */
-    'poll'                          => array(
+    'poll'  => array(
         'polls'     => 'Опросы',
         'answer'    => 'Вопрос',
         'vote'      => 'Голосовать',
@@ -791,7 +791,7 @@ return array(
     /**
      * Стена
      */
-    'wall'                          => array(
+    'wall'  => array(
         'title'   => 'Стена',
         // Форма
         'form'    => array(
@@ -816,7 +816,7 @@ return array(
     /**
      * Авторизация
      */
-    'auth'                          => array(
+    'auth'  => array(
         'authorization' => 'Авторизация',
         'logout'        => 'Выйти',
         // Вход
@@ -1018,7 +1018,7 @@ return array(
     /**
      * Лента
      */
-    'feed'                          => array(
+    'feed'  => array(
         'title' => 'Лента',
         // Блоги
         'blogs' => array(
@@ -1035,7 +1035,7 @@ return array(
     /**
      * Топик
      */
-    'topic'                         => array(
+    'topic' => array(
         'topics'             => 'Топики',
         'topic_plural'       => 'топик;топика;топиков',
         'drafts'             => 'Черновики',
@@ -1122,7 +1122,7 @@ return array(
      * Пользователь
      * !user
      */
-    'user'                          => array(
+    'user'  => array(
         'user'              => 'Пользователь',
         'users'             => 'Пользователи',
         'rating'            => '___vote.rating___',
@@ -1411,7 +1411,7 @@ return array(
     /**
      * Поля
      */
-    'field'                         => array(
+    'field' => array(
         'email'       => array(
             'label'   => 'E-mail',
             'notices' => array(
@@ -1487,25 +1487,30 @@ return array(
     /**
      * Админка
      */
-    'admin'                         => array(
-        'title'                => 'Админка',
-        'items'                => array(
+    'admin' => array(
+        'title' => 'Админка',
+        'items' => array(
             'plugins' => '___admin.plugins.title___',
         ),
         'install_plugin_admin' => 'Установить расширенную админ-панель',
+
         // Страница администрирования плагинов
-        'plugins'              => array(
-            'title'               => 'Управление плагинами',
-            'plugin_name'         => 'Название',
-            'plugin_author'       => 'Автор',
-            'plugin_version'      => 'Версия',
-            'plugin_activate'     => 'Активировать',
-            'plugin_deactivate'   => 'Деактивировать',
-            'plugin_settings'     => 'Настройки',
-            'plugin_delete'       => '___common.remove___',
-            'plugin_apply_update' => 'Применить обновление',
+        'plugins' => array(
+            'title' => 'Управление плагинами',
+
+            'plugin' => array(
+                'author'       => 'Автор',
+                'version'      => 'Версия',
+                'url'          => 'Сайт',
+                'activate'     => 'Активировать',
+                'deactivate'   => 'Деактивировать',
+                'settings'     => 'Настройки',
+                'remove'       => '___common.remove___',
+                'apply_update' => 'Применить обновление',
+            ),
+
             // Сообщения
-            'notices'             => array(
+            'notices' => array(
                 'unknown_action'              => 'Указано неизвестное действие',
                 'action_ok'                   => 'Успешно выполнено',
                 'activation_overlap'          => 'Конфликт с активированным плагином. Ресурс %%resource%% переопределен на %%delegate%% плагином %%plugin%%.',
@@ -1569,7 +1574,7 @@ return array(
     /**
      * Загрузка изображений
      */
-    'media'                         => array(
+    'media' => array(
         'title'       => 'Загрузка медиа-файлов',
         'nav'         => array(
             'insert'   => 'Вставить',
@@ -1626,7 +1631,7 @@ return array(
     /**
      * Дата
      */
-    'date'                          => array(
+    'date'  => array(
         'day'               => 'день',
         'month'             => 'месяц',
         'year'              => 'год',
@@ -1699,7 +1704,7 @@ return array(
     /**
      * Теги
      */
-    'tags'                          => array(
+    'tags'  => array(
         'tags'       => 'Теги',
         'tag'        => 'Тег',
         'search'     => array(
@@ -1779,7 +1784,7 @@ return array(
     /**
      * Управление правами (RBAC)
      */
-    'rbac'                          => array(
+    'rbac'  => array(
         'permission' => array(
             'create_blog'              => array(
                 'title' => 'Создание блога',
@@ -1834,7 +1839,7 @@ return array(
     /**
      * Системные сообщения
      */
-    'error'                         => 'Ошибка',
+    'error' => 'Ошибка',
     'attention'                     => 'Внимание',
     'system_error'                  => 'Системная ошибка, повторите позже',
     'system_error_event_args'       => 'Некорректное число аргументов при добавлении евента',

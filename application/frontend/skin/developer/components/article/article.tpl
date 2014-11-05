@@ -1,8 +1,13 @@
 {**
  * Базовый шаблон топика
  *
- * @styles assets/css/topic.css
- * @scripts <framework>/js/livestreet/topic.js
+ * @param boolean $isPreview
+ * @param boolean $isList
+ * @param string  $type
+ *
+ * @param string $mods
+ * @param string $classes
+ * @param string $attributes
  *}
 
 {* Название компонента *}

@@ -2,8 +2,9 @@
  * Экшнбар / Контрол выбора объектов
  *
  * @param string $target
+ * @param string $items
  *
- * @extends {actionbar}/actionbar-item.tpl
+ * @extends {actionbar}/actionbar-item
  *}
 
 {extends './actionbar-item.tpl'}

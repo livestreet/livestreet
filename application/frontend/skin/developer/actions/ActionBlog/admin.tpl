@@ -20,5 +20,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/blog/admin.tpl'}
+	{include 'components/blog/admin.tpl' users=$aBlogUsers pagination=$aPaging}
 {/block}

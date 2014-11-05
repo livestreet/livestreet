@@ -1,9 +1,6 @@
 /**
  * Блог
  *
- * @template actions/ActionBlog/blog.tpl
- * @scripts <frontend>/common/js/blog.js
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -19,20 +16,39 @@
 }
 
 /* Хидер */
-.blog-header { position: relative; padding: 0 0 15px 0; }
-
-.blog-header .blog-title   { margin-bottom: 7px; }
-.blog-header .blog-title i { position: relative; top: -2px; vertical-align: middle; }
-
-.blog-header .vote { position: absolute; top: -15px; right: 0; }
+.blog-header {
+    position: relative;
+    padding: 0 0 15px 0;
+}
+.blog-header .blog-title {
+    margin-bottom: 7px;
+}
+.blog-header .blog-title i {
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+}
+.blog-header .vote {
+    position: absolute;
+    top: -15px;
+    right: 0;
+}
 
 /* Контент */
-.blog .actionbar { margin-bottom: 0; margin-top: 30px; }
-
-.blog-description { margin-bottom: 20px; }
+.blog .actionbar {
+    margin-bottom: 0;
+    margin-top: 30px;
+}
+.blog-description {
+    margin-bottom: 20px;
+}
 
 
 /**
  * Список блогов
  */
-.blog-list-item-join { position: absolute; top: 0; right: 0; }
+.blog-list-item-join {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

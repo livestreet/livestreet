@@ -22,5 +22,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/blog/add.tpl'}
+	{include 'components/blog/add.tpl' blog=$oBlogEdit}
 {/block}

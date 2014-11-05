@@ -15,7 +15,7 @@
 
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
-	{if $oPoll and $oPoll->getCountVote()}
+	{if $oPoll && $oPoll->getCountVote()}
 		{$bDisableChangeType = true}
 	{/if}
 
@@ -33,7 +33,7 @@
 			 name          = 'poll[type]'
 			 value         = 'many'
 			 label         = $aLang.poll.form.fields.type.label_many
-			 checked       = $oPoll and $oPoll->getCountAnswerMax() > 1
+			 checked       = $oPoll && $oPoll->getCountAnswerMax() > 1
 			 isDisabled    = $bDisableChangeType}
 
 	{include 'components/field/field.text.tpl'

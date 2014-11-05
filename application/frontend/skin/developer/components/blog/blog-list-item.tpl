@@ -1,6 +1,14 @@
+{**
+ * Блог в списке блогов
+ *
+ * @param object $blog
+ *}
+
 {extends 'components/item/item.tpl'}
 
 {block 'options' append}
+    {$blog = $smarty.local.blog}
+
     {* Заголовок *}
     {capture 'blog_list_item_title'}
         {if $blog->getType() == 'close'}

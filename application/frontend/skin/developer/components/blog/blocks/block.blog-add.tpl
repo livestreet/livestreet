@@ -15,7 +15,7 @@
 {/block}
 
 {block 'block_content'}
-	{if $oUserCurrent and ($oUserCurrent->getRating() > {cfg name='acl.create.blog.rating'} or $oUserCurrent->isAdministrator())}
+	{if $oUserCurrent && ($oUserCurrent->getRating() > {cfg name='acl.create.blog.rating'} or $oUserCurrent->isAdministrator())}
 		<p>{$aLang.blog.can_add}</p>
 
 		{include 'components/button/button.tpl' url="{router page='blog'}add/" mods='primary large' text=$aLang.blog.create_blog}

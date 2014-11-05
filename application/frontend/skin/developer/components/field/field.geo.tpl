@@ -14,7 +14,7 @@
 
         {if $aGeoCountries}
             {foreach $aGeoCountries as $country}
-                <option value="{$country->getId()}" {if $place and $place->getCountryId() == $country->getId()}selected="selected"{/if}>{$country->getName()}</option>
+                <option value="{$country->getId()}" {if $place && $place->getCountryId() == $country->getId()}selected="selected"{/if}>{$country->getName()}</option>
             {/foreach}
         {/if}
     </select></p>
@@ -24,7 +24,7 @@
 
         {if $aGeoRegions}
             {foreach $aGeoRegions as $region}
-                <option value="{$region->getId()}" {if $place and $place->getRegionId() == $region->getId()}selected="selected"{/if}>{$region->getName()}</option>
+                <option value="{$region->getId()}" {if $place && $place->getRegionId() == $region->getId()}selected="selected"{/if}>{$region->getName()}</option>
             {/foreach}
         {/if}
     </select></p>
@@ -34,7 +34,7 @@
 
         {if $aGeoCities}
             {foreach $aGeoCities as $city}
-                <option value="{$city->getId()}" {if $place and $place->getCityId() == $city->getId()}selected="selected"{/if}>{$city->getName()}</option>
+                <option value="{$city->getId()}" {if $place && $place->getCityId() == $city->getId()}selected="selected"{/if}>{$city->getName()}</option>
             {/foreach}
         {/if}
     </select></p>

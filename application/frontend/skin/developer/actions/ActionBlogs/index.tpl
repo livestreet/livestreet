@@ -27,6 +27,6 @@
 			 ]}
 
 	<div class="js-search-ajax-container" data-type="blogs">
-		{include 'components/blog/blog-list.tpl' aBlogs=$aBlogs bUseMore=true}
+		{include 'components/blog/blog-list.tpl' blogs=$aBlogs useMore=true pagination=$aPaging}
 	</div>
 {/block}

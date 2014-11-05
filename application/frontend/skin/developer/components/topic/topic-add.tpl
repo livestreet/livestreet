@@ -137,7 +137,7 @@
         id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
         mods    = 'primary'
         classes = 'fl-r'
-        text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic and $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
+        text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic && $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
 
     {* Превью *}
     {include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}

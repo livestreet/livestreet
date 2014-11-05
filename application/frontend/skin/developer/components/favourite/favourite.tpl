@@ -8,9 +8,6 @@
  * @param string  $isActive
  * @param boolean $hideZeroCounter (true)
  *
- * @styles assets/css/common.css
- * @scripts <common>/js/favourite.js
- *
  * TODO: Текстовая версия
  *}
 

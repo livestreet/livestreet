@@ -1,7 +1,7 @@
 {**
  * Форма регистрации
  *
- * isModal Если true, то форма выводится в модальном окне
+ * @param string $redirectUrl
  *}
 
 {$redirectUrl = $smarty.local.redirectUrl|default:$PATH_WEB_CURRENT}
@@ -13,33 +13,33 @@
 
     {* Логин *}
     {include 'components/field/field.text.tpl'
-             name   = 'login'
-             rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
-             label  = $aLang.auth.labels.login}
+        name   = 'login'
+        rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
+        label  = $aLang.auth.labels.login}
 
     {* E-mail *}
     {include 'components/field/field.email.tpl' rules=[ 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]}
 
     {* Пароль *}
     {include 'components/field/field.text.tpl'
-             name         = 'password'
-             type         = 'password'
-             rules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
-             label        = $aLang.auth.labels.password
-             inputClasses = 'js-input-password-reg'}
+        name         = 'password'
+        type         = 'password'
+        rules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
+        label        = $aLang.auth.labels.password
+        inputClasses = 'js-input-password-reg'}
 
     {* Повторите пароль *}
     {include 'components/field/field.text.tpl'
-             name   = 'password_confirm'
-             type   = 'password'
-             rules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
-             label  = $aLang.auth.registration.form.fields.password_confirm.label}
+        name   = 'password_confirm'
+        type   = 'password'
+        rules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
+        label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}
     {include 'components/field/field.captcha.tpl'
-             name        = 'captcha'
-             captchaName = 'user_signup'
-             label       = $aLang.auth.labels.captcha}
+        name        = 'captcha'
+        captchaName = 'user_signup'
+        label       = $aLang.auth.labels.captcha}
 
     {hook run='form_registration_end'}
 

@@ -12,7 +12,7 @@
 	{include 'navs/nav.user.favourite.tpl'}
 
 	{* Блок с тегами избранного *}
-	{if $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId()}
+	{if $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId()}
 		{insert name="block" block=tagsFavouriteTopic params={$aBlockParams.user=$oUserProfile}}
 	{/if}
 

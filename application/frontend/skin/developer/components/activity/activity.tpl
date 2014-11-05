@@ -4,6 +4,10 @@
  * @param array   $events
  * @param integer $targetId
  * @param integer $count
+ *
+ * @param string  $mods
+ * @param string  $classes
+ * @param string  $attributes
  *}
 
 {$component = 'activity'}

@@ -16,7 +16,7 @@
 	{* Действия *}
 	{if $bUserListSmallShowActions}
 		<ul class="user-list-small-item-actions js-user-list-small-actions">
-			{block 'components/user_list_small/user_list_small_item_actions'}
+			{block 'user_list_small_item_actions'}
 				{if $bUserListItemShowRemove|default:true}
 					<li class="icon-remove js-user-list-add-user-remove" title="{$aLang.common.remove}" data-user-id="{$iUserId}"></li>
 				{/if}

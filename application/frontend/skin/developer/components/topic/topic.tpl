@@ -62,7 +62,7 @@
 
 {* Теги *}
 {block 'article_footer'}
-	{if ! $isList and $topic->getTypeObject()->getParam('allow_tags')}
+	{if ! $isList && $topic->getTypeObject()->getParam('allow_tags')}
 		{$favourite = $topic->getFavourite()}
 
 		{if ! $isPreview}

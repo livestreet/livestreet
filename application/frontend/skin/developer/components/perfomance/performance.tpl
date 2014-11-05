@@ -2,7 +2,7 @@
  * Информация о производительности движка
  *}
 
-{if $bIsShowStatsPerformance and $oUserCurrent and $oUserCurrent->isAdministrator()}
+{if $bIsShowStatsPerformance && $oUserCurrent && $oUserCurrent->isAdministrator()}
     {$stats = $smarty.local.stats}
 
     <div class="alert alert--info performance">

@@ -25,7 +25,7 @@
  * @package application.blocks
  * @since   2.0
  */
-class BlockCategoryUpdate extends Block
+class BlockFieldCategory extends Block
 {
     /**
      * Запуск обработки

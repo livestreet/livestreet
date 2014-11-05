@@ -10,9 +10,6 @@
  * @param integer $iCountBlogAdministrators  Кол-во администраторов
  * @param boolean $bPrivateBlog              Закрытый блог или нет
  *
- * @styles css/blog.css
- * @scripts <framework>/js/livestreet/blog.js
- *
  * TODO: Fix alerts
  *}
 

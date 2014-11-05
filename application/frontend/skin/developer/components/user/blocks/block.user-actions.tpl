@@ -9,7 +9,7 @@
 {block 'block_options' append}
 	{$mods = "{$mods} profile-actions"}
 
-	{if ! $oUserCurrent or ( $oUserCurrent and $oUserCurrent->getId() == $oUserProfile->getId() )}
+	{if ! $oUserCurrent or ( $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId() )}
 		{$show = false}
 	{/if}
 {/block}

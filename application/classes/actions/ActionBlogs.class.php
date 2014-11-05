@@ -126,12 +126,12 @@ class ActionBlogs extends Action
          * Формируем и возвращает ответ
          */
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('aBlogs', $aResult['collection']);
+        $oViewer->Assign('blogs', $aResult['collection'], true);
         $oViewer->Assign('oUserCurrent', $this->User_GetUserCurrent());
-        $oViewer->Assign('sBlogsEmptyList', $this->Lang_Get('search.alerts.empty'));
-        $oViewer->Assign('bUseMore', true);
-        $oViewer->Assign('bHideMore', $bHideMore);
-        $oViewer->Assign('iSearchCount', $aResult['count']);
+        $oViewer->Assign('textEmpty', $this->Lang_Get('search.alerts.empty'), true);
+        $oViewer->Assign('useMore', true, true);
+        $oViewer->Assign('hideMore', $bHideMore, true);
+        $oViewer->Assign('searchCount', $aResult['count'], true);
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/blog/blog-list.tpl"));
         /**
          * Для подгрузки

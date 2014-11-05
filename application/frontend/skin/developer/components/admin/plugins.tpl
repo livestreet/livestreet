@@ -1,45 +1,68 @@
-<table class="table table-plugins">
-    <thead>
-        <tr>
-            <th>{$aLang.admin.plugins.plugin_name}</th>
-            <th>{$aLang.admin.plugins.plugin_version}</th>
-            <th>{$aLang.admin.plugins.plugin_author}</th>
-            <th>{$aLang.admin.plugins.plugin_settings}</th>
-            <th></th>
-        </tr>
-    </thead>
+{**
+ * Список плагинов
+ *
+ * @param array $plugins Список плагинов
+ *}
 
+<table class="table admin-plugins">
     <tbody>
         {foreach $smarty.local.plugins as $plugin}
             <tr {if $plugin.is_active}class="active"{/if}>
+                {* Название и описание плагина *}
                 <td>
                     <h3>{$plugin.property->name->data}</h3>
-                    {$plugin.property->description->data}
-                </td>
-                <td>
-                    {$plugin.property->version|escape}
-                </td>
-                <td>
-                    {$plugin.property->author->data}<br />
-                    {$plugin.property->homepage}
-                </td>
-                <td>
-                    {if $plugin.property->settings != "" && $plugin.is_active}
-                        <a href="{$plugin.property->settings}">{$aLang.admin.plugins.plugin_settings}</a>
-                    {/if}
-                </td>
-                <td align="center">
-                    {if $plugin.is_active}
-                        <a href="{router page='admin'}plugins/?plugin={$plugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button">{$aLang.admin.plugins.plugin_deactivate}</a>
-                    {else}
-                        <a href="{router page='admin'}plugins/?plugin={$plugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button button-primary">{$aLang.admin.plugins.plugin_activate}</a>
-                    {/if}
+                    <p>{$plugin.property->description->data}</p>
 
-                    {if $plugin.apply_update and $plugin.is_active}
-                        <a href="{router page='admin'}plugins/?plugin={$plugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button">{lang name='admin.plugins.plugin_apply_update'}</a>
-                    {/if}
+                    {include 'components/info-list/info-list.tpl' list=[
+                        [ 'label' => {lang 'admin.plugins.plugin.version'}, 'content' => $plugin.property->version|escape ],
+                        [ 'label' => {lang 'admin.plugins.plugin.author'},  'content' => $plugin.property->author->data ],
+                        [ 'label' => {lang 'admin.plugins.plugin.url'},     'content' => $plugin.property->homepage ]
+                    ]}
+                </td>
 
-                    <a href="{router page='admin'}plugins/?plugin={$plugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}" class="button" onclick="return confirm('{$aLang.common.remove_confirm}');">{lang name='admin.plugins.plugin_delete'}</a>
+                {* Действия *}
+                <td>
+                    <ul class="admin-plugins-actions">
+                        {* Активировать/деактивировать *}
+                        <li>
+                            {if $plugin.is_active}
+                                {include 'components/button/button.tpl'
+                                    url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                    text = {lang 'admin.plugins.plugin.deactivate'}}
+                            {else}
+                                {include 'components/button/button.tpl'
+                                    url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                    mods = 'primary'
+                                    text = {lang 'admin.plugins.plugin.activate'}}
+                            {/if}
+                        </li>
+
+                        {* Применить обновление *}
+                        {if $plugin.apply_update && $plugin.is_active}
+                            <li>
+                                    {include 'components/button/button.tpl'
+                                        url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                        text = {lang 'admin.plugins.plugin.apply_update'}}
+                            </li>
+                        {/if}
+
+                        {* Ссылка на страницу настроек *}
+                        {if $plugin.property->settings != "" && $plugin.is_active}
+                            <li>
+                                {include 'components/button/button.tpl'
+                                    url  = $plugin.property->settings
+                                    text = {lang 'admin.plugins.plugin.settings'}}
+                            </li>
+                        {/if}
+
+                        {* Удалить *}
+                        <li>
+                            {include 'components/button/button.tpl'
+                                url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                attributes = "onclick=\"return confirm('{lang 'common.remove_confirm'}');\""
+                                text = {lang 'admin.plugins.plugin.remove'}}
+                        </li>
+                    </ul>
                 </td>
             </tr>
         {/foreach}
