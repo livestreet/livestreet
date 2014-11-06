@@ -1,13 +1,13 @@
 {**
  * Список комментариев
  *
- * @param array aComments Комментарии
+ * @param array comments Комментарии
  *}
 
 {include './comment-tree.tpl'
-	aComments      = $smarty.local.aComments
-	bShowFavourite = true
-	bForbidAdd     = true
-	bShowVote      = false
-	bShowScroll    = false
-	iMaxLevel      = 0}
+    comments      = $smarty.local.comments
+    forbidAdd     = true
+    useFavourite  = true
+    useVote       = false
+    showScroll    = false
+    maxLevel      = 0}

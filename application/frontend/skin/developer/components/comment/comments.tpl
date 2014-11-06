@@ -1,111 +1,126 @@
 {**
  * Комментарии
  *
- * @param string   $sTargetType
- * @param integer  $iTargetId
- * @param array    $aComments
- * @param boolean  $bForbidAdd
- * @param string   $sHeading
- * @param integer  $iCountComment
- * @param boolean  $bAllowSubscribe
+ * @param array    $comments
+ * @param integer  $count
+ * @param integer  $targetId
+ * @param string   $targetType
+ * @param string   $dateReadLast
+ * @param boolean  $forbidAdd
+ * @param integer  $authorId
+ * @param integer  $lastCommentId
+ * @param array    $pagination
+ * @param boolean  $isSubscribed
  *
- * @styles css/comments.css
+ * @param boolean  $useVote
+ * @param boolean  $useFavourite
+ * @param boolean  $useSubscribe
+ *
+ * @param string   $forbidText
+ * @param string   $authorText
+ * @param string   $addCommentText
+ * @param string   $titleLang
+ *
+ * @param string   $classes
+ * @param array    $attributes
+ * @param string   $mods
  *}
 
-{$sComponent = 'comments'}
+{$component = 'comments'}
 
 {block 'comment-list-options'}
-	{$iTargetId     = $smarty.local.iTargetId}
-	{$sTargetType   = $smarty.local.sTargetType}
-	{$iCountComment = $smarty.local.iCountComment}
-	{$bForbidAdd    = $smarty.local.bForbidAdd}
+    {$mods         = $smarty.local.mods}
+    {$targetId     = $smarty.local.targetId}
+    {$targetType   = $smarty.local.targetType}
+    {$count        = $smarty.local.count}
+    {$forbidAdd    = $smarty.local.forbidAdd}
+    {$isSubscribed = $smarty.local.isSubscribed}
 
-	{if $bForbidAdd}
-		{$mods = "$mods forbid"}
-	{/if}
+    {if $forbidAdd}
+        {$mods = "$mods forbid"}
+    {/if}
 {/block}
 
 {add_block group='toolbar' name='components/comment/toolbar.comment.tpl' target='.js-comment'}
 
-<div class="{$sComponent} js-comments {mod name=$sComponent mods=$mods} {$smarty.local.classes}"
-	id="comments"
-	data-target-type="{$sTargetType}"
-	data-target-id="{$iTargetId}"
-	data-comment-last-id="{$iMaxIdComment}">
-	{**
-	 * Заголовок
-	 *}
-	<header class="comments-header">
-		<h3 class="comments-title js-comments-title">
-			{lang name='comments.comments_declension' count=$iCountComment plural=true}
-		</h3>
-	</header>
+<div class="{$component} js-comments {mod name=$component mods=$mods} {$smarty.local.classes}"
+    data-target-type="{$targetType}"
+    data-target-id="{$targetId}"
+    data-comment-last-id="{$smarty.local.lastCommentId}"
+    {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+    {**
+     * Заголовок
+     *}
+    <header class="{$component}-header">
+        <h3 class="comments-title js-comments-title">
+            {lang "{$smarty.local.titleLang|default:'comments.comments_declension'}" count=$count plural=true}
+        </h3>
+    </header>
 
 
-	{**
-	 * Экшнбар
-	 *}
+    {**
+     * Экшнбар
+     *}
 
-	{* Свернуть/развернуть все комментарии *}
-	{$items = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
+    {* Свернуть/развернуть все комментарии *}
+    {$items = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
 
-	{* Подписка на комментарии *}
-	{if $bAllowSubscribe && $oUserCurrent}
-		{* Подписан пользователь на комментарии или нет *}
-		{$bIsSubscribed = $oSubscribeComment && $oSubscribeComment->getStatus()}
+    {* Подписка на комментарии *}
+    {if $smarty.local.useSubscribe && $oUserCurrent}
+        {$items[] = [
+            'classes'    => "comments-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
+            'attributes' => "data-type=\"{$targetType}\" data-target-id=\"{$targetId}\"",
+            'text'       => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
+        ]}
+    {/if}
 
-		{$items[] = [
-			'classes'    => "comments-subscribe js-comments-subscribe {if $bIsSubscribed}active{/if}",
-			'attributes' => "data-type=\"{$sTargetType}\" data-target-id=\"{$iTargetId}\"",
-			'text'       => ( $bIsSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
-		]}
-	{/if}
+    {* TODO: Добавить хук *}
 
-	{* TODO: Добавить хук *}
-
-	{include 'components/actionbar/actionbar.tpl' items=$items classes='comments-actions'}
+    {include 'components/actionbar/actionbar.tpl' items=$items classes='comments-actions'}
 
 
-	{**
-	 * Комментарии
-	 *}
-	<div class="comment-list js-comment-list" data-target-type="{$sTargetType}" data-target-id="{$iTargetId}">
-		{include './comment-tree.tpl'
-			aComments      = $smarty.local.aComments
-			bForbidAdd     = $bForbidAdd
-			bShowFavourite = $smarty.local.bShowFavourite
-			bShowVote      = $smarty.local.bShowVote}
-	</div>
+    {**
+     * Комментарии
+     *}
+    <div class="comment-list js-comment-list">
+        {include './comment-tree.tpl'
+            comments     = $smarty.local.comments
+            forbidAdd    = $forbidAdd
+            authorText   = $smarty.local.authorText
+            dateReadLast = $smarty.local.dateReadLast
+            useFavourite = $smarty.local.useFavourite
+            useVote      = $smarty.local.useVote}
+    </div>
 
 
-	{**
-	 * TODO: Пагинация
-	 *}
-	{*include 'comments/comment_pagination.tpl' aPagingCmt=$aPagingCmt*}
+    {**
+     * TODO: Пагинация
+     *}
+    {*include 'components/pagination/pagination.tpl' pagination=$smarty.local.pagination*}
 
 
-	{**
-	 * Форма добавления комментария
-	 *}
+    {**
+     * Форма добавления комментария
+     *}
 
-	{* Проверяем запрещено комментирование или нет *}
-	{if $bForbidAdd}
-		{include 'components/alert/alert.tpl' mods='info' text=$sNoticeNotAllow}
+    {* Проверяем запрещено комментирование или нет *}
+    {if $forbidAdd}
+        {include 'components/alert/alert.tpl' mods='info' text=$smarty.local.forbidText}
 
-	{* Если разрешено то показываем форму добавления комментария *}
-	{else}
-		{if $oUserCurrent}
-			{* Кнопка открывающая форму *}
-			<h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
-				<a href="#" class="link-dotted">{$sNoticeCommentAdd|default:$aLang.comments.form.title}</a>
-			</h4>
-		{else}
-			{include 'components/alert/alert.tpl' mods='info' text=$aLang.comments.alerts.unregistered}
-		{/if}
-	{/if}
+    {* Если разрешено то показываем форму добавления комментария *}
+    {else}
+        {if $oUserCurrent}
+            {* Кнопка открывающая форму *}
+            <h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
+                <a href="#" class="link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
+            </h4>
+        {else}
+            {include 'components/alert/alert.tpl' mods='info' text=$aLang.comments.alerts.unregistered}
+        {/if}
+    {/if}
 
-	{* Форма добавления комментария *}
-	{if $oUserCurrent && ( ! $bForbidAdd || ( $bForbidAdd && $iCountComment ) )}
-		{include './comment-form.tpl' sTargetType=$sTargetType iTargetId=$iTargetId}
-	{/if}
+    {* Форма добавления комментария *}
+    {if $oUserCurrent && ( ! $forbidAdd || ( $forbidAdd && $count ) )}
+        {include './comment-form.tpl' classes='js-comment-form' targetType=$targetType targetId=$targetId}
+    {/if}
 </div>

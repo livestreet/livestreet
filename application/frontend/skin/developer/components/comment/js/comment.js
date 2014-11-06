@@ -68,7 +68,7 @@
 					preview:       '.js-comment-form-preview',
 					update_submit: '.js-comment-form-update-submit',
 					update_cancel: '.js-comment-form-update-cancel',
-					comment_id:    '#form_comment_reply'
+					comment_id:    '.js-comment-form-id'
 				}
 			},
 

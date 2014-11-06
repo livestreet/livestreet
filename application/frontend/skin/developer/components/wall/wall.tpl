@@ -17,28 +17,31 @@
 
 {* Стена *}
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {$smarty.local.attributes}>
-	{* Форма добавления записи *}
-	{if $oUserCurrent}
-		{include './wall.form.tpl'}
-	{else}
-		{include 'components/alert/alert.tpl' text=$aLang.wall.alerts.unregistered mods='info' classes='mt-15'}
-	{/if}
+    {* Форма добавления записи *}
+    {if $oUserCurrent}
+        {include './wall.form.tpl'}
+    {else}
+        {include 'components/alert/alert.tpl' text=$aLang.wall.alerts.unregistered mods='info' classes='mt-15'}
+    {/if}
 
-	{* Список записей *}
-	<div class="js-wall-entry-container" data-id="0">
-		{include './wall.posts.tpl' posts=$smarty.local.posts}
-	</div>
+    {* Список записей *}
+    <div class="js-wall-entry-container" data-id="0">
+        {include './wall.posts.tpl' posts=$smarty.local.posts}
+    </div>
 
-	{* Уведомление о пустом списке *}
-	{if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
-		{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes='id="wall-empty"' visible=!$loadedCount}
-	{/if}
+    {* Уведомление о пустом списке *}
+    {if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
+        {include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes='id="wall-empty"' visible=!$loadedCount}
+    {/if}
 
-	{* Кнопка подгрузки записей *}
-	{if $moreCount}
-		{include 'components/more/more.tpl'
-			classes    = 'js-wall-more'
-			count      = $moreCount
-			attributes = "data-more-target=\".js-wall-entry-container[data-id=0]\" data-proxy-last_id=\"{$smarty.local.lastId}\""}
-	{/if}
+    {* Кнопка подгрузки записей *}
+    {if $moreCount}
+        {include 'components/more/more.tpl'
+            classes    = 'js-wall-more'
+            count      = $moreCount
+            attributes = [
+                'data-more-target' => '.js-wall-entry-container[data-id=0]',
+                'data-proxy-last_id' => $smarty.local.lastId
+            ]}
+    {/if}
 </div>

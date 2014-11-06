@@ -11,15 +11,15 @@
 {$component = 'more'}
 
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
-	 data-more-append="{$smarty.local.append|default:true}"
-	 {if $smarty.local.target}data-more-target="{$smarty.local.target}"{/if}
-	 {$smarty.local.attributes}>
+     data-more-append="{$smarty.local.append|default:true}"
+     {if $smarty.local.target}data-more-target="{$smarty.local.target}"{/if}
+     {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
 
-	{* Текст *}
-	{$smarty.local.text|default:{lang 'more.text'}}
+    {* Текст *}
+    {$smarty.local.text|default:{lang 'more.text'}}
 
-	{* Счетчик *}
-	{if $smarty.local.count}
-		(<span class="js-more-count">{$smarty.local.count}</span>)
-	{/if}
+    {* Счетчик *}
+    {if $smarty.local.count}
+        (<span class="js-more-count">{$smarty.local.count}</span>)
+    {/if}
 </div>

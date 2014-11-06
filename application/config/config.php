@@ -626,6 +626,8 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/vote/css/vote.css",
     "___path.skin.web___/components/actionbar/css/actionbar.css",
     "___path.skin.web___/components/favourite/css/favourite.css",
+    "___path.skin.web___/components/comment/css/comments.css",
+    "___path.skin.web___/components/comment/css/comment-form.css",
     "___path.skin.web___/components/comment/css/comment.css",
     "___path.skin.web___/components/comment/css/toolbar-comments.css",
     "___path.skin.web___/components/topic/css/topic.css",

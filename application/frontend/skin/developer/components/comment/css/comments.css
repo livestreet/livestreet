@@ -1,0 +1,58 @@
+/**
+ * Блок со списком комментариев
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/**
+ * @modifier forbid Комментирование запрещено
+ */
+.comments--forbid .comment-form {
+    display: none;
+}
+
+/**
+ * Блок с комментариями
+ */
+.comment-list {
+    margin-bottom: 30px;
+}
+
+/**
+ * Хидер
+ */
+.comments-header {
+    margin-bottom: 20px;
+}
+
+/* Заголовок */
+.comments-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+/* Действия */
+.comments-actions {
+    padding: 0;
+    background-color: transparent;
+}
+
+/**
+ * Кнопка "Комментировать"
+ */
+.comment-reply-root {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.comment-reply-root + .comment-form {
+    margin-top: 15px;
+}
+
+/**
+ * Вспомогательный блок-обертка
+ */
+.comment-wrapper .comment-wrapper { padding-left: 25px; }
+.comment-wrapper .comment-form,
+.comment-wrapper .comment-preview { margin-left: 25px; }

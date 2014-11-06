@@ -29,7 +29,7 @@
             {include 'components/more/more.tpl'
                 classes    = 'js-more-search'
                 target     = '.js-more-blogs-container'
-                attributes = 'data-search-type="blogs" data-proxy-page-next="2"'}
+                attributes = [ 'data-search-type' => 'blogs', 'data-proxy-page-next' => '2' ]}
         {/if}
     {else}
         {include 'components/pagination/pagination.tpl' paging=$smarty.local.pagination}

@@ -1,0 +1,21 @@
+/**
+ * Форма комментирования
+ *
+ * @template comment-form.tpl
+ */
+
+.comment-form {
+    padding: 15px;
+    margin-bottom: 2px;
+    background: #fafafa;
+}
+.comment-form textarea {
+    height: 150px;
+}
+
+/* Предпросмотр текста комментария */
+.comment-preview {
+    padding: 15px;
+    margin: 10px 0 10px 0;
+    border: 1px solid #eee;
+}

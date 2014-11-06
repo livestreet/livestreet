@@ -5,24 +5,26 @@
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_content'}
-	{* Топик *}
-	{include 'components/topic/topic.tpl' topic=$oTopic}
+    {* Топик *}
+    {include 'components/topic/topic.tpl' topic=$oTopic}
 
-	{* Комментарии *}
-	{include 'components/comment/comments.tpl'
-			 classes          = 'js-comments-topic'
-			 iTargetId         = $oTopic->getId()
-			 iAuthorId         = $oTopic->getUserId()
-			 aComments         = $aComments
-			 sAuthorNotice     = $aLang.topic.author
-			 sTargetType       = 'topic'
-			 iCountComment     = $oTopic->getCountComment()
-			 sDateReadLast     = $oTopic->getDateRead()
-			 bForbidAdd        = $oTopic->getForbidComment()
-			 sNoticeNotAllow   = $aLang.topic.comments.notices.not_allowed
-			 bAllowSubscribe   = true
-			 oSubscribeComment = $oTopic->getSubscribeNewComment()
-			 aPagingCmt        = $aPagingCmt
-			 bShowVote         = true
-			 bShowFavourite    = true}
+    {* Комментарии *}
+    {include 'components/comment/comments.tpl'
+        comments      = $aComments
+        count         = $oTopic->getCountComment()
+        classes       = 'js-comments-topic'
+        attributes    = [ 'id' => 'comments' ]
+        targetId      = $oTopic->getId()
+        targetType    = 'topic'
+        authorId      = $oTopic->getUserId()
+        authorText    = $aLang.topic.author
+        dateReadLast  = $oTopic->getDateRead()
+        forbidAdd     = $oTopic->getForbidComment()
+        forbidText    = $aLang.topic.comments.notices.not_allowed
+        useSubscribe  = true
+        isSubscribed  = $oTopic->getSubscribeNewComment() && $oTopic->getSubscribeNewComment()->getStatus()
+        lastCommentId = $iMaxIdComment
+        pagination    = $aPagingCmt
+        useVote       = true
+        useFavourite  = true}
 {/block}

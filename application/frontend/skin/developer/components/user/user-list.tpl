@@ -17,7 +17,7 @@
 			{include 'components/more/more.tpl'
 				classes    = 'js-more-search'
 				target     = '.js-more-users-container'
-				attributes = 'data-search-type="users" data-proxy-page-next="2"'}
+				attributes = [ 'data-search-type' => 'users', 'data-proxy-page-next' => '2' ]}
 		{/if}
 	{else}
 		{include 'components/pagination/pagination.tpl' paging=$aPaging}

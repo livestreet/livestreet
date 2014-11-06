@@ -1,41 +1,4 @@
 /**
- * Комментарии
- *
- * @template comments/*.tpl
- * @scripts <frontend>/common/js/comments.js
- *
- * @license   GNU General Public License, version 2
- * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
- * @author    Denis Shakhov <denis.shakhov@gmail.com>
- */
-
-
-/**
- * Блок со списком комментариев
- */
-.comments {  }
-
-.comments-header { margin-bottom: 20px; }
-.comments-title  { font-size: 24px; margin-bottom: 5px; }
-
-.comments-actions { padding: 0; background-color: transparent; }
-
-.comment-list { margin-bottom: 30px; }
-
-/**
- * Вспомогательный блок-обертка
- */
-.comment-wrapper .comment-wrapper { padding-left: 25px; }
-
-
-/**
- * Предпросмотр текста комментария
- */
-.comment-preview                  { padding: 15px; margin: 10px 0 10px 0; border: 1px solid #eee; }
-.comment-wrapper .comment-preview { margin-left: 25px; }
-
-
-/**
  * Комментарий
  *
  * @modifier deleted   Удаленный комментарий
@@ -44,31 +7,45 @@
  * @modifier current   Активный комментарий, который выделяется при исползование кнопки обновления в тулбаре
  * @modifier list-item Комментарий выводимый в списках
  *
- * @template comments/comment.tpl
+ * @template comment.tpl
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
+
 .comment {
-	min-height: 48px;
-	padding: 15px 15px 15px 80px;
-	margin-bottom: 2px;
-	position: relative;
-	background: #fafafa;
+    min-height: 48px;
+    padding: 15px 15px 15px 80px;
+    margin-bottom: 2px;
+    position: relative;
+    background: #fafafa;
 }
 
-.comment--self      { background: #c5f7ea; }
-
-.comment--new       { background: #fbfba8; }
-
-.comment--current   { background: #a5e7fa; }
-
-.comment--bad       { opacity: 0.3; filter: alpha(opacity=30); }
-.comment--bad:hover { opacity: 1; filter: alpha(opacity=100); }
+.comment--self {
+    background: #c5f7ea;
+}
+.comment--new {
+    background: #fbfba8;
+}
+.comment--current {
+    background: #a5e7fa;
+}
+.comment--bad {
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+.comment--bad:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
 
 .comment.comment--deleted { background: #efd5d5; }
 .ls-user-role-not-admin .comment.comment--deleted {
-	padding: 10px 15px;
-	min-height: 0;
-	background: #f7f7f7;
-	color: #888;
+    padding: 10px 15px;
+    min-height: 0;
+    background: #f7f7f7;
+    color: #888;
 }
 
 .comment.comment-list-item { margin-bottom: 20px; }
@@ -77,32 +54,49 @@
 
 /* Аватар */
 .comment-avatar {
-	position: absolute;
-	top: 15px;
-	left: 15px;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	overflow: hidden;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
 }
-.comment-avatar img { width: 50px; height: 50px; }
+.comment-avatar img {
+    width: 50px;
+    height: 50px;
+}
 
 /* Информация */
-.comment-info    { padding: 0 70px 0 0; margin-bottom: 15px; line-height: 1.3em; position: relative; }
-.comment-info li { float: left; margin-right: 10px; }
-.comment-info a  { text-decoration: none; }
+.comment-info {
+    padding: 0 70px 0 0;
+    margin-bottom: 15px;
+    line-height: 1.3em;
+    position: relative;
+}
+.comment-info li {
+    float: left;
+    margin-right: 10px;
+}
+.comment-info a {
+    text-decoration: none;
+}
 
 /* Логин */
-.comment-info .comment-username { float: none; font: 20px/1.3em "Open Sans", sans-serif; margin-bottom: 5px; }
+.comment-info .comment-username {
+    float: none;
+    font: 20px/1.3em "Open Sans", sans-serif;
+    margin-bottom: 5px;
+}
 
 /* Избранное */
 .comment-favourite {
-	display: none;
-	position: absolute;
-	width: 50px;
-	top: 65px;
-	left: -65px;
-	text-align: center;
+    display: none;
+    position: absolute;
+    width: 50px;
+    top: 65px;
+    left: -65px;
+    text-align: center;
 }
 
 .comment-favourite.favourite--added,
@@ -114,7 +108,12 @@
 .comment-date a:hover { color: #777; }
 
 /* Голосование */
-.comment-vote { position: absolute; top: 0; right: 0; margin: 0; }
+.comment-vote {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+}
 
 .comment-vote.vote--not-voted.vote--count-zero { display: none; }
 .comment:hover .comment-vote { display: block; }
@@ -124,48 +123,35 @@
 .comment-scroll-to-child { display: none; }
 
 /* Текст комментария */
-.comment-content.text            { font-size: 13px; line-height: 1.7em; }
-.comment-content.text blockquote { background: #fff; border-color: #ccc; padding: 5px 10px; margin-bottom: 5px; }
+.comment-content.text {
+    font-size: 13px;
+    line-height: 1.7em;
+}
+.comment-content.text blockquote {
+    background: #fff;
+    border-color: #ccc;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
 
 /* Действия */
-.comment-actions li { float: left; margin: 10px 10px 0 0; }
+.comment-actions li {
+    float: left;
+    margin: 10px 10px 0 0;
+}
 
 /* Сворачивание */
-.comment-fold      { background: #CBCBF3; display: none; }
-.comment-fold.open { background: transparent; }
+.comment-fold {
+    background: #CBCBF3;
+    display: none;
+}
+.comment-fold.open {
+    background: transparent;
+}
 
 /* Информация о редактировании */
-.comment-edit-info { margin-top: 10px; font-size: 11px; opacity: .5; }
-
-
-/**
- * Форма комментирования
- *
- * @template comments/comment.form.tpl
- */
-.comment-form          { padding: 15px; margin-bottom: 2px; background: #fafafa; }
-.comment-form textarea { height: 150px; }
-
-.comment-wrapper .comment-form { margin-left: 25px; }
-
-.comment-reply-root                 { font-size: 20px; margin-bottom: 0; }
-.comment-reply-root + .comment-form { margin-top: 15px; }
-
-.comments--forbid .comment-form { display: none; }
-
-
-/**
- * Ссылка на топик с комментарием
- *
- * @template comments/comment_list.tpl
- */
-.comment-path                    { background: #eee; padding: 5px 10px 6px; border-top: 1px solid #ddd; }
-.comment-path .comment-path-blog { color: #777; }
-
-
-/**
- * Пагинация комментариев
- *
- * @template comments/comment_pagination.tpl
- */
-.pagination.pagination-comments { margin-bottom: 20px; }
+.comment-edit-info {
+    margin-top: 10px;
+    font-size: 11px;
+    opacity: .5;
+}
