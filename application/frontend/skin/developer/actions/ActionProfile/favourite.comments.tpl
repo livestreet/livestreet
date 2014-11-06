@@ -10,5 +10,5 @@
 
 {block 'layout_content' append}
 	{include 'navs/nav.user.favourite.tpl'}
-	{include 'components/comment/comment-list.tpl' xomments=$aComments}
+	{include 'components/comment/comment-list.tpl' comments=$aComments}
 {/block}
