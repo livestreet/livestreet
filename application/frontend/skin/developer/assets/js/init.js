@@ -390,12 +390,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Поиск
-	 */
-	ls.search.init();
-
-
-	/**
 	 * Toolbar
 	 */
 	$('.js-toolbar').toolbar({

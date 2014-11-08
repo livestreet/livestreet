@@ -10,7 +10,7 @@
 
 {block 'layout_content'}
 	{include 'components/user/search-form.users.tpl'}
-	{include 'components/alphanumeric/alphanumeric.tpl' letters=$aPrefixUser type='users'}
+	{include 'components/alphanumeric/alphanumeric.tpl' letters=$aPrefixUser}
 
 	{* Сортировка *}
 	{include 'components/sort/sort.ajax.tpl'
@@ -22,7 +22,7 @@
 			[ name => 'user_date_register', text => $aLang.sort.by_date_registration ]
 		]}
 
-	<div class="js-search-ajax-container" data-type="users">
+	<div class="js-search-ajax-users">
 		{include 'components/user/user-list.tpl' aUsersList=$aUsers bUseMore=true}
 	</div>
 {/block}

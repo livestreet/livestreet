@@ -7,7 +7,7 @@
 
 {include 'components/tags/tag-cloud.tpl'
 	tags   = $aFavouriteTopicUserTags
-	url    = '{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$oTag->getText()|escape:\'url\'}/'
+	url    = '{$oFavouriteUser->getUserWebPath()}favourites/topics/tag/{$tag->getText()|escape:\'url\'}/'
 	active = $sFavouriteTag
 	assign = tags}
 

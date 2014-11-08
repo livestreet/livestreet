@@ -74,6 +74,34 @@ ls.blog = (function ($) {
 			e.preventDefault();
 		});
 
+        $( '.js-search-ajax-blog' ).lsSearchAjax({
+            urls: {
+                search: aRouter.blogs + 'ajax-search/'
+            },
+            filters : [
+                {
+                    type: 'text',
+                    name: 'sText',
+                    selector: '.js-search-text-main'
+                },
+                {
+                    type: 'radio',
+                    name: 'type',
+                    selector: '.js-search-ajax-blog-type'
+                },
+                {
+                    type: 'list',
+                    name: 'category',
+                    selector: '#js-search-ajax-blog-category li'
+                },
+                {
+                    type: 'sort',
+                    name: 'sort_by',
+                    selector: '.js-search-sort-menu li'
+                }
+            ]
+		});
+
 		/**
 		 * Блок навигации по категориям и блогам
 		 */

@@ -1,228 +1,187 @@
 /**
- * Поиск
+ * Аякс поиск
  *
- * @module ls/search
+ * @module ls/search-ajax
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
+(function($) {
+    "use strict";
 
-ls.search = (function ($) {
-	"use strict";
+    $.widget( "livestreet.lsSearchAjax", {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                search: null
+            },
 
-	/**
-	 * Дефолтные опции
-	 *
-	 * @private
-	 */
-	var _defaults = {
-		// Типы
-		type: {
-			blogs: {
-				url: aRouter['blogs'] + 'ajax-search/',
-				params: {}
-			},
-			users: {
-				url: aRouter['people'] + 'ajax-search/',
-				params: {}
-			}
-		},
+            // Селекторы
+            selectors: {
+                more: '.js-more-search',
+            },
 
-		// Селекторы
-		selectors: {
-			option: '.js-search-ajax-option',
-			alphabet: '.js-search-alphabet',
-			alphabet_item: '.js-search-alphabet-item'
-		}
-	};
+            // Фильтры
+            filters : [],
 
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 * TODO: Оптимизировать иниц-ию фильтров
-	 */
-	this.init = function(options) {
-		var _this = this;
+            // Парметры передаваемый при аякс запросе
+            params : {}
+        },
 
-		this.options = $.extend({}, _defaults, options);
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            var _this = this;
 
-		var oSearchOptions = $(this.options.selectors.option);
+            this.elements = {
+                more: this.element.find( this.option( 'selectors.more' ) )
+            };
 
+            // Иниц-ия фильтров
+            $.each( this.option( 'filters' ), function ( index, value ) {
+                _this.addFilter( value );
+            });
 
-		// Search by prefix
-		var oSearchAlhpabet = $(this.options.selectors.alphabet).eq(0),
-			oSearchAlhpabetType = oSearchAlhpabet.data('type'),
-			oSearchAlhpabetItems = oSearchAlhpabet.find(this.options.selectors.alphabet_item),
-			oSearchText = $('.js-search-text-main[data-type=' + oSearchAlhpabetType + ']');
+            // Кнопка подгрузки
+            this.elements.more.livequery(function () {
+                $( this ).more({
+                    url: _this.option( 'urls.search' ),
+                    result: 'sText', // тут лучше на дефолтный sHtml заменить
+                    beforeload: function ( event, context ) {
+                        $.extend( context.option( 'params' ), _this.option( 'params' ) );
+                    }
+                });
+            });
+        },
 
-		oSearchAlhpabetItems.on('click', function (e) {
-			var oElement = $(this),
-				sLetter = oElement.data('letter');
+        /**
+         * Добавление фильра
+         */
+        addFilter: function( filter ) {
+            var _this = this,
+                element = $( filter.selector ),
+                activeClass = filter.activeClass || ls.options.classes.states.active;
 
-			oSearchAlhpabetItems.removeClass(ls.options.classes.states.active);
-			oElement.addClass(ls.options.classes.states.active);
+            switch ( filter.type ) {
+                // Текстовое поле
+                case 'text':
+                    var alphanumericFilter = $( filter.alphanumericFilterSelector );
 
-			_this.setParam(oSearchAlhpabetType, 'isPrefix', sLetter ? 1 : 0);
-			_this.setParam(oSearchAlhpabetType, 'sText', sLetter);
-			_this.search(oSearchAlhpabetType);
+                    element.on( 'keyup', function () {
+                        _this.setParam( filter.name, $( this ).val() );
+                        _this.setParam( 'isPrefix', 0 );
 
-			oSearchText.val('');
+                        if ( alphanumericFilter.length ) {
+                            alphanumericFilter
+                                .eq(0)
+                                .find( 'li' )
+                                .removeClass( ls.options.classes.states.active )
+                                .first()
+                                .addClass( ls.options.classes.states.active );
+                        }
 
-			e.preventDefault();
-		});
+                        ls.timer.run( _this, _this.update, null, null, 300 );
+                    });
 
+                    break;
+                case 'radio':
+                case 'checkbox':
+                case 'select':
+                    // TODO: multiselect
+                    element.on( 'change', function () {
+                        var value, el = $( this );
 
-		// Text
-		oSearchOptions.filter('input[type=text]').each(function () {
-			var oElement = $(this),
-				sType = oElement.data('type');
+                        if ( filter.type == 'checkbox' ) {
+                            value = el.is( ':checked' ) ? 1 : 0;
+                        } else {
+                            value = el.val();
+                        }
 
-			oElement.on('keyup', function () {
-				_this.setParam(sType, 'sText', oElement.val());
-				_this.resetAlhpabet();
-				ls.timer.run(_this, _this.search, 'search_type_' + sType, [sType], 300);
-			});
-		});
+                        _this.setParam( filter.name, value );
+                        _this.update();
+                    });
 
+                    break;
+                case 'list':
+                case 'sort':
+                case 'alphanumeric':
+                    element.on( 'click', function ( event ) {
+                        var el = $( this ),
+                            els = el.closest( 'ul' ).find( 'li' ).not( el ),
+                            value = el.data( 'value' );
 
-		// Checkbox, Radio, Select
-		// TODO: multiselect
-		oSearchOptions.filter('input[type=checkbox], input[type=radio], select').on('change', function (e) {
-			var oElement = $(this),
-				sParamName = oElement.attr('name'),
-				sType = oElement.data('search-type'),
-				sInputType = oElement.attr('type') || 'select',
-				mValue = null;
+                        els.removeClass( activeClass );
+                        el.addClass( activeClass );
 
-			if (sInputType == 'checkbox') {
-				mValue = oElement.is(':checked') ? 1 : 0;
-			} else if (sInputType == 'radio' || sInputType == 'select') {
-				mValue = oElement.val();
-			}
+                        if ( filter.type == 'sort' ) {
+                            var order = el.attr( 'data-order' );
 
-			_this.setParam(sType, sParamName, mValue);
-			_this.search(sType);
-		});
+                            els.attr( 'data-order', 'asc' );
+                            el.attr( 'data-order', el.attr( 'data-order' ) == 'asc' ? 'desc' : 'asc' );
 
+                            _this.setParam( 'order', order );
+                        }
 
-		// Lists
-		oSearchOptions.filter('li').on('click', function (e) {
-			var oElement = $(this),
-				sParamName = oElement.data('name'),
-				mValue = oElement.data('value'),
-				sType = oElement.data('search-type');
+                        if ( filter.type == 'alphanumeric' ) {
+                            var letter = el.data( 'letter' );
 
-			oElement.closest('ul').find('li').not(oElement).removeClass(ls.options.classes.states.active);
-			oElement.addClass(ls.options.classes.states.active);
+                            _this.setParam( 'isPrefix', letter ? 1 : 0 );
+                            value = letter;
 
-			_this.setParam(sType, sParamName, mValue);
-			_this.search(sType);
+                            // Сбрасываем текстовый фильтр
+                            $( filter.textFilterSelector ).val( '' );
+                        }
 
-			e.preventDefault();
-		});
+                        _this.setParam( filter.name, value );
+                        _this.update();
 
+                        event.preventDefault();
+                    });
 
-		// Sort
-		var aSortItems = $('.js-search-sort-menu li');
+                    break;
+                default:
+                    break;
+            }
+        },
 
-		aSortItems.on('click', function (e) {
-			var oElement = $(this),
-				sParamName = oElement.data('name'),
-				mValue = oElement.data('value'),
-				sOrder = oElement.attr('data-order'),
-				sType = oElement.data('search-type');
+        /**
+         * Установка параметра
+         */
+        setParam: function( name, value ) {
+            this.option( 'params.' + name, value );
+            // this.updateUrl();
+        },
 
-			aSortItems.not(oElement).removeClass(ls.options.classes.states.active).attr('data-order', 'asc');
+        /**
+         * Получение параметра
+         */
+        getParam: function( name ) {
+            return this.option( 'params.' + name );
+        },
 
-			oElement.attr('data-order', sOrder == 'asc' ? 'desc' : 'asc');
+        /**
+         * Обновление поиска
+         */
+        update: function() {
+            ls.ajax.load( this.option( 'urls.search' ), this.option( 'params' ), function ( response ) {
+                this.element.html( $.trim( response.sText ) );
+            }.bind( this ));
+        },
 
-			_this.setParam(sType, sParamName, mValue);
-			_this.setParam(sType, 'order', sOrder);
-			_this.search(sType);
-
-			e.preventDefault();
-		});
-
-		// More loader
-		$('.js-more-search').livequery(function () {
-			$(this).more({
-				result: 'sText', // тут лучше на дефолтный sHtml заменить
-				beforeload: function (e, context) {
-					var sSearchType = context.element.data('search-type');
-
-					context.options.url = ls.search.options.type[sSearchType].url;
-					context.options.params = $.extend({}, context.options.params, ls.search.options.type[sSearchType].params);
-				}
-			});
-		});
-	};
-
-	/**
-	 * Поиск
-	 *
-	 * @param  {String} sType   Тип
-	 * @param  {Object} oParams Параметры передаваемые при аякс запросе
-	 */
-	this.search = function (sType) {
-		var sUrl    = this.options.type[sType].url,
-			oParams = this.options.type[sType].params;
-
-		ls.hook.marker('ls_search');
-
-		ls.ajax.load(sUrl, $.extend({}, oParams), function (oResponse) {
-			this.getContainer(sType).html($.trim(oResponse.sText));
-
-			ls.hook.run('ls_search_after', [sType, oResponse]);
-		}.bind(this));
-	};
-
-	this.resetAlhpabet = function() {
-		$(this.options.selectors.alphabet).eq(0).find(this.options.selectors.alphabet_item).removeClass(ls.options.classes.states.active).first().addClass(ls.options.classes.states.active);
-	}
-
-	/**
-	 * Получает контейнер в который будут выводится результаты поиска
-	 *
-	 * @param  {String} sType Тип
-	 */
-	this.getContainer = function (sType) {
-		return this.options.type[sType].container || ( this.options.type[sType].container = $('.js-search-ajax-container[data-type=' + sType + ']') );
-	};
-
-	/**
-	 * Устанавливает параметр аякс запроса
-	 *
-	 * @param  {String} sType  Тип
-	 * @param  {String} sName  Имя параметра
-	 * @param  {Mixed}  mValue Значение параметра
-	 */
-	this.setParam = function (sType, sName, mValue) {
-		this.options.type[sType].params[sName] = mValue;
-		this.updateUrl(sType);
-	};
-
-	/**
-	 * Получает параметр аякс запроса
-	 *
-	 * @param  {String} sType  Тип
-	 * @param  {String} sName  Имя параметра
-	 */
-	this.getParam = function (sType, sName) {
-		return this.options.type[sType].params[sName];
-	};
-
-	/**
-	 * Обновляет ссылку на основе параметров
-	 *
-	 * @param  {String} sType  Тип
-	 */
-	this.updateUrl = function (sType) {
-		// window.history.pushState({}, 'Search', window.location.origin + window.location.pathname + '?' + $.param(this.options.type[sType].params));
-	};
-
-	return this;
-}).call(ls.search || {}, jQuery);
+        /**
+         * Обновляет ссылку на основе параметров
+         */
+        updateUrl: function () {
+            window.history.pushState( {}, 'Search', window.location.origin + window.location.pathname + '?' + $.param( this.option( 'params' ) ) );
+        }
+    });
+})( jQuery );

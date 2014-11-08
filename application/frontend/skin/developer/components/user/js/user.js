@@ -137,6 +137,41 @@ ls.user = (function ($) {
 			return false;
 		});
 
+        $( '.js-search-ajax-users' ).lsSearchAjax({
+            urls: {
+                search: aRouter.people + 'ajax-search/'
+            },
+            filters : [
+                {
+                    type: 'text',
+                    name: 'sText',
+                    selector: '.js-search-text-main',
+                    alphanumericFilterSelector: '.js-search-alphabet'
+                },
+                {
+                    type: 'alphanumeric',
+                    name: 'sText',
+                    selector: '.js-search-alphabet .js-search-alphabet-item',
+                    textFilterSelector: '.js-search-text-main'
+                },
+                {
+                    type: 'radio',
+                    name: 'sex',
+                    selector: '.js-search-ajax-user-sex'
+                },
+                {
+                    type: 'checkbox',
+                    name: 'is_online',
+                    selector: '.js-search-ajax-user-online'
+                },
+                {
+                    type: 'sort',
+                    name: 'sort_by',
+                    selector: '.js-search-sort-menu li'
+                }
+            ]
+        });
+
 		//
 		// НАСТРОЙКИ
 		//
