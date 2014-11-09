@@ -1,15 +1,18 @@
 {**
  * Информация о голосовании
+ *
+ * @param object $target
  *}
 
-{* Название компонента *}
-{$component = 'vote'}
+{$component = 'vote-info'}
 
-<ul class="{$component}-info">
-	<li><i class="icon-plus icon-white"></i> {$oObject->getCountVoteUp()}</li>
-	<li><i class="icon-minus icon-white"></i> {$oObject->getCountVoteDown()}</li>
-	<li><i class="icon-eye-open icon-white"></i> {$oObject->getCountVoteAbstain()}</li>
-	<li><i class="icon-asterisk icon-white"></i> {$oObject->getCountVote()}</li>
+{$target = $smarty.local.target}
 
-	{hook run='topic_show_vote_stats' topic=$oObject}
+<ul class="{$component}">
+	<li><i class="icon-plus icon-white"></i> {$target->getCountVoteUp()}</li>
+	<li><i class="icon-minus icon-white"></i> {$target->getCountVoteDown()}</li>
+	<li><i class="icon-eye-open icon-white"></i> {$target->getCountVoteAbstain()}</li>
+	<li><i class="icon-asterisk icon-white"></i> {$target->getCountVote()}</li>
+
+	{hook run='topic_show_vote_stats' topic=$target}
 </ul>

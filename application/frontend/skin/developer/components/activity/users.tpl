@@ -5,6 +5,6 @@
  *}
 
 {include 'components/user-list-add/user-list-add.tpl'
-	sUserListAddClasses = 'js-activity-users'
-	aUserList           = $smarty.local.users
-	sUserListNote       = $aLang.activity.users.note}
+    users   = $smarty.local.users
+    classes = 'js-activity-users'
+    note    = $aLang.activity.users.note}

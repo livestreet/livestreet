@@ -9,9 +9,8 @@
  * @param string  $textEmpty
  *}
 
-
-{* Список блогов *}
 {if $smarty.local.blogs}
+    {* Заголовок *}
     {if $smarty.local.searchCount}
         <h3 class="h3">{lang name='blog.search.result_title' count=$smarty.local.searchCount plural=true}</h3>
     {/if}

@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content' append}
-	{include 'components/user/user-list.tpl' aUsersList=$aFriends}
+	{include 'components/user/user-list.tpl' users=$aFriends pagination=$aPaging}
 {/block}

@@ -282,8 +282,8 @@ class ActionStream extends Action
             if ($oUser = $this->User_GetUserByLogin($sUser) and $oUser->getActivate() == 1) {
                 $this->Stream_subscribeUser($this->oUserCurrent->getId(), $oUser->getId());
                 $oViewer = $this->Viewer_GetLocalViewer();
-                $oViewer->Assign('oUser', $oUser);
-                $oViewer->Assign('bUserListSmallShowActions', true);
+                $oViewer->Assign('user', $oUser, true);
+                $oViewer->Assign('showActions', true, true);
 
                 $aResult[] = array(
                     'bStateError'   => false,
@@ -294,7 +294,7 @@ class ActionStream extends Action
                     'sUserLogin'    => htmlspecialchars($sUser),
                     'sUserWebPath'  => $oUser->getUserWebPath(),
                     'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                    'sHtml'         => $oViewer->Fetch("components/user/user-list-small-item.tpl")
+                    'sHtml'         => $oViewer->Fetch("components/user-list-add/item.tpl")
                 );
             } else {
                 $aResult[] = array(

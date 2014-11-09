@@ -17,5 +17,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/user/user-list.tpl' aUsersList=$aUsersCity}
+	{include 'components/user/user-list.tpl' users=$aUsersCity pagination=$aPaging}
 {/block}

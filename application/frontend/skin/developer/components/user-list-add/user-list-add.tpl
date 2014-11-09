@@ -1,44 +1,57 @@
 {**
  * Пополняемый список пользователей
+ *
+ * @param array   $users
+ * @param string  $title
+ * @param string  $note
+ * @param boolean $editable
+ *
+ * @param string $classes
+ * @param array  $attributes
+ * @param array  $mods
  *}
 
 {* Название компонента *}
 {$component = 'user-list-add'}
 
 {* Форма добавления *}
-<div class="{$component} {mod name=$component mods=$sUserListAddMods} js-{$component} {$sUserListAddClasses}" {$sUserListAddAttributes}>
-	{* Заголовок *}
-	{if $sUserListTitle}
-		<h3 class="{$component}-title">{$sUserListTitle}</h3>
-	{/if}
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+     {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
 
-	{* Описание *}
-	{if $sUserListNote}
-		<p class="{$component}-note">{$sUserListNote}</p>
-	{/if}
+    {* Заголовок *}
+    {if $smarty.local.title}
+        <h3 class="{$component}-title">{$smarty.local.title}</h3>
+    {/if}
 
-	{* Форма добавления *}
-	{if $smarty.local.allowManage|default:true}
-		<form class="{$component}-form js-{$component}-form">
-			{$sClass = "js-$component-form-users-"|cat:rand(0, 9999)}
+    {* Описание *}
+    {if $smarty.local.note}
+        <p class="{$component}-note">{$smarty.local.note}</p>
+    {/if}
 
-			{include 'components/field/field.text.tpl'
-					 name    = 'add'
-					 inputClasses = "autocomplete-users-sep {$sClass}"
-					 label   = $aLang.user_list_add.form.fields.add.label
-					 note    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$sClass}\">Выбрать из списка друзей</a>"}
+    {* Форма добавления *}
+    {if $smarty.local.editable|default:true}
+        <form class="{$component}-form js-{$component}-form">
+            {$uid = "js-$component-form-users-"|cat:rand(0, 10e10)}
 
-			{include 'components/button/button.tpl' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
-		</form>
-	{/if}
+            {include 'components/field/field.text.tpl'
+                name         = 'add'
+                inputClasses = "autocomplete-users-sep {$uid}"
+                label        = $aLang.user_list_add.form.fields.add.label
+                note         = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$uid}\">Выбрать из списка друзей</a>"}
 
-	{* Список пользователей *}
-	{* TODO: Изменить порядок вывода - сначало новые *}
-	{include 'components/user/user-list-small.tpl'
-			 bHideableEmptyAlert       = true
-			 aUserList                 = $aUserList
-			 bUserListSmallShowActions = true
-			 bUserListDisplay          = !! $aUserList
-			 sUserListSmallClasses     = "js-$component-users"
-			 sUserListSmallItemClasses = "js-$component-user"}
+            {include 'components/button/button.tpl' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
+        </form>
+    {/if}
+
+    {* Список пользователей *}
+    {* TODO: Изменить порядок вывода - сначало новые *}
+    {block 'user_list_add_list'}
+        {include 'components/user-list-add/list.tpl'
+            hideableEmptyAlert = true
+            users              = $smarty.local.users
+            showActions        = true
+            show               = !! $smarty.local.users
+            classes            = "js-$component-users"
+            itemClasses        = "js-$component-user"}
+    {/block}
 </div>

@@ -146,12 +146,12 @@ class ActionPeople extends Action
          * Формируем ответ
          */
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('aUsersList', $aResult['collection']);
+        $oViewer->Assign('usersList', $aResult['collection'], true);
         $oViewer->Assign('oUserCurrent', $this->User_GetUserCurrent());
-        $oViewer->Assign('sUserListEmpty', $this->Lang_Get('search.alerts.empty'));
-        $oViewer->Assign('bUseMore', true);
-        $oViewer->Assign('bHideMore', $bHideMore);
-        $oViewer->Assign('iSearchCount', $aResult['count']);
+        $oViewer->Assign('userListEmpty', $this->Lang_Get('search.alerts.empty'), true);
+        $oViewer->Assign('useMore', true, true);
+        $oViewer->Assign('hideMore', $bHideMore, true);
+        $oViewer->Assign('searchCount', $aResult['count'], true);
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/user-list.tpl"));
         /**
          * Для подгрузки

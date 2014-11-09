@@ -16,15 +16,15 @@
 
 {block 'block_content'}
 	{* Создатель *}
-	{include 'components/user/user-list-small.tpl' aUserList=[ $oBlog->getOwner() ] sUserListSmallTitle=$aLang.blog.owner}
+	{include 'components/user/user-list-small.tpl' users=[ $oBlog->getOwner() ] title=$aLang.blog.owner}
 
 	{* Администраторы *}
 	{if count($aBlogAdministrators)}
-		{include 'components/user/user-list-small.tpl' aUserList=$aBlogAdministrators sUserListSmallTitle="{$aLang.blog.administrators} ({count($aBlogAdministrators)})"}
+		{include 'components/user/user-list-small.tpl' users=$aBlogAdministrators title="{$aLang.blog.administrators} ({count($aBlogAdministrators)})"}
 	{/if}
 
 	{* Модераторы *}
 	{if count($aBlogModerators)}
-		{include 'components/user/user-list-small.tpl' aUserList=$aBlogModerators sUserListSmallTitle="{$aLang.blog.moderators} ({count($aBlogModerators)})"}
+		{include 'components/user/user-list-small.tpl' users=$aBlogModerators title="{$aLang.blog.moderators} ({count($aBlogModerators)})"}
 	{/if}
 {/block}

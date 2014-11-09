@@ -5,7 +5,7 @@
  *}
 
 {include 'components/user-list-add/user-list-add.tpl'
-	sUserListAddClasses    = 'js-feed-users'
-	aUserList              = $smarty.local.users
-	sUserListAddAttributes = 'data-param-type="users"'
-	sUserListNote          = $aLang.feed.users.note}
+    users      = $smarty.local.users
+    classes    = 'js-feed-users'
+    attributes = [ 'data-param-type' => 'users' ]
+    note       = $aLang.feed.users.note}

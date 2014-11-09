@@ -223,8 +223,8 @@ class ActionUserfeed extends Action
                     $oUser->getId());
 
                 $oViewer = $this->Viewer_GetLocalViewer();
-                $oViewer->Assign('oUser', $oUser);
-                $oViewer->Assign('bUserListSmallShowActions', true);
+                $oViewer->Assign('user', $oUser, true);
+                $oViewer->Assign('showActions', true, true);
 
                 $aResult[] = array(
                     'bStateError'   => false,
@@ -235,7 +235,7 @@ class ActionUserfeed extends Action
                     'sUserLogin'    => htmlspecialchars($sUser),
                     'sUserWebPath'  => $oUser->getUserWebPath(),
                     'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                    'sHtml'         => $oViewer->Fetch("components/user/user-list-small-item.tpl")
+                    'sHtml'         => $oViewer->Fetch("components/user-list-add/item.tpl")
                 );
             } else {
                 $aResult[] = array(

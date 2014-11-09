@@ -23,6 +23,6 @@
 		]}
 
 	<div class="js-search-ajax-users">
-		{include 'components/user/user-list.tpl' aUsersList=$aUsers bUseMore=true}
+		{include 'components/user/user-list.tpl' users=$aUsers useMore=true}
 	</div>
 {/block}

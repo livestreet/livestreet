@@ -7,17 +7,17 @@
  *}
 
 <form class="wall-form js-wall-form {$smarty.local.classes}" data-id="{$smarty.local.id|default:0}" {if ! $smarty.local.display|default:true}style="display: none"{/if}>
-	{* Текст *}
-	{include 'components/field/field.textarea.tpl'
-			 placeholder  = "{$smarty.local.placeholder|default:$aLang.wall.form.fields.text.placeholder}"
-			 inputClasses = 'width-full js-wall-form-text'}
+    {* Текст *}
+    {include 'components/field/field.textarea.tpl'
+        placeholder  = "{$smarty.local.placeholder|default:$aLang.wall.form.fields.text.placeholder}"
+        inputClasses = 'width-full js-wall-form-text'}
 
-	{* Подвал формы *}
-	<footer class="wall-form-footer">
-		{include 'components/button/button.tpl'
-				 type    = 'submit'
-				 mods    = 'primary'
-				 classes = 'js-wall-form-submit'
-				 text    = $aLang.common.add}
-	</footer>
+    {* Подвал формы *}
+    <footer class="wall-form-footer">
+        {include 'components/button/button.tpl'
+            type    = 'submit'
+            mods    = 'primary'
+            classes = 'js-wall-form-submit'
+            text    = $aLang.common.add}
+    </footer>
 </form>

@@ -60,6 +60,6 @@ class BlockUserfeedBlogs extends Block
             $this->Viewer_Assign('blogsJoined', $aBlogs);
         }
 
-        $this->SetTemplate('components/userfeed/blocks/block.userfeed-blogs.tpl');
+        $this->SetTemplate('components/feed/blocks/block.userfeed-blogs.tpl');
     }
 }

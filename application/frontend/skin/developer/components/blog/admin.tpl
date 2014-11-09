@@ -24,7 +24,7 @@
 
                     <tr>
                         <td class="cell-name">
-                            {include 'components/user/user-item.tpl' oUser=$user}
+                            {include 'components/user/user-item.tpl' user=$user}
                         </td>
 
                         {if $user->getId() == $oUserCurrent->getId()}

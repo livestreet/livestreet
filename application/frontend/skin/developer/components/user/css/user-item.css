@@ -1,12 +1,22 @@
 /**
  * Блок с аватарой и логином пользователя
  *
- * @template user_item.tpl
+ * @template user-item.tpl
  */
-.user-item { display: inline-block; }
-.user-item-avatar { vertical-align: middle; margin-right: 2px; }
-.user-item-name { font-weight: bold; }
 
-.user-item-rounded .user-item-avatar { border-radius: 50%; }
-
-.user-item.inactive { opacity: .5; }
+.user-item {
+    display: inline-block;
+}
+.user-item-avatar {
+    vertical-align: middle;
+    margin-right: 2px;
+}
+.user-item-name {
+    font-weight: bold;
+}
+.user-item--rounded .user-item-avatar {
+    border-radius: 50%;
+}
+.user-item.inactive {
+    opacity: .5;
+}

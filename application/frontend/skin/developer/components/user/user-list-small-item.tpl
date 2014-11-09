@@ -1,26 +1,33 @@
 {**
  * Список пользователей с элементами управления / Пользователь
+ *
+ * @param object  $user
+ * @param string  $selectable
+ * @param string  $showActions
+ * @param string  $showRemove
+ *
+ * @param string $classes
+ * @param array  $attributes
+ * @param array  $mods
  *}
 
-{$iUserId = $oUser->getId()}
+{$component = 'user-list-small-item'}
 
-<li class="user-list-small-item js-user-list-small-item {$sUserListSmallItemClasses} {block 'components/user_list_small/user_list_small_item_classes'}{/block}" {block 'components/user_list_small/user_list_small_item_attributes'}{/block} data-user-id="{$iUserId}">
-	{* Чекбокс *}
-	{if $bUserListSmallSelectable}
-		<input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$iUserId}" data-user-login="{$oUser->getLogin()}" />
-	{/if}
+{block 'user_list_small_item_options'}
+    {$classes = $smarty.local.classes}
+    {$attributes = $smarty.local.attributes}
+    {$user = $smarty.local.user}
+    {$userId = $user->getId()}
+{/block}
 
-	{* Пользователь *}
-	{include 'components/user/user-item.tpl' oUser=$oUser}
+<li class="{$component} js-user-list-small-item {$classes}" data-user-id="{$userId}" {foreach $attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+    {* Чекбокс *}
+    {if $smarty.local.selectable}
+        <input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$userId}" data-user-login="{$user->getLogin()}" />
+    {/if}
 
-	{* Действия *}
-	{if $bUserListSmallShowActions}
-		<ul class="user-list-small-item-actions js-user-list-small-actions">
-			{block 'user_list_small_item_actions'}
-				{if $bUserListItemShowRemove|default:true}
-					<li class="icon-remove js-user-list-add-user-remove" title="{$aLang.common.remove}" data-user-id="{$iUserId}"></li>
-				{/if}
-			{/block}
-		</ul>
-	{/if}
+    {* Пользователь *}
+    {block 'user_list_small_item_content'}
+        {include 'components/user/user-item.tpl' user=$user}
+    {/block}
 </li>

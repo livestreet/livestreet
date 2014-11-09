@@ -118,7 +118,7 @@ ls.user = (function ($) {
 
 			// Мержим логины
 			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
-
+console.log($('#modal-users-select'))
 			$('#modal-users-select').lsModal('hide');
 		});
 

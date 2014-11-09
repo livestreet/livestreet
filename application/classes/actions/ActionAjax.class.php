@@ -154,11 +154,11 @@ class ActionAjax extends Action
         $aUsersFriend = $this->User_GetUsersFriend($this->oUserCurrent->getId());
 
         if ($aUsersFriend['collection']) {
-            $oViewer->Assign('aUserList', $aUsersFriend['collection']);
+            $oViewer->Assign('users', $aUsersFriend['collection'], true);
         }
 
-        $oViewer->Assign('bSelectable', $bSelectable);
-        $oViewer->Assign('sTarget', $sTarget);
+        $oViewer->Assign('selectable', $bSelectable, true);
+        $oViewer->Assign('target', $sTarget, true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.user-list.tpl"));
     }
@@ -1001,7 +1001,7 @@ class ActionAjax extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
 
-        $oViewer->Assign('oObject', $oTopic);
+        $oViewer->Assign('target', $oTopic, true);
         $oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/vote/vote.info.tpl"));

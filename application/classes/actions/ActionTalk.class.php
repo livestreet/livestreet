@@ -823,8 +823,8 @@ class ActionTalk extends Action
                 if (!isset($aUserBlacklist[$oUser->getId()])) {
                     if ($this->Talk_AddUserToBlackList($oUser->getId(), $this->oUserCurrent->getId())) {
                         $oViewer = $this->Viewer_GetLocalViewer();
-                        $oViewer->Assign('oUser', $oUser);
-                        $oViewer->Assign('bUserListSmallShowActions', true);
+                        $oViewer->Assign('user', $oUser, true);
+                        $oViewer->Assign('showActions', true, true);
 
                         $aResult[] = array(
                             'bStateError'   => false,
@@ -835,7 +835,7 @@ class ActionTalk extends Action
                             'sUserLogin'    => htmlspecialchars($sUser),
                             'sUserWebPath'  => $oUser->getUserWebPath(),
                             'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                            'sHtml'         => $oViewer->Fetch("components/user/user-list-small-item.tpl")
+                            'sHtml'         => $oViewer->Fetch("components/user/user-list-add/item.tpl")
                         );
                     } else {
                         $aResult[] = array(
@@ -1114,8 +1114,8 @@ class ActionTalk extends Action
                                     $this->Notify_SendTalkNew($oUser, $this->oUserCurrent, $oTalk);
 
                                     $oViewer = $this->Viewer_GetLocalViewer();
-                                    $oViewer->Assign('oUser', $oUser);
-                                    $oViewer->Assign('bUserListSmallShowActions', true);
+                                    $oViewer->Assign('user', $oUser, true);
+                                    $oViewer->Assign('showActions', true, true);
 
                                     $aResult[] = array(
                                         'bStateError'   => false,
@@ -1127,7 +1127,7 @@ class ActionTalk extends Action
                                         'sUserLink'     => $oUser->getUserWebPath(),
                                         'sUserWebPath'  => $oUser->getUserWebPath(),
                                         'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                                        'sHtml'         => $oViewer->Fetch("components/talk/talk-users-item.tpl")
+                                        'sHtml'         => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
                                     );
                                     $bState = true;
                                 } else {
@@ -1183,8 +1183,8 @@ class ActionTalk extends Action
                         $this->Notify_SendTalkNew($oUser, $this->oUserCurrent, $oTalk);
 
                         $oViewer = $this->Viewer_GetLocalViewer();
-                        $oViewer->Assign('oUser', $oUser);
-                        $oViewer->Assign('bUserListSmallShowActions', true);
+                        $oViewer->Assign('user', $oUser, true);
+                        $oViewer->Assign('showActions', true, true);
 
                         $aResult[] = array(
                             'bStateError' => false,
@@ -1192,7 +1192,7 @@ class ActionTalk extends Action
                             'sMsg'        => $this->Lang_Get('user_list_add.notices.success_add',
                                 array('login', htmlspecialchars($sUser))),
                             'iUserId'     => $oUser->getId(),
-                            'sHtml'       => $oViewer->Fetch("components/talk/talk-users-item.tpl")
+                            'sHtml'       => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
                         );
                         $bState = true;
                     } else {

@@ -14,5 +14,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/user/user-list.tpl' aUsersList=$aBlogUsers bUsersUseOrder=true sUsersRootPage=$sUsersRootPage}
+	{include 'components/user/user-list.tpl' users=$aBlogUsers pagination=$aPaging}
 {/block}

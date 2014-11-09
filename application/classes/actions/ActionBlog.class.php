@@ -558,7 +558,7 @@ class ActionBlog extends Action
             $aBlogUsersInvited = $this->Blog_GetBlogUsersByBlogId($oBlog->getId(), ModuleBlog::BLOG_USER_ROLE_INVITE,
                 null);
             $this->Viewer_Assign('aBlogUsersInvited', $aBlogUsersInvited['collection']);
-            $this->Viewer_AddBlock('right', 'blocks/block.blogInvite.tpl');
+            $this->Viewer_AddBlock('right', 'components/blog/blocks/block.blog-invite.tpl');
         }
     }
 
@@ -1490,8 +1490,8 @@ class ActionBlog extends Action
 
                 if ($this->Blog_AddRelationBlogUser($oBlogUserNew)) {
                     $oViewer = $this->Viewer_GetLocalViewer();
-                    $oViewer->Assign('oUser', $oUser);
-                    $oViewer->Assign('bUserListSmallShowActions', true);
+                    $oViewer->Assign('user', $oUser, true);
+                    $oViewer->Assign('showActions', true, true);
 
                     $aResult[] = array(
                         'bStateError'   => false,
@@ -1502,7 +1502,7 @@ class ActionBlog extends Action
                         'sUserWebPath'  => $oUser->getUserWebPath(),
                         'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
                         'iUserId'       => $oUser->getId(),
-                        'sHtml'         => $oViewer->Fetch("components/user/user-list-small-item.blog_invite.tpl")
+                        'sHtml'         => $oViewer->Fetch("components/blog/invite/invite-item.tpl")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
                 } else {

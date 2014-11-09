@@ -23,7 +23,6 @@
             'text'       => {lang 'blog.blocks.search.categories.all'},
             'url'        => {router page='blogs'},
             'attributes' => "data-value=\"0\"",
-            'classes'    => 'js-search-ajax-option',
             'count'      => $iCountBlogsAll
         ]]}
 
@@ -34,7 +33,6 @@
                 'text'       => ($oCategory->getTitle()),
                 'url'        => '#',
                 'attributes' => "data-value=\"{$oCategory->getId()}\" style=\"margin-left: {$category.level * 20}px;\"",
-                'classes'    => 'js-search-ajax-option',
                 'count'      => $oCategory->getCountTargetOfDescendants()
             ]}
         {/foreach}

@@ -6,8 +6,6 @@
     name            = 'blog'
     method          = 'post'
     placeholder     = $aLang.blog.search.placeholder
-    classes         = 'js-tag-search-form'
-    inputClasses    = 'js-search-ajax-option js-search-text-main'
-    inputAttributes = 'data-type="blogs"'
+    inputClasses    = 'js-search-text-main'
     inputName       = 'blog_title'
     noSubmitButton  = true}
