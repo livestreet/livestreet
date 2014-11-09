@@ -595,6 +595,9 @@ class ActionTalk extends Action
         if (!($oTalkUser = $this->Talk_GetTalkUser($oTalk->getId(), $this->oUserCurrent->getId()))) {
             return $this->EventErrorDebug();
         }
+        if (!in_array($oTalkUser->getUserActive(),array(ModuleTalk::TALK_USER_ACTIVE))) {
+            return $this->EventErrorDebug();
+        }
         /**
          * Получаем комментарии
          */
@@ -658,6 +661,9 @@ class ActionTalk extends Action
             return $this->EventErrorDebug();
         }
         if (!($oTalkUser = $this->Talk_GetTalkUser($oTalk->getId(), $this->oUserCurrent->getId()))) {
+            return $this->EventErrorDebug();
+        }
+        if (!in_array($oTalkUser->getUserActive(),array(ModuleTalk::TALK_USER_ACTIVE))) {
             return $this->EventErrorDebug();
         }
         /**
