@@ -118,7 +118,7 @@ ls.user = (function ($) {
 
 			// Мержим логины
 			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
-console.log($('#modal-users-select'))
+
 			$('#modal-users-select').lsModal('hide');
 		});
 
@@ -212,6 +212,7 @@ console.log($('#modal-users-select'))
 			if (result.bStateError) {
 				ls.msg.error(null,result.sMsg);
 			} else {
+                $('.js-user-photo').addClass('user-photo--nophoto');
                 $('.js-ajax-user-photo-image').attr('src',result.sFile);
                 $('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
                 $('.js-ajax-user-photo-upload-remove').hide();
@@ -231,6 +232,7 @@ console.log($('#modal-users-select'))
             },
             save_url : aRouter.settings+'ajax-crop-photo/',
             save_callback : function(result, modal, image, previews) {
+                $('.js-user-photo').removeClass('user-photo--nophoto');
                 $('.js-ajax-user-photo-image').attr('src',result.sFile);
                 $('.js-ajax-user-photo-upload-choose').html(result.sChooseText);
                 $('.js-ajax-user-photo-upload-remove').show();

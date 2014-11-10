@@ -4,15 +4,62 @@
  * @modifier user
  * @template blocks/block.userPhoto.tpl
  */
-.block--user-photo .block-content         { padding: 0; }
-.block--user-photo .profile-photo-wrapper { position: relative; min-width: 100%; min-height: 50px; display: inline-block; }
-.block--user-photo .profile-photo         { vertical-align: top; min-width: 100%; }
+.block--user-photo .block-content {
+    padding: 0;
+}
+.user-photo {
+    position: relative;
+    min-width: 100%;
+    min-height: 50px;
+    display: inline-block;
+}
+.user-photo-image {
+    vertical-align: top;
+    max-width: 100%;
+}
+.user-photo--nophoto .user-photo-image {
+    width: 100%;
+}
 
-.block--user-photo .status                { position: absolute; top: 20px; left: 0; padding: 12px 15px; font: 300 16px/1em 'Open Sans'; }
-.block--user-photo .status.status-online  { background: #b7bc1c; background: rgba(183, 188, 28, .8); color: #fff; }
-.block--user-photo .status.status-offline { background: #333; background: rgba(0, 0, 0, .6); color: #fff; }
+/* Статус (онлайн/оффлайн) */
+.user-status {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    padding: 12px 15px;
+    font: 300 16px/1em 'Open Sans';
+}
+.user-status--online {
+    background: #b7bc1c;
+    background: rgba(183, 188, 28, .8);
+    color: #fff;
+}
+.user-status--offline {
+    background: #333;
+    background: rgba(0, 0, 0, .6);
+    color: #fff;
+}
 
-.block--user-photo .upload-photo          { padding: 7px 10px 10px; background: #f7f7f7; }
+/* Действия */
+.user-photo-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: rgba( 0, 0, 0, .7 );
+}
+.user-photo-actions li {
+    padding: 7px 15px;
+    color: #bbb;
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-transition: color .2s;
+    transition: color .2s;
+}
+.user-photo-actions li:hover {
+    color: #eee;
+}
 
 /**
  * Блок управления на странице пользователя

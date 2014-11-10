@@ -67,7 +67,7 @@
 <section class   = "{$component} {mod name=$component mods=$mods} {$smarty.local.classes} open js-{$component}"
          id      = "comment{$commentId}"
          data-id = "{$commentId}"
-         {$smarty.local.attributes}>
+         {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
 
     {* Показываем удаленные комментарии только администраторам *}
     {if ! $isDeleted || ( $oUserCurrent && $oUserCurrent->isAdministrator() )}

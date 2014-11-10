@@ -146,9 +146,9 @@ class ActionPeople extends Action
          * Формируем ответ
          */
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('usersList', $aResult['collection'], true);
+        $oViewer->Assign('users', $aResult['collection'], true);
         $oViewer->Assign('oUserCurrent', $this->User_GetUserCurrent());
-        $oViewer->Assign('userListEmpty', $this->Lang_Get('search.alerts.empty'), true);
+        $oViewer->Assign('textEmpty', $this->Lang_Get('search.alerts.empty'), true);
         $oViewer->Assign('useMore', true, true);
         $oViewer->Assign('hideMore', $bHideMore, true);
         $oViewer->Assign('searchCount', $aResult['count'], true);

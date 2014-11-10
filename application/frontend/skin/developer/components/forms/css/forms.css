@@ -96,5 +96,5 @@ form .icon-question-sign { cursor: help; }
 
 
 /* Input File Replacer */
-.form-input-file { position: relative; overflow: hidden; cursor: pointer; display: inline; }
-.form-input-file input[type=file] { position: absolute; top: -999px; left: -999px; }
+.form-input-file { position: relative; overflow: hidden; cursor: pointer; display: block; }
+.form-input-file input[type=file] { position: absolute; top: 0; left: -200%; }

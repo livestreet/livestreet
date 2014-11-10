@@ -171,7 +171,7 @@ class ActionAjax extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
 
-        $oViewer->Assign('sImageSrc', getRequestStr('image_src'));
+        $oViewer->Assign('image', getRequestStr('image_src'), true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/crop/crop.tpl"));
     }
