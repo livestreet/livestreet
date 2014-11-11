@@ -96,7 +96,7 @@
             </li>
 
             {* Прокрутка к родительскому комментарию *}
-            {if $smarty.local.useScroll}
+            {if $smarty.local.useScroll|default:true}
                 {if $comment->getPid()}
                     <li class          = "{$component}-scroll-to {$component}-scroll-to-parent js-comment-scroll-to-parent"
                         title          = "{$aLang.comments.comment.scroll_to_parent}"

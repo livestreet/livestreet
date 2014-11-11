@@ -717,20 +717,20 @@ class ModuleComment extends Module
         $aCmts = $this->GetCommentsAdditionalData($aComments);
         $oViewerLocal = $this->Viewer_GetLocalViewer();
         $oViewerLocal->Assign('oUserCurrent', $this->User_GetUserCurrent());
-        $oViewerLocal->Assign('bOneComment', true);
+        $oViewerLocal->Assign('oneComment', true, true);
         if ($sTargetType != 'topic') {
             $oViewerLocal->Assign('bNoCommentFavourites', true);
         } elseif ($sTargetType == 'topic') {
-            $oViewerLocal->Assign('bShowFavourite', true, true);
-            $oViewerLocal->Assign('bShowVote', true, true);
-            $oViewerLocal->Assign('bShowScroll', true, true);
-            $oViewerLocal->Assign('bShowEdit', true, true);
-            $oViewerLocal->Assign('sDateReadLast', '1', true);
+            $oViewerLocal->Assign('useFavourite', true, true);
+            $oViewerLocal->Assign('useVote', true, true);
+            $oViewerLocal->Assign('useScroll', true, true);
+            $oViewerLocal->Assign('useEdit', true, true);
+            $oViewerLocal->Assign('dateReadLast', '1', true);
         }
         $aCmt = array();
         foreach ($aCmts as $oComment) {
-            $oViewerLocal->Assign('oComment', $oComment, true);
-            $oViewerLocal->Assign('bIsHidden', $oComment->getDelete(), true);
+            $oViewerLocal->Assign('comment', $oComment, true);
+            $oViewerLocal->Assign('isDeleted', $oComment->getDelete(), true);
             $sText = $oViewerLocal->Fetch($this->GetTemplateCommentByTarget($sId, $sTargetType));
             $aCmt[] = array(
                 'html' => $sText,

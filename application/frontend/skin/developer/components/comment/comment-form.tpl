@@ -31,7 +31,7 @@
 
         {block 'comment-form-fields'}
             {* Скрытые поля *}
-            {include 'components/field/field.hidden.tpl' name='reply' value='0' classes='js-comment-form-id'}
+            {include 'components/field/field.hidden.tpl' name='reply' value='0' inputClasses='js-comment-form-id'}
             {include 'components/field/field.hidden.tpl' name='cmt_target_id' value=$targetId}
 
             {* Текст комментария *}
