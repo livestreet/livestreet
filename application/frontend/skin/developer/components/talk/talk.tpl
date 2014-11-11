@@ -29,5 +29,6 @@
         targetType   = 'talk'
         count        = $talk->getCountComment()
         dateReadLast = $talk->getTalkUser()->getDateLast()
+        lastCommentId = $iMaxIdComment
         forbidText   = $aLang.talk.notices.deleted}
 {/if}
