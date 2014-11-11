@@ -31,7 +31,7 @@
                                     text = {lang 'admin.plugins.plugin.deactivate'}}
                             {else}
                                 {include 'components/button/button.tpl'
-                                    url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                    url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
                                     mods = 'primary'
                                     text = {lang 'admin.plugins.plugin.activate'}}
                             {/if}
