@@ -33,7 +33,6 @@
 
 				form:        '.js-user-note-form',
 				form_text:   '.js-user-note-form-text',
-				form_save:   '.js-user-note-form-save',
 				form_cancel: '.js-user-note-form-cancel'
 			}
 		},
@@ -65,7 +64,6 @@
 
 			this.elements.form        = this.elements.container.find(this.options.selectors.form);
 			this.elements.form_text   = this.elements.form.find(this.options.selectors.form_text);
-			this.elements.form_save   = this.elements.form.find(this.options.selectors.form_save);
 			this.elements.form_cancel = this.elements.form.find(this.options.selectors.form_cancel);
 
 			// Добавление

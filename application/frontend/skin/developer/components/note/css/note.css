@@ -2,9 +2,51 @@
  * Заметка
  */
 
-.user-note                  { background: #F1F7AF; padding: 20px; margin-bottom: 15px; }
-.user-note:last-child       { margin-bottom: 0; }
-.user-note-actions          { margin: 10px 0 0 0; overflow: hidden; }
-.user-note-actions li       { float: left; margin-right: 15px; }
-.user-note-form .field      { margin-bottom: 15px; }
-.user-note-form-text        { height: 5em; }
+.user-note {
+    background: #F1F7AF;
+    padding: 20px 20px 18px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 0 #DBE28B;
+}
+.user-note:last-child {
+    margin-bottom: 0;
+}
+
+/* Действия */
+.user-note-actions {
+    margin: 10px 0 0 0;
+}
+.user-note-actions li {
+    float: left;
+    margin-right: 15px;
+}
+.user-note-actions li a {
+    text-decoration: none;
+    color: #B7BD79;
+    -webkit-transition: color .2s;
+            transition: color .2s;
+}
+.user-note-actions li a:hover {
+    color: #A3A86B;
+}
+.user-note-actions li a:focus {
+    outline: dotted 1px;
+}
+
+.user-note-actions--add {
+    margin: 0;
+}
+.user-note-actions--add li {
+    margin: 0;
+    float: none;
+    text-align: center;
+}
+
+/* Форма добавления/редактирования */
+.user-note-form .field {
+    margin-bottom: 15px;
+}
+.user-note-form-text {
+    height: 5em;
+}
