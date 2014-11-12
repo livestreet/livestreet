@@ -1,34 +1,27 @@
 {**
  * Жалоба на пользователя
  *
- * TODO: Универсализировать
+ * @param array $types
  *}
 
 {extends 'components/modal/modal.tpl'}
 
 {block 'modal_id'}modal-complaint-user{/block}
 {block 'modal_class'}modal-complaint-user js-modal-default{/block}
-{block 'modal_title'}{lang name='report.form.title'}{/block}
+{block 'modal_title'}{lang 'report.form.title'}{/block}
 
 {block 'modal_content'}
-	<form action="" method="post" onsubmit="return false;" id="form-complaint-user">
-		{foreach Config::Get('module.user.complaint_type') as $type}
-			{$aTypes[] = [
-				'value' => $type,
-				'text' => $aLang.report.type_list.{$type}
-			]}
-		{/foreach}
-
+	<form action="" method="post" id="form-complaint-user">
 		{include 'components/field/field.select.tpl'
 			name    = 'type'
-			label   = {lang name='report.form.fields.type.label'}
+			label   = {lang 'report.form.fields.type.label'}
 			classes = 'width-full'
-			items   = $aTypes}
+			items   = $smarty.local.types}
 
 		{include 'components/field/field.textarea.tpl'
 			name    = 'text'
 			rows    = 5
-			label   = {lang name='report.form.fields.text.label'}
+			label   = {lang 'report.form.fields.text.label'}
 			classes = 'width-full'}
 
 		{* Каптча *}
@@ -38,7 +31,7 @@
 				name        = 'captcha'}
 		{/if}
 
-		{include 'components/field/field.hidden.tpl' name='user_id' value=$_aRequest.user_id}
+		{include 'components/field/field.hidden.tpl' name='target_id' value=$_aRequest.target_id}
 	</form>
 {/block}
 

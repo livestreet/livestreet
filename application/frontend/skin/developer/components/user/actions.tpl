@@ -25,6 +25,8 @@
 
 	{* Пожаловаться *}
 	<li>
-		<a href="#" data-type="modal-toggle" data-modal-url="{router page='profile/ajax-modal-complaint'}" data-param-user_id="{$user->getId()}">{lang 'user.actions.report'}</a>
+		<a href="#" class="js-user-report" data-param-target_id="{$user->getId()}">
+			{lang 'user.actions.report'}
+		</a>
 	</li>
 </ul>

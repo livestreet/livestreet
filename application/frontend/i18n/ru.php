@@ -1151,6 +1151,14 @@ return array(
             'was_online_male'   => 'Заходил %%date%%',
             'was_online_female' => 'Заходила %%date%%'
         ),
+        // Жалоба
+        'report' => array(
+            'types' => array(
+                'spam'    => 'Спам',
+                'obscene' => 'Непристойное поведение',
+                'other'   => 'Другое'
+            )
+        ),
         // Друзья
         'friends'           => array(
             'title'    => 'Друзья',
@@ -1542,14 +1550,8 @@ return array(
             ),
             'submit' => '___common.send___'
         ),
-        // TODO: Move to 'user'
-        'type_list' => array(
-            'spam'    => 'Спам',
-            'obscene' => 'Непристойное поведение',
-            'other'   => 'Другое',
-        ),
         'notices'   => array(
-            'target_error' => 'Неверный пользователь для жалобы', // TODO: Move to 'user'
+            'target_error' => 'Неверный id объекта', // TODO: Remove?
             'error_type'   => 'Неверный тип жалобы', // TODO: Remove?
             'success'      => 'Ваша жалоба отправлена администрации',
         )

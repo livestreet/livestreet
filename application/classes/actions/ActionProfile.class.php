@@ -134,7 +134,20 @@ class ActionProfile extends Action
             return parent::EventNotFound();
         }
 
+        /**
+         * Получаем список типов жалоб
+         */
+        $types = array();
+
+        foreach ( Config::Get('module.user.complaint_type') as $type ) {
+            $types[] = array(
+                'value' => $type,
+                'text'  => $this->Lang_Get( 'user.report.types.' . $type )
+            );
+        }
+
         $oViewer = $this->Viewer_GetLocalViewer();
+        $oViewer->Assign('types', $types, true);
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/report/modal.report.tpl"));
     }
 
@@ -154,7 +167,7 @@ class ActionProfile extends Action
          * Создаем жалобу и проводим валидацию
          */
         $oComplaint = Engine::GetEntity('ModuleUser_EntityComplaint');
-        $oComplaint->setTargetUserId(getRequestStr('user_id'));
+        $oComplaint->setTargetUserId(getRequestStr('target_id'));
         $oComplaint->setUserId($this->oUserCurrent->getId());
         $oComplaint->setText(getRequestStr('text'));
         $oComplaint->setType(getRequestStr('type'));
