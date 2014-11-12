@@ -168,8 +168,6 @@ class ActionAjax extends Action
      */
     protected function EventModalImageCrop()
     {
-        list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
-
         $oViewer = $this->Viewer_GetLocalViewer();
 
         $oViewer->Assign('usePreview', getRequest('use_preview'), true);
