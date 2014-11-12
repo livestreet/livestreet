@@ -134,12 +134,15 @@ class ActionSettings extends Action
         $sDir = Config::Get('path.uploads.images') . "/tmp/userphoto/{$oUser->getId()}";
         if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
             if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
+                list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
                 /**
                  * Сохраняем в сессии временный файл с изображением
                  */
                 $this->Session_Set('sPhotoFileTmp', $sFileOriginal);
                 $this->Session_Set('sPhotoFilePreviewTmp', $sFilePreview);
-                $this->Viewer_AssignAjax('sTmpFile', $this->Fs_GetPathWeb($sFilePreview));
+                $this->Viewer_AssignAjax('path', $this->Fs_GetPathWeb($sFilePreview));
+                $this->Viewer_AssignAjax('width', $iWidth);
+                $this->Viewer_AssignAjax('height', $iHeight);
                 $this->Fs_RemoveFileLocal($sFileTmp);
                 return;
             }
