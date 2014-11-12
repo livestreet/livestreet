@@ -486,19 +486,6 @@ jQuery(document).ready(function($){
 		$( this ).fotorama();
 	});
 
-
-	/**
-	 * Фикс бага с z-index у встроенных видео
-	 */
-	$( 'iframe' ).each(function() {
-		var iframe = $( this ),
-			src = iframe.attr( 'src' );
-
-		if ( src ) {
-			iframe.attr( 'src', src + ( ~ src.indexOf( '?' ) ? '?' : '&' ) + 'wmode=opaque' );
-		}
-	});
-
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
