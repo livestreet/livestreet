@@ -217,6 +217,84 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	// Поиск
+	$( '.js-search-ajax-users' ).lsSearchAjax({
+		urls: {
+			search: aRouter.people + 'ajax-search/'
+		},
+		filters : [
+			{
+				type: 'text',
+				name: 'sText',
+				selector: '.js-search-text-main',
+				alphanumericFilterSelector: '.js-search-alphabet'
+			},
+			{
+				type: 'alphanumeric',
+				name: 'sText',
+				selector: '.js-search-alphabet .js-search-alphabet-item',
+				textFilterSelector: '.js-search-text-main'
+			},
+			{
+				type: 'radio',
+				name: 'sex',
+				selector: '.js-search-ajax-user-sex'
+			},
+			{
+				type: 'checkbox',
+				name: 'is_online',
+				selector: '.js-search-ajax-user-online'
+			},
+			{
+				type: 'sort',
+				name: 'sort_by',
+				selector: '.js-search-sort-menu li'
+			}
+		]
+	});
+
+	// Добавление пользователя в свою активность
+	$('.js-user-follow').lsUserFollow({
+		urls: {
+			follow:   aRouter['stream'] + 'ajaxadduser/',
+			unfollow: aRouter['stream'] + 'ajaxremoveuser/'
+		}
+	});
+
+	// Добавление пользователя в друзья
+	$('.js-user-friend').lsUserFriend({
+		urls: {
+			add:    aRouter.profile + 'ajaxfriendadd/',
+			remove: aRouter.profile + 'ajaxfrienddelete/',
+			accept: aRouter.profile + 'ajaxfriendaccept/',
+			modal:  aRouter.profile + 'ajax-modal-add-friend'
+		}
+	});
+
+	// Жалоба
+	$('.js-user-report').lsReport({
+		urls: {
+			modal: aRouter.profile + 'ajax-modal-complaint',
+			add: aRouter.profile + 'ajax-complaint-add',
+		}
+	});
+
+	// Управление кастомными полями
+	$( '.js-user-fields' ).lsUserFields();
+
+	// Фото пользователя
+	$( '.js-user-photo' ).lsUserPhoto({
+		urls: {
+			upload: aRouter.settings + 'ajax-upload-photo',
+			remove: aRouter.settings + 'ajax-remove-photo',
+			crop_photo: aRouter.ajax + 'modal/image-crop/',
+			crop_avatar: aRouter.ajax + 'modal/image-crop/',
+			save_photo: aRouter.settings + 'ajax-crop-photo',
+			save_avatar: aRouter.settings + 'ajax-change-avatar',
+			cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo',
+		}
+	});
+
 
 	/**
 	 * Talk

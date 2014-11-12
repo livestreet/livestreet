@@ -13,7 +13,7 @@
 {/block}
 
 {block 'block_content'}
-    <div class="user-photo {if ! $oUserProfile->getProfileFoto()}user-photo--nophoto{/if} js-user-photo">
+    <div class="user-photo {if ! $oUserProfile->getProfileFoto()}user-photo--nophoto{/if} js-user-photo" data-user-id="{$oUserProfile->getId()}">
         {* Статус онлайн\оффлайн *}
         {if $oSession}
             {if $oUserProfile->isOnline() &&  $smarty.now - strtotime($oSession->getDateLast()) < 60*5}
@@ -33,28 +33,28 @@
 
         {* Фото *}
         <a href="{$oUserProfile->getUserWebPath()}">
-            <img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="user-photo-image js-ajax-user-photo-image" />
+            <img src="{$oUserProfile->getProfileFotoPath()}" alt="{$oUserProfile->getDisplayName()} photo" class="user-photo-image js-user-photo-image" />
         </a>
 
         {* Действия (редактировать/удалить) *}
         {if $oUserProfile->isAllowEdit()}
             <ul class="user-photo-actions">
-                <li>
+                <li class="js-user-photo-actions-upload">
                     <label class="form-input-file">
-                        <span class="js-ajax-user-photo-upload-choose">
+                        <span class="js-user-photo-actions-upload-label">
                             {if $oUserProfile->getProfileFoto()}
                                 {lang 'user.blocks.photo.change_photo'}
                             {else}
                                 {lang 'user.blocks.photo.upload_photo'}
                             {/if}
                         </span>
-                        <input type="file" name="photo" class="js-ajax-user-photo-upload" data-user-id="{$oUserProfile->getId()}">
+                        <input type="file" name="photo" class="js-user-photo-actions-upload-input">
                     </label>
                 </li>
-                <li data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-avatar-change" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
+                <li class="js-user-photo-actions-crop-avatar" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
                     {lang 'user.blocks.photo.change_avatar'}
                 </li>
-                <li data-user-id="{$oUserProfile->getId()}" class="js-ajax-user-photo-upload-remove" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
+                <li class="js-user-photo-actions-remove" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
                     {lang 'user.blocks.photo.remove'}
                 </li>
             </ul>

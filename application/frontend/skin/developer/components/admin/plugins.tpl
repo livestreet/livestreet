@@ -40,9 +40,9 @@
                         {* Применить обновление *}
                         {if $plugin.apply_update && $plugin.is_active}
                             <li>
-                                    {include 'components/button/button.tpl'
-                                        url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                                        text = {lang 'admin.plugins.plugin.apply_update'}}
+                                {include 'components/button/button.tpl'
+                                    url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                                    text = {lang 'admin.plugins.plugin.apply_update'}}
                             </li>
                         {/if}
 
