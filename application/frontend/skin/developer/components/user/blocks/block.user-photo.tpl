@@ -1,8 +1,5 @@
 {**
  * Блок с фотографией пользователя в профиле
- *
- * @styles css/blocks.css
- * @scripts <framework>/js/livestreet/user.js
  *}
 
 {extends 'components/block/block.tpl'}

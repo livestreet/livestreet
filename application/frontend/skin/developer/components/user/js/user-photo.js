@@ -45,6 +45,9 @@
             },
             // Параметры передаваемые в аякс запросах
             params: {}
+
+            // Успешный кроп аватара
+            // cropavatar: function() {}
         },
 
         /**
@@ -158,6 +161,9 @@
                 crop_params : {
                     minSize: [ 100, 100 ],
                     aspectRatio: 1
+                },
+                save_callback : function( response, modal, image ) {
+                    this._trigger( 'cropavatar', null, [ this, response.sFile ] );
                 },
                 save_params : this.option( 'params' ),
                 crop_url : this.option( 'urls.crop_avatar' ),

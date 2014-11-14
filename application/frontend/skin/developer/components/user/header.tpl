@@ -17,7 +17,7 @@
 	{* Пользователь *}
 	<div class="{$component}-user">
 		<a href="{$user->getUserWebPath()}">
-			<img src="{$user->getProfileAvatarPath(64)}" alt="{$user->getProfileName()}" class="{$component}-user-avatar" itemprop="photo">
+			<img src="{$user->getProfileAvatarPath(64)}" alt="{$user->getProfileName()}" class="{$component}-user-avatar js-user-profile-avatar" itemprop="photo">
 		</a>
 
 		<h2 class="{$component}-user-login word-wrap" itemprop="nickname">

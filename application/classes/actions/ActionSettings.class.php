@@ -255,9 +255,18 @@ class ActionSettings extends Action
             return $this->EventErrorDebug();
         }
 
-        if (true !== ($res = $this->User_CreateProfileAvatar($oUser->getProfileFoto(), $oUser, getRequest('size'),
+        if (true === ($res = $this->User_CreateProfileAvatar($oUser->getProfileFoto(), $oUser, getRequest('size'),
                 getRequestStr('canvas_width')))
         ) {
+            // Формируем массив с путями до аватаров
+            $aAvatars = array();
+
+            foreach (Config::Get('module.blog.avatar_size') as $sSize) {
+                $aAvatars[ $sSize ] = $oUser->getProfileAvatarPath( $sSize );
+            }
+
+            $this->Viewer_AssignAjax('sFile', $aAvatars);
+        } else {
             $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
         }
     }

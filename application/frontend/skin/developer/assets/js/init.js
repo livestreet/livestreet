@@ -292,6 +292,9 @@ jQuery(document).ready(function($){
 			save_photo: aRouter.settings + 'ajax-crop-photo',
 			save_avatar: aRouter.settings + 'ajax-change-avatar',
 			cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo',
+		},
+		cropavatar: function ( event, _this, avatars ) {
+			$( '.js-user-profile-avatar' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
 		}
 	});
 
