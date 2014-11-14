@@ -40,19 +40,19 @@
                     <label class="form-input-file">
                         <span class="js-user-photo-actions-upload-label">
                             {if $oUserProfile->getProfileFoto()}
-                                {lang 'user.blocks.photo.change_photo'}
+                                {lang 'user.photo.actions.change_photo'}
                             {else}
-                                {lang 'user.blocks.photo.upload_photo'}
+                                {lang 'user.photo.actions.upload_photo'}
                             {/if}
                         </span>
                         <input type="file" name="photo" class="js-user-photo-actions-upload-input">
                     </label>
                 </li>
                 <li class="js-user-photo-actions-crop-avatar" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
-                    {lang 'user.blocks.photo.change_avatar'}
+                    {lang 'user.photo.actions.change_avatar'}
                 </li>
                 <li class="js-user-photo-actions-remove" style="{if !$oUserProfile->getProfileFoto()}display:none;{/if}">
-                    {lang 'user.blocks.photo.remove'}
+                    {lang 'user.photo.actions.remove'}
                 </li>
             </ul>
         {/if}

@@ -85,6 +85,8 @@ class ActionSettings extends Action
         $this->AddEventPreg('/^ajax-crop-cancel-photo$/i', '/^$/i', 'EventAjaxCropCancelPhoto');
         $this->AddEventPreg('/^ajax-remove-photo$/i', '/^$/i', 'EventAjaxRemovePhoto');
         $this->AddEventPreg('/^ajax-change-avatar$/i', '/^$/i', 'EventAjaxChangeAvatar');
+        $this->AddEventPreg('/^ajax-modal-crop-photo$/i', '/^$/i', 'EventAjaxModalCropPhoto');
+        $this->AddEventPreg('/^ajax-modal-crop-avatar$/i', '/^$/i', 'EventAjaxModalCropAvatar');
     }
 
 
@@ -134,13 +136,16 @@ class ActionSettings extends Action
         $sDir = Config::Get('path.uploads.images') . "/tmp/userphoto/{$oUser->getId()}";
         if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
             if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
-                list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
+                list($iOriginalWidth, $iOriginalHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
+                list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFilePreview));
                 /**
                  * Сохраняем в сессии временный файл с изображением
                  */
                 $this->Session_Set('sPhotoFileTmp', $sFileOriginal);
                 $this->Session_Set('sPhotoFilePreviewTmp', $sFilePreview);
                 $this->Viewer_AssignAjax('path', $this->Fs_GetPathWeb($sFilePreview));
+                $this->Viewer_AssignAjax('original_width', $iOriginalWidth);
+                $this->Viewer_AssignAjax('original_height', $iOriginalHeight);
                 $this->Viewer_AssignAjax('width', $iWidth);
                 $this->Viewer_AssignAjax('height', $iHeight);
                 $this->Fs_RemoveFileLocal($sFileTmp);
@@ -187,11 +192,47 @@ class ActionSettings extends Action
              */
             $this->User_CreateProfileAvatar($oUser->getProfileFoto(), $oUser);
 
-            $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('user.blocks.photo.change_photo'));
-            $this->Viewer_AssignAjax('sFile', $oUser->getProfileFotoPath());
+            $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.change_photo'));
+            $this->Viewer_AssignAjax('photo', $oUser->getProfileFotoPath());
         } else {
             $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
         }
+    }
+
+    /**
+     * Показывает модальное окно с кропом фото
+     */
+    protected function EventAjaxModalCropPhoto()
+    {
+        $this->Viewer_SetResponseAjax('json');
+
+        $oViewer = $this->Viewer_GetLocalViewer();
+
+        $oViewer->Assign('image', getRequestStr('image_src'), true);
+        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
+        $oViewer->Assign('width', (int) getRequest('width'), true);
+        $oViewer->Assign('height', (int) getRequest('height'), true);
+
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.crop-photo.tpl"));
+    }
+
+    /**
+     * Показывает модальное окно с кропом аватарки
+     */
+    protected function EventAjaxModalCropAvatar()
+    {
+        $this->Viewer_SetResponseAjax('json');
+
+        $oViewer = $this->Viewer_GetLocalViewer();
+
+        $oViewer->Assign('image', getRequestStr('image_src'), true);
+        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
+        $oViewer->Assign('width', (int) getRequest('width'), true);
+        $oViewer->Assign('height', (int) getRequest('height'), true);
+
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.crop-avatar.tpl"));
     }
 
     /**
@@ -237,8 +278,10 @@ class ActionSettings extends Action
         $this->User_DeleteProfilePhoto($oUser);
         $this->User_DeleteProfileAvatar($oUser);
         $this->User_Update($oUser);
-        $this->Viewer_AssignAjax('sChooseText', $this->Lang_Get('user.blocks.photo.upload_photo'));
-        $this->Viewer_AssignAjax('sFile', $oUser->getProfileFotoPath());
+
+        $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.upload_photo'));
+        $this->Viewer_AssignAjax('photo', $oUser->getProfileFotoPath());
+        $this->Viewer_AssignAjax('avatars', $oUser->GetProfileAvatarsPath());
     }
 
     /**
@@ -259,13 +302,7 @@ class ActionSettings extends Action
                 getRequestStr('canvas_width')))
         ) {
             // Формируем массив с путями до аватаров
-            $aAvatars = array();
-
-            foreach (Config::Get('module.blog.avatar_size') as $sSize) {
-                $aAvatars[ $sSize ] = $oUser->getProfileAvatarPath( $sSize );
-            }
-
-            $this->Viewer_AssignAjax('sFile', $aAvatars);
+            $this->Viewer_AssignAjax('avatars', $oUser->GetProfileAvatarsPath());
         } else {
             $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
         }

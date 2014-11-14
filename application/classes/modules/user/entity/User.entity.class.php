@@ -458,6 +458,23 @@ class ModuleUser_EntityUser extends Entity
     }
 
     /**
+     * Формирует массив с путями до аватаров
+     *
+     * @param object $oUser Пользователь
+     * @return array Массив с путями до аватаров
+     */
+    public function GetProfileAvatarsPath()
+    {
+        $aAvatars = array();
+
+        foreach (Config::Get('module.user.avatar_size') as $sSize) {
+            $aAvatars[ $sSize ] = $this->getProfileAvatarPath( $sSize );
+        }
+
+        return $aAvatars;
+    }
+
+    /**
      * Возвращает полный веб путь до фото
      *
      * @return null|string

@@ -287,13 +287,13 @@ jQuery(document).ready(function($){
 		urls: {
 			upload: aRouter.settings + 'ajax-upload-photo',
 			remove: aRouter.settings + 'ajax-remove-photo',
-			crop_photo: aRouter.ajax + 'modal/image-crop/',
-			crop_avatar: aRouter.ajax + 'modal/image-crop/',
+			crop_photo: aRouter.settings + 'ajax-modal-crop-photo',
+			crop_avatar: aRouter.settings + 'ajax-modal-crop-avatar',
 			save_photo: aRouter.settings + 'ajax-crop-photo',
 			save_avatar: aRouter.settings + 'ajax-change-avatar',
 			cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo',
 		},
-		cropavatar: function ( event, _this, avatars ) {
+		changeavatar: function ( event, _this, avatars ) {
 			$( '.js-user-profile-avatar' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
 		}
 	});

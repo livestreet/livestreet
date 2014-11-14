@@ -46,8 +46,8 @@
             // Параметры передаваемые в аякс запросах
             params: {}
 
-            // Успешный кроп аватара
-            // cropavatar: function() {}
+            // Изменение аватара
+            // changeavatar: function() {}
         },
 
         /**
@@ -76,17 +76,7 @@
                 _this.upload( $( this ) );
             });
 
-            this.elements.actions.crop_avatar.on( 'click' + this.eventNamespace, function() {
-                var photo = $('.js-user-photo-image');
-
-                _this.cropAvatar({
-                    path: photo.attr( 'src' ),
-                    // TODO: IE8 naturalWidth naturalHeight
-                    width: photo[0].naturalWidth,
-                    height: photo[0].naturalHeight
-                });
-            });
-
+            this.elements.actions.crop_avatar.on( 'click' + this.eventNamespace, this.cropAvatar.bind( this ) );
             this.elements.actions.remove.on( 'click' + this.eventNamespace, this.remove.bind( this ) );
         },
 
@@ -99,10 +89,12 @@
                     ls.msg.error( null, response.sMsg );
                 } else {
                     this.element.addClass( this.option( 'classes.nophoto' ) );
-                    this.elements.image.attr( 'src', response.sFile );
-                    this.elements.actions.upload_label.text( response.sChooseText );
+                    this.elements.image.attr( 'src', response.photo );
+                    this.elements.actions.upload_label.text( response.upload_text );
                     this.elements.actions.remove.hide();
                     this.elements.actions.crop_avatar.hide();
+
+                    this._trigger( 'changeavatar', null, [ this, response.avatars ] );
                 }
             }.bind( this ));
         },
@@ -140,10 +132,13 @@
                 save_url : this.option( 'urls.save_photo' ),
                 save_callback : function( response, modal, image ) {
                     this.element.removeClass( this.option( 'classes.nophoto' ) );
-                    this.elements.image.attr( 'src', response.sFile );
-                    this.elements.actions.upload_label.text( response.sChooseText );
+                    this.elements.image.attr( 'src', response.photo );
+                    this.elements.actions.upload_label.text( response.upload_text );
                     this.elements.actions.remove.show();
                     this.elements.actions.crop_avatar.show();
+
+                    // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
+                    setTimeout( this.cropAvatar.bind( this ), 300);
                 },
                 modal_close_callback : function( event, modal ) {
                     ls.ajax.load( this.option( 'urls.cancel_photo' ), this.option( 'params' ) );
@@ -153,17 +148,25 @@
 
         /**
          * Показывает модальное кропа аватара
-         *
-         * TODO: Возвращать в ответе пути до аватаров всех размеров
          */
-        cropAvatar: function( image ) {
+        cropAvatar: function() {
+            var photo = $('.js-user-photo-image');
+            var image = {
+                path: photo.attr( 'src' ),
+                // TODO: IE8 naturalWidth naturalHeight
+                original_width: photo[0].naturalWidth,
+                original_height: photo[0].naturalHeight,
+                width: photo[0].naturalWidth,
+                height: photo[0].naturalHeight
+            };
+
             this.showModal( image, true, {
                 crop_params : {
                     minSize: [ 100, 100 ],
                     aspectRatio: 1
                 },
                 save_callback : function( response, modal, image ) {
-                    this._trigger( 'cropavatar', null, [ this, response.sFile ] );
+                    this._trigger( 'changeavatar', null, [ this, response.avatars ] );
                 },
                 save_params : this.option( 'params' ),
                 crop_url : this.option( 'urls.crop_avatar' ),
@@ -180,6 +183,8 @@
             var _this = this;
 
             ls.modal.load( params.crop_url, {
+                original_width: image.original_width,
+                original_height: image.original_height,
                 width: image.width,
                 height: image.height,
                 image_src: image.path,

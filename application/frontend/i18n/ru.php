@@ -1394,6 +1394,23 @@ return array(
                 )
             ),
         ),
+        'photo' => array(
+            'crop_avatar' => array(
+                'title' => 'Выбор аватары',
+                'desc' => 'Выберите квадратную область для аватарки.',
+            ),
+            'crop_photo' => array(
+                'title' => 'Ваша фотография',
+                'desc' => 'Необходимо выбрать область для фотографии, которая будет отбражаться в вашем профиле.',
+                'submit' => 'Сохранить и продолжить',
+            ),
+            'actions' => array(
+                'change_photo'  => 'Изменить фотографию',
+                'upload_photo'  => 'Загрузить фотографию',
+                'change_avatar' => 'Изменить аватар',
+                'remove'        => '___common.remove___'
+            )
+        ),
         // Блоки
         'blocks'            => array(
             'cities'    => array(
@@ -1401,13 +1418,7 @@ return array(
             ),
             'countries' => array(
                 'title' => 'Страны'
-            ),
-            'photo'     => array(
-                'change_photo'  => 'Изменить фотографию',
-                'upload_photo'  => 'Загрузить фотографию',
-                'change_avatar' => 'Изменить аватар',
-                'remove'        => '___common.remove___',
-            ),
+            )
         ),
         // Сообщения
         'notices'           => array(
@@ -1755,7 +1766,7 @@ return array(
     /**
      * Обрезка изображения
      */
-    'modal_image_crop'              => array(
+    'crop' => array(
         'title' => 'Обрезка изображения'
     ),
     /**

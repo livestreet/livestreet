@@ -170,10 +170,14 @@ class ActionAjax extends Action
     {
         $oViewer = $this->Viewer_GetLocalViewer();
 
-        $oViewer->Assign('usePreview', getRequest('use_preview'), true);
+        $oViewer->Assign('usePreview', (bool) getRequest('use_preview'), true);
         $oViewer->Assign('image', getRequestStr('image_src'), true);
-        $oViewer->Assign('width', getRequest('width'), true);
-        $oViewer->Assign('height', getRequest('height'), true);
+        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
+        $oViewer->Assign('width', (int) getRequest('width'), true);
+        $oViewer->Assign('height', (int) getRequest('height'), true);
+        $oViewer->Assign('title', getRequestStr('title'), true);
+        $oViewer->Assign('desc', getRequestStr('desc'), true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/crop/crop.tpl"));
     }

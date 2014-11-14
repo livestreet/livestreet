@@ -22,5 +22,11 @@
  * Модальное окно
  */
 .modal--crop {
-    max-width: 600px;
+    max-width: 550px;
+}
+.modal--crop .modal-footer {
+    text-align: center;
+}
+.modal--crop .crop-desc {
+    margin-bottom: 20px;
 }
