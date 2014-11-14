@@ -6,8 +6,10 @@
  * @param string  $classes   Классы
  *}
 
+{$entry = $smarty.local.entry}
+
 {include 'components/comment/comment.tpl'
-    comment    = $smarty.local.entry
+    comment    = $entry
     showReply  = $smarty.local.showReply
-    attributes = [ 'data-type' => $smarty.local.type ]
+    attributes = [ 'data-type' => $smarty.local.type, 'data-user-id' => $entry->getUser()->getId() ]
     classes    = "wall-comment js-wall-entry {$smarty.local.classes}"}
