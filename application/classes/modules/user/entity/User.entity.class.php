@@ -447,13 +447,14 @@ class ModuleUser_EntityUser extends Entity
      */
     public function getProfileAvatarPath($iSize = 100)
     {
-        if ($sPath = $this->getProfileAvatar()) {
-            if (is_numeric($iSize)) {
-                $iSize .= 'crop';
-            }
-            return $this->Media_GetImageWebPath($sPath, $iSize);
+        if (is_numeric($iSize)) {
+            $iSize .= 'crop';
+        }
+
+        if ( $this->getProfileAvatar() ) {
+            return $this->Media_GetImageWebPath($this->getProfileAvatar(), $iSize);
         } else {
-            return Config::Get('path.skin.assets.web') . '/images/avatars/avatar_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '_' . $iSize . 'x' . $iSize . '.png';
+            return $this->Media_GetImagePathBySize(Config::Get('path.skin.assets.web') . '/images/avatars/avatar_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '.png', $iSize);
         }
     }
 
@@ -463,7 +464,7 @@ class ModuleUser_EntityUser extends Entity
      * @param object $oUser Пользователь
      * @return array Массив с путями до аватаров
      */
-    public function GetProfileAvatarsPath()
+    public function getProfileAvatarsPath()
     {
         $aAvatars = array();
 
