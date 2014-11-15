@@ -61,13 +61,6 @@ ls.topic = (function ($) {
 		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
 			_this.hidePreviewText();
 		});
-
-		// Подгрузка информации о выбранном блоге при создании топика
-		$(this.options.selectors.addTopicTitle).on('change', function (e) {
-			ls.blog.loadInfo($(this).val());
-		});
-
-		ls.blog.loadInfo($(this.options.selectors.addTopicTitle).val());
 	};
 
 	/**

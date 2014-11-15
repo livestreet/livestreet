@@ -7,12 +7,12 @@
  */
 
 .blog {
-	width: 100%;
-	padding: 40px;
-	margin: -40px 0 40px -40px;
-	overflow: hidden;
-	background: #fff;
-	border-bottom: 1px solid #eee;
+    width: 100%;
+    padding: 40px;
+    margin: -40px 0 40px -40px;
+    overflow: hidden;
+    background: #fff;
+    border-bottom: 1px solid #eee;
 }
 
 /* Хидер */
@@ -47,8 +47,8 @@
 /**
  * Список блогов
  */
-.blog-list-item-join {
+.blog-list-item-actions {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 15px;
+    right: 15px;
 }

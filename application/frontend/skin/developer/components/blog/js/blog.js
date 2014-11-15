@@ -21,18 +21,12 @@ ls.blog = (function ($) {
 	var _defaults = {
 		// Роутеры
 		routers: {
-			join:       aRouter['blog'] + 'ajaxblogjoin/',
 			categories: aRouter['ajax'] + 'blogs/get-by-category/',
-			info:       aRouter['blog'] + 'ajaxbloginfo/',
-			search:     aRouter['blogs'] + 'ajax-search/',
 		},
 
 		// Селекторы
 		selectors: {
 			addBlogSelectType: '.js-blog-add-type',
-			toggle_join: '.js-blog-join',
-			users_number: '.js-blog-users-number',
-			info: '.js-blog-info',
 			blog_add_type_note: '#blog_type_note',
 			nav: {
 				categories: '.js-blog-nav-categories',
@@ -58,48 +52,12 @@ ls.blog = (function ($) {
 				blogs:      $(this.options.selectors.nav.blogs),
 				submit:     $(this.options.selectors.nav.submit)
 			},
-			info: $(this.options.selectors.info),
-			toggle_join: $(this.options.selectors.toggle_join),
 			blog_add_type_note: $(this.options.selectors.blog_add_type_note),
 		};
 
 		// Подгрузка информации о выбранном типе блога при создании блога
 		$(this.options.selectors.addBlogSelectType).on('change', function (e) {
 			_this.loadInfoType($(this).val());
-		});
-
-		// Вступить/покинуть блог
-		$(document).on('click', this.options.selectors.toggle_join, function (e) {
-			_this.toggleJoin($(this), $(this).data('blog-id'));
-			e.preventDefault();
-		});
-
-        $( '.js-search-ajax-blog' ).lsSearchAjax({
-            urls: {
-                search: aRouter.blogs + 'ajax-search/'
-            },
-            filters : [
-                {
-                    type: 'text',
-                    name: 'sText',
-                    selector: '.js-search-text-main'
-                },
-                {
-                    type: 'radio',
-                    name: 'type',
-                    selector: '.js-search-ajax-blog-type'
-                },
-                {
-                    type: 'list',
-                    name: 'category',
-                    selector: '#js-search-ajax-blog-category li'
-                },
-                {
-                    type: 'sort',
-                    name: 'sort_by',
-                    selector: '.js-search-sort-menu li'
-                }
-            ]
 		});
 
 		/**
@@ -115,57 +73,6 @@ ls.blog = (function ($) {
 		this.elements.nav.submit.on('click', function (e) {
 			_this.navigatorGoSelectBlog();
 		});
-	};
-
-	/**
-	 * Вступить или покинуть блог
-	 */
-	this.toggleJoin = function(oToggle, iIdBlog) {
-		var sUrl    = this.options.routers.join,
-			oParams = { idBlog: iIdBlog };
-
-		oToggle.addClass(ls.options.classes.states.loading);
-
-		ls.hook.marker('toggleJoinBefore');
-
-		ls.ajax.load(sUrl, oParams, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				ls.msg.notice(null, result.sMsg);
-
-				oToggle.empty().text( result.bState ? ls.lang.get('blog.join.leave') : ls.lang.get('blog.join.join') ).toggleClass('button--primary');
-				$(this.options.selectors.users_number + '[data-blog-id=' + iIdBlog + ']').text(result.iCountUser);
-
-				ls.hook.run('ls_blog_toggle_join_after', [iIdBlog, result], oToggle);
-			}
-
-			oToggle.removeClass(ls.options.classes.states.loading);
-		}.bind(this));
-	};
-
-	/**
-	 * Отображение информации о блоге
-	 */
-	this.loadInfo = function(iBlogId) {
-		if ( ! this.elements.info.length ) return;
-
-		var url = this.options.routers.info,
-			params = { idBlog: iBlogId };
-
-		this.elements.info.empty().addClass(ls.options.classes.states.loading);
-
-		ls.hook.marker('loadInfoBefore');
-
-		ls.ajax.load(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				this.elements.info.removeClass(ls.options.classes.states.loading).html(result.sText);
-
-				ls.hook.run('ls_blog_load_info_after', [iBlogId, result], this.elements.info);
-			}
-		}.bind(this));
 	};
 
 	/**

@@ -14,10 +14,11 @@
 
 {* Переменные *}
 {$blog = $smarty.local.blog}
+{$blogs = $smarty.local.blogs}
 
 {* Подключаем модальное окно удаления блога если пользователь админ *}
 {if $oUserCurrent && $oUserCurrent->isAdministrator()}
-    {include './modals/modal.blog-delete.tpl'}
+    {include './modals/modal.blog-delete.tpl' blog=$blog blogs=$blogs}
 {/if}
 
 {* Является ли пользователь администратором или управляющим блога *}

@@ -1,7 +1,8 @@
 {**
  * Удаление блога
  *
- * @styles css/modals.css
+ * @param object $blog
+ * @param array  $blogs
  *}
 
 {extends 'components/modal/modal.tpl'}
@@ -11,24 +12,25 @@
 {block 'modal_title'}{$aLang.blog.remove.title}{/block}
 
 {block 'modal_content'}
-    <form action="{router page='blog'}delete/{$oBlog->getId()}/" method="POST" id="js-blog-remove-form">
+    {$blog = $smarty.local.blog}
+
+    <form action="{router page='blog'}delete/{$blog->getId()}/" method="POST" id="js-blog-remove-form">
         {* Переместить топики в блог *}
-        {$aBlogsCustom = [
+        {$selectBlogs = [
             [ 'value' => -1, 'text' => $aLang.blog.remove.remove_topics ]
         ]}
 
-        {foreach $aBlogs as $oBlog}
-            {$aBlogsCustom[] = [
-                'value' => $oBlog->getId(),
-                'text' => $oBlog->getTitle()|escape
+        {foreach $smarty.local.blogs as $blog}
+            {$selectBlogs[] = [
+                'value' => $blog->getId(),
+                'text' => $blog->getTitle()|escape
             ]}
         {/foreach}
 
         {include 'components/field/field.select.tpl'
-                 name  = 'topic_move_to'
-                 label = $aLang.blog.remove.move_to
-                 items = $aBlogsCustom}
-
+            name  = 'topic_move_to'
+            label = $aLang.blog.remove.move_to
+            items = $selectBlogs}
 
         {* Скрытые поля *}
         {include 'components/field/field.hidden.security_key.tpl'}

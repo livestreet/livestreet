@@ -1,7 +1,5 @@
 {**
  * Блок со списоком блогов
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}

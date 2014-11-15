@@ -1,7 +1,5 @@
 {**
  * Статистика по пользователям
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}

@@ -1884,7 +1884,7 @@ class ActionBlog extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $sBlogId = getRequestStr('idBlog', null, 'post');
+        $sBlogId = getRequestStr('blog_id', null, 'post');
         /**
          * Определяем тип блога и получаем его
          */
@@ -1907,7 +1907,7 @@ class ActionBlog extends Action
             if ($sBlogId == 0) {
                 $sText = $this->Lang_Get('blog.personal_description');
             }
-            $this->Viewer_AssignAjax('sText', $sText);
+            $this->Viewer_AssignAjax('text', $sText);
         } else {
             return $this->EventErrorDebug();
         }
@@ -1933,7 +1933,7 @@ class ActionBlog extends Action
         /**
          * Блог существует?
          */
-        $idBlog = getRequestStr('idBlog', null, 'post');
+        $idBlog = getRequestStr('blog_id', null, 'post');
         if (!($oBlog = $this->Blog_GetBlogById($idBlog))) {
             return $this->EventErrorDebug();
         }

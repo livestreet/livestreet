@@ -9,53 +9,53 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsBlogInvites", $.livestreet.user_list_add, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			urls: {
-				add:      aRouter['blog'] + 'ajaxaddbloginvite/',
-				remove:   aRouter['blog'] + 'ajaxremovebloginvite/',
-				reinvite: aRouter['blog'] + 'ajaxrebloginvite/'
-			},
-			selectors: {
-				// Кнопка повторного отправления инвайта
-				item_reinvite: '.js-blog-invite-user-repeat'
-			}
-		},
+    $.widget( "livestreet.lsBlogInvites", $.livestreet.user_list_add, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            urls: {
+                add:      aRouter['blog'] + 'ajaxaddbloginvite/',
+                remove:   aRouter['blog'] + 'ajaxremovebloginvite/',
+                reinvite: aRouter['blog'] + 'ajaxrebloginvite/'
+            },
+            selectors: {
+                // Кнопка повторного отправления инвайта
+                item_reinvite: '.js-blog-invite-user-repeat'
+            }
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			var _this = this;
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            var _this = this;
 
-			this._super();
+            this._super();
 
-			// Повторная отправка инвайта
-			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_reinvite, function (e) {
-				_this.reinvite( $(this).data('user-id') );
-				e.preventDefault();
-			});
-		},
+            // Повторная отправка инвайта
+            this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_reinvite, function (e) {
+                _this.reinvite( $(this).data('user-id') );
+                e.preventDefault();
+            });
+        },
 
-		/**
-		 * Отправляет инвайт заново
-		 */
-		reinvite: function (iUserId) {
-			var oParams = $.extend({}, { iUserId: iUserId }, this.options.params);
+        /**
+         * Отправляет инвайт заново
+         */
+        reinvite: function (iUserId) {
+            var oParams = $.extend({}, { iUserId: iUserId }, this.options.params);
 
-			ls.ajax.load(this.options.urls.reinvite, oParams, function(oResponse) {
-				ls.msg.notice(null, oResponse.sMsg);
+            ls.ajax.load(this.options.urls.reinvite, oParams, function(oResponse) {
+                ls.msg.notice(null, oResponse.sMsg);
 
-				this._trigger("afterreinvite", null, { context: this, response: oResponse, oParams: oParams });
-			}.bind(this));
-		},
-	});
+                this._trigger("afterreinvite", null, { context: this, response: oResponse, oParams: oParams });
+            }.bind(this));
+        },
+    });
 })(jQuery);

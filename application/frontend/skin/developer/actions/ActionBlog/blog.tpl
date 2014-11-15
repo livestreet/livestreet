@@ -20,7 +20,7 @@
 {/block}
 
 {block 'layout_content_header'}
-	{include 'components/blog/blog.tpl' blog=$oBlog}
+	{include 'components/blog/blog.tpl' blog=$oBlog blogs=$aBlogs}
 
 	{$smarty.block.parent}
 

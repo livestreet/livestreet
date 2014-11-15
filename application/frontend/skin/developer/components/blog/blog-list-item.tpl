@@ -26,7 +26,7 @@
 
         {* Информация *}
         {$info = [
-            [ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => $blog->getCountUser() ],
+            [ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => "<span class=\"js-blog-users-count\" data-blog-id=\"{$blog->getId()}\">{$blog->getCountUser()}</span>" ],
             [ 'label' => "{$aLang.vote.rating}:",              'content' => $blog->getRating() ],
             [ 'label' => "{$aLang.blog.topics_total}:",        'content' => $blog->getCountTopic() ]
         ]}
@@ -38,7 +38,7 @@
         {include 'components/info-list/info-list.tpl' list=$info classes='object-list-item-info'}
 
         {* Действия *}
-        <div class="object-list-item-actions">
+        <div class="blog-list-item-actions">
             {* Вступить/покинуть блог *}
             {include './join.tpl' blog=$blog}
         </div>

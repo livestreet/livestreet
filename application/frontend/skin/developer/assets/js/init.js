@@ -23,6 +23,15 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * IE
+	 */
+	if ( $( 'html' ).hasClass( 'oldie' ) ) {
+		// Эмуляция placeholder'ов в IE
+		$( 'input[type=text], textarea' ).placeholder();
+	}
+
+
+	/**
 	 * Actionbar
 	 */
 	$('.js-user-list-modal-actionbar').livequery(function () {
@@ -385,6 +394,52 @@ jQuery(document).ready(function($){
 
 	// Приглашение пользователей в блог
 	$('.js-user-list-add-blog-invite').lsBlogInvites();
+
+	// Информация о блоге
+	$('.js-blog-info').lsBlogInfo({
+		urls: {
+			load: aRouter.blog + 'ajaxbloginfo'
+		},
+		selectors: {
+			select: '.js-topic-add-title'
+		}
+	});
+
+	// Вступить/покинуть блог
+	$('.js-blog-join').lsBlogJoin({
+		urls: {
+			toggle: aRouter.blog + 'ajaxblogjoin'
+		}
+	});
+
+	// Поиск
+	$( '.js-search-ajax-blog' ).lsSearchAjax({
+		urls: {
+			search: aRouter.blogs + 'ajax-search/'
+		},
+		filters : [
+			{
+				type: 'text',
+				name: 'sText',
+				selector: '.js-search-text-main'
+			},
+			{
+				type: 'radio',
+				name: 'type',
+				selector: '.js-search-ajax-blog-type'
+			},
+			{
+				type: 'list',
+				name: 'category',
+				selector: '#js-search-ajax-blog-category li'
+			},
+			{
+				type: 'sort',
+				name: 'sort_by',
+				selector: '.js-search-sort-menu li'
+			}
+		]
+	});
 
 
 	/**
