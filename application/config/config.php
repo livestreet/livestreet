@@ -416,11 +416,11 @@ $config['block']['rule_topic_type'] = array(
 );
 $config['block']['rule_personal_blog'] = array(
     'action' => array('personal_blog'),
-    'blocks' => array('right' => array('stream', 'tags')),
+    'blocks' => array('right' => array('activityRecent', 'topicsTags')),
 );
 $config['block']['rule_tag'] = array(
     'action' => array('tag'),
-    'blocks' => array('right' => array('tags', 'stream')),
+    'blocks' => array('right' => array('topicsTags')),
 );
 $config['block']['rule_blogs'] = array(
     'action' => array('blogs'),
@@ -483,6 +483,7 @@ $config['block']['rule_blog'] = array(
     'action' => array('blog' => array('{blog}')),
     'blocks' => array(
         'right' => array(
+            'components/blog/blocks/block.blog-photo.tpl'   => array('priority' => 300),
             'components/blog/blocks/block.blog-actions.tpl' => array('priority' => 300),
             'components/blog/blocks/block.blog-users.tpl'   => array('priority' => 300),
             'components/blog/blocks/block.blog-admins.tpl'  => array('priority' => 300)

@@ -24,7 +24,7 @@
     top: 20px;
     left: 0;
     padding: 12px 15px;
-    font: 300 16px/1em 'Open Sans';
+    font: 300 13px/1em 'Open Sans';
 }
 .user-status--online {
     background: #b7bc1c;
@@ -78,12 +78,14 @@
  * @modifier user-actions
  * @template blocks/block.userActions.tpl
  */
-.block--user-actions                  { border: none; }
+.block--user-actions                  { border: none; border: 1px solid #eee; border-radius: 5px; }
 .block--user-actions .block-content   { padding: 0; }
+.block--user-actions ul               { overflow: hidden; }
 .block--user-actions ul li            { margin-bottom: 0; }
 .block--user-actions ul li span,
-.block--user-actions ul li a          { display: block; padding: 10px 15px; }
-.block--user-actions ul li a:hover    { background: #fafafa; }
+.block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
+.block--user-actions ul li span:hover,
+.block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
 .block--user-actions ul li a.followed { color: #f00; }
 
 /**

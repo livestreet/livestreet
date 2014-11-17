@@ -69,11 +69,7 @@
  * О себе
  */
 .profile-info-about {
-	padding: 20px 25px;
 	margin-bottom: 30px;
-	background: #f7f7f7;
-	color: #000;
-	border-radius: 5px;
 }
 
 
@@ -84,13 +80,13 @@
 .user-info-group:last-child { margin-bottom: 0; }
 
 .user-info-group-title {
-	font-size: 20px;
+	font-size: 18px;
 	border-bottom: 1px solid #eee;
-	padding-bottom: 10px;
+	padding-bottom: 7px;
 	color: #555;
 }
 
 /* Список */
 .user-info-group-items .info-list-item-label   { width: 150px; }
-.user-info-group-items .info-list-item         { margin-bottom: 15px; }
+.user-info-group-items .info-list-item         { margin-bottom: 10px; }
 .user-info-group-items .info-list-item-content { font-weight: normal; }

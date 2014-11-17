@@ -69,27 +69,4 @@
 
         {include 'components/info-list/info-list.tpl' list=$info}
     </div>
-
-
-    {* Управление *}
-    {if $oUserCurrent && $isBlogAdmin}
-        {$actionbarItems = [ [ 'icon' => 'icon-edit', 'url' => "{router page='blog'}edit/{$blog->getId()}/", 'text' => $aLang.common.edit ] ]}
-
-        {if $oUserCurrent->isAdministrator()}
-            {$actionbarItems[] = [
-                'icon'       => 'icon-trash',
-                'attributes' => 'data-type="modal-toggle" data-modal-target="modal-blog-delete"',
-                'text'       => $aLang.common.remove
-            ]}
-        {else}
-            {$actionbarItems[] = [
-                'icon'    => 'icon-trash',
-                'url'     => "{router page='blog'}delete/{$blog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}",
-                'classes' => 'js-blog-remove',
-                'text'    => $aLang.common.remove
-            ]}
-        {/if}
-
-        {include 'components/actionbar/actionbar.tpl' items=$actionbarItems}
-    {/if}
 </div>

@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_options' append}
-	{$mods = "{$mods} profile-actions"}
+	{$mods = "{$mods} user-actions"}
 
 	{if ! $oUserCurrent or ( $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId() )}
 		{$show = false}
