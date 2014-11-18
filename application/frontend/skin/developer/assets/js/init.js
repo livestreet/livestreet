@@ -447,8 +447,8 @@ jQuery(document).ready(function($){
 	 */
 	$( '.js-topic' ).lsTopic();
 
-	// Добавление/редактирование
-	ls.topic.init();
+	// Форма добавления
+	$( '#topic-add-form' ).lsTopicAdd();
 
 	// Пагинация
 	$('.js-pagination-topics').lsPagination({

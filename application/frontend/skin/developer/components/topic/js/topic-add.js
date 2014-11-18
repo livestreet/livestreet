@@ -1,100 +1,103 @@
 /**
- * Топик
- * 
- * @module ls/topic
- * 
+ * Форма добавления топика
+ *
+ * @module ls/topic/add
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
+(function($) {
+    "use strict";
 
-ls.topic = (function ($) {
-	"use strict";
+    $.widget( "livestreet.lsTopicAdd", {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                add: aRouter[ 'content' ] + 'ajax/add/',
+                edit: aRouter[ 'content' ] + 'ajax/edit/',
+                preview: aRouter[ 'content' ] + 'ajax/preview/'
+            },
 
-	/**
-	 * Дефолтные опции
-	 */
-	var defaults = {
-		// Роутеры
-		oRouters: {
-			preview: aRouter['content'] + 'ajax/preview/'
-		},
+            // Селекторы
+            selectors: {
+                preview: '#topic-text-preview',
+                buttons: {
+                    preview: '.js-topic-preview-text-button',
+                    preview_hide: '.js-topic-preview-text-hide-button',
+                    draft: '.js-topic-draft-button'
+                }
+            }
+        },
 
-		// Селекторы
-		selectors: {
-			previewTopicTextButton:     '.js-topic-preview-text-button',
-			previewTopicTextHideButton: '.js-topic-preview-text-hide-button',
-			addTopicTitle:              '.js-topic-add-title'
-		}
-	};
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            var _this = this;
 
-	/**
-	 * Инициализация
-	 *
-	 * @param  {Object} options Опции
-	 */
-	this.init = function(options) {
-		var _this = this;
+            this.elements = {
+                preview: $( this.option( 'selectors.preview' ) ),
+                buttons: {
+                    preview: this.element.find( this.option( 'selectors.buttons.preview' ) ),
+                    preview_hide: $( this.option( 'selectors.buttons.preview_hide' ) ),
+                    draft: this.element.find( this.option( 'selectors.buttons.draft' ) ),
+                    submit: this.element.find( this.option( 'selectors.buttons.submit' ) ),
+                }
+            };
 
-		this.options = $.extend({}, defaults, options);
-		this.form = $( '#topic-add-form' );
+            // Иниц-ия формы
+            this.element.lsContent({
+                urls: {
+                    add: this.option( 'urls.add' ),
+                    edit: this.option( 'urls.edit' )
+                }
+            });
 
-		this.form.lsContent({
-			urls: {
-				add: aRouter['content'] + 'ajax/add/',
-				edit: aRouter['content'] + 'ajax/edit/'
-			}
-		});
+            // Добавление в черновик
+            this.elements.buttons.draft.on( 'click' + this.eventNamespace, this.saveAsDraft.bind( this ) );
 
-		this.form.find( '.js-topic-draft-button' ).on( 'click', function () {
-			_this.form.lsContent( 'submit', { is_draft: 1 });
-		});
+            // Превью текста
+            this.elements.buttons.preview.on( 'click' + this.eventNamespace, this.previewShow.bind( this ) );
 
-		// Превью текста
-		$(this.options.selectors.previewTopicTextButton).on('click', function (e) {
-			_this.showPreviewText('form-topic-add', 'topic-text-preview');
-		});
+            // Закрытие превью текста
+            this.elements.buttons.preview_hide.on( 'click' + this.eventNamespace, this.previewHide.bind( this ) );
+        },
 
-		// Закрытие превью текста
-		$(document).on('click', this.options.selectors.previewTopicTextHideButton, function (e) {
-			_this.hidePreviewText();
-		});
-	};
+        /**
+         * Добавление в черновик
+         */
+        saveAsDraft: function() {
+            this.element.lsContent( 'submit', { is_draft: 1 });
+        },
 
-	/**
-	 * Превью текста
-	 *
-	 * @param  {String} sFormId ID формы
-	 * @param  {String} sPreviewId ID блока превью
-	 */
-	this.showPreviewText = function(sFormId, sPreviewId) {
-		var oForm = $('#' + sFormId);
-		var oPreview = $('#' + sPreviewId);
-		var oButton = oForm.find(this.options.selectors.previewTopicTextButton);
+        /**
+         * Превью текста
+         */
+        previewShow: function() {
+            ls.ajax.submit( this.option( 'urls.preview' ), this.element, function( response ) {
+                if ( response.bStateError ) {
+                    ls.msg.error( null, response.sMsg );
+                } else {
+                    this.elements.preview.show().html( response.sText );
+                }
+            }.bind( this ), {
+                submitButton: this.elements.buttons.preview
+            });
+        },
 
-		ls.hook.marker('previewBefore');
-
-		ls.ajax.submit(this.options.oRouters.preview, oForm, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				oPreview.show().html(result.sText);
-
-				ls.hook.run('ls_topic_preview_after', [oForm, oPreview, result]);
-			}
-		}, {
-			submitButton: oButton
-		});
-	};
-
-	/**
-	 * Закрытие превью
-	 */
-	this.hidePreviewText = function() {
-		$('#topic-text-preview').hide();
-	};
-
-	return this;
-}).call(ls.topic || {}, jQuery);
+        /**
+         * Закрытие превью текста
+         */
+        previewHide: function() {
+            this.elements.preview.hide().empty();
+        }
+    });
+})(jQuery);
