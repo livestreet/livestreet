@@ -292,7 +292,7 @@ jQuery(document).ready(function($){
 	$( '.js-user-fields' ).lsUserFields();
 
 	// Фото пользователя
-	$( '.js-user-photo' ).lsUserPhoto({
+	$( '.js-user-photo' ).lsPhoto({
 		urls: {
 			upload: aRouter.settings + 'ajax-upload-photo',
 			remove: aRouter.settings + 'ajax-remove-photo',

@@ -108,7 +108,7 @@ class ActionSettings extends Action
             return $this->EventErrorDebug();
         }
 
-        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+        if (!$oUser = $this->User_GetUserById(getRequestStr('target_id'))) {
             return $this->EventErrorDebug();
         }
         if (!$oUser->isAllowEdit()) {
@@ -166,7 +166,7 @@ class ActionSettings extends Action
          */
         $this->Viewer_SetResponseAjax('json');
 
-        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+        if (!$oUser = $this->User_GetUserById(getRequestStr('target_id'))) {
             return $this->EventErrorDebug();
         }
         if (!$oUser->isAllowEdit()) {
@@ -245,7 +245,7 @@ class ActionSettings extends Action
          */
         $this->Viewer_SetResponseAjax('json');
 
-        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+        if (!$oUser = $this->User_GetUserById(getRequestStr('target_id'))) {
             return $this->EventErrorDebug();
         }
         if (!$oUser->isAllowEdit()) {
@@ -268,7 +268,7 @@ class ActionSettings extends Action
     {
         $this->Viewer_SetResponseAjax('json');
 
-        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+        if (!$oUser = $this->User_GetUserById(getRequestStr('target_id'))) {
             return $this->EventErrorDebug();
         }
         if (!$oUser->isAllowEdit()) {
@@ -291,7 +291,7 @@ class ActionSettings extends Action
     {
         $this->Viewer_SetResponseAjax('json');
 
-        if (!$oUser = $this->User_GetUserById(getRequestStr('user_id'))) {
+        if (!$oUser = $this->User_GetUserById(getRequestStr('target_id'))) {
             return $this->EventErrorDebug();
         }
         if (!$oUser->isAllowEdit()) {

@@ -6,16 +6,7 @@
  */
 .block--user-photo .block-content {
     padding: 0;
-}
-.user-photo {
     position: relative;
-    min-width: 100%;
-    min-height: 50px;
-    overflow: hidden;
-}
-.user-photo-image {
-    vertical-align: top;
-    max-width: 100%;
 }
 
 /* Статус (онлайн/оффлайн) */
@@ -23,6 +14,7 @@
     position: absolute;
     top: 20px;
     left: 0;
+    z-index: 1;
     padding: 12px 15px;
     font: 300 13px/1em 'Open Sans';
 }
@@ -35,41 +27,6 @@
     background: #333;
     background: rgba(0, 0, 0, .6);
     color: #fff;
-}
-
-/* Действия */
-.user-photo-actions {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 5px 0;
-    background: rgba( 0, 0, 0, .7 );
-    opacity: 0;
-    -webkit-transition: opacity .3s;
-    transition: opacity .3s;
-}
-.user-photo-actions li {
-    padding: 7px 15px;
-    color: #bbb;
-    font-size: 13px;
-    cursor: pointer;
-    -webkit-transition: color .2s;
-    transition: color .2s;
-}
-.user-photo-actions li:hover {
-    color: #eee;
-}
-.user-photo:hover .user-photo-actions {
-    opacity: 1;
-}
-
-/* @modifier nophoto */
-.user-photo--nophoto .user-photo-image {
-    width: 100%;
-}
-.user-photo--nophoto .user-photo-actions {
-    opacity: 1;
 }
 
 /**

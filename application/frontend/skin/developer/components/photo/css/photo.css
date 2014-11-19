@@ -1,0 +1,61 @@
+/**
+ * Фото
+ *
+ * @module ls/photo
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.photo {
+    position: relative;
+    min-width: 100%;
+    min-height: 50px;
+    overflow: hidden;
+}
+
+/* Изображение */
+.photo-image {
+    vertical-align: top;
+    max-width: 100%;
+}
+
+/* Действия */
+.photo-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: rgba( 0, 0, 0, .7 );
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+}
+.photo-actions li {
+    padding: 7px 15px;
+    color: #bbb;
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-transition: color .2s;
+    transition: color .2s;
+}
+.photo-actions li:hover {
+    color: #eee;
+}
+.photo:hover .photo-actions {
+    opacity: 1;
+}
+
+/* @modifier nophoto */
+.photo--nophoto .photo-image {
+    width: 100%;
+}
+.photo--nophoto .photo-actions {
+    opacity: 1;
+}
+.photo--nophoto .photo-actions-crop-avatar,
+.photo--nophoto .photo-actions-remove {
+    display: none;
+}
