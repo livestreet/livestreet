@@ -147,6 +147,15 @@ return array(
         'date_created'         => 'Дата создания',
         'rating_limit'         => 'Ограничение на постинг',
         'rss'                  => 'RSS',
+        // Действия
+        'actions' => array(
+            'write'  => 'Написать в блог',
+            'join'   => '___blog.join.join___',
+            'leave'  => '___blog.join.leave___',
+            'rss'    => 'Подписаться через RSS',
+            'edit'   => '___common.edit___',
+            'remove' => '___common.remove___',
+        ),
         // Сообщения
         'alerts'               => array(
             'private' => 'Это закрытый блог, у вас нет прав на просмотр контента',
@@ -1128,7 +1137,7 @@ return array(
         'rating'            => '___vote.rating___',
         'date_last_session' => 'Последний визит',
         'date_registration' => 'Дата регистрации',
-        // Пол
+        // Действия
         'actions'           => array(
             'send_message' => '___talk.send_message___',
             'follow'       => 'Подписаться',

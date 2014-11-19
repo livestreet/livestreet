@@ -21,5 +21,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/topic/topic-add.tpl' topic=$oTopicEdit type=$oTopicType blogs=$aBlogsAllow}
+	{include 'components/topic/topic-add.tpl' topic=$oTopicEdit type=$oTopicType blogs=$aBlogsAllow blogId=$blogId}
 {/block}

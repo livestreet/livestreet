@@ -204,6 +204,8 @@ class ActionContent extends Action
     protected function EventAdd()
     {
         $sTopicType = $this->GetParam(0);
+        $iBlogId = (int) getRequest('blog_id');
+
         if (!$oTopicType = $this->Topic_GetTopicType($sTopicType)) {
             return parent::EventNotFound();
         }
@@ -224,6 +226,7 @@ class ActionContent extends Action
          */
         $this->Viewer_Assign('oTopicType', $oTopicType);
         $this->Viewer_Assign('aBlogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+        $this->Viewer_Assign('blogId', $iBlogId);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.add'));
         $this->SetTemplateAction('add');
     }

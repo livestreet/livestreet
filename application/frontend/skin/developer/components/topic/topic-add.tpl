@@ -4,6 +4,7 @@
  * @param object $topic
  * @param object $type
  * @param array  $blogs
+ * @param array  $blogId
  *}
 
 {$topic = $smarty.local.topic}
@@ -39,7 +40,7 @@
         note          = $aLang.topic.add.fields.blog.note
         inputClasses  = 'js-topic-add-title'
         items         = $items
-        selectedValue = {( $topic ) ? $topic->getBlogId() : '' }}
+        selectedValue = {( $topic ) ? $topic->getBlogId() : $smarty.local.blogId}}
 
 
     {* Заголовок топика *}
