@@ -236,6 +236,22 @@ class ModuleBlog_EntityBlog extends Entity
     }
 
     /**
+     * Формирует массив с путями до аватаров
+     *
+     * @return array Массив с путями до аватаров
+     */
+    public function getAvatarsPath()
+    {
+        $aAvatars = array();
+
+        foreach (Config::Get('module.blog.avatar_size') as $sSize) {
+            $aAvatars[ $sSize ] = $this->getAvatarPath( $sSize );
+        }
+
+        return $aAvatars;
+    }
+
+    /**
      * Возвращает факт присоединения пользователя к блогу
      *
      * @return bool|null
@@ -277,6 +293,16 @@ class ModuleBlog_EntityBlog extends Entity
         } else {
             return Router::GetPath('blog') . $this->getUrl() . '/';
         }
+    }
+
+    public function isAllowEdit()
+    {
+        if ($oUser = $this->User_GetUserCurrent()) {
+            if ($oUser->getId() == $this->getOwnerId() or $oUser->isAdministrator() or $this->getUserIsAdministrator()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

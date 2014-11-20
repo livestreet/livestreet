@@ -384,6 +384,9 @@ return array(
                 'type'       => array(
                     'title' => 'Тип блога',
                 ),
+                'relation'       => array(
+                    'title' => 'Принадлежность',
+                ),
             ),
         ),
     ),

@@ -15,9 +15,6 @@
     {$blog = $oBlog}
 
     <ul class="profile-actions" id="profile_actions">
-        {* Является ли пользователь администратором или управляющим блога *}
-        {$isBlogAdmin = $oUserCurrent && ( $oUserCurrent->getId() == $blog->getOwnerId() || $oUserCurrent->isAdministrator() || $blog->getUserIsAdministrator() )}
-
         {* Список экшенов *}
         {$actions = []}
 
@@ -31,7 +28,7 @@
         {/if}
 
         {* Написать в блог *}
-        {if $oUserCurrent && ( ( $blog->getUserIsJoin() && $oUserCurrent->getRating() >= $blog->getLimitRatingTopic() ) || $isBlogAdmin )}
+        {if $oUserCurrent && ( ( $blog->getUserIsJoin() && $oUserCurrent->getRating() >= $blog->getLimitRatingTopic() ) || $blog->isAllowEdit() )}
             {$actions[] = [
                 'url' => "{$LS->Topic_GetTopicType('topic')->getUrlForAdd()}?blog_id={$blog->getId()}",
                 'text' => {lang 'blog.actions.write'}
@@ -44,7 +41,7 @@
             'text' => {lang 'blog.actions.rss'}
         ]}
 
-        {if $oUserCurrent && $isBlogAdmin}
+        {if $blog->isAllowEdit()}
             {* Редактировать *}
             {$actions[] = [ 'icon' => 'icon-edit', 'url' => "{router page='blog'}edit/{$blog->getId()}/", 'text' => $aLang.common.edit ]}
 

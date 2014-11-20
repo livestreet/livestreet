@@ -28,6 +28,13 @@
 class ActionBlogs extends Action
 {
     /**
+     * Текущий пользователь
+     *
+     * @var ModuleUser_EntityUser|null
+     */
+    protected $oUserCurrent = null;
+
+    /**
      * Инициализация
      */
     public function Init()
@@ -39,6 +46,10 @@ class ActionBlogs extends Action
             'blog.join.join',
             'blog.join.leave'
         ));
+        /**
+         * Получаем текущего пользователя
+         */
+        $this->oUserCurrent = $this->User_GetUserCurrent();
         /**
          * Устанавливаем title страницы
          */
@@ -77,11 +88,11 @@ class ActionBlogs extends Action
         );
         $sOrderWay = in_array(getRequestStr('order'), array('desc', 'asc')) ? getRequestStr('order') : 'desc';
         $sOrderField = in_array(getRequestStr('sort_by'), array(
-                'blog_id',
-                'blog_title',
-                'blog_count_user',
-                'blog_count_topic'
-            )) ? getRequestStr('sort_by') : 'blog_count_user';
+            'blog_id',
+            'blog_title',
+            'blog_count_user',
+            'blog_count_topic'
+        )) ? getRequestStr('sort_by') : 'blog_count_user';
         if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext') > 0) {
             $iPage = getRequestStr('pageNext');
         } else {
@@ -114,6 +125,16 @@ class ActionBlogs extends Action
          */
         if (in_array(getRequestStr('type'), array('open', 'close'))) {
             $aFilter['type'] = getRequestStr('type');
+        }
+        /**
+         * Принадлежность
+         */
+        if ($this->oUserCurrent) {
+            if (getRequestStr('relation') == 'my') {
+                $aFilter['user_owner_id'] = $this->oUserCurrent->getId();
+            } elseif (getRequestStr('relation') == 'join') {
+                $aFilter['roles']=array(ModuleBlog::BLOG_USER_ROLE_USER,ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR,ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+            }
         }
         /**
          * Ищем блоги

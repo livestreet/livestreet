@@ -114,7 +114,8 @@ class ActionBlog extends Action
         'ajaxresponsecomment',
         'ajaxrebloginvite',
         'ajaxbloginfo',
-        'ajaxblogjoin'
+        'ajaxblogjoin',
+        'ajax',
     );
 
     /**
@@ -177,6 +178,11 @@ class ActionBlog extends Action
         $this->AddEvent('ajaxremovebloginvite', 'AjaxRemoveBlogInvite');
         $this->AddEvent('ajaxbloginfo', 'AjaxBlogInfo');
         $this->AddEvent('ajaxblogjoin', 'AjaxBlogJoin');
+        $this->AddEventPreg('/^ajax$/i', '/^upload-avatar$/i', '/^$/i', 'EventAjaxUploadAvatar');
+        $this->AddEventPreg('/^ajax$/i', '/^crop-avatar$/i', '/^$/i', 'EventAjaxCropAvatar');
+        $this->AddEventPreg('/^ajax$/i', '/^crop-cancel-avatar$/i', '/^$/i', 'EventAjaxCropCancelAvatar');
+        $this->AddEventPreg('/^ajax$/i', '/^remove-avatar$/i', '/^$/i', 'EventAjaxRemoveAvatar');
+        $this->AddEventPreg('/^ajax$/i', '/^modal-crop-avatar$/i', '/^$/i', 'EventAjaxModalCropAvatar');
 
         $this->AddEventPreg('/^(\d+)\.html$/i', '/^$/i', array('EventShowTopic', 'topic'));
         $this->AddEventPreg('/^[\w\-\_]+$/i', '/^(\d+)\.html$/i', array('EventShowTopic', 'topic'));
@@ -260,16 +266,6 @@ class ActionBlog extends Action
         $oBlog->setLimitRatingTopic(getRequestStr('blog_limit_rating_topic'));
         $oBlog->setUrl(getRequestStr('blog_url'));
         $oBlog->setAvatar(null);
-        /**
-         * Загрузка аватара, делаем ресайзы
-         */
-        if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-            if (true !== $sResult = $this->Blog_UploadBlogAvatar($_FILES['avatar'], $oBlog)) {
-                $this->Message_AddError(is_bool($sResult) ? $this->Lang_Get('blog.add.fields.avatar.error') : $sResult,
-                    $this->Lang_Get('error'));
-                return false;
-            }
-        }
         /**
          * Создаём блог
          */
@@ -385,23 +381,6 @@ class ActionBlog extends Action
                 $oBlog->setUrl(getRequestStr('blog_url'));    // разрешаем смену URL блога только админу
             }
             /**
-             * Загрузка аватара, делаем ресайзы
-             */
-            if (isset($_FILES['avatar']) and is_uploaded_file($_FILES['avatar']['tmp_name'])) {
-                if (true !== $sResult = $this->Blog_UploadBlogAvatar($_FILES['avatar'], $oBlog)) {
-                    $this->Message_AddError(is_bool($sResult) ? $this->Lang_Get('blog.add.fields.avatar.error') : $sResult,
-                        $this->Lang_Get('error'));
-                    return false;
-                }
-            }
-            /**
-             * Удалить аватар
-             */
-            if (isset($_REQUEST['avatar_delete'])) {
-                $this->Blog_DeleteBlogAvatar($oBlog);
-                $oBlog->setAvatar(null);
-            }
-            /**
              * Обновляем блог
              */
             $this->Hook_Run('blog_edit_before', array('oBlog' => $oBlog));
@@ -483,10 +462,10 @@ class ActionBlog extends Action
                  * Увеличиваем число читателей блога
                  */
                 if (in_array($sRank, array(
-                            'administrator',
-                            'moderator',
-                            'reader'
-                        )) and $oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_BAN
+                        'administrator',
+                        'moderator',
+                        'reader'
+                    )) and $oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_BAN
                 ) {
                     $oBlog->setCountUser($oBlog->getCountUser() + 1);
                 }
@@ -1283,12 +1262,12 @@ class ActionBlog extends Action
              * Отправка уведомления автору топика
              */
             $this->Subscribe_Send('topic_new_comment', $oTopic->getId(),
-            Config::Get('module.notify.prefix') . '.comment_new.tpl', $this->Lang_Get('emails.comment_new.subject'),
-            array(
-                'oTopic'       => $oTopic,
-                'oComment'     => $oCommentNew,
-                'oUserComment' => $this->oUserCurrent,
-            ), $aExcludeMail);
+                Config::Get('module.notify.prefix') . '.comment_new.tpl', $this->Lang_Get('emails.comment_new.subject'),
+                array(
+                    'oTopic'       => $oTopic,
+                    'oComment'     => $oCommentNew,
+                    'oUserComment' => $this->oUserCurrent,
+                ), $aExcludeMail);
             /**
              * Добавляем событие в ленту
              */
@@ -1598,7 +1577,7 @@ class ActionBlog extends Action
         if ($oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_INVITE) {
             $this->SendBlogInvite($oBlog, $oUser);
             $this->Message_AddNoticeSingle($this->Lang_Get('blog.invite.notices.add',
-                    array('login' => $oUser->getLogin())), $this->Lang_Get('attention'));
+                array('login' => $oUser->getLogin())), $this->Lang_Get('attention'));
         } else {
             return $this->EventErrorDebug();
         }
@@ -1651,7 +1630,7 @@ class ActionBlog extends Action
              */
             $this->Blog_DeleteRelationBlogUser($oBlogUser);
             $this->Message_AddNoticeSingle($this->Lang_Get('blog.invite.notices.remove',
-                    array('login' => $oUser->getLogin())), $this->Lang_Get('attention'));
+                array('login' => $oUser->getLogin())), $this->Lang_Get('attention'));
         } else {
             return $this->EventErrorDebug();
         }
@@ -2019,6 +1998,172 @@ class ActionBlog extends Action
                 return $this->EventErrorDebug();
             }
         }
+    }
+
+    /**
+     * Загрузка аватара в блог
+     */
+    protected function EventAjaxUploadAvatar()
+    {
+        /**
+         * Устанавливаем формат Ajax ответа
+         */
+        $this->Viewer_SetResponseAjax('jsonIframe', false);
+        if (!isset($_FILES['photo']['tmp_name'])) {
+            return $this->EventErrorDebug();
+        }
+
+        if (!$oBlog = $this->Blog_GetBlogById(getRequestStr('target_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oBlog->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+        /**
+         * Копируем загруженный файл
+         */
+        $sFileTmp = Config::Get('sys.cache.dir') . func_generator();
+        if (!move_uploaded_file($_FILES['photo']['tmp_name'], $sFileTmp)) {
+            return false;
+        }
+        /**
+         * Если объект изображения не создан, возвращаем ошибку
+         */
+        if (!$oImage = $this->Image_Open($sFileTmp)) {
+            $this->Fs_RemoveFileLocal($sFileTmp);
+            $this->Message_AddError($this->Image_GetLastError());
+            return;
+        }
+        /**
+         * Ресайзим и сохраняем именьшенную копию
+         * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
+         */
+        $sDir = Config::Get('path.uploads.images') . "/tmp/blog/{$oBlog->getId()}";
+        if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
+            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
+                list($iOriginalWidth, $iOriginalHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
+                list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFilePreview));
+                /**
+                 * Сохраняем в сессии временный файл с изображением
+                 */
+                $this->Session_Set('sBlogAvatarFileTmp', $sFileOriginal);
+                $this->Session_Set('sBlogAvatarFilePreviewTmp', $sFilePreview);
+                $this->Viewer_AssignAjax('path', $this->Fs_GetPathWeb($sFilePreview));
+                $this->Viewer_AssignAjax('original_width', $iOriginalWidth);
+                $this->Viewer_AssignAjax('original_height', $iOriginalHeight);
+                $this->Viewer_AssignAjax('width', $iWidth);
+                $this->Viewer_AssignAjax('height', $iHeight);
+                $this->Fs_RemoveFileLocal($sFileTmp);
+                return;
+            }
+        }
+        $this->Message_AddError($this->Image_GetLastError());
+        $this->Fs_RemoveFileLocal($sFileTmp);
+    }
+
+    /**
+     * Обрезка аватара блога
+     */
+    protected function EventAjaxCropAvatar()
+    {
+        /**
+         * Устанавливаем формат Ajax ответа
+         */
+        $this->Viewer_SetResponseAjax('json');
+
+        if (!$oBlog = $this->Blog_GetBlogById(getRequestStr('target_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oBlog->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+
+        $sFile = $this->Session_Get('sBlogAvatarFileTmp');
+        $sFilePreview = $this->Session_Get('sBlogAvatarFilePreviewTmp');
+        if (!$this->Image_IsExistsFile($sFile)) {
+            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            return;
+        }
+
+        if (true === ($res = $this->Blog_CreateAvatar($sFile, $oBlog, getRequest('size'),
+                getRequestStr('canvas_width')))
+        ) {
+            $this->Image_RemoveFile($sFile);
+            $this->Image_RemoveFile($sFilePreview);
+            $this->Session_Drop('sBlogAvatarFileTmp');
+            $this->Session_Drop('sBlogAvatarFilePreviewTmp');
+
+            $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.change_photo'));
+            $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath());
+        } else {
+            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
+        }
+    }
+
+    /**
+     * Удаляет временные файлы кропа аватара
+     */
+    protected function EventAjaxCropCancelAvatar()
+    {
+        /**
+         * Устанавливаем формат Ajax ответа
+         */
+        $this->Viewer_SetResponseAjax('json');
+
+        if (!$oBlog = $this->Blog_GetBlogById(getRequestStr('target_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oBlog->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+
+        $sFile = $this->Session_Get('sBlogAvatarFileTmp');
+        $sFilePreview = $this->Session_Get('sBlogAvatarFilePreviewTmp');
+
+        $this->Image_RemoveFile($sFile);
+        $this->Image_RemoveFile($sFilePreview);
+        $this->Session_Drop('sBlogAvatarFileTmp');
+        $this->Session_Drop('sBlogAvatarFilePreviewTmp');
+    }
+
+    /**
+     * Удаление аватара блога
+     */
+    protected function EventAjaxRemoveAvatar()
+    {
+        $this->Viewer_SetResponseAjax('json');
+
+        if (!$oBlog = $this->Blog_GetBlogById(getRequestStr('target_id'))) {
+            return $this->EventErrorDebug();
+        }
+        if (!$oBlog->isAllowEdit()) {
+            return $this->EventErrorDebug();
+        }
+
+        $this->Blog_DeleteBlogAvatar($oBlog);
+        $this->Blog_UpdateBlog($oBlog);
+
+        $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.upload_photo'));
+        $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath());
+        $this->Viewer_AssignAjax('avatars', $oBlog->GetProfileAvatarsPath());
+    }
+
+    /**
+     * Показывает модальное окно с кропом аватара
+     */
+    protected function EventAjaxModalCropAvatar()
+    {
+        $this->Viewer_SetResponseAjax('json');
+
+        $oViewer = $this->Viewer_GetLocalViewer();
+
+        $oViewer->Assign('image', getRequestStr('image_src'), true);
+        $oViewer->Assign('originalWidth', (int)getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int)getRequest('original_height'), true);
+        $oViewer->Assign('width', (int)getRequest('width'), true);
+        $oViewer->Assign('height', (int)getRequest('height'), true);
+
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/blog/modals/modal.crop-avatar.tpl"));
     }
 
     /**

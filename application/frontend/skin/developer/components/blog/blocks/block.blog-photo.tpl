@@ -11,7 +11,12 @@
 {/block}
 
 {block 'block_content'}
-    <a href="{$oBlog->getUrlFull()}">
-        <img src="{$oBlog->getAvatarPath(500)}" alt="{$oBlog->getTitle()|escape}" class="avatar" />
-    </a>
+    {include 'components/photo/photo.tpl'
+        classes      = 'js-blog-avatar'
+        hasPhoto     = $oBlog->getAvatar()
+        editable     = $oBlog->isAllowEdit()
+        targetId     = $oBlog->getId()
+        url          = $oBlog->getUrlFull()
+        photoPath    = $oBlog->getAvatarPath(500)
+        photoAltText = $oBlog->getTitle()|escape}
 {/block}

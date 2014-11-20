@@ -21,7 +21,7 @@ ls.blog = (function ($) {
 	var _defaults = {
 		// Роутеры
 		routers: {
-			categories: aRouter['ajax'] + 'blogs/get-by-category/',
+			categories: aRouter['ajax'] + 'blogs/get-by-category/'
 		},
 
 		// Селекторы

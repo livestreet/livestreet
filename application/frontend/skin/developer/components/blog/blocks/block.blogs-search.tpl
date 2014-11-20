@@ -54,4 +54,11 @@
     {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value=''      label='Любой' checked=true}
     {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value='open'  label='Открытый'}
     {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value='close' label='Закрытый'}
+
+    {* Тип принадлежности блога *}
+    <h3>{lang 'blog.blocks.search.relation.title'}</h3>
+
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='all'  label='Все' checked=true}
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='my'   label='Мои'}
+    {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='join' label='Читаю'}
 {/block}

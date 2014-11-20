@@ -105,7 +105,6 @@ $config['acl']['update']['comment']['rating'] = -5;   // порог рейтин
 $config['acl']['update']['comment']['limit_time'] = 60 * 3;   // время в секундах после создания комментария, когда можно его отредактировать, если 0 то ограничение по времени не будет работать
 $config['acl']['vote']['comment']['rating'] = -3;  // порог рейтинга при котором юзер может голосовать за комментарии
 $config['acl']['vote']['topic']['rating'] = -7;  // порог рейтинга при котором юзер может голосовать за топик
-$config['acl']['vote']['user']['rating'] = -1;  // порог рейтинга при котором юзер может голосовать за пользователя
 $config['acl']['vote']['topic']['limit_time'] = 60 * 60 * 24 * 20; // ограничение времени голосования за топик
 $config['acl']['vote']['comment']['limit_time'] = 60 * 60 * 24 * 5;  // ограничение времени голосования за комментарий
 /**
@@ -224,8 +223,8 @@ $config['module']['poll']['time_limit_update'] = 60 * 60 * 30; // Время в 
 /**
  * Модуль Image
  */
-$config['module']['image']['params']['blog_avatar']['size_max_width'] = 500;
-$config['module']['image']['params']['blog_avatar']['size_max_height'] = 500;
+$config['module']['image']['params']['blog_avatar']['size_max_width'] = 1000;
+$config['module']['image']['params']['blog_avatar']['size_max_height'] = 1000;
 /**
  * Модуль Media
  */
@@ -403,10 +402,6 @@ $config['block']['rule_index_blog'] = array(
     ),
     'clear'  => false,
 );
-$config['block']['rule_index'] = array(
-    'action' => array('index'),
-    'blocks' => array('right' => array('blogNav' => array('priority' => 500))),
-);
 $config['block']['rule_topic_type'] = array(
     'action' => array(
         'content' => array('add', 'edit'),
@@ -446,15 +441,6 @@ $config['block']['userfeedUsers'] = array(
             'userfeedUsers' => array()
         )
     )
-);
-$config['block']['rule_blog_info'] = array(
-    'action' => array(
-        'blog' => array('{topic}')
-    ),
-    'blocks' => array(
-        'right' => array('components/blog/blocks/block.blog.tpl' => array('priority' => 300))
-    ),
-    'clear'  => false,
 );
 $config['block']['rule_users'] = array(
     'action' => array('people'),

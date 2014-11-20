@@ -293,14 +293,13 @@ jQuery(document).ready(function($){
 			crop_avatar: aRouter.settings + 'ajax-modal-crop-avatar',
 			save_photo: aRouter.settings + 'ajax-crop-photo',
 			save_avatar: aRouter.settings + 'ajax-change-avatar',
-			cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo',
+			cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo'
 		},
 		changeavatar: function ( event, _this, avatars ) {
 			$( '.js-user-profile-avatar, .js-wall-entry[data-user-id=' + _this.option( 'params.user_id' ) + '] .comment-avatar img' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
 			$( '.nav-item--userbar-username img' ).attr( 'src', avatars[ '24crop' ] + '?' + Math.random() );
 		}
 	});
-
 
 	/**
 	 * Talk
@@ -414,6 +413,11 @@ jQuery(document).ready(function($){
 				name: 'type',
 				selector: '.js-search-ajax-blog-type'
 			},
+            {
+                type: 'radio',
+                name: 'relation',
+                selector: '.js-search-ajax-blog-relation'
+            },
 			{
 				type: 'list',
 				name: 'category',
@@ -426,6 +430,22 @@ jQuery(document).ready(function($){
 			}
 		]
 	});
+
+    // Аватар блога
+    $( '.js-blog-avatar' ).lsPhoto({
+        urls: {
+            upload: aRouter.blog + 'ajax/upload-avatar',
+            remove: aRouter.blog + 'ajax/remove-avatar',
+            crop_photo: aRouter.blog + 'ajax/modal-crop-avatar',
+            //crop_avatar: aRouter.settings + 'ajax-modal-crop-avatar',
+            save_photo: aRouter.blog + 'ajax/crop-avatar',
+            //save_avatar: aRouter.settings + 'ajax-change-avatar',
+            cancel_photo: aRouter.blog + 'ajax/crop-cancel-avatar'
+        },
+        changeavatar: function ( event, _this, avatars ) {
+
+        }
+    });
 
 
 	/**

@@ -560,12 +560,12 @@ class ModuleBlog_MapperBlog extends Mapper
             if (!in_array($key, $aOrderAllow)) {
                 unset($aOrder[$key]);
             } elseif (in_array($value, array('asc', 'desc'))) {
-                $sOrder .= " {$key} {$value},";
+                $sOrder .= " b.{$key} {$value},";
             }
         }
         $sOrder = trim($sOrder, ',');
         if ($sOrder == '') {
-            $sOrder = ' blog_id desc ';
+            $sOrder = ' b.blog_id desc ';
         }
 
         if (isset($aFilter['exclude_type']) and !is_array($aFilter['exclude_type'])) {
@@ -578,23 +578,36 @@ class ModuleBlog_MapperBlog extends Mapper
             $aFilter['id'] = array($aFilter['id']);
         }
 
+        if ($oUserCurrent=$this->User_GetUserCurrent()) {
+            $iUserCurrentId=$oUserCurrent->getId();
+        } else {
+            $iUserCurrentId=0;
+        }
+
         $sql = "SELECT
-					blog_id
+					b.blog_id
 				FROM
-					" . Config::Get('db.table.blog') . "
+					" . Config::Get('db.table.blog') . " as b
+					{
+					    JOIN " . Config::Get('db.table.blog_user') . " as bu
+					    ON ( bu.blog_id = b.blog_id and bu.user_id = '{$iUserCurrentId}'
+					    and bu.user_role in (?a)
+					    )
+                    }
 				WHERE
 					1 = 1
-					{ AND blog_id IN (?a) }
-					{ AND user_owner_id = ?d }
-					{ AND blog_type IN (?a) }
-					{ AND blog_type not IN (?a) }
-					{ AND blog_url = ? }
-					{ AND blog_title LIKE ? }
+					{ AND b.blog_id IN (?a) }
+					{ AND b.user_owner_id = ?d }
+					{ AND b.blog_type IN (?a) }
+					{ AND b.blog_type not IN (?a) }
+					{ AND b.blog_url = ? }
+					{ AND b.blog_title LIKE ? }
 				ORDER by {$sOrder}
 				LIMIT ?d, ?d ;
 					";
         $aResult = array();
         if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            (isset($aFilter['roles']) and count($aFilter['roles'])) ? $aFilter['roles'] : DBSIMPLE_SKIP,
             (isset($aFilter['id']) and count($aFilter['id'])) ? $aFilter['id'] : DBSIMPLE_SKIP,
             isset($aFilter['user_owner_id']) ? $aFilter['user_owner_id'] : DBSIMPLE_SKIP,
             (isset($aFilter['type']) and count($aFilter['type'])) ? $aFilter['type'] : DBSIMPLE_SKIP,

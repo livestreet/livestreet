@@ -60,23 +60,6 @@
         note         = $aLang.blog.add.fields.rating.note
         label        = $aLang.blog.add.fields.rating.label}
 
-    {* Аватар *}
-    {if $blog && $blog->getAvatar()}
-        {$uploadedImages = []}
-
-        {foreach Config::Get('module.blog.avatar_size') as $size}
-            {if $image = $blog->getAvatarPath( $size )}
-                {$uploadedImages[] = $image}
-            {/if}
-        {/foreach}
-    {/if}
-
-    {include 'components/field/field.image.tpl'
-        name          = 'avatar'
-        removeName    = 'avatar_delete'
-        uploadedFiles = $uploadedImages
-        label         = $aLang.blog.add.fields.avatar.label}
-
 
     {hook run='form_add_blog_end'}
 

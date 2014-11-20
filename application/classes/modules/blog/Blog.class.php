@@ -76,7 +76,7 @@ class ModuleBlog extends Module
     protected $aBehaviors = array(
         // Категории
         'category' => array(
-            'class' => 'ModuleCategory_BehaviorModule',
+            'class'       => 'ModuleCategory_BehaviorModule',
             'target_type' => 'blog',
         ),
     );
@@ -424,9 +424,9 @@ class ModuleBlog extends Module
     {
         if ($this->oMapperBlog->AddRelationBlogUser($oBlogUser)) {
             $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(
-                    "blog_relation_change_{$oBlogUser->getUserId()}",
-                    "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
-                ));
+                "blog_relation_change_{$oBlogUser->getUserId()}",
+                "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
+            ));
             $this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
             return true;
         }
@@ -443,9 +443,9 @@ class ModuleBlog extends Module
     {
         if ($this->oMapperBlog->DeleteRelationBlogUser($oBlogUser)) {
             $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(
-                    "blog_relation_change_{$oBlogUser->getUserId()}",
-                    "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
-                ));
+                "blog_relation_change_{$oBlogUser->getUserId()}",
+                "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
+            ));
             $this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
             return true;
         }
@@ -725,9 +725,9 @@ class ModuleBlog extends Module
     public function UpdateRelationBlogUser(ModuleBlog_EntityBlogUser $oBlogUser)
     {
         $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(
-                "blog_relation_change_{$oBlogUser->getUserId()}",
-                "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
-            ));
+            "blog_relation_change_{$oBlogUser->getUserId()}",
+            "blog_relation_change_blog_{$oBlogUser->getBlogId()}"
+        ));
         $this->Cache_Delete("blog_relation_user_{$oBlogUser->getBlogId()}_{$oBlogUser->getUserId()}");
         return $this->oMapperBlog->UpdateRelationBlogUser($oBlogUser);
     }
@@ -768,7 +768,8 @@ class ModuleBlog extends Module
      */
     public function GetBlogsRating($iCurrPage, $iPerPage)
     {
-        return $this->GetBlogsByFilter(array('exclude_type' => 'personal'), array('blog_count_user' => 'desc'), $iCurrPage,
+        return $this->GetBlogsByFilter(array('exclude_type' => 'personal'), array('blog_count_user' => 'desc'),
+            $iCurrPage,
             $iPerPage);
     }
 
@@ -970,53 +971,70 @@ class ModuleBlog extends Module
     }
 
     /**
-     * Загружает аватар в блог
+     * Создает аватар пользователя на основе области из изображения
      *
-     * @param array $aFile Массив $_FILES при загрузке аватара
-     * @param ModuleBlog_EntityBlog $oBlog Блог
+     * @param      $sFileFrom
+     * @param      $oBlog
+     * @param      $aSize
+     * @param null $iCanvasWidth
+     *
      * @return bool
      */
-    public function UploadBlogAvatar($aFile, $oBlog)
+    public function CreateAvatar($sFileFrom, $oBlog, $aSize = null, $iCanvasWidth = null)
     {
-        if (!is_array($aFile) || !isset($aFile['tmp_name'])) {
-            return false;
-        }
-
-        $sFileTmp = Config::Get('sys.cache.dir') . func_generator();
-        if (!move_uploaded_file($aFile['tmp_name'], $sFileTmp)) {
-            return false;
-        }
-
         $aParams = $this->Image_BuildParams('blog_avatar');
         /**
          * Если объект изображения не создан, возвращаем ошибку
          */
-        if (!$oImage = $this->Image_Open($sFileTmp, $aParams)) {
-            $this->Fs_RemoveFileLocal($sFileTmp);
+        if (!$oImage = $this->Image_OpenFrom($sFileFrom, $aParams)) {
             return $this->Image_GetLastError();
         }
-        $sPath = $this->Image_GetIdDir($oBlog->getOwnerId(), 'users');
+        /**
+         * Если нет области, то берем центральный квадрат
+         */
+        if (!$aSize) {
+            $oImage->cropSquare();
+        } else {
+            /**
+             * Вырезаем область из исходного файла
+             */
+            $oImage->cropFromSelected($aSize, $iCanvasWidth);
+        }
+        if ($sError = $this->Image_GetLastError()) {
+            return $sError;
+        }
+        /**
+         * Сохраняем во временный файл для дальнейшего ресайза
+         */
+        if (false === ($sFileTmp = $oImage->saveTmp())) {
+            return $this->Image_GetLastError();
+        }
+        $sPath = $this->Image_GetIdDir($oBlog->getId(), 'blogs');
+        /**
+         * Удаляем старый аватар
+         */
+        $this->DeleteBlogAvatar($oBlog);
         /**
          * Имя файла для сохранения
          */
         $sFileName = 'avatar-blog-' . $oBlog->getId();
         /**
-         * Сохраняем оригинальную копию
+         * Сохраняем оригинальный аватар
          */
-        if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName)) {
-            $this->Fs_RemoveFileLocal($sFileTmp);
+        if (false === ($sFileResult = $oImage->saveSmart($sPath, $sFileName))) {
             return $this->Image_GetLastError();
         }
-        $aSizes = Config::Get('module.blog.avatar_size');
         /**
          * Генерируем варианты с необходимыми размерами
          */
-        $this->Media_GenerateImageBySizes($sFileTmp, $sPath, $sFileName, $aSizes, $aParams);
+        $this->Media_GenerateImageBySizes($sFileTmp, $sPath, $sFileName, Config::Get('module.blog.avatar_size'),
+            $aParams);
         /**
          * Теперь можно удалить временный файл
          */
         $this->Fs_RemoveFileLocal($sFileTmp);
         $oBlog->setAvatar($sFileResult);
+        $this->UpdateBlog($oBlog);
         return true;
     }
 
