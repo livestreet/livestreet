@@ -13,6 +13,7 @@
 {block 'block_content'}
     {include 'components/photo/photo.tpl'
         classes      = 'js-blog-avatar'
+        useAvatar    = false
         hasPhoto     = $oBlog->getAvatar()
         editable     = $oBlog->isAllowEdit()
         targetId     = $oBlog->getId()

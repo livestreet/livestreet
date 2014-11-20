@@ -437,13 +437,14 @@ jQuery(document).ready(function($){
             upload: aRouter.blog + 'ajax/upload-avatar',
             remove: aRouter.blog + 'ajax/remove-avatar',
             crop_photo: aRouter.blog + 'ajax/modal-crop-avatar',
-            //crop_avatar: aRouter.settings + 'ajax-modal-crop-avatar',
             save_photo: aRouter.blog + 'ajax/crop-avatar',
-            //save_avatar: aRouter.settings + 'ajax-change-avatar',
             cancel_photo: aRouter.blog + 'ajax/crop-cancel-avatar'
         },
-        changeavatar: function ( event, _this, avatars ) {
-
+        use_avatar: false,
+        crop_photo: {
+            minSize: [ 500, 500 ],
+            aspectRatio: 1,
+            usePreview: true
         }
     });
 

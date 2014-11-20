@@ -7,6 +7,7 @@
  * @param boolean $photoPath
  * @param boolean $photoAltText
  * @param boolean $editable
+ * @param boolean $useAvatar
  *
  * TODO: Вынести текстовки в photo
  *}
@@ -14,6 +15,7 @@
 {$component = 'photo'}
 
 {$hasPhoto = $smarty.local.hasPhoto}
+{$useAvatar = $smarty.local.useAvatar|default:true}
 {$mods = $smarty.local.mods}
 
 {if ! $hasPhoto}
@@ -47,9 +49,11 @@
             </li>
 
             {* Изменить аватар *}
-            <li class="{$component}-actions-crop-avatar js-photo-actions-crop-avatar">
-                {lang 'user.photo.actions.change_avatar'}
-            </li>
+            {if $useAvatar}
+                <li class="{$component}-actions-crop-avatar js-photo-actions-crop-avatar">
+                    {lang 'user.photo.actions.change_avatar'}
+                </li>
+            {/if}
 
             {* Удалить фото *}
             <li class="{$component}-actions-remove js-photo-actions-remove">

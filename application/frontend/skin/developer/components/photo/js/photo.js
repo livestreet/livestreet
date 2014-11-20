@@ -6,9 +6,6 @@
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
- *
- * TODO: Вынести опции кропа для фото и аватары в общие опции
- * TODO: Сделать использование кропа аватара опциональным
  */
 
 (function($) {
@@ -28,6 +25,17 @@
                 save_photo: null,
                 save_avatar: null,
                 cancel_photo: null,
+            },
+            use_avatar: true,
+            crop_photo: {
+                minSize: [ 370, 370 ],
+                aspectRatio: 0,
+                usePreview: false
+            },
+            crop_avatar: {
+                minSize: [ 100, 100 ],
+                aspectRatio: 1,
+                usePreview: true
             },
             // Селекторы
             selectors: {
@@ -77,8 +85,11 @@
                 _this.upload( $( this ) );
             });
 
-            this.elements.actions.crop_avatar.on( 'click' + this.eventNamespace, this.cropAvatar.bind( this ) );
             this.elements.actions.remove.on( 'click' + this.eventNamespace, this.remove.bind( this ) );
+
+            if ( this.option( 'use_avatar' ) ) {
+                this.elements.actions.crop_avatar.on( 'click' + this.eventNamespace, this.cropAvatar.bind( this ) );
+            }
         },
 
         /**
@@ -93,7 +104,9 @@
                     this.elements.image.attr( 'src', response.photo );
                     this.elements.actions.upload_label.text( response.upload_text );
 
-                    this._trigger( 'changeavatar', null, [ this, response.avatars ] );
+                    if ( this.option( 'use_avatar' ) ) {
+                        this._trigger( 'changeavatar', null, [ this, response.avatars ] );
+                    }
                 }
             }.bind( this ));
         },
@@ -122,10 +135,8 @@
          * Показывает модальное кропа фото
          */
         cropPhoto: function( image ) {
-            this.showModal( image, false, {
-                crop_params : {
-                    minSize: [ 370, 370 ]
-                },
+            this.showModal( image, this.option( 'crop_photo.usePreview' ), {
+                crop_params : this.option( 'crop_photo' ),
                 save_params : this.option( 'params' ),
                 crop_url : this.option( 'urls.crop_photo' ),
                 save_url : this.option( 'urls.save_photo' ),
@@ -134,8 +145,10 @@
                     this.elements.image.attr( 'src', response.photo );
                     this.elements.actions.upload_label.text( response.upload_text );
 
-                    // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
-                    setTimeout( this.cropAvatar.bind( this ), 300);
+                    if ( this.option( 'use_avatar' ) ) {
+                        // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
+                        setTimeout( this.cropAvatar.bind( this ), 300);
+                    }
                 },
                 modal_close_callback : function( event, modal ) {
                     ls.ajax.load( this.option( 'urls.cancel_photo' ), this.option( 'params' ) );
@@ -157,11 +170,8 @@
                 height: photo[0].naturalHeight
             };
 
-            this.showModal( image, true, {
-                crop_params : {
-                    minSize: [ 100, 100 ],
-                    aspectRatio: 1
-                },
+            this.showModal( image, this.option( 'crop_avatar.usePreview' ), {
+                crop_params : this.option( 'crop_avatar' ),
                 save_callback : function( response, modal, image ) {
                     this._trigger( 'changeavatar', null, [ this, response.avatars ] );
                 },
