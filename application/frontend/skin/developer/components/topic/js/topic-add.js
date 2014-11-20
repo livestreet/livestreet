@@ -55,8 +55,6 @@
                 }
             };
 
-            console.log(this.elements)
-
             // Иниц-ия формы
             this.element.lsContent({
                 urls: {

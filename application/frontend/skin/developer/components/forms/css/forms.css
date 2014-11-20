@@ -49,6 +49,7 @@ textarea { line-height: 1.4em; }
 
 /* Select */
 select { padding: 4px; }
+select[multiple] { height: auto; min-height: 150px; }
 
 
 /* Fieldset */
