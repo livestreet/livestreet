@@ -151,7 +151,7 @@
 
 
 {* Блок с превью текста *}
-<div style="display: none;" id="topic-text-preview"></div>
+{include './topic-preview.tpl'}
 
 {block 'add_topic_end'}{/block}
 {hook run="add_topic_end"}

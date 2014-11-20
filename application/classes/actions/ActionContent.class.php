@@ -580,8 +580,9 @@ class ActionContent extends Action
          * Рендерим шаблон для предпросмотра топика
          */
         $oViewer = $this->Viewer_GetLocalViewer();
+        $oViewer->Assign('isPreview', true, true);
         $oViewer->Assign('topic', $oTopic, true);
-        $sTemplate = 'components/topic/topic-preview.tpl';
+        $sTemplate = 'components/topic/topic-type.tpl';
         $sTextResult = $oViewer->Fetch($sTemplate);
         /**
          * Передаем результат в ajax ответ

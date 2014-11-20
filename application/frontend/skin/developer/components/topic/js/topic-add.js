@@ -26,6 +26,7 @@
             // Селекторы
             selectors: {
                 preview: '#topic-text-preview',
+                preview_content: '#topic-text-preview .js-topic-preview-content',
                 buttons: {
                     preview: '.js-topic-preview-text-button',
                     preview_hide: '.js-topic-preview-text-hide-button',
@@ -45,6 +46,7 @@
 
             this.elements = {
                 preview: $( this.option( 'selectors.preview' ) ),
+                preview_content: $( this.option( 'selectors.preview_content' ) ),
                 buttons: {
                     preview: this.element.find( this.option( 'selectors.buttons.preview' ) ),
                     preview_hide: $( this.option( 'selectors.buttons.preview_hide' ) ),
@@ -52,6 +54,8 @@
                     submit: this.element.find( this.option( 'selectors.buttons.submit' ) ),
                 }
             };
+
+            console.log(this.elements)
 
             // Иниц-ия формы
             this.element.lsContent({
@@ -86,7 +90,8 @@
                 if ( response.bStateError ) {
                     ls.msg.error( null, response.sMsg );
                 } else {
-                    this.elements.preview.show().html( response.sText );
+                    this.elements.preview.show();
+                    this.elements.preview_content.html( response.sText );
                 }
             }.bind( this ), {
                 submitButton: this.elements.buttons.preview
@@ -97,7 +102,8 @@
          * Закрытие превью текста
          */
         previewHide: function() {
-            this.elements.preview.hide().empty();
+            this.elements.preview.hide();
+            this.elements.preview_content.empty();
         }
     });
 })(jQuery);
