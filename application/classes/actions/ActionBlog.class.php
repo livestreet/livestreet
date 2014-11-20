@@ -2094,7 +2094,7 @@ class ActionBlog extends Action
             $this->Session_Drop('sBlogAvatarFilePreviewTmp');
 
             $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.change_photo'));
-            $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath());
+            $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath('500crop'));
         } else {
             $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
         }
@@ -2144,7 +2144,7 @@ class ActionBlog extends Action
         $this->Blog_UpdateBlog($oBlog);
 
         $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.upload_photo'));
-        $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath());
+        $this->Viewer_AssignAjax('photo', $oBlog->getAvatarPath('500crop'));
         $this->Viewer_AssignAjax('avatars', $oBlog->GetProfileAvatarsPath());
     }
 

@@ -1051,6 +1051,7 @@ class ModuleBlog extends Module
         if ($oBlog->getAvatar()) {
             $this->Media_RemoveImageBySizes($oBlog->getAvatar(), Config::Get('module.blog.avatar_size'));
         }
+        $oBlog->setAvatar(null);
     }
 
     /**
