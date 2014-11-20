@@ -391,10 +391,12 @@ jQuery(document).ready(function($){
 	});
 
 	// Вступить/покинуть блог
-	$('.js-blog-join').lsBlogJoin({
-		urls: {
-			toggle: aRouter.blog + 'ajaxblogjoin'
-		}
+	$( '.js-blog-join' ).livequery(function() {
+		$( this ).lsBlogJoin({
+			urls: {
+				toggle: aRouter.blog + 'ajaxblogjoin'
+			}
+		});
 	});
 
 	// Поиск
