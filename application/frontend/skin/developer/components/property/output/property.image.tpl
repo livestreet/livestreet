@@ -5,7 +5,11 @@
         {$property->getTitle()}
     </div>
 
-    <a href="{$valueType->getImageWebPath()}" class="js-lbx" target="_blank">
-        <img src="{$valueType->getImageWebPath( $valueType->getImageSizeFirst() )}" >
-    </a>
+    {if $valueType->getImageWebPath()}
+        <a href="{$valueType->getImageWebPath()}" class="js-lbx" target="_blank">
+            <img src="{$valueType->getImageWebPath( $valueType->getImageSizeFirst() )}" >
+        </a>
+    {else}
+        изображения нет
+    {/if}
 </div>

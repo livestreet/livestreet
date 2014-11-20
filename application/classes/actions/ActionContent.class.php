@@ -530,12 +530,18 @@ class ActionContent extends Action
             $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_type'), $this->Lang_Get('error'));
             return;
         }
+        $aTopicRequest = getRequest('topic');
+        /**
+         * Проверка на ID при редактировании топика
+         */
+        $iId=isset($aTopicRequest['id']) ? (int)$aTopicRequest['id'] : null;
+        if ($iId and !($oTopicOriginal=$this->Topic_GetTopicById($iId))) {
+            return $this->EventErrorDebug();
+        }
         /**
          * Создаем объект топика для валидации данных
          */
         $oTopic = Engine::GetEntity('ModuleTopic_EntityTopic');
-
-        $aTopicRequest = getRequest('topic');
         $oTopic->setTitle(isset($aTopicRequest['topic_title']) ? strip_tags($aTopicRequest['topic_title']) : '');
         $oTopic->setTextSource(isset($aTopicRequest['topic_text_source']) ? $aTopicRequest['topic_text_source'] : '');
         $oTopic->setTags(isset($aTopicRequest['topic_tags']) ? $aTopicRequest['topic_tags'] : '');
@@ -544,6 +550,13 @@ class ActionContent extends Action
         $oTopic->setType($sType);
         $oTopic->setPublish(1);
         $oTopic->setProperties(getRequest('property'));
+        /**
+         * Перед валидацией аттачим существующие свойста
+         */
+        if ($iId) {
+            $oTopic->setId($iId);
+            $a=$oTopic->getPropertyList();
+        }
         /**
          * Валидируем необходимые поля топика
          */

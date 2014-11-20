@@ -282,7 +282,7 @@ class ModuleProperty extends ModuleORM
                 $oValueType->setValue($oValueType->getValueForValidate());
                 $aPropertiesResult[$oProperty->getId()] = $oProperty;
             } else {
-                return $sRes ? $sRes : 'Неверное значение аттрибута: ' . $oProperty->getTitle();
+                return 'Поле "'.$oProperty->getTitle().'": '.($sRes ? $sRes : 'неверное значение');
             }
         }
         $oTarget->setPropertiesObject($aPropertiesResult);

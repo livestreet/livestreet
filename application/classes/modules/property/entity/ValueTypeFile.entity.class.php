@@ -39,8 +39,10 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
         $oProperty = $oValue->getProperty();
         $iPropertyId = $oProperty->getId();
 
+        $bNeedRemove=false;
         $mValue = $this->getValueForValidate();
         if (isset($mValue['remove']) and $mValue['remove']) {
+            $bNeedRemove=true;
             $this->setValueForValidate(array('remove' => true));
         }
 
@@ -52,7 +54,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
         if (!$sFileTmpName) {
             if ($oProperty->getValidateRuleOne('allowEmpty')) {
                 return true;
-            } elseif ($aFilePrev = $oValue->getDataOne('file') and isset($aFilePrev['path'])) {
+            } elseif ($aFilePrev = $oValue->getDataOne('file') and isset($aFilePrev['path']) and !$bNeedRemove) {
                 return true;
             } else {
                 return 'Необходимо выбрать файл';

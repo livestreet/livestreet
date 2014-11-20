@@ -34,12 +34,7 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
          * Показываем превью, в качестве изображения берем первый ресайз из списка размеров
          */
         if ($aFile = $this->oValue->getDataOne('file') and isset($aFile['path'])) {
-            $sSize = null;
-            if ($aSizes = $this->oValue->getDataOne('image_sizes')) {
-                $sSize = array_shift($aSizes);
-            }
-            $sWebPath = $this->Media_GetImageWebPath($aFile['path'], $sSize);
-            return '<a href=""><img src="' . $sWebPath . '" class="js-lbx" /></a>';
+            return '<a href="'.$this->getImageWebPath().'" class="js-lbx"><img src="' . $this->getImageWebPath($this->getImageSizeFirst()) . '" /></a>';
         }
         return $this->getFileFullName();
     }

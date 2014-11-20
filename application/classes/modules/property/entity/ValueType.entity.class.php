@@ -57,7 +57,7 @@ class ModuleProperty_EntityValueType extends Entity
          */
         $aParams = $oProperty->getValidateRules();
         if (!isset($aParams['label'])) {
-            $aParams['label'] = $oProperty->getTitle();
+            $aParams['label'] = '';
         }
         $aParams = array_merge($aParams, $aParamsAdditional);
 

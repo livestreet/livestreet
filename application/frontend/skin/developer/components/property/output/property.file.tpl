@@ -5,9 +5,13 @@
         {$property->getTitle()}
     </div>
 
-    {if $oUserCurrent || ! $property->getParam('access_only_auth')}
-        <a href="{router page="property/download"}{$value->getValueVarchar()}/">{$value->getValueForDisplay()}</a>
+    {if $value->getValueVarchar()}
+        {if $oUserCurrent || ! $property->getParam('access_only_auth')}
+            <a href="{router page="property/download"}{$value->getValueVarchar()}/">{$value->getValueForDisplay()}</a>
+        {else}
+            Для доступа к файлу <a href="#" class="js-modal-toggle-login">необходимо авторизоваться</a>
+        {/if}
     {else}
-        Для доступа к файлу <a href="#" class="js-modal-toggle-login">необходимо авторизоваться</a>
+        файла нет
     {/if}
 </div>

@@ -42,14 +42,17 @@ class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueT
 
     public function validate()
     {
-        return $this->validateStandart('boolean');
+        $sValue = $this->getValueForValidate();
+        $this->setValueForValidate($sValue ? 1 : 0);
+        return true;
     }
 
     public function setValue($mValue)
     {
         $this->resetAllValue();
         $oValue = $this->getValueObject();
-        $oValue->setValueInt($mValue ? 1 : 0);
+        $oProperty = $oValue->getProperty();
+        $oValue->setValueInt($mValue ? $oProperty->getParam('default_value') : 0);
     }
 
     public function prepareParamsRaw($aParamsRaw)
