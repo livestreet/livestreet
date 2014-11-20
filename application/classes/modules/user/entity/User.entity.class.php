@@ -150,16 +150,6 @@ class ModuleUser_EntityUser extends Entity
     }
 
     /**
-     * Возвращает силу
-     *
-     * @return string
-     */
-    public function getSkill()
-    {
-        return number_format(round($this->_getDataOne('user_skill'), 2), 2, '.', '');
-    }
-
-    /**
      * Возвращает дату регистрации
      *
      * @return string|null
@@ -639,16 +629,6 @@ class ModuleUser_EntityUser extends Entity
     public function setMail($data)
     {
         $this->_aData['user_mail'] = $data;
-    }
-
-    /**
-     * Устанавливает силу
-     *
-     * @param float $data
-     */
-    public function setSkill($data)
-    {
-        $this->_aData['user_skill'] = $data;
     }
 
     /**

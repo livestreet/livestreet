@@ -58,8 +58,6 @@ class ModuleStream extends Module
         'add_blog'           => array('related' => 'blog', 'unique' => true),
         'vote_topic'         => array('related' => 'topic'),
         'vote_comment_topic' => array('related' => 'comment'),
-        'vote_blog'          => array('related' => 'blog'),
-        'vote_user'          => array('related' => 'user'),
         'add_friend'         => array('related' => 'user', 'unique_user' => true),
         'join_blog'          => array('related' => 'blog', 'unique_user' => true)
     );

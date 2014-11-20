@@ -66,7 +66,6 @@ class ModuleUser_MapperUser extends Mapper
 			SET
 				user_password = ? ,
 				user_mail = ? ,
-				user_skill = ? ,
 				user_date_activate = ? ,
 				user_date_comment_last = ? ,
 				user_rating = ? ,
@@ -93,7 +92,6 @@ class ModuleUser_MapperUser extends Mapper
 		";
         $res = $this->oDb->query($sql, $oUser->getPassword(),
             $oUser->getMail(),
-            $oUser->getSkill(),
             $oUser->getDateActivate(),
             $oUser->getDateCommentLast(),
             $oUser->getRating(),
@@ -1342,7 +1340,6 @@ class ModuleUser_MapperUser extends Mapper
             'user_login',
             'user_date_register',
             'user_rating',
-            'user_skill',
             'user_profile_name'
         );
         $sOrder = '';

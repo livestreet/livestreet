@@ -57,7 +57,6 @@ class ActionAjax extends Action
     {
         $this->AddEventPreg('/^vote$/i', '/^comment$/', 'EventVoteComment');
         $this->AddEventPreg('/^vote$/i', '/^topic$/', 'EventVoteTopic');
-        $this->AddEventPreg('/^vote$/i', '/^user$/', 'EventVoteUser');
         $this->AddEventPreg('/^vote$/i', '/^get$/', '/^info$/', '/^topic$/', 'EventVoteGetInfoTopic');
 
         $this->AddEventPreg('/^favourite$/i', '/^save-tags/', 'EventFavouriteSaveTags');
@@ -1233,73 +1232,6 @@ class ActionAjax extends Action
              * Добавляем событие в ленту
              */
             $this->Stream_write($oTopicVote->getVoterId(), 'vote_topic', $oTopic->getId());
-        } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-            return;
-        }
-    }
-
-    /**
-     * Голосование за пользователя
-     *
-     */
-    protected function EventVoteUser()
-    {
-        /**
-         * Пользователь авторизован?
-         */
-        if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
-            return;
-        }
-        /**
-         * Пользователь существует?
-         */
-        if (!($oUser = $this->User_GetUserById(getRequestStr('iTargetId', null, 'post')))) {
-            return $this->EventErrorDebug();
-        }
-        /**
-         * Имеет право на голосование?
-         */
-        if (!$this->ACL_CanVoteUser($this->oUserCurrent, $oUser)) {
-            $this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
-            return;
-        }
-        /**
-         * Как проголосовал
-         */
-        $iValue = getRequestStr('value', null, 'post');
-        if (!in_array($iValue, array('1', '-1'))) {
-            return $this->EventErrorDebug();
-        }
-        /**
-         * Голосуем
-         */
-        $oUserVote = Engine::GetEntity('Vote');
-        $oUserVote->setTargetId($oUser->getId());
-        $oUserVote->setTargetType('user');
-        $oUserVote->setVoterId($this->oUserCurrent->getId());
-        $oUserVote->setDirection($iValue);
-        $oUserVote->setDate(date("Y-m-d H:i:s"));
-        $iVal = (float)$this->Rating_VoteUser($this->oUserCurrent, $oUser, $iValue);
-        $oUserVote->setValue($iVal);
-        //$oUser->setRating($oUser->getRating()+$iValue);
-        $oUser->setCountVote($oUser->getCountVote() + 1);
-
-        $this->Hook_Run("vote_{$oUserVote->getTargetType()}_before",
-            array('oTarget' => $oUser, 'oVote' => $oUserVote, 'iValue' => $iValue));
-        if ($this->Vote_AddVote($oUserVote) and $this->User_Update($oUser)) {
-            $this->Hook_Run("vote_{$oUserVote->getTargetType()}_after",
-                array('oTarget' => $oUser, 'oVote' => $oUserVote, 'iValue' => $iValue));
-
-            $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('attention'));
-            $this->Viewer_AssignAjax('iRating', $oUser->getRating());
-            $this->Viewer_AssignAjax('iSkill', $oUser->getSkill());
-            $this->Viewer_AssignAjax('iCountVote', $oUser->getCountVote());
-            /**
-             * Добавляем событие в ленту
-             */
-            $this->Stream_write($oUserVote->getVoterId(), 'vote_user', $oUser->getId());
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
             return;

@@ -1118,7 +1118,7 @@ class ModuleUser extends Module
         $sDay = 7;
         $iCountUsed = $this->GetCountInviteUsedByDate($oUserFrom->getId(),
             date("Y-m-d 00:00:00", mktime(0, 0, 0, date("m"), date("d") - $sDay, date("Y"))));
-        $iCountAllAvailable = round($oUserFrom->getRating() + $oUserFrom->getSkill());
+        $iCountAllAvailable = round($oUserFrom->getRating());
         $iCountAllAvailable = $iCountAllAvailable < 0 ? 0 : $iCountAllAvailable;
         $iCountAvailable = $iCountAllAvailable - $iCountUsed;
         $iCountAvailable = $iCountAvailable < 0 ? 0 : $iCountAvailable;

@@ -52,33 +52,12 @@ class ModuleRating extends Module
          */
         $oComment->setRating($oComment->getRating() + $iValue);
         /**
-         * Начисляем силу автору коммента, используя логарифмическое распределение
+         * Меняем рейтинг автора коммента
          */
-        $skill = $oUser->getSkill();
-        $iMinSize = 0.004;
-        $iMaxSize = 0.5;
-        $iSizeRange = $iMaxSize - $iMinSize;
-        $iMinCount = log(0 + 1);
-        $iMaxCount = log(500 + 1);
-        $iCountRange = $iMaxCount - $iMinCount;
-        if ($iCountRange == 0) {
-            $iCountRange = 1;
-        }
-        if ($skill > 50 and $skill < 200) {
-            $skill_new = $skill / 70;
-        } elseif ($skill >= 200) {
-            $skill_new = $skill / 10;
-        } else {
-            $skill_new = $skill / 130;
-        }
-        $iDelta = $iMinSize + (log($skill_new + 1) - $iMinCount) * ($iSizeRange / $iCountRange);
-        /**
-         * Сохраняем силу
-         */
+        $fDeltaUser = 0.1;
+        $fDeltaUser = ($iValue < 0 ? -1 : 1) * $fDeltaUser;
         $oUserComment = $this->User_GetUserById($oComment->getUserId());
-        $iSkillNew = $oUserComment->getSkill() + $iValue * $iDelta;
-        $iSkillNew = ($iSkillNew < 0) ? 0 : $iSkillNew;
-        $oUserComment->setSkill($iSkillNew);
+        $oUserComment->setRating($oUserComment->getRating() + $fDeltaUser);
         $this->User_Update($oUserComment);
         return $iValue;
     }
@@ -93,87 +72,18 @@ class ModuleRating extends Module
      */
     public function VoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic, $iValue)
     {
-        $skill = $oUser->getSkill();
         /**
          * Устанавливаем рейтинг топика
          */
-        $iDeltaRating = $iValue;
-        if ($skill >= 100 and $skill < 250) {
-            $iDeltaRating = $iValue * 2;
-        } elseif ($skill >= 250 and $skill < 400) {
-            $iDeltaRating = $iValue * 3;
-        } elseif ($skill >= 400) {
-            $iDeltaRating = $iValue * 4;
-        }
-        $oTopic->setRating($oTopic->getRating() + $iDeltaRating);
+        $oTopic->setRating($oTopic->getRating() + $iValue);
         /**
-         * Начисляем силу и рейтинг автору топика, используя логарифмическое распределение
+         * Меняем рейтинг автора топика
          */
-        $iMinSize = 0.1;
-        $iMaxSize = 8;
-        $iSizeRange = $iMaxSize - $iMinSize;
-        $iMinCount = log(0 + 1);
-        $iMaxCount = log(500 + 1);
-        $iCountRange = $iMaxCount - $iMinCount;
-        if ($iCountRange == 0) {
-            $iCountRange = 1;
-        }
-        if ($skill > 50 and $skill < 200) {
-            $skill_new = $skill / 70;
-        } elseif ($skill >= 200) {
-            $skill_new = $skill / 10;
-        } else {
-            $skill_new = $skill / 100;
-        }
-        $iDelta = $iMinSize + (log($skill_new + 1) - $iMinCount) * ($iSizeRange / $iCountRange);
-        /**
-         * Сохраняем силу и рейтинг
-         */
+        $fDeltaUser = 1;
+        $fDeltaUser = ($iValue < 0 ? -1 : 1) * $fDeltaUser;
         $oUserTopic = $this->User_GetUserById($oTopic->getUserId());
-        $iSkillNew = $oUserTopic->getSkill() + $iValue * $iDelta;
-        $iSkillNew = ($iSkillNew < 0) ? 0 : $iSkillNew;
-        $oUserTopic->setSkill($iSkillNew);
-        $oUserTopic->setRating($oUserTopic->getRating() + $iValue * $iDelta / 2.73);
+        $oUserTopic->setRating($oUserTopic->getRating() + $fDeltaUser);
         $this->User_Update($oUserTopic);
-        return $iDeltaRating;
-    }
-
-    /**
-     * Расчет рейтинга и силы при голосовании за пользователя
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @param ModuleUser_EntityUser $oUserTarget
-     * @param int $iValue
-     * @return float
-     */
-    public function VoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget, $iValue)
-    {
-        /**
-         * Начисляем силу и рейтинг юзеру, используя логарифмическое распределение
-         */
-        $skill = $oUser->getSkill();
-        $iMinSize = 0.42;
-        $iMaxSize = 3.2;
-        $iSizeRange = $iMaxSize - $iMinSize;
-        $iMinCount = log(0 + 1);
-        $iMaxCount = log(500 + 1);
-        $iCountRange = $iMaxCount - $iMinCount;
-        if ($iCountRange == 0) {
-            $iCountRange = 1;
-        }
-        if ($skill > 50 and $skill < 200) {
-            $skill_new = $skill / 40;
-        } elseif ($skill >= 200) {
-            $skill_new = $skill / 2;
-        } else {
-            $skill_new = $skill / 70;
-        }
-        $iDelta = $iMinSize + (log($skill_new + 1) - $iMinCount) * ($iSizeRange / $iCountRange);
-        /**
-         * Определяем новый рейтинг
-         */
-        $iRatingNew = $oUserTarget->getRating() + $iValue * $iDelta;
-        $oUserTarget->setRating($iRatingNew);
-        return $iValue * $iDelta;
+        return $iValue;
     }
 }

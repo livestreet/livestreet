@@ -355,44 +355,6 @@ class ModuleACL extends Module
     }
 
     /**
-     * Проверяет может ли пользователь голосовать за конкретного пользователя
-     *
-     * @param ModuleUser_EntityUser $oUser Пользователь
-     * @param ModuleUser_EntityUser $oUserTarget Пользователь за которого голосуем
-     * @return bool
-     */
-    public function CanVoteUser($oUser, $oUserTarget)
-    {
-        $that = $this; // fix for PHP < 5.4
-        return $this->Rbac_IsAllowUser($oUser, 'vote_user', array(
-            'callback' => function ($oUser, $aParams) use ($that, $oUserTarget) {
-                if (!$oUser) {
-                    return false;
-                }
-                /**
-                 * Голосует за себя?
-                 */
-                if ($oUserTarget->getId() == $oUser->getId()) {
-                    return $that->Lang_Get('vote.notices.error_self');
-                }
-                /**
-                 * Уже голосовал?
-                 */
-                if ($oUserVote = $that->Vote_GetVote($oUserTarget->getId(), 'user', $oUser->getId())) {
-                    return $that->Lang_Get('vote.notices.error_already_voted');
-                }
-                /**
-                 * Ограничение по рейтингу
-                 */
-                if ($oUser->getRating() < Config::Get('acl.vote.user.rating')) {
-                    return $that->Lang_Get('vote.notices.error_acl');
-                }
-                return true;
-            }
-        ));
-    }
-
-    /**
      * Проверяет можно ли юзеру слать инвайты
      *
      * @param ModuleUser_EntityUser $oUser Пользователь

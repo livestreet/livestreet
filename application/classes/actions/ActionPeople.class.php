@@ -91,7 +91,6 @@ class ActionPeople extends Action
                 'user_rating',
                 'user_date_register',
                 'user_login',
-                'user_skill',
                 'user_profile_name'
             )) ? getRequestStr('sort_by') : 'user_rating';
         if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext') > 0) {

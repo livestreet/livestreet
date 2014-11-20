@@ -219,13 +219,6 @@ jQuery(document).ready(function($){
 	 */
 	ls.user.init();
 
-	// Голосование за пользователя
-	$('.js-vote-user').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/user/'
-		}
-	});
-
 	// Поиск
 	$( '.js-search-ajax-users' ).lsSearchAjax({
 		urls: {
