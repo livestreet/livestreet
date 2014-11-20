@@ -20,10 +20,9 @@
         sSortName     = 'sort-blog-list'
         sSortSearchType     = 'blogs'
         aSortList     = [
-            [ name => 'blog_rating',     text => $aLang.sort.by_rating, order => 'asc' ],
-            [ name => 'blog_title',      text => $aLang.sort.by_title ],
             [ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
-            [ name => 'blog_count_topic', text => $aLang.blog.sort.by_topics ]
+            [ name => 'blog_count_topic', text => $aLang.blog.sort.by_topics ],
+            [ name => 'blog_title',      text => $aLang.sort.by_title ]
         ]}
 
     <div class="js-search-ajax-blog">

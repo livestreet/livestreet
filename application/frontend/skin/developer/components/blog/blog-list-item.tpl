@@ -27,7 +27,6 @@
         {* Информация *}
         {$info = [
             [ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => "<span class=\"js-blog-users-count\" data-blog-id=\"{$blog->getId()}\">{$blog->getCountUser()}</span>" ],
-            [ 'label' => "{$aLang.vote.rating}:",              'content' => $blog->getRating() ],
             [ 'label' => "{$aLang.blog.topics_total}:",        'content' => $blog->getCountTopic() ]
         ]}
 

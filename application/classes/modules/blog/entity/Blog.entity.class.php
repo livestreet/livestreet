@@ -127,16 +127,6 @@ class ModuleBlog_EntityBlog extends Entity
     }
 
     /**
-     * Возвращает рейтинг блога
-     *
-     * @return string
-     */
-    public function getRating()
-    {
-        return number_format(round($this->_getDataOne('blog_rating'), 2), 2, '.', '');
-    }
-
-    /**
      * Возврщает количество проголосовавших за блог
      *
      * @return int|null
@@ -357,16 +347,6 @@ class ModuleBlog_EntityBlog extends Entity
     public function setDateEdit($data)
     {
         $this->_aData['blog_date_edit'] = $data;
-    }
-
-    /**
-     * Устанавливает рейтинг блога
-     *
-     * @param float $data
-     */
-    public function setRating($data)
-    {
-        $this->_aData['blog_rating'] = $data;
     }
 
     /**

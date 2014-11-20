@@ -79,10 +79,9 @@ class ActionBlogs extends Action
         $sOrderField = in_array(getRequestStr('sort_by'), array(
                 'blog_id',
                 'blog_title',
-                'blog_rating',
                 'blog_count_user',
                 'blog_count_topic'
-            )) ? getRequestStr('sort_by') : 'blog_rating';
+            )) ? getRequestStr('sort_by') : 'blog_count_user';
         if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext') > 0) {
             $iPage = getRequestStr('pageNext');
         } else {
@@ -155,7 +154,7 @@ class ActionBlogs extends Action
         /**
          * Получаем список блогов
          */
-        $aResult = $this->Blog_GetBlogsByFilter($aFilter, array('blog_rating' => 'desc'), 1,
+        $aResult = $this->Blog_GetBlogsByFilter($aFilter, array('blog_count_user' => 'desc'), 1,
             Config::Get('module.blog.per_page'));
         $aBlogs = $aResult['collection'];
         /**

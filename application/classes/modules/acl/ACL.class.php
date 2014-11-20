@@ -310,52 +310,6 @@ class ModuleACL extends Module
     }
 
     /**
-     * Проверяет может ли пользователь голосовать за конкретный блог
-     *
-     * @param ModuleUser_EntityUser $oUser Пользователь
-     * @param ModuleBlog_EntityBlog $oBlog Блог
-     * @return bool
-     */
-    public function CanVoteBlog($oUser, $oBlog)
-    {
-        $that = $this; // fix for PHP < 5.4
-        return $this->Rbac_IsAllowUser($oUser, 'vote_blog', array(
-            'callback' => function ($oUser, $aParams) use ($that, $oBlog) {
-                if (!$oUser) {
-                    return false;
-                }
-                /**
-                 * Голосует за свой блог?
-                 */
-                if ($oBlog->getOwnerId() == $oUser->getId()) {
-                    return $that->Lang_Get('vote.notices.error_self');
-                }
-                /**
-                 * Уже голосовал?
-                 */
-                if ($oBlogVote = $that->Vote_GetVote($oBlog->getId(), 'blog', $oUser->getId())) {
-                    return $that->Lang_Get('vote.notices.error_already_voted');
-                }
-                /**
-                 * Если блог закрытый, проверяем является ли пользователь его читателем
-                 */
-                if ($oBlog->getType() == 'close') {
-                    $oBlogUser = $that->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId());
-                    if (!$oBlogUser || $oBlogUser->getUserRole() < ModuleBlog::BLOG_USER_ROLE_GUEST) {
-                        return $that->Lang_Get('blog.vote.notices.error_close');
-                    }
-                } elseif ($oBlog->getType() == 'personal') {
-                    return $that->Lang_Get('vote.notices.error_acl');
-                }
-                if ($oUser->getRating() < Config::Get('acl.vote.blog.rating')) {
-                    return $that->Lang_Get('vote.notices.error_acl');
-                }
-                return true;
-            }
-        ));
-    }
-
-    /**
      * Проверяет может ли пользователь голосовать за конкретный топик
      *
      * @param ModuleUser_EntityUser $oUser Пользователь

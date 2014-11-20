@@ -139,44 +139,6 @@ class ModuleRating extends Module
     }
 
     /**
-     * Расчет рейтинга и силы при голосовании за блог
-     *
-     * @param ModuleUser_EntityUser $oUser Объект пользователя, который голосует
-     * @param ModuleBlog_EntityBlog $oBlog Объект блога
-     * @param int $iValue
-     * @return int
-     */
-    public function VoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog, $iValue)
-    {
-        /**
-         * Устанавливаем рейтинг блога, используя логарифмическое распределение
-         */
-        $skill = $oUser->getSkill();
-        $iMinSize = 1.13;
-        $iMaxSize = 15;
-        $iSizeRange = $iMaxSize - $iMinSize;
-        $iMinCount = log(0 + 1);
-        $iMaxCount = log(500 + 1);
-        $iCountRange = $iMaxCount - $iMinCount;
-        if ($iCountRange == 0) {
-            $iCountRange = 1;
-        }
-        if ($skill > 50 and $skill < 200) {
-            $skill_new = $skill / 20;
-        } elseif ($skill >= 200) {
-            $skill_new = $skill / 10;
-        } else {
-            $skill_new = $skill / 50;
-        }
-        $iDelta = $iMinSize + (log($skill_new + 1) - $iMinCount) * ($iSizeRange / $iCountRange);
-        /**
-         * Сохраняем рейтинг
-         */
-        $oBlog->setRating($oBlog->getRating() + $iValue * $iDelta);
-        return $iValue * $iDelta;
-    }
-
-    /**
      * Расчет рейтинга и силы при голосовании за пользователя
      *
      * @param ModuleUser_EntityUser $oUser

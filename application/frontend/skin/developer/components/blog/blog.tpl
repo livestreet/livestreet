@@ -28,16 +28,6 @@
 {* Блог *}
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-id="{$blog->getId()}" {$smarty.local.attributes}>
     <header class="{$component}-header">
-        {* Голосование *}
-        {block 'blog_vote'}
-            {include 'components/vote/vote.tpl'
-                classes   = 'js-vote-blog'
-                mods      = 'large'
-                target    = $blog
-                isLocked  = $isBlogAdmin
-                showLabel = true}
-        {/block}
-
         {* Заголовок *}
         <h2 class="page-header blog-title">
             {if $blog->getType() == 'close'}

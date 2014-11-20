@@ -385,13 +385,6 @@ jQuery(document).ready(function($){
 	 */
 	ls.blog.init();
 
-	// Голосование за блог
-	$('.js-vote-blog').vote({
-		urls: {
-			vote: aRouter['ajax'] + 'vote/blog/'
-		}
-	});
-
 	// Приглашение пользователей в блог
 	$('.js-user-list-add-blog-invite').lsBlogInvites();
 

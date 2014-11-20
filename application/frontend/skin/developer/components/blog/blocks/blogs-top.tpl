@@ -18,7 +18,8 @@
 
             <a href="{$oBlog->getUrlFull()}">{$oBlog->getTitle()|escape}</a>
 
-            <p>{lang 'blog.blocks.blogs.item.rating'}: <strong>{$oBlog->getRating()}</strong></p>
+            <p>{lang 'blog.users.readers_total'}: <strong>{$oBlog->getCountUser()}</strong></p>
+            <p>{lang 'blog.topics_total'}: <strong>{$oBlog->getCountTopic()}</strong></p>
         </li>
     {/foreach}
 </ul>

@@ -768,7 +768,7 @@ class ModuleBlog extends Module
      */
     public function GetBlogsRating($iCurrPage, $iPerPage)
     {
-        return $this->GetBlogsByFilter(array('exclude_type' => 'personal'), array('blog_rating' => 'desc'), $iCurrPage,
+        return $this->GetBlogsByFilter(array('exclude_type' => 'personal'), array('blog_count_user' => 'desc'), $iCurrPage,
             $iPerPage);
     }
 
@@ -799,7 +799,7 @@ class ModuleBlog extends Module
     public function GetBlogsRatingSelf($sUserId, $iLimit)
     {
         $aResult = $this->GetBlogsByFilter(array('exclude_type' => 'personal', 'user_owner_id' => $sUserId),
-            array('blog_rating' => 'desc'), 1, $iLimit);
+            array('blog_count_user' => 'desc'), 1, $iLimit);
         return $aResult['collection'];
     }
 

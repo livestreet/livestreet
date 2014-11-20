@@ -70,7 +70,6 @@ class ModuleBlog_MapperBlog extends Mapper
 				blog_description= ?,
 				blog_type= ?,
 				blog_date_edit= ?,
-				blog_rating= ?f,
 				blog_count_vote = ?d,
 				blog_count_user= ?d,
 				blog_count_topic= ?d,
@@ -81,7 +80,7 @@ class ModuleBlog_MapperBlog extends Mapper
 				blog_id = ?d
 		";
         $res = $this->oDb->query($sql, $oBlog->getTitle(), $oBlog->getDescription(), $oBlog->getType(),
-            $oBlog->getDateEdit(), $oBlog->getRating(), $oBlog->getCountVote(), $oBlog->getCountUser(),
+            $oBlog->getDateEdit(), $oBlog->getCountVote(), $oBlog->getCountUser(),
             $oBlog->getCountTopic(), $oBlog->getLimitRatingTopic(), $oBlog->getUrl(), $oBlog->getAvatar(),
             $oBlog->getId());
         return $this->IsSuccessful($res);
@@ -107,7 +106,7 @@ class ModuleBlog_MapperBlog extends Mapper
         foreach ($aOrder as $key => $value) {
             $value = (string)$value;
             if (!in_array($key,
-                array('blog_id', 'blog_title', 'blog_type', 'blog_rating', 'blog_count_user', 'blog_date_add'))
+                array('blog_id', 'blog_title', 'blog_type', 'blog_count_user', 'blog_date_add'))
             ) {
                 unset($aOrder[$key]);
             } elseif (in_array($value, array('asc', 'desc'))) {
@@ -393,7 +392,7 @@ class ModuleBlog_MapperBlog extends Mapper
 					" . Config::Get('db.table.blog') . " as b
 				WHERE 									
 					b.blog_type<>'personal'									
-				ORDER by b.blog_rating desc
+				ORDER by b.blog_count_user desc
 				LIMIT ?d, ?d 	";
         $aReturn = array();
         if ($aRows = $this->oDb->selectPage($iCount, $sql, ($iCurrPage - 1) * $iPerPage, $iPerPage)) {
@@ -424,7 +423,7 @@ class ModuleBlog_MapperBlog extends Mapper
 					bu.blog_id = b.blog_id
 					AND				
 					b.blog_type<>'personal'							
-				ORDER by b.blog_rating desc
+				ORDER by b.blog_count_user desc
 				LIMIT 0, ?d 
 				;	
 					";
@@ -454,7 +453,7 @@ class ModuleBlog_MapperBlog extends Mapper
 					b.user_owner_id = ?d
 					AND				
 					b.blog_type<>'personal'													
-				ORDER by b.blog_rating desc
+				ORDER by b.blog_count_user desc
 				LIMIT 0, ?d 
 			;";
         $aReturn = array();
@@ -555,7 +554,7 @@ class ModuleBlog_MapperBlog extends Mapper
      */
     public function GetBlogsByFilter($aFilter, $aOrder, &$iCount, $iCurrPage, $iPerPage)
     {
-        $aOrderAllow = array('blog_id', 'blog_title', 'blog_rating', 'blog_count_user', 'blog_count_topic');
+        $aOrderAllow = array('blog_id', 'blog_title', 'blog_count_user', 'blog_count_topic');
         $sOrder = '';
         foreach ($aOrder as $key => $value) {
             if (!in_array($key, $aOrderAllow)) {

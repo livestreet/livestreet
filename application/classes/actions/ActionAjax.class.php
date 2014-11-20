@@ -57,7 +57,6 @@ class ActionAjax extends Action
     {
         $this->AddEventPreg('/^vote$/i', '/^comment$/', 'EventVoteComment');
         $this->AddEventPreg('/^vote$/i', '/^topic$/', 'EventVoteTopic');
-        $this->AddEventPreg('/^vote$/i', '/^blog$/', 'EventVoteBlog');
         $this->AddEventPreg('/^vote$/i', '/^user$/', 'EventVoteUser');
         $this->AddEventPreg('/^vote$/i', '/^get$/', '/^info$/', '/^topic$/', 'EventVoteGetInfoTopic');
 
@@ -1237,67 +1236,6 @@ class ActionAjax extends Action
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
             return;
-        }
-    }
-
-    /**
-     * Голосование за блог
-     *
-     */
-    protected function EventVoteBlog()
-    {
-        /**
-         * Пользователь авторизован?
-         */
-        if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
-            return;
-        }
-        /**
-         * Блог существует?
-         */
-        if (!($oBlog = $this->Blog_GetBlogById(getRequestStr('iTargetId', null, 'post')))) {
-            return $this->EventErrorDebug();
-        }
-        /**
-         * Имеет право на голосование?
-         */
-        if (!$this->ACL_CanVoteBlog($this->oUserCurrent, $oBlog)) {
-            $this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
-            return;
-        }
-
-        $iValue = getRequestStr('value', null, 'post');
-        if (in_array($iValue, array('1', '-1'))) {
-            $oBlogVote = Engine::GetEntity('Vote');
-            $oBlogVote->setTargetId($oBlog->getId());
-            $oBlogVote->setTargetType('blog');
-            $oBlogVote->setVoterId($this->oUserCurrent->getId());
-            $oBlogVote->setDirection($iValue);
-            $oBlogVote->setDate(date("Y-m-d H:i:s"));
-            $iVal = (float)$this->Rating_VoteBlog($this->oUserCurrent, $oBlog, $iValue);
-            $oBlogVote->setValue($iVal);
-            $oBlog->setCountVote($oBlog->getCountVote() + 1);
-
-            $this->Hook_Run("vote_{$oBlogVote->getTargetType()}_before",
-                array('oTarget' => $oBlog, 'oVote' => $oBlogVote, 'iValue' => $iValue));
-            if ($this->Vote_AddVote($oBlogVote) and $this->Blog_UpdateBlog($oBlog)) {
-                $this->Hook_Run("vote_{$oBlogVote->getTargetType()}_after",
-                    array('oTarget' => $oBlog, 'oVote' => $oBlogVote, 'iValue' => $iValue));
-
-                $this->Viewer_AssignAjax('iCountVote', $oBlog->getCountVote());
-                $this->Viewer_AssignAjax('iRating', $oBlog->getRating());
-                $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('attention'));
-                /**
-                 * Добавляем событие в ленту
-                 */
-                $this->Stream_write($oBlogVote->getVoterId(), 'vote_blog', $oBlog->getId());
-            } else {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('attention'));
-                return;
-            }
-        } else {
-            return $this->EventErrorDebug();
         }
     }
 
