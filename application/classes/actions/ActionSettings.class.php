@@ -208,7 +208,7 @@ class ActionSettings extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
 
-        $oViewer->Assign('image', getRequestStr('image_src'), true);
+        $oViewer->Assign('image', getRequestStr('path'), true);
         $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
         $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
         $oViewer->Assign('width', (int) getRequest('width'), true);
@@ -226,7 +226,7 @@ class ActionSettings extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
 
-        $oViewer->Assign('image', getRequestStr('image_src'), true);
+        $oViewer->Assign('image', getRequestStr('path'), true);
         $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
         $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
         $oViewer->Assign('width', (int) getRequest('width'), true);

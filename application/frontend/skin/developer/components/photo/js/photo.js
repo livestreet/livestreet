@@ -135,24 +135,26 @@
          * Показывает модальное кропа фото
          */
         cropPhoto: function( image ) {
-            this.showModal( image, this.option( 'crop_photo.usePreview' ), {
-                crop_params : this.option( 'crop_photo' ),
-                save_params : this.option( 'params' ),
-                crop_url : this.option( 'urls.crop_photo' ),
-                save_url : this.option( 'urls.save_photo' ),
-                save_callback : function( response, modal, image ) {
+            ls.cropModal.show({
+                urls: {
+                    modal: this.option( 'urls.crop_photo' ),
+                    save: this.option( 'urls.save_photo' )
+                },
+                params: $.extend( {}, this.option( 'params' ), image, { usePreview: this.option( 'crop_photo.usePreview' ) } ),
+                crop_options: this.option( 'crop_photo' ),
+                aftersave: function( response, modal, image ) {
                     this.element.removeClass( this.option( 'classes.nophoto' ) );
-                    this.elements.image.attr( 'src', response.photo );
+                    this.elements.image.attr( 'src', response.photo + '?' + Math.random() );
                     this.elements.actions.upload_label.text( response.upload_text );
 
                     if ( this.option( 'use_avatar' ) ) {
                         // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
-                        setTimeout( this.cropAvatar.bind( this ), 300);
+                        setTimeout( this.cropAvatar.bind( this ), 300 );
                     }
-                },
-                modal_close_callback : function( event, modal ) {
+                }.bind( this ),
+                afterhide: function( event, modal ) {
                     ls.ajax.load( this.option( 'urls.cancel_photo' ), this.option( 'params' ) );
-                }
+                }.bind( this )
             });
         },
 
@@ -160,73 +162,25 @@
          * Показывает модальное кропа аватара
          */
         cropAvatar: function() {
-            var photo = this.elements.image;
             var image = {
-                path: photo.attr( 'src' ),
+                path: this.elements.image.attr( 'src' ),
                 // TODO: IE8 naturalWidth naturalHeight
-                original_width: photo[0].naturalWidth,
-                original_height: photo[0].naturalHeight,
-                width: photo[0].naturalWidth,
-                height: photo[0].naturalHeight
+                original_width: this.elements.image[0].naturalWidth,
+                original_height: this.elements.image[0].naturalHeight,
+                width: this.elements.image[0].naturalWidth,
+                height: this.elements.image[0].naturalHeight
             };
 
-            this.showModal( image, this.option( 'crop_avatar.usePreview' ), {
-                crop_params : this.option( 'crop_avatar' ),
-                save_callback : function( response, modal, image ) {
+            ls.cropModal.show({
+                urls: {
+                    modal: this.option( 'urls.crop_avatar' ),
+                    save: this.option( 'urls.save_avatar' )
+                },
+                params: $.extend( {}, this.option( 'params' ), image, { usePreview: this.option( 'crop_avatar.usePreview' ) } ),
+                crop_options: this.option( 'crop_avatar' ),
+                aftersave: function( response, modal, image ) {
                     this._trigger( 'changeavatar', null, [ this, response.avatars ] );
-                },
-                save_params : this.option( 'params' ),
-                crop_url : this.option( 'urls.crop_avatar' ),
-                save_url : this.option( 'urls.save_avatar' )
-            });
-        },
-
-        /**
-         * Показывает модальное кропа
-         *
-         * TODO: Перенести в компонент crop
-         */
-        showModal: function( image, usePreview, params ) {
-            var _this = this;
-
-            ls.modal.load( params.crop_url, {
-                original_width: image.original_width,
-                original_height: image.original_height,
-                width: image.width,
-                height: image.height,
-                image_src: image.path,
-                use_preview: usePreview
-            }, {
-                aftershow: function( e, modal ) {
-                    var crop   = modal.element.find('.js-crop').lsCrop( params.crop_params );
-                    var submit = modal.element.find('.js-crop-submit');
-                    var image  = crop.lsCrop( 'getImage' );
-
-                    submit.on( 'click', function() {
-                        var paramsRequest = $.extend({}, {
-                            size: crop.lsCrop( 'getSelection' ),
-                            canvas_width: image.innerWidth()
-                        }, params.save_params || {});
-
-                        ls.ajax.load( params.save_url, paramsRequest, function( response ) {
-                            if ( response.bStateError ) {
-                                ls.msg.error( null, response.sMsg );
-                            } else {
-                                modal.hide();
-
-                                if ( $.isFunction( params.save_callback ) ) {
-                                    params.save_callback.call( _this, response, modal, image );
-                                }
-                            }
-                        });
-                    });
-                },
-                afterhide: function( event, modal ) {
-                    if ( $.isFunction( params.modal_close_callback ) ) {
-                        params.modal_close_callback.call( _this, event, modal );
-                    }
-                },
-                center: false
+                }.bind( this )
             });
         }
     });
