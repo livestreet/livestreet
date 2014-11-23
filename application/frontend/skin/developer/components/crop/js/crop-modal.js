@@ -38,8 +38,8 @@ ls.cropModal = (function ($) {
 
         ls.modal.load( options.urls.modal, options.params, {
             aftershow: function( event, modal ) {
-                var crop   = modal.element.find( this.options.selectors.crop ).lsCrop( options.crop_options );
-                var submit = modal.element.find( this.options.selectors.submit );
+                var crop   = modal.element.find( options.selectors.crop ).lsCrop( options.crop_options );
+                var submit = modal.element.find( options.selectors.submit );
                 var image  = crop.lsCrop( 'getImage' );
 
                 submit.on( 'click', function() {
