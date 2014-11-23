@@ -12,7 +12,7 @@ $config['view']['grid']['type'] = 'fluid';
 
 /* Fluid settings */
 $config['view']['grid']['fluid_min_width'] = '320px';
-$config['view']['grid']['fluid_max_width'] = '1200px';
+$config['view']['grid']['fluid_max_width'] = '1000px';
 
 /* Fixed settings */
 $config['view']['grid']['fixed_width'] = '1000px';

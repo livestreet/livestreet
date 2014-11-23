@@ -9,16 +9,23 @@
     {$classes = $smarty.local.classes}
     {$mods = $smarty.local.mods}
     {$content = $smarty.local.content}
+    {$desc = $smarty.local.desc}
     {$title = $smarty.local.title}
 {/block}
 
 <li class="{$component} {$smarty.local.classes} {mod name=$component mods=$smarty.local.mods}" {$smarty.local.attributes}>
-    <img src="{$image[ 'path' ]}" alt="{$image[ 'alt' ]}" title="{$image[ 'title' ]}" class="{$component}-image {$image[ 'classes' ]}">
+    <a href="{$image[ 'url' ]}">
+        <img src="{$image[ 'path' ]}" alt="{$image[ 'alt' ]}" title="{$image[ 'title' ]}" class="{$component}-image {$image[ 'classes' ]}">
+    </a>
 
     <div class="{$component}-content js-{$component}-content">
         {if $title}
             <h3 class="{$component}-title">{$title}</h3>
         {/if}
+
+        <div class="{$component}-description">
+            {$desc}
+        </div>
 
         {$content}
     </div>

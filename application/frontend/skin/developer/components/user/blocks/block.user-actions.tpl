@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_options' append}
-	{$mods = "{$mods} user-actions"}
+	{$mods = "{$mods} nopadding transparent user-actions"}
 
 	{if ! $oUserCurrent or ( $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId() )}
 		{$show = false}

@@ -41,5 +41,12 @@
 }
 .block-update.active { background-position: -16px 0; }
 
-/* Блок без отступов у контента */
+/**
+ * @modifier nopadding Блок без отступов у контента
+ */
 .block--nopadding .block-content { padding: 0; }
+
+/**
+ * @modifier transparent Блок без фона
+ */
+.block--transparent { background-color: transparent; }

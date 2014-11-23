@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_options' append}
-	{$mods = "{$mods} user-note nopadding"}
+	{$mods = "{$mods} user-note nopadding transparent"}
 
 	{if ! $oUserCurrent or ( $oUserCurrent->getId() == $oUserProfile->getId() )}
 		{$show = false}

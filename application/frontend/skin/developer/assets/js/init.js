@@ -540,7 +540,7 @@ jQuery(document).ready(function($){
 	 */
 	$('.js-toolbar').toolbar({
 		target: '.grid-role-wrapper',
-		offsetX: 20
+		offsetX: 10
 	});
 	$('.js-toolbar-scrollup').lsToolbarScrollUp();
 	$('.js-toolbar-comments').lsToolbarComments();

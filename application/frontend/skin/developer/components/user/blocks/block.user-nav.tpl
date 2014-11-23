@@ -7,7 +7,7 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_options' append}
-	{$mods = "{$mods} user-nav"}
+	{$mods = "{$mods} nopadding transparent user-nav"}
 {/block}
 
 {block 'block_content_after'}

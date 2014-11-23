@@ -21,9 +21,14 @@
     {$title = $smarty.capture.blog_list_item_title}
 
     {* Описание *}
-    {capture 'blog_list_item_content'}
-        <p class="object-list-item-description">{$blog->getDescription()|strip_tags|truncate:120}</p>
+    {capture 'blog_list_item_desc'}
+        {$blog->getDescription()|strip_tags|truncate:120}
+    {/capture}
 
+    {$desc = $smarty.capture.blog_list_item_desc}
+
+    {* Описание *}
+    {capture 'blog_list_item_content'}
         {* Информация *}
         {$info = [
             [ 'label' => "{$aLang.blog.users.readers_total}:", 'content' => "<span class=\"js-blog-users-count\" data-blog-id=\"{$blog->getId()}\">{$blog->getCountUser()}</span>" ],

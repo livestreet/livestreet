@@ -87,3 +87,12 @@ select[multiple].field-input { max-width: 300px; }
 	background-repeat: no-repeat;
 	background-color: #eee;
 }
+
+
+/**
+ * Group
+ */
+.field-checkbox-group { margin-bottom: 25px; }
+.field-checkbox-group .field { margin-bottom: 12px; }
+.field-checkbox-group:last-child,
+.field-checkbox-group .field:last-child { margin-bottom: 0; }

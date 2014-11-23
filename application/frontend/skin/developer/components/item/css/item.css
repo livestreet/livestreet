@@ -23,7 +23,7 @@
 .item-title {
 	font-size: 24px;
 	line-height: 1.1em;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 }
 .item-description {
 	margin-bottom: 15px;
@@ -34,6 +34,9 @@
 	right: 0;
 	width: 150px;
 	text-align: right;
+}
+.item .info-list {
+	margin-bottom: 0;
 }
 
 

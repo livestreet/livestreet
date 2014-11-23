@@ -8,7 +8,7 @@
 
 {block 'block_options' append}
    {* TODO: Fix styles *}
-   {$mods = "{$mods} user-actions"}
+   {$mods = "{$mods} nopadding transparent user-actions"}
 {/block}
 
 {block 'block_content'}

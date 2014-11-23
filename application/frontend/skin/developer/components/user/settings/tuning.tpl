@@ -12,35 +12,37 @@
 	<fieldset>
 		<legend>{lang name='user.settings.tuning.email_notices'}</legend>
 
-		{include 'components/field/field.checkbox.tpl'
-				 name     = 'settings_notice_new_topic'
-				 checked  = $oUserCurrent->getSettingsNoticeNewTopic() != 0
-				 noMargin = true
-				 label    = {lang name='user.settings.tuning.fields.new_topic'}}
+		<div class="field-checkbox-group">
+			{include 'components/field/field.checkbox.tpl'
+					 name     = 'settings_notice_new_topic'
+					 checked  = $oUserCurrent->getSettingsNoticeNewTopic() != 0
+					 noMargin = true
+					 label    = {lang name='user.settings.tuning.fields.new_topic'}}
 
-		{include 'components/field/field.checkbox.tpl'
-				 name     = 'settings_notice_new_comment'
-				 checked  = $oUserCurrent->getSettingsNoticeNewComment() != 0
-				 noMargin = true
-				 label    = {lang name='user.settings.tuning.fields.new_comment'}}
+			{include 'components/field/field.checkbox.tpl'
+					 name     = 'settings_notice_new_comment'
+					 checked  = $oUserCurrent->getSettingsNoticeNewComment() != 0
+					 noMargin = true
+					 label    = {lang name='user.settings.tuning.fields.new_comment'}}
 
-		{include 'components/field/field.checkbox.tpl'
-				 name     = 'settings_notice_new_talk'
-				 checked  = $oUserCurrent->getSettingsNoticeNewTalk() != 0
-				 noMargin = true
-				 label    = {lang name='user.settings.tuning.fields.new_talk'}}
+			{include 'components/field/field.checkbox.tpl'
+					 name     = 'settings_notice_new_talk'
+					 checked  = $oUserCurrent->getSettingsNoticeNewTalk() != 0
+					 noMargin = true
+					 label    = {lang name='user.settings.tuning.fields.new_talk'}}
 
-		{include 'components/field/field.checkbox.tpl'
-				 name     = 'settings_notice_reply_comment'
-				 checked  = $oUserCurrent->getSettingsNoticeReplyComment() != 0
-				 noMargin = true
-				 label    = {lang name='user.settings.tuning.fields.reply_comment'}}
+			{include 'components/field/field.checkbox.tpl'
+					 name     = 'settings_notice_reply_comment'
+					 checked  = $oUserCurrent->getSettingsNoticeReplyComment() != 0
+					 noMargin = true
+					 label    = {lang name='user.settings.tuning.fields.reply_comment'}}
 
-		{include 'components/field/field.checkbox.tpl'
-				 name     = 'settings_notice_new_friend'
-				 checked  = $oUserCurrent->getSettingsNoticeNewFriend() != 0
-				 noMargin = true
-				 label    = {lang name='user.settings.tuning.fields.new_friend'}}
+			{include 'components/field/field.checkbox.tpl'
+					 name     = 'settings_notice_new_friend'
+					 checked  = $oUserCurrent->getSettingsNoticeNewFriend() != 0
+					 noMargin = true
+					 label    = {lang name='user.settings.tuning.fields.new_friend'}}
+		</div>
 	</fieldset>
 
 	<fieldset>

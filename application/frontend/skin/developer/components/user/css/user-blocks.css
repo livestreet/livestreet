@@ -35,9 +35,7 @@
  * @modifier user-actions
  * @template blocks/block.userActions.tpl
  */
-.block--user-actions                  { border: none; border: 1px solid #eee; border-radius: 5px; }
-.block--user-actions .block-content   { padding: 0; }
-.block--user-actions ul               { overflow: hidden; }
+.block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
 .block--user-actions ul li            { margin-bottom: 0; }
 .block--user-actions ul li span,
 .block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
@@ -51,4 +49,28 @@
  * @modifier user-nav
  * @template blocks/block.userNav.tpl
  */
-.block--user-nav { padding: 0; background: none; }
+.nav.nav--pills.nav--stacked.user-nav {
+    overflow: hidden;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.nav.nav--pills.nav--stacked.user-nav > li {
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #f4f4f4;
+}
+.nav.nav--pills.nav--stacked.user-nav > li .badge {
+    top: 9px;
+    background: #aaa;
+}
+.nav.nav--pills.nav--stacked.user-nav > li a {
+    display: block;
+    padding: 10px 15px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+}
+.nav.nav--pills.nav--stacked.user-nav > li a:hover {
+    background: #fafafa;
+    color: #333;
+}
