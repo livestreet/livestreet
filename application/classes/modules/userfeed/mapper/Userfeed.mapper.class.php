@@ -93,13 +93,21 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
     /**
      * Получить ленту топиков по подписке
      *
-     * @param array $aUserSubscribes Список подписок пользователя
-     * @param int $iCount Число получаемых записей (если null, из конфига)
-     * @param int $iFromId Получить записи, начиная с указанной
+     * @param $aUserId  Список ID юзеров
+     * @param $aBlogId  Список ID блогов
+     * @param $iCount
+     * @param $iCurrPage
+     * @param $iPerPage
      * @return array
      */
-    public function readFeed($aUserSubscribes, $iCount, $iFromId)
+    public function ReadFeed($aUserId, $aBlogId, &$iCount, $iCurrPage, $iPerPage)
     {
+        if (!is_array($aUserId)) {
+            $aUserId=array($aUserId);
+        }
+        if (!is_array($aBlogId)) {
+            $aBlogId=array($aBlogId);
+        }
         $sql = "
 							SELECT 		
 								t.topic_id										
@@ -109,18 +117,20 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
 							WHERE 
 								t.topic_publish = 1 
 								AND t.blog_id=b.blog_id 
-								AND b.blog_type!='close' 
-								{ AND t.topic_id < ?d }
+								AND b.blog_type!='close'
 								AND ( 1=0 { OR t.blog_id IN (?a) } { OR t.user_id IN (?a) } ) 								
                             ORDER BY t.topic_id DESC	
-                            { LIMIT 0, ?d }";
+                            LIMIT ?d, ?d ";
 
-        $aTopics = $aTopics = $this->oDb->selectCol($sql,
-            $iFromId ? $iFromId : DBSIMPLE_SKIP,
-            count($aUserSubscribes['blogs']) ? $aUserSubscribes['blogs'] : DBSIMPLE_SKIP,
-            count($aUserSubscribes['users']) ? $aUserSubscribes['users'] : DBSIMPLE_SKIP,
-            $iCount ? $iCount : DBSIMPLE_SKIP
-        );
+        $aTopics = array();
+        if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+            count($aUserId) ? $aUserId : DBSIMPLE_SKIP,
+            ($iCurrPage - 1) * $iPerPage, $iPerPage)) {
+            foreach ($aRows as $aTopic) {
+                $aTopics[] = $aTopic['topic_id'];
+            }
+        }
         return $aTopics;
     }
 }

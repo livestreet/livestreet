@@ -47,8 +47,6 @@ class ActionUserfeed extends Action
         if (!$this->oUserCurrent) {
             parent::EventNotFound();
         }
-        $this->SetDefaultEvent('index');
-
         $this->Viewer_Assign('sMenuItemSelect', 'feed');
     }
 
@@ -58,11 +56,10 @@ class ActionUserfeed extends Action
      */
     protected function RegisterEvent()
     {
-        $this->AddEvent('index', 'EventIndex');
+        $this->AddEventPreg('/^(page([1-9]\d{0,5}))?$/i', 'EventIndex');
         $this->AddEvent('subscribe', 'EventSubscribe');
         $this->AddEvent('ajaxadduser', 'EventAjaxAddUser');
         $this->AddEvent('unsubscribe', 'EventUnSubscribe');
-        $this->AddEvent('get_more', 'EventGetMore');
     }
 
     /**
@@ -71,58 +68,30 @@ class ActionUserfeed extends Action
      */
     protected function EventIndex()
     {
-        // Получаем топики
-        $aTopics = $this->Userfeed_read($this->oUserCurrent->getId());
+        /**
+         * Передан ли номер страницы
+         */
+        $iPage = $this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
+
+        $aResult = $this->Userfeed_read($this->oUserCurrent->getId(),$iPage,Config::Get('module.topic.per_page'));
+        $aTopics = $aResult['collection'];
 
         // Вызов хуков
         $this->Hook_Run('topics_list_show', array('aTopics' => $aTopics));
-
-        $this->Viewer_Assign('feedTopics', $aTopics);
-        // TODO: Добавить метод возвращающий общее кол-во топиков в ленте (нужно для нормальной работы блока подгрузки)
-        $this->Viewer_Assign('feedTopicsAllCount', 0);
+        /**
+         * Формируем постраничность
+         */
+        $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, Config::Get('module.topic.per_page'),
+            Config::Get('pagination.pages.count'), Router::GetPath('feed'));
+        /**
+         * Загружаем переменные в шаблон
+         */
+        $this->Viewer_Assign('aTopics', $aTopics);
+        $this->Viewer_Assign('aPaging', $aPaging);
 
         $this->SetTemplateAction('list');
     }
-
-    /**
-     * Подгрузка ленты топиков (замена постраничности)
-     *
-     */
-    protected function EventGetMore()
-    {
-        /**
-         * Устанавливаем формат Ajax ответа
-         */
-        $this->Viewer_SetResponseAjax('json');
-        /**
-         * Проверяем последний просмотренный ID топика
-         */
-        $iFromId = getRequestStr('last_id');
-        if (!$iFromId) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-            return;
-        }
-        /**
-         * Получаем топики
-         */
-        $aTopics = $this->Userfeed_read($this->oUserCurrent->getId(), null, $iFromId);
-        /**
-         * Вызов хуков
-         */
-        $this->Hook_Run('topics_list_show', array('aTopics' => $aTopics));
-        /**
-         * Загружаем данные в ajax ответ
-         */
-        $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('topics', $aTopics, true);
-        $this->Viewer_AssignAjax('html', $oViewer->Fetch('components/topic/topic-list.tpl'));
-        $this->Viewer_AssignAjax('count_loaded', count($aTopics));
-
-        if (count($aTopics)) {
-            $this->Viewer_AssignAjax('last_id', end($aTopics)->getId());
-        }
-    }
-
+    
     /**
      * Подписка на контент блога или пользователя
      *

@@ -79,19 +79,23 @@ class ModuleUserfeed extends Module
     /**
      * Получить ленту топиков по подписке
      *
-     * @param int $iUserId ID пользователя, для которого получаем ленту
-     * @param int $iCount Число получаемых записей (если null, из конфига)
-     * @param int $iFromId Получить записи, начиная с указанной
+     * @param $iUserId  ID пользователя, для которого получаем ленту
+     * @param $iCurrPage
+     * @param null $iPerPage
      * @return array
      */
-    public function read($iUserId, $iCount = null, $iFromId = null)
+    public function read($iUserId, $iCurrPage, $iPerPage = null)
     {
-        if (!$iCount) {
-            $iCount = Config::Get('module.userfeed.count_default');
+        if (!is_null($iPerPage)) {
+            $iPerPage = Config::Get('module.userfeed.count_default');
         }
-        $aUserSubscribes = $this->oMapper->getUserSubscribes($iUserId);
-        $aTopicsIds = $this->oMapper->readFeed($aUserSubscribes, $iCount, $iFromId);
-        return $this->Topic_getTopicsAdditionalData($aTopicsIds);
+        $aSubscribes = $this->oMapper->getUserSubscribes($iUserId);
+        $aTopicsIds = $this->oMapper->ReadFeed($aSubscribes['users'], $aSubscribes['blogs'], $iCount, $iCurrPage,
+            $iPerPage);
+        return array(
+            'collection' => $this->Topic_GetTopicsAdditionalData($aTopicsIds),
+            'count'      => $iCount
+        );
     }
 
     /**

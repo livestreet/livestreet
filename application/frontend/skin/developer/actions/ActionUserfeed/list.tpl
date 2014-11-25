@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-	{include 'components/feed/feed.tpl' topics=$feedTopics count=$feedTopicsAllCount classes='js-feed'}
+    {include 'components/topic/topic-list.tpl' topics=$aTopics paging=$aPaging}
 {/block}
