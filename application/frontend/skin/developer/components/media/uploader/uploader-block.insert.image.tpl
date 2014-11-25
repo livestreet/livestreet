@@ -6,7 +6,7 @@
 
 {block 'block_options' append}
 	{$classes = "{$classes} js-media-info-block"}
-	{$attributes = array_merge( $attributes|default:[], [ 'data-type' => 'insert', 'data-type' => '1' ] )}
+	{$attributes = array_merge( $attributes|default:[], [ 'data-type' => 'insert', 'data-filetype' => '1' ] )}
 {/block}
 
 {block 'block_title'}
@@ -26,11 +26,10 @@
 				[ 'value' => 'center', 'text' => {lang name='media.image_align.center'} ]
 			]}
 
-	    {* Размер *}
+		{* Размер *}
 		{include 'components/field/field.select.tpl'
 			name          = 'size'
 			label         = {lang name='media.insert.settings.fields.size.label'}
-			selectedValue = $_aRequest.blog_category
 			items         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
 	</form>
 {/block}
