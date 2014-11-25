@@ -389,4 +389,29 @@ class ModuleGeo_MapperGeo extends Mapper
         }
         return $aResult;
     }
+
+    public function GetCountriesUsedByTargetType($sTargetType)
+    {
+        $sql = "
+			SELECT
+				c.*
+			FROM (
+					SELECT
+						DISTINCT country_id
+					FROM
+						" . Config::Get('db.table.geo_target') . "
+					WHERE target_type = ? and country_id IS NOT NULL
+				) as t
+				JOIN " . Config::Get('db.table.geo_country') . " as c on t.country_id=c.id
+			ORDER BY c.name_ru
+		";
+
+        $aResult = array();
+        if ($aRows = $this->oDb->select($sql, $sTargetType)) {
+            foreach ($aRows as $aRow) {
+                $aResult[] = Engine::GetEntity('ModuleGeo_EntityCountry', $aRow);
+            }
+        }
+        return $aResult;
+    }
 }

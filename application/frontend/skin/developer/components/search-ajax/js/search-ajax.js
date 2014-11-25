@@ -23,7 +23,7 @@
 
             // Селекторы
             selectors: {
-                more: '.js-more-search',
+                more: '.js-more-search'
             },
 
             // Фильтры

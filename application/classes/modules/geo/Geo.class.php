@@ -195,11 +195,11 @@ class ModuleGeo extends Module
                  * Проверяем есть ли уже связь с данным гео-объектом, если есть то возвращаем его
                  */
                 $aTargetSelf = $this->GetTargets(array(
-                        'target_type' => $sTargetType,
-                        'target_id'   => $iTargetId,
-                        'geo_type'    => $oGeoObject->getType(),
-                        'geo_id'      => $oGeoObject->getId()
-                    ), 1, 1);
+                    'target_type' => $sTargetType,
+                    'target_id'   => $iTargetId,
+                    'geo_type'    => $oGeoObject->getType(),
+                    'geo_id'      => $oGeoObject->getId()
+                ), 1, 1);
                 if (isset($aTargetSelf['collection'][0])) {
                     return $aTargetSelf['collection'][0];
                 }
@@ -475,6 +475,17 @@ class ModuleGeo extends Module
     public function GetGroupCitiesByTargetType($sTargetType, $iLimit)
     {
         return $this->oMapper->GetGroupCitiesByTargetType($sTargetType, $iLimit);
+    }
+
+    /**
+     * Возвращает список использованых стран для типа
+     *
+     * @param $sTargetType  Тип владельца
+     * @return array
+     */
+    public function GetCountriesUsedByTargetType($sTargetType)
+    {
+        return $this->oMapper->GetCountriesUsedByTargetType($sTargetType);
     }
 
     /**

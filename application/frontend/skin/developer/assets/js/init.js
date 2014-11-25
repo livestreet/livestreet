@@ -251,7 +251,12 @@ jQuery(document).ready(function($){
 				type: 'sort',
 				name: 'sort_by',
 				selector: '.js-search-sort-menu li'
-			}
+			},
+            {
+                type: 'select',
+                name: 'country',
+                selector: '.js-search-ajax-user-country'
+            }
 		]
 	});
 

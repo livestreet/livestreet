@@ -24,10 +24,17 @@
 
     {* Пол *}
     <p class="mb-10">Пол</p>
-
     <div class="field-checkbox-group">
         {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='' checked=true label='Любой'}
         {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='man' label='Мужской'}
         {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='woman' label='Женский'}
     </div>
+
+    {* Страна/город *}
+    {include 'components/field/field.geo.tpl'
+        aGeoCountries = $aCountriesUsed
+        inputClasses = 'js-search-ajax-user-country'
+        name   = 'geo'
+        inline = true
+        label  = {lang name='user.settings.profile.fields.place.label'} }
 {/block}

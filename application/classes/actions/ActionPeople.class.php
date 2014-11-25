@@ -277,11 +277,16 @@ class ActionPeople extends Action
          */
         $aPrefixUser = $this->User_GetGroupPrefixUser(1);
         /**
+         * Список используемых стран
+         */
+        $aCountriesUsed=$this->Geo_GetCountriesUsedByTargetType('user');
+        /**
          * Загружаем переменные в шаблон
          */
         $this->Viewer_Assign('aUsers', $aResult['collection']);
         $this->Viewer_Assign('iSearchCount', $aResult['count']);
         $this->Viewer_Assign('aPrefixUser', $aPrefixUser);
+        $this->Viewer_Assign('aCountriesUsed', $aCountriesUsed);
         /**
          * Устанавливаем шаблон вывода
          */
