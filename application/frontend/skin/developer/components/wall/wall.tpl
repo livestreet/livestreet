@@ -16,7 +16,7 @@
 {$moreCount = $smarty.local.count - $loadedCount}
 
 {* Стена *}
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {$smarty.local.attributes}>
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {cattr list=$smarty.local.attributes}>
     {* Форма добавления записи *}
     {if $oUserCurrent}
         {include './wall.form.tpl'}
@@ -31,7 +31,7 @@
 
     {* Уведомление о пустом списке *}
     {if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
-        {include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes='id="wall-empty"' visible=!$loadedCount}
+        {include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes=[ 'id' => 'wall-empty' ] visible=!$loadedCount}
     {/if}
 
     {* Кнопка подгрузки записей *}

@@ -59,7 +59,7 @@
                         <li>
                             {include 'components/button/button.tpl'
                                 url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                                attributes = "onclick=\"return confirm('{lang 'common.remove_confirm'}');\""
+                                attributes = [ 'onclick' => "return confirm('{lang 'common.remove_confirm'}');" ]
                                 text = {lang 'admin.plugins.plugin.remove'}}
                         </li>
                     </ul>

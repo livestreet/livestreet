@@ -11,9 +11,7 @@
  * @param icon       string  (null)     Класс иконки
  * @param classes    string  (null)     Дополнительные классы (указываются через пробел)
  * @param mods       string  (null)     Список классов-модификаторов (указываются через пробел)
- * @param attributes string  (null)     Атрибуты (указываются через пробел)
- *
- * @styles <framework>/css/button.css
+ * @param attributes array   (null)     Атрибуты
  *}
 
 {* Название компонента *}
@@ -32,7 +30,7 @@
         {if $smarty.local.id}id="{$smarty.local.id}"{/if}
         {if $smarty.local.name}name="{$smarty.local.name}"{/if}
         class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
-        {$smarty.local.attributes}>
+        {cattr list=$smarty.local.attributes}>
     {* Иконка *}
     {if $smarty.local.icon}
         <i class="{$smarty.local.icon}"></i>

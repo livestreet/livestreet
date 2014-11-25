@@ -24,7 +24,7 @@
       enctype          = "multipart/form-data"
       data-target-id   = "{$targetId}"
       data-target-type = "{$targetType}"
-      {$smarty.local.attributes}>
+      {cattr list=$smarty.local.attributes}>
 
     {block 'comment-form'}
         {hook run='comment-form-begin'}

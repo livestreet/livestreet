@@ -24,7 +24,7 @@
 
 <div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}"
     data-target-id="{$smarty.local.targetId}"
-    {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+    {cattr list=$smarty.local.attributes}>
 
     {* Фото *}
     <a href="{$smarty.local.url}">

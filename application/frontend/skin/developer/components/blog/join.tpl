@@ -6,7 +6,7 @@
 
 {if $oUserCurrent && $oUserCurrent->getId() != $blog->getOwnerId() && $blog->getType() == 'open'}
     {include 'components/button/button.tpl'
-        attributes = "data-blog-id=\"{$blog->getId()}\""
+        attributes = [ 'data-blog-id' => $blog->getId() ]
         classes    = 'js-blog-join'
         text       = ($blog->getUserIsJoin()) ? $aLang.blog.join.leave : $aLang.blog.join.join
         mods       = ($blog->getUserIsJoin()) ? false : 'primary'}

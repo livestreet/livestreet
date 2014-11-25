@@ -6,7 +6,7 @@
 
 {block 'media_pane_content'}
 	{include './../uploader/uploader.tpl'
-		attributes   = 'id="media-uploader"'
+		attributes   = [ 'id' => 'media-uploader' ]
 		classes      = 'js-media-uploader'
 		targetParams = $aTargetParams
 		targetType   = $sMediaTargetType

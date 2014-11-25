@@ -14,5 +14,5 @@
 	activeItem = $smarty.local.activeItem
 	mods       = 'stacked dropdown'
 	classes    = "dropdown-menu {$smarty.local.classes}"
-	attributes = "{$smarty.local.attributes} id=\"{$smarty.local.id}\""
+	attributes = array_merge( $smarty.local.attributes|default:[], [ 'id' => $smarty.local.id ] )
 	items      = $smarty.local.items}

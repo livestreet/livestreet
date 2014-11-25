@@ -14,7 +14,7 @@
 
 {$events = $smarty.local.events}
 
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
     {if $events}
         {* Список *}
         <ul class="activity-event-list js-activity-event-list">

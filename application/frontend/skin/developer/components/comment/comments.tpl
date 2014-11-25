@@ -47,7 +47,7 @@
     data-target-type="{$targetType}"
     data-target-id="{$targetId}"
     data-comment-last-id="{$smarty.local.lastCommentId}"
-    {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+    {cattr list=$smarty.local.attributes}>
     {**
      * Заголовок
      *}

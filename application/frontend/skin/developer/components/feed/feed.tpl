@@ -9,7 +9,7 @@
 
 {$topics = $smarty.local.topics}
 
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
+<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
     {if $topics}
         {* Список *}
         <ul class="{$component}-topic-list js-{$component}-topic-list">

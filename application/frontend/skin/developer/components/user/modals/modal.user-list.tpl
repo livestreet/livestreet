@@ -46,6 +46,6 @@
             text       = $aLang.common.add
             mods       = 'primary'
             classes    = 'js-user-list-select-add'
-            attributes = "data-target=\"{$smarty.local.target}\""}
+            attributes = [ 'data-target' => $smarty.local.target ]}
     {/if}
 {/block}

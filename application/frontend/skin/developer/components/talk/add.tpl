@@ -40,10 +40,10 @@
 	{* Кнопки *}
 	{include 'components/button/button.tpl' name='submit_talk_add' mods='primary' text=$aLang.common.send}
 	{include 'components/button/button.tpl'
-		name       ='submit_preview'
-		type       ='button'
-		text       =$aLang.common.preview_text
-		attributes ='onclick="jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;"'}
+		name       = 'submit_preview'
+		type       = 'button'
+		text       = $aLang.common.preview_text
+		attributes = [ 'onclick' => "jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;" ]}
 </form>
 
 {hook run='talk_add_end'}

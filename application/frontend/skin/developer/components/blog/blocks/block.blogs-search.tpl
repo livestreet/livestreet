@@ -38,7 +38,7 @@
         {include 'components/nav/nav.tpl'
             name       = 'blogs_categories'
             classes    = 'actionbar-item-link'
-            attributes = 'id="js-search-ajax-blog-category"'
+            attributes = [ 'id' => 'js-search-ajax-blog-category' ]
             activeItem = 'all'
             mods       = 'stacked pills'
             items      = $items}

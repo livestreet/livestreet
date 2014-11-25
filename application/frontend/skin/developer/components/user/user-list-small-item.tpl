@@ -20,7 +20,7 @@
     {$userId = $user->getId()}
 {/block}
 
-<li class="{$component} js-user-list-small-item {$classes}" data-user-id="{$userId}" {foreach $attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+<li class="{$component} js-user-list-small-item {$classes}" data-user-id="{$userId}" {cattr list=$attributes}>
     {* Чекбокс *}
     {if $smarty.local.selectable}
         <input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$userId}" data-user-login="{$user->getLogin()}" />

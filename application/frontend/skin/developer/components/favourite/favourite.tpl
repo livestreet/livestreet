@@ -36,7 +36,7 @@
 <div class="{$component} {mod name=$component mods=$mods} {if $isActive}active{/if} {$smarty.local.classes}"
 	 data-param-i-target-id="{$target->getId()}"
 	 title="{$aLang.$component[ ($isActive) ? 'remove' : 'add' ]}"
-	 {$smarty.local.attributes}>
+	 {cattr list=$smarty.local.attributes}>
 
 	{* Кнопка добавления/удаления из избранного *}
 	<div class="icon-heart {$component}-toggle js-{$component}-toggle"></div>

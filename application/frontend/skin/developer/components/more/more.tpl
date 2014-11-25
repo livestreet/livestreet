@@ -13,7 +13,7 @@
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
      data-more-append="{$smarty.local.append|default:true}"
      {if $smarty.local.target}data-more-target="{$smarty.local.target}"{/if}
-     {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+     {cattr list=$smarty.local.attributes}>
 
     {* Текст *}
     {$smarty.local.text|default:{lang 'more.text'}}

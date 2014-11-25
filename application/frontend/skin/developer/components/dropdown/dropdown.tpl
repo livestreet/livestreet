@@ -16,7 +16,7 @@
 {include 'components/button/button.tpl'
     type       = 'button'
     classes    = "{$component}-toggle {$smarty.local.classes}"
-    attributes = "data-{$component}-target=\"{$uid}\" {$smarty.local.attributes}"
+    attributes = array_merge( $smarty.local.attributes|default:[], [ 'data-dropdown-target' => $uid ] )
     text       = $smarty.local.text}
 
 {* Меню *}

@@ -27,7 +27,7 @@
 {/block}
 
 {block 'article'}
-	<article class="{$component} {mod name=$component mods=$mods} {$classes}" {$smarty.local.attributes}>
+	<article class="{$component} {mod name=$component mods=$mods} {$classes}" {cattr list=$smarty.local.attributes}>
 		{**
 		 * Хидер
 		 *}

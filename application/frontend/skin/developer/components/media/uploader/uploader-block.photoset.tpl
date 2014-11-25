@@ -6,7 +6,7 @@
 
 {block 'block_options' append}
 	{$classes = "{$classes} js-media-info-block"}
-	{$attributes = "{$attributes} data-type=\"photoset\""}
+	{$attributes = array_merge( $attributes|default:[], [ 'data-type' => 'photoset' ] )}
 {/block}
 
 {block 'block_title'}

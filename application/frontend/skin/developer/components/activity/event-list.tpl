@@ -18,7 +18,7 @@
 
 		<li class="activity-date">
 			{if $dateNow == $dateLast}
-				{$aLang.today}
+				{$aLang.date.today}
 			{else}
 				{date_format date=$event->getDateAdded() format="j F Y"}
 			{/if}

@@ -13,7 +13,7 @@
 {$note = $smarty.local.note}
 {$isEditable = $smarty.local.isEditable|default:true}
 
-<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-user-id="{$smarty.local.targetId}" {$smarty.local.attributes}>
+<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-user-id="{$smarty.local.targetId}" {cattr list=$smarty.local.attributes}>
 	{* Заметка *}
 	<div class="{$component}-body js-{$component}-body">
 		{* Текст *}

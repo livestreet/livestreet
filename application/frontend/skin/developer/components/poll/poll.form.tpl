@@ -11,7 +11,7 @@
 			 name  = 'poll[title]'
 			 value = {($oPoll) ? $oPoll->getTitle() : '' }
 			 label = $aLang.poll.answer
-			 inputAttributes="autofocus"}
+			 inputAttributes= [ 'autofocus' => true ]}
 
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
@@ -74,7 +74,7 @@
 				{include 'components/button/button.tpl'
 						 type       = 'button'
 						 text       = $aLang.common.add
-						 attributes = 'title="[Ctrl + Enter]"'
+						 attributes = [ 'title' => '[Ctrl + Enter]' ]
 						 classes    = 'js-poll-form-answer-add'}
 			</footer>
 		{/if}

@@ -31,7 +31,7 @@
 		entityField     = $smarty.local.entityField
 		entity          = $smarty.local.entity
 		inputClasses    = "{$smarty.local.classes} {$smarty.local.inputClasses}"
-		inputAttributes = "{$smarty.local.attributes} data-editor-type=\"{$type}\" data-editor-set=\"{$set}\" data-editor-media=\"{$_mediaUid}\""
+		inputAttributes = array_merge( $smarty.local.attributes|default:[], [ 'data-editor-type' => $type, 'data-editor-set' => $set, 'data-editor-media' => $_mediaUid ] )
 		note            = $smarty.local.note
 		rows            = $smarty.local.rows|default:10}
 {/function}

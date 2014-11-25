@@ -12,7 +12,7 @@
 	{$_mods = 'comments'}
 	{$_bShow = !! $oUserCurrent}
 	{$_classes = 'js-toolbar-comments'}
-	{$_attributes = 'data-target=".js-comment"'}
+	{$_attributes = [ 'data-target' => '.js-comment' ]}
 {/block}
 
 {block 'toolbar_item'}

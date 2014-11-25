@@ -33,7 +33,7 @@
 
 {* Отображем меню только если есть активные пункты *}
 {if count( $items ) - $disabledItemsCounter}
-    <ul class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {$smarty.local.attributes}>
+    <ul class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
         {foreach $items as $item}
             {$isEnabled = $item[ 'is_enabled' ]}
             {$isDropdown = isset( $item[ 'menu' ] )}

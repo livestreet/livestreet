@@ -16,7 +16,7 @@
 
 {* Форма добавления *}
 <div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
-     {foreach $smarty.local.attributes as $attr}{$attr@key}="{$attr@value}" {/foreach}>
+     {cattr list=$smarty.local.attributes}>
 
     {* Заголовок *}
     {if $smarty.local.title}

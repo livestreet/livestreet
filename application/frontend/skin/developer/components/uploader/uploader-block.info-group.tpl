@@ -28,7 +28,7 @@
 				{include 'components/field/field.text.tpl'
 					name            = $property['name']
 					inputClasses    = "js-{$component_info}-property"
-					inputAttributes = "data-name=\"{$property['name']}\""
+					inputAttributes = [ 'data-name' => $property['name'] ]
 					label           = $property['label']}
 			{/foreach}
 		</div>
