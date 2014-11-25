@@ -97,7 +97,7 @@ class ActionLogin extends Action
 
                 if ($oUser->getPassword() == func_encrypt(getRequest('password'))) {
                     if (!$oUser->getActivate()) {
-                        $this->Message_AddErrorSingle($this->Lang_Get('auth.notices.not_activated',
+                        $this->Message_AddErrorSingle($this->Lang_Get('auth.login.notices.error_not_activated',
                                 array('reactivation_path' => Router::GetPath('registration') . 'reactivation')));
                         return;
                     }
@@ -183,7 +183,7 @@ class ActionLogin extends Action
             $oReminder->setIsUsed(0);
             $oReminder->setUserId($oUser->getId());
             if ($this->User_AddReminder($oReminder)) {
-                $this->Message_AddNotice($this->Lang_Get('auth.notices.success_send_password'));
+                $this->Message_AddNotice($this->Lang_Get('auth.reset.notices.success_send_link'));
                 $this->Notify_SendReminderCode($oUser, $oReminder);
                 return;
             }
