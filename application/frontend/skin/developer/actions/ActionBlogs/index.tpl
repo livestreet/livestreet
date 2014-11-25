@@ -17,12 +17,11 @@
 
     {* Сортировка *}
     {include 'components/sort/sort.ajax.tpl'
-        sSortName     = 'sort-blog-list'
-        sSortSearchType     = 'blogs'
-        aSortList     = [
-            [ name => 'blog_count_user', text => $aLang.blog.sort.by_users ],
+        classes = 'js-search-sort'
+        items = [
+            [ name => 'blog_count_user',  text => $aLang.blog.sort.by_users ],
             [ name => 'blog_count_topic', text => $aLang.blog.sort.by_topics ],
-            [ name => 'blog_title',      text => $aLang.sort.by_title ]
+            [ name => 'blog_title',       text => $aLang.sort.by_title ]
         ]}
 
     <div class="js-search-ajax-blog">

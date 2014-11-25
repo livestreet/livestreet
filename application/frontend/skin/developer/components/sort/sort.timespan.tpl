@@ -7,7 +7,7 @@
 		classes    = 'js-dropdown-default'
 		name       = 'sort_by_date'
 		text       = 'Loading...'
-		attributes = "data-dropdown-selectable=\"true\""
+		attributes = [ 'data-dropdown-selectable' => 'true' ]
 		activeItem = $sPeriodSelectCurrent
 		menu       = [
 			[ 'name' => '1',   'url' => "{$sPeriodSelectRoot}?period=1",   'text' => {lang name='blog.menu.top_period_1'} ],
