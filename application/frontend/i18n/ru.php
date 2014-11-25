@@ -1782,12 +1782,6 @@ return array(
         'title' => 'Обрезка изображения'
     ),
     /**
-     * Алфавитный указатель
-     */
-    'alphanumeric'                  => array(
-        'all' => 'Все'
-    ),
-    /**
      * Экшнбар
      */
     'actionbar' => array(

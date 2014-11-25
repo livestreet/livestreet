@@ -448,8 +448,6 @@ $config['block']['rule_users'] = array(
         'right' => array(
             'components/user/blocks/block.users-statistics.tpl',
             'components/user/blocks/block.users-search.tpl',
-            'usersCountries',
-            'usersCities',
         )
     )
 );
@@ -552,7 +550,6 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/vote/js/vote.js",
     "___path.skin.web___/components/pagination/js/pagination.js",
     "___path.skin.web___/components/note/js/note.js",
-    "___path.skin.web___/components/feed/js/feed.js",
     "___path.skin.web___/components/feed/js/feed-blogs.js",
     "___path.skin.web___/components/talk/js/talk.js",
     "___path.skin.web___/components/talk/js/message-users.js",
@@ -627,7 +624,6 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/poll/css/poll.css",
     "___path.skin.web___/components/more/css/more.css",
     "___path.skin.web___/components/sort/css/sort.css",
-    "___path.skin.web___/components/alphanumeric/css/alphanumeric.css",
     "___path.skin.web___/components/media/css/media.css",
     "___path.skin.web___/components/pagination/css/pagination.css",
     "___path.skin.web___/components/field/css/field.css",

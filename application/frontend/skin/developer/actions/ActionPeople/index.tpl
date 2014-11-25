@@ -10,7 +10,6 @@
 
 {block 'layout_content'}
     {include 'components/user/search-form.users.tpl'}
-    {include 'components/alphanumeric/alphanumeric.tpl' letters=$aPrefixUser}
 
     {* Сортировка *}
     {include 'components/sort/sort.ajax.tpl'

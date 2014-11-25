@@ -190,28 +190,21 @@ jQuery(document).ready(function($){
 	/**
 	 * Лента
 	 */
-	$('.js-feed').lsFeed({
-		urls: {
-			more: aRouter.feed + 'get_more'
-		},
-		create: function() {
-			// Блоги
-			$('.js-feed-blogs').lsFeedBlogs({
-				urls: {
-					subscribe: aRouter.feed + 'subscribe',
-					unsubscribe: aRouter.feed + 'unsubscribe'
-				}
-			});
+    // Блоги
+    $('.js-feed-blogs').lsFeedBlogs({
+        urls: {
+            subscribe: aRouter.feed + 'subscribe',
+            unsubscribe: aRouter.feed + 'unsubscribe'
+        }
+    });
 
-			// Добавление пользователей в свою ленту
-			$('.js-feed-users').user_list_add({
-				urls: {
-					add: aRouter.feed + 'ajaxadduser',
-					remove: aRouter.feed + 'unsubscribe'
-				}
-			});
-		}
-	});
+    // Добавление пользователей в свою ленту
+    $('.js-feed-users').user_list_add({
+        urls: {
+            add: aRouter.feed + 'ajaxadduser',
+            remove: aRouter.feed + 'unsubscribe'
+        }
+    });
 
 
 	/**
@@ -230,12 +223,6 @@ jQuery(document).ready(function($){
 				name: 'sText',
 				selector: '.js-search-text-main',
 				alphanumericFilterSelector: '.js-search-alphabet'
-			},
-			{
-				type: 'alphanumeric',
-				name: 'sText',
-				selector: '.js-search-alphabet .js-search-alphabet-item',
-				textFilterSelector: '.js-search-text-main'
 			},
 			{
 				type: 'radio',
