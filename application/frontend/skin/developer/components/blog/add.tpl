@@ -19,7 +19,7 @@
     {* URL блога *}
     {include 'components/field/field.text.tpl'
         name       = 'blog_url'
-        rules      = [ 'required' => true, 'type' => 'alphanum', 'rangelength' => '[2,50]' ]
+        rules      = [ 'required' => true, 'regexp' => '^[\w- ]{2,50}$' ]
         isDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
         note       = $aLang.blog.add.fields.url.note
         label      = $aLang.blog.add.fields.url.label}
