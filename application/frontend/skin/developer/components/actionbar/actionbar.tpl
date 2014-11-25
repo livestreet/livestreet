@@ -10,7 +10,7 @@
 {$component = 'actionbar'}
 
 {if $smarty.local.items}
-    <ul class="{$component} clearfix {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+    <ul class="{$component} clearfix {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
         {foreach $smarty.local.items as $item}
             {if $item[ 'html' ]}
                 {$item[ 'html' ]}

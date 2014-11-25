@@ -22,7 +22,7 @@
 {/if}
 
 {* Уведомление *}
-<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes} js-alert"
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} js-alert"
     {if ! $visible}hidden{/if}
     {cattr list=$smarty.local.attributes}
     role="alert">

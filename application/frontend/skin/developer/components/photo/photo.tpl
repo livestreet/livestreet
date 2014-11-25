@@ -22,7 +22,7 @@
     {$mods = "$mods nophoto"}
 {/if}
 
-<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}"
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}"
     data-target-id="{$smarty.local.targetId}"
     {cattr list=$smarty.local.attributes}>
 

@@ -39,7 +39,7 @@
  * Страницы
  *}
 {if $_paging && $_paging.iCountPage > 1}
-	<nav class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-{$component}" role="navigation" {cattr list=$smarty.local.attributes}>
+	<nav class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-{$component}" role="navigation" {cattr list=$smarty.local.attributes}>
 		{* Следущая / предыдущая страница *}
 		<ul class="{$component}-list">
 			{* Следущая страница *}

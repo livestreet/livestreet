@@ -11,7 +11,7 @@
 {$items = $itemsHook|default:$smarty.local.items}
 
 {if $smarty.local.html || $smarty.local.items}
-	<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+	<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 		<h3 class="user-info-group-title">
 			{$smarty.local.title}
 		</h3>

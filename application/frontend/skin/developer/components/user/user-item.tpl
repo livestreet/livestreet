@@ -13,7 +13,7 @@
 
 {$user = $smarty.local.user}
 
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
     {cattr list=$smarty.local.attributes}>
 
     <a href="{$user->getUserWebPath()}" class="{$component}-avatar-link">

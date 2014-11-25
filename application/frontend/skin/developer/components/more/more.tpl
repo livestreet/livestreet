@@ -10,7 +10,7 @@
 {* Название компонента *}
 {$component = 'more'}
 
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
      data-more-append="{$smarty.local.append|default:true}"
      {if $smarty.local.target}data-more-target="{$smarty.local.target}"{/if}
      {cattr list=$smarty.local.attributes}>

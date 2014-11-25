@@ -12,7 +12,7 @@
 {* Название компонента *}
 {$component = 'alphanumeric'}
 
-<ul class="{$component} {mod name=$component mods=$smarty.local.mods} js-search-alphabet {$smarty.local.classes}" {if $smarty.local.type}data-type="{$smarty.local.type}"{/if}>
+<ul class="{$component} {cmods name=$component mods=$smarty.local.mods} js-search-alphabet {$smarty.local.classes}" {if $smarty.local.type}data-type="{$smarty.local.type}"{/if}>
 	<li class="{$component}-item active js-search-alphabet-item" data-letter="">
 		<a href="#">{lang 'alphanumeric.all'}</a>
 	</li>

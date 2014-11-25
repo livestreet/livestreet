@@ -29,7 +29,7 @@
         {/if}
         {if $smarty.local.id}id="{$smarty.local.id}"{/if}
         {if $smarty.local.name}name="{$smarty.local.name}"{/if}
-        class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+        class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
         {cattr list=$smarty.local.attributes}>
     {* Иконка *}
     {if $smarty.local.icon}

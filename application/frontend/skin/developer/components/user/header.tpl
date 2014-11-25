@@ -11,7 +11,7 @@
 	{$mods = "{$mods} has-name"}
 {/if}
 
-<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 	{hook run='profile_top_begin' user=$user}
 
 	{* Пользователь *}

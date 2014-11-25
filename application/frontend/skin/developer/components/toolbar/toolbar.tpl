@@ -15,6 +15,6 @@
 	</{if $url}a{else}div{/if}>
 {/function}
 
-<aside class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-toolbar" {cattr list=$smarty.local.attributes}>
+<aside class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes} js-toolbar" {cattr list=$smarty.local.attributes}>
 	{include 'blocks.tpl' group='toolbar'}
 </aside>

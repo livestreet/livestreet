@@ -55,7 +55,7 @@
 {/if}
 
 
-<div class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
 	{* Заголовок *}
 	{if $showLabel}
 		<h4 class="{$component}-heading">{$aLang.$component.rating}</h4>

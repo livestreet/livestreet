@@ -16,7 +16,7 @@
 {$moreCount = $smarty.local.count - $loadedCount}
 
 {* Стена *}
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {cattr list=$smarty.local.attributes}>
     {* Форма добавления записи *}
     {if $oUserCurrent}
         {include './wall.form.tpl'}

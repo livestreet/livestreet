@@ -20,7 +20,7 @@
 
 {* Форма *}
 <form method           = "post"
-      class            = "{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+      class            = "{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
       enctype          = "multipart/form-data"
       data-target-id   = "{$targetId}"
       data-target-type = "{$targetType}"

@@ -9,7 +9,7 @@
 {* Название компонента *}
 {$component = 'search-form'}
 
-<form action="{$smarty.local.action}" method="{$smarty.local.method|default:'get'}" class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+<form action="{$smarty.local.action}" method="{$smarty.local.method|default:'get'}" class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 	{block 'search_form'}
 		{include 'components/field/field.text.tpl'
 				placeholder  = ( $smarty.local.placeholder ) ? $smarty.local.placeholder : $aLang.search.search

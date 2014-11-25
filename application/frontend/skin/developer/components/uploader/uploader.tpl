@@ -11,7 +11,7 @@
 	{$show = $smarty.local.show|default:true}
 {/block}
 
-<div class="{$component} {mod name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
 	{* @hook Начало основного блока загрузчика *}
 	{hook run='uploader_begin'}
 

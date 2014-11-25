@@ -47,7 +47,7 @@
 {/block}
 
 
-<{$tag} class="{$component} {mod name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes} data-status="{$status}" data-target="{$userTarget->getId()}">
+<{$tag} class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes} data-status="{$status}" data-target="{$userTarget->getId()}">
 	{block 'user_friend'}
 		{if in_array( $status, [ 'sent', 'rejected' ] )}
 			<span class="{$component}-text js-user-friend-text">{lang name="user.friends.status.{$status}"}</span>

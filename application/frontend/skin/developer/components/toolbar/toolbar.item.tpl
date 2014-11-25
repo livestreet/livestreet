@@ -9,7 +9,7 @@
 {/block}
 
 {if $_bShow}
-	<section class="{$component} {mod name=$component mods=$_mods} {$_classes}" {cattr list=$_attributes}>
+	<section class="{$component} {cmods name=$component mods=$_mods} {$_classes}" {cattr list=$_attributes}>
 		{block 'toolbar_item'}{/block}
 	</section>
 {/if}

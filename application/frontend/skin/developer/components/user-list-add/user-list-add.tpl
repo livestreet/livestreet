@@ -15,7 +15,7 @@
 {$component = 'user-list-add'}
 
 {* Форма добавления *}
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
      {cattr list=$smarty.local.attributes}>
 
     {* Заголовок *}

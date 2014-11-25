@@ -8,7 +8,7 @@
 
 {$tabs = $smarty.local.tabs}
 
-<div class="{$component} {$smarty.local.classes} {mod name=$component mods=$smarty.local.mods}">
+<div class="{$component} {$smarty.local.classes} {cmods name=$component mods=$smarty.local.mods}">
     {* Табы *}
     <ul class="tab-list clearfix" data-tab-type="tab-list">
         {foreach $tabs as $tab}

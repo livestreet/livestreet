@@ -26,7 +26,7 @@
 
 
 {* Блог *}
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-id="{$blog->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-id="{$blog->getId()}" {cattr list=$smarty.local.attributes}>
     <header class="{$component}-header">
         {* Заголовок *}
         <h2 class="page-header blog-title">

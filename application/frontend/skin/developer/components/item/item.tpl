@@ -13,7 +13,7 @@
     {$title = $smarty.local.title}
 {/block}
 
-<li class="{$component} {$smarty.local.classes} {mod name=$component mods=$smarty.local.mods}" {cattr list=$smarty.local.attributes}>
+<li class="{$component} {$smarty.local.classes} {cmods name=$component mods=$smarty.local.mods}" {cattr list=$smarty.local.attributes}>
     <a href="{$image[ 'url' ]}">
         <img src="{$image[ 'path' ]}" alt="{$image[ 'alt' ]}" title="{$image[ 'title' ]}" class="{$component}-image {$image[ 'classes' ]}">
     </a>

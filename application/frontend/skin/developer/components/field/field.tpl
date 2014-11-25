@@ -64,7 +64,7 @@
 
 
 {block 'field'}
-	<div class="{$component} {mod name=$component mods=$_mods} clearfix {$smarty.local.classes} {block 'field_classes'}{/block}" {cattr list=$smarty.local.attributes}>
+	<div class="{$component} {cmods name=$component mods=$_mods} clearfix {$smarty.local.classes} {block 'field_classes'}{/block}" {cattr list=$smarty.local.attributes}>
 		{* Лэйбл *}
 		{if $label}
 			<label for="{$_uid}" class="{$component}-label">{$label}</label>

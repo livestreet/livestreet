@@ -9,7 +9,7 @@
 {$component = 'sort'}
 {$uid = "sort{rand( 0, 10e10 )}"}
 
-<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}">
+<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}">
     {if $smarty.local.showLabel|default:true}
         <div class="sort-label">{$smarty.local.label|default:$aLang.sort.label}</div>
     {/if}

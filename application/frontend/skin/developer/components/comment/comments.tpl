@@ -43,7 +43,7 @@
 
 {add_block group='toolbar' name='components/comment/toolbar.comment.tpl' target='.js-comment'}
 
-<div class="{$component} js-comments {mod name=$component mods=$mods} {$smarty.local.classes}"
+<div class="{$component} js-comments {cmods name=$component mods=$mods} {$smarty.local.classes}"
     data-target-type="{$targetType}"
     data-target-id="{$targetId}"
     data-comment-last-id="{$smarty.local.lastCommentId}"

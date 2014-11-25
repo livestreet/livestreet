@@ -64,7 +64,7 @@
  * Комментарий
  * Атрибут id используется для ссылки на комментарий через хэш в урл (например #comment123)
  *}
-<section class   = "{$component} {mod name=$component mods=$mods} {$smarty.local.classes} open js-{$component}"
+<section class   = "{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} open js-{$component}"
          id      = "comment{$commentId}"
          data-id = "{$commentId}"
          {cattr list=$smarty.local.attributes}>

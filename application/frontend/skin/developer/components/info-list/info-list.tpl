@@ -8,7 +8,7 @@
 {$component = 'info-list'}
 
 {if $list}
-	<div class="{$component} {mod name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+	<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 		{* Заголовок *}
 		{if $smarty.local.title}
 			<h2 class="{$component}-title">{$smarty.local.title}</h2>
