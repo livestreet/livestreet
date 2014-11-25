@@ -4,9 +4,9 @@
  * @param array    $comments         Комментарии
  * @param integer  $maxLevel
  *
- * @param boolean  $useVote         (true) Показывать или нет голосование
- * @param boolean  $useReply        (true) Показывать или нет кнопку Ответить
- * @param boolean  $showScroll
+ * @param boolean  $useVote         Показывать или нет голосование
+ * @param boolean  $showReply       Показывать или нет кнопку Ответить
+ * @param boolean  $useScroll
  * @param integer  $authorId
  * @param string   $dateReadLast
  * @param boolean  $forbidAdd
@@ -44,11 +44,11 @@
     {include "$template"
         comment      = $comment
         dateReadLast = $smarty.local.dateReadLast
-        showScroll   = $smarty.local.showScroll|default:true
+        useScroll    = $smarty.local.useScroll|default:true
         useVote      = $smarty.local.useVote
         authorId     = $smarty.local.authorId
         authorText   = $smarty.local.authorText
-        useReply     = ! $smarty.local.forbidAdd
+        showReply    = ! $smarty.local.forbidAdd || $smarty.local.showReply
         useFavourite = $smarty.local.useFavourite
         useEdit      = true}
 
