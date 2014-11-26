@@ -3,19 +3,25 @@
 $config = array();
 
 /**
- * Grid type:
+ * Тип сетки
  *
  * fluid - резина
  * fixed - фиксированная ширина
  */
 $config['view']['grid']['type'] = 'fluid';
 
-/* Fluid settings */
+// Настройки резины
 $config['view']['grid']['fluid_min_width'] = '320px';
 $config['view']['grid']['fluid_max_width'] = '1000px';
 
-/* Fixed settings */
+// Настройки фиксированная ширина
 $config['view']['grid']['fixed_width'] = '1000px';
+
+// Показывать сайдбар на странице топика или нет
+$config['view']['topic_show_sidebar'] = false;
+
+// Показывать баннер с лого и описанием или нет
+$config['view']['layout_show_banner'] = true;
 
 // Подключение скриптов шаблона
 $config['head']['default']['js'] = array_merge(Config::Get('head.default.js'), array(

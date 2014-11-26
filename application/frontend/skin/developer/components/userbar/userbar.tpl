@@ -4,6 +4,12 @@
 
 <div class="userbar">
     <div class="userbar-inner clearfix" style="min-width: {Config::Get('view.grid.fluid_min_width')}; max-width: {Config::Get('view.grid.fluid_max_width')};">
+        {if ! Config::Get( 'view.layout_show_banner' )}
+            <h1 class="userbar-logo">
+                <a href="{router page='/'}">{cfg name='view.name'}</a>
+            </h1>
+        {/if}
+
         <nav class="userbar-nav">
             {if $oUserCurrent}
                 {$items = [

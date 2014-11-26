@@ -28,6 +28,13 @@
     padding: 0;
 }
 
+/* Лого */
+.userbar-logo {
+    float: left;
+    line-height: 54px;
+    margin: 0 25px 0 0;
+}
+
 /**
  * Userbar
  */

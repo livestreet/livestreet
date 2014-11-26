@@ -51,16 +51,18 @@
 	{**
 	 * Шапка
 	 *}
-	<header class="grid-row grid-role-header" role="banner">
-		{hook run='header_banner_begin'}
+	{if Config::Get( 'view.layout_show_banner' )}
+		<header class="grid-row grid-role-header" role="banner">
+			{hook run='header_banner_begin'}
 
-		<div class="site-info">
-			<h1 class="site-name"><a href="{router page='/'}">{cfg name='view.name'}</a></h1>
-			<h2 class="site-description">{cfg name='view.description'}</h2>
-		</div>
+			<div class="site-info">
+				<h1 class="site-name"><a href="{router page='/'}">{cfg name='view.name'}</a></h1>
+				<h2 class="site-description">{cfg name='view.description'}</h2>
+			</div>
 
-		{hook run='header_banner_end'}
-	</header>
+			{hook run='header_banner_end'}
+		</header>
+	{/if}
 
 
 	{**
