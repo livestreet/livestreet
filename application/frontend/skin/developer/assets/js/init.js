@@ -74,7 +74,12 @@ jQuery(document).ready(function($){
 	/**
 	 * Fields
 	 */
-	ls.geo.initSelect();
+	$('.js-field-geo-default').lsFieldGeo({
+		urls: {
+			regions: aRouter.ajax + 'geo/get/regions/',
+			cities: aRouter.ajax + 'geo/get/cities/'
+		}
+	});
 
 	$('.js-date-picker').datepicker();
 
@@ -190,21 +195,21 @@ jQuery(document).ready(function($){
 	/**
 	 * Лента
 	 */
-    // Блоги
-    $('.js-feed-blogs').lsFeedBlogs({
-        urls: {
-            subscribe: aRouter.feed + 'subscribe',
-            unsubscribe: aRouter.feed + 'unsubscribe'
-        }
-    });
+	// Блоги
+	$('.js-feed-blogs').lsFeedBlogs({
+		urls: {
+			subscribe: aRouter.feed + 'subscribe',
+			unsubscribe: aRouter.feed + 'unsubscribe'
+		}
+	});
 
-    // Добавление пользователей в свою ленту
-    $('.js-feed-users').user_list_add({
-        urls: {
-            add: aRouter.feed + 'ajaxadduser',
-            remove: aRouter.feed + 'unsubscribe'
-        }
-    });
+	// Добавление пользователей в свою ленту
+	$('.js-feed-users').user_list_add({
+		urls: {
+			add: aRouter.feed + 'ajaxadduser',
+			remove: aRouter.feed + 'unsubscribe'
+		}
+	});
 
 
 	/**
@@ -239,12 +244,29 @@ jQuery(document).ready(function($){
 				name: 'sort_by',
 				selector: '.js-search-sort-menu li'
 			},
-            {
-                type: 'select',
-                name: 'country',
-                selector: '.js-search-ajax-user-country'
-            }
+			{
+				type: 'select',
+				name: 'country',
+				selector: '.js-search-ajax-user-geo .js-field-geo-country'
+			},
+			{
+				type: 'select',
+				name: 'region',
+				selector: '.js-search-ajax-user-geo .js-field-geo-region'
+			},
+			{
+				type: 'select',
+				name: 'city',
+				selector: '.js-search-ajax-user-geo .js-field-geo-city'
+			}
 		]
+	});
+
+	$('.js-search-ajax-user-geo').lsFieldGeo({
+		urls: {
+			regions: aRouter.ajax + 'geo/get/regions/',
+			cities: aRouter.ajax + 'geo/get/cities/'
+		}
 	});
 
 	// Добавление пользователя в свою активность
@@ -407,11 +429,11 @@ jQuery(document).ready(function($){
 				name: 'type',
 				selector: '.js-search-ajax-blog-type'
 			},
-            {
-                type: 'radio',
-                name: 'relation',
-                selector: '.js-search-ajax-blog-relation'
-            },
+			{
+				type: 'radio',
+				name: 'relation',
+				selector: '.js-search-ajax-blog-relation'
+			},
 			{
 				type: 'list',
 				name: 'category',
@@ -425,22 +447,22 @@ jQuery(document).ready(function($){
 		]
 	});
 
-    // Аватар блога
-    $( '.js-blog-avatar' ).lsPhoto({
-        urls: {
-            upload: aRouter.blog + 'ajax/upload-avatar',
-            remove: aRouter.blog + 'ajax/remove-avatar',
-            crop_photo: aRouter.blog + 'ajax/modal-crop-avatar',
-            save_photo: aRouter.blog + 'ajax/crop-avatar',
-            cancel_photo: aRouter.blog + 'ajax/crop-cancel-avatar'
-        },
-        use_avatar: false,
-        crop_photo: {
-            minSize: [ 500, 500 ],
-            aspectRatio: 1,
-            usePreview: true
-        }
-    });
+	// Аватар блога
+	$( '.js-blog-avatar' ).lsPhoto({
+		urls: {
+			upload: aRouter.blog + 'ajax/upload-avatar',
+			remove: aRouter.blog + 'ajax/remove-avatar',
+			crop_photo: aRouter.blog + 'ajax/modal-crop-avatar',
+			save_photo: aRouter.blog + 'ajax/crop-avatar',
+			cancel_photo: aRouter.blog + 'ajax/crop-cancel-avatar'
+		},
+		use_avatar: false,
+		crop_photo: {
+			minSize: [ 500, 500 ],
+			aspectRatio: 1,
+			usePreview: true
+		}
+	});
 
 
 	/**

@@ -88,6 +88,19 @@ select[multiple].field-input { max-width: 300px; }
 	background-color: #eee;
 }
 
+/**
+ * Geo
+ */
+.field--geo select {
+	width: 100%;
+	max-width: 250px;
+	display: block;
+	margin-top: 10px;
+}
+.field--geo select:first-child {
+	margin-top: 0;
+}
+
 
 /**
  * Group

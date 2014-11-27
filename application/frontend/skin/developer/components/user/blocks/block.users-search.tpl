@@ -32,9 +32,8 @@
 
     {* Страна/город *}
     {include 'components/field/field.geo.tpl'
-        aGeoCountries = $aCountriesUsed
-        inputClasses = 'js-search-ajax-user-country'
-        name   = 'geo'
-        inline = true
-        label  = {lang name='user.settings.profile.fields.place.label'} }
+        classes   = 'js-search-ajax-user-geo'
+        countries = $aCountriesUsed
+        name      = 'geo'
+        label     = {lang name='user.settings.profile.fields.place.label'} }
 {/block}

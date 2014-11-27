@@ -1,87 +1,128 @@
 /**
- * Гео-объекты
- * 
- * @module ls/geo
- * 
+ * Местоположение
+ *
+ * @module ls/field/geo
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
+(function($) {
+    "use strict";
 
-ls.geo = (function ($) {
+    $.widget( "livestreet.lsFieldGeo", {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                regions: null,
+                cities: null
+            },
+            // Селекторы
+            selectors: {
+                country: '.js-field-geo-country',
+                region: '.js-field-geo-region',
+                city: '.js-field-geo-city'
+            }
+        },
 
-	/**
-	 * Инициализация селектов выбора гео-объекта
-	 */
-	this.initSelect = function() {
-		$.each($('.js-geo-select'),function(k,v){
-			$(v).find('.js-geo-country').bind('change',function(e){
-				this.loadRegions($(e.target));
-			}.bind(this));
-			$(v).find('.js-geo-region').bind('change',function(e){
-				this.loadCities($(e.target));
-			}.bind(this));
-		}.bind(this));
-	};
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            var _this = this;
 
-	this.loadRegions = function($country) {
-		$region=$country.parents('.js-geo-select').find('.js-geo-region');
-		$city=$country.parents('.js-geo-select').find('.js-geo-city');
-		$region.empty();
-		$region.append('<option value="">'+ls.lang.get('geo_select_region')+'</option>');
-		$city.empty();
-		$city.hide();
+            this.elements = {
+                country: this.element.find( this.option( 'selectors.country' ) ),
+                region: this.element.find( this.option( 'selectors.region' ) ),
+                city: this.element.find( this.option( 'selectors.city' ) )
+            };
 
-		if (!$country.val()) {
-			$region.hide();
-			return;
-		}
+            this.elements.country.on( 'change' + this.eventNamespace, this._loadRegions.bind( this ) );
+            this.elements.region.on( 'change' + this.eventNamespace, this._loadCities.bind( this ) );
+        },
 
-		var url = aRouter['ajax']+'geo/get/regions/';
-		var params = {country: $country.val()};
-		ls.hook.marker('loadRegionsBefore');
-		ls.ajax.load(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				$.each(result.aRegions,function(k,v){
-					$region.append('<option value="'+v.id+'">'+v.name+'</option>');
-				});
-				$region.show();
-				ls.hook.run('ls_geo_load_regions_after',[$country, result]);
-			}
-		});
-	};
+        /**
+         * Подгрузка регионов
+         */
+        _loadRegions: function() {
+            this.elements.city.empty().hide();
 
-	this.loadCities = function($region) {
-		$city=$region.parents('.js-geo-select').find('.js-geo-city');
-		$city.empty();
-		$city.append('<option value="">'+ls.lang.get('geo_select_city')+'</option>');
+            if ( ! this.elements.country.val() ) {
+                this.elements.region.empty().hide().change();
+                return;
+            }
 
-		if (!$region.val()) {
-			$city.hide();
-			return;
-		}
+            ls.ajax.load( this.option( 'urls.regions' ), { country: this.elements.country.val() }, function( response ) {
+                if ( response.bStateError ) {
+                    ls.msg.error( null, response.sMsg );
+                } else {
+                    this.append( this.elements.region, response.aRegions, ls.lang.get( 'field.geo.select_region' ) );
+                }
+            }.bind( this ));
+        },
 
-		var url = aRouter['ajax']+'geo/get/cities/';
-		var params = {region: $region.val()};
-		ls.hook.marker('loadCitiesBefore');
-		ls.ajax.load(url, params, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				$.each(result.aCities,function(k,v){
-					$city.append('<option value="'+v.id+'">'+v.name+'</option>');
-				});
-				$city.show();
-				ls.hook.run('ls_geo_load_cities_after',[$region, result]);
-			}
-		});
-	};
+        /**
+         * Подгрзука городов
+         */
+        _loadCities: function() {
+            if ( ! this.elements.region.val() ) {
+                this.elements.city.empty().hide().change();
+                return;
+            }
 
+            ls.ajax.load( this.option( 'urls.cities' ), { region: this.elements.region.val() }, function( response ) {
+                if ( response.bStateError ) {
+                    ls.msg.error( null, response.sMsg );
+                } else {
+                    this.append( this.elements.city, response.aCities, ls.lang.get( 'field.geo.select_city' ) );
+                }
+            }.bind( this ));
+        },
 
+        /**
+         * Добавление пунктов в select
+         */
+        append: function( element, items, addText ) {
+            element.empty().show().append( '<option value="">' + addText + '</option>' );
 
-	return this;
-}).call(ls.geo || {},jQuery);
+            $($.map( items, function( value, index ) {
+                return '<option value="' + value.id + '">' + value.name + '</option>';
+            }).join( '' )).appendTo( element );
+        },
+
+        /**
+         * Получает выбранную страну
+         */
+        getCountry: function() {
+            return this.elements.country.val();
+        },
+
+        /**
+         * Получает выбранный регион
+         */
+        getRegion: function() {
+            return this.elements.region.val();
+        },
+
+        /**
+         * Получает выбранный город
+         */
+        getCity: function() {
+            return this.elements.city.val();
+        },
+
+        /**
+         * Получает элемент виджета
+         */
+        getElement: function( name ) {
+            return this.elements[ name ];
+        }
+    });
+})(jQuery);

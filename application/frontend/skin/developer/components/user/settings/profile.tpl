@@ -39,7 +39,6 @@
         {include 'components/field/field.text.tpl'
             name   = 'profile_name'
             rules  = [ 'rangelength' => "[2,{Config::Get('module.user.name_max')}]" ]
-            inline = true
             value  = $user->getProfileName()|escape
             label  = {lang name='user.settings.profile.fields.name.label'}}
 
@@ -53,7 +52,6 @@
 
         {include 'components/field/field.select.tpl'
             name          = 'profile_sex'
-            inline        = true
             label         = {lang name='user.settings.profile.fields.sex.label'}
             items         = $sex
             selectedValue = $user->getProfileSex()}
@@ -63,23 +61,24 @@
         {include 'components/field/field.date.tpl'
             name   = 'profile_birthday'
             items  = $user->getProfileBirthday()
-            inline = true
             label  = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
         {* Местоположение *}
         {include 'components/field/field.geo.tpl'
-            name   = 'geo'
-            inline = true
-            label  = {lang name='user.settings.profile.fields.place.label'}
-            place   = $oGeoTarget}
+            classes   = 'js-field-geo-default'
+            name      = 'geo'
+            label     = {lang name='user.settings.profile.fields.place.label'}
+            countries = $aGeoCountries
+            regions   = $aGeoRegions
+            cities    = $aGeoCities
+            place     = $oGeoTarget}
 
 
         {* О себе *}
         {include 'components/field/field.textarea.tpl'
             name   = 'profile_about'
             rules  = [ 'rangelength' => '[1,3000]' ]
-            inline = true
             rows   = 5
             value  = $user->getProfileAbout()|escape
             label  = {lang name='user.settings.profile.fields.about.label'}}
@@ -91,7 +90,6 @@
         {foreach $userfields as $field}
             {include 'components/field/field.text.tpl'
                 name   = "profile_user_field_`$field->getId()`"
-                inline = true
                 value  = $field->getValue()|escape
                 label  = $field->getTitle()|escape}
         {/foreach}
