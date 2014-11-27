@@ -2,6 +2,7 @@
  * Выбор местоположения
  *
  * @param string $name
+ * @param string $targetType
  * @param object $place
  * @param array  $countries
  * @param array  $regions
@@ -12,6 +13,10 @@
 
 {block 'field_options' append}
     {$_mods = "$_mods geo"}
+
+    {if $smarty.local.targetType}
+        {$_attributes = array_merge( $smarty.local.attributes|default:[], [ 'data-type' => $smarty.local.targetType ] )}
+    {/if}
 {/block}
 
 {block 'field_input'}

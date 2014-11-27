@@ -262,13 +262,6 @@ jQuery(document).ready(function($){
 		]
 	});
 
-	$('.js-search-ajax-user-geo').lsFieldGeo({
-		urls: {
-			regions: aRouter.ajax + 'geo/get/regions/',
-			cities: aRouter.ajax + 'geo/get/cities/'
-		}
-	});
-
 	// Добавление пользователя в свою активность
 	$('.js-user-follow').lsUserFollow({
 		urls: {

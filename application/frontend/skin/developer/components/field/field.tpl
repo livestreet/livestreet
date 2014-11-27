@@ -18,6 +18,7 @@
 	{$_mods = $smarty.local.mods}
 	{$_value = $smarty.local.value}
 	{$_inputClasses = $smarty.local.inputClasses}
+	{$_attributes = $smarty.local.attributes}
 	{$_inputAttributes = $smarty.local.inputAttributes}
 	{$_rules = $smarty.local.rules|default:[]}
 	{$name = $smarty.local.name}
@@ -64,7 +65,7 @@
 
 
 {block 'field'}
-	<div class="{$component} {cmods name=$component mods=$_mods} clearfix {$smarty.local.classes} {block 'field_classes'}{/block}" {cattr list=$smarty.local.attributes}>
+	<div class="{$component} {cmods name=$component mods=$_mods} clearfix {$smarty.local.classes} {block 'field_classes'}{/block}" {cattr list=$_attributes}>
 		{* Лэйбл *}
 		{if $label}
 			<label for="{$_uid}" class="{$component}-label">{$label}</label>

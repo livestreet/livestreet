@@ -1,7 +1,5 @@
 {**
  * Статистика по пользователям
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}
@@ -32,8 +30,9 @@
 
     {* Страна/город *}
     {include 'components/field/field.geo.tpl'
-        classes   = 'js-search-ajax-user-geo'
-        countries = $aCountriesUsed
-        name      = 'geo'
-        label     = {lang name='user.settings.profile.fields.place.label'} }
+        classes    = 'js-field-geo-default'
+        targetType = 'user'
+        countries  = $aCountriesUsed
+        name       = 'geo'
+        label      = {lang name='user.settings.profile.fields.place.label'} }
 {/block}

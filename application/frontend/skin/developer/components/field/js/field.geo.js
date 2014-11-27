@@ -44,6 +44,8 @@
                 city: this.element.find( this.option( 'selectors.city' ) )
             };
 
+            this.type = this.element.data( 'type' );
+
             this.elements.country.on( 'change' + this.eventNamespace, this._loadRegions.bind( this ) );
             this.elements.region.on( 'change' + this.eventNamespace, this._loadCities.bind( this ) );
         },
@@ -59,7 +61,7 @@
                 return;
             }
 
-            ls.ajax.load( this.option( 'urls.regions' ), { country: this.elements.country.val() }, function( response ) {
+            ls.ajax.load( this.option( 'urls.regions' ), { country: this.elements.country.val(), target_type: this.type }, function( response ) {
                 if ( response.bStateError ) {
                     ls.msg.error( null, response.sMsg );
                 } else {
@@ -77,7 +79,7 @@
                 return;
             }
 
-            ls.ajax.load( this.option( 'urls.cities' ), { region: this.elements.region.val() }, function( response ) {
+            ls.ajax.load( this.option( 'urls.cities' ), { region: this.elements.region.val(), target_type: this.type }, function( response ) {
                 if ( response.bStateError ) {
                     ls.msg.error( null, response.sMsg );
                 } else {
