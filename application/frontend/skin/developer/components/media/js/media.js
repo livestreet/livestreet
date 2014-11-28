@@ -115,6 +115,8 @@
 
 			// Табы
 			this.elements.tabs.on( 'lstabactivate', function( event, tab ) {
+				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl', true );
+
 				// Перемещение галереи из одного таба в другой
 				if ( tab.element.hasClass( 'js-tab-show-gallery' ) ) {
 					this.elements.uploader.appendTo( this.element.find( '#' + tab.options.target + ' .js-media-pane-content' ) );
@@ -123,7 +125,8 @@
 				}
 			}.bind( this ));
 
-			this.elements.tabs.filter( '[data-media-name=photoset]' ).on( 'tabactivate', function( event, tab ) {
+			this.elements.tabs.filter( '[data-media-name=photoset]' ).on( 'lstabactivate', function( event, tab ) {
+				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl', false );
 				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'filterFilesByType', [ '1' ] );
 			}.bind( this ));
 
