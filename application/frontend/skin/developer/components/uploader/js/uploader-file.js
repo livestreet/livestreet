@@ -74,7 +74,7 @@
 			var multiselect      = this._getComponent( 'list' ).lsUploaderFileList( 'option', 'multiselect' ),
 				multiselect_ctrl = this._getComponent( 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl' );
 
-			this.toggleActive( ! multiselect || ( multiselect && multiselect_ctrl && ! event.ctrlKey ) );
+			this.toggleActive( ! multiselect || ( multiselect && multiselect_ctrl && ! ( event.ctrlKey || event.metaKey ) ) );
 		},
 
 		/**
