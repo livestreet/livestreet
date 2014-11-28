@@ -414,4 +414,54 @@ class ModuleGeo_MapperGeo extends Mapper
         }
         return $aResult;
     }
+
+    public function GetRegionsUsedByTargetType($iCountryId,$sTargetType)
+    {
+        $sql = "
+			SELECT
+				c.*
+			FROM (
+					SELECT
+						DISTINCT region_id
+					FROM
+						" . Config::Get('db.table.geo_target') . "
+					WHERE target_type = ? and region_id IS NOT NULL
+				) as t
+				JOIN " . Config::Get('db.table.geo_region') . " as c on ( t.region_id=c.id and c.country_id = ? )
+			ORDER BY c.name_ru
+		";
+
+        $aResult = array();
+        if ($aRows = $this->oDb->select($sql, $sTargetType, $iCountryId)) {
+            foreach ($aRows as $aRow) {
+                $aResult[] = Engine::GetEntity('ModuleGeo_EntityRegion', $aRow);
+            }
+        }
+        return $aResult;
+    }
+
+    public function GetCitiesUsedByTargetType($iRegionId,$sTargetType)
+    {
+        $sql = "
+			SELECT
+				c.*
+			FROM (
+					SELECT
+						DISTINCT city_id
+					FROM
+						" . Config::Get('db.table.geo_target') . "
+					WHERE target_type = ? and city_id IS NOT NULL
+				) as t
+				JOIN " . Config::Get('db.table.geo_city') . " as c on ( t.city_id=c.id and c.region_id = ? )
+			ORDER BY c.name_ru
+		";
+
+        $aResult = array();
+        if ($aRows = $this->oDb->select($sql, $sTargetType, $iRegionId)) {
+            foreach ($aRows as $aRow) {
+                $aResult[] = Engine::GetEntity('ModuleGeo_EntityCity', $aRow);
+            }
+        }
+        return $aResult;
+    }
 }

@@ -247,17 +247,17 @@ jQuery(document).ready(function($){
 			{
 				type: 'select',
 				name: 'country',
-				selector: '.js-search-ajax-user-geo .js-field-geo-country'
+				selector: '.js-field-geo-country'
 			},
 			{
 				type: 'select',
 				name: 'region',
-				selector: '.js-search-ajax-user-geo .js-field-geo-region'
+				selector: '.js-field-geo-region'
 			},
 			{
 				type: 'select',
 				name: 'city',
-				selector: '.js-search-ajax-user-geo .js-field-geo-city'
+				selector: '.js-field-geo-city'
 			}
 		]
 	});

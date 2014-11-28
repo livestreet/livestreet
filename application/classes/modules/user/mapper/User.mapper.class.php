@@ -1359,6 +1359,9 @@ class ModuleUser_MapperUser extends Mapper
 					u.user_id
 				FROM
 					" . Config::Get('db.table.user') . " as u
+                    { JOIN " . Config::Get('db.table.geo_target') . " as g ON ( u.user_id=g.target_id and g.country_id = ? ) }
+                    { JOIN " . Config::Get('db.table.geo_target') . " as g ON ( u.user_id=g.target_id and g.region_id = ? ) }
+                    { JOIN " . Config::Get('db.table.geo_target') . " as g ON ( u.user_id=g.target_id and g.city_id = ? ) }
 					LEFT JOIN " . Config::Get('db.table.session') . " as s ON u.user_id=s.user_id
 				WHERE
 					1 = 1
@@ -1377,6 +1380,9 @@ class ModuleUser_MapperUser extends Mapper
 					";
         $aResult = array();
         if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            isset($aFilter['geo_country']) ? $aFilter['geo_country'] : DBSIMPLE_SKIP,
+            isset($aFilter['geo_region']) ? $aFilter['geo_region'] : DBSIMPLE_SKIP,
+            isset($aFilter['geo_city']) ? $aFilter['geo_city'] : DBSIMPLE_SKIP,
             isset($aFilter['date_last_more']) ? $aFilter['date_last_more'] : DBSIMPLE_SKIP,
             isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
             isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,

@@ -480,12 +480,36 @@ class ModuleGeo extends Module
     /**
      * Возвращает список использованых стран для типа
      *
-     * @param $sTargetType  Тип владельца
+     * @param string $sTargetType  Тип владельца
      * @return array
      */
     public function GetCountriesUsedByTargetType($sTargetType)
     {
         return $this->oMapper->GetCountriesUsedByTargetType($sTargetType);
+    }
+
+    /**
+     * Возвращает список использованых регионов для типа
+     *
+     * @param int $iCountryId
+     * @param string $sTargetType  Тип владельца
+     * @return array
+     */
+    public function GetRegionsUsedByTargetType($iCountryId, $sTargetType)
+    {
+        return $this->oMapper->GetRegionsUsedByTargetType($iCountryId, $sTargetType);
+    }
+
+    /**
+     * Возвращает список использованых городов для типа
+     *
+     * @param int $iRegionId
+     * @param string $sTargetType  Тип владельца
+     * @return array
+     */
+    public function GetCitiesUsedByTargetType($iRegionId, $sTargetType)
+    {
+        return $this->oMapper->GetCitiesUsedByTargetType($iRegionId, $sTargetType);
     }
 
     /**

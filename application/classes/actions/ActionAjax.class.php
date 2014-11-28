@@ -168,12 +168,12 @@ class ActionAjax extends Action
     {
         $oViewer = $this->Viewer_GetLocalViewer();
 
-        $oViewer->Assign('usePreview', (bool) getRequest('use_preview'), true);
+        $oViewer->Assign('usePreview', (bool)getRequest('use_preview'), true);
         $oViewer->Assign('image', getRequestStr('image_src'), true);
-        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
-        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
-        $oViewer->Assign('width', (int) getRequest('width'), true);
-        $oViewer->Assign('height', (int) getRequest('height'), true);
+        $oViewer->Assign('originalWidth', (int)getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int)getRequest('original_height'), true);
+        $oViewer->Assign('width', (int)getRequest('width'), true);
+        $oViewer->Assign('height', (int)getRequest('height'), true);
         $oViewer->Assign('title', getRequestStr('title'), true);
         $oViewer->Assign('desc', getRequestStr('desc'), true);
 
@@ -1030,10 +1030,19 @@ class ActionAjax extends Action
         /**
          * Получаем список регионов
          */
-        $aResult = $this->Geo_GetRegions(array('country_id' => $oCountry->getId()), array('sort' => 'asc'), 1, $iLimit);
-        $aRegions = array();
-        foreach ($aResult['collection'] as $oObject) {
-            $aRegions[] = array(
+        if ($sTargetType = getRequestStr('target_type') and $this->Geo_IsAllowTargetType($sTargetType)) {
+            $aRegions = $this->Geo_GetRegionsUsedByTargetType($oCountry->getId(), $sTargetType);
+        } else {
+            $aRegions = $this->Geo_GetRegions(array('country_id' => $oCountry->getId()), array('sort' => 'asc'), 1,
+                $iLimit);
+            $aRegions = $aRegions['collection'];
+        }
+        /**
+         * Формируем ответ
+         */
+        $aReturn = array();
+        foreach ($aRegions as $oObject) {
+            $aReturn[] = array(
                 'id'   => $oObject->getId(),
                 'name' => $oObject->getName(),
             );
@@ -1041,7 +1050,7 @@ class ActionAjax extends Action
         /**
          * Устанавливаем переменные для ajax ответа
          */
-        $this->Viewer_AssignAjax('aRegions', $aRegions);
+        $this->Viewer_AssignAjax('aRegions', $aReturn);
     }
 
     /**
@@ -1063,10 +1072,19 @@ class ActionAjax extends Action
         /**
          * Получаем города
          */
-        $aResult = $this->Geo_GetCities(array('region_id' => $oRegion->getId()), array('sort' => 'asc'), 1, $iLimit);
-        $aCities = array();
-        foreach ($aResult['collection'] as $oObject) {
-            $aCities[] = array(
+        if ($sTargetType = getRequestStr('target_type') and $this->Geo_IsAllowTargetType($sTargetType)) {
+            $aCities = $this->Geo_GetCitiesUsedByTargetType($oRegion->getId(), $sTargetType);
+        } else {
+            $aCities = $this->Geo_GetCities(array('region_id' => $oRegion->getId()), array('sort' => 'asc'), 1,
+                $iLimit);
+            $aCities = $aCities['collection'];
+        }
+        /**
+         * Формируем ответ
+         */
+        $aReturn = array();
+        foreach ($aCities as $oObject) {
+            $aReturn[] = array(
                 'id'   => $oObject->getId(),
                 'name' => $oObject->getName(),
             );
@@ -1074,7 +1092,7 @@ class ActionAjax extends Action
         /**
          * Устанавливаем переменные для ajax ответа
          */
-        $this->Viewer_AssignAjax('aCities', $aCities);
+        $this->Viewer_AssignAjax('aCities', $aReturn);
     }
 
     /**

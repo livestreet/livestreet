@@ -85,11 +85,11 @@ class ActionPeople extends Action
         );
         $sOrderWay = in_array(getRequestStr('order'), array('desc', 'asc')) ? getRequestStr('order') : 'desc';
         $sOrderField = in_array(getRequestStr('sort_by'), array(
-                'user_rating',
-                'user_date_register',
-                'user_login',
-                'user_profile_name'
-            )) ? getRequestStr('sort_by') : 'user_rating';
+            'user_rating',
+            'user_date_register',
+            'user_login',
+            'user_profile_name'
+        )) ? getRequestStr('sort_by') : 'user_rating';
         if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext') > 0) {
             $iPage = getRequestStr('pageNext');
         } else {
@@ -131,6 +131,16 @@ class ActionPeople extends Action
          */
         if (getRequest('is_online')) {
             $aFilter['date_last_more'] = date('Y-m-d H:i:s', time() - Config::Get('module.user.time_onlive'));
+        }
+        /**
+         * Geo привязка
+         */
+        if (getRequestStr('city')) {
+            $aFilter['geo_city'] = getRequestStr('city');
+        } elseif (getRequestStr('region')) {
+            $aFilter['geo_region'] = getRequestStr('region');
+        } elseif (getRequestStr('country')) {
+            $aFilter['geo_country'] = getRequestStr('country');
         }
         /**
          * Ищем пользователей
@@ -182,7 +192,7 @@ class ActionPeople extends Action
         /**
          * Список используемых стран
          */
-        $aCountriesUsed=$this->Geo_GetCountriesUsedByTargetType('user');
+        $aCountriesUsed = $this->Geo_GetCountriesUsedByTargetType('user');
         /**
          * Загружаем переменные в шаблон
          */
