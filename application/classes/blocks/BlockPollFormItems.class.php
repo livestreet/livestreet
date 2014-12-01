@@ -32,6 +32,8 @@ class BlockPollFormItems extends Block
      */
     public function Exec()
     {
+        $this->SetTemplate('components/poll/poll.manage.list.tpl');
+
         $sTargetType = $this->GetParam('target_type');
         $sTargetId = $this->GetParam('target_id');
         $sTargetTmp = empty($_COOKIE['poll_target_tmp_' . $sTargetType]) ? $this->GetParam('target_tmp') : $_COOKIE['poll_target_tmp_' . $sTargetType];
@@ -53,7 +55,5 @@ class BlockPollFormItems extends Block
         $aPollItems = $this->Poll_GetPollItemsByFilter($aFilter);
 
         $this->Viewer_Assign('aPollItems', $aPollItems);
-
-        $this->SetTemplate('components/poll/poll.manage.list.tpl');
     }
 }
