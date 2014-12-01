@@ -93,20 +93,24 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
     /**
      * Получить ленту топиков по подписке
      *
-     * @param $aUserId  Список ID юзеров
-     * @param $aBlogId  Список ID блогов
+     * @param $aUserId array Список ID юзеров
+     * @param $aBlogId array Список ID блогов
+     * @param $aBlogIdClose array Список ID закрытых блогов пользователя блогов
      * @param $iCount
      * @param $iCurrPage
      * @param $iPerPage
      * @return array
      */
-    public function ReadFeed($aUserId, $aBlogId, &$iCount, $iCurrPage, $iPerPage)
+    public function ReadFeed($aUserId, $aBlogId, $aBlogIdClose, &$iCount, $iCurrPage, $iPerPage)
     {
         if (!is_array($aUserId)) {
-            $aUserId=array($aUserId);
+            $aUserId = array($aUserId);
         }
         if (!is_array($aBlogId)) {
-            $aBlogId=array($aBlogId);
+            $aBlogId = array($aBlogId);
+        }
+        if (!is_array($aBlogIdClose)) {
+            $aBlogIdClose = array($aBlogIdClose);
         }
         $sql = "
 							SELECT 		
@@ -117,16 +121,18 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
 							WHERE 
 								t.topic_publish = 1 
 								AND t.blog_id=b.blog_id 
-								AND b.blog_type!='close'
-								AND ( 1=0 { OR t.blog_id IN (?a) } { OR t.user_id IN (?a) } ) 								
+								AND ( b.blog_type!='close' { OR  t.blog_id IN (?a) } )
+								AND ( 1=0 { OR t.blog_id IN (?a) } { OR t.user_id IN (?a) } )
                             ORDER BY t.topic_id DESC	
                             LIMIT ?d, ?d ";
 
         $aTopics = array();
         if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
             count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
             count($aUserId) ? $aUserId : DBSIMPLE_SKIP,
-            ($iCurrPage - 1) * $iPerPage, $iPerPage)) {
+            ($iCurrPage - 1) * $iPerPage, $iPerPage)
+        ) {
             foreach ($aRows as $aTopic) {
                 $aTopics[] = $aTopic['topic_id'];
             }

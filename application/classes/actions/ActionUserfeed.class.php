@@ -119,7 +119,7 @@ class ActionUserfeed extends Action
                 /**
                  * Проверяем существование блога
                  */
-                if (!$this->Blog_GetBlogById(getRequestStr('id'))) {
+                if (!($oBlog=$this->Blog_GetBlogById(getRequestStr('id'))) or !$this->ACL_IsAllowShowBlog($oBlog,$this->oUserCurrent)) {
                     $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
                     return;
                 }

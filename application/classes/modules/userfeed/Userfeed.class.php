@@ -41,6 +41,12 @@ class ModuleUserfeed extends Module
      * @var ModuleUserfeed_MapperUserfeed|null
      */
     protected $oMapper = null;
+    /**
+     * Объект текущего пользователя
+     *
+     * @var ModuleUser_EntityUser|null
+     */
+    protected $oUserCurrent = null;
 
     /**
      * Инициализация модуля
@@ -48,6 +54,7 @@ class ModuleUserfeed extends Module
     public function Init()
     {
         $this->oMapper = Engine::GetMapper(__CLASS__);
+        $this->oUserCurrent = $this->User_GetUserCurrent();
     }
 
     /**
@@ -90,7 +97,17 @@ class ModuleUserfeed extends Module
             $iPerPage = Config::Get('module.userfeed.count_default');
         }
         $aSubscribes = $this->oMapper->getUserSubscribes($iUserId);
-        $aTopicsIds = $this->oMapper->ReadFeed($aSubscribes['users'], $aSubscribes['blogs'], $iCount, $iCurrPage,
+        /**
+         * Добавляем в выдачу закрытые блоги
+         */
+        $aOpenBlogs = array();
+        if ($this->oUserCurrent) {
+            if ($aOpenBlogs = $this->Blog_GetAccessibleBlogsByUser($this->oUserCurrent)) {
+                $aOpenBlogs = array_intersect($aOpenBlogs, $aSubscribes['blogs']);
+            }
+        }
+        $aTopicsIds = $this->oMapper->ReadFeed($aSubscribes['users'], $aSubscribes['blogs'], $aOpenBlogs, $iCount,
+            $iCurrPage,
             $iPerPage);
         return array(
             'collection' => $this->Topic_GetTopicsAdditionalData($aTopicsIds),

@@ -1405,22 +1405,6 @@ class ActionBlog extends Action
         if ($oBlog->getOwnerId() != $this->oUserCurrent->getId() and !$this->oUserCurrent->isAdministrator() and !$bIsAdministratorBlog) {
             return $this->EventErrorDebug();
         }
-        /**
-         * Получаем список пользователей блога (любого статуса)
-         * todo: Это полный АХТУНГ - исправить!
-         */
-        $aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId(
-            $oBlog->getId(),
-            array(
-                ModuleBlog::BLOG_USER_ROLE_BAN,
-                ModuleBlog::BLOG_USER_ROLE_REJECT,
-                ModuleBlog::BLOG_USER_ROLE_INVITE,
-                ModuleBlog::BLOG_USER_ROLE_USER,
-                ModuleBlog::BLOG_USER_ROLE_MODERATOR,
-                ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR
-            ), null // пока костылем
-        );
-        $aBlogUsers = $aBlogUsersResult['collection'];
 
         $aResult = array();
         /**
@@ -1429,18 +1413,6 @@ class ActionBlog extends Action
         foreach ($aUsers as $sUser) {
             $sUser = trim($sUser);
             if ($sUser == '') {
-                continue;
-            }
-            /**
-             * Если пользователь пытается добавить инвайт
-             * самому себе, возвращаем ошибку
-             */
-            if (strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
-                $aResult[] = array(
-                    'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
-                    'sMsg'        => $this->Lang_Get('blog.invite.notices.add_self')
-                );
                 continue;
             }
             /**
@@ -1457,8 +1429,19 @@ class ActionBlog extends Action
                 );
                 continue;
             }
+            /**
+             * Запрещаем отправлять инвайт создателю блога
+             */
+            if ($oUser->getId() == $oBlog->getOwnerId()) {
+                $aResult[] = array(
+                    'bStateError' => true,
+                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsg'        => $this->Lang_Get('blog.invite.notices.add_self')
+                );
+                continue;
+            }
 
-            if (!isset($aBlogUsers[$oUser->getId()])) {
+            if (!($oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId()))) {
                 /**
                  * Создаем нового блог-пользователя со статусом INVITED
                  */
@@ -1498,15 +1481,15 @@ class ActionBlog extends Action
                  * возвращаем ошибку (сначала определяя ее точный текст)
                  */
                 switch (true) {
-                    case ($aBlogUsers[$oUser->getId()]->getUserRole() == ModuleBlog::BLOG_USER_ROLE_INVITE):
+                    case ($oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_INVITE):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.already_invited',
                             array('login' => htmlspecialchars($sUser)));
                         break;
-                    case ($aBlogUsers[$oUser->getId()]->getUserRole() > ModuleBlog::BLOG_USER_ROLE_GUEST):
+                    case ($oBlogUser->getUserRole() > ModuleBlog::BLOG_USER_ROLE_GUEST):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.already_joined',
                             array('login' => htmlspecialchars($sUser)));
                         break;
-                    case ($aBlogUsers[$oUser->getId()]->getUserRole() == ModuleBlog::BLOG_USER_ROLE_REJECT):
+                    case ($oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_REJECT):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.reject',
                             array('login' => htmlspecialchars($sUser)));
                         break;
