@@ -41,20 +41,6 @@ class HookMain extends Hook
     public function InitAction()
     {
         /**
-         * Проверяем наличие директории install
-         */
-        if (is_dir(rtrim(Config::Get('path.application.server'),
-                    '/') . '/install') && (!isset($_SERVER['HTTP_APP_ENV']) or $_SERVER['HTTP_APP_ENV'] != 'test')
-        ) {
-            if (Config::Get('install_completed')) {
-                $this->Message_AddErrorSingle($this->Lang_Get('install_directory_exists'));
-                Router::Action('error');
-            } else {
-                Router::Location(rtrim(str_replace('index.php', '', $_SERVER['PHP_SELF']),
-                        '/\\') . '/application/install/');
-            }
-        }
-        /**
          * Проверка на закрытый режим
          */
         $oUserCurrent = $this->User_GetUserCurrent();
