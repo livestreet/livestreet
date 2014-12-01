@@ -30,10 +30,10 @@
                         {if $user->getId() == $oUserCurrent->getId()}
                             <td colspan="10" class="ta-c">&mdash;</td>
                         {else}
-                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="administrator" {if $user->getIsAdministrator()}checked{/if} /></td>
-                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="moderator" {if $user->getIsModerator()}checked{/if} /></td>
-                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="reader" {if $user->getUserRole() == $BLOG_USER_ROLE_USER}checked{/if} /></td>
-                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="ban" {if $user->getUserRole() == $BLOG_USER_ROLE_BAN}checked{/if} /></td>
+                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="administrator" {if $blogUser->getIsAdministrator()}checked{/if} /></td>
+                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="moderator" {if $blogUser->getIsModerator()}checked{/if} /></td>
+                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="reader" {if $blogUser->getUserRole() == $BLOG_USER_ROLE_USER}checked{/if} /></td>
+                            <td class="ta-c"><input type="radio" name="user_rank[{$user->getId()}]" value="ban" {if $blogUser->getUserRole() == $BLOG_USER_ROLE_BAN}checked{/if} /></td>
                         {/if}
                     </tr>
                 {/foreach}
