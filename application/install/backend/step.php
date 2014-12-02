@@ -7,6 +7,8 @@ abstract class InstallStep
     protected $oTemplate = null;
     protected $sGroup = null;
     protected $aErrors = array();
+    protected $rDbLink = null;
+    protected $aDbParams = array();
 
     public function __construct($sGroup, $aParams = array())
     {
@@ -126,7 +128,7 @@ abstract class InstallStep
         }
     }
 
-    protected function getDBConnection($sHost, $iPort, $sUser, $sPasswd)
+    protected function getDBConnection($sHost, $iPort, $sUser, $sPasswd, $bGeneral = false)
     {
         $oDb = @mysqli_connect($sHost, $sUser, $sPasswd, '', $iPort);
         if ($oDb) {
@@ -137,14 +139,26 @@ abstract class InstallStep
                 return $this->addError(InstallCore::getLang('db.errors.db_version'));
             }
             mysqli_query($oDb, 'set names utf8');
+            if ($bGeneral) {
+                $this->rDbLink = $oDb;
+            }
             return $oDb;
         }
         return $this->addError(InstallCore::getLang('db.errors.db_connect'));
     }
 
-    protected function importDumpDB($oDb, $sFile, $aParams)
+    protected function setDbParams($aParams)
+    {
+        $this->aDbParams = $aParams;
+    }
+
+    protected function importDumpDB($oDb, $sFile, $aParams = null)
     {
         $sFileQuery = @file_get_contents($sFile);
+
+        if (is_null($aParams)) {
+            $aParams = $this->aDbParams;
+        }
 
         if (isset($aParams['prefix'])) {
             $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
@@ -195,6 +209,91 @@ abstract class InstallStep
         }
 
         return array('result' => count($aErrors) ? false : true, 'errors' => $aErrors);
+    }
+
+    protected function dbCheckTable($sTable)
+    {
+        /**
+         * Смотрим, какие таблицы существуют в базе данных
+         */
+        $aDbTables = array();
+        $aResult = @mysqli_query($this->rDbLink, "SHOW TABLES");
+        if (!$aResult) {
+            return false;
+        }
+        while ($aRow = mysqli_fetch_array($aResult, MYSQLI_NUM)) {
+            $aDbTables[] = $aRow[0];
+        }
+        /**
+         * Ищем необходимую таблицу
+         */
+        $aParams = $this->aDbParams;
+        if (isset($aParams['prefix'])) {
+            $sTable = str_replace('prefix_', $aParams['prefix'], $sTable);
+        }
+        if (in_array($sTable, $aDbTables)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function dbQuery($sQuery)
+    {
+        $aParams = $this->aDbParams;
+        if (isset($aParams['prefix'])) {
+            $sQuery = str_replace('prefix_', $aParams['prefix'], $sQuery);
+        }
+        if (isset($aParams['engine'])) {
+            $sQuery = str_ireplace('ENGINE=InnoDB', "ENGINE={$aParams['engine']}", $sQuery);
+        }
+
+        if ($rResult = mysqli_query($this->rDbLink, $sQuery)) {
+            return $rResult;
+        }
+        $aErrors[] = mysqli_error($this->rDbLinkoDb);
+        return false;
+    }
+
+    protected function dbSelect($sQuery)
+    {
+        $aResult = array();
+        if ($rResult = $this->dbQuery($sQuery)) {
+            while ($aRow = mysqli_fetch_assoc($rResult)) {
+                $aResult[] = $aRow;
+            }
+        }
+        return $aResult;
+    }
+
+    protected function dbSelectOne($sQuery)
+    {
+        $aResult = $this->dbSelect($sQuery);
+        if ($aResult) {
+            $aRow = reset($aResult);
+            return $aRow;
+        }
+        return array();
+    }
+
+    protected function dbInsertQuery($sTable, $aFields, $bRun = true)
+    {
+        $aPath = array();
+        foreach ($aFields as $sFields => $sValue) {
+            if (is_int($sValue)) {
+                $aPath[] = "`{$sFields}` = " . $sValue;
+            } else {
+                $aPath[] = "`{$sFields}` = '" . mysqli_escape_string($this->rDbLink, $sValue) . "'";
+            }
+        }
+        $sQuery = "INSERT INTO {$sTable} SET " . join(', ', $aPath);
+        if ($bRun) {
+            if ($this->dbQuery($sQuery)) {
+                return mysqli_insert_id($this->rDbLink);
+            }
+            return false;
+        } else {
+            return $sQuery;
+        }
     }
 
     protected function beforeShow()
