@@ -435,7 +435,7 @@ class ActionAjax extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('oPoll', $oPoll);
         $oViewer->Assign('sTargetTmp', getRequestStr('target_tmp'));
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("modals/modal.poll_create.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/poll/modal.poll-create.tpl"));
     }
 
     /**
