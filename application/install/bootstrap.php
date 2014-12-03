@@ -28,22 +28,38 @@ function install_func_camelize($sStr)
 function install_autoload($sClassName)
 {
     $aPath = explode('_', install_func_underscore($sClassName));
-    if (count($aPath) < 2 or $aPath[0] != 'install') {
-        return;
-    }
-    array_shift($aPath);
-    if ($aPath[0] == 'step' and count($aPath) > 1) {
+    if (count($aPath) >= 2 and $aPath[0] == 'install') {
         array_shift($aPath);
-        $sDir = 'step';
-        $sName = ucfirst(install_func_camelize(join('_', $aPath)));
-        $sName{0} = strtolower($sName{0});
-    } else {
-        $sName = array_pop($aPath);
-        $sDir = join(DIRECTORY_SEPARATOR, $aPath);
+        if ($aPath[0] == 'step' and count($aPath) > 1) {
+            array_shift($aPath);
+            $sDir = 'step';
+            $sName = ucfirst(install_func_camelize(join('_', $aPath)));
+            $sName{0} = strtolower($sName{0});
+        } else {
+            $sName = array_pop($aPath);
+            $sDir = join(DIRECTORY_SEPARATOR, $aPath);
+        }
+        $sPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'backend' . DIRECTORY_SEPARATOR . ($sDir ? $sDir . DIRECTORY_SEPARATOR : '') . $sName . '.php';
+        if (file_exists($sPath)) {
+            require_once($sPath);
+            return true;
+        }
     }
-    $sPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'backend' . DIRECTORY_SEPARATOR . ($sDir ? $sDir . DIRECTORY_SEPARATOR : '') . $sName . '.php';
-    if (file_exists($sPath)) {
-        require_once($sPath);
+    /**
+     * Проверяем соответствие PSR-0 для библиотек фреймворка
+     */
+    $sClassName = ltrim($sClassName, '\\');
+    $sFileName = '';
+    $sNameSpace = '';
+    if ($iLastNsPos = strrpos($sClassName, '\\')) {
+        $sNameSpace = substr($sClassName, 0, $iLastNsPos);
+        $sClassName = substr($sClassName, $iLastNsPos + 1);
+        $sFileName = str_replace('\\', DIRECTORY_SEPARATOR, $sNameSpace) . DIRECTORY_SEPARATOR;
+    }
+    $sFileName .= str_replace('_', DIRECTORY_SEPARATOR, $sClassName) . '.php';
+    $sFileName = dirname(dirname(INSTALL_DIR)) . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $sFileName;
+    if (file_exists($sFileName)) {
+        require_once($sFileName);
         return true;
     }
     return false;
