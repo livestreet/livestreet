@@ -420,6 +420,195 @@ class InstallStepUpdateVersion extends InstallStep
                 }
             }
 
+            /**
+             * Конвертируем аватарки блогов
+             */
+            $iPage = 1;
+            $iLimitCount = 50;
+            $iLimitStart = 0;
+            while ($aBlogs = $this->dbSelect("SELECT * FROM prefix_blog  WHERE blog_avatar <> '' and blog_avatar <> '0' and blog_avatar  IS NOT NULL LIMIT {$iLimitStart},{$iLimitCount}")) {
+                $iPage++;
+                $iLimitStart = ($iPage - 1) * $iLimitCount;
+
+                foreach ($aBlogs as $aBlog) {
+                    $sAvatar = $aBlog['blog_avatar'];
+
+                    if (strpos($sAvatar, 'http') === 0) {
+                        $sAvatar = preg_replace('#_\d{1,3}x\d{1,3}(\.\w{3,5})$#i', '\\1', $sAvatar);
+                        $sFileSource = $this->convertPathWebToServer($sAvatar);
+                        /**
+                         * Формируем список старых изображений для удаления
+                         */
+                        $sMask = pathinfo($sFileSource,
+                                PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($sFileSource,
+                                PATHINFO_FILENAME) . '_*';
+                        $aFilesForRemove = array();
+                        if ($aPaths = glob($sMask)) {
+                            foreach ($aPaths as $sPath) {
+                                $aFilesForRemove[$sPath] = $sPath;
+                            }
+                        }
+
+                        /**
+                         * Ресайзим к новым размерам
+                         */
+                        if ($oImage = $this->createImageObject($sFileSource)) {
+                            if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 500)) {
+                                if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_500x500crop')) {
+                                    unset($aFilesForRemove[$sFileSave]);
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 100)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_100x100crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 64)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_64x64crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 48)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_48x48crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 24)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_24x24crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            /**
+                             * Удаляем старые
+                             */
+                            foreach ($aFilesForRemove as $sFileRemove) {
+                                @unlink($sFileRemove);
+                            }
+                            /**
+                             * Меняем путь до аватара
+                             */
+                            $sAvatar = '[relative]' . str_replace(dirname(dirname(INSTALL_DIR)), '', $sFileSource);
+                            $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
+                            $this->dbQuery("UPDATE prefix_blog SET blog_avatar = '{$sAvatar}' WHERE blog_id ='{$aBlog['blog_id']}'");
+                        }
+                    }
+                }
+            }
+
+            /**
+             * Конвертируем аватарки и фото пользователей
+             */
+            $iPage = 1;
+            $iLimitCount = 50;
+            $iLimitStart = 0;
+            while ($aUsers = $this->dbSelect("SELECT * FROM prefix_user  WHERE (user_profile_foto <> '' and user_profile_foto  IS NOT NULL) or (user_profile_avatar <> '' and user_profile_avatar  IS NOT NULL) LIMIT {$iLimitStart},{$iLimitCount}")) {
+                $iPage++;
+                $iLimitStart = ($iPage - 1) * $iLimitCount;
+
+                foreach ($aUsers as $aUser) {
+                    $sAvatar = $aUser['user_profile_avatar'];
+                    $sPhoto = $aUser['user_profile_foto'];
+
+                    /**
+                     * Аватарки
+                     */
+                    if (strpos($sAvatar, 'http') === 0) {
+                        $sAvatar = preg_replace('#_\d{1,3}x\d{1,3}(\.\w{3,5})$#i', '\\1', $sAvatar);
+                        $sFileSource = $this->convertPathWebToServer($sAvatar);
+                        /**
+                         * Формируем список старых изображений для удаления
+                         */
+                        $sMask = pathinfo($sFileSource,
+                                PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($sFileSource,
+                                PATHINFO_FILENAME) . '_*';
+                        $aFilesForRemove = array();
+                        if ($aPaths = glob($sMask)) {
+                            foreach ($aPaths as $sPath) {
+                                $aFilesForRemove[$sPath] = $sPath;
+                            }
+                        }
+
+                        /**
+                         * Ресайзим к новым размерам
+                         */
+                        if ($oImage = $this->createImageObject($sFileSource)) {
+                            if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 100)) {
+                                if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_100x100crop')) {
+                                    unset($aFilesForRemove[$sFileSave]);
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 64)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_64x64crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 48)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_48x48crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            if ($oImage = $this->createImageObject($sFileSource)) {
+                                if ($this->cropImage($oImage, 1) and $this->resizeImage($oImage, 24)) {
+                                    if ($sFileSave = $this->saveImage($oImage, $sFileSource, '_24x24crop')) {
+                                        unset($aFilesForRemove[$sFileSave]);
+                                    }
+                                }
+                            }
+
+                            /**
+                             * Удаляем старые
+                             */
+                            foreach ($aFilesForRemove as $sFileRemove) {
+                                @unlink($sFileRemove);
+                            }
+                            /**
+                             * Меняем путь до аватара
+                             */
+                            $sAvatar = '[relative]' . str_replace(dirname(dirname(INSTALL_DIR)), '', $sFileSource);
+
+                        }
+                    }
+
+                    /**
+                     * Фото
+                     */
+                    if (strpos($sPhoto, 'http') === 0) {
+                        $sFileSource = $this->convertPathWebToServer($sPhoto);
+                        /**
+                         * Меняем путь до аватара
+                         */
+                        $sPhoto = '[relative]' . str_replace(dirname(dirname(INSTALL_DIR)), '', $sFileSource);
+                    }
+
+                    /**
+                     * Сохраняем в БД
+                     */
+                    $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
+                    $sPhoto = mysqli_escape_string($this->rDbLink, $sPhoto);
+                    $this->dbQuery("UPDATE prefix_user SET user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+                }
+            }
+
             if ($this->getErrors()) {
                 return $this->addError(join('<br/>', $aErrors));
             }

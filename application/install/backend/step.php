@@ -250,7 +250,7 @@ abstract class InstallStep
         if ($rResult = mysqli_query($this->rDbLink, $sQuery)) {
             return $rResult;
         }
-        $aErrors[] = mysqli_error($this->rDbLinkoDb);
+        $aErrors[] = mysqli_error($this->rDbLink);
         return false;
     }
 
