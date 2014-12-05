@@ -10,7 +10,7 @@
 {/block}
 
 {block 'block_content'}
-    {$session = $user->getSession()}
+    {$session = $oUserProfile->getSession()}
 
     {* Статус онлайн\оффлайн *}
     {if $session}
