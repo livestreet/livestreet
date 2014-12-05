@@ -1,14 +1,17 @@
 {**
  * Список сообщений
+ *
+ * @param array $talks
+ * @param array $paging
  *}
 
 {extends 'layouts/layout.user.messages.tpl'}
 
 {block 'layout_options' append}
-	{$bNoSystemMessages = false}
+    {$bNoSystemMessages = false}
 {/block}
 
 {block 'layout_content'}
-	{include 'components/talk/talk-search-form.tpl'}
-	{include 'components/talk/talk-list.tpl' talks=$aTalks selectable=true}
+    {include 'components/talk/talk-search-form.tpl'}
+    {include 'components/talk/talk-list.tpl' talks=$talks paging=$paging selectable=true}
 {/block}

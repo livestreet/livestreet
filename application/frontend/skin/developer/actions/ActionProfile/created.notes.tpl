@@ -1,5 +1,8 @@
 {**
  * Список заметок созданных пользователем
+ *
+ * @param array $notesUsers
+ * @param array $paging
  *}
 
 {extends 'layouts/layout.user.tpl'}
@@ -10,5 +13,5 @@
 
 {block 'layout_content' append}
     {include 'navs/nav.user.created.tpl'}
-    {include 'components/user/user-list.tpl' users=$aUsersList pagination=$aPaging}
+    {include 'components/user/user-list.tpl' users=$notesUsers pagination=$paging}
 {/block}

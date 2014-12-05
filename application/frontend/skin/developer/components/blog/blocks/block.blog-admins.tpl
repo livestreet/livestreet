@@ -14,15 +14,15 @@
 
 {block 'block_content'}
     {* Создатель *}
-    {include 'components/user/user-list-small.tpl' users=[ $oBlog->getOwner() ] title=$aLang.blog.owner}
+    {include 'components/user/user-list-small.tpl' users=[ $blog->getOwner() ] title=$aLang.blog.owner}
 
     {* Администраторы *}
-    {if count($aBlogAdministrators)}
-        {include 'components/user/user-list-small.tpl' users=$aBlogAdministrators title="{$aLang.blog.administrators} ({count($aBlogAdministrators)})"}
+    {if count($blogAdministrators)}
+        {include 'components/user/user-list-small.tpl' users=$blogAdministrators title="{$aLang.blog.administrators} ({count($blogAdministrators)})"}
     {/if}
 
     {* Модераторы *}
-    {if count($aBlogModerators)}
-        {include 'components/user/user-list-small.tpl' users=$aBlogModerators title="{$aLang.blog.moderators} ({count($aBlogModerators)})"}
+    {if count($blogModerators)}
+        {include 'components/user/user-list-small.tpl' users=$blogModerators title="{$aLang.blog.moderators} ({count($blogModerators)})"}
     {/if}
 {/block}

@@ -86,8 +86,8 @@ class ActionUserfeed extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
 
         $this->SetTemplateAction('list');
     }

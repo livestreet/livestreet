@@ -5,13 +5,13 @@
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options'}
-	{$bNoSidebar = true}
+    {$bNoSidebar = true}
 {/block}
 
 {block 'layout_page_title'}
-	{$aLang.auth.login.title}
+    {$aLang.auth.login.title}
 {/block}
 
 {block 'layout_content'}
-	{include 'components/auth/auth.login.tpl' showExtra=true}
+    {include 'components/auth/auth.login.tpl' showExtra=true}
 {/block}

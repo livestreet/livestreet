@@ -1,24 +1,26 @@
 {**
  * Управление пользователями блога
  *
- * @param object oBlogEdit  Блог
- * @param array  aBlogUsers Список пользователей
+ * @param object $blogEdit         Блог
+ * @param array  $blogUsers        Список пользователей блога
+ * @param array  $blogUsersInvited Список приглашенных пользователей, передается в случае если блог закрытый
  *}
 
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options'}
-	{if $oBlogEdit->getType() != 'close'}
-		{$bNoSidebar = true}
-	{/if}
+    {* Показываем сайдбар только для закрытых блогов *}
+    {if $blogEdit->getType() != 'close'}
+        {$bNoSidebar = true}
+    {/if}
 
-	{$sNav = 'blog.edit'}
+    {$sNav = 'blog.edit'}
 {/block}
 
 {block 'layout_page_title'}
-	{$aLang.blog.admin.title}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape}</a>
+    {$aLang.blog.admin.title}: <a href="{$blogEdit->getUrlFull()}">{$blogEdit->getTitle()|escape}</a>
 {/block}
 
 {block 'layout_content'}
-	{include 'components/blog/admin.tpl' users=$aBlogUsers pagination=$aPaging}
+    {include 'components/blog/admin.tpl' users=$blogUsers pagination=$paging}
 {/block}

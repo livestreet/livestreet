@@ -5,11 +5,11 @@
 {extends 'components/block/block.tpl'}
 
 {block 'block_title'}
-    {$iUsersCount = count($aBlogUsers)}
+    {$usersCount = count($blogUsers)}
 
-    <a href="{$oBlog->getUrlFull()}users/">
-        {if $iUsersCount}
-            {$iUsersCount} {$iUsersCount|declension:$aLang.blog.readers_declension:'russian'}
+    <a href="{$blog->getUrlFull()}users/">
+        {if $usersCount}
+            {$usersCount} {$usersCount|declension:$aLang.blog.readers_declension:'russian'}
         {else}
             {$aLang.blog.users.empty}
         {/if}
@@ -21,5 +21,5 @@
 {/block}
 
 {block 'block_content'}
-    {include 'components/user/user-list-avatar.tpl' aUsersList=$aBlogUsers}
+    {include 'components/user/user-list-avatar.tpl' aUsersList=$blogUsers}
 {/block}

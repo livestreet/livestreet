@@ -181,8 +181,8 @@ class ActionBlogs extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign("aBlogs", $aBlogs);
-        $this->Viewer_Assign('iSearchCount', $aResult['count']);
+        $this->Viewer_Assign("blogs", $aBlogs);
+        $this->Viewer_Assign("searchCount", $aResult['count']);
         /**
          * Устанавливаем шаблон вывода
          */

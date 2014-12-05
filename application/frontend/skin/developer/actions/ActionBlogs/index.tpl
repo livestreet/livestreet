@@ -1,5 +1,9 @@
 {**
  * Список блогов
+ *
+ * @param array   $blogs
+ * @param integer $searchCount
+ * @param array   $paging
  *}
 
 {extends 'layouts/layout.base.tpl'}
@@ -25,6 +29,6 @@
         ]}
 
     <div class="js-search-ajax-blog">
-        {include 'components/blog/blog-list.tpl' blogs=$aBlogs useMore=true pagination=$aPaging}
+        {include 'components/blog/blog-list.tpl' blogs=$blogs useMore=true}
     </div>
 {/block}

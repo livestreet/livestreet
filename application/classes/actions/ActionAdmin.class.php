@@ -83,7 +83,7 @@ class ActionAdmin extends Action
          */
         $aPluginsAll = func_list_plugins(true);
         if (in_array('admin', $aPluginsAll)) {
-            $this->Viewer_Assign('bAvailableAdminPlugin', true);
+            $this->Viewer_Assign('availableAdminPlugin', true);
         }
     }
 
@@ -107,7 +107,7 @@ class ActionAdmin extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign("aPlugins", $aPlugins);
+        $this->Viewer_Assign("plugins", $aPlugins);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('admin.plugins.title'));
         /**
          * Устанавливаем шаблон вывода

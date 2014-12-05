@@ -632,7 +632,7 @@ $config['head']['default']['css'] = array(
     "___path.skin.web___/components/info-list/css/info-list.css",
     "___path.skin.web___/components/uploader/css/uploader.css",
     "___path.skin.web___/components/activity/css/activity.css",
-    "___path.skin.web___/components/activity/css/block.activity-recent.css",
+    "___path.skin.web___/components/activity/css/blocks.css",
     "___path.skin.web___/components/block/css/block.css",
     "___path.skin.web___/components/item/css/item.css",
     "___path.skin.web___/components/tags/css/tags-blocks.css",

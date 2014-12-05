@@ -62,7 +62,7 @@
 		 * Отписаться
 		 */
 		unfollow: function() {
-			ls.ajax.load( this.option( 'urls.follow' ), { iUserId: [ this.element.data('id') ] }, this.onUnfollow.bind(this) );
+			ls.ajax.load( this.option( 'urls.unfollow' ), { iUserId: this.element.data('id') }, this.onUnfollow.bind(this) );
 		},
 
 		/**

@@ -332,7 +332,7 @@ class ActionTalk extends Action
     {
         $this->sMenuSubItemSelect = 'blacklist';
         $aUsersBlacklist = $this->Talk_GetBlacklistByUserId($this->oUserCurrent->getId());
-        $this->Viewer_Assign('aUsersBlacklist', $aUsersBlacklist);
+        $this->Viewer_Assign('talkBlacklistUsers', $aUsersBlacklist);
     }
 
     /**
@@ -363,8 +363,8 @@ class ActionTalk extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTalks', $aTalks);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('talks', $aTalks);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('talk.nav.favourites'));
     }
 
@@ -458,9 +458,9 @@ class ActionTalk extends Action
         $this->Talk_UpdateTalkUser($oTalkUser);
 
         $this->Viewer_AddHtmlTitle($oTalk->getTitle());
-        $this->Viewer_Assign('oTalk', $oTalk);
-        $this->Viewer_Assign('aComments', $aComments);
-        $this->Viewer_Assign('iMaxIdComment', $iMaxIdComment);
+        $this->Viewer_Assign('talk', $oTalk);
+        $this->Viewer_Assign('comments', $aComments);
+        $this->Viewer_Assign('lastCommentId', $iMaxIdComment);
         /**
          * Подсчитываем нужно ли отображать комментарии.
          * Комментарии не отображаются, если у вестки только один читатель

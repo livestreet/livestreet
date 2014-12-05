@@ -3,6 +3,7 @@
  *
  * @param array   $talks
  * @param boolean $selectable
+ * @param boolean $paging
  *}
 
 {if $smarty.local.talks}
@@ -123,4 +124,4 @@
 	{include 'components/alert/alert.tpl' text=$aLang.talk.notices.empty mods='empty'}
 {/if}
 
-{include 'components/pagination/pagination.tpl' paging=$aPaging}
+{include 'components/pagination/pagination.tpl' paging=$smarty.local.paging}

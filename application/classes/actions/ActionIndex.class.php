@@ -153,10 +153,10 @@ class ActionIndex extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('sPeriodSelectCurrent', $sPeriod);
-        $this->Viewer_Assign('sPeriodSelectRoot', Router::GetPath('index') . 'top/');
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+        $this->Viewer_Assign('periodSelectRoot', Router::GetPath('index') . 'top/');
         /**
          * Устанавливаем шаблон вывода
          */
@@ -214,10 +214,10 @@ class ActionIndex extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('sPeriodSelectCurrent', $sPeriod);
-        $this->Viewer_Assign('sPeriodSelectRoot', Router::GetPath('index') . 'discussed/');
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+        $this->Viewer_Assign('periodSelectRoot', Router::GetPath('index') . 'discussed/');
         /**
          * Устанавливаем шаблон вывода
          */
@@ -257,8 +257,8 @@ class ActionIndex extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
         /**
          * Устанавливаем шаблон вывода
          */
@@ -298,8 +298,8 @@ class ActionIndex extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
         /**
          * Устанавливаем шаблон вывода
          */
@@ -344,8 +344,8 @@ class ActionIndex extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
         /**
          * Устанавливаем шаблон вывода
          */

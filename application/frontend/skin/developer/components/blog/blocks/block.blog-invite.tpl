@@ -15,7 +15,7 @@
 
 {block 'block_content'}
     {include 'components/blog/invite/invite.tpl'
-        users      = $aBlogUsersInvited
+        users      = $blogUsersInvited
         classes    = 'js-user-list-add-blog-invite'
-        attributes = [ 'data-param-i-target-id' => $oBlogEdit->getId() ]}
+        attributes = [ 'data-param-i-target-id' => $blogEdit->getId() ]}
 {/block}

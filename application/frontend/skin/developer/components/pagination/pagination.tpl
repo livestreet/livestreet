@@ -6,8 +6,6 @@
  * @param string $mods       Список классов-модификаторов
  * @param string $attributes Атрибуты
  *
- * @styles assets/css/components/pagination.css
- *
  * TODO: Сделать универсальные ссылки
  *}
 

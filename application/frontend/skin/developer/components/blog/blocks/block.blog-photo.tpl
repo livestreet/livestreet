@@ -14,10 +14,10 @@
     {include 'components/photo/photo.tpl'
         classes      = 'js-blog-avatar'
         useAvatar    = false
-        hasPhoto     = $oBlog->getAvatar()
-        editable     = $oBlog->isAllowEdit()
-        targetId     = $oBlog->getId()
-        url          = $oBlog->getUrlFull()
-        photoPath    = $oBlog->getAvatarPath(500)
-        photoAltText = $oBlog->getTitle()|escape}
+        hasPhoto     = $blog->getAvatar()
+        editable     = $blog->isAllowEdit()
+        targetId     = $blog->getId()
+        url          = $blog->getUrlFull()
+        photoPath    = $blog->getAvatarPath(500)
+        photoAltText = $blog->getTitle()|escape}
 {/block}

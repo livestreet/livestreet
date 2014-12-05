@@ -3,6 +3,7 @@
  *
  * @param object $talk
  * @param array  $comments
+ * @param array  $lastCommentId
  *}
 
 {$talk = $smarty.local.talk}
@@ -22,13 +23,13 @@
 
     {* Вывод комментариев к сообщению *}
     {include 'components/comment/comments.tpl'
-        comments     = $smarty.local.comments
-        classes      = 'js-comments-talk'
-        attributes   = [ 'id' => 'comments' ]
-        targetId     = $talk->getId()
-        targetType   = 'talk'
-        count        = $talk->getCountComment()
-        dateReadLast = $talk->getTalkUser()->getDateLast()
-        lastCommentId = $iMaxIdComment
-        forbidText   = $aLang.talk.notices.deleted}
+        comments      = $smarty.local.comments
+        classes       = 'js-comments-talk'
+        attributes    = [ 'id' => 'comments' ]
+        targetId      = $talk->getId()
+        targetType    = 'talk'
+        count         = $talk->getCountComment()
+        dateReadLast  = $talk->getTalkUser()->getDateLast()
+        lastCommentId = $smarty.local.lastCommentId
+        forbidText    = $aLang.talk.notices.deleted}
 {/if}

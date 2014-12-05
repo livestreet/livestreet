@@ -196,10 +196,10 @@ class ActionPeople extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aUsers', $aResult['collection']);
-        $this->Viewer_Assign('iSearchCount', $aResult['count']);
-        $this->Viewer_Assign('aPrefixUser', $aPrefixUser);
-        $this->Viewer_Assign('aCountriesUsed', $aCountriesUsed);
+        $this->Viewer_Assign('users', $aResult['collection']);
+        $this->Viewer_Assign('searchCount', $aResult['count']);
+        $this->Viewer_Assign('prefixUser', $aPrefixUser);
+        $this->Viewer_Assign('countriesUsed', $aCountriesUsed);
         /**
          * Устанавливаем шаблон вывода
          */
@@ -219,7 +219,7 @@ class ActionPeople extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aStat', $aStat);
+        $this->Viewer_Assign('usersStat', $aStat);
     }
 
     /**

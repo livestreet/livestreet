@@ -68,9 +68,10 @@
 .nav--pills > li > a + a    { margin-left: 1px; }
 
 /* Stacked */
-.nav.nav--pills.nav--stacked          { margin-bottom: 15px; }
-.nav.nav--pills.nav--stacked > li     { float: none; margin-bottom: 3px; margin-right: 0; }
-.nav.nav--pills.nav--stacked > li > a { float: none; display: block; padding: 7px 45px 7px 12px; }
+.nav.nav--pills.nav--stacked            { margin-bottom: 15px; }
+.nav.nav--pills.nav--stacked:last-child { margin-bottom: 0; }
+.nav.nav--pills.nav--stacked > li       { float: none; margin-bottom: 3px; margin-right: 0; }
+.nav.nav--pills.nav--stacked > li > a   { float: none; display: block; padding: 7px 45px 7px 12px; }
 
 /* Dropdown support */
 .nav.nav--pills .dropdown-toggle:after      { border-top-color: #333; }

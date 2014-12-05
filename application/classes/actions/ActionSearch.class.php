@@ -109,11 +109,11 @@ class ActionSearch extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aResultItems', $aResultItems);
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('sSearchType', $sSearchType);
-        $this->Viewer_Assign('sQuery', $sQuery);
-        $this->Viewer_Assign('aTypeCounts', array($sSearchType => $aResult['count']));
+        $this->Viewer_Assign('resultItems', $aResultItems);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('searchType', $sSearchType);
+        $this->Viewer_Assign('query', $sQuery);
+        $this->Viewer_Assign('typeCounts', array($sSearchType => $aResult['count']));
     }
 
     /**
@@ -163,10 +163,10 @@ class ActionSearch extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aResultItems', $aResultItems);
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('sSearchType', $sSearchType);
-        $this->Viewer_Assign('sQuery', $sQuery);
-        $this->Viewer_Assign('aTypeCounts', array($sSearchType => $aResult['count']));
+        $this->Viewer_Assign('resultItems', $aResultItems);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('searchType', $sSearchType);
+        $this->Viewer_Assign('query', $sQuery);
+        $this->Viewer_Assign('typeCounts', array($sSearchType => $aResult['count']));
     }
 }

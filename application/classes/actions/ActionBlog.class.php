@@ -239,7 +239,7 @@ class ActionBlog extends Action
          * Прогружаем категории блогов
          */
         $aCategories = $this->Blog_GetCategoriesTree();
-        $this->Viewer_Assign('aBlogCategories', $aCategories);
+        $this->Viewer_Assign('blogCategories', $aCategories);
         /**
          * Создаем объект блога
          */
@@ -339,14 +339,14 @@ class ActionBlog extends Action
          * Прогружаем категории блогов
          */
         $aCategories = $this->Blog_GetCategoriesTree();
-        $this->Viewer_Assign('aBlogCategories', $aCategories);
+        $this->Viewer_Assign('blogCategories', $aCategories);
         /**
          * Устанавливаем title страницы
          */
         $this->Viewer_AddHtmlTitle($oBlog->getTitle());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('common.edit'));
 
-        $this->Viewer_Assign('oBlogEdit', $oBlog);
+        $this->Viewer_Assign('blogEdit', $oBlog);
         /**
          * Устанавливаем шалон для вывода
          */
@@ -516,15 +516,15 @@ class ActionBlog extends Action
          */
         $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, Config::Get('module.blog.users_per_page'),
             Config::Get('pagination.pages.count'), Router::GetPath('blog') . "admin/{$oBlog->getId()}");
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('paging', $aPaging);
         /**
          * Устанавливаем title страницы
          */
         $this->Viewer_AddHtmlTitle($oBlog->getTitle());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('blog.admin.title'));
 
-        $this->Viewer_Assign('oBlogEdit', $oBlog);
-        $this->Viewer_Assign('aBlogUsers', $aBlogUsers);
+        $this->Viewer_Assign('blogEdit', $oBlog);
+        $this->Viewer_Assign('blogUsers', $aBlogUsers);
         /**
          * Устанавливаем шалон для вывода
          */
@@ -536,7 +536,7 @@ class ActionBlog extends Action
         if ($oBlog->getType() == 'close') {
             $aBlogUsersInvited = $this->Blog_GetBlogUsersByBlogId($oBlog->getId(), ModuleBlog::BLOG_USER_ROLE_INVITE,
                 null);
-            $this->Viewer_Assign('aBlogUsersInvited', $aBlogUsersInvited['collection']);
+            $this->Viewer_Assign('blogUsersInvited', $aBlogUsersInvited['collection']);
             $this->Viewer_AddBlock('right', 'components/blog/blocks/block.blog-invite.tpl');
         }
     }
@@ -702,11 +702,11 @@ class ActionBlog extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
         if (in_array($sShowType, array('discussed', 'top'))) {
-            $this->Viewer_Assign('sPeriodSelectCurrent', $sPeriod);
-            $this->Viewer_Assign('sPeriodSelectRoot', Router::GetPath('blog') . $sShowType . '/');
+            $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+            $this->Viewer_Assign('periodSelectRoot', Router::GetPath('blog') . $sShowType . '/');
         }
         /**
          * Устанавливаем шаблон вывода
@@ -787,7 +787,7 @@ class ActionBlog extends Action
                 $aPaging['aPagesLeft'] = array_reverse($aPaging['aPagesLeft']);
                 $aPaging['aPagesRight'] = array_reverse($aPaging['aPagesRight']);
             }
-            $this->Viewer_Assign('aPagingCmt', $aPaging);
+            $this->Viewer_Assign('pagingComments', $aPaging);
         }
         /**
          * Отмечаем дату прочтения топика
@@ -815,9 +815,9 @@ class ActionBlog extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('oTopic', $oTopic);
-        $this->Viewer_Assign('aComments', $aComments);
-        $this->Viewer_Assign('iMaxIdComment', $iMaxIdComment);
+        $this->Viewer_Assign('topic', $oTopic);
+        $this->Viewer_Assign('comments', $aComments);
+        $this->Viewer_Assign('lastCommentId', $iMaxIdComment);
         /**
          * Устанавливаем title страницы
          */
@@ -862,7 +862,7 @@ class ActionBlog extends Action
         $aPaging = $this->Viewer_MakePaging($aBlogUsersResult['count'], $iPage,
             Config::Get('module.blog.users_per_page'), Config::Get('pagination.pages.count'),
             $oBlog->getUrlFull() . 'users');
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('paging', $aPaging);
         /**
          * Вызов хуков
          */
@@ -870,9 +870,9 @@ class ActionBlog extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aBlogUsers', $aBlogUsers);
-        $this->Viewer_Assign('iCountBlogUsers', $aBlogUsersResult['count']);
-        $this->Viewer_Assign('oBlog', $oBlog);
+        $this->Viewer_Assign('blogUsers', $aBlogUsers);
+        $this->Viewer_Assign('countBlogUsers', $aBlogUsersResult['count']);
+        $this->Viewer_Assign('blog', $oBlog);
         /**
          * Устанавливаем title страницы
          */
@@ -965,11 +965,11 @@ class ActionBlog extends Action
              */
             $this->iCountTopicsSubNew = $this->Topic_GetCountTopicsByBlogNew($oBlog);
 
-            $this->Viewer_Assign('aPaging', $aPaging);
-            $this->Viewer_Assign('aTopics', $aTopics);
+            $this->Viewer_Assign('paging', $aPaging);
+            $this->Viewer_Assign('topics', $aTopics);
             if (in_array($sShowType, array('discussed', 'top'))) {
-                $this->Viewer_Assign('sPeriodSelectCurrent', $sPeriod);
-                $this->Viewer_Assign('sPeriodSelectRoot', $oBlog->getUrlFull() . $sShowType . '/');
+                $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+                $this->Viewer_Assign('periodSelectRoot', $oBlog->getUrlFull() . $sShowType . '/');
             }
         }
         /**
@@ -996,7 +996,7 @@ class ActionBlog extends Action
             $aBlogs = $this->Blog_GetBlogs();
             unset($aBlogs[$oBlog->getId()]);
 
-            $this->Viewer_Assign('aBlogs', $aBlogs);
+            $this->Viewer_Assign('blogs', $aBlogs);
         }
         /**
          * Вызов хуков
@@ -1005,14 +1005,14 @@ class ActionBlog extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aBlogUsers', $aBlogUsers);
-        $this->Viewer_Assign('aBlogModerators', $aBlogModerators);
-        $this->Viewer_Assign('aBlogAdministrators', $aBlogAdministrators);
-        $this->Viewer_Assign('iCountBlogUsers', $aBlogUsersResult['count']);
-        $this->Viewer_Assign('iCountBlogModerators', $aBlogModeratorsResult['count']);
-        $this->Viewer_Assign('iCountBlogAdministrators', $aBlogAdministratorsResult['count'] + 1);
-        $this->Viewer_Assign('oBlog', $oBlog);
-        $this->Viewer_Assign('bPrivateBlog', $bPrivateBlog);
+        $this->Viewer_Assign('blogUsers', $aBlogUsers);
+        $this->Viewer_Assign('blogModerators', $aBlogModerators);
+        $this->Viewer_Assign('blogAdministrators', $aBlogAdministrators);
+        $this->Viewer_Assign('countBlogUsers', $aBlogUsersResult['count']);
+        $this->Viewer_Assign('countBlogModerators', $aBlogModeratorsResult['count']);
+        $this->Viewer_Assign('countBlogAdministrators', $aBlogAdministratorsResult['count'] + 1);
+        $this->Viewer_Assign('blog', $oBlog);
+        $this->Viewer_Assign('isPrivateBlog', $bPrivateBlog);
         /**
          * Устанавливаем title страницы
          */

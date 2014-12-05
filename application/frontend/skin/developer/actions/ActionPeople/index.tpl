@@ -1,5 +1,11 @@
 {**
  * Список всех пользователей
+ *
+ * @param array   $users
+ * @param integer $searchCount
+ * @param array   $countriesUsed
+ * @param array   $paging
+ * @param array   $usersStat
  *}
 
 {extends 'layouts/layout.base.tpl'}
@@ -21,6 +27,6 @@
         ]}
 
     <div class="js-search-ajax-users">
-        {include 'components/user/user-list.tpl' users=$aUsers useMore=true}
+        {include 'components/user/user-list.tpl' users=$users useMore=true}
     </div>
 {/block}

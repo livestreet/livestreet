@@ -127,8 +127,8 @@ class ActionContent extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTopics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.nav.' . $this->sCurrentEvent));
     }
 
@@ -189,11 +189,11 @@ class ActionContent extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aBlogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
-        $this->Viewer_Assign('oTopicType', $oTopicType);
+        $this->Viewer_Assign('blogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+        $this->Viewer_Assign('topicType', $oTopicType);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.edit'));
 
-        $this->Viewer_Assign('oTopicEdit', $oTopic);
+        $this->Viewer_Assign('topicEdit', $oTopic);
         $this->SetTemplateAction('add');
     }
 
@@ -224,8 +224,8 @@ class ActionContent extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('oTopicType', $oTopicType);
-        $this->Viewer_Assign('aBlogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+        $this->Viewer_Assign('topicType', $oTopicType);
+        $this->Viewer_Assign('blogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
         $this->Viewer_Assign('blogId', $iBlogId);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.add'));
         $this->SetTemplateAction('add');

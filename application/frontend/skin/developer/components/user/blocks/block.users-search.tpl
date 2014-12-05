@@ -32,7 +32,7 @@
     {include 'components/field/field.geo.tpl'
         classes    = 'js-field-geo-default'
         targetType = 'user'
-        countries  = $aCountriesUsed
+        countries  = $countriesUsed
         name       = 'geo'
         label      = {lang name='user.settings.profile.fields.place.label'} }
 {/block}

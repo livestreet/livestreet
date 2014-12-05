@@ -1,26 +1,30 @@
 {**
  * Создание блога
- * TODO: Вынести 'rangelength'  > в конфиг
+ *
+ * @param array  $blogCategories Список категорий блогов
+ * @param object $blogEdit       Блог, передается в случае если блог редактируется
+ *
+ * TODO: Вынести 'rangelength' в конфиг
  *}
 
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options'}
-	{$bNoSidebar = true}
+    {$bNoSidebar = true}
 
-	{if $sEvent == 'edit'}
-		{$sNav = 'blog.edit'}
-	{/if}
+    {if $sEvent == 'edit'}
+        {$sNav = 'blog.edit'}
+    {/if}
 {/block}
 
 {block 'layout_page_title'}
-	{if $sEvent == 'add'}
-		{$aLang.blog.add.title}
-	{else}
-		{$aLang.blog.admin.title}: <a href="{$oBlogEdit->getUrlFull()}">{$oBlogEdit->getTitle()|escape}</a>
-	{/if}
+    {if $sEvent == 'add'}
+        {$aLang.blog.add.title}
+    {else}
+        {$aLang.blog.admin.title}: <a href="{$blogEdit->getUrlFull()}">{$blogEdit->getTitle()|escape}</a>
+    {/if}
 {/block}
 
 {block 'layout_content'}
-	{include 'components/blog/add.tpl' blog=$oBlogEdit}
+    {include 'components/blog/add.tpl' blog=$blogEdit}
 {/block}

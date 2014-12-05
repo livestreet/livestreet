@@ -142,10 +142,10 @@ class ActionPersonalBlog extends Action
          * Загружаем переменные в шаблон
          */
         $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('paging', $aPaging);
         if (in_array($sShowType, array('discussed', 'top'))) {
-            $this->Viewer_Assign('sPeriodSelectCurrent', $sPeriod);
-            $this->Viewer_Assign('sPeriodSelectRoot', Router::GetPath('personal_blog') . $sShowType . '/');
+            $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+            $this->Viewer_Assign('periodSelectRoot', Router::GetPath('personal_blog') . $sShowType . '/');
         }
         /**
          * Устанавливаем шаблон вывода

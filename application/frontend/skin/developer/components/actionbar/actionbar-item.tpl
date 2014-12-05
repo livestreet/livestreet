@@ -6,7 +6,7 @@
  * @param string $url
  * @param string $show
  * @param string $classes
- * @param string $attributes
+ * @param array  $attributes
  *}
 
 {$component = 'actionbar-item'}

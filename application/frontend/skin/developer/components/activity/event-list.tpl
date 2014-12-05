@@ -10,21 +10,21 @@
 {$dateNow = {date_format date=$smarty.now format="Y-m-d" notz=1}}
 
 {foreach $smarty.local.events as $event}
-	{$dateAdded = {date_format date=$event->getDateAdded() format="Y-m-d" notz=1}}
+    {$dateAdded = {date_format date=$event->getDateAdded() format="Y-m-d" notz=1}}
 
-	{* Дата группы событий *}
-	{if $dateAdded != $dateLast}
-		{$dateLast = $dateAdded}
+    {* Дата группы событий *}
+    {if $dateAdded != $dateLast}
+        {$dateLast = $dateAdded}
 
-		<li class="activity-date">
-			{if $dateNow == $dateLast}
-				{$aLang.date.today}
-			{else}
-				{date_format date=$event->getDateAdded() format="j F Y"}
-			{/if}
-		</li>
-	{/if}
+        <li class="activity-date">
+            {if $dateNow == $dateLast}
+                {$aLang.date.today}
+            {else}
+                {date_format date=$event->getDateAdded() format="j F Y"}
+            {/if}
+        </li>
+    {/if}
 
-	{* Событие *}
-	{include './event.tpl' event=$event}
+    {* Событие *}
+    {include './event.tpl' event=$event}
 {/foreach}

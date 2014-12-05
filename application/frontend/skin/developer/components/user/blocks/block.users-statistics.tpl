@@ -1,7 +1,5 @@
 {**
  * Статистика по пользователям
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}
@@ -15,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/user/stat.tpl' stat=$aStat}
+	{include 'components/user/stat.tpl' stat=$usersStat}
 {/block}

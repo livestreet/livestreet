@@ -1,25 +1,28 @@
 {**
- * Создание топика
+ * Создание/редактирование топика
  *
- * @styles css/topic.css
+ * @parama object  $topicEdit
+ * @parama string  $topicType
+ * @parama array   $blogsAllow
+ * @parama integer $blogId
  *}
 
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options'}
-	{if $sEvent == 'add'}
-		{$sNav = 'create'}
-	{/if}
+    {if $sEvent == 'add'}
+        {$sNav = 'create'}
+    {/if}
 {/block}
 
 {block 'layout_page_title'}
-	{if $sEvent == 'add'}
-		{$aLang.topic.add.title.add}
-	{else}
-		{$aLang.topic.add.title.edit}
-	{/if}
+    {if $sEvent == 'add'}
+        {$aLang.topic.add.title.add}
+    {else}
+        {$aLang.topic.add.title.edit}
+    {/if}
 {/block}
 
 {block 'layout_content'}
-	{include 'components/topic/topic-add.tpl' topic=$oTopicEdit type=$oTopicType blogs=$aBlogsAllow blogId=$blogId}
+    {include 'components/topic/topic-add.tpl' topic=$topicEdit type=$topicType blogs=$blogsAllow blogId=$blogId}
 {/block}

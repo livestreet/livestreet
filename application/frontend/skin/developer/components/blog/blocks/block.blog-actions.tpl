@@ -12,8 +12,6 @@
 {/block}
 
 {block 'block_content'}
-    {$blog = $oBlog}
-
     <ul class="profile-actions" id="profile_actions">
         {* Список экшенов *}
         {$actions = []}

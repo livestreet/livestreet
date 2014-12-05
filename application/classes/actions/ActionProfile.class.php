@@ -241,8 +241,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aFriends', $aFriends);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('friends', $aFriends);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.friends.title') . ' ' . $this->oUserProfile->getLogin());
 
         $this->SetTemplateAction('friends');
@@ -283,8 +283,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTopics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.topics'));
         $this->Viewer_SetHtmlRssAlternate(Router::GetPath('rss') . 'personal_blog/' . $this->oUserProfile->getLogin() . '/',
@@ -322,8 +322,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aComments', $aComments);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('comments', $aComments);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.comments'));
         /**
@@ -368,8 +368,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTopics', $aTopics);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.nav.topics'));
@@ -421,9 +421,9 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTopics', $aTopics);
-        $this->Viewer_Assign('sFavouriteTag', htmlspecialchars($sTag));
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('topics', $aTopics);
+        $this->Viewer_Assign('favouriteTag', htmlspecialchars($sTag));
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
         /**
@@ -460,8 +460,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aComments', $aComments);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('comments', $aComments);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.nav.comments'));
@@ -494,12 +494,12 @@ class ActionProfile extends Action
              * Получаем список тех кого пригласил юзер
              */
             $aUsersInvite = $this->User_GetUsersInvite($this->oUserProfile->getId());
-            $this->Viewer_Assign('aUsersInvite', $aUsersInvite);
+            $this->Viewer_Assign('usersInvited', $aUsersInvite);
             /**
              * Получаем того юзера, кто пригласил текущего
              */
             $oUserInviteFrom = $this->User_GetUserInviteFrom($this->oUserProfile->getId());
-            $this->Viewer_Assign('oUserInviteFrom', $oUserInviteFrom);
+            $this->Viewer_Assign('invitedByUser', $oUserInviteFrom);
         }
         /**
          * Получаем список юзеров блога
@@ -520,11 +520,11 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aBlogUsers', $aBlogUsers);
-        $this->Viewer_Assign('aBlogModerators', $aBlogModerators);
-        $this->Viewer_Assign('aBlogAdministrators', $aBlogAdministrators);
-        $this->Viewer_Assign('aBlogsOwner', $aBlogsOwner);
-        $this->Viewer_Assign('aUsersFriend', $aUsersFriend['collection']);
+        $this->Viewer_Assign('blogsJoined', $aBlogUsers);
+        $this->Viewer_Assign('blogsModerate', $aBlogModerators);
+        $this->Viewer_Assign('blogsAdminister', $aBlogAdministrators);
+        $this->Viewer_Assign('blogsCreated', $aBlogsOwner);
+        $this->Viewer_Assign('userFriends', $aUsersFriend['collection']);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title')); // TODO: i18n
         /**
@@ -540,21 +540,6 @@ class ActionProfile extends Action
     {
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
-        }
-        /**
-         * Получаем записи стены
-         */
-
-        $aWall = $this->Wall_GetWall(array('wall_user_id' => $this->oUserProfile->getId(), 'pid' => null),
-            array('id' => 'desc'), 1, Config::Get('module.wall.per_page'));
-        $aPosts = $aWall['collection'];
-
-        $this->Viewer_Assign('aWall', $aPosts);
-        $this->Viewer_Assign('iCountWall', $aWall['count']);
-
-        if (count($aPosts)) {
-            $oPostLast = end($aPosts);
-            $this->Viewer_Assign('iWallLastId', $oPostLast->getId());
         }
         /**
          * Устанавливаем шаблон вывода
@@ -655,8 +640,8 @@ class ActionProfile extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aUsersList', $aNotes);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('notesUsers', $aNotes);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.publications.nav.notes'));
         /**

@@ -10,13 +10,15 @@
 {/block}
 
 {block 'block_content'}
+    {$session = $user->getSession()}
+
     {* Статус онлайн\оффлайн *}
-    {if $oSession}
-        {if $oUserProfile->isOnline() &&  $smarty.now - strtotime($oSession->getDateLast()) < 60*5}
+    {if $session}
+        {if $oUserProfile->isOnline() &&  $smarty.now - strtotime($session->getDateLast()) < 60*5}
             <div class="user-status user-status--online">{$aLang.user.status.online}</div>
         {else}
             <div class="user-status user-status--offline">
-                {$date = {date_format date=$oSession->getDateLast() hours_back="12" minutes_back="60" day_back="8" now="60*5" day="day H:i" format="j F в G:i"}|lower}
+                {$date = {date_format date=$session->getDateLast() hours_back="12" minutes_back="60" day_back="8" now="60*5" day="day H:i" format="j F в G:i"}|lower}
 
                 {if $oUserProfile->getProfileSex() != 'woman'}
                     {lang 'user.status.was_online_male' date=$date}

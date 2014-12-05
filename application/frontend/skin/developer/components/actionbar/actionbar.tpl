@@ -4,7 +4,7 @@
  * @param array  $items Массив с кнопками
  * @param string $mods
  * @param string $classes
- * @param string $attributes
+ * @param array  $attributes
  *}
 
 {$component = 'actionbar'}

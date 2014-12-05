@@ -1,17 +1,20 @@
 {**
  * Настраиваемая, персональная страница активности
+ *
+ * @param array   $activityEvents
+ * @param integer $activityEventsAllCount
  *}
 
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options'}
-	{$sNav = 'activity'}
+    {$sNav = 'activity'}
 {/block}
 
 {block 'layout_page_title'}
-	{$aLang.activity.title}
+    {$aLang.activity.title}
 {/block}
 
 {block 'layout_content'}
-	{include 'components/activity/activity.tpl' events=$activityEvents count=$activityEventsAllCount classes='js-activity--personal'}
+    {include 'components/activity/activity.tpl' events=$activityEvents count=$activityEventsAllCount classes='js-activity--personal'}
 {/block}

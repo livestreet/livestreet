@@ -1,7 +1,5 @@
 {**
  * Основные настройки профиля
- *
- * @scripts <framework>/js/livestreet/userfield.js
  *}
 
 {extends 'layouts/layout.user.settings.tpl'}
