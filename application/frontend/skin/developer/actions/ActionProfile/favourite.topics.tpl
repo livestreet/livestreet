@@ -3,6 +3,7 @@
  *
  * @param array $topics
  * @param array $paging
+ * @param array $activeFavouriteTag
  *}
 
 {extends 'layouts/layout.user.tpl'}
@@ -16,7 +17,10 @@
 
     {* Блок с тегами избранного *}
     {if $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId()}
-        {insert name='block' block='tagsFavouriteTopic' params={$aBlockParams.user=$oUserProfile}}
+        {insert name='block' block='tagsFavouriteTopic' params=[
+            'user' => $oUserProfile,
+            'activeTag' => $activeFavouriteTag
+        ]}
     {/if}
 
     {include 'components/topic/topic-list.tpl' topics=$topics paging=$paging}

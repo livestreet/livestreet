@@ -50,7 +50,7 @@
 			};
 
 			// Подгрузка событий
-			this.elements.more.more({
+			this.elements.more.lsMore({
 				url: this.option( 'urls.more' ),
 				target: this.elements.list,
 				beforeload: function (e, context) {

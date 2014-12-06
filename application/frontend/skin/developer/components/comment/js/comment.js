@@ -176,7 +176,7 @@
 
 			// Голосование за комментарий
 			this.element.find('.js-vote-comment').livequery(function () {
-				$(this).vote({
+				$(this).lsVote({
 					urls: {
 						vote: aRouter['ajax'] + 'vote/comment/'
 					}

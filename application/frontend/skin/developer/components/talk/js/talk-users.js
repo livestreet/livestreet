@@ -1,7 +1,7 @@
 /**
  * Добавление / удаление пользователей из личных сообщений
  *
- * @module message_users
+ * @module ls/talk/users
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.message_users", $.livestreet.user_list_add, {
+	$.widget( "livestreet.lsTalkUsers", $.livestreet.lsUserListAdd, {
 		/**
 		 * Дефолтные опции
 		 */

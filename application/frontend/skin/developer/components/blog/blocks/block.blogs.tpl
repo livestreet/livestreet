@@ -1,5 +1,5 @@
 {**
- * Блок со списоком блогов
+ * Блок со списком блогов
  *}
 
 {extends 'components/block/block.tpl'}

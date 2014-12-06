@@ -14,13 +14,6 @@ ls.talk = (function ($) {
 	"use strict";
 
 	/**
-	 * Дефолтные опции
-	 */
-	var defaults = {
-
-	};
-
-	/**
 	 * Инициализация
 	 *
 	 * @param  {Object} options Опции

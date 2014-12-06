@@ -1,6 +1,6 @@
 <!doctype html>
 
-{block 'layout_options'}{/block}
+{block 'layout_options' append}{/block}
 
 {$sRTL = ( Config::Get('view.rtl') ) ? 'dir="rtl"' : ''}
 {$sLang = Config::Get('lang.current')}

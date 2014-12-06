@@ -40,18 +40,6 @@ class BlockTagsFavouriteTopic extends Block
                 $oUser = $oUserCurrent;
             }
             /**
-             * Получаем список тегов
-             */
-            $aTags = $this->Favourite_GetGroupTags($oUser->getId(), 'topic', null, 70);
-            /**
-             * Расчитываем логарифмическое облако тегов
-             */
-            $this->Tools_MakeCloud($aTags);
-            /**
-             * Устанавливаем шаблон вывода
-             */
-            $this->Viewer_Assign("aFavouriteTopicTags", $aTags);
-            /**
              * Получаем список тегов пользователя
              */
             $aTags = $this->Favourite_GetGroupTags($oUser->getId(), 'topic', true, 70);
@@ -62,8 +50,9 @@ class BlockTagsFavouriteTopic extends Block
             /**
              * Устанавливаем шаблон вывода
              */
-            $this->Viewer_Assign("aFavouriteTopicUserTags", $aTags);
-            $this->Viewer_Assign("oFavouriteUser", $oUser);
+            $this->Viewer_Assign("tags", $aTags, true);
+            $this->Viewer_Assign("user", $oUser, true);
+            $this->Viewer_Assign("activeTag", $this->getParam('activeTag'), true);
 
             $this->SetTemplate('components/tags-favourite/tags-cloud.tpl');
         }

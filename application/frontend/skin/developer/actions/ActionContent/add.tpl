@@ -9,7 +9,7 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options'}
+{block 'layout_options' append}
     {if $sEvent == 'add'}
         {$sNav = 'create'}
     {/if}

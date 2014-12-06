@@ -1,7 +1,7 @@
 /**
  * Подгрузка контента
  *
- * @module more
+ * @module ls/more
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.more", {
+	$.widget( "livestreet.lsMore", {
 		/**
 		 * Дефолтные опции
 		 */

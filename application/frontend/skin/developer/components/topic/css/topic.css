@@ -34,8 +34,9 @@
 /**
  * Содержимое топика
  */
-.article-content      { margin-bottom: 20px; }
-.article-content.text { color: #333; font-size: 15px; line-height: 1.6em; }
+.article-content   { margin-bottom: 20px; }
+.article-text.text { color: #333; font-size: 15px; line-height: 1.6em; }
+.article-cut       { margin-top: 10px; }
 
 
 /**

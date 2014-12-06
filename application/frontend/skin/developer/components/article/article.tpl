@@ -74,22 +74,24 @@
 		 * Текст
 		 *}
 		{block 'article_body'}
-			<div class="{$component}-content text">
-				{block 'article_content_text'}
-					{if $isList}
-						{$article->getTextShort()}
-
-						{* Кат *}
-						{if $article->getTextShort() != $article->getText()}
-	                        <br/>
-	                        <a href="{$article->getUrl()}#cut" title="{$aLang.topic.read_more}">
-								{$article->getCutText()|default:$aLang.topic.read_more}
-	                        </a>
+			<div class="{$component}-content">
+				<div class="{$component}-text text">
+					{block 'article_content_text'}
+						{if $isList}
+							{$article->getTextShort()}
+						{else}
+							{$article->getText()}
 						{/if}
-					{else}
-						{$article->getText()}
-					{/if}
-				{/block}
+					{/block}
+				</div>
+
+				{* Кат *}
+				{if $article->getTextShort() != $article->getText()}
+					{include 'components/button/button.tpl'
+						classes = "{$component}-cut"
+						url     = "{$article->getUrl()}#cut"
+						text    = "{$article->getCutText()|default:$aLang.topic.read_more}"}
+				{/if}
 			</div>
 		{/block}
 

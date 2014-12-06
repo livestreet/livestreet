@@ -7,8 +7,8 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options'}
-    {$bNoSidebar = true}
+{block 'layout_options' append}
+    {$layoutShowSidebar = false}
     {$sNav = 'create'}
 {/block}
 

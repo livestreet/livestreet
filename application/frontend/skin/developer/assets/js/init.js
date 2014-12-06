@@ -84,7 +84,7 @@ jQuery(document).ready(function($){
 	$('.js-date-picker').datepicker();
 
 	$('[data-type=captcha]').livequery(function () {
-		$(this).captcha();
+		$(this).lsCaptcha();
 	});
 
 
@@ -97,9 +97,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Tooltips
 	 */
-	$('.js-tooltip').tooltip();
+	$('.js-tooltip').lsTooltip();
 
-	$('.js-popover-default').tooltip({
+	$('.js-popover-default').lsTooltip({
 		useAttrTitle: false,
 		trigger: 'click',
 		classes: 'tooltip-light'
@@ -107,7 +107,7 @@ jQuery(document).ready(function($){
 
 	if (ls.registry.get('block_stream_show_tip')) {
 		$('.js-title-comment, .js-title-topic').livequery(function () {
-			$(this).tooltip({
+			$(this).lsTooltip({
 				position: {
 					my: "right center",
 					at: "left left"
@@ -182,7 +182,7 @@ jQuery(document).ready(function($){
 			});
 
 			// Добавление пользователей в персональную активность
-			$('.js-activity-users').user_list_add({
+			$('.js-activity-users').lsUserListAdd({
 				urls: {
 					add: aRouter.stream + 'ajaxadduser',
 					remove: aRouter.stream + 'ajaxremoveuser'
@@ -204,7 +204,7 @@ jQuery(document).ready(function($){
 	});
 
 	// Добавление пользователей в свою ленту
-	$('.js-feed-users').user_list_add({
+	$('.js-feed-users').lsUserListAdd({
 		urls: {
 			add: aRouter.feed + 'ajaxadduser',
 			remove: aRouter.feed + 'unsubscribe'
@@ -341,11 +341,11 @@ jQuery(document).ready(function($){
 		}
 	});
 
-	// Добавление участников личного сообщения
-	$('.js-message-users').message_users();
+	// Управление участниками личного сообщения
+	$('.js-message-users').lsTalkUsers();
 
 	// Черный список
-	$('.js-user-list-add-blacklist').user_list_add({
+	$('.js-user-list-add-blacklist').lsUserListAdd({
 		urls: {
 			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
 			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
@@ -382,7 +382,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Blog
 	 */
-	ls.blog.init();
+
+	// Форма добавления блога
+	$('.js-blog-add').lsBlogAdd();
 
 	// Приглашение пользователей в блог
 	$('.js-user-list-add-blog-invite').lsBlogInvites();
@@ -545,7 +547,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
-	$('.js-toolbar').toolbar({
+	$('.js-toolbar').lsToolbar({
 		target: '.grid-role-wrapper',
 		offsetX: 10
 	});

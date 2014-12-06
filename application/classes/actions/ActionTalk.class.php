@@ -210,8 +210,8 @@ class ActionTalk extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aTalks', $aTalks);
+        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('talks', $aTalks);
     }
 
     /**

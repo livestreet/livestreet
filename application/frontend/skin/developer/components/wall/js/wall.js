@@ -63,7 +63,7 @@
 			this.userId = this.getUserId();
 
 			// Подгрузка новых постов
-			this.elements.more.more({
+			this.elements.more.lsMore({
 				url: this.option( 'urls.load' ),
 				params: {
 					user_id: this.getUserId()
@@ -72,7 +72,7 @@
 
 			// Подгрузка комментариев
 			this.elements.more_comments.livequery( function () {
-				$( this ).more({
+				$( this ).lsMore({
 					url: _this.option( 'urls.load_comments' ),
 					params: {
 						user_id: _this.getUserId()

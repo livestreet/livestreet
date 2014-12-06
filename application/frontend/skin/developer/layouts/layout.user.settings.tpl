@@ -4,7 +4,7 @@
 
 {extends './layout.user.tpl'}
 
-{block 'layout_options'}
+{block 'layout_options' append}
 	{$sNav = 'settings'}
 {/block}
 

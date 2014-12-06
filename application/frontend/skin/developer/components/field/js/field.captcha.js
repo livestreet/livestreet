@@ -1,7 +1,7 @@
 /**
  * Captcha
  *
- * @module captcha
+ * @module ls/captcha
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -11,13 +11,13 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.captcha", {
+    $.widget( "livestreet.lsCaptcha", {
         /**
          * Дефолтные опции
          */
         options: {
             name: '',
-			url: aRouter.ajax + 'captcha/'
+            url: aRouter.ajax + 'captcha/'
         },
 
         /**
@@ -27,25 +27,25 @@
          * @private
          */
         _create: function() {
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'captcha'));
+            this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'captcha'));
 
             this._on({ click: this.update });
 
             this.update();
         },
 
-		/**
-		 * Получает url каптчи
-		 */
-		getUrl: function () {
-			return this.options.url + '?security_ls_key=' + LIVESTREET_SECURITY_KEY + '&n=' + Math.random() + '&name=' + this.options.name;
-		},
+        /**
+         * Получает url каптчи
+         */
+        getUrl: function () {
+            return this.options.url + '?security_ls_key=' + LIVESTREET_SECURITY_KEY + '&n=' + Math.random() + '&name=' + this.options.name;
+        },
 
-		/**
-		 * Обновляет каптчу
-		 */
-		update: function () {
-			this.element.css('background-image', 'url(' + this.getUrl() + ')');
-		}
+        /**
+         * Обновляет каптчу
+         */
+        update: function () {
+            this.element.css('background-image', 'url(' + this.getUrl() + ')');
+        }
     });
 })(jQuery);

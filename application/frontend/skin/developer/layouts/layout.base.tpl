@@ -4,6 +4,10 @@
 
 {extends 'components/layout/layout.tpl'}
 
+{block 'layout_options' append}
+	{$layoutShowSidebar = $layoutShowSidebar|default:true}
+{/block}
+
 {block 'layout_head_styles' append}
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 {/block}
@@ -76,7 +80,7 @@
 	{**
 	 * Основной контэйнер
 	 *}
-	<div id="container" class="grid-row grid-role-container {hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
+	<div id="container" class="grid-row grid-role-container {hook run='container_class'} {if ! $layoutShowSidebar}no-sidebar{/if}">
 		{* Вспомогательный контейнер-обертка *}
 		<div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
 			{**
@@ -131,7 +135,7 @@
 			{**
 			 * Сайдбар
 			 *}
-			{if ! $bNoSidebar}
+			{if $layoutShowSidebar}
 				<aside class="grid-col grid-col-4 grid-role-sidebar" role="complementary">
 					{include 'blocks.tpl' group='right'}
 				</aside>

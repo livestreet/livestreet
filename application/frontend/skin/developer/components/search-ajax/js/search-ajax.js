@@ -53,7 +53,7 @@
 
             // Кнопка подгрузки
             this.elements.more.livequery(function () {
-                $( this ).more({
+                $( this ).lsMore({
                     url: _this.option( 'urls.search' ),
                     result: 'sText', // тут лучше на дефолтный sHtml заменить
                     beforeload: function ( event, context ) {

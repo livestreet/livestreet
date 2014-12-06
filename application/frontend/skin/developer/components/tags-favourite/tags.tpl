@@ -1,7 +1,5 @@
 {**
  * Список тегов
- *
- * @styles css/common.css
  *}
 
 {extends 'components/tags/tags.tpl'}

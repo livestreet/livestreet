@@ -8,7 +8,7 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options'}
+{block 'layout_options' append}
     {$sMenuHeadItemSelect = 'blogs'}
 {/block}
 

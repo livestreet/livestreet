@@ -1,7 +1,5 @@
 {**
  * Выбор пользователей для чтения в ленте
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}
@@ -15,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/feed/users.tpl' users=$users}
+	{include '../users.tpl' users=$users}
 {/block}

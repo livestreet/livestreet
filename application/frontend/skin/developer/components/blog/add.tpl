@@ -6,7 +6,7 @@
 
 {$blog = $smarty.local.blog}
 
-<form method="post" enctype="multipart/form-data" class="js-form-validate">
+<form method="post" enctype="multipart/form-data" class="js-blog-add js-form-validate">
     {hook run='form_add_blog_begin'}
 
     {* Название блога *}
@@ -35,6 +35,7 @@
         name          = 'blog_type'
         label         = $aLang.blog.add.fields.type.label
         note          = $aLang.blog.add.fields.type.note_open
+        classes       = 'js-blog-add-field-type'
         inputClasses  = 'width-200 js-blog-add-type'
         selectedValue = $_aRequest.blog_type
         items         = [

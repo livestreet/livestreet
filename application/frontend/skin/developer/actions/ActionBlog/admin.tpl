@@ -8,10 +8,10 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options'}
+{block 'layout_options' append}
     {* Показываем сайдбар только для закрытых блогов *}
     {if $blogEdit->getType() != 'close'}
-        {$bNoSidebar = true}
+        {$layoutShowSidebar = false}
     {/if}
 
     {$sNav = 'blog.edit'}

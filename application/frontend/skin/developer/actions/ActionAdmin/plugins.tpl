@@ -4,16 +4,14 @@
  * @param array $plugins Список плагинов
  *}
 
-{extends 'layouts/layout.base.tpl'}
+{extends 'layouts/layout.admin.tpl'}
 
-{block 'layout_options'}
-    {$bNoSidebar = true}
+{block 'layout_options' append}
+    {$layoutShowSidebar = false}
 {/block}
 
-{block 'layout_page_title'}
-    <a href="{router page='admin'}">{lang name='admin.title'}</a>
-    <span>&raquo;</span>
-    {lang name='admin.items.plugins'}
+{block 'layout_admin_page_title'}
+    {lang 'admin.items.plugins'}
 {/block}
 
 {block 'layout_content'}

@@ -423,7 +423,7 @@ class ActionProfile extends Action
          */
         $this->Viewer_Assign('paging', $aPaging);
         $this->Viewer_Assign('topics', $aTopics);
-        $this->Viewer_Assign('favouriteTag', htmlspecialchars($sTag));
+        $this->Viewer_Assign('activeFavouriteTag', htmlspecialchars($sTag));
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.profile.title') . ' ' . $this->oUserProfile->getLogin());
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.favourites.title'));
         /**

@@ -1,7 +1,5 @@
 {**
  * Выбор блогов для чтения в ленте
- *
- * @styles css/blocks.css
  *}
 
 {extends 'components/block/block.tpl'}
@@ -15,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/feed/blogs.tpl' blogsJoined=$blogsJoined blogsSubscribed=$blogsSubscribed}
+	{include '../blogs.tpl' blogsJoined=$blogsJoined blogsSubscribed=$blogsSubscribed}
 {/block}

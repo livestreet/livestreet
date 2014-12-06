@@ -1,5 +1,5 @@
 {**
- * Статистика по пользователям
+ * Фильтр блогов
  *}
 
 {extends 'components/block/block.tpl'}

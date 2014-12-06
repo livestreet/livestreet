@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsBlogInvites", $.livestreet.user_list_add, {
+    $.widget( "livestreet.lsBlogInvites", $.livestreet.lsUserListAdd, {
         /**
          * Дефолтные опции
          */

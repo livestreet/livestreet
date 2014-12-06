@@ -12,7 +12,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.vote", {
+	$.widget( "livestreet.lsVote", {
 		/**
 		 * Дефолтные опции
 		 */
@@ -79,7 +79,7 @@
 			if ( ! this.element.hasClass(this.options.classes.voted) ) {
 				this._on( this.elements.items, {
 					'click': function (e) {
-						_this.vote( $(e.currentTarget).data('vote-value') );
+						_this.lsVote( $(e.currentTarget).data('vote-value') );
 						e.preventDefault();
 					}
 				});
@@ -124,7 +124,7 @@
 					this.elements.items.removeAttr('title');
 
 					// Иниц-ия тултипа
-					this.info().tooltip('show');
+					this.info().lsTooltip('show');
 				}
 			}.bind(this));
 		},
@@ -137,7 +137,7 @@
 		info: function () {
 			if ( ! this.options.urls.info ) return $();
 
-			return this.element.tooltip($.extend({}, {
+			return this.element.lsTooltip($.extend({}, {
 				ajax: {
 					url: this.options.urls.info,
 					params: this.options.params

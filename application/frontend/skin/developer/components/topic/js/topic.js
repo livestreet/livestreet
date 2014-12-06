@@ -37,7 +37,7 @@
             this.element.find( this.option( 'selectors.favourite' ) ).lsTopicFavourite();
 
             // Голосование за топик
-            this.element.find( this.option( 'selectors.vote' ) ).vote({
+            this.element.find( this.option( 'selectors.vote' ) ).lsVote({
                 urls: {
                     vote: aRouter.ajax + 'vote/topic/',
                     info: aRouter.ajax + 'vote/get/info/topic'

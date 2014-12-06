@@ -1,7 +1,7 @@
 /**
  * Пополняемый список пользователей
  *
- * @module ls/user_list_add
+ * @module ls/user-list-add
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.user_list_add", {
+	$.widget( "livestreet.lsUserListAdd", {
 		/**
 		 * Дефолтные опции
 		 */

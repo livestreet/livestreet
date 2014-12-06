@@ -17,7 +17,7 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options'}
+{block 'layout_options' append}
     {$sNav = 'topics.sub'}
 {/block}
 
