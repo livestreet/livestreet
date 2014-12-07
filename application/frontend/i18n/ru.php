@@ -1365,7 +1365,7 @@ return array(
                     'password_confirm' => array(
                         'label'   => '___auth.registration.form.fields.password_confirm.label___',
                         'notices' => array(
-                            'confirm_error' => 'Пароли не совпадают',
+                            'error' => 'Пароли не совпадают',
                         )
                     ),
                 ),
