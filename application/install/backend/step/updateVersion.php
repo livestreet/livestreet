@@ -510,6 +510,7 @@ class InstallStepUpdateVersion extends InstallStep
 
             /**
              * Конвертируем аватарки и фото пользователей
+             * Дополнительно добавляем роль для прав
              */
             $iPage = 1;
             $iLimitCount = 50;
@@ -601,6 +602,21 @@ class InstallStepUpdateVersion extends InstallStep
                     }
 
                     /**
+                     * Права
+                     */
+                    if (!$this->dbSelectOne("SELECT * FROM prefix_rbac_role_user WHERE user_id = '{$aUser['user_id']}' and role_id = 2 ")) {
+                        /**
+                         * Добавляем
+                         */
+                        $aFields = array(
+                            'user_id'     => $aUser['user_id'],
+                            'role_id'        => 2,
+                            'date_create' => date("Y-m-d H:i:s"),
+                        );
+                        $this->dbInsertQuery('prefix_rbac_role_user', $aFields);
+                    }
+
+                    /**
                      * Сохраняем в БД
                      */
                     $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
@@ -608,6 +624,7 @@ class InstallStepUpdateVersion extends InstallStep
                     $this->dbQuery("UPDATE prefix_user SET user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
                 }
             }
+
 
             if ($this->getErrors()) {
                 return $this->addError(join('<br/>', $aErrors));

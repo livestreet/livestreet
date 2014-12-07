@@ -314,12 +314,6 @@ CREATE TABLE IF NOT EXISTS `prefix_rbac_role` (
   KEY `code` (`code`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `prefix_rbac_role`
---
-
-INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES
-(1, NULL, 'guest', 'Гость', '2014-01-27 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -655,8 +649,6 @@ ADD INDEX ( `group_id` );
 ALTER TABLE `prefix_rbac_group` ADD `date_create` DATETIME NOT NULL ;
 RENAME TABLE `prefix_rbac_user_role` TO `prefix_rbac_role_user`;
 
-INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES (NULL, NULL, 'guest', 'Гость', '2014-08-22 00:00:00', '1'), (NULL, NULL, 'user', 'Пользователь', '2014-08-22 00:00:00', '1');
-
 
 -- 14.09.2014
 
@@ -684,18 +676,65 @@ CREATE TABLE IF NOT EXISTS `prefix_plugin_version` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
--- 07.10.2014
+-- 07.12.2014
 
-INSERT INTO `prefix_rbac_permission` (`code`, `plugin`, `title`, `msg_error`, `date_create`, `state`) VALUES
-('create_topic', '', 'rbac.permission.create_topic.title', 'rbac.permission.create_topic.error', '2014-08-31 07:59:56', 1),
-('create_blog', '', 'rbac.permission.create_blog.title', 'rbac.permission.create_blog.error', '2014-10-02 16:08:54', 1),
-('create_topic_comment', '', 'rbac.permission.create_topic_comment.title', 'rbac.permission.create_topic_comment.error', '2014-10-05 11:02:31', 1),
-('create_talk', '', 'rbac.permission.create_talk.title', 'rbac.permission.create_talk.error', '2014-10-05 11:54:22', 1),
-('create_talk_comment', '', 'rbac.permission.create_talk_comment.title', 'rbac.permission.create_talk_comment.error', '2014-10-05 14:08:15', 1),
-('vote_comment', '', 'rbac.permission.vote_comment.title', 'rbac.permission.vote_comment.error', '2014-10-05 14:31:29', 1),
-('vote_blog', '', 'rbac.permission.vote_blog.title', 'rbac.permission.vote_blog.error', '2014-10-05 16:51:53', 1),
-('vote_topic', '', 'rbac.permission.vote_topic.title', 'rbac.permission.vote_topic.error', '2014-10-05 17:22:56', 1),
-('vote_user', '', 'rbac.permission.vote_user.title', 'rbac.permission.vote_user.error', '2014-10-05 17:27:19', 1),
-('create_invite', '', 'rbac.permission.create_invite.title', 'rbac.permission.create_invite.error', '2014-10-05 17:28:46', 1),
-('create_comment_favourite', '', 'rbac.permission.create_comment_favourite.title', 'rbac.permission.create_comment_favourite.error', '2014-10-05 17:56:23', 1),
-('remove_topic', '', 'rbac.permission.remove_topic.title', 'rbac.permission.remove_topic.error', '2014-10-05 18:06:09', 1);
+--
+-- Дамп данных таблицы `prefix_rbac_group`
+--
+
+INSERT INTO `prefix_rbac_group` (`id`, `code`, `title`, `date_create`) VALUES
+(1, 'topic', 'Топики', '2014-12-07 07:51:14'),
+(2, 'blog', 'Блоги', '2014-12-07 07:51:41'),
+(3, 'comment', 'Комментарии', '2014-12-07 07:52:01'),
+(4, 'user', 'Пользователи', '2014-12-07 07:52:18');
+
+--
+-- Дамп данных таблицы `prefix_rbac_permission`
+--
+
+INSERT INTO `prefix_rbac_permission` (`id`, `group_id`, `code`, `plugin`, `title`, `msg_error`, `date_create`, `state`) VALUES
+(1, 1, 'create_topic', '', 'rbac.permission.create_topic.title', 'rbac.permission.create_topic.error', '2014-08-31 07:59:56', 1),
+(2, 2, 'create_blog', '', 'rbac.permission.create_blog.title', 'rbac.permission.create_blog.error', '2014-10-02 16:08:54', 1),
+(3, 1, 'create_topic_comment', '', 'rbac.permission.create_topic_comment.title', 'rbac.permission.create_topic_comment.error', '2014-10-05 11:02:31', 1),
+(4, 4, 'create_talk', '', 'rbac.permission.create_talk.title', 'rbac.permission.create_talk.error', '2014-10-05 11:54:22', 1),
+(5, 4, 'create_talk_comment', '', 'rbac.permission.create_talk_comment.title', 'rbac.permission.create_talk_comment.error', '2014-10-05 14:08:15', 1),
+(6, 3, 'vote_comment', '', 'rbac.permission.vote_comment.title', 'rbac.permission.vote_comment.error', '2014-10-05 14:31:29', 1),
+(7, 2, 'vote_blog', '', 'rbac.permission.vote_blog.title', 'rbac.permission.vote_blog.error', '2014-10-05 16:51:53', 1),
+(8, 1, 'vote_topic', '', 'rbac.permission.vote_topic.title', 'rbac.permission.vote_topic.error', '2014-10-05 17:22:56', 1),
+(9, 4, 'vote_user', '', 'rbac.permission.vote_user.title', 'rbac.permission.vote_user.error', '2014-10-05 17:27:19', 1),
+(10, 4, 'create_invite', '', 'rbac.permission.create_invite.title', 'rbac.permission.create_invite.error', '2014-10-05 17:28:46', 1),
+(11, 3, 'create_comment_favourite', '', 'rbac.permission.create_comment_favourite.title', 'rbac.permission.create_comment_favourite.error', '2014-10-05 17:56:23', 1),
+(12, 1, 'remove_topic', '', 'rbac.permission.remove_topic.title', 'rbac.permission.remove_topic.error', '2014-10-05 18:06:09', 1);
+
+--
+-- Дамп данных таблицы `prefix_rbac_role`
+--
+
+INSERT INTO `prefix_rbac_role` (`id`, `pid`, `code`, `title`, `date_create`, `state`) VALUES
+(1, NULL, 'guest', 'Гость', '2014-08-22 00:00:00', 1),
+(2, NULL, 'user', 'Пользователь', '2014-08-22 00:00:00', 1);
+
+--
+-- Дамп данных таблицы `prefix_rbac_role_permission`
+--
+
+INSERT INTO `prefix_rbac_role_permission` (`id`, `role_id`, `permission_id`, `date_create`) VALUES
+(1, 2, 2, '2014-12-07 08:03:38'),
+(2, 2, 7, '2014-12-07 08:03:44'),
+(3, 2, 11, '2014-12-07 08:03:47'),
+(4, 2, 6, '2014-12-07 08:03:49'),
+(5, 2, 10, '2014-12-07 08:03:52'),
+(6, 2, 4, '2014-12-07 08:03:55'),
+(7, 2, 5, '2014-12-07 08:03:59'),
+(8, 2, 9, '2014-12-07 08:04:02'),
+(9, 2, 1, '2014-12-07 08:04:09'),
+(10, 2, 3, '2014-12-07 08:04:11'),
+(11, 2, 12, '2014-12-07 08:04:15'),
+(12, 2, 8, '2014-12-07 08:04:17');
+
+--
+-- Дамп данных таблицы `prefix_rbac_role_user`
+--
+
+INSERT INTO `prefix_rbac_role_user` (`id`, `user_id`, `role_id`, `date_create`) VALUES
+(1, 1, 2, '2014-12-07 08:06:11');
