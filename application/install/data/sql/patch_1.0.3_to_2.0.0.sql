@@ -213,12 +213,6 @@ CREATE TABLE IF NOT EXISTS `prefix_topic_type` (
   KEY `state` (`state`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `prefix_topic_type`
---
-INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remove`, `date_create`, `state`, `params`) VALUES
-(1, 'Топик', 'Топики', 'topic', 0, '2014-01-11 00:00:00', 1, NULL);
-
 -- 12.01.2014
 ALTER TABLE `prefix_topic_type` ADD `sort` INT NOT NULL DEFAULT '0' AFTER `state` ,
 ADD INDEX ( `sort` ) ;
@@ -738,3 +732,11 @@ INSERT INTO `prefix_rbac_role_permission` (`id`, `role_id`, `permission_id`, `da
 
 INSERT INTO `prefix_rbac_role_user` (`id`, `user_id`, `role_id`, `date_create`) VALUES
 (1, 1, 2, '2014-12-07 08:06:11');
+
+
+--
+-- Дамп данных таблицы `prefix_topic_type`
+--
+
+INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remove`, `date_create`, `state`, `sort`, `params`) VALUES
+(1, 'Топик', 'Топики', 'topic', 0, '2014-01-11 00:00:00', 1, 0, 'a:3:{s:10:"allow_poll";b:1;s:10:"allow_text";b:1;s:10:"allow_tags";b:1;}');
