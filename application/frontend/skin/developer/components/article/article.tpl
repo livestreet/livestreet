@@ -86,7 +86,7 @@
 				</div>
 
 				{* Кат *}
-				{if $article->getTextShort() != $article->getText()}
+				{if $isList && $article->getTextShort() != $article->getText()}
 					{include 'components/button/button.tpl'
 						classes = "{$component}-cut"
 						url     = "{$article->getUrl()}#cut"

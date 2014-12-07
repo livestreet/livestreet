@@ -10,7 +10,7 @@
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options' append}
-    {$layouShowSidebar = Config::Get( 'view.topic_show_sidebar' )}
+    {$layoutShowSidebar = Config::Get( 'view.topic_show_sidebar' )}
 {/block}
 
 {block 'layout_content'}

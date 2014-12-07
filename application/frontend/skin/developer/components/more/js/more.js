@@ -39,7 +39,7 @@
 		 * @private
 		 */
 		_create: function () {
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, this.widgetName));
+			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'more'));
 			this.options.proxy = $.extend({}, this.options.proxy, ls.utils.getDataOptions(this.element, 'proxy'));
 
 			this.target = $( this.options.target );

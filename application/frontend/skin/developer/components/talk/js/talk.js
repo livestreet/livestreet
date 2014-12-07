@@ -21,8 +21,6 @@ ls.talk = (function ($) {
 	this.init = function(options) {
 		var _this = this;
 
-		this.options = $.extend({}, defaults, options);
-
 		this.elements = {
 			form: $('#talk-form'),
 			form_action: $('#talk-form-action')

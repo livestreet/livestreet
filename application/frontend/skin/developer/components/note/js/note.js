@@ -46,7 +46,7 @@
 		_create: function () {
 			var _this = this;
 
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, this.widgetName));
+			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'note'));
 
 			// Получаем аякс параметры
 			this.params = ls.utils.getDataOptions(this.element, 'param');
