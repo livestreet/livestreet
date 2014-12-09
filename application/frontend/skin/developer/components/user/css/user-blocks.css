@@ -74,3 +74,10 @@
     background: #fafafa;
     color: #333;
 }
+.nav.nav--pills.nav--stacked.user-nav > li.active a {
+    background: #2891D3;
+    color: #fff;
+}
+.nav.nav--pills.nav--stacked.user-nav > li.active .badge {
+    background: #2379B0;
+}

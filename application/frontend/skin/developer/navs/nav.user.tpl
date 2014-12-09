@@ -1,6 +1,5 @@
 {**
  * Навигация на странице пользователя
- * TODO: В бекенде проставить sMenuProfileItemSelect
  *}
 
 {include 'components/nav/nav.tpl' name='user' activeItem=$sMenuProfileItemSelect mods='pills stacked' classes='user-nav' hookParams=[ 'oUserProfile' => $oUserProfile ] items=[

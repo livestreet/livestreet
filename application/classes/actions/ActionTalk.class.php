@@ -34,6 +34,12 @@ class ActionTalk extends Action
      */
     protected $oUserCurrent = null;
     /**
+     * Меню профиля пользователя
+     *
+     * @var string
+     */
+    protected $sMenuProfileItemSelect = 'talk';
+    /**
      * Подменю
      *
      * @var string
@@ -1276,6 +1282,7 @@ class ActionTalk extends Action
         $this->Viewer_Assign('iCountFavourite', $iCountCommentFavourite + $iCountTopicFavourite);
         $this->Viewer_Assign('iCountFriendsUser', $this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
 
+        $this->Viewer_Assign('sMenuProfileItemSelect', $this->sMenuProfileItemSelect);
         $this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
         /**
          * Передаем во вьевер константы состояний участников разговора

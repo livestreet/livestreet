@@ -34,6 +34,12 @@ class ActionSettings extends Action
      */
     protected $sMenuItemSelect = 'settings';
     /**
+     * Меню профиля пользователя
+     *
+     * @var string
+     */
+    protected $sMenuProfileItemSelect = 'settings';
+    /**
      * Какое подменю активно
      *
      * @var string
@@ -750,6 +756,7 @@ class ActionSettings extends Action
          * Загружаем в шаблон необходимые переменные
          */
         $this->Viewer_Assign('sMenuItemSelect', $this->sMenuItemSelect);
+        $this->Viewer_Assign('sMenuProfileItemSelect', $this->sMenuProfileItemSelect);
         $this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
 
         $this->Hook_Run('action_shutdown_settings');

@@ -40,6 +40,12 @@ class ActionProfile extends Action
      */
     protected $sMenuHeadItemSelect = 'people';
     /**
+     * Меню профиля пользователя
+     *
+     * @var string
+     */
+    protected $sMenuProfileItemSelect = '';
+    /**
      * Субменю
      *
      * @var string
@@ -208,6 +214,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'activity';
 
         $this->Viewer_Assign('activityEvents', $this->Stream_ReadByUserId($this->oUserProfile->getId()));
         $this->Viewer_Assign('activityEventsAllCount', $this->Stream_GetCountByUserId($this->oUserProfile->getId()));
@@ -223,6 +230,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'friends';
         /**
          * Передан ли номер страницы
          */
@@ -256,6 +264,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'created';
         $this->sMenuSubItemSelect = 'topics';
         /**
          * Передан ли номер страницы
@@ -303,6 +312,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'created';
         $this->sMenuSubItemSelect = 'comments';
         /**
          * Передан ли номер страницы
@@ -341,6 +351,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'favourites';
         $this->sMenuSubItemSelect = 'topics';
         /**
          * Передан ли номер страницы
@@ -393,6 +404,7 @@ class ActionProfile extends Action
         if (!$this->oUserCurrent or $this->oUserProfile->getId() != $this->oUserCurrent->getId()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'favourites';
         $this->sMenuSubItemSelect = 'topics';
         $sTag = $this->GetParamEventMatch(3, 0);
         /*
@@ -441,6 +453,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'favourites';
         $this->sMenuSubItemSelect = 'comments';
         /**
          * Передан ли номер страницы
@@ -480,6 +493,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'whois';
         $this->sMenuSubItemSelect = 'main';
         /**
          * Получаем список друзей
@@ -541,6 +555,7 @@ class ActionProfile extends Action
         if (!$this->CheckUserProfile()) {
             return parent::EventNotFound();
         }
+        $this->sMenuProfileItemSelect = 'wall';
         /**
          * Устанавливаем шаблон вывода
          */
@@ -616,6 +631,7 @@ class ActionProfile extends Action
             return parent::EventNotFound();
         }
         $this->sMenuSubItemSelect = 'notes';
+        $this->sMenuProfileItemSelect = 'created';
         /**
          * Заметки может читать только сам пользователь
          */
@@ -1271,6 +1287,7 @@ class ActionProfile extends Action
 
         $this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
         $this->Viewer_Assign('sMenuHeadItemSelect', $this->sMenuHeadItemSelect);
+        $this->Viewer_Assign('sMenuProfileItemSelect', $this->sMenuProfileItemSelect);
         $this->Viewer_Assign('USER_FRIEND_NULL', ModuleUser::USER_FRIEND_NULL);
         $this->Viewer_Assign('USER_FRIEND_OFFER', ModuleUser::USER_FRIEND_OFFER);
         $this->Viewer_Assign('USER_FRIEND_ACCEPT', ModuleUser::USER_FRIEND_ACCEPT);
