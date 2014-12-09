@@ -80,6 +80,21 @@ class InstallStepUpdateVersion extends InstallStep
         )));
         if ($bResult) {
             /**
+             * Проверяем необходимость конвертировать таблицу плагина Page
+             */
+            if ($this->dbCheckTable("prefix_page")) {
+                $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_page_1.3_to_2.0.sql';
+                list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile),
+                array(
+                    'engine'            => InstallConfig::get('db.tables.engine'),
+                    'prefix'            => InstallConfig::get('db.table.prefix'),
+                    'check_table_field' => array('prefix_page', 'id')
+                )));
+                if (!$bResult) {
+                    return $this->addError(join('<br/>', $aErrors));
+                }
+            }
+            /**
              * Конвертируем опросы
              * Сначала проверяем необходимость конвертации опросов
              */
@@ -603,7 +618,7 @@ class InstallStepUpdateVersion extends InstallStep
                          */
                         $aFields = array(
                             'user_id'     => $aUser['user_id'],
-                            'role_id'        => 2,
+                            'role_id'     => 2,
                             'date_create' => date("Y-m-d H:i:s"),
                         );
                         $this->dbInsertQuery('prefix_rbac_role_user', $aFields);

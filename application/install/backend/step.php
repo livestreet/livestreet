@@ -168,25 +168,47 @@ abstract class InstallStep
          * Массив для сбора ошибок
          */
         $aErrors = array();
-        /**
-         * Смотрим, какие таблицы существуют в базе данных
-         */
-        $aDbTables = array();
-        $aResult = @mysqli_query($oDb, "SHOW TABLES");
-        if (!$aResult) {
-            return array(
-                'result' => false,
-                'errors' => array($this->addError(InstallCore::getLang('db.errors.db_query')))
-            );
+
+        if (isset($aParams['check_table'])) {
+            /**
+             * Смотрим, какие таблицы существуют в базе данных
+             */
+            $aDbTables = array();
+            $aResult = @mysqli_query($oDb, "SHOW TABLES");
+            if (!$aResult) {
+                return array(
+                    'result' => false,
+                    'errors' => array($this->addError(InstallCore::getLang('db.errors.db_query')))
+                );
+            }
+            while ($aRow = mysqli_fetch_array($aResult, MYSQLI_NUM)) {
+                $aDbTables[] = $aRow[0];
+            }
+            /**
+             * Если среди таблиц БД уже есть нужная таблица, то выполнять SQL-дамп не нужно
+             */
+            if (in_array($aParams['prefix'] . $aParams['check_table'], $aDbTables)) {
+                return array('result' => true, 'errors' => array());
+            }
         }
-        while ($aRow = mysqli_fetch_array($aResult, MYSQLI_NUM)) {
-            $aDbTables[] = $aRow[0];
-        }
         /**
-         * Если среди таблиц БД уже есть нужная таблица, то выполнять SQL-дамп не нужно
+         * Проверка на существование поля
          */
-        if (in_array($aParams['prefix'] . $aParams['check_table'], $aDbTables)) {
-            return array('result' => true, 'errors' => array());
+        if (isset($aParams['check_table_field'])) {
+            list($sCheckTable, $sCheckField) = $aParams['check_table_field'];
+            $sCheckTable = str_replace('prefix_', $aParams['prefix'], $sCheckTable);
+            $aResult = @mysqli_query($oDb, "SHOW FIELDS FROM `{$sCheckTable}`");
+            if (!$aResult) {
+                return array(
+                    'result' => false,
+                    'errors' => array($this->addError(InstallCore::getLang('db.errors.db_query')))
+                );
+            }
+            while ($aRow = mysqli_fetch_assoc($aResult)) {
+                if ($aRow['Field'] == $sCheckField) {
+                    return array('result' => true, 'errors' => array());
+                }
+            }
         }
         /**
          * Выполняем запросы по очереди
