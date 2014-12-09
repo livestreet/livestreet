@@ -1887,14 +1887,14 @@ class ActionAjax extends Action
         if ($this->Comment_UpdateComment($oComment)) {
             $oViewerLocal = $this->Viewer_GetLocalViewer();
             $oViewerLocal->Assign('oUserCurrent', $this->oUserCurrent);
-            $oViewerLocal->Assign('bOneComment', true, true);
+            $oViewerLocal->Assign('oneComment', true, true);
 
             if ($oComment->getTargetType() == 'topic') {
-                $oViewerLocal->Assign('bShowFavourite', true, true);
-                $oViewerLocal->Assign('bShowVote', true, true);
+                $oViewerLocal->Assign('useFavourite', true, true);
+                $oViewerLocal->Assign('useVote', true, true);
             }
 
-            $oViewerLocal->Assign('oComment', $oComment, true);
+            $oViewerLocal->Assign('comment', $oComment, true);
             $sHtml = $oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oComment->getTargetId(),
                 $oComment->getTargetType()));
             $this->Viewer_AssignAjax('sHtml', $sHtml);
