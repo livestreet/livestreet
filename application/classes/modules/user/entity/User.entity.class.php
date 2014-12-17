@@ -150,6 +150,16 @@ class ModuleUser_EntityUser extends Entity
     }
 
     /**
+     * Возвращает флаг админа
+     *
+     * @return int|null
+     */
+    public function getAdmin()
+    {
+        return $this->_getDataOne('user_admin');
+    }
+
+    /**
      * Возвращает дату регистрации
      *
      * @return string|null
@@ -515,7 +525,7 @@ class ModuleUser_EntityUser extends Entity
      */
     public function isAdministrator()
     {
-        return $this->_getDataOne('user_is_administrator');
+        return $this->getAdmin();
     }
 
     /**
@@ -629,6 +639,16 @@ class ModuleUser_EntityUser extends Entity
     public function setMail($data)
     {
         $this->_aData['user_mail'] = $data;
+    }
+
+    /**
+     * Устанавливает флаг админа
+     *
+     * @param string $data
+     */
+    public function setAdmin($data)
+    {
+        $this->_aData['user_admin'] = $data;
     }
 
     /**

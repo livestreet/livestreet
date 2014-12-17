@@ -25,7 +25,7 @@ class InstallStepInstallAdmin extends InstallStep
             return $this->addError(InstallCore::getLang('steps.installAdmin.errors.passwd'));
         }
         /**
-         * Полчаем данные коннекта к БД из конфига
+         * Получаем данные коннекта к БД из конфига
          */
         InstallConfig::$sFileConfig = dirname(INSTALL_DIR) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.local.php';
         /**
@@ -50,6 +50,7 @@ class InstallStepInstallAdmin extends InstallStep
 			UPDATE `{$sPrefix}user`
 			SET
 				`user_mail`	 = '{$sMail}',
+				`user_admin`	 = '1',
 				`user_password` = '" . md5($sPasswd) . "'
 			WHERE `user_id` = 1";
 

@@ -520,6 +520,17 @@ class InstallStepUpdateVersion extends InstallStep
              * Конвертируем аватарки и фото пользователей
              * Дополнительно добавляем роль для прав
              */
+            /**
+             * Получаем текущий список админов
+             */
+            $aUserAdmin=array();
+            if ($this->dbCheckTable("prefix_user_administrator")) {
+                if ($aAdmins = $this->dbSelect("SELECT * FROM prefix_user_administrator ")) {
+                    foreach ($aAdmins as $aRow) {
+                        $aUserAdmin[]=$aRow['user_id'];
+                    }
+                }
+            }
             $iPage = 1;
             $iLimitCount = 50;
             $iLimitStart = 0;
@@ -633,11 +644,26 @@ class InstallStepUpdateVersion extends InstallStep
                     }
 
                     /**
+                     * Админы
+                     */
+                    $isAdmin=0;
+                    if (in_array($aUser['user_id'],$aUserAdmin) or $aUser['user_admin']) {
+                        $isAdmin=1;
+                    }
+
+                    /**
                      * Сохраняем в БД
                      */
                     $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
                     $sPhoto = mysqli_escape_string($this->rDbLink, $sPhoto);
-                    $this->dbQuery("UPDATE prefix_user SET user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+                    $this->dbQuery("UPDATE prefix_user SET user_admin = '{$isAdmin}' , user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+
+                    /**
+                     * Удаляем таблицы
+                     */
+                    if ($this->dbCheckTable("prefix_user_administrator")) {
+                        $this->dbQuery('DROP TABLE prefix_user_administrator');
+                    }
                 }
             }
 

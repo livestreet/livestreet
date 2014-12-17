@@ -66,6 +66,7 @@ class ModuleUser_MapperUser extends Mapper
 			SET
 				user_password = ? ,
 				user_mail = ? ,
+				user_admin = ? ,
 				user_date_activate = ? ,
 				user_date_comment_last = ? ,
 				user_rating = ? ,
@@ -92,6 +93,7 @@ class ModuleUser_MapperUser extends Mapper
 		";
         $res = $this->oDb->query($sql, $oUser->getPassword(),
             $oUser->getMail(),
+            $oUser->getAdmin(),
             $oUser->getDateActivate(),
             $oUser->getDateCommentLast(),
             $oUser->getRating(),
@@ -218,11 +220,9 @@ class ModuleUser_MapperUser extends Mapper
         }
 
         $sql = "SELECT
-					u.*	,
-					IF(ua.user_id IS NULL,0,1) as user_is_administrator
+					u.*
 				FROM
 					" . Config::Get('db.table.user') . " as u
-					LEFT JOIN " . Config::Get('db.table.user_administrator') . " AS ua ON u.user_id=ua.user_id
 				WHERE
 					u.user_id IN(?a)
 				ORDER BY FIELD(u.user_id,?a) ";

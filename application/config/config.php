@@ -283,7 +283,6 @@ $config['db']['table']['prefix'] = 'prefix_';
 
 $config['db']['table']['user'] = '___db.table.prefix___user';
 $config['db']['table']['blog'] = '___db.table.prefix___blog';
-$config['db']['table']['blog_category'] = '___db.table.prefix___blog_category';
 $config['db']['table']['topic'] = '___db.table.prefix___topic';
 $config['db']['table']['topic_tag'] = '___db.table.prefix___topic_tag';
 $config['db']['table']['topic_type'] = '___db.table.prefix___topic_type';
@@ -298,7 +297,6 @@ $config['db']['table']['talk_user'] = '___db.table.prefix___talk_user';
 $config['db']['table']['talk_blacklist'] = '___db.table.prefix___talk_blacklist';
 $config['db']['table']['friend'] = '___db.table.prefix___friend';
 $config['db']['table']['topic_content'] = '___db.table.prefix___topic_content';
-$config['db']['table']['user_administrator'] = '___db.table.prefix___user_administrator';
 $config['db']['table']['comment_online'] = '___db.table.prefix___comment_online';
 $config['db']['table']['invite'] = '___db.table.prefix___invite';
 $config['db']['table']['page'] = '___db.table.prefix___page';

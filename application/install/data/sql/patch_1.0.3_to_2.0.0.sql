@@ -744,3 +744,4 @@ INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remov
 
 -- 17.12.2014
 ALTER TABLE `prefix_user` CHANGE `user_settings_timezone` `user_settings_timezone` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `prefix_user` ADD `user_admin` TINYINT(1) NOT NULL DEFAULT '0' AFTER `user_mail`, ADD INDEX (`user_admin`) ;
