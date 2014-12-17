@@ -323,48 +323,7 @@ class ActionSettings extends Action
         $this->sMenuSubItemSelect = 'tuning';
 
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.tuning'));
-        $aTimezoneList = array(
-            '-12',
-            '-11',
-            '-10',
-            '-9.5',
-            '-9',
-            '-8',
-            '-7',
-            '-6',
-            '-5',
-            '-4.5',
-            '-4',
-            '-3.5',
-            '-3',
-            '-2',
-            '-1',
-            '0',
-            '1',
-            '2',
-            '3',
-            '3.5',
-            '4',
-            '4.5',
-            '5',
-            '5.5',
-            '5.75',
-            '6',
-            '6.5',
-            '7',
-            '8',
-            '8.75',
-            '9',
-            '9.5',
-            '10',
-            '10.5',
-            '11',
-            '11.5',
-            '12',
-            '12.75',
-            '13',
-            '14'
-        );
+        $aTimezoneList = DateTimeZone::listIdentifiers();
         $this->Viewer_Assign('aTimezoneList', $aTimezoneList);
         /**
          * Если отправили форму с настройками - сохраняем
@@ -394,7 +353,7 @@ class ActionSettings extends Action
             }
         } else {
             if (is_null($this->oUserCurrent->getSettingsTimezone())) {
-                $_REQUEST['settings_general_timezone'] = (strtotime(date("Y-m-d H:i:s")) - strtotime(gmdate("Y-m-d H:i:s"))) / 3600 - date('I');
+                $_REQUEST['settings_general_timezone'] = date_default_timezone_get();
             } else {
                 $_REQUEST['settings_general_timezone'] = $this->oUserCurrent->getSettingsTimezone();
             }

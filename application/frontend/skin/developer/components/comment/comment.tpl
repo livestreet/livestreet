@@ -89,7 +89,7 @@
             {* Так же является ссылкой на комментарий *}
             <li class="{$component}-date">
                 <a href="{$permalink}" title="{$aLang.comments.comment.url}">
-                    <time datetime="{date_format date=$comment->getDate() format='c'}">
+                    <time datetime="{date_format date=$comment->getDate() format='c'}" title="{date_format date=$comment->getDate() format="j F Y, H:i"}">
                         {date_format date=$comment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
                     </time>
                 </a>

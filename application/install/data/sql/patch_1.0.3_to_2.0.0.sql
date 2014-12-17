@@ -740,3 +740,7 @@ INSERT INTO `prefix_rbac_role_user` (`id`, `user_id`, `role_id`, `date_create`) 
 
 INSERT INTO `prefix_topic_type` (`id`, `name`, `name_many`, `code`, `allow_remove`, `date_create`, `state`, `sort`, `params`) VALUES
 (1, 'Топик', 'Топики', 'topic', 0, '2014-01-11 00:00:00', 1, 0, 'a:3:{s:10:"allow_poll";b:1;s:10:"allow_text";b:1;s:10:"allow_tags";b:1;}');
+
+
+-- 17.12.2014
+ALTER TABLE `prefix_user` CHANGE `user_settings_timezone` `user_settings_timezone` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

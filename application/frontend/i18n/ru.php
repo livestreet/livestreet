@@ -57,7 +57,7 @@ return array(
     /**
      * Голосование
      */
-    'vote'  => array(
+    'vote'                          => array(
         'up'      => 'Нравится',
         'down'    => 'Не нравится',
         'abstain' => 'Воздержаться от голосования и посмотреть рейтинг',
@@ -108,7 +108,7 @@ return array(
     /**
      * Сортировка
      */
-    'sort'  => array(
+    'sort'                          => array(
         'label'                => 'Сортировать',
         'by_login'             => 'по логину',
         'by_name'              => 'по имени',
@@ -130,7 +130,7 @@ return array(
     /**
      * Блог
      */
-    'blog'  => array(
+    'blog'                          => array(
         'blog'                 => 'Блог',
         'blogs'                => 'Блоги',
         'readers_declension'   => 'читатель;читателя;читателей',
@@ -148,7 +148,7 @@ return array(
         'rating_limit'         => 'Ограничение на постинг',
         'rss'                  => 'RSS',
         // Действия
-        'actions' => array(
+        'actions'              => array(
             'write'  => 'Написать в блог',
             'join'   => '___blog.join.join___',
             'leave'  => '___blog.join.leave___',
@@ -384,7 +384,7 @@ return array(
                 'type'       => array(
                     'title' => 'Тип блога',
                 ),
-                'relation'       => array(
+                'relation'   => array(
                     'title' => 'Принадлежность',
                 ),
             ),
@@ -393,7 +393,7 @@ return array(
     /**
      * Личные сообщения
      */
-    'talk'  => array(
+    'talk'                          => array(
         'title'        => 'Сообщения',
         'participants' => '%%count%% участник;%%count%% участника;%%count%% участников',
         'new_messages' => 'У вас есть новые сообщения',
@@ -513,7 +513,7 @@ return array(
     /**
      * Опросы
      */
-    'poll'  => array(
+    'poll'                          => array(
         'polls'     => 'Опросы',
         'answer'    => 'Вопрос',
         'vote'      => 'Голосовать',
@@ -803,7 +803,7 @@ return array(
     /**
      * Стена
      */
-    'wall'  => array(
+    'wall'                          => array(
         'title'   => 'Стена',
         // Форма
         'form'    => array(
@@ -828,7 +828,7 @@ return array(
     /**
      * Авторизация
      */
-    'auth'  => array(
+    'auth'                          => array(
         'authorization' => 'Авторизация',
         'logout'        => 'Выйти',
         // Вход
@@ -1030,7 +1030,7 @@ return array(
     /**
      * Лента
      */
-    'feed'  => array(
+    'feed'                          => array(
         'title' => 'Лента',
         // Блоги
         'blogs' => array(
@@ -1047,22 +1047,22 @@ return array(
     /**
      * Топик
      */
-    'topic' => array(
-        'topics'             => 'Топики',
-        'topic_plural'       => 'топик;топика;топиков',
-        'drafts'             => 'Черновики',
-        'read_more'          => 'Читать дальше',
-        'author'             => 'Автор топика',
-        'tags'               => '___tags.tags___',
-        'share'              => 'Поделиться',
-        'is_draft'           => 'Топик находится в черновиках',
+    'topic'                         => array(
+        'topics'       => 'Топики',
+        'topic_plural' => 'топик;топика;топиков',
+        'drafts'       => 'Черновики',
+        'read_more'    => 'Читать дальше',
+        'author'       => 'Автор топика',
+        'tags'         => '___tags.tags___',
+        'share'        => 'Поделиться',
+        'is_draft'     => 'Топик находится в черновиках',
         // Навигация
-        'nav'                => array(
+        'nav'          => array(
             'drafts'    => 'Черновики', // TODO: Remove duplication
             'published' => 'Опубликованные'
         ),
         // Форма добавления
-        'add'                => array(
+        'add'          => array(
             'title'   => array(
                 'add'  => 'Создание топика',
                 'edit' => 'Редактирование топика',
@@ -1112,7 +1112,7 @@ return array(
             )
         ),
         // Комментарии
-        'comments'           => array(
+        'comments'     => array(
             // Сообщения
             'notices' => array(
                 'error_text'  => 'Текст комментария должен быть от 2 до 3000 символов и не содержать неразрешенных тегов',
@@ -1123,7 +1123,7 @@ return array(
             )
         ),
         // Блоки
-        'blocks'             => array(
+        'blocks'       => array(
             'tip' => array(
                 'title' => 'Совет',
                 'text'  => '<strong>Тег &lt;cut&gt; сокращает длинные записи</strong>, скрывая их целиком или частично под ссылкой («читать дальше»). Скрытая часть не видна в блоге, но доступна в полной записи на странице топика.',
@@ -1134,7 +1134,7 @@ return array(
      * Пользователь
      * !user
      */
-    'user'  => array(
+    'user'                          => array(
         'user'              => 'Пользователь',
         'users'             => 'Пользователи',
         'rating'            => '___vote.rating___',
@@ -1164,7 +1164,7 @@ return array(
             'was_online_female' => 'Заходила %%date%%'
         ),
         // Жалоба
-        'report' => array(
+        'report'            => array(
             'types' => array(
                 'spam'    => 'Спам',
                 'obscene' => 'Непристойное поведение',
@@ -1406,17 +1406,17 @@ return array(
                 )
             ),
         ),
-        'photo' => array(
+        'photo'             => array(
             'crop_avatar' => array(
                 'title' => 'Выбор аватары',
-                'desc' => 'Выберите квадратную область для аватарки.',
+                'desc'  => 'Выберите квадратную область для аватарки.',
             ),
-            'crop_photo' => array(
-                'title' => 'Ваша фотография',
-                'desc' => 'Необходимо выбрать область для фотографии, которая будет отбражаться в вашем профиле.',
+            'crop_photo'  => array(
+                'title'  => 'Ваша фотография',
+                'desc'   => 'Необходимо выбрать область для фотографии, которая будет отбражаться в вашем профиле.',
                 'submit' => 'Сохранить и продолжить',
             ),
-            'actions' => array(
+            'actions'     => array(
                 'change_photo'  => 'Изменить фотографию',
                 'upload_photo'  => 'Загрузить фотографию',
                 'change_avatar' => 'Изменить аватар',
@@ -1442,7 +1442,7 @@ return array(
     /**
      * Поля
      */
-    'field' => array(
+    'field'                         => array(
         'email'       => array(
             'label'   => 'E-mail',
             'notices' => array(
@@ -1518,18 +1518,16 @@ return array(
     /**
      * Админка
      */
-    'admin' => array(
-        'title' => 'Админка',
-        'items' => array(
+    'admin'                         => array(
+        'title'                => 'Админка',
+        'items'                => array(
             'plugins' => '___admin.plugins.title___',
         ),
         'install_plugin_admin' => 'Установить расширенную админ-панель',
-
         // Страница администрирования плагинов
-        'plugins' => array(
-            'title' => 'Управление плагинами',
-
-            'plugin' => array(
+        'plugins'              => array(
+            'title'   => 'Управление плагинами',
+            'plugin'  => array(
                 'author'       => 'Автор',
                 'version'      => 'Версия',
                 'url'          => 'Сайт',
@@ -1539,7 +1537,6 @@ return array(
                 'remove'       => '___common.remove___',
                 'apply_update' => 'Применить обновление',
             ),
-
             // Сообщения
             'notices' => array(
                 'unknown_action'              => 'Указано неизвестное действие',
@@ -1560,8 +1557,8 @@ return array(
      * Жалобы
      */
     'report'                        => array(
-        'report'    => 'Пожаловаться',
-        'form'      => array(
+        'report'  => 'Пожаловаться',
+        'form'    => array(
             'title'  => '___report.report___',
             'fields' => array(
                 'type' => array(
@@ -1573,7 +1570,7 @@ return array(
             ),
             'submit' => '___common.send___'
         ),
-        'notices'   => array(
+        'notices' => array(
             'target_error' => 'Неверный id объекта', // TODO: Remove?
             'error_type'   => 'Неверный тип жалобы', // TODO: Remove?
             'success'      => 'Ваша жалоба отправлена администрации',
@@ -1599,7 +1596,7 @@ return array(
     /**
      * Загрузка изображений
      */
-    'media' => array(
+    'media'                         => array(
         'title'       => 'Загрузка медиа-файлов',
         'nav'         => array(
             'insert'   => 'Вставить',
@@ -1656,7 +1653,7 @@ return array(
     /**
      * Дата
      */
-    'date'  => array(
+    'date'                          => array(
         'day'               => 'день',
         'month'             => 'месяц',
         'year'              => 'год',
@@ -1684,52 +1681,430 @@ return array(
             12 => array('декабрь', 'декабря', 'декабре'),
         ),
         'timezones'         => array(
-            '-12'   => '[UTC − 12] Меридиан смены дат (запад)',
-            '-11'   => '[UTC − 11] о. Мидуэй, Самоа',
-            '-10'   => '[UTC − 10] Гавайи',
-            '-9.5'  => '[UTC − 9:30] Маркизские острова',
-            '-9'    => '[UTC − 9] Аляска',
-            '-8'    => '[UTC − 8] Тихоокеанское время (США и Канада) и Тихуана',
-            '-7'    => '[UTC − 7] Аризона',
-            '-6'    => '[UTC − 6] Мехико, Центральная Америка, Центральное время (США и Канада)',
-            '-5'    => '[UTC − 5] Индиана (восток), Восточное время (США и Канада)',
-            '-4.5'  => '[UTC − 4:30] Венесуэла',
-            '-4'    => '[UTC − 4] Сантьяго, Атлантическое время (Канада)',
-            '-3.5'  => '[UTC − 3:30] Ньюфаундленд',
-            '-3'    => '[UTC − 3] Бразилия, Гренландия',
-            '-2'    => '[UTC − 2] Среднеатлантическое время',
-            '-1'    => '[UTC − 1] Азорские острова, острова Зелёного мыса',
-            '0'     => '[UTC] Время по Гринвичу: Дублин, Лондон, Лиссабон, Эдинбург',
-            '1'     => '[UTC + 1] Берлин, Мадрид, Париж, Рим, Западная Центральная Африка',
-            '2'     => '[UTC + 2] Афины, Вильнюс, Киев, Рига, Таллин, Центральная Африка',
-            '3'     => '[UTC + 3] Калининград, Минск',
-            '3.5'   => '[UTC + 3:30] Тегеран',
-            '4'     => '[UTC + 4] Волгоград, Москва, Самара, Санкт-Петербург, Баку, Ереван, Тбилиси',
-            '4.5'   => '[UTC + 4:30] Кабул',
-            '5'     => '[UTC + 5] Исламабад, Карачи, Оренбург, Ташкент',
-            '5.5'   => '[UTC + 5:30] Бомбей, Калькутта, Мадрас, Нью-Дели',
-            '5.75'  => '[UTC + 5:45] Катманду',
-            '6'     => '[UTC + 6] Екатеринбург, Алматы, Астана',
-            '6.5'   => '[UTC + 6:30] Рангун',
-            '7'     => '[UTC + 7] Бангкок, Новосибирск, Омск',
-            '8'     => '[UTC + 8] Гонконг, Красноярск, Пекин, Сингапур',
-            '8.75'  => '[UTC + 8:45] Юго-восточная Западная Австралия',
-            '9'     => '[UTC + 9] Токио, Сеул, Иркутск',
-            '9.5'   => '[UTC + 9:30] Дарвин',
-            '10'    => '[UTC + 10] Чита, Якутск, Канберра, Мельбурн, Сидней',
-            '10.5'  => '[UTC + 10:30] Лорд-Хау',
-            '11'    => '[UTC + 11] Владивосток, Соломоновы о-ва',
-            '11.5'  => '[UTC + 11:30] Остров Норфолк',
-            '12'    => '[UTC + 12] Камчатка, Магадан, Сахалин, Новая Зеландия, Фиджи',
-            '12.75' => '[UTC + 12:45] Острова Чатем',
-            '13'    => '[UTC + 13] Острова Феникс, Тонга',
-            '14'    => '[UTC + 14] Остров Лайн'
+            'Europe/Amsterdam'               => '[UTC +1] Европа/Амстердам',
+            'Europe/Andorra'                 => '[UTC +1] Европа/Андорра',
+            'Europe/Athens'                  => '[UTC +2] Европа/Афины',
+            'Europe/Belgrade'                => '[UTC +1] Европа/Белград',
+            'Europe/Berlin'                  => '[UTC +1] Европа/Берлин',
+            'Europe/Bratislava'              => '[UTC +1] Европа/Братислава',
+            'Europe/Brussels'                => '[UTC +1] Европа/Брюссель',
+            'Europe/Bucharest'               => '[UTC +2] Европа/Бухарест',
+            'Europe/Budapest'                => '[UTC +1] Европа/Будапешт',
+            'Europe/Busingen'                => '[UTC +1] Европа/Бюзинген',
+            'Europe/Chisinau'                => '[UTC +2] Европа/Кишинёв',
+            'Europe/Copenhagen'              => '[UTC +1] Европа/Копенгаген',
+            'Europe/Dublin'                  => '[UTC] Европа/Дублин',
+            'Europe/Gibraltar'               => '[UTC +1] Европа/Гибралтар',
+            'Europe/Guernsey'                => '[UTC] Европа/Гернси',
+            'Europe/Helsinki'                => '[UTC +2] Европа/Хельсинки',
+            'Europe/Isle_of_Man'             => '[UTC] Европа/Остров Мэн',
+            'Europe/Istanbul'                => '[UTC +2] Европа/Стамбул',
+            'Europe/Jersey'                  => '[UTC] Европа/Джерси',
+            'Europe/Kaliningrad'             => '[UTC +2] Европа/Калининград',
+            'Europe/Kiev'                    => '[UTC +2] Европа/Киев',
+            'Europe/Lisbon'                  => '[UTC] Европа/Лиссабон',
+            'Europe/Ljubljana'               => '[UTC +1] Европа/Любляна',
+            'Europe/London'                  => '[UTC] Европа/Лондон',
+            'Europe/Luxembourg'              => '[UTC +1] Европа/Люксембург',
+            'Europe/Madrid'                  => '[UTC +1] Европа/Мадрид',
+            'Europe/Malta'                   => '[UTC +1] Европа/Мальта',
+            'Europe/Mariehamn'               => '[UTC +2] Европа/Маарианхамина',
+            'Europe/Minsk'                   => '[UTC +3] Европа/Минск',
+            'Europe/Monaco'                  => '[UTC +1] Европа/Монако',
+            'Europe/Moscow'                  => '[UTC +3] Европа/Москва',
+            'Europe/Oslo'                    => '[UTC +1] Европа/Осло',
+            'Europe/Paris'                   => '[UTC +1] Европа/Париж',
+            'Europe/Podgorica'               => '[UTC +1] Европа/Подгорица',
+            'Europe/Prague'                  => '[UTC +1] Европа/Прага',
+            'Europe/Riga'                    => '[UTC +2] Европа/Рига',
+            'Europe/Rome'                    => '[UTC +1] Европа/Рим',
+            'Europe/Samara'                  => '[UTC +4] Европа/Самара',
+            'Europe/San_Marino'              => '[UTC +1] Европа/Сан-Марино',
+            'Europe/Sarajevo'                => '[UTC +1] Европа/Сараево',
+            'Europe/Simferopol'              => '[UTC +3] Европа/Симферополь',
+            'Europe/Skopje'                  => '[UTC +1] Европа/Скопье',
+            'Europe/Sofia'                   => '[UTC +2] Европа/София',
+            'Europe/Stockholm'               => '[UTC +1] Европа/Стокгольм',
+            'Europe/Tallinn'                 => '[UTC +2] Европа/Таллин',
+            'Europe/Tirane'                  => '[UTC +1] Европа/Тирана',
+            'Europe/Uzhgorod'                => '[UTC +2] Европа/Ужгород',
+            'Europe/Vaduz'                   => '[UTC +1] Европа/Вадуц',
+            'Europe/Vatican'                 => '[UTC +1] Европа/Ватикан',
+            'Europe/Vienna'                  => '[UTC +1] Европа/Вена',
+            'Europe/Vilnius'                 => '[UTC +2] Европа/Вильнюс',
+            'Europe/Volgograd'               => '[UTC +3] Европа/Волгоград',
+            'Europe/Warsaw'                  => '[UTC +1] Европа/Варшава',
+            'Europe/Zagreb'                  => '[UTC +1] Европа/Загреб',
+            'Europe/Zaporozhye'              => '[UTC +2] Европа/Запорожье',
+            'Europe/Zurich'                  => '[UTC +1] Европа/Цюрих',
+            'Asia/Aden'                      => '[UTC +3] Азия/Аден',
+            'Asia/Almaty'                    => '[UTC +6] Азия/Алматы',
+            'Asia/Amman'                     => '[UTC +2] Азия/Амман',
+            'Asia/Anadyr'                    => '[UTC +12] Азия/Анадырь',
+            'Asia/Aqtau'                     => '[UTC +5] Азия/Актау',
+            'Asia/Aqtobe'                    => '[UTC +5] Азия/Актобе',
+            'Asia/Ashgabat'                  => '[UTC +5] Азия/Ашгабат',
+            'Asia/Baghdad'                   => '[UTC +3] Азия/Багдад',
+            'Asia/Bahrain'                   => '[UTC +3] Азия/Бахрейн',
+            'Asia/Baku'                      => '[UTC +4] Азия/Баку',
+            'Asia/Bangkok'                   => '[UTC +7] Азия/Бангкок',
+            'Asia/Beirut'                    => '[UTC +2] Азия/Бейрут',
+            'Asia/Bishkek'                   => '[UTC +6] Азия/Бишкек',
+            'Asia/Brunei'                    => '[UTC +8] Азия/Бруней',
+            'Asia/Choibalsan'                => '[UTC +8] Азия/Чойбалсан',
+            'Asia/Chongqing'                 => '[UTC +8] Азия/Чунцин',
+            'Asia/Colombo'                   => '[UTC +5.5] Азия/Коломбо',
+            'Asia/Damascus'                  => '[UTC +2] Азия/Дамаск',
+            'Asia/Dhaka'                     => '[UTC +6] Азия/Дакка',
+            'Asia/Dili'                      => '[UTC +9] Азия/Дили',
+            'Asia/Dubai'                     => '[UTC +4] Азия/Дубай',
+            'Asia/Dushanbe'                  => '[UTC +5] Азия/Душанбе',
+            'Asia/Gaza'                      => '[UTC +2] Азия/Газа',
+            'Asia/Harbin'                    => '[UTC +8] Азия/Харбин',
+            'Asia/Hebron'                    => '[UTC +2] Азия/Хеврон',
+            'Asia/Ho_Chi_Minh'               => '[UTC +7] Азия/Хо Ши Мин',
+            'Asia/Hong_Kong'                 => '[UTC +8] Азия/Гонконг',
+            'Asia/Hovd'                      => '[UTC +7] Азия/Ховд',
+            'Asia/Irkutsk'                   => '[UTC +8] Азия/Иркутск',
+            'Asia/Jakarta'                   => '[UTC +7] Азия/Джакарта',
+            'Asia/Jayapura'                  => '[UTC +9] Азия/Джаяпура',
+            'Asia/Jerusalem'                 => '[UTC +2] Азия/Иерусалим',
+            'Asia/Kabul'                     => '[UTC +4.5] Азия/Кабул',
+            'Asia/Kamchatka'                 => '[UTC +12] Азия/Камчатка',
+            'Asia/Karachi'                   => '[UTC +5] Азия/Карачи',
+            'Asia/Kashgar'                   => '[UTC +6] Азия/Кашгар',
+            'Asia/Kathmandu'                 => '[UTC +5.75] Азия/Катманду',
+            'Asia/Khandyga'                  => '[UTC +9] Азия/Хандыга',
+            'Asia/Kolkata'                   => '[UTC +5.5] Азия/Калькутта',
+            'Asia/Krasnoyarsk'               => '[UTC +7] Азия/Красноярск',
+            'Asia/Kuala_Lumpur'              => '[UTC +8] Азия/Куала-Лумпур',
+            'Asia/Kuching'                   => '[UTC +8] Азия/Кучинг',
+            'Asia/Kuwait'                    => '[UTC +3] Азия/Кувейт',
+            'Asia/Macau'                     => '[UTC +8] Азия/Макао',
+            'Asia/Magadan'                   => '[UTC +10] Азия/Магадан',
+            'Asia/Makassar'                  => '[UTC +8] Азия/Макасар',
+            'Asia/Manila'                    => '[UTC +8] Азия/Манила',
+            'Asia/Muscat'                    => '[UTC +4] Азия/Маскат',
+            'Asia/Nicosia'                   => '[UTC +2] Азия/Никосия',
+            'Asia/Novokuznetsk'              => '[UTC +7] Азия/Новокузнецк',
+            'Asia/Novosibirsk'               => '[UTC +6] Азия/Новосибирск',
+            'Asia/Omsk'                      => '[UTC +6] Азия/Омск',
+            'Asia/Oral'                      => '[UTC +5] Азия/Уральск',
+            'Asia/Phnom_Penh'                => '[UTC +7] Азия/Пномпень',
+            'Asia/Pontianak'                 => '[UTC +7] Азия/Понтианак',
+            'Asia/Pyongyang'                 => '[UTC +9] Азия/Пхеньян',
+            'Asia/Qatar'                     => '[UTC +3] Азия/Катар',
+            'Asia/Qyzylorda'                 => '[UTC +6] Азия/Кызылорда',
+            'Asia/Rangoon'                   => '[UTC +6.5] Азия/Рангун',
+            'Asia/Riyadh'                    => '[UTC +3] Азия/Эр-Рияд',
+            'Asia/Sakhalin'                  => '[UTC +10] Азия/Сахалин',
+            'Asia/Samarkand'                 => '[UTC +5] Азия/Самарканд',
+            'Asia/Seoul'                     => '[UTC +9] Азия/Сеул',
+            'Asia/Shanghai'                  => '[UTC +8] Азия/Шанхай',
+            'Asia/Singapore'                 => '[UTC +8] Азия/Сингапур',
+            'Asia/Taipei'                    => '[UTC +8] Азия/Тайбэй',
+            'Asia/Tashkent'                  => '[UTC +5] Азия/Ташкент',
+            'Asia/Tbilisi'                   => '[UTC +4] Азия/Тбилиси',
+            'Asia/Tehran'                    => '[UTC +3.5] Азия/Тегеран',
+            'Asia/Thimphu'                   => '[UTC +6] Азия/Тхимпху',
+            'Asia/Tokyo'                     => '[UTC +9] Азия/Токио',
+            'Asia/Ulaanbaatar'               => '[UTC +8] Азия/Улан-Батор',
+            'Asia/Urumqi'                    => '[UTC +6] Азия/Урумчи',
+            'Asia/Ust-Nera'                  => '[UTC +10] Азия/Усть-Нера',
+            'Asia/Vientiane'                 => '[UTC +7] Азия/Вьентьян',
+            'Asia/Vladivostok'               => '[UTC +10] Азия/Владивосток',
+            'Asia/Yakutsk'                   => '[UTC +9] Азия/Якутск',
+            'Asia/Yekaterinburg'             => '[UTC +5] Азия/Екатеринбург',
+            'Asia/Yerevan'                   => '[UTC +4] Азия/Ереван',
+            'America/Adak'                   => '[UTC -10] Америка/Адак',
+            'America/Anchorage'              => '[UTC -9] Америка/Анкоридж',
+            'America/Anguilla'               => '[UTC -4] Америка/Ангилья',
+            'America/Antigua'                => '[UTC -4] Америка/Антигуа',
+            'America/Araguaina'              => '[UTC -3] Америка/Арагуаина',
+            'America/Argentina/Buenos_Aires' => '[UTC -3] Америка/Аргентина/Буэнос-Айрес',
+            'America/Argentina/Catamarca'    => '[UTC -3] Америка/Аргентина/Катамарка',
+            'America/Argentina/Cordoba'      => '[UTC -3] Америка/Аргентина/Кордова',
+            'America/Argentina/Jujuy'        => '[UTC -3] Америка/Аргентина/Жужуй',
+            'America/Argentina/La_Rioja'     => '[UTC -3] Америка/Аргентина/Ла-Риоха',
+            'America/Argentina/Mendoza'      => '[UTC -3] Америка/Аргентина/Мендоса',
+            'America/Argentina/Rio_Gallegos' => '[UTC -3] Америка/Аргентина/Рио-Гальегос',
+            'America/Argentina/Salta'        => '[UTC -3] Америка/Аргентина/Сальта',
+            'America/Argentina/San_Juan'     => '[UTC -3] Америка/Аргентина/Сан-Хуан',
+            'America/Argentina/San_Luis'     => '[UTC -3] Америка/Аргентина/Сан-Луис',
+            'America/Argentina/Tucuman'      => '[UTC -3] Америка/Аргентина/Тукуман',
+            'America/Argentina/Ushuaia'      => '[UTC -3] Америка/Аргентина/Ушуая',
+            'America/Aruba'                  => '[UTC -4] Америка/Аруба',
+            'America/Asuncion'               => '[UTC -3] Америка/Асунсьон',
+            'America/Atikokan'               => '[UTC -5] Америка/Атикокан',
+            'America/Bahia'                  => '[UTC -3] Америка/Баия',
+            'America/Bahia_Banderas'         => '[UTC -6] Америка/Баия-де-Бандерас',
+            'America/Barbados'               => '[UTC -4] Америка/Барбадос',
+            'America/Belem'                  => '[UTC -3] Америка/Белен',
+            'America/Belize'                 => '[UTC -6] Америка/Белиз',
+            'America/Blanc-Sablon'           => '[UTC -4] Америка/Блан-Саблон',
+            'America/Boa_Vista'              => '[UTC -4] Америка/Боа-Виста',
+            'America/Bogota'                 => '[UTC -5] Америка/Богота',
+            'America/Boise'                  => '[UTC -7] Америка/Бойсе',
+            'America/Cambridge_Bay'          => '[UTC -7] Америка/Кеймбридж-Бей',
+            'America/Campo_Grande'           => '[UTC -3] Америка/Кампу-Гранди',
+            'America/Cancun'                 => '[UTC -6] Америка/Канкун',
+            'America/Caracas'                => '[UTC -4.5] Америка/Каракас',
+            'America/Cayenne'                => '[UTC -3] Америка/Кайенна',
+            'America/Cayman'                 => '[UTC -5] Америка/Кайман',
+            'America/Chicago'                => '[UTC -6] Америка/Чикаго',
+            'America/Chihuahua'              => '[UTC -7] Америка/Чиуауа',
+            'America/Costa_Rica'             => '[UTC -6] Америка/Коста-Рика',
+            'America/Creston'                => '[UTC -7] Америка/Крестон',
+            'America/Cuiaba'                 => '[UTC -3] Америка/Куяба',
+            'America/Curacao'                => '[UTC -4] Америка/Кюрасао',
+            'America/Danmarkshavn'           => '[UTC] Америка/Данмарксхавн',
+            'America/Dawson'                 => '[UTC -8] Америка/Доусон',
+            'America/Dawson_Creek'           => '[UTC -7] Америка/Досон-Крик',
+            'America/Denver'                 => '[UTC -7] Америка/Денвер',
+            'America/Detroit'                => '[UTC -5] Америка/Детройт',
+            'America/Dominica'               => '[UTC -4] Америка/Доминика',
+            'America/Edmonton'               => '[UTC -7] Америка/Эдмонтон',
+            'America/Eirunepe'               => '[UTC -5] Америка/Эйрунепе',
+            'America/El_Salvador'            => '[UTC -6] Америка/Сальвадор',
+            'America/Fortaleza'              => '[UTC -3] Америка/Форталеза',
+            'America/Glace_Bay'              => '[UTC -4] Америка/Глейс-Бей',
+            'America/Godthab'                => '[UTC -3] Америка/Готхоб',
+            'America/Goose_Bay'              => '[UTC -4] Америка/Гус-Бей',
+            'America/Grand_Turk'             => '[UTC -5] Америка/Гранд-Терк',
+            'America/Grenada'                => '[UTC -4] Америка/Гренада',
+            'America/Guadeloupe'             => '[UTC -4] Америка/Гваделупа',
+            'America/Guatemala'              => '[UTC -6] Америка/Гватемала',
+            'America/Guayaquil'              => '[UTC -5] Америка/Гуаякиль',
+            'America/Guyana'                 => '[UTC -4] Америка/Гайана',
+            'America/Halifax'                => '[UTC -4] Америка/Галифакс',
+            'America/Havana'                 => '[UTC -5] Америка/Гавана',
+            'America/Hermosillo'             => '[UTC -7] Америка/Эрмосильо',
+            'America/Indiana/Indianapolis'   => '[UTC -5] Америка/Индиана/Индианаполис',
+            'America/Indiana/Knox'           => '[UTC -6] Америка/Индиана/Нокс',
+            'America/Indiana/Marengo'        => '[UTC -5] Америка/Индиана/Маренго',
+            'America/Indiana/Petersburg'     => '[UTC -5] Америка/Индиана/Петерсберг',
+            'America/Indiana/Tell_City'      => '[UTC -6] Америка/Индиана/Телл Сити',
+            'America/Indiana/Vevay'          => '[UTC -5] Америка/Индиана/Вевей',
+            'America/Indiana/Vincennes'      => '[UTC -5] Америка/Индиана/Винсенс',
+            'America/Indiana/Winamac'        => '[UTC -5] Америка/Индиана/Уинамак',
+            'America/Inuvik'                 => '[UTC -7] Америка/Инувик',
+            'America/Iqaluit'                => '[UTC -5] Америка/Икалуит',
+            'America/Jamaica'                => '[UTC -5] Америка/Ямайка',
+            'America/Juneau'                 => '[UTC -9] Америка/Джуно',
+            'America/Kentucky/Louisville'    => '[UTC -5] Америка/Кентукки/Луисвилл',
+            'America/Kentucky/Monticello'    => '[UTC -5] Америка/Кентукки/Монтиселло',
+            'America/Kralendijk'             => '[UTC -4] Америка/Кралендейк',
+            'America/La_Paz'                 => '[UTC -4] Америка/Ла-Пас',
+            'America/Lima'                   => '[UTC -5] Америка/Лима',
+            'America/Los_Angeles'            => '[UTC -8] Америка/Лос-Анджелес',
+            'America/Lower_Princes'          => '[UTC -4] Америка/Лоуэр-Принсес',
+            'America/Maceio'                 => '[UTC -3] Америка/Масейо',
+            'America/Managua'                => '[UTC -6] Америка/Манагуа',
+            'America/Manaus'                 => '[UTC -4] Америка/Манаус',
+            'America/Marigot'                => '[UTC -4] Америка/Мариго',
+            'America/Martinique'             => '[UTC -4] Америка/Мартиника',
+            'America/Matamoros'              => '[UTC -6] Америка/Матаморос',
+            'America/Mazatlan'               => '[UTC -7] Америка/Масатлан',
+            'America/Menominee'              => '[UTC -6] Америка/Меномини',
+            'America/Merida'                 => '[UTC -6] Америка/Мерида',
+            'America/Metlakatla'             => '[UTC -8] Америка/Метлакатла',
+            'America/Mexico_City'            => '[UTC -6] Америка/Мехико',
+            'America/Miquelon'               => '[UTC -3] Америка/Микелон',
+            'America/Moncton'                => '[UTC -4] Америка/Монктон',
+            'America/Monterrey'              => '[UTC -6] Америка/Монтеррей',
+            'America/Montevideo'             => '[UTC -2] Америка/Монтевидео',
+            'America/Montreal'               => '[UTC -5] Америка/Монреаль',
+            'America/Montserrat'             => '[UTC -4] Америка/Монтсеррат',
+            'America/Nassau'                 => '[UTC -5] Америка/Нассау',
+            'America/New_York'               => '[UTC -5] Америка/Нью-Йорк',
+            'America/Nipigon'                => '[UTC -5] Америка/Нипигон',
+            'America/Nome'                   => '[UTC -9] Америка/Ном',
+            'America/Noronha'                => '[UTC -2] Америка/Норонья',
+            'America/North_Dakota/Beulah'    => '[UTC -6] Америка/Северная Дакота/Бойла',
+            'America/North_Dakota/Center'    => '[UTC -6] Америка/Северная Дакота/Центр',
+            'America/North_Dakota/New_Salem' => '[UTC -6] Америка/Северная Дакота/Новый Салем',
+            'America/Ojinaga'                => '[UTC -7] Америка/Охинага',
+            'America/Panama'                 => '[UTC -5] Америка/Панама',
+            'America/Pangnirtung'            => '[UTC -5] Америка/Пангниртанг',
+            'America/Paramaribo'             => '[UTC -3] Америка/Парамарибо',
+            'America/Phoenix'                => '[UTC -7] Америка/Финикс',
+            'America/Port-au-Prince'         => '[UTC -5] Америка/Порт-о-Пренс',
+            'America/Port_of_Spain'          => '[UTC -4] Америка/Порт-оф-Спейн',
+            'America/Porto_Velho'            => '[UTC -4] Америка/Порту-Велью',
+            'America/Puerto_Rico'            => '[UTC -4] Америка/Пуэрто-Рико',
+            'America/Rainy_River'            => '[UTC -6] Америка/Рейни-Ривер',
+            'America/Rankin_Inlet'           => '[UTC -6] Америка/Залив Ранкин',
+            'America/Recife'                 => '[UTC -3] Америка/Ресифи',
+            'America/Regina'                 => '[UTC -6] Америка/Риджайна',
+            'America/Resolute'               => '[UTC -6] Америка/Резольют',
+            'America/Rio_Branco'             => '[UTC -5] Америка/Риу-Бранку',
+            'America/Santa_Isabel'           => '[UTC -8] Америка/Санта-Исабель',
+            'America/Santarem'               => '[UTC -3] Америка/Сантарен',
+            'America/Santiago'               => '[UTC -3] Америка/Сантьяго',
+            'America/Santo_Domingo'          => '[UTC -4] Америка/Санто-Доминго',
+            'America/Sao_Paulo'              => '[UTC -2] Америка/Сан-Паулу',
+            'America/Scoresbysund'           => '[UTC -1] Америка/Скорсбисунн',
+            'America/Shiprock'               => '[UTC -7] Америка/Шипрок',
+            'America/Sitka'                  => '[UTC -9] Америка/Ситка',
+            'America/St_Barthelemy'          => '[UTC -4] Америка/Сент-Бартелеми',
+            'America/St_Johns'               => '[UTC -3.5] Америка/Сент-Джонс',
+            'America/St_Kitts'               => '[UTC -4] Америка/Сент-Китс',
+            'America/St_Lucia'               => '[UTC -4] Америка/Сент-Люсия',
+            'America/St_Thomas'              => '[UTC -4] Америка/Сент-Томас',
+            'America/St_Vincent'             => '[UTC -4] Америка/Сент-Винсент',
+            'America/Swift_Current'          => '[UTC -6] Америка/Суифт-Каррент',
+            'America/Tegucigalpa'            => '[UTC -6] Америка/Тегусигальпа',
+            'America/Thule'                  => '[UTC -4] Америка/Туле',
+            'America/Thunder_Bay'            => '[UTC -5] Америка/Тандер-Бей',
+            'America/Tijuana'                => '[UTC -8] Америка/Тихуана',
+            'America/Toronto'                => '[UTC -5] Америка/Торонто',
+            'America/Tortola'                => '[UTC -4] Америка/Тортола',
+            'America/Vancouver'              => '[UTC -8] Америка/Ванкувер',
+            'America/Whitehorse'             => '[UTC -8] Америка/Уайтхорс',
+            'America/Winnipeg'               => '[UTC -6] Америка/Виннипег',
+            'America/Yakutat'                => '[UTC -9] Америка/Якутат',
+            'America/Yellowknife'            => '[UTC -7] Америка/Йеллоунайф',
+            'Antarctica/Casey'               => '[UTC +8] Антарктика/Кейси',
+            'Antarctica/Davis'               => '[UTC +7] Антарктика/Дейвис',
+            'Antarctica/DumontDUrville'      => '[UTC +10] Антарктика/Дюмон-д’Юрвиль',
+            'Antarctica/Macquarie'           => '[UTC +11] Антарктика/Маккуари',
+            'Antarctica/Mawson'              => '[UTC +5] Антарктика/Моусон',
+            'Antarctica/McMurdo'             => '[UTC +13] Антарктика/Мак-Мердо',
+            'Antarctica/Palmer'              => '[UTC -3] Антарктика/Палмер',
+            'Antarctica/Rothera'             => '[UTC -3] Антарктика/Ротера',
+            'Antarctica/South_Pole'          => '[UTC +13] Антарктика/Южный полюс',
+            'Antarctica/Syowa'               => '[UTC +3] Антарктика/Сёва',
+            'Antarctica/Vostok'              => '[UTC +6] Антарктика/Восток',
+            'Arctic/Longyearbyen'            => '[UTC +1] Арктика/Шпицберген',
+            'Atlantic/Azores'                => '[UTC -1] Атлантический океан/Азорские Острова',
+            'Atlantic/Bermuda'               => '[UTC -4] Атлантический океан/Бермудские Острова',
+            'Atlantic/Canary'                => '[UTC] Атлантический океан/Канарские Острова',
+            'Atlantic/Cape_Verde'            => '[UTC -1] Атлантический океан/Острова Зеленого Мыса',
+            'Atlantic/Faroe'                 => '[UTC] Атлантический океан/Фарерские Острова',
+            'Atlantic/Madeira'               => '[UTC] Атлантический океан/Мадейра',
+            'Atlantic/Reykjavik'             => '[UTC] Атлантический океан/Рейкьявик',
+            'Atlantic/South_Georgia'         => '[UTC -2] Атлантический океан/Южная Георгия',
+            'Atlantic/St_Helena'             => '[UTC] Атлантический океан/Остров Святой Елены',
+            'Atlantic/Stanley'               => '[UTC -3] Атлантический океан/Стэнли',
+            'Australia/Adelaide'             => '[UTC +10.5] Австралия/Аделаида',
+            'Australia/Brisbane'             => '[UTC +10] Австралия/Брисбен',
+            'Australia/Broken_Hill'          => '[UTC +10.5] Австралия/Брокен-Хилл',
+            'Australia/Currie'               => '[UTC +11] Австралия/Керри',
+            'Australia/Darwin'               => '[UTC +9.5] Австралия/Дарвин',
+            'Australia/Eucla'                => '[UTC +8.75] Австралия/Юкла',
+            'Australia/Hobart'               => '[UTC +11] Австралия/Хобарт',
+            'Australia/Lindeman'             => '[UTC +10] Австралия/Линдман',
+            'Australia/Lord_Howe'            => '[UTC +11] Австралия/Остров Лорд-Хау',
+            'Australia/Melbourne'            => '[UTC +11] Австралия/Мельбурн',
+            'Australia/Perth'                => '[UTC +8] Австралия/Перт',
+            'Australia/Sydney'               => '[UTC +11] Австралия/Сидней',
+            'Indian/Antananarivo'            => '[UTC +3] Индийский океан/Антананариву',
+            'Indian/Chagos'                  => '[UTC +6] Индийский океан/Чагос',
+            'Indian/Christmas'               => '[UTC +7] Индийский океан/Кристмас',
+            'Indian/Cocos'                   => '[UTC +6.5] Индийский океан/Кокосовые острова',
+            'Indian/Comoro'                  => '[UTC +3] Индийский океан/Коморские Острова',
+            'Indian/Kerguelen'               => '[UTC +5] Индийский океан/Кергелен',
+            'Indian/Mahe'                    => '[UTC +4] Индийский океан/Маэ',
+            'Indian/Maldives'                => '[UTC +5] Индийский океан/Мальдивы',
+            'Indian/Mauritius'               => '[UTC +4] Индийский океан/Маврикий',
+            'Indian/Mayotte'                 => '[UTC +3] Индийский океан/Майотта',
+            'Indian/Reunion'                 => '[UTC +4] Индийский океан/Реюньон',
+            'Pacific/Apia'                   => '[UTC +14] Тихий океан/Апиа',
+            'Pacific/Auckland'               => '[UTC +13] Тихий океан/Окленд',
+            'Pacific/Chatham'                => '[UTC +13.75] Тихий океан/Чатем',
+            'Pacific/Chuuk'                  => '[UTC +10] Тихий океан/Чуук',
+            'Pacific/Easter'                 => '[UTC -5] Тихий океан/Остров Пасхи',
+            'Pacific/Efate'                  => '[UTC +11] Тихий океан/Эфате',
+            'Pacific/Enderbury'              => '[UTC +13] Тихий океан/Эндербери',
+            'Pacific/Fakaofo'                => '[UTC +13] Тихий океан/Факаофо',
+            'Pacific/Fiji'                   => '[UTC +13] Тихий океан/Фиджи',
+            'Pacific/Funafuti'               => '[UTC +12] Тихий океан/Фунафути',
+            'Pacific/Galapagos'              => '[UTC -6] Тихий океан/Галапагос',
+            'Pacific/Gambier'                => '[UTC -9] Тихий океан/Острова Гамбье',
+            'Pacific/Guadalcanal'            => '[UTC +11] Тихий океан/Гуадалканал',
+            'Pacific/Guam'                   => '[UTC +10] Тихий океан/Гуам',
+            'Pacific/Honolulu'               => '[UTC -10] Тихий океан/Гонолулу',
+            'Pacific/Johnston'               => '[UTC -10] Тихий океан/Джонстон',
+            'Pacific/Kiritimati'             => '[UTC +14] Тихий океан/Кирибати',
+            'Pacific/Kosrae'                 => '[UTC +11] Тихий океан/Кусаие',
+            'Pacific/Kwajalein'              => '[UTC +12] Тихий океан/Кваджалейн',
+            'Pacific/Majuro'                 => '[UTC +12] Тихий океан/Маджуро',
+            'Pacific/Marquesas'              => '[UTC -9.5] Тихий океан/Маркизские острова',
+            'Pacific/Midway'                 => '[UTC -11] Тихий океан/Мидуэй',
+            'Pacific/Nauru'                  => '[UTC +12] Тихий океан/Науру',
+            'Pacific/Niue'                   => '[UTC -11] Тихий океан/Ниуэ',
+            'Pacific/Norfolk'                => '[UTC +11.5] Тихий океан/Норфолк',
+            'Pacific/Noumea'                 => '[UTC +11] Тихий океан/Нумеа',
+            'Pacific/Pago_Pago'              => '[UTC -11] Тихий океан/Паго-Паго',
+            'Pacific/Palau'                  => '[UTC +9] Тихий океан/Палау',
+            'Pacific/Pitcairn'               => '[UTC -8] Тихий океан/Питкэрн',
+            'Pacific/Pohnpei'                => '[UTC +11] Тихий океан/Понпеи',
+            'Pacific/Port_Moresby'           => '[UTC +10] Тихий океан/Порт-Морсби',
+            'Pacific/Rarotonga'              => '[UTC -10] Тихий океан/Раротонга',
+            'Pacific/Saipan'                 => '[UTC +10] Тихий океан/Сайпан',
+            'Pacific/Tahiti'                 => '[UTC -10] Тихий океан/Таити',
+            'Pacific/Tarawa'                 => '[UTC +12] Тихий океан/Тарава',
+            'Pacific/Tongatapu'              => '[UTC +13] Тихий океан/Тонгатапу',
+            'Pacific/Wake'                   => '[UTC +12] Тихий океан/Уэйк',
+            'Pacific/Wallis'                 => '[UTC +12] Тихий океан/Уоллис',
+            'Africa/Abidjan'                 => '[UTC] Африка/Абиджан',
+            'Africa/Accra'                   => '[UTC] Африка/Аккра',
+            'Africa/Addis_Ababa'             => '[UTC +3] Африка/Аддис-Абеба',
+            'Africa/Algiers'                 => '[UTC +1] Африка/Алжир',
+            'Africa/Asmara'                  => '[UTC +3] Африка/Асмара',
+            'Africa/Bamako'                  => '[UTC] Африка/Бамако',
+            'Africa/Bangui'                  => '[UTC +1] Африка/Банги',
+            'Africa/Banjul'                  => '[UTC] Африка/Банджул',
+            'Africa/Bissau'                  => '[UTC] Африка/Бисау',
+            'Africa/Blantyre'                => '[UTC +2] Африка/Блантайр',
+            'Africa/Brazzaville'             => '[UTC +1] Африка/Браззавиль',
+            'Africa/Bujumbura'               => '[UTC +2] Африка/Бужумбура',
+            'Africa/Cairo'                   => '[UTC +2] Африка/Каир',
+            'Africa/Casablanca'              => '[UTC] Африка/Касабланка',
+            'Africa/Ceuta'                   => '[UTC +1] Африка/Сеута',
+            'Africa/Conakry'                 => '[UTC] Африка/Конакри',
+            'Africa/Dakar'                   => '[UTC] Африка/Дакар',
+            'Africa/Dar_es_Salaam'           => '[UTC +3] Африка/Дар-эс-Салам',
+            'Africa/Djibouti'                => '[UTC +3] Африка/Джибути',
+            'Africa/Douala'                  => '[UTC +1] Африка/Дуала',
+            'Africa/El_Aaiun'                => '[UTC] Африка/Эль-Аюн',
+            'Africa/Freetown'                => '[UTC] Африка/Фритаун',
+            'Africa/Gaborone'                => '[UTC +2] Африка/Габороне',
+            'Africa/Harare'                  => '[UTC +2] Африка/Хараре',
+            'Africa/Johannesburg'            => '[UTC +2] Африка/Йоханнесбург',
+            'Africa/Juba'                    => '[UTC +3] Африка/Джуба',
+            'Africa/Kampala'                 => '[UTC +3] Африка/Кампала',
+            'Africa/Khartoum'                => '[UTC +3] Африка/Хартум',
+            'Africa/Kigali'                  => '[UTC +2] Африка/Кигали',
+            'Africa/Kinshasa'                => '[UTC +1] Африка/Киншаса',
+            'Africa/Lagos'                   => '[UTC +1] Африка/Лагос',
+            'Africa/Libreville'              => '[UTC +1] Африка/Либревиль',
+            'Africa/Lome'                    => '[UTC] Африка/Ломе',
+            'Africa/Luanda'                  => '[UTC +1] Африка/Луанда',
+            'Africa/Lubumbashi'              => '[UTC +2] Африка/Лубумбаши',
+            'Africa/Lusaka'                  => '[UTC +2] Африка/Лусака',
+            'Africa/Malabo'                  => '[UTC +1] Африка/Малабо',
+            'Africa/Maputo'                  => '[UTC +2] Африка/Мапуту',
+            'Africa/Maseru'                  => '[UTC +2] Африка/Масеру',
+            'Africa/Mbabane'                 => '[UTC +2] Африка/Мбабане',
+            'Africa/Mogadishu'               => '[UTC +3] Африка/Могадишо',
+            'Africa/Monrovia'                => '[UTC] Африка/Монровия',
+            'Africa/Nairobi'                 => '[UTC +3] Африка/Найроби',
+            'Africa/Ndjamena'                => '[UTC +1] Африка/Нджамена',
+            'Africa/Niamey'                  => '[UTC +1] Африка/Ниамей',
+            'Africa/Nouakchott'              => '[UTC] Африка/Нуакшот',
+            'Africa/Ouagadougou'             => '[UTC] Африка/Уагадугу',
+            'Africa/Porto-Novo'              => '[UTC +1] Африка/Порто-Ново',
+            'Africa/Sao_Tome'                => '[UTC] Африка/Сан-Томе',
+            'Africa/Tripoli'                 => '[UTC +2] Африка/Триполи',
+            'Africa/Tunis'                   => '[UTC +1] Африка/Тунис',
+            'Africa/Windhoek'                => '[UTC +2] Африка/Виндхук',
         ),
     ),
     /**
      * Теги
      */
-    'tags'  => array(
+    'tags'                          => array(
         'tags'       => 'Теги',
         'tag'        => 'Тег',
         'search'     => array(
@@ -1778,16 +2153,16 @@ return array(
     /**
      * Обрезка изображения
      */
-    'crop' => array(
+    'crop'                          => array(
         'title' => 'Обрезка изображения'
     ),
     /**
      * Экшнбар
      */
-    'actionbar' => array(
+    'actionbar'                     => array(
         'select' => array(
             'title' => 'Выбрать',
-            'menu' => array(
+            'menu'  => array(
                 'all'      => 'Все',
                 'deselect' => 'Убрать выделение',
                 'invert'   => 'Инвертировать',
@@ -1797,13 +2172,13 @@ return array(
     /**
      * Подгрузка контента
      */
-    'more' => array(
+    'more'                          => array(
         'text' => 'Подгрузить еще'
     ),
     /**
      * Управление правами (RBAC)
      */
-    'rbac'  => array(
+    'rbac'                          => array(
         'permission' => array(
             'create_blog'              => array(
                 'title' => 'Создание блога',
@@ -1858,7 +2233,7 @@ return array(
     /**
      * Системные сообщения
      */
-    'error' => 'Ошибка',
+    'error'                         => 'Ошибка',
     'attention'                     => 'Внимание',
     'system_error'                  => 'Системная ошибка, повторите позже',
     'system_error_event_args'       => 'Некорректное число аргументов при добавлении евента',

@@ -85,11 +85,11 @@ class InstallStepUpdateVersion extends InstallStep
             if ($this->dbCheckTable("prefix_page")) {
                 $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_page_1.3_to_2.0.sql';
                 list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile),
-                array(
-                    'engine'            => InstallConfig::get('db.tables.engine'),
-                    'prefix'            => InstallConfig::get('db.table.prefix'),
-                    'check_table_field' => array('prefix_page', 'id')
-                )));
+                    array(
+                        'engine'            => InstallConfig::get('db.tables.engine'),
+                        'prefix'            => InstallConfig::get('db.table.prefix'),
+                        'check_table_field' => array('prefix_page', 'id')
+                    )));
                 if (!$bResult) {
                     return $this->addError(join('<br/>', $aErrors));
                 }
@@ -625,11 +625,19 @@ class InstallStepUpdateVersion extends InstallStep
                     }
 
                     /**
+                     * Timezone
+                     */
+                    $sTzName = null;
+                    if ($aUser['user_settings_timezone']) {
+                        $sTzName = $this->convertTzOffsetToName($aUser['user_settings_timezone']);
+                    }
+
+                    /**
                      * Сохраняем в БД
                      */
                     $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
                     $sPhoto = mysqli_escape_string($this->rDbLink, $sPhoto);
-                    $this->dbQuery("UPDATE prefix_user SET user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+                    $this->dbQuery("UPDATE prefix_user SET user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
                 }
             }
 
@@ -640,6 +648,23 @@ class InstallStepUpdateVersion extends InstallStep
             return true;
         }
         return $this->addError(join('<br/>', $aErrors));
+    }
+
+    protected function convertTzOffsetToName($fOffset)
+    {
+        $fOffset *= 3600;
+        $aAbbrarray = DateTimeZone::listAbbreviations();
+        foreach ($aAbbrarray as $aAbbr) {
+            foreach ($aAbbr as $aCity) {
+                if ($aCity['offset'] == $fOffset && $aCity['timezone_id']) {
+                    $oNow = new DateTime(null, new DateTimeZone($aCity['timezone_id']));
+                    if ($oNow->getOffset() == $aCity['offset']) {
+                        return $aCity['timezone_id'];
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     protected function convertPathWebToServer($sFile)

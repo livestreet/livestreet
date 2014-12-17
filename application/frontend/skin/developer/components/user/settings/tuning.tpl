@@ -49,10 +49,13 @@
 		<legend>{lang name='user.settings.tuning.general'}</legend>
 
 		{foreach $aTimezoneList as $timezone}
-			{$timezones[] = [
-				'value' => $timezone,
-				'text' => $aLang.date.timezones[ $timezone ]
-			]}
+            {$timezoneLang=$aLang.date.timezones[ $timezone ]}
+            {if $timezoneLang}
+                {$timezones[] = [
+                    'value' => $timezone,
+                    'text' => $timezoneLang
+                ]}
+            {/if}
 		{/foreach}
 
 		{include 'components/field/field.select.tpl'
