@@ -77,16 +77,16 @@
 			<div class="{$component}-content">
 				<div class="{$component}-text text">
 					{block 'article_content_text'}
-						{if $isList}
-							{$article->getTextShort()}
-						{else}
-							{$article->getText()}
-						{/if}
+                        {if $isList and $article->getTextShort()}
+                            {$article->getTextShort()}
+                        {else}
+                            {$article->getText()}
+                        {/if}
 					{/block}
 				</div>
 
 				{* Кат *}
-				{if $isList && $article->getTextShort() != $article->getText()}
+				{if $isList && $article->getTextShort()}
 					{include 'components/button/button.tpl'
 						classes = "{$component}-cut"
 						url     = "{$article->getUrl()}#cut"

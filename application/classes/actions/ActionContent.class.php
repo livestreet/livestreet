@@ -321,7 +321,11 @@ class ActionContent extends Action
                 $oTopic->setCutText($sTextCut);
                 // TODO: передача параметров в Topic_Parser пока не используется - нужно заменить на этот вызов все места с парсингом топика
                 $oTopic->setText($this->Topic_Parser($sTextNew, $oTopic));
-                $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
+                if ($sTextShort!=$sTextNew) {
+                    $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
+                } else {
+                    $oTopic->setTextShort('');
+                }
             } else {
                 $oTopic->setCutText('');
                 $oTopic->setText('');
@@ -450,7 +454,11 @@ class ActionContent extends Action
                 list($sTextShort, $sTextNew, $sTextCut) = $this->Text_Cut($oTopic->getTextSource());
                 $oTopic->setCutText($sTextCut);
                 $oTopic->setText($this->Topic_Parser($sTextNew, $oTopic));
-                $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
+                if ($sTextShort!=$sTextNew) {
+                    $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
+                } else {
+                    $oTopic->setTextShort('');
+                }
             } else {
                 $oTopic->setCutText('');
                 $oTopic->setText('');
