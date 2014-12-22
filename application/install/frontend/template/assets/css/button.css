@@ -1,0 +1,82 @@
+/**
+ * Buttons
+ *
+ * @module ls/button
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.button {
+	display: inline-block;
+	padding: 7px 13px;
+	margin: 0;
+	border: 1px solid #ddd;
+	text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+	font-size: 13px;
+	line-height: normal;
+	color: #444;
+	background: transparent;
+	font-family: Arial, sans-serif;
+	cursor: pointer;
+	position: relative;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	-webkit-transition: background .2s, color .2s;
+	   -moz-transition: background .2s, color .2s;
+	        transition: background .2s, color .2s;
+}
+.button:hover  { text-decoration: none; background: #fafafa; color: #333; }
+.button:active {
+	position: relative;
+	top: 1px;
+}
+.button:focus { outline: none; }
+.button.active {
+	background: #eaeaea;
+}
+.button.pull-right { margin-left: 5px; }
+
+
+/**
+ * Button Disabled
+ */
+.button.disabled,
+.button.disabled:hover,
+.button[disabled],
+.button[disabled]:hover {
+	border-color: #ccc;
+	background: #eee;
+	color: #999;
+}
+
+.button.disabled:active,
+.button[disabled]:active {
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+}
+
+
+/**
+ * Button Primary
+ */
+.button--primary        { border-color: #74A2FF; color: #777DFF; }
+.button--primary:hover  { background: #91B6FF; color: #fff; }
+.button--primary.active { background: #006DCC; }
+
+
+/**
+ * Button Large
+ */
+.button--large { height: 34px; font-size: 14px; }
+a.button--large { padding-top: 8px; }
+
+.button.button--large.button-icon { padding-left: 9px; padding-right: 9px; }

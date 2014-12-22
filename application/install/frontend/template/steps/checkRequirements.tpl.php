@@ -1,29 +1,30 @@
-<?php
-if ($requirements = $this->get('requirements')) {
-    ?>
+<?php if ($requirements = $this->get('requirements')) { ?>
 
-    Хостинг не удовлетворяет минимальным требованиям.<br/>
+    <div class="alert alert--error">
+        <div class="alert-title">Хостинг не удовлетворяет минимальным требованиям.</div>
 
-    <?php foreach ($requirements as $requirement) { ?>
+        <ul>
+            <?php foreach ($requirements as $requirement) { ?>
+                <li>
+                    <div>
+                        <?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.title'); ?> &mdash; <?php echo $requirement['current']; ?>
+                    </div>
 
-        <div>
-            <div>
-                <?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.title'); ?> &mdash; <?php echo $requirement['current']; ?>
-            </div>
-
-            <div>
-                <?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.solution'); ?>
-            </div>
-        </div>
-
-    <?php } ?>
+                    <div>
+                        <?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.solution'); ?>
+                    </div>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
 
 <?php } else { ?>
 
-    Здесь показываем процесс-лоадер на пару секунд. Далее автоматически переходим на следующий шаг.
+    <div class="loading"></div>
+
     <script type="text/javascript">
         jQuery(function ($) {
-            install.goNextStep();
+            setTimeout(install.goNextStep, 1000);
         });
     </script>
 

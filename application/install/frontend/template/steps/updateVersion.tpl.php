@@ -1,19 +1,14 @@
-Здесь подробная информация об обновлении.
-<br/>
+<div class="alert alert--info">
+    <div class="alert-title">Внимание!</div>
+    Перед обновлением обязательно сделайте бекап БД
+</div>
 
-<ul>
-    <li>Обязательно бекап</li>
-    <li>Обязательно бекап</li>
-    <li>Обязательно бекап</li>
-    <li>Обязательно бекап</li>
-    <li>Обязательно бекап</li>
-</ul>
 
-<br/>
-Ваша текущая версия:
-<select name="from_version">
-    <option value=""></option>
+<p><label for="">Ваша текущая версия:</label>
+<select name="from_version" class="width-100">
     <?php foreach ($this->get('convert_versions') as $version) { ?>
-        <option <?php if ($this->get('from_version') == $version) { ?> selected="selected" <?php } ?> ><?php echo $version ?></option>
+        <option <?php if ($this->get('from_version') == $version) { ?> selected="selected" <?php } ?> >
+            <?php echo $version ?>
+        </option>
     <?php } ?>
-</select>
+</select></p>

@@ -1,0 +1,70 @@
+/**
+ * Уведомления
+ *
+ * @module ls/alerts
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.alert {
+    position: relative;
+    border: 1px solid #eed3d7;
+    background-color: #f2dede;
+    color: #b94a48;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+}
+.alert:last-child {
+    margin-bottom: 0;
+}
+.alert li {
+    margin-bottom: 5px;
+}
+
+/* Заголовок */
+.alert-title {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/**
+ * @modifier error Ошибка
+ */
+.alert.alert--error {
+    background-color: #f2dede;
+    color: #b94a48;
+    border-color: #eed3d7;
+}
+
+/**
+ * @modifier success Успешно завершено
+ */
+.alert.alert--success {
+    background-color: #dff0d8;
+    color: #468847;
+    border-color: #d6e9c6;
+}
+
+/**
+ * @modifier info Информация
+ */
+.alert.alert--info {
+    background-color: #d9edf7;
+    color: #3a87ad;
+    border-color: #bce8f1;
+}
+
+/**
+ * @modifier empty Пусто
+ */
+.alert.alert--empty {
+    background-color: #fafafa;
+    color: #777;
+    border-color: #eee;
+}

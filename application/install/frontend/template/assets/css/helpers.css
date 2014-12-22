@@ -1,0 +1,65 @@
+/**
+ * Helpers
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Margins */
+.mt-10 { margin-top: 10px !important; }
+.mt-15 { margin-top: 15px !important; }
+.mt-20 { margin-top: 20px !important; }
+.mt-30 { margin-top: 30px !important; }
+
+.mb-10 { margin-bottom: 10px !important; }
+.mb-15 { margin-bottom: 15px !important; }
+.mb-20 { margin-bottom: 20px !important; }
+.mb-30 { margin-bottom: 30px !important; }
+
+.m-0 { margin: 0 !important; }
+
+
+/* Text Align */
+.ta-c { text-align: center !important; }
+.ta-r { text-align: right !important; }
+
+
+/* Floats */
+.fl-r, .float-right, .pull-right { float: right !important; }
+.fl-l, .float-left, .pull-left  { float: left !important; }
+
+
+/* Clearfix */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; line-height: 0; }
+.clearfix:after { clear: both; }
+
+
+/* Width */
+.width-full { width: 100% !important; }
+.width-50   { width: 50px !important; }
+.width-100  { width: 100px !important; }
+.width-150  { width: 150px !important; }
+.width-200  { width: 200px !important; }
+.width-250  { width: 250px !important; }
+.width-300  { width: 300px !important; }
+.width-350  { width: 350px !important; }
+.width-400  { width: 400px !important; }
+.width-450  { width: 450px !important; }
+.width-500  { width: 500px !important; }
+.width-550  { width: 550px !important; }
+.width-600  { width: 600px !important; }
+.width-650  { width: 650px !important; }
+
+
+/* Loader */
+/* TODO: Change gif */
+.loading {
+    height: 100px;
+    margin-bottom: 20px;
+    background-image: url(../images/loader.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}

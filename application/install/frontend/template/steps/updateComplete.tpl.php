@@ -1,6 +1,9 @@
-Обновление успешно завершено!
-<br/>
+<div class="complete">
+    <h2>Обновление успешно завершено!</h2>
 
-Приятного использования новой версией LiveStreet!<br/>
+    <p>Приятного использования новой версией LiveStreet!</p>
 
-Обязательно удалите каталог /application/install/
+    <div class="alert alert--info">
+        Обязательно удалите каталог /application/install/
+    </div>
+</div>

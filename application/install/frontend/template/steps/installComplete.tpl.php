@@ -1,6 +1,9 @@
-Установка завершена!
-<br/>
+<div class="complete">
+    <h2>Установка завершена!</h2>
 
-Приятного использования LiveStreet!<br/>
+    <p>Приятного использования LiveStreet!<p>
 
-Обязательно удалите каталог /application/install/
+    <div class="alert alert--info">
+        Обязательно удалите каталог /application/install/
+    </div>
+</div>

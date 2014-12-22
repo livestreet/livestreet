@@ -108,9 +108,13 @@ return array(
             ),
         ),
         'updateVersion'     => array(
+            'title'  => 'Выбор текущей версии',
             'errors' => array(
                 'not_found_convert' => 'Для данной версии нет возможности обновления',
             ),
+        ),
+        'updateDb'     => array(
+            'title'  => 'Настройка базы данных',
         ),
     ),
     'config'        => array(
@@ -137,7 +141,7 @@ return array(
             )
         ),
     ),
-    'install_reset' => 'Начать установку сначала',
+    'install_reset' => 'Начать сначала',
     'yes'           => 'Да',
     'no'            => 'Нет',
 );

@@ -1,0 +1,67 @@
+/**
+ * Forms
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Input Text */
+select,
+input[type="password"],
+input[type="text"] {
+    padding: 7px 8px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    border-radius: 3px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #4d90fe;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+            box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+    outline: none;
+}
+
+select,
+input[type="password"],
+input[type="text"] {
+    line-height: 18px;
+}
+
+
+/* Checkboxes */
+input[type="checkbox"] {
+    position: relative;
+    top: 1px;
+    margin: 0 2px 0 1px;
+}
+
+form p {
+    margin-bottom: 25px;
+}
+form label {
+    display: block;
+    margin-bottom: 4px;
+    color: #444;
+}
+
+
+/* Note */
+.note {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+/* Placeholder */
+:-moz-placeholder           { color: #afafaf; }
+::-moz-placeholder          { color: #afafaf; opacity: 1; }
+::-webkit-input-placeholder { color: #afafaf; }
+:-ms-input-placeholder      { color: #afafaf; }
