@@ -1,5 +1,7 @@
 {**
  * Опции вставки
+ *
+ * @param boolean $useSizes
  *}
 
 {extends 'components/uploader/uploader-block.tpl'}
@@ -27,9 +29,11 @@
 			]}
 
 		{* Размер *}
-		{include 'components/field/field.select.tpl'
-			name          = 'size'
-			label         = {lang name='media.insert.settings.fields.size.label'}
-			items         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
+		{if $smarty.local.useSizes|default:true}
+			{include 'components/field/field.select.tpl'
+				name          = 'size'
+				label         = {lang name='media.insert.settings.fields.size.label'}
+				items         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}
+		{/if}
 	</form>
 {/block}

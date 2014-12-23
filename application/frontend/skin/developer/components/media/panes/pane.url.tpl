@@ -24,8 +24,10 @@
 				 label   = {lang 'media.url.fields.url.label'}}
 	</form>
 
+	<div class="mb-15 js-media-url-image-preview" style="display: none"></div>
+
 	<div class="js-media-url-settings-blocks">
-		{include '../uploader/uploader-block.insert.image.tpl'}
+		{include '../uploader/uploader-block.insert.image.tpl' useSizes=false}
 	</div>
 {/block}
 

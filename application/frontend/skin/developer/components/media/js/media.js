@@ -50,6 +50,7 @@
 					block_container: '.js-media-url-settings-blocks',
 					submit_upload: '.js-media-url-submit-upload',
 					submit_insert: '.js-media-url-submit-insert',
+					image_preview: '.js-media-url-image-preview'
 				}
 			},
 
@@ -83,7 +84,8 @@
 					type: this.element.find( this.option( 'selectors.url.type' ) ),
 					block_container: this.element.find( this.option( 'selectors.url.block_container' ) ),
 					submit_upload: this.element.find( this.option( 'selectors.url.submit_upload' ) ),
-					submit_insert: this.element.find( this.option( 'selectors.url.submit_insert' ) )
+					submit_insert: this.element.find( this.option( 'selectors.url.submit_insert' ) ),
+					image_preview: this.element.find( this.option( 'selectors.url.image_preview' ) )
 				},
 			};
 
@@ -154,9 +156,10 @@
 			// INSERT FROM URL
 			//
 
-			this.elements.url.type.on( 'change', this.onUrlTypeChange.bind( this ) );
-			this.elements.url.submit_upload.on( 'click', this.urlInsert.bind( this, true ) );
-			this.elements.url.submit_insert.on( 'click', this.urlInsert.bind( this, false ) );
+			this.elements.url.type.on( 'change' + this.eventNamespace, this.onUrlTypeChange.bind( this ) );
+			this.elements.url.url.on( 'keyup change' + this.eventNamespace, this.onUrlChange.bind( this ) );
+			this.elements.url.submit_upload.on( 'click' + this.eventNamespace, this.urlInsert.bind( this, true ) );
+			this.elements.url.submit_insert.on( 'click' + this.eventNamespace, this.urlInsert.bind( this, false ) );
 		},
 
 		/**
@@ -251,6 +254,29 @@
 		onUrlTypeChange: function ( event ) {
 			this.elements.url.blocks.hide();
 			this.elements.url.blocks.filter( '[data-filetype=' + this.elements.url.type.val() + ']' ).show();
+			this.elements.url.url.val( '' );
+			this.elements.url.image_preview.hide().empty();
+		},
+
+		/**
+		 * 
+		 */
+		onUrlChange: function ( event ) {
+			var _this = this,
+				url = this.elements.url.url.val();
+
+			if ( this.elements.url.type.val() == 1 ) {
+				$('<img />', {
+					src: url,
+					style: 'max-width: 50%',
+					error: function () {
+						_this.elements.url.image_preview.hide().empty();
+					},
+					load: function () {
+						_this.elements.url.image_preview.show().html( $( this ) );
+					}
+				});
+			}
 		},
 
 		/**
