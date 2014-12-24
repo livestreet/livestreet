@@ -69,7 +69,7 @@
     {if $smarty.local.useSubscribe && $oUserCurrent}
         {$items[] = [
             'classes'    => "comments-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
-            'attributes' => "data-type=\"{$targetType}\" data-target-id=\"{$targetId}\"",
+            'attributes' => [ 'data-type' => $targetType, 'data-target-id' => $targetId ],
             'text'       => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
         ]}
     {/if}

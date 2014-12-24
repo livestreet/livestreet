@@ -38,7 +38,7 @@
 			 classes   = 'js-vote-user'
 			 mods      = 'large'
 			 target    = $user
-			 isLocked  = $oUserCurrent &&  $oUserCurrent->getId() == $user->getId()
+			 isLocked  = true
 			 showLabel = true}
 
 	{hook run='profile_top_end' user=$user}

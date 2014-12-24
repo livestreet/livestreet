@@ -59,11 +59,22 @@
 /* Голосование */
 .article-info-item.article-info-item--vote { padding: 0; }
 
+/**
+ * Превью (изображение)
+ */
+.topic-preview-image {
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    background: #f7f7f7;
+}
+.topic-preview-image img {
+    max-width: 100%;
+    vertical-align: top;
+}
 
 /**
  * Предпросмотр топика
- *
- * @template topics/topic_preview_X.tpl
  */
 .topic-preview        { margin-top: 30px; border: 1px solid #eee; display: none; }
 .topic-preview-header { padding: 20px 30px; background: #fafafa; }

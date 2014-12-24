@@ -79,7 +79,7 @@
 			if ( ! this.element.hasClass(this.options.classes.voted) ) {
 				this._on( this.elements.items, {
 					'click': function (e) {
-						_this.lsVote( $(e.currentTarget).data('vote-value') );
+						_this.vote( $(e.currentTarget).data('vote-value') );
 						e.preventDefault();
 					}
 				});
@@ -95,12 +95,12 @@
 		/**
 		 * Голосование
 		 *
-		 * @param  {Number} iValue    Значение
+		 * @param {Number} value Значение
 		 */
-		vote: function(iValue) {
-			var oParams = $.extend({}, { value: iValue }, this.options.params);
+		vote: function( value ) {
+			var params = $.extend({}, { value: value }, this.options.params);
 
-			ls.ajax.load(this.options.urls.vote, oParams, function (oResponse) {
+			ls.ajax.load(this.options.urls.vote, params, function (oResponse) {
 				if (oResponse.bStateError) {
 					ls.msg.error(null, oResponse.sMsg);
 				} else {
@@ -112,7 +112,7 @@
 						.removeClass(this.options.classes.count_negative + ' ' + this.options.classes.count_positive + ' ' + this.options.classes.count_zero)
 						.removeClass(this.options.classes.rating_hidden + ' ' + this.options.classes.not_voted)
 						.addClass(this.options.classes.voted)
-						.addClass(this.options.classes[ iValue > 0 ? 'voted_up' : ( iValue < 0 ? 'voted_down' : 'voted_zero' ) ])
+						.addClass(this.options.classes[ value > 0 ? 'voted_up' : ( value < 0 ? 'voted_down' : 'voted_zero' ) ])
 						.addClass(this.options.classes[ oResponse.iRating > 0 ? 'count_positive' : ( oResponse.iRating < 0 ? 'count_negative' : 'count_zero' ) ]);
 
 					this.elements.rating.text(oResponse.iRating);

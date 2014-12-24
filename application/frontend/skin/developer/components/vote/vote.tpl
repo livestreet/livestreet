@@ -23,64 +23,73 @@
 
 {* Получаем модификаторы *}
 {if $showRating}
-	{if $rating > 0}
-		{$mods = "$mods count-positive"}
-	{elseif $rating < 0}
-		{$mods = "$mods count-negative"}
-	{else}
-		{$mods = "$mods count-zero"}
-	{/if}
+    {if $rating > 0}
+        {$mods = "$mods count-positive"}
+    {elseif $rating < 0}
+        {$mods = "$mods count-negative"}
+    {else}
+        {$mods = "$mods count-zero"}
+    {/if}
 {/if}
 
 {if $vote = $target->getVote()}
-	{$mods = "$mods voted"}
+    {$mods = "$mods voted"}
 
-	{if $vote->getDirection() > 0}
-		{$mods = "$mods voted-up"}
-	{elseif $vote->getDirection() < 0}
-		{$mods = "$mods voted-down"}
-	{else}
-		{$mods = "$mods voted-zero"}
-	{/if}
+    {if $vote->getDirection() > 0}
+        {$mods = "$mods voted-up"}
+    {elseif $vote->getDirection() < 0}
+        {$mods = "$mods voted-down"}
+    {else}
+        {$mods = "$mods voted-zero"}
+    {/if}
 {else}
-	{$mods = "$mods not-voted"}
+    {$mods = "$mods not-voted"}
 {/if}
 
 {if ! $oUserCurrent || $smarty.local.isLocked}
-	{$mods = "$mods locked"}
+    {$mods = "$mods locked"}
 {/if}
 
 {if ! $showRating}
-	{$mods = "$mods rating-hidden"}
+    {$mods = "$mods rating-hidden"}
 {/if}
+
+{* Дополнительный мод-ор для иконок *}
+{$iconMod = ( in_array( 'small', explode(' ', $mods) ) ) ? 'icon-white' : ''}
 
 
 <div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
-	{* Заголовок *}
-	{if $showLabel}
-		<h4 class="{$component}-heading">{$aLang.$component.rating}</h4>
-	{/if}
+    {* Заголовок *}
+    {if $showLabel}
+        <h4 class="{$component}-heading">{$aLang.$component.rating}</h4>
+    {/if}
 
-	{* Основной блок *}
-	<div class="{$component}-body">
-		{* Рейтинг *}
-		<div class="{$component}-rating js-{$component}-rating">
-			{if $showRating}
-				{$rating}
-			{else}
-				?
-			{/if}
-		</div>
+    {* Основной блок *}
+    <div class="{$component}-body">
+        {* Рейтинг *}
+        <div class="{$component}-rating js-{$component}-rating">
+            {if $showRating}
+                {$rating}
+            {else}
+                ?
+            {/if}
+        </div>
 
-		{* Воздержаться *}
-		{if $smarty.local.useAbstain}
-			<div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"><i></i></div>
-		{/if}
+        {* Воздержаться *}
+        {if $smarty.local.useAbstain}
+            <div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
+                {include 'components/icons/icon.tpl' icon='eye-open' classes=$iconMod}
+            </div>
+        {/if}
 
-		{* Нравится *}
-		<div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1"><i></i></div>
+        {* Нравится *}
+        <div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
+            {include 'components/icons/icon.tpl' icon='plus' classes=$iconMod}
+        </div>
 
-		{* Не нравится *}
-		<div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1"><i></i></div>
-	</div>
+        {* Не нравится *}
+        <div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
+            {include 'components/icons/icon.tpl' icon='minus' classes=$iconMod}
+        </div>
+    </div>
 </div>

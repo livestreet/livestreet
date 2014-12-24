@@ -27,10 +27,8 @@
 
 
 /* Close button */
-.modal .modal-close:before,
-.modal .close:before { display: block;  content: "×"; }
-.modal .modal-close,
-.modal .close {
+.modal .modal-close:before { display: block;  content: "×"; }
+.modal .modal-close {
 	position: absolute;
 	top: 50%;
 	right: 15px;
@@ -40,9 +38,12 @@
 	color: #000;
 	opacity: .3;
 	filter: alpha(opacity=30);
+	cursor: pointer;
 }
-.modal .modal-close:hover,
-.modal .close:hover { opacity: .7; filter: alpha(opacity=70); }
+.modal .modal-close:hover {
+	opacity: .7;
+	filter: alpha(opacity=70);
+}
 
 
 /* Header */
@@ -95,7 +96,7 @@
 	left: 50%;
 	border-radius: 5px;
 	background-color: #000;
-	background: rgba(0,0,0,.8) url(../images/loader.gif) 50% 50% no-repeat;
+	background-color: rgba(0,0,0,.8);
 	z-index: 1001;
 }
 .modal-loader.modal-loader-text {

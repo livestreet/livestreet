@@ -113,7 +113,7 @@ var ls = ls || {};
 	// ----------
 
 	var _loader = (function ($) {
-		this.element = $('<div class="modal-loader js-modal-loader" />');
+		this.element = $('<div class="modal-loader loading js-modal-loader" />');
 
 		/**
 		 * Init
@@ -348,7 +348,7 @@ var ls = ls || {};
 	});
 
 
-	// Инизиализация
+	// Инициализация
 	$(document).on('ready', function (e) {
 		_overlay.init();
 		_loader.init();

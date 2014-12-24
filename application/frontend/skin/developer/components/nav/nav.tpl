@@ -32,7 +32,7 @@
 {/foreach}
 
 {* Отображем меню только если есть активные пункты *}
-{if count( $items ) - $disabledItemsCounter}
+{if count( $items ) - $disabledItemsCounter - ( ( $smarty.local.hideAlone|default:true ) ? 1 : 0 )}
     <ul class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
         {foreach $items as $item}
             {$isEnabled = $item[ 'is_enabled' ]}

@@ -112,7 +112,6 @@ a.button--large { padding-top: 8px; }
 .button[disabled].loading,
 .button.loading {
 	color: transparent;
-	background-image: url(../images/loader.gif);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
