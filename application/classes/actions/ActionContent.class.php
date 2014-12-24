@@ -191,7 +191,7 @@ class ActionContent extends Action
          * Дополнительно загружам превью
          */
         $aFilter = array(
-            'target_type' => $oTopic->getType(),
+            'target_type' => 'topic',
             'is_preview'  => 1,
             'target_id'   => $sTopicId
         );
@@ -216,7 +216,7 @@ class ActionContent extends Action
     protected function EventAdd()
     {
         $sTopicType = $this->GetParam(0);
-        $iBlogId = (int) getRequest('blog_id');
+        $iBlogId = (int)getRequest('blog_id');
 
         if (!$oTopicType = $this->Topic_GetTopicType($sTopicType)) {
             return parent::EventNotFound();
@@ -257,7 +257,7 @@ class ActionContent extends Action
         /**
          * Проверяем разрешено ли постить топик по времени
          */
-        if ( ! isPost('is_draft') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
+        if (!isPost('is_draft') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
             $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'), $this->Lang_Get('error'));
             return;
         }
@@ -283,7 +283,7 @@ class ActionContent extends Action
          * Публикуем или сохраняем в черновиках
          */
         $bSendNotify = false;
-        if ( ! isset($_REQUEST['is_draft'])) {
+        if (!isset($_REQUEST['is_draft'])) {
             $oTopic->setPublish(1);
             if ($oTopic->getPublishDraft() == 0) {
                 $oTopic->setPublishDraft(1);
@@ -333,7 +333,7 @@ class ActionContent extends Action
                 $oTopic->setCutText($sTextCut);
                 // TODO: передача параметров в Topic_Parser пока не используется - нужно заменить на этот вызов все места с парсингом топика
                 $oTopic->setText($this->Topic_Parser($sTextNew, $oTopic));
-                if ($sTextShort!=$sTextNew) {
+                if ($sTextShort != $sTextNew) {
                     $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
                 } else {
                     $oTopic->setTextShort('');
@@ -425,7 +425,7 @@ class ActionContent extends Action
         /**
          * Публикуем или сохраняем
          */
-        if ( ! isset($_REQUEST['is_draft'])) {
+        if (!isset($_REQUEST['is_draft'])) {
             $oTopic->setPublish(1);
             $oTopic->setPublishDraft(1);
         } else {
@@ -466,7 +466,7 @@ class ActionContent extends Action
                 list($sTextShort, $sTextNew, $sTextCut) = $this->Text_Cut($oTopic->getTextSource());
                 $oTopic->setCutText($sTextCut);
                 $oTopic->setText($this->Topic_Parser($sTextNew, $oTopic));
-                if ($sTextShort!=$sTextNew) {
+                if ($sTextShort != $sTextNew) {
                     $oTopic->setTextShort($this->Topic_Parser($sTextShort, $oTopic));
                 } else {
                     $oTopic->setTextShort('');
@@ -554,8 +554,8 @@ class ActionContent extends Action
         /**
          * Проверка на ID при редактировании топика
          */
-        $iId=isset($aTopicRequest['id']) ? (int)$aTopicRequest['id'] : null;
-        if ($iId and !($oTopicOriginal=$this->Topic_GetTopicById($iId))) {
+        $iId = isset($aTopicRequest['id']) ? (int)$aTopicRequest['id'] : null;
+        if ($iId and !($oTopicOriginal = $this->Topic_GetTopicById($iId))) {
             return $this->EventErrorDebug();
         }
         /**
@@ -575,7 +575,7 @@ class ActionContent extends Action
          */
         if ($iId) {
             $oTopic->setId($iId);
-            $a=$oTopic->getPropertyList();
+            $a = $oTopic->getPropertyList();
         }
         /**
          * Валидируем необходимые поля топика

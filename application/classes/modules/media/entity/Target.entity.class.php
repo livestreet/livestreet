@@ -44,6 +44,18 @@ class ModuleMedia_EntityTarget extends EntityORM
         return $bResult;
     }
 
+    protected function beforeDelete()
+    {
+        if ($bResult = parent::beforeDelete()) {
+            /**
+             * Удаляем превью
+             */
+            if ($this->getIsPreview() and $oMedia = $this->getMedia()) {
+                $this->Media_RemoveFilePreview($oMedia, $this);
+            }
+        }
+        return $bResult;
+    }
 
     public function getData()
     {

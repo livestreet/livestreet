@@ -8,7 +8,7 @@
 <div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} fieldset" {cattr list=$smarty.local.attributes}
     data-param-target_type="{$smarty.local.targetType}"
     data-param-target_id="{$smarty.local.targetId}"
-    {if $imagePreviewItems}data-param-id="{$imagePreviewItems[0]->getId()}"{/if}>
+    {if $imagePreviewItems}data-param-id="{$imagePreviewItems[0]->getMediaId()}"{/if}>
 
     <div class="fieldset-header">
         <h2 class="fieldset-title">{$smarty.local.label}</h2>
