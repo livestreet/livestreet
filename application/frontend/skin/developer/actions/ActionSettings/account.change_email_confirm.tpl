@@ -5,8 +5,7 @@
 {extends 'layouts/layout.base.tpl'}
 
 {block 'layout_options' append}
-    {$layoutShowSidebar = false}
-    {$bNoSystemMessages = true}
+    {$layoutShowSystemMessages = false}
 {/block}
 
 {block 'layout_content'}

@@ -6,10 +6,6 @@
 
 {extends 'layouts/layout.admin.tpl'}
 
-{block 'layout_options' append}
-    {$layoutShowSidebar = false}
-{/block}
-
 {block 'layout_admin_page_title'}
     {lang 'admin.items.plugins'}
 {/block}

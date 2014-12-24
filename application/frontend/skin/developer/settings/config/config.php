@@ -17,11 +17,8 @@ $config['view']['grid']['fluid_max_width'] = '1000px';
 // Настройки фиксированная ширина
 $config['view']['grid']['fixed_width'] = '1000px';
 
-// Показывать сайдбар на странице топика или нет
-$config['view']['topic_show_sidebar'] = false;
-
 // Показывать баннер с лого и описанием или нет
-$config['view']['layout_show_banner'] = true;
+$config['view']['layout_show_banner'] = false;
 
 // Подключение скриптов шаблона
 $config['head']['default']['js'] = array_merge(Config::Get('head.default.js'), array(

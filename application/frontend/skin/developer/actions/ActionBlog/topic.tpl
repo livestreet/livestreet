@@ -9,10 +9,6 @@
 
 {extends 'layouts/layout.base.tpl'}
 
-{block 'layout_options' append}
-    {$layoutShowSidebar = Config::Get( 'view.topic_show_sidebar' )}
-{/block}
-
 {block 'layout_content'}
     {* Топик *}
     {include 'components/topic/topic.tpl' topic=$topic}
