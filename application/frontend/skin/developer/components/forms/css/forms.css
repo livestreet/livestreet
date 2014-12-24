@@ -56,11 +56,11 @@ select[multiple] { height: auto; min-height: 150px; }
 fieldset        { margin-bottom: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; }
 fieldset legend { color: #000; font-size: 18px; padding-right: 10px; }
 
-.fieldset        { margin-bottom: 20px; background: #f7f7f7; }
+.fieldset        { margin-bottom: 20px; background: #fafafa; }
 .fieldset-header { padding: 15px; }
 .fieldset-body,
 .fieldset-footer { padding: 0 15px 15px; }
-.fieldset-title  { font-size: 20px; line-height: 1em; }
+.fieldset-title  { font-size: 20px; line-height: 1em; margin-bottom: 0; }
 .note.fieldset-note   { font-size: 13px; margin-top: 15px; }
 
 

@@ -215,3 +215,10 @@
 	color: #aaa;
 	font-size: 11px;
 }
+
+/**
+ * Modal
+ */
+.modal--uploader {
+	max-width: 850px;
+}

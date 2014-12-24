@@ -254,7 +254,7 @@ $config['module']['media']['image']['sizes'] = array(  // список разм�
 );
 $config['module']['media']['image']['preview']['sizes'] = array(  // список размеров, которые необходимо делать при создании превью
     array(
-        'w'    => 500,
+        'w'    => 900,
         'h'    => 300,
         'crop' => true,
     ),
@@ -389,7 +389,7 @@ $config['router']['force_secure'] = array();
 $config['block']['rule_index_blog'] = array(
     'action' => array(
         'index',
-        'blog' => array('{topics}', '{topic}', '{blog}')
+        'blog' => array('{topics}', '{blog}')
     ),
     'blocks' => array(
         'right' => array(
@@ -557,6 +557,7 @@ $config['head']['default']['js'] = array(
     "___path.skin.web___/components/user/js/user-fields.js",
     "___path.skin.web___/components/field/js/field.geo.js",
     "___path.skin.web___/components/field/js/field.captcha.js",
+    "___path.skin.web___/components/field/js/field.image-ajax.js",
     "___path.skin.web___/components/uploader/js/uploader.js",
     "___path.skin.web___/components/uploader/js/uploader-file-list.js",
     "___path.skin.web___/components/uploader/js/uploader-file.js",

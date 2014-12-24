@@ -186,6 +186,18 @@ class ActionContent extends Action
          * Вызов хуков
          */
         $this->Hook_Run('topic_edit_show', array('oTopic' => $oTopic));
+
+        /**
+         * Дополнительно загружам превью
+         */
+        $aFilter = array(
+            'target_type' => $oTopic->getType(),
+            'is_preview'  => 1,
+            'target_id'   => $sTopicId
+        );
+        $aTargetItems = $this->Media_GetTargetItemsByFilter($aFilter);
+        $this->Viewer_Assign('imagePreviewItems', $aTargetItems);
+
         /**
          * Загружаем переменные в шаблон
          */

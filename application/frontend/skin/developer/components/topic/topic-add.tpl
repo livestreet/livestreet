@@ -91,6 +91,15 @@
     ]}
 
 
+    {* Выбор превью *}
+    {include 'components/field/field.image-ajax.tpl'
+        label      = 'Превью'
+        modalTitle = 'Выбор превью для топика'
+        targetType = 'topic'
+        targetId   = ( $topic ) ? $topic->getId() : ''
+        classes    = 'js-topic-add-field-image-preview'}
+
+
     {* Вставка опросов *}
     {if $type->getParam('allow_poll')}
         {include 'components/poll/poll.manage.tpl'

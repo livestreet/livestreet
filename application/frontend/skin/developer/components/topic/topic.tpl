@@ -42,8 +42,20 @@
 {/block}
 
 
-{* Название блога *}
-{block 'article_body' append}
+{* Содержимое *}
+{block 'article_body'}
+	{* Превью *}
+	{$previewImage = $topic->getPreviewImageWebPath('900x300crop')}
+
+	{if $previewImage}
+		<div class="topic-preview-image">
+			<img src="{$previewImage}" />
+		</div>
+	{/if}
+
+	{* Содержимое родительского шаблона *}
+	{$smarty.block.parent}
+
 	{* Дополнительные поля *}
 	{block 'topic_content_properties'}
 		{if ! $isList}

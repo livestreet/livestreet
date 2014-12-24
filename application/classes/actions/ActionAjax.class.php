@@ -764,22 +764,6 @@ class ActionAjax extends Action
         }
 
         $this->Viewer_AssignAjax('html', $sTemplate);
-
-        /**
-         * Дополнительно загружам превью
-         */
-        $aFilter = array(
-            'target_type' => $sType,
-            'is_preview'  => 1,
-        );
-        if ($sId) {
-            $aFilter['target_id'] = $sId;
-        } else {
-            $aFilter['target_tmp'] = $sTmp;
-        }
-        $aTargetItems = $this->Media_GetTargetItemsByFilter($aFilter);
-        $oViewer->Assign('aTargetItems', $aTargetItems);
-        //$this->Viewer_AssignAjax('sTemplatePreview',$oViewer->Fetch('components/media/preview.tpl'));
     }
 
     protected function EventMediaLoadPreviewItems()
@@ -807,8 +791,8 @@ class ActionAjax extends Action
         }
         $aTargetItems = $this->Media_GetTargetItemsByFilter($aFilter);
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('aTargetItems', $aTargetItems);
-        $this->Viewer_AssignAjax('sTemplatePreview', $oViewer->Fetch('components/media/preview.tpl'));
+        $oViewer->Assign('imagePreviewItems', $aTargetItems);
+        $this->Viewer_AssignAjax('sTemplatePreview', $oViewer->Fetch('components/field/field.image-ajax-items.tpl'));
     }
 
     protected function EventMediaSubmitInsert()

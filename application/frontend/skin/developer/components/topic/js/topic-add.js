@@ -27,6 +27,7 @@
             selectors: {
                 preview: '#topic-text-preview',
                 preview_content: '#topic-text-preview .js-topic-preview-content',
+                image_preview: '.js-topic-add-field-image-preview',
                 buttons: {
                     preview: '.js-topic-preview-text-button',
                     preview_hide: '.js-topic-preview-text-hide-button',
@@ -47,6 +48,7 @@
             this.elements = {
                 preview: $( this.option( 'selectors.preview' ) ),
                 preview_content: $( this.option( 'selectors.preview_content' ) ),
+                image_preview: this.element.find( this.option( 'selectors.image_preview' ) ),
                 buttons: {
                     preview: this.element.find( this.option( 'selectors.buttons.preview' ) ),
                     preview_hide: $( this.option( 'selectors.buttons.preview_hide' ) ),
@@ -57,6 +59,14 @@
 
             // Иниц-ия формы
             this.element.lsContent({
+                urls: {
+                    add: this.option( 'urls.add' ),
+                    edit: this.option( 'urls.edit' )
+                }
+            });
+
+            // Превью (изображение)
+            this.elements.image_preview.lsFieldImageAjax({
                 urls: {
                     add: this.option( 'urls.add' ),
                     edit: this.option( 'urls.edit' )
