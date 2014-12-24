@@ -55,11 +55,7 @@
 
             this.elements.modal.lsModal({
                 aftershow: function () {
-                    var list = _this.elements.uploader.lsUploader( 'getElement', 'list' );
-
-                    if ( list.lsUploaderFileList( 'isEmpty' ) ) {
-                        list.lsUploaderFileList( 'load' );
-                    }
+                    _this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
                 }
             });
 
