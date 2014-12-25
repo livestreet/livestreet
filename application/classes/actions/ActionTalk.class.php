@@ -410,7 +410,7 @@ class ActionTalk extends Action
         /**
          * Отправляем письмо
          */
-        if ($oTalk = $this->Talk_SendTalk($this->Text_Parser(strip_tags(getRequestStr('talk_title'))),
+        if ($oTalk = $this->Talk_SendTalk(strip_tags(getRequestStr('talk_title')),
             $this->Text_Parser(getRequestStr('talk_text')), $this->oUserCurrent, $this->aUsersId)
         ) {
             /**
