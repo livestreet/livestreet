@@ -315,6 +315,7 @@ class ActionContent extends Action
          */
         $oTopic->setDateEditContent(date('Y-m-d H:i:s'));
 
+        $this->Hook_Run('topic_edit_validate_before', array('oTopic'=>$oTopic));
         if ($oTopic->_Validate()) {
             $oBlog = $oTopic->getBlog();
             /**
@@ -344,6 +345,7 @@ class ActionContent extends Action
                 $oTopic->setTextShort('');
                 $oTopic->setTextSource('');
             }
+            $this->Hook_Run('topic_edit_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
             /**
              * Сохраняем топик
              */
@@ -449,6 +451,7 @@ class ActionContent extends Action
             $oTopic->setForbidComment(1);
         }
 
+        $this->Hook_Run('topic_add_validate_before', array('oTopic'=>$oTopic));
         if ($oTopic->_Validate()) {
             $oBlog = $oTopic->getBlog();
             /**
@@ -478,6 +481,7 @@ class ActionContent extends Action
                 $oTopic->setTextSource('');
             }
 
+            $this->Hook_Run('topic_add_before', array('oTopic' => $oTopic, 'oBlog' => $oBlog));
             if ($this->Topic_AddTopic($oTopic)) {
                 $this->Hook_Run('topic_add_after', array('oTopic' => $oTopic, 'oBlog' => $oBlog));
                 /**
