@@ -1270,7 +1270,7 @@ class ActionAjax extends Action
                 $sTag = trim($sTag);
                 if (func_check($sTag, 'text', 2, 50) and !in_array(mb_strtolower($sTag, 'UTF-8'), $aTagsNewLow)) {
                     $sTagEsc = htmlspecialchars($sTag);
-                    $aTagsNew[] = $sTagEsc;
+                    $aTagsNew[] = $sTag;
                     $aTagsReturn[] = array(
                         'tag' => $sTagEsc,
                         'url' => $this->oUserCurrent->getUserWebPath() . 'favourites/' . $oFavourite->getTargetType() . 's/tag/' . $sTagEsc . '/',
