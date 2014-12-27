@@ -396,8 +396,7 @@ class ActionAjax extends Action
             }
             if (!$sTargetTmp) {
                 $sTargetTmp = func_generator();
-                setcookie('poll_target_tmp_' . $sTargetType, $sTargetTmp, time() + 24 * 3600,
-                    Config::Get('sys.cookie.path'), Config::Get('sys.cookie.host'));
+                $this->Session_SetCookie('poll_target_tmp_' . $sTargetType, $sTargetTmp, time() + 24 * 3600);
             }
         }
 
@@ -861,8 +860,7 @@ class ActionAjax extends Action
         $sType = getRequestStr('type');
         if ($this->Media_IsAllowTargetType($sType)) {
             $sTmp = func_generator();
-            setcookie('media_target_tmp_' . $sType, $sTmp, time() + 24 * 3600, Config::Get('sys.cookie.path'),
-                Config::Get('sys.cookie.host'));
+            $this->Session_SetCookie('media_target_tmp_' . $sType, $sTmp, time() + 24 * 3600);
             $this->Viewer_AssignAjax('sTmpKey', $sTmp);
         }
     }

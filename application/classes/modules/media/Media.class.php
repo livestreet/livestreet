@@ -683,7 +683,7 @@ class ModuleMedia extends ModuleORM
         $sCookieKey = 'media_target_tmp_' . $sTargetType;
         if (is_null($sTargetTmp) and isset($_COOKIE[$sCookieKey])) {
             $sTargetTmp = $_COOKIE[$sCookieKey];
-            setcookie($sCookieKey, null, -1, Config::Get('sys.cookie.path'), Config::Get('sys.cookie.host'));
+            $this->Session_DropCookie($sCookieKey);
         }
         if (is_string($sTargetTmp)) {
             $aTargetItems = $this->Media_GetTargetItemsByTargetTmpAndTargetType($sTargetTmp, $sTargetType);
