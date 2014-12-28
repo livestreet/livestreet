@@ -129,8 +129,8 @@ class ModulePoll extends ModuleORM
     public function ReplaceTargetTmpById($sTargetType, $sTargetId, $sTargetTmp = null)
     {
         $sCookieKey = 'poll_target_tmp_' . $sTargetType;
-        if (is_null($sTargetTmp) and isset($_COOKIE[$sCookieKey])) {
-            $sTargetTmp = $_COOKIE[$sCookieKey];
+        if (is_null($sTargetTmp) and $this->Session_GetCookie($sCookieKey)) {
+            $sTargetTmp = $this->Session_GetCookie($sCookieKey);
             $this->Session_DropCookie($sCookieKey);
         }
         if (is_string($sTargetTmp)) {
@@ -159,8 +159,9 @@ class ModulePoll extends ModuleORM
             '#with'       => array('answers')
         );
         if ($this->oUserCurrent) {
-            $aFilter['#with']['vote_current'] = array('user_id'        => $this->oUserCurrent->getId(),
-                                                      '#value-default' => false
+            $aFilter['#with']['vote_current'] = array(
+                'user_id'        => $this->oUserCurrent->getId(),
+                '#value-default' => false
             );
         } else {
             $aFilter['#with']['vote_current'] = array('#value-set' => false);

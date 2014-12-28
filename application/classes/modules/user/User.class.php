@@ -594,7 +594,8 @@ class ModuleUser extends Module
          * Ставим куку
          */
         if ($bRemember) {
-            $this->Session_SetCookie('key', $this->oSession->getKey(), time() + Config::Get('module.user.time_login_remember'), false,
+            $this->Session_SetCookie('key', $this->oSession->getKey(),
+                time() + Config::Get('module.user.time_login_remember'), false,
                 true);
         }
         return true;
@@ -609,7 +610,7 @@ class ModuleUser extends Module
         if ($this->oUserCurrent) {
             return;
         }
-        if (isset($_COOKIE['key']) and is_string($_COOKIE['key']) and $sKey = $_COOKIE['key']) {
+        if ($sKey = $this->Session_GetCookie('key') and is_string($sKey)) {
             if ($oUser = $this->GetUserBySessionKey($sKey) and $oSession = $this->oMapper->GetSessionByKey($sKey) and $oSession->isActive()) {
                 $this->Authorization($oUser, true, $oSession->getKey());
             } else {

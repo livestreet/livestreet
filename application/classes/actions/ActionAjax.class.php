@@ -383,7 +383,7 @@ class ActionAjax extends Action
         $sTargetType = getRequestStr('target_type');
         $sTargetId = getRequestStr('target_id');
 
-        $sTargetTmp = empty($_COOKIE['poll_target_tmp_' . $sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['poll_target_tmp_' . $sTargetType];
+        $sTargetTmp = $this->Session_GetCookie('poll_target_tmp_' . $sTargetType) ? $this->Session_GetCookie('poll_target_tmp_' . $sTargetType) : getRequestStr('target_tmp');
         if ($sTargetId) {
             $sTargetTmp = null;
             if (!$this->Poll_CheckTarget($sTargetType, $sTargetId)) {
@@ -524,7 +524,7 @@ class ActionAjax extends Action
             $sTargetType = getRequestStr('target_type');
             $sTargetId = getRequestStr('target_id');
 
-            $sTargetTmp = empty($_COOKIE['media_target_tmp_' . $sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_' . $sTargetType];
+            $sTargetTmp = $this->Session_GetCookie('media_target_tmp_' . $sTargetType) ? $this->Session_GetCookie('media_target_tmp_' . $sTargetType) : getRequestStr('target_tmp');
             if ($sTargetId) {
                 $sTargetTmp = null;
                 if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId,
@@ -891,7 +891,7 @@ class ActionAjax extends Action
         $sTargetType = getRequestStr('target_type');
         $sTargetId = getRequestStr('target_id');
 
-        $sTargetTmp = empty($_COOKIE['media_target_tmp_' . $sTargetType]) ? getRequestStr('target_tmp') : $_COOKIE['media_target_tmp_' . $sTargetType];
+        $sTargetTmp = $this->Session_GetCookie('media_target_tmp_' . $sTargetType) ? $this->Session_GetCookie('media_target_tmp_' . $sTargetType) : getRequestStr('target_tmp');
         if ($sTargetId) {
             $sTargetTmp = null;
             if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId, ModuleMedia::TYPE_CHECK_ALLOW_ADD,

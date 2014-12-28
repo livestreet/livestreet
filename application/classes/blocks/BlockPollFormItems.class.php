@@ -36,7 +36,7 @@ class BlockPollFormItems extends Block
 
         $sTargetType = $this->GetParam('target_type');
         $sTargetId = $this->GetParam('target_id');
-        $sTargetTmp = empty($_COOKIE['poll_target_tmp_' . $sTargetType]) ? $this->GetParam('target_tmp') : $_COOKIE['poll_target_tmp_' . $sTargetType];
+        $sTargetTmp = $this->Session_GetCookie('poll_target_tmp_' . $sTargetType) ? $this->Session_GetCookie('poll_target_tmp_' . $sTargetType) : $this->GetParam('target_tmp');
 
         $aFilter = array('target_type' => $sTargetType, '#order' => array('id' => 'asc'));
         if ($sTargetId) {

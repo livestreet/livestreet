@@ -681,8 +681,8 @@ class ModuleMedia extends ModuleORM
     public function ReplaceTargetTmpById($sTargetType, $sTargetId, $sTargetTmp = null)
     {
         $sCookieKey = 'media_target_tmp_' . $sTargetType;
-        if (is_null($sTargetTmp) and isset($_COOKIE[$sCookieKey])) {
-            $sTargetTmp = $_COOKIE[$sCookieKey];
+        if (is_null($sTargetTmp) and $this->Session_GetCookie($sCookieKey)) {
+            $sTargetTmp = $this->Session_GetCookie($sCookieKey);
             $this->Session_DropCookie($sCookieKey);
         }
         if (is_string($sTargetTmp)) {
