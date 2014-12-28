@@ -748,7 +748,6 @@ ALTER TABLE `prefix_user` ADD `user_admin` TINYINT(1) NOT NULL DEFAULT '0' AFTER
 
 
 -- 27.12.2014
-ALTER TABLE `prefix_session` DROP FOREIGN KEY `prefix_session_fk`;
 ALTER TABLE `prefix_session` DROP INDEX user_id;
 ALTER TABLE `prefix_session` ADD INDEX(`user_id`);
 ALTER TABLE `prefix_session` ADD `session_date_close` DATETIME NULL DEFAULT NULL , ADD INDEX (`session_date_close`) ;
@@ -761,3 +760,54 @@ ALTER TABLE `prefix_favourite` CHANGE `target_type` `target_type` VARCHAR(50) CH
 ALTER TABLE `prefix_favourite_tag` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `prefix_user` CHANGE `user_profile_sex` `user_profile_sex` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'other';
 ALTER TABLE `prefix_vote` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
+
+ALTER TABLE `prefix_session` DROP FOREIGN KEY `prefix_session_fk`;
+ALTER TABLE `prefix_blog` DROP FOREIGN KEY `prefix_blog_fk`;
+ALTER TABLE `prefix_blog_user` DROP FOREIGN KEY `prefix_blog_user_fk`;
+ALTER TABLE `prefix_blog_user` DROP FOREIGN KEY `prefix_blog_user_fk1`;
+ALTER TABLE `prefix_comment` DROP FOREIGN KEY `prefix_topic_comment_fk`;
+ALTER TABLE `prefix_comment` DROP FOREIGN KEY `topic_comment_fk1`;
+ALTER TABLE `prefix_comment_online` DROP FOREIGN KEY `prefix_topic_comment_online_fk1`;
+ALTER TABLE `prefix_favourite` DROP FOREIGN KEY `prefix_favourite_target_fk`;
+ALTER TABLE `prefix_favourite_tag` DROP FOREIGN KEY `prefix_favourite_tag_ibfk_1`;
+ALTER TABLE `prefix_friend` DROP FOREIGN KEY `prefix_friend_from_fk`;
+ALTER TABLE `prefix_friend` DROP FOREIGN KEY `prefix_friend_to_fk`;
+ALTER TABLE `prefix_geo_city` DROP FOREIGN KEY `prefix_geo_city_ibfk_1`;
+ALTER TABLE `prefix_geo_city` DROP FOREIGN KEY `prefix_geo_city_ibfk_2`;
+ALTER TABLE `prefix_geo_region` DROP FOREIGN KEY `prefix_geo_region_ibfk_1`;
+ALTER TABLE `prefix_geo_target` DROP FOREIGN KEY `prefix_geo_target_ibfk_1`;
+ALTER TABLE `prefix_geo_target` DROP FOREIGN KEY `prefix_geo_target_ibfk_2`;
+ALTER TABLE `prefix_geo_target` DROP FOREIGN KEY `prefix_geo_target_ibfk_3`;
+ALTER TABLE `prefix_invite` DROP FOREIGN KEY `prefix_invite_fk`;
+ALTER TABLE `prefix_invite` DROP FOREIGN KEY `prefix_invite_fk1`;
+ALTER TABLE `prefix_media_target` DROP FOREIGN KEY `prefix_media_target_ibfk_1`;
+ALTER TABLE `prefix_poll_answer` DROP FOREIGN KEY `prefix_poll_answer_ibfk_1`;
+ALTER TABLE `prefix_poll_vote` DROP FOREIGN KEY `prefix_poll_vote_ibfk_1`;
+ALTER TABLE `prefix_reminder` DROP FOREIGN KEY `prefix_reminder_fk`;
+ALTER TABLE `prefix_stream_event` DROP FOREIGN KEY `prefix_stream_event_ibfk_1`;
+ALTER TABLE `prefix_stream_subscribe` DROP FOREIGN KEY `prefix_stream_subscribe_ibfk_1`;
+ALTER TABLE `prefix_stream_user_type` DROP FOREIGN KEY `prefix_stream_user_type_ibfk_1`;
+ALTER TABLE `prefix_talk` DROP FOREIGN KEY `prefix_talk_fk`;
+ALTER TABLE `prefix_talk_blacklist` DROP FOREIGN KEY `prefix_talk_blacklist_fk_user`;
+ALTER TABLE `prefix_talk_blacklist` DROP FOREIGN KEY `prefix_talk_blacklist_fk_target`;
+ALTER TABLE `prefix_talk_user` DROP FOREIGN KEY `prefix_talk_user_fk`;
+ALTER TABLE `prefix_talk_user` DROP FOREIGN KEY `prefix_talk_user_fk1`;
+ALTER TABLE `prefix_topic` DROP FOREIGN KEY `prefix_topic_fk`;
+ALTER TABLE `prefix_topic` DROP FOREIGN KEY `prefix_topic_fk1`;
+ALTER TABLE `prefix_topic_content` DROP FOREIGN KEY `prefix_topic_content_fk`;
+ALTER TABLE `prefix_topic_read` DROP FOREIGN KEY `prefix_topic_read_fk`;
+ALTER TABLE `prefix_topic_read` DROP FOREIGN KEY `prefix_topic_read_fk1`;
+ALTER TABLE `prefix_topic_tag` DROP FOREIGN KEY `prefix_topic_tag_fk`;
+ALTER TABLE `prefix_topic_tag` DROP FOREIGN KEY `prefix_topic_tag_fk1`;
+ALTER TABLE `prefix_topic_tag` DROP FOREIGN KEY `prefix_topic_tag_fk2`;
+ALTER TABLE `prefix_userfeed_subscribe` DROP FOREIGN KEY `prefix_userfeed_subscribe_ibfk_1`;
+ALTER TABLE `prefix_user_changemail` DROP FOREIGN KEY `prefix_user_changemail_ibfk_1`;
+ALTER TABLE `prefix_user_complaint` DROP FOREIGN KEY `prefix_user_complaint_ibfk_1`;
+ALTER TABLE `prefix_user_complaint` DROP FOREIGN KEY `prefix_user_complaint_ibfk_2`;
+ALTER TABLE `prefix_user_field_value` DROP FOREIGN KEY `prefix_user_field_value_ibfk_1`;
+ALTER TABLE `prefix_user_field_value` DROP FOREIGN KEY `prefix_user_field_value_ibfk_2`;
+ALTER TABLE `prefix_user_note` DROP FOREIGN KEY `prefix_user_note_ibfk_1`;
+ALTER TABLE `prefix_user_note` DROP FOREIGN KEY `prefix_user_note_ibfk_2`;
+ALTER TABLE `prefix_vote` DROP FOREIGN KEY `prefix_topic_vote_fk1`;
+ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_1`;
+ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_2`;
