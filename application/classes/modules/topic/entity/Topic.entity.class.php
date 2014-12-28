@@ -338,6 +338,16 @@ class ModuleTopic_EntityTopic extends Entity
     }
 
     /**
+     * Возвращает статус пропуска топика на главной странице
+     *
+     * @return int|null
+     */
+    public function getSkipIndex()
+    {
+        return $this->_getDataOne('topic_skip_index');
+    }
+
+    /**
      * Возвращает рейтинг топика
      *
      * @return string
@@ -898,6 +908,16 @@ class ModuleTopic_EntityTopic extends Entity
     public function setPublishIndex($data)
     {
         $this->_aData['topic_publish_index'] = $data;
+    }
+
+    /**
+     * Устанавливает флаг пропуска на главной странице
+     *
+     * @param string $data
+     */
+    public function setSkipIndex($data)
+    {
+        $this->_aData['topic_skip_index'] = $data;
     }
 
     /**

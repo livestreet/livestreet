@@ -123,6 +123,12 @@
             checked = {($topic && $topic->getPublishIndex()) ? true : false }
             note    = $aLang.topic.add.fields.publish_index.note
             label   = $aLang.topic.add.fields.publish_index.label}
+
+        {include 'components/field/field.checkbox.tpl'
+            name    = 'topic[topic_skip_index]'
+            checked = {($topic && $topic->getSkipIndex()) ? true : false }
+            note    = $aLang.topic.add.fields.skip_index.note
+            label   = $aLang.topic.add.fields.skip_index.label}
     {/if}
 
 

@@ -46,17 +46,18 @@ class ModuleTopic_MapperTopic extends Mapper
 			topic_publish,
 			topic_publish_draft,
 			topic_publish_index,
+			topic_skip_index,
 			topic_cut_text,
 			topic_forbid_comment,			
 			topic_text_hash			
 			)
-			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?, ?, ?)
+			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getUserId(), $oTopic->getType(),
             $oTopic->getTitle(),
             $oTopic->getTags(), $oTopic->getDateAdd(), $oTopic->getUserIp(), $oTopic->getPublish(),
-            $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getCutText(), $oTopic->getForbidComment(),
-            $oTopic->getTextHash())
+            $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getCutText(),
+            $oTopic->getForbidComment(), $oTopic->getTextHash())
         ) {
             $oTopic->setId($iId);
             $this->AddTopicContent($oTopic);
@@ -517,6 +518,7 @@ class ModuleTopic_MapperTopic extends Mapper
 				topic_publish= ?d ,
 				topic_publish_draft= ?d ,
 				topic_publish_index= ?d,
+				topic_skip_index= ?d,
 				topic_rating= ?f,
 				topic_count_vote= ?d,
 				topic_count_vote_up= ?d,
@@ -533,7 +535,7 @@ class ModuleTopic_MapperTopic extends Mapper
 		";
         $res = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getTitle(), $oTopic->getTags(),
             $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getUserIp(),
-            $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getRating(),
+            $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getRating(),
             $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
             $oTopic->getCountVoteAbstain(), $oTopic->getCountRead(), $oTopic->getCountComment(),
             $oTopic->getCountFavourite(), $oTopic->getCutText(), $oTopic->getForbidComment(), $oTopic->getTextHash(),
@@ -585,7 +587,7 @@ class ModuleTopic_MapperTopic extends Mapper
         if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
             $sPublishIndex = '';
             if (isset($aFilter['topic_rating']['publish_index']) and $aFilter['topic_rating']['publish_index'] == 1) {
-                $sPublishIndex = " or topic_publish_index=1 ";
+                $sPublishIndex = " or topic_publish_index = 1 ) and ( topic_skip_index = 0 ";
             }
             if ($aFilter['topic_rating']['type'] == 'top') {
                 $sWhere .= " AND ( t.topic_rating >= " . (float)$aFilter['topic_rating']['value'] . " {$sPublishIndex} ) ";

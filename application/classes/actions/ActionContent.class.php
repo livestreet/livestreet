@@ -296,11 +296,21 @@ class ActionContent extends Action
         /**
          * Принудительный вывод на главную
          */
-        if ($this->ACL_IsAllowPublishIndex($this->oUserCurrent)) {
+        if ($this->ACL_IsAllowTopicPublishIndex($this->oUserCurrent)) {
             if (isset($_REQUEST['topic']['topic_publish_index'])) {
                 $oTopic->setPublishIndex(1);
             } else {
                 $oTopic->setPublishIndex(0);
+            }
+        }
+        /**
+         * Принудительный запрет вывода на главную
+         */
+        if ($this->ACL_IsAllowTopicSkipIndex($this->oUserCurrent)) {
+            if (isset($_REQUEST['topic']['topic_skip_index'])) {
+                $oTopic->setSkipIndex(1);
+            } else {
+                $oTopic->setSkipIndex(0);
             }
         }
         /**
@@ -438,9 +448,18 @@ class ActionContent extends Action
          * Принудительный вывод на главную
          */
         $oTopic->setPublishIndex(0);
-        if ($this->ACL_IsAllowPublishIndex($this->oUserCurrent)) {
+        if ($this->ACL_IsAllowTopicPublishIndex($this->oUserCurrent)) {
             if (isset($_REQUEST['topic']['topic_publish_index'])) {
                 $oTopic->setPublishIndex(1);
+            }
+        }
+        /**
+         * Принудительный запрет вывода на главную
+         */
+        $oTopic->setSkipIndex(0);
+        if ($this->ACL_IsAllowTopicSkipIndex($this->oUserCurrent)) {
+            if (isset($_REQUEST['topic']['topic_skip_index'])) {
+                $oTopic->setSkipIndex(1);
             }
         }
         /**

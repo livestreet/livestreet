@@ -678,7 +678,21 @@ class ModuleACL extends Module
      * @param  ModuleUser_EntityUser $oUser Пользователь
      * @return bool
      */
-    public function IsAllowPublishIndex(ModuleUser_EntityUser $oUser)
+    public function IsAllowTopicPublishIndex(ModuleUser_EntityUser $oUser)
+    {
+        if ($oUser->isAdministrator()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Проверяет может ли пользователь блокировать топик на главной
+     *
+     * @param  ModuleUser_EntityUser $oUser Пользователь
+     * @return bool
+     */
+    public function IsAllowTopicSkipIndex(ModuleUser_EntityUser $oUser)
     {
         if ($oUser->isAdministrator()) {
             return true;
