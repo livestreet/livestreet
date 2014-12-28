@@ -141,6 +141,41 @@ class ModuleUser_MapperUser extends Mapper
         return null;
     }
 
+    public function GetSessionByKey($sKey)
+    {
+        $sql = "SELECT
+					s.*
+				FROM
+					" . Config::Get('db.table.session') . " as s
+				WHERE
+					s.session_key = ?
+				";
+        if ($aRow = $this->oDb->selectRow($sql, $sKey)) {
+            return Engine::GetEntity('User_Session', $aRow);
+        }
+        return null;
+    }
+
+    public function GetSessionsByUserId($iUserId, $bOnlyNotClose = true)
+    {
+        $sql = "SELECT
+					s.*
+				FROM
+					" . Config::Get('db.table.session') . " as s
+				WHERE
+					s.user_id = ?d
+					{ and 1=?d and s.session_date_close is null }
+                ORDER BY session_date_last desc
+				";
+        $aRes = array();
+        if ($aRows = $this->oDb->select($sql, $iUserId, $bOnlyNotClose ? 1 : DBSIMPLE_SKIP)) {
+            foreach ($aRows as $aRow) {
+                $aRes[] = Engine::GetEntity('User_Session', $aRow);
+            }
+        }
+        return $aRes;
+    }
+
     /**
      * Создание пользовательской сессии
      *
@@ -173,10 +208,27 @@ class ModuleUser_MapperUser extends Mapper
         $sql = "UPDATE " . Config::Get('db.table.session') . "
 			SET
 				session_ip_last = ? ,
-				session_date_last = ?
-			WHERE user_id = ?
+				session_date_last = ?,
+				session_date_close = ?
+			WHERE session_key = ?
 		";
-        $res = $this->oDb->query($sql, $oSession->getIpLast(), $oSession->getDateLast(), $oSession->getUserId());
+        $res = $this->oDb->query($sql, $oSession->getIpLast(), $oSession->getDateLast(), $oSession->getDateClose(),
+            $oSession->getKey());
+        return $this->IsSuccessful($res);
+    }
+
+    /**
+     * Удаление сессии
+     *
+     * @param ModuleUser_EntitySession $oSession
+     * @return int|bool
+     */
+    public function DeleteSession(ModuleUser_EntitySession $oSession)
+    {
+        $sql = "DELETE FROM " . Config::Get('db.table.session') . "
+			WHERE session_key = ?
+		";
+        $res = $this->oDb->query($sql, $oSession->getKey());
         return $this->IsSuccessful($res);
     }
 
@@ -195,9 +247,20 @@ class ModuleUser_MapperUser extends Mapper
         $sql = "SELECT
 					s.*
 				FROM
-					" . Config::Get('db.table.session') . " as s
-				WHERE
-					s.user_id IN(?a) ";
+                    (
+                        SELECT
+                          user_id, max(session_date_last) as max_date_last
+                        FROM
+                          " . Config::Get('db.table.session') . "
+                        WHERE
+                            user_id IN (?a)
+                        GROUP BY user_id
+                    ) as s2,
+                    " . Config::Get('db.table.session') . " as s
+                WHERE
+                    s2.user_id = s.user_id and s2.max_date_last = s.session_date_last
+        ";
+
         $aRes = array();
         if ($aRows = $this->oDb->select($sql, $aArrayId)) {
             foreach ($aRows as $aRow) {
@@ -294,31 +357,6 @@ class ModuleUser_MapperUser extends Mapper
     }
 
     /**
-     * Получить список юзеров по дате последнего визита
-     *
-     * @param int $iLimit Количество
-     * @return array
-     */
-    public function GetUsersByDateLast($iLimit)
-    {
-        $sql = "SELECT
-			user_id
-			FROM
-				" . Config::Get('db.table.session') . "
-			ORDER BY
-				session_date_last DESC
-			LIMIT 0, ?d
-				";
-        $aReturn = array();
-        if ($aRows = $this->oDb->select($sql, $iLimit)) {
-            foreach ($aRows as $aRow) {
-                $aReturn[] = $aRow['user_id'];
-            }
-        }
-        return $aReturn;
-    }
-
-    /**
      * Получить список юзеров по дате регистрации
      *
      * @param int $iLimit Количество
@@ -365,9 +403,9 @@ class ModuleUser_MapperUser extends Mapper
      */
     public function GetCountUsersActive($sDateActive)
     {
-        $sql = "SELECT count(*) as count FROM " . Config::Get('db.table.session') . " WHERE session_date_last >= ? ";
-        $result = $this->oDb->selectRow($sql, $sDateActive);
-        return $result['count'];
+        $sql = "SELECT DISTINCT user_id FROM " . Config::Get('db.table.session') . " WHERE session_date_last >= ? ";
+        $result = $this->oDb->select($sql, $sDateActive);
+        return $result ? count($result) : 0;
     }
 
     /**
@@ -1356,7 +1394,7 @@ class ModuleUser_MapperUser extends Mapper
         }
 
         $sql = "SELECT
-					u.user_id
+					DISTINCT u.user_id
 				FROM
 					" . Config::Get('db.table.user') . " as u
                     { JOIN " . Config::Get('db.table.geo_target') . " as g ON ( u.user_id=g.target_id and g.country_id = ? ) }

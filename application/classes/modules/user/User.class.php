@@ -79,12 +79,34 @@ class ModuleUser extends Module
          * Проверяем есть ли у юзера сессия, т.е. залогинен или нет
          */
         $sUserId = $this->Session_Get('user_id');
+        $sSessionKey = $this->Session_Get('session_key');
         if ($sUserId and $oUser = $this->GetUserById($sUserId) and $oUser->getActivate()) {
-            if ($this->oSession = $oUser->getSession()) {
+            /**
+             * Проверяем сессию
+             */
+            if ($oSession = $oUser->getSession()) {
+                $bSessionValid = false;
                 /**
-                 * Сюда можно вставить условие на проверку айпишника сессии
+                 * Т.к. у пользователя может быть несколько сессий (разные браузеры), то нужно дополнительно сверить
                  */
-                $this->oUserCurrent = $oUser;
+                if ($oSession->getKey() == $sSessionKey and $oSession->isActive()) {
+                    $bSessionValid = true;
+                } else {
+                    /**
+                     * Пробуем скорректировать сессию
+                     */
+                    if ($oSession = $this->oMapper->GetSessionByKey($sSessionKey) and $oSession->getUserId() == $oUser->getId() and $oSession->isActive()) {
+                        $bSessionValid = true;
+                        $oUser->setSession($oSession);
+                    }
+                }
+                if ($bSessionValid) {
+                    /**
+                     * Сюда можно вставить условие на проверку айпишника сессии
+                     */
+                    $this->oUserCurrent = $oUser;
+                    $this->oSession = $oSession;
+                }
             }
         }
         /**
@@ -548,19 +570,13 @@ class ModuleUser extends Module
      *
      * @param ModuleUser_EntityUser $oUser Объект пользователя
      * @param bool $bRemember Запоминать пользователя или нет
-     * @param string $sKey Ключ авторизации для куков
+     * @param string $sKey Уникальный ключ сессии
      * @return bool
      */
     public function Authorization(ModuleUser_EntityUser $oUser, $bRemember = true, $sKey = null)
     {
         if (!$oUser->getId() or !$oUser->getActivate()) {
             return false;
-        }
-        /**
-         * Генерим новый ключ авторизаии для куков
-         */
-        if (is_null($sKey)) {
-            $sKey = md5(func_generator() . time() . $oUser->getLogin());
         }
         /**
          * Создаём новую сессию
@@ -572,12 +588,14 @@ class ModuleUser extends Module
          * Запоминаем в сесси юзера
          */
         $this->Session_Set('user_id', $oUser->getId());
+        $this->Session_Set('session_key', $this->oSession->getKey());
         $this->oUserCurrent = $oUser;
         /**
          * Ставим куку
          */
         if ($bRemember) {
-            $this->Session_SetCookie('key', $sKey, time() + Config::Get('sys.cookie.time'), false, true);
+            $this->Session_SetCookie('key', $this->oSession->getKey(), time() + Config::Get('module.user.time_login_remember'), false,
+                true);
         }
         return true;
     }
@@ -592,8 +610,8 @@ class ModuleUser extends Module
             return;
         }
         if (isset($_COOKIE['key']) and is_string($_COOKIE['key']) and $sKey = $_COOKIE['key']) {
-            if ($oUser = $this->GetUserBySessionKey($sKey)) {
-                $this->Authorization($oUser);
+            if ($oUser = $this->GetUserBySessionKey($sKey) and $oSession = $this->oMapper->GetSessionByKey($sKey) and $oSession->isActive()) {
+                $this->Authorization($oUser, true, $oSession->getKey());
             } else {
                 $this->Logout();
             }
@@ -645,12 +663,23 @@ class ModuleUser extends Module
      */
     public function Logout()
     {
+        /**
+         * Закрываем текущую сессию
+         */
+        if ($this->oSession) {
+            $this->oSession->setDateLast(date("Y-m-d H:i:s"));
+            $this->oSession->setIpLast(func_getIp());
+            $this->oSession->setDateClose(date("Y-m-d H:i:s"));
+            $this->oMapper->UpdateSession($this->oSession);
+            $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_session_update'));
+        }
         $this->oUserCurrent = null;
         $this->oSession = null;
         /**
          * Дропаем из сессии
          */
         $this->Session_Drop('user_id');
+        $this->Session_Drop('session_key');
         /**
          * Дропаем куку
          */
@@ -688,17 +717,65 @@ class ModuleUser extends Module
      * @param string $sKey Сессионный ключ
      * @return bool
      */
-    protected function CreateSession(ModuleUser_EntityUser $oUser, $sKey)
+    protected function CreateSession(ModuleUser_EntityUser $oUser, $sKey = null)
     {
+        /**
+         * Генерим новый ключ
+         */
+        if (is_null($sKey)) {
+            $sKey = md5(func_generator() . time() . $oUser->getId());
+        }
+
+        /**
+         * Проверяем ключ сессии
+         */
+        if ($oSession = $this->oMapper->GetSessionByKey($sKey)) {
+            /**
+             * Если сессия уже не активна, то удаляем её
+             */
+            if (!$oSession->isActive()) {
+                $this->oMapper->DeleteSession($oSession);
+                unset($oSession);
+            }
+        }
+
+        if (!isset($oSession)) {
+            /**
+             * Проверяем количество активных сессий у пользователя и завершаем сверх лимита
+             */
+            $iCountMaxSessions = Config::Get('module.user.count_auth_session');
+            $aSessions = $this->GetSessionsByUserId($oUser->getId());
+            $aSessions = array_slice($aSessions, ($iCountMaxSessions - 1 < 0) ? 0 : $iCountMaxSessions - 1);
+            foreach ($aSessions as $oSessionOld) {
+                $oSessionOld->setDateClose(date("Y-m-d H:i:s"));
+                $this->oMapper->UpdateSession($oSessionOld);
+            }
+            /**
+             * Проверяем количество всех сессий у пользователя и удаляем сверх лимита
+             */
+            $iCountMaxSessions = Config::Get('module.user.count_auth_session_history');
+            $aSessions = $this->GetSessionsByUserId($oUser->getId(), false);
+            $aSessions = array_slice($aSessions, ($iCountMaxSessions - 1 < 0) ? 0 : $iCountMaxSessions - 1);
+            foreach ($aSessions as $oSessionOld) {
+                $this->oMapper->DeleteSession($oSessionOld);
+            }
+        }
+
         $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_session_update'));
         $this->Cache_Delete("user_session_{$oUser->getId()}");
-        $oSession = Engine::GetEntity('User_Session');
+        /**
+         * Создаем новую или обновляем данные у старой
+         */
+        if (!isset($oSession)) {
+            $oSession = Engine::GetEntity('User_Session');
+            $oSession->setKey($sKey);
+            $oSession->setIpCreate(func_getIp());
+            $oSession->setDateCreate(date("Y-m-d H:i:s"));
+        }
         $oSession->setUserId($oUser->getId());
-        $oSession->setKey($sKey);
         $oSession->setIpLast(func_getIp());
-        $oSession->setIpCreate(func_getIp());
         $oSession->setDateLast(date("Y-m-d H:i:s"));
-        $oSession->setDateCreate(date("Y-m-d H:i:s"));
+
         if ($this->oMapper->CreateSession($oSession)) {
             $this->oSession = $oSession;
             return true;
@@ -706,22 +783,9 @@ class ModuleUser extends Module
         return false;
     }
 
-    /**
-     * Получить список юзеров по дате последнего визита
-     *
-     * @param int $iLimit Количество
-     * @return array
-     */
-    public function GetUsersByDateLast($iLimit = 20)
+    public function GetSessionsByUserId($iUserId, $bOnlyNotClose = true)
     {
-        if ($this->IsAuthorization()) {
-            $data = $this->oMapper->GetUsersByDateLast($iLimit);
-        } elseif (false === ($data = $this->Cache_Get("user_date_last_{$iLimit}"))) {
-            $data = $this->oMapper->GetUsersByDateLast($iLimit);
-            $this->Cache_Set($data, "user_date_last_{$iLimit}", array("user_session_update"), 60 * 60 * 24 * 2);
-        }
-        $data = $this->GetUsersAdditionalData($data);
-        return $data;
+        return $this->oMapper->GetSessionsByUserId($iUserId, $bOnlyNotClose);
     }
 
     /**

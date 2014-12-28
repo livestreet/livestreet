@@ -451,10 +451,11 @@ class ModuleUser_EntityUser extends Entity
             $iSize .= 'crop';
         }
 
-        if ( $this->getProfileAvatar() ) {
+        if ($this->getProfileAvatar()) {
             return $this->Media_GetImageWebPath($this->getProfileAvatar(), $iSize);
         } else {
-            return $this->Media_GetImagePathBySize(Config::Get('path.skin.assets.web') . '/images/avatars/avatar_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '.png', $iSize);
+            return $this->Media_GetImagePathBySize(Config::Get('path.skin.assets.web') . '/images/avatars/avatar_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '.png',
+                $iSize);
         }
     }
 
@@ -469,7 +470,7 @@ class ModuleUser_EntityUser extends Entity
         $aAvatars = array();
 
         foreach (Config::Get('module.user.avatar_size') as $sSize) {
-            $aAvatars[ $sSize ] = $this->getProfileAvatarPath( $sSize );
+            $aAvatars[$sSize] = $this->getProfileAvatarPath($sSize);
         }
 
         return $aAvatars;

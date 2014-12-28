@@ -87,6 +87,28 @@ class ModuleUser_EntitySession extends Entity
         return $this->_getDataOne('session_date_last');
     }
 
+    /**
+     * Возвращает дату закрытия сессии
+     *
+     * @return string|null
+     */
+    public function getDateClose()
+    {
+        return $this->_getDataOne('session_date_close');
+    }
+
+    /**
+     * Проверяет факт активности сессии
+     *
+     * @return bool
+     */
+    public function isActive() {
+        if ($this->getDateClose()) {
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * Устанавливает ключ сессии
@@ -146,5 +168,15 @@ class ModuleUser_EntitySession extends Entity
     public function setDateLast($data)
     {
         $this->_aData['session_date_last'] = $data;
+    }
+
+    /**
+     * Устанавливает дату закрытия сессии
+     *
+     * @param string $data
+     */
+    public function setDateClose($data)
+    {
+        $this->_aData['session_date_close'] = $data;
     }
 }
