@@ -811,3 +811,13 @@ ALTER TABLE `prefix_user_note` DROP FOREIGN KEY `prefix_user_note_ibfk_2`;
 ALTER TABLE `prefix_vote` DROP FOREIGN KEY `prefix_topic_vote_fk1`;
 ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_1`;
 ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_2`;
+
+ALTER TABLE `prefix_comment` CHANGE `comment_user_ip` `comment_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_session` CHANGE `session_ip_create` `session_ip_create` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_session` CHANGE `session_ip_last` `session_ip_last` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_subscribe` CHANGE `ip` `ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_talk` CHANGE `talk_user_ip` `talk_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_topic` CHANGE `topic_user_ip` `topic_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_user` CHANGE `user_ip_register` `user_ip_register` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_vote` CHANGE `vote_ip` `vote_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `prefix_wall` CHANGE `ip` `ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
