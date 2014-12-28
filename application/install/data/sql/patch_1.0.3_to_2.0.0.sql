@@ -752,3 +752,12 @@ ALTER TABLE `prefix_session` DROP FOREIGN KEY `prefix_session_fk`;
 ALTER TABLE `prefix_session` DROP INDEX user_id;
 ALTER TABLE `prefix_session` ADD INDEX(`user_id`);
 ALTER TABLE `prefix_session` ADD `session_date_close` DATETIME NULL DEFAULT NULL , ADD INDEX (`session_date_close`) ;
+
+-- 28.12.2014
+ALTER TABLE `prefix_blog` CHANGE `blog_type` `blog_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'personal';
+ALTER TABLE `prefix_comment` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
+ALTER TABLE `prefix_comment_online` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
+ALTER TABLE `prefix_favourite` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'topic';
+ALTER TABLE `prefix_favourite_tag` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `prefix_user` CHANGE `user_profile_sex` `user_profile_sex` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'other';
+ALTER TABLE `prefix_vote` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
