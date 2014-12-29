@@ -748,6 +748,7 @@ ALTER TABLE `prefix_user` ADD `user_admin` TINYINT(1) NOT NULL DEFAULT '0' AFTER
 
 
 -- 27.12.2014
+ALTER TABLE `prefix_session` DROP FOREIGN KEY `prefix_session_fk`;
 ALTER TABLE `prefix_session` DROP INDEX user_id;
 ALTER TABLE `prefix_session` ADD INDEX(`user_id`);
 ALTER TABLE `prefix_session` ADD `session_date_close` DATETIME NULL DEFAULT NULL , ADD INDEX (`session_date_close`) ;
@@ -761,7 +762,6 @@ ALTER TABLE `prefix_favourite_tag` CHANGE `target_type` `target_type` VARCHAR(50
 ALTER TABLE `prefix_user` CHANGE `user_profile_sex` `user_profile_sex` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'other';
 ALTER TABLE `prefix_vote` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
 
-ALTER TABLE `prefix_session` DROP FOREIGN KEY `prefix_session_fk`;
 ALTER TABLE `prefix_blog` DROP FOREIGN KEY `prefix_blog_fk`;
 ALTER TABLE `prefix_blog_user` DROP FOREIGN KEY `prefix_blog_user_fk`;
 ALTER TABLE `prefix_blog_user` DROP FOREIGN KEY `prefix_blog_user_fk1`;
