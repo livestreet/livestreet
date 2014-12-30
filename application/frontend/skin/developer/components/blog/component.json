@@ -13,7 +13,6 @@
         "block.add": "blocks/block.blog-add.tpl",
         "block.admins": "blocks/block.blog-admins.tpl",
         "block.info-note": "blocks/block.blog-info-note.tpl",
-        "block.info": "blocks/block.blog-info.tpl",
         "block.invite": "blocks/block.blog-invite.tpl",
         "block.photo": "blocks/block.blog-photo.tpl",
         "block.users": "blocks/block.blog-users.tpl",
@@ -28,7 +27,6 @@
     },
     "scripts": {
         "blog-add": "js/blog-add.js",
-        "blog-info": "js/blog-info.js",
         "blog-invites": "js/blog-invites.js",
         "blog-join": "js/blog-join.js"
     },

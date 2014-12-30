@@ -140,6 +140,7 @@ $config['module']['topic']['title_allow_empty'] = false;       // Разреша
 $config['module']['topic']['allow_empty_tags'] = false; // Разрешать или нет не заполнять теги
 $config['module']['topic']['default_period_top'] = 1; // Дефолтный период (количество дней) для отображения ТОП топиков. Значения: 1,7,30,'all'
 $config['module']['topic']['default_period_discussed'] = 1; // Дефолтный период (количество дней) для отображения обсуждаемых топиков. Значения: 1,7,30,'all'
+$config['module']['topic']['max_blog_count'] = 3; // Количество блогов, которые можно задать топику. Максимальное значение 5.
 // Модуль User
 $config['module']['user']['per_page'] = 15;          // Число юзеров на страницу на странице статистики и в профиле пользователя
 $config['module']['user']['friend_on_profile'] = 15;          // Ограничение на вывод числа друзей пользователя на странице его профиля
@@ -407,7 +408,7 @@ $config['block']['rule_topic_type'] = array(
     'action' => array(
         'content' => array('add', 'edit'),
     ),
-    'blocks' => array('right' => array('components/blog/blocks/block.blog-info.tpl', 'components/blog/blocks/block.blog-info-note.tpl')),
+    'blocks' => array('right' => array('components/blog/blocks/block.blog-info-note.tpl')),
 );
 $config['block']['rule_personal_blog'] = array(
     'action' => array('personal_blog'),

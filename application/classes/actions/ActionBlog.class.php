@@ -1782,11 +1782,10 @@ class ActionBlog extends Action
         if (!$bAccess = $this->ACL_IsAllowDeleteBlog($oBlog, $this->oUserCurrent)) {
             return parent::EventNotFound();
         }
-        $aTopics = $this->Topic_GetTopicsByBlogId($sBlogId, 1,
-            100000); // нужно переделать функционал переноса топиков в дргугой блог
+        $aTopics = $this->Topic_GetTopicsByBlogId($sBlogId, 1,1,array(),false); // нужно переделать функционал переноса топиков в дргугой блог
         switch ($bAccess) {
             case ModuleACL::CAN_DELETE_BLOG_EMPTY_ONLY :
-                if (is_array($aTopics) and count($aTopics)) {
+                if ($aTopics['count']) {
                     $this->Message_AddErrorSingle($this->Lang_Get('blog.remove.alerts.not_empty'),
                         $this->Lang_Get('error'), true);
                     Router::Location($oBlog->getUrlFull());
@@ -1799,7 +1798,7 @@ class ActionBlog extends Action
                  *
                  * (-1) - выбран пункт меню "удалить топики".
                  */
-                if ($sBlogIdNew = getRequestStr('topic_move_to') and ($sBlogIdNew != -1) and is_array($aTopics) and count($aTopics)) {
+                if ($sBlogIdNew = getRequestStr('topic_move_to') and ($sBlogIdNew != -1) and $aTopics['count']) {
                     if (!$oBlogNew = $this->Blog_GetBlogById($sBlogIdNew)) {
                         $this->Message_AddErrorSingle($this->Lang_Get('blog.remove.alerts.move_error'),
                             $this->Lang_Get('error'), true);

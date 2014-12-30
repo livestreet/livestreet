@@ -136,7 +136,7 @@ class ModuleTopic extends Module
                 $aUserId[] = $oTopic->getUserId();
             }
             if (isset($aAllowData['blog'])) {
-                $aBlogId[] = $oTopic->getBlogId();
+                $aBlogId = array_merge($aBlogId, $oTopic->getBlogIds());
             }
         }
         /**
@@ -167,11 +167,13 @@ class ModuleTopic extends Module
             } else {
                 $oTopic->setUser(null); // или $oTopic->setUser(new ModuleUser_EntityUser());
             }
-            if (isset($aBlogs[$oTopic->getBlogId()])) {
-                $oTopic->setBlog($aBlogs[$oTopic->getBlogId()]);
-            } else {
-                $oTopic->setBlog(null); // или $oTopic->setBlog(new ModuleBlog_EntityBlog());
+            $aBlogsTopic=array();
+            foreach($oTopic->getBlogIds() as $iBlogId) {
+                if (isset($aBlogs[$iBlogId])) {
+                    $aBlogsTopic[]=$aBlogs[$iBlogId];
+                }
             }
+            $oTopic->setBlogs($aBlogsTopic);
             if (isset($aTopicsVote[$oTopic->getId()])) {
                 $oTopic->setVote($aTopicsVote[$oTopic->getId()]);
             } else {
@@ -1644,6 +1646,7 @@ class ModuleTopic extends Module
 
     /**
      * Перемещает топики в другой блог
+     * TODO: пофиксить перенос для функционала мультиблогов
      *
      * @param  int $sBlogId ID старого блога
      * @param  int $sBlogIdNew ID нового блога

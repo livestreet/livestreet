@@ -823,3 +823,10 @@ ALTER TABLE `prefix_vote` CHANGE `vote_ip` `vote_ip` VARCHAR(40) CHARACTER SET u
 ALTER TABLE `prefix_wall` CHANGE `ip` `ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE `prefix_topic` ADD `topic_skip_index` TINYINT(1) NOT NULL DEFAULT '0' AFTER `topic_publish_index`, ADD INDEX (`topic_skip_index`) ;
+
+-- 30.12.2014
+ALTER TABLE `prefix_topic` ADD `blog_id2` INT UNSIGNED NULL DEFAULT NULL AFTER `blog_id`, ADD `blog_id3` INT UNSIGNED NULL DEFAULT NULL AFTER `blog_id2`, ADD `blog_id4` INT UNSIGNED NULL DEFAULT NULL AFTER `blog_id3`, ADD `blog_id5` INT UNSIGNED NULL DEFAULT NULL AFTER `blog_id4`;
+ALTER TABLE `prefix_topic` ADD INDEX(`blog_id2`);
+ALTER TABLE `prefix_topic` ADD INDEX(`blog_id3`);
+ALTER TABLE `prefix_topic` ADD INDEX(`blog_id4`);
+ALTER TABLE `prefix_topic` ADD INDEX(`blog_id5`);

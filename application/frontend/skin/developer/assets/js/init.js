@@ -389,16 +389,6 @@ jQuery(document).ready(function($){
 	// Приглашение пользователей в блог
 	$('.js-user-list-add-blog-invite').lsBlogInvites();
 
-	// Информация о блоге
-	$('.js-blog-info').lsBlogInfo({
-		urls: {
-			load: aRouter.blog + 'ajaxbloginfo'
-		},
-		selectors: {
-			select: '.js-topic-add-title'
-		}
-	});
-
 	// Вступить/покинуть блог
 	$( '.js-blog-join' ).livequery(function() {
 		$( this ).lsBlogJoin({

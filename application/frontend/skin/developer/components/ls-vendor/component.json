@@ -20,6 +20,7 @@
         "jquery.Jcrop": "jcrop/jquery.Jcrop.js",
         "jquery.notifier": "notifier/jquery.notifier.js",
         "jquery.colorbox": "colorbox/jquery.colorbox.js",
+        "jquery.chosen": "chosen/chosen.jquery.min.js",
 
         "nprogress": "nprogress/nprogress.js",
         "fotorama": "fotorama/fotorama.js",
@@ -34,6 +35,7 @@
         "jquery.notifier": "notifier/jquery.notifier.css",
         "fotorama": "fotorama/fotorama.css",
         "nprogress": "nprogress/nprogress.css",
-        "colorbox": "colorbox/colorbox.css"
+        "colorbox": "colorbox/colorbox.css",
+        "chosen": "chosen/chosen.min.css"
     }
 }

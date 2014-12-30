@@ -578,10 +578,11 @@ class ModuleBlog_MapperBlog extends Mapper
             $aFilter['id'] = array($aFilter['id']);
         }
 
-        if ($oUserCurrent=$this->User_GetUserCurrent()) {
+        $iUserCurrentId=0;
+        if (isset($aFilter['roles_user_id'])) {
+            $iUserCurrentId=$aFilter['roles_user_id'];
+        } elseif ($oUserCurrent=$this->User_GetUserCurrent()) {
             $iUserCurrentId=$oUserCurrent->getId();
-        } else {
-            $iUserCurrentId=0;
         }
 
         $sql = "SELECT

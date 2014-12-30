@@ -77,7 +77,7 @@ class ModuleTopic_EntityTopic extends Entity
             'allowEmpty' => Config::Get('module.topic.allow_empty_tags')
         );
 
-        $this->aValidateRules[] = array('blog_id', 'blog_id');
+        $this->aValidateRules[] = array('blogs_id_raw', 'blogs');
         $this->aValidateRules[] = array('topic_text_source', 'topic_unique');
     }
 
@@ -146,25 +146,60 @@ class ModuleTopic_EntityTopic extends Entity
     }
 
     /**
-     * Валидация ID блога
+     * Валидация ID блогов
      *
      * @param string $sValue Проверяемое значение
      * @param array $aParams Параметры
      * @return bool|string
      */
-    public function ValidateBlogId($sValue, $aParams)
+    public function ValidateBlogs($sValue, $aParams)
     {
-        if ($sValue == 0 and $oBlog = $this->Blog_GetPersonalBlogByUserId($this->getUserId())) {
-            $this->setBlog($oBlog);
-            $this->setBlogId($oBlog->getId());
-            return true; // персональный блог
+        if (!$sValue or !is_array($sValue)) {
+            if ($oBlog = $this->Blog_GetPersonalBlogByUserId($this->getUserId())) {
+                $this->setBlogs(array($oBlog));
+                $this->setBlogId($oBlog->getId());
+                $this->setBlogId2(null);
+                $this->setBlogId3(null);
+                $this->setBlogId4(null);
+                $this->setBlogId5(null);
+                return true; // персональный блог
+            } else {
+                return $this->Lang_Get('topic.add.notices.error_blog_not_found');
+            }
         }
-        if ($oBlog = $this->Blog_GetBlogById((int)$sValue)) {
-            $this->setBlog($oBlog);
-            $this->setBlogId($oBlog->getId());
-            return true;
+        /**
+         * Проверяем список блогов
+         */
+        $aBlogs = array();
+        foreach ($sValue as $iKey => $iBlogId) {
+            if (is_numeric($iBlogId) and $oBlog = $this->Blog_GetBlogById($iBlogId)) {
+                /**
+                 * Проверяем права на постинг в блог
+                 */
+                if ($this->ACL_IsAllowBlog($oBlog, $this->getUserCreator())) {
+                    $aBlogs[] = $oBlog;
+                } else {
+                    return $this->Lang_Get('topic.add.notices.error_blog_not_allowed');
+                }
+            }
         }
-        return $this->Lang_Get('topic.add.notices.error_blog_not_found');
+        if (count($aBlogs) == 0) {
+            return $this->Lang_Get('topic.add.notices.error_blog_not_found');
+        }
+        if (count($sValue) > Config::Get('module.topic.max_blog_count')) {
+            return $this->Lang_Get('topic.add.notices.error_blog_max_count',
+                array('count' => Config::Get('module.topic.max_blog_count')));
+        }
+        /**
+         * Заполняем поля с ID
+         */
+        $this->setBlogId($aBlogs[0]->getId());
+        $this->setBlogId2(isset($aBlogs[1]) ? $aBlogs[1]->getId() : null);
+        $this->setBlogId3(isset($aBlogs[2]) ? $aBlogs[2]->getId() : null);
+        $this->setBlogId4(isset($aBlogs[3]) ? $aBlogs[3]->getId() : null);
+        $this->setBlogId5(isset($aBlogs[4]) ? $aBlogs[4]->getId() : null);
+        $this->setBlogs($aBlogs);
+        return true;
     }
 
     /**
@@ -185,6 +220,46 @@ class ModuleTopic_EntityTopic extends Entity
     public function getBlogId()
     {
         return $this->_getDataOne('blog_id');
+    }
+
+    /**
+     * Возвращает ID блога 2
+     *
+     * @return int|null
+     */
+    public function getBlogId2()
+    {
+        return $this->_getDataOne('blog_id2');
+    }
+
+    /**
+     * Возвращает ID блога 3
+     *
+     * @return int|null
+     */
+    public function getBlogId3()
+    {
+        return $this->_getDataOne('blog_id3');
+    }
+
+    /**
+     * Возвращает ID блога 4
+     *
+     * @return int|null
+     */
+    public function getBlogId4()
+    {
+        return $this->_getDataOne('blog_id4');
+    }
+
+    /**
+     * Возвращает ID блога 5
+     *
+     * @return int|null
+     */
+    public function getBlogId5()
+    {
+        return $this->_getDataOne('blog_id5');
     }
 
     /**
@@ -500,7 +575,36 @@ class ModuleTopic_EntityTopic extends Entity
      */
     public function getBlog()
     {
-        return $this->_getDataOne('blog');
+        if ($aBlogs = $this->getBlogs() and is_array($aBlogs)) {
+            return reset($aBlogs);
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает список блогов
+     *
+     * @return mixed|null
+     */
+    public function getBlogs()
+    {
+        return $this->_getDataOne('blogs');
+    }
+
+    /**
+     * Возвращает список ID блогов
+     *
+     * @return array
+     */
+    public function getBlogsId()
+    {
+        $aResult = array();
+        if ($aBlogs = $this->getBlogs()) {
+            foreach ($aBlogs as $oBlog) {
+                $aResult[] = $oBlog->getId();
+            }
+        }
+        return $aResult;
     }
 
     /**
@@ -667,6 +771,32 @@ class ModuleTopic_EntityTopic extends Entity
         return $this->_getDataOne('polls');
     }
 
+    /**
+     * Возвращает список ID всех блогов
+     *
+     * @return array
+     */
+    public function getBlogIds()
+    {
+        $aResult = array();
+        if ($this->getBlogId()) {
+            $aResult[] = $this->getBlogId();
+        }
+        if ($this->getBlogId2()) {
+            $aResult[] = $this->getBlogId2();
+        }
+        if ($this->getBlogId3()) {
+            $aResult[] = $this->getBlogId3();
+        }
+        if ($this->getBlogId4()) {
+            $aResult[] = $this->getBlogId4();
+        }
+        if ($this->getBlogId5()) {
+            $aResult[] = $this->getBlogId5();
+        }
+        return $aResult;
+    }
+
     /***************************************************************************************************************************************************
      * методы расширения типов топика
      ***************************************************************************************************************************************************
@@ -758,6 +888,46 @@ class ModuleTopic_EntityTopic extends Entity
     public function setBlogId($data)
     {
         $this->_aData['blog_id'] = $data;
+    }
+
+    /**
+     * Устанавливает ID блога 2
+     *
+     * @param int $data
+     */
+    public function setBlogId2($data)
+    {
+        $this->_aData['blog_id2'] = $data;
+    }
+
+    /**
+     * Устанавливает ID блога 3
+     *
+     * @param int $data
+     */
+    public function setBlogId3($data)
+    {
+        $this->_aData['blog_id3'] = $data;
+    }
+
+    /**
+     * Устанавливает ID блога 4
+     *
+     * @param int $data
+     */
+    public function setBlogId4($data)
+    {
+        $this->_aData['blog_id4'] = $data;
+    }
+
+    /**
+     * Устанавливает ID блога 5
+     *
+     * @param int $data
+     */
+    public function setBlogId5($data)
+    {
+        $this->_aData['blog_id5'] = $data;
     }
 
     /**

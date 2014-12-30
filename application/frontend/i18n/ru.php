@@ -390,6 +390,11 @@ return array(
                 ),
             ),
         ),
+        'types' => array(
+            'personal' => 'Персональные блоги',
+            'open' => 'Открытые блоги',
+            'close' => 'Закрытые блоги',
+        ),
     ),
     /**
      * Личные сообщения
@@ -1108,6 +1113,7 @@ return array(
             // Сообщения
             'notices' => array(
                 'error_blog_not_found'   => 'Выбранный вами блог не существует',
+                'error_blog_max_count'   => 'Превышено максимальное число блогов: %%count%%',
                 'error_blog_not_allowed' => 'Вы не можете писать в этот блог',
                 'error_text_unique'      => 'Вы уже писали топик с таким содержанием',
                 'error_type'             => 'Неверный тип топика', // TODO: Remove?

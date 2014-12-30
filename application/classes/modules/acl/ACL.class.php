@@ -388,14 +388,29 @@ class ModuleACL extends Module
      */
     public function IsAllowBlog($oBlog, $oUser)
     {
+        if (!$oBlog || !$oUser) {
+            return false;
+        }
         if ($oUser->isAdministrator()) {
             return true;
         }
         if ($oBlog->getOwnerId() == $oUser->getId()) {
             return true;
         }
-        if ($oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId())) {
-            if ($oUser->getRating() >= $oBlog->getLimitRatingTopic() or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+        if ($oBlog->getType() == 'close') {
+            /**
+             * Для закрытых блогов проверяем среди подписчиков
+             */
+            if ($oBlogUser = $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $oUser->getId())) {
+                if ($oUser->getRating() >= $oBlog->getLimitRatingTopic() or $oBlogUser->getIsAdministrator() or $oBlogUser->getIsModerator()) {
+                    return true;
+                }
+            }
+        } else {
+            /**
+             * Иначе смотрим ограничение на рейтинг
+             */
+            if ($oUser->getRating() >= $oBlog->getLimitRatingTopic()) {
                 return true;
             }
         }

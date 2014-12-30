@@ -493,6 +493,49 @@ class ModuleBlog extends Module
         return $data;
     }
 
+    public function GetBlogsByType($sType)
+    {
+        $aBlogs=$this->GetBlogsByFilter(array('type' => $sType), array('blog_title'=>'asc'), 1, 100);
+        return $aBlogs['collection'];
+    }
+
+    public function GetBlogsByTypeAndUserId($sType, $iUserId)
+    {
+        $aResult = array();
+        /**
+         * Получаем созданные юзером блоги
+         */
+        $aBlogs = $this->GetBlogsByFilter(array('user_owner_id' => $iUserId, 'type' => $sType), array(), 1, 100);
+        foreach ($aBlogs['collection'] as $oBlog) {
+            $aResult[$oBlog->getId()] = $oBlog;
+        }
+        /**
+         * Блоги в которых состоит
+         */
+        $aBlogs = $this->GetBlogsByFilter(array(
+                'type'          => $sType,
+                'roles_user_id' => $iUserId,
+                'roles'         => array(
+                    self::BLOG_USER_ROLE_USER,
+                    self::BLOG_USER_ROLE_MODERATOR,
+                    self::BLOG_USER_ROLE_ADMINISTRATOR
+                )
+            ), array(), 1, 100);
+        foreach ($aBlogs['collection'] as $oBlog) {
+            $aResult[$oBlog->getId()] = $oBlog;
+        }
+        /**
+         * Сотируем по названию
+         */
+        uasort($aResult, function ($a, $b) {
+            if ($a->getTitle() == $b->getTitle()) {
+                return 0;
+            }
+            return ($a->getTitle() < $b->getTitle()) ? -1 : 1;
+        });
+        return $aResult;
+    }
+
     /**
      * Получает список пользователей блога.
      * Если роль не указана, то считаем что поиск производиться по положительным значениям (статусом выше GUEST).

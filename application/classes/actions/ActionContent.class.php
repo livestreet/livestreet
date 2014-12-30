@@ -182,10 +182,21 @@ class ActionContent extends Action
         if (!$this->ACL_IsAllowEditTopic($oTopic, $this->oUserCurrent)) {
             return parent::EventNotFound();
         }
+
+        /**
+         * Получаем доступные блоги по типам
+         */
+        $aBlogs = array();
+        $aBlogs['open'] = $this->Blog_GetBlogsByType('open');
+        if ($this->oUserCurrent->isAdministrator()) {
+            $aBlogs['close'] = $this->Blog_GetBlogsByType('close');
+        } else {
+            $aBlogs['close'] = $this->Blog_GetBlogsByTypeAndUserId('close', $this->oUserCurrent->getId());
+        }
         /**
          * Вызов хуков
          */
-        $this->Hook_Run('topic_edit_show', array('oTopic' => $oTopic));
+        $this->Hook_Run('topic_edit_show', array('oTopic' => $oTopic, 'aBlogs' => &$aBlogs));
 
         /**
          * Дополнительно загружам превью
@@ -199,9 +210,20 @@ class ActionContent extends Action
         $this->Viewer_Assign('imagePreviewItems', $aTargetItems);
 
         /**
+         * Проверяем на отсутствие блогов
+         */
+        $bSkipBlogs = true;
+        foreach ($aBlogs as $aBlogsType) {
+            if ($aBlogsType) {
+                $bSkipBlogs = false;
+            }
+        }
+
+        /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign('blogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+        $this->Viewer_Assign('blogsAllow', $aBlogs);
+        $this->Viewer_Assign('skipBlogs', $bSkipBlogs);
         $this->Viewer_Assign('topicType', $oTopicType);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.edit'));
 
@@ -230,14 +252,34 @@ class ActionContent extends Action
         }
         $this->sMenuSubItemSelect = $sTopicType;
         /**
+         * Получаем доступные блоги по типам
+         */
+        $aBlogs = array();
+        $aBlogs['open'] = $this->Blog_GetBlogsByType('open');
+        if ($this->oUserCurrent->isAdministrator()) {
+            $aBlogs['close'] = $this->Blog_GetBlogsByType('close');
+        } else {
+            $aBlogs['close'] = $this->Blog_GetBlogsByTypeAndUserId('close', $this->oUserCurrent->getId());
+        }
+        /**
          * Вызов хуков
          */
-        $this->Hook_Run('topic_add_show');
+        $this->Hook_Run('topic_add_show', array('aBlogs' => &$aBlogs));
+        /**
+         * Проверяем на отсутствие блогов
+         */
+        $bSkipBlogs = true;
+        foreach ($aBlogs as $aBlogsType) {
+            if ($aBlogsType) {
+                $bSkipBlogs = false;
+            }
+        }
         /**
          * Загружаем переменные в шаблон
          */
         $this->Viewer_Assign('topicType', $oTopicType);
-        $this->Viewer_Assign('blogsAllow', $this->Blog_GetBlogsAllowByUser($this->oUserCurrent));
+        $this->Viewer_Assign('blogsAllow', $aBlogs);
+        $this->Viewer_Assign('skipBlogs', $bSkipBlogs);
         $this->Viewer_Assign('blogId', $iBlogId);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('topic.add.title.add'));
         $this->SetTemplateAction('add');
@@ -275,6 +317,7 @@ class ActionContent extends Action
 
         $oTopic->_setDataSafe(getRequest('topic'));
         $oTopic->setProperties(getRequest('property'));
+        $oTopic->setUserCreator($this->oUserCurrent);
         $oTopic->setUserIp(func_getIp());
         if (!$oTopic->getTags() or !$oTopic->getTypeObject()->getParam('allow_tags')) {
             $oTopic->setTags('');
@@ -325,17 +368,9 @@ class ActionContent extends Action
          */
         $oTopic->setDateEditContent(date('Y-m-d H:i:s'));
 
-        $this->Hook_Run('topic_edit_validate_before', array('oTopic'=>$oTopic));
+        $this->Hook_Run('topic_edit_validate_before', array('oTopic' => $oTopic));
         if ($oTopic->_Validate()) {
             $oBlog = $oTopic->getBlog();
-            /**
-             * Проверяем права на постинг в блог
-             */
-            if (!$this->ACL_IsAllowBlog($oBlog, $this->oUserCurrent)) {
-                $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_blog_not_allowed'),
-                    $this->Lang_Get('error'));
-                return false;
-            }
             /**
              * Получаемый и устанавливаем разрезанный текст по тегу <cut>
              */
@@ -355,7 +390,7 @@ class ActionContent extends Action
                 $oTopic->setTextShort('');
                 $oTopic->setTextSource('');
             }
-            $this->Hook_Run('topic_edit_before', array('oTopic'=>$oTopic,'oBlog'=>$oBlog));
+            $this->Hook_Run('topic_edit_before', array('oTopic' => $oTopic, 'oBlog' => $oBlog));
             /**
              * Сохраняем топик
              */
@@ -427,6 +462,7 @@ class ActionContent extends Action
         $oTopic->_setDataSafe(getRequest('topic'));
 
         $oTopic->setProperties(getRequest('property'));
+        $oTopic->setUserCreator($this->oUserCurrent);
         $oTopic->setUserId($this->oUserCurrent->getId());
         $oTopic->setDateAdd(date("Y-m-d H:i:s"));
         $oTopic->setUserIp(func_getIp());
@@ -470,17 +506,9 @@ class ActionContent extends Action
             $oTopic->setForbidComment(1);
         }
 
-        $this->Hook_Run('topic_add_validate_before', array('oTopic'=>$oTopic));
+        $this->Hook_Run('topic_add_validate_before', array('oTopic' => $oTopic));
         if ($oTopic->_Validate()) {
             $oBlog = $oTopic->getBlog();
-            /**
-             * Проверяем права на постинг в блог
-             */
-            if (!$this->ACL_IsAllowBlog($oBlog, $this->oUserCurrent)) {
-                $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_blog_not_allowed'),
-                    $this->Lang_Get('error'));
-                return false;
-            }
             /**
              * Получаем и устанавливаем разрезанный текст по тегу <cut>
              */

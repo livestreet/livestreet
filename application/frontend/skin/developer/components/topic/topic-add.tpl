@@ -22,25 +22,27 @@
 
 
     {* Выбор блога *}
-    {$items = [[
-        'value' => 0,
-        'text' => $aLang.topic.add.fields.blog.option_personal
-    ]]}
+    {if !$smarty.local.skipBlogs}
+        <script type="text/javascript">
+            jQuery(function($){
+                $(".chosen-select").chosen({ max_selected_options: {Config::Get('module.topic.max_blog_count')} });
+            });
+        </script>
 
-    {foreach $smarty.local.blogs as $blog}
-        {$items[] = [
-            'value' => $blog->getId(),
-            'text' => $blog->getTitle()
-        ]}
-    {/foreach}
+        {$blogsId=(( $topic ) ? $topic->getBlogsId() : [])}
 
-    {include 'components/field/field.select.tpl'
-        name          = 'topic[blog_id]'
-        label         = $aLang.topic.add.fields.blog.label
-        note          = $aLang.topic.add.fields.blog.note
-        inputClasses  = 'js-topic-add-title'
-        items         = $items
-        selectedValue = {( $topic ) ? $topic->getBlogId() : $smarty.local.blogId}}
+        {$aLang.topic.add.fields.blog.label}
+        <select name="topic[blogs_id_raw][]" data-placeholder="Выберите блог для публикации" style="width:100%;" class="chosen-select" multiple>
+            <option value=""></option>
+            {foreach $smarty.local.blogs as $blogType => $blogs}
+                <optgroup label="{lang "blog.types.{$blogType}"}">
+                    {foreach $blogs as $blog}
+                        <option {if in_array($blog->getId(),$blogsId)}selected="selected"{/if} value="{$blog->getId()}">{$blog->getTitle()|escape}</option>
+                    {/foreach}
+                </optgroup>
+            {/foreach}
+        </select>
+    {/if}
 
 
     {* Заголовок топика *}

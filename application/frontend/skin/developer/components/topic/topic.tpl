@@ -32,12 +32,16 @@
 
 {* Название блога *}
 {block 'article_header_info' prepend}
-	{$blog = $topic->getBlog()}
+	{$blogs = $topic->getBlogs()}
 
 	{if ! $isPreview}
-		<li class="{$component}-info-item {$component}-info-item--blog">
-			<a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>
-		</li>
+        {foreach $blogs as $blog}
+            {if $blog->getType()!='personal'}
+                <li class="{$component}-info-item {$component}-info-item--blog">
+                    <a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>
+                </li>
+            {/if}
+        {/foreach}
 	{/if}
 {/block}
 

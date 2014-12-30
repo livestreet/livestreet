@@ -37,6 +37,10 @@ class ModuleTopic_MapperTopic extends Mapper
     {
         $sql = "INSERT INTO " . Config::Get('db.table.topic') . "
 			(blog_id,
+			blog_id2,
+			blog_id3,
+			blog_id4,
+			blog_id5,
 			user_id,
 			topic_type,
 			topic_title,			
@@ -51,10 +55,10 @@ class ModuleTopic_MapperTopic extends Mapper
 			topic_forbid_comment,			
 			topic_text_hash			
 			)
-			VALUES(?d,  ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
+			VALUES(?d, ?d, ?d, ?d, ?d, ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
 		";
-        if ($iId = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getUserId(), $oTopic->getType(),
-            $oTopic->getTitle(),
+        if ($iId = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
+            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getUserId(), $oTopic->getType(), $oTopic->getTitle(),
             $oTopic->getTags(), $oTopic->getDateAdd(), $oTopic->getUserIp(), $oTopic->getPublish(),
             $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getCutText(),
             $oTopic->getForbidComment(), $oTopic->getTextHash())
@@ -509,7 +513,11 @@ class ModuleTopic_MapperTopic extends Mapper
         $sql = "UPDATE " . Config::Get('db.table.topic') . "
 			SET 
 				blog_id= ?d,
-				topic_title= ?,				
+				blog_id2= ?d,
+				blog_id3= ?d,
+				blog_id4= ?d,
+				blog_id5= ?d,
+				topic_title= ?,
 				topic_tags= ?,
 				topic_date_add = ?,
 				topic_date_edit = ?,
@@ -533,10 +541,11 @@ class ModuleTopic_MapperTopic extends Mapper
 			WHERE
 				topic_id = ?d
 		";
-        $res = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getTitle(), $oTopic->getTags(),
+        $res = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
+            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getTitle(), $oTopic->getTags(),
             $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getUserIp(),
-            $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getRating(),
-            $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
+            $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(),
+            $oTopic->getRating(), $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
             $oTopic->getCountVoteAbstain(), $oTopic->getCountRead(), $oTopic->getCountComment(),
             $oTopic->getCountFavourite(), $oTopic->getCutText(), $oTopic->getForbidComment(), $oTopic->getTextHash(),
             $oTopic->getId());
@@ -607,7 +616,12 @@ class ModuleTopic_MapperTopic extends Mapper
             if (!is_array($aFilter['blog_id'])) {
                 $aFilter['blog_id'] = array($aFilter['blog_id']);
             }
-            $sWhere .= " AND t.blog_id IN ('" . join("','", $aFilter['blog_id']) . "')";
+            $sBlogList = join("','", $aFilter['blog_id']);
+            $sWhere .= " AND ( t.blog_id IN ('{$sBlogList}') ";
+            $sWhere .= " OR t.blog_id2 IN ('{$sBlogList}') ";
+            $sWhere .= " OR t.blog_id3 IN ('{$sBlogList}') ";
+            $sWhere .= " OR t.blog_id4 IN ('{$sBlogList}') ";
+            $sWhere .= " OR t.blog_id5 IN ('{$sBlogList}') ) ";
         }
         if (isset($aFilter['blog_type']) and is_array($aFilter['blog_type'])) {
             $aBlogTypes = array();
