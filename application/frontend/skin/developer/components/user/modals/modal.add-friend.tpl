@@ -1,15 +1,13 @@
 {**
  * Добавление в друзья
- *
- * @styles css/modals.css
  *}
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-add-friend{/block}
-{block 'modal_class'}js-modal-default{/block}
-{block 'modal_title'}
-	{lang name='user.friends.form.title'}
+{block 'modal_options' append}
+    {$id = "modal-add-friend"}
+    {$classes = "$classes js-modal-default"}
+    {$title = {lang 'user.friends.form.title'}}
 {/block}
 
 {block 'modal_content'}

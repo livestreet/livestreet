@@ -4,9 +4,12 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-write{/block}
-{block 'modal_class'}modal-write js-modal-default{/block}
-{block 'modal_title'}{lang 'modal_create.title'}{/block}
+{block 'modal_options' append}
+    {$id = 'modal-write'}
+    {$mods = "$mods create"}
+    {$classes = "$classes js-modal-default"}
+    {$title = {lang name='modal_create.title'}}
+{/block}
 
 {block 'modal_content'}
     {function modal_create_item}

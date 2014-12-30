@@ -8,11 +8,13 @@
 
 
 .tab-list {
+    padding: 0;
     margin-bottom: 20px;
 }
 
 /* Tab */
 .tab {
+    list-style: none;
     float: left;
     padding: 7px 12px;
     margin-right: 2px;

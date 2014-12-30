@@ -20,8 +20,10 @@
     border: none;
 }
 .block-item-list li p {
+    margin: 0;
     padding-top: 2px;
     font-size: 11px;
+    line-height: 1.3em;
 }
 .block-item-list li a {
     text-decoration: none;

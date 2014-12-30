@@ -78,18 +78,18 @@
         {* Воздержаться *}
         {if $smarty.local.useAbstain}
             <div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
-                {include 'components/icons/icon.tpl' icon='eye-open' classes=$iconMod}
+                {component 'icon' icon='eye-open' classes=$iconMod}
             </div>
         {/if}
 
         {* Нравится *}
         <div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
-            {include 'components/icons/icon.tpl' icon='plus' classes=$iconMod}
+            {component 'icon' icon='plus' classes=$iconMod}
         </div>
 
         {* Не нравится *}
         <div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
-            {include 'components/icons/icon.tpl' icon='minus' classes=$iconMod}
+            {component 'icon' icon='minus' classes=$iconMod}
         </div>
     </div>
 </div>

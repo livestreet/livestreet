@@ -2,30 +2,45 @@
  * Базовый шаблон модальных окон
  *}
 
-{block 'modal_options'}{/block}
+{$component = 'modal'}
 
+{block 'modal_options'}
+	{$id = $smarty.local.id}
+	{$title = $smarty.local.title}
+	{$content = $smarty.local.content}
+	{$classes = $smarty.local.classes}
+	{$mods = $smarty.local.mods}
+{/block}
 
-<div class="modal {block 'modal_class'}{/block}" id="{block 'modal_id'}{/block}" data-type="modal" {block 'modal_attributes'}{/block}>
-	{* Header *}
-	{block 'modal_title' hide}
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}
+	id="{$id}"
+	data-type="modal">
+
+	{* Шапка *}
+	{block 'modal_title'}
 		<header class="modal-header">
-			<h3 class="modal-title">{$smarty.block.child}</h3>
-			<span class="modal-close" data-type="modal-close"></span>
+			{* Заголовок *}
+			<h3 class="modal-title">{$title}</h3>
+
+			{* Кнопка закрытия *}
+			<button class="modal-close" data-type="modal-close">
+				{component 'icon' icon='remove' attributes=[ 'aria-hidden' => 'true' ]}
+			</button>
 		</header>
 	{/block}
 
 	{block 'modal_header_after'}{/block}
 
-	{* Content *}
-	{block 'modal_content' hide}
-		<div class="modal-content">
-			{$smarty.block.child}
+	{* Содержимое *}
+	{block 'modal_content'}
+		<div class="modal-body">
+			{$content}{$smarty.block.child}
 		</div>
 	{/block}
 
 	{block 'modal_content_after'}{/block}
 
-	{* Footer *}
+	{* Подвал *}
 	{block 'modal_footer'}
 		<div class="modal-footer">
 			{block 'modal_footer_begin'}{/block}
@@ -35,6 +50,4 @@
 			{/block}
 		</div>
 	{/block}
-
-	{block 'modal_footer_after'}{/block}
 </div>

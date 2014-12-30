@@ -6,9 +6,12 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-complaint-user{/block}
-{block 'modal_class'}modal-complaint-user js-modal-default{/block}
-{block 'modal_title'}{lang 'report.form.title'}{/block}
+{block 'modal_options' append}
+    {$id = "modal-complaint-user"}
+    {$mods = "$mods report"}
+    {$classes = "$classes js-modal-default"}
+    {$title = {lang 'report.form.title'}}
+{/block}
 
 {block 'modal_content'}
 	<form action="" method="post" id="form-complaint-user">

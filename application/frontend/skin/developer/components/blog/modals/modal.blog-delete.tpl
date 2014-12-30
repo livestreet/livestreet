@@ -7,9 +7,12 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-blog-delete{/block}
-{block 'modal_class'}modal-blog-delete js-modal-default{/block}
-{block 'modal_title'}{$aLang.blog.remove.title}{/block}
+{block 'modal_options' append}
+    {$id = "modal-blog-delete"}
+    {$mods = "$mods blog-delete"}
+    {$classes = "$classes js-modal-default"}
+    {$title = $aLang.blog.remove.title}
+{/block}
 
 {block 'modal_content'}
     {$blog = $smarty.local.blog}

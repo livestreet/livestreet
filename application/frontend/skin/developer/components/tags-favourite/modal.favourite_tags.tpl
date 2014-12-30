@@ -4,9 +4,12 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}favourite-form-tags{/block}
-{block 'modal_class'}modal-favourite-tags js-modal-default{/block}
-{block 'modal_title'}{lang 'favourite_tags.title'}{/block}
+{block 'modal_options' append}
+    {$id = "favourite-form-tags"}
+    {$mods = "$mods favourite-tags"}
+    {$classes = "$classes js-modal-default"}
+    {$title = {lang 'favourite_tags.title'}}
+{/block}
 
 {block 'modal_content'}
     <form id="js-favourite-form">

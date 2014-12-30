@@ -49,17 +49,6 @@
                     _this.elements.pane_container.css( 'height', 'auto' );
                 }
             });
-
-            // Кнопка обновления активного таба
-            this.elements.update.on( 'click' + this.eventNamespace, function () {
-                this.elements.tabs.lsTabs( 'getActiveTab' ).lsTab( 'activate' );
-                this.elements.update.addClass( 'active' );
-
-                // Даем кнопке немного покрутиться
-                setTimeout(function() {
-                    this.elements.update.removeClass( 'active' );
-                }.bind( this ), 600 );
-            }.bind( this ));
         }
     });
 })(jQuery);

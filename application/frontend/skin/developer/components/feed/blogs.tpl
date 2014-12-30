@@ -9,9 +9,9 @@
     <div class="feed-blogs js-feed-blogs">
         {$blogsSubscribed = $smarty.local.blogsSubscribed}
 
-        <small class="note mb-15">
+        <p class="text-help">
             {$aLang.feed.blogs.note}
-        </small>
+        </p>
 
         {if $smarty.local.blogsJoined}
             <div class="field-checkbox-group">

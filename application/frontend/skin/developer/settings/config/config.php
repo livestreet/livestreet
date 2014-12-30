@@ -18,7 +18,7 @@ $config['view']['grid']['fluid_max_width'] = '1000px';
 $config['view']['grid']['fixed_width'] = '1000px';
 
 // Показывать баннер с лого и описанием или нет
-$config['view']['layout_show_banner'] = false;
+$config['view']['layout_show_banner'] = true;
 
 // Подключение скриптов шаблона
 $config['head']['default']['js'] = array_merge(Config::Get('head.default.js'), array(

@@ -31,6 +31,7 @@
 /* Лого */
 .userbar-logo {
     float: left;
+    font-size: 28px;
     line-height: 54px;
     margin: 0 25px 0 0;
 }

@@ -24,8 +24,6 @@
         "nprogress": "nprogress/nprogress.js",
         "fotorama": "fotorama/fotorama.js",
 
-        "highlight": "highlight/highlight.pack.js",
-
         "parsley": "parsley/parsley.js",
         "messages.ru": "parsley/i18n/messages.ru.js"
     },
@@ -36,7 +34,6 @@
         "jquery.notifier": "notifier/jquery.notifier.css",
         "fotorama": "fotorama/fotorama.css",
         "nprogress": "nprogress/nprogress.css",
-        "highlight": "highlight/styles/googlecode.css",
         "colorbox": "colorbox/colorbox.css"
     }
 }

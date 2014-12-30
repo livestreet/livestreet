@@ -58,20 +58,6 @@
     margin: 5px 0;
 }
 
-/* Кнопка обновления блока */
-.block-update {
-    position: absolute;
-    top: 19px;
-    right: 15px;
-    width: 16px;
-    height: 16px;
-    background: url(../images/update.gif) no-repeat;
-    cursor: pointer;
-}
-.block-update.active {
-    background-position: -16px 0;
-}
-
 /**
  * @modifier nopadding Блок без отступов у контента
  */

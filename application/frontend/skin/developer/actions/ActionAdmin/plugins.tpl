@@ -11,5 +11,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/admin/plugins.tpl' plugins=$plugins}
+    {component 'admin' template='plugins' plugins=$plugins}
 {/block}

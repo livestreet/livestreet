@@ -4,10 +4,13 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-login{/block}
-{block 'modal_class'}modal-login js-modal-default{/block}
-{block 'modal_title'}{$aLang.auth.authorization}{/block}
-{block 'modal_attributes'}data-modal-center="false"{/block}
+{block 'modal_options' append}
+    {$id = 'modal-login'}
+    {$mods = "$mods auth"}
+    {$classes = "$classes js-modal-default"}
+    {$title = $aLang.auth.authorization}
+    {$attributes = array_merge( $attributes|default:[], [ 'data-modal-center' => 'false' ] )}
+{/block}
 
 {block 'modal_content'}
     {if ! Config::Get('general.reg.invite')}

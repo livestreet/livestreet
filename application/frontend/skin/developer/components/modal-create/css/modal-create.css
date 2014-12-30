@@ -1,13 +1,11 @@
 /**
  * Создать
- *
- * @template modals/modal.write.tpl
  */
 
-.modal.modal-write {
-    width: 500px;
+.modal.modal--create {
+    max-width: 525px;
 }
-.modal.modal-write .modal-content {
+.modal.modal--create .modal-content {
     padding: 20px 10px 0;
 }
 

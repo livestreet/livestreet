@@ -7,7 +7,7 @@
  */
 
 
-.nav                 {  }
+.nav                 { list-style: none; padding: 0; }
 .nav > li            { float: left; position: relative; }
 .nav > li > a        { float: left; padding: 10px 15px; text-decoration: none; }
 

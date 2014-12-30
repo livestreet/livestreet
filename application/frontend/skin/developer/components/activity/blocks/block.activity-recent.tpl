@@ -13,11 +13,6 @@
     {$classes = "{$classes} js-block-default"}
 {/block}
 
-{* Кнопка обновления *}
-{block 'block_header_end'}
-    <div class="block-update js-block-update-tabs"></div>
-{/block}
-
 {* Навигация *}
 {block 'block_content'}
     {**

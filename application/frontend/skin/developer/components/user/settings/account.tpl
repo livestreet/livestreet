@@ -22,7 +22,7 @@
 	<fieldset>
 		<legend>{lang name='user.settings.account.password'}</legend>
 
-		<small class="note mb-20">{lang name='user.settings.account.password_note'}</small>
+		<p class="text-info">{lang name='user.settings.account.password_note'}</p>
 
         {* Текущий пароль *}
         {include 'components/field/field.text.tpl'

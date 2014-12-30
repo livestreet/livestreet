@@ -15,7 +15,7 @@
 	active = $activeTag
 	assign = tags}
 
-{include 'components/accordion/accordion.tpl' classes='js-tags-favourite-accordion' items=[[
+{component 'accordion' classes='js-tags-favourite-accordion' items=[[
     'title' => "{lang 'favourite_tags.title'} {if $activeTag}({$activeTag}){/if}",
     'content' => $tags
 ]]}

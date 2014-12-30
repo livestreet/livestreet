@@ -26,11 +26,11 @@
                         {* Активировать/деактивировать *}
                         <li>
                             {if $plugin.is_active}
-                                {include 'components/button/button.tpl'
+                                {component 'button'
                                     url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
                                     text = {lang 'admin.plugins.plugin.deactivate'}}
                             {else}
-                                {include 'components/button/button.tpl'
+                                {component 'button'
                                     url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}"
                                     mods = 'primary'
                                     text = {lang 'admin.plugins.plugin.activate'}}
@@ -40,7 +40,7 @@
                         {* Применить обновление *}
                         {if $plugin.apply_update && $plugin.is_active}
                             <li>
-                                {include 'components/button/button.tpl'
+                                {component 'button'
                                     url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=apply_update&security_ls_key={$LIVESTREET_SECURITY_KEY}"
                                     text = {lang 'admin.plugins.plugin.apply_update'}}
                             </li>
@@ -49,7 +49,7 @@
                         {* Ссылка на страницу настроек *}
                         {if $plugin.property->settings != "" && $plugin.is_active}
                             <li>
-                                {include 'components/button/button.tpl'
+                                {component 'button'
                                     url  = $plugin.property->settings
                                     text = {lang 'admin.plugins.plugin.settings'}}
                             </li>
@@ -57,10 +57,10 @@
 
                         {* Удалить *}
                         <li>
-                            {include 'components/button/button.tpl'
-                                url  = "{router page='admin'}plugins/?plugin={$plugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+                            {component 'button'
+                                url        = "{router page='admin'}plugins/?plugin={$plugin.code}&action=remove&security_ls_key={$LIVESTREET_SECURITY_KEY}"
                                 attributes = [ 'onclick' => "return confirm('{lang 'common.remove_confirm'}');" ]
-                                text = {lang 'admin.plugins.plugin.remove'}}
+                                text       = {lang 'admin.plugins.plugin.remove'}}
                         </li>
                     </ul>
                 </td>

@@ -29,7 +29,7 @@
 .dropdown-toggle {
     position: relative;
     cursor: pointer;
-    padding-right: 25px;
+    padding-right: 25px !important;
 }
 .dropdown-toggle:after {
     content: "";

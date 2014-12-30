@@ -4,10 +4,10 @@
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}{$smarty.local.id}{/block}
-{block 'modal_class'}modal--uploader {$smarty.local.classes}{/block}
-{block 'modal_title'}{$smarty.local.title}{/block}
-{block 'modal_attributes'}data-modal-center="false"{/block}
+{block 'modal_options' append}
+    {$mods = "$mods uploader"}
+    {$attributes = array_merge( $attributes|default:[], [ 'data-modal-center' => 'false' ] )}
+{/block}
 
 {block 'modal_content'}
     {include 'components/uploader/uploader.tpl' classes='js-uploader-modal'}

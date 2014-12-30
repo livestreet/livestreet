@@ -4,19 +4,15 @@
  * @param array   $users
  * @param boolean $selectable
  * @param string  $target
- * @param string  $titleText
  *}
 
 {extends 'components/modal/modal.tpl'}
 
-{block 'modal_id'}modal-users-select{/block}
-
-{block 'modal_class'}
-    modal-users-select js-modal-default
-{/block}
-
-{block 'modal_title'}
-    {$smarty.local.titleText|default:$aLang.user.users}
+{block 'modal_options' append}
+    {$id = "modal-users-select"}
+    {$mods = "$mods users-select"}
+    {$classes = "$classes js-modal-default"}
+    {$title = $title|default:$aLang.user.users|escape}
 {/block}
 
 {block 'modal_content'}

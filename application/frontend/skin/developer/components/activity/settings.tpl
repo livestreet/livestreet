@@ -7,9 +7,9 @@
 
 {if $oUserCurrent}
     <div class="activity-settings js-activity-settings">
-        <small class="note mb-15">
+        <p class="text-help">
             {$aLang.activity.settings.note}
-        </small>
+        </p>
 
         <div class="field-checkbox-group">
             {foreach $smarty.local.types as $type => $data}

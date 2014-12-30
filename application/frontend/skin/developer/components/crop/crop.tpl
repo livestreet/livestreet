@@ -15,13 +15,11 @@
 {extends 'components/modal/modal.tpl'}
 
 {block 'modal_options' append}
+    {$mods = "$mods crop"}
     {$title = $smarty.local.title|escape|default:{lang 'crop.title'}}
     {$desc = $smarty.local.desc|escape}
     {$usePreview = $smarty.local.usePreview}
 {/block}
-
-{block 'modal_class'}modal--crop{/block}
-{block 'modal_title'}{$title}{/block}
 
 {block 'modal_content'}
     {if $desc}
