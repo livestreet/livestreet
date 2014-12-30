@@ -1,0 +1,224 @@
+/**
+ * Типография
+ * Стили частично позаимствованы у бутстрапа
+ *
+ * @module ls/typography
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/**
+ * Основные стили
+ */
+body {
+    font-size: 13px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 20px;
+    color: #333;
+    background-color: #f7f7f7;
+}
+
+
+/**
+ * Ссылки
+ */
+a {
+    color: #1A80DB;
+    text-decoration: none;
+}
+a:hover {
+    color: #058;
+}
+
+
+/**
+ * Параграф
+ */
+p {
+    margin: 0 0 15px;
+}
+p:last-child {
+    margin: 0;
+}
+
+
+/**
+ * Заголовки
+ */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    margin: 0 0 15px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    line-height: 1.2em;
+}
+
+h1, .h1 { font-size: 36px; }
+h2, .h2 { font-size: 30px; }
+h3, .h3 { font-size: 24px; }
+h4, .h4 { font-size: 18px; }
+h5, .h5 { font-size: 14px; }
+h6, .h6 { font-size: 12px; }
+
+/* Мелкий текст */
+h1 small, .h1 small,
+h2 small, .h2 small,
+h3 small, .h3 small,
+h4 small, .h4 small,
+h5 small, .h5 small,
+h6 small, .h6 small { font-size: 65%; color: #aaa; }
+
+
+/**
+ * Выделенный текст
+ */
+mark {
+    padding: 2px 3px;
+    background: #fcf8e3;
+}
+
+/**
+ * Позиционирвоние текста
+ */
+.text-left    { text-align: left; }
+.text-right   { text-align: right; }
+.text-center  { text-align: center; }
+.text-justify { text-align: justify; }
+.text-nowrap  { white-space: nowrap; }
+
+/**
+ * 
+ */
+.text-lowercase  { text-transform: lowercase; }
+.text-uppercase  { text-transform: uppercase; }
+.text-capitalize { text-transform: capitalize; }
+
+/**
+ * 
+ */
+.text-muted   { color: #777; }
+.text-primary { color: #337ab7; }
+.text-success { color: #3c763d; }
+.text-info    { color: #31708f; }
+.text-warning { color: #8a6d3b; }
+.text-danger  { color: #a94442; }
+.text-help    { color: #aaa; }
+
+/**
+ * 
+ */
+blockquote {
+    padding: 20px;
+    margin: 0 0 15px;
+    border-left: 5px solid #aaa;
+}
+
+.blockquote--reverse,
+blockquote.pull-right {
+    border-right: 5px solid #aaa;
+    border-left: 0;
+    text-align: right;
+}
+
+blockquote footer,
+blockquote cite {
+    color: #aaa;
+}
+
+/**
+ * 
+ */
+address {
+    margin-bottom: 15px;
+    font-style: normal;
+}
+
+/**
+ * 
+ */
+abbr {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+/**
+ * Списки
+ */
+ul, ol {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+ul ol, ol ul, ul ul, ol ol {
+    margin-bottom: 0;
+}
+
+.list-inline {
+    padding-left: 0;
+}
+.list-inline li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/**
+ * Код
+ */
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, monospace;
+}
+
+/* Строчный код */
+code {
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: #f1f1f1;
+    color: #555;
+}
+
+/* Блок кода */
+pre {
+    display: block;
+    padding: 15px;
+    font: normal 13px/1.5em;
+    margin: 0 0 15px;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #333;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    direction: ltr !important;
+}
+pre code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+}
+.pre-scrollable {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+/* Тег kbd */
+kbd {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #eee;
+    background-color: #333;
+    border-radius: 3px;
+}
+kbd kbd {
+    padding: 0;
+    font-size: 100%;
+    font-weight: bold;
+    box-shadow: none;
+}
