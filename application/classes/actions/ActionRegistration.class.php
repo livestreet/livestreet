@@ -101,7 +101,7 @@ class ActionRegistration extends Action
         if (is_array($aFields)) {
             foreach ($aFields as $aField) {
                 if (isset($aField['field']) and isset($aField['value'])) {
-                    $this->Hook_Run('registration_validate_field', array('aField' => &$aField));
+                    $this->Hook_Run('registration_validate_field', array('aField' => &$aField, 'oUser' => $oUser));
 
                     $sField = $aField['field'];
                     $sValue = $aField['value'];

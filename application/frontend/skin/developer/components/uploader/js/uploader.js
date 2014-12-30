@@ -91,7 +91,7 @@
 			if ( ! this.option( 'params.target_id' ) ) {
 				this.option( 'params.target_tmp', this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'params.target_type' ) ) );
 
-				if ( this.option( 'params.target_tmp' ) ) {
+				if ( !this.option( 'params.target_tmp' ) ) {
 					this.generateTargetTmp();
 				}
 			}
