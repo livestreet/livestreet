@@ -229,10 +229,10 @@ class ModuleTopic extends Module
             $this->Property_UpdatePropertiesValue($oTopic->getPropertiesObject(), $oTopic);
             //чистим зависимые кеши
             $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(
-                    'topic_new',
-                    "topic_update_user_{$oTopic->getUserId()}",
-                    "topic_new_blog_{$oTopic->getBlogId()}"
-                ));
+                'topic_new',
+                "topic_update_user_{$oTopic->getUserId()}",
+                "topic_new_blog_{$oTopic->getBlogId()}"
+            ));
             return $oTopic;
         }
         return false;
@@ -673,7 +673,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
-
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -708,6 +709,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -740,6 +743,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -782,6 +787,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -824,6 +831,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -852,6 +861,8 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => 1, 'iPerPage' => $iCount, 'sMethod' => __FUNCTION__));
         $aReturn = $this->GetTopicsByFilter($aFilter, 1, $iCount);
         if (isset($aReturn['collection'])) {
             return $aReturn['collection'];
@@ -911,6 +922,14 @@ class ModuleTopic extends Module
             default:
                 break;
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array(
+                'aFilter'   => &$aFilter,
+                'iPage'     => $iPage,
+                'iPerPage'  => $iPerPage,
+                'sShowType' => $sShowType,
+                'sMethod'   => __FUNCTION__
+            ));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -955,6 +974,8 @@ class ModuleTopic extends Module
         if ($this->oUserCurrent && $this->oUserCurrent->getId() == $sUserId) {
             $aFilter['blog_type'][] = 'close';
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -1000,7 +1021,8 @@ class ModuleTopic extends Module
     public function GetTopicsByBlogId($iBlogId, $iPage = 1, $iPerPage = 20, $aAllowData = array(), $bIdsOnly = true)
     {
         $aFilter = array('blog_id' => $iBlogId);
-
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
         if (!$aTopics = $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage, $aAllowData)) {
             return array();
         }
@@ -1072,6 +1094,14 @@ class ModuleTopic extends Module
                 $aFilter['blog_type']['close'] = $aOpenBlogs;
             }
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array(
+                'aFilter'   => &$aFilter,
+                'iPage'     => $iPage,
+                'iPerPage'  => $iPerPage,
+                'sShowType' => $sShowType,
+                'sMethod'   => __FUNCTION__
+            ));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -1180,6 +1210,13 @@ class ModuleTopic extends Module
             default:
                 break;
         }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter'   => &$aFilter,
+                  'iPage'     => $iPage,
+                  'iPerPage'  => $iPerPage,
+                  'sShowType' => $sShowType,
+                  'sMethod'   => __FUNCTION__
+            ));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }
 
@@ -1576,6 +1613,8 @@ class ModuleTopic extends Module
             'user_id'       => $sUserId,
             'topic_new'     => date("Y-m-d H:i:s", time() - $iTimeLimit),
         );
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => 1, 'iPerPage' => $iCountLimit, 'sMethod' => __FUNCTION__));
         $aTopics = $this->GetTopicsByFilter($aFilter, 1, $iCountLimit, $aAllowData);
 
         return $aTopics;
