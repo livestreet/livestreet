@@ -2,8 +2,7 @@
     "name": "search-form",
     "version": "1.0.0",
     "templates": {
-        "search-form": "search-form.tpl",
-        "search_form": "tests/visual/search_form.tpl"
+        "search-form": "search-form.tpl"
     },
     "styles": {
         "search-form": "css/search-form.css"
