@@ -1870,6 +1870,7 @@ class ActionAjax extends Action
             $oViewerLocal = $this->Viewer_GetLocalViewer();
             $oViewerLocal->Assign('oUserCurrent', $this->oUserCurrent);
             $oViewerLocal->Assign('oneComment', true, true);
+            $oViewerLocal->Assign('useEdit', true, true);
 
             if ($oComment->getTargetType() == 'topic') {
                 $oViewerLocal->Assign('useFavourite', true, true);
