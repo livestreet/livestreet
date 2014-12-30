@@ -67,6 +67,9 @@
 
 
 /* Width */
+[class^="width-"],
+[class*=" width-"] { box-sizing: border-box; }
+
 .width-full { width: 100% !important; }
 .width-50   { width: 50px !important; }
 .width-100  { width: 100px !important; }
