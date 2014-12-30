@@ -1,0 +1,10 @@
+{
+    "name": "forms",
+    "dependencies": {
+        "css-reset": "*"
+    },
+    "version": "1.0.0",
+    "styles": {
+        "forms": "css/forms.css"
+    }
+}

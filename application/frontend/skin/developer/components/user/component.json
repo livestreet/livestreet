@@ -1,0 +1,51 @@
+{
+    "name": "user",
+    "version": "1.0.0",
+    "templates": {
+        "actions": "actions.tpl",
+        "header": "header.tpl",
+        "friend-item": "friend-item.tpl",
+        "info-group": "info-group.tpl",
+        "info": "info.tpl",
+        "search-form.users": "search-form.users.tpl",
+        "stat": "stat.tpl",
+        "user-item": "user-item.tpl",
+        "user-list-avatar": "user-list-avatar.tpl",
+        "user-list-item": "user-list-item.tpl",
+        "user-list-loop": "user-list-loop.tpl",
+        "user-list-small-item": "user-list-small-item.tpl",
+        "user-list-small": "user-list-small.tpl",
+        "user-list": "user-list.tpl",
+
+        "block.user-actions": "blocks/block.user-actions.tpl",
+        "block.user-nav": "blocks/block.user-nav.tpl",
+        "block.user-note": "blocks/block.user-note.tpl",
+        "block.user-photo": "blocks/block.user-photo.tpl",
+        "block.users-search": "blocks/block.users-search.tpl",
+        "block.users-statistics": "blocks/block.users-statistics.tpl",
+
+        "modal.add-friend": "modals/modal.add-friend.tpl",
+        "modal.crop-avatar": "modals/modal.crop-avatar.tpl",
+        "modal.crop-photo": "modals/modal.crop-photo.tpl",
+        "modal.user-list": "modals/modal.user-list.tpl",
+
+        "settings/account": "settings/account.tpl",
+        "settings/invite": "settings/invite.tpl",
+        "settings/profile": "settings/profile.tpl",
+        "settings/tuning": "settings/tuning.tpl"
+    },
+    "scripts": {
+        "user-fields": "js/user-fields.js",
+        "user-follow": "js/user-follow.js",
+        "user-friend": "js/user-friend.js",
+        "user-photo": "js/user-photo.js",
+        "user": "js/user.js"
+    },
+    "styles": {
+        "user-blocks": "css/user-blocks.css",
+        "user-item": "css/user-item.css",
+        "user-list-avatar": "css/user-list-avatar.css",
+        "user-list-small": "css/user-list-small.css",
+        "user": "css/user.css"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "report",
+    "version": "1.0.0",
+    "templates": {
+        "report": "modal.report.tpl"
+    },
+    "scripts": {
+        "report": "js/report.js"
+    }
+}

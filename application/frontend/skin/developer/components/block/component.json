@@ -1,0 +1,13 @@
+{
+    "name": "block",
+    "version": "1.0.0",
+    "templates": {
+        "block": "block.tpl"
+    },
+    "scripts": {
+        "block": "js/block.js"
+    },
+    "styles": {
+        "block": "css/block.css"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "topic",
+    "version": "1.0.0",
+    "dependencies": {
+        "favourite": "*",
+        "vote": "*"
+    },
+    "templates": {
+        "topic": "topic.tpl",
+        "add": "topic-add.tpl",
+        "list": "topic-list.tpl",
+        "preview": "topic-preview.tpl",
+        "type": "topic-type.tpl",
+        "block.tags": "blocks/block.topics-tags.tpl"
+    },
+    "scripts": {
+        "add": "js/topic-add.js",
+        "favourite": "js/topic-favourite.js",
+        "topic": "js/topic.js"
+    },
+    "styles": {
+        "topic": "css/topic.css"
+    }
+}

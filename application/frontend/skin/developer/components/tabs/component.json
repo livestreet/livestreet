@@ -1,0 +1,14 @@
+{
+    "name": "tabs",
+    "version": "1.0.0",
+    "templates": {
+        "tabs": "tabs.tpl"
+    },
+    "scripts": {
+        "tab": "js/tab.js",
+        "tabs": "js/tabs.js"
+    },
+    "styles": {
+        "tabs": "css/tabs.css"
+    }
+}

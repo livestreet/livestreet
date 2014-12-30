@@ -1,0 +1,13 @@
+{
+    "name": "more",
+    "version": "1.0.0",
+    "templates": {
+        "more": "more.tpl"
+    },
+    "scripts": {
+        "more": "js/more.js"
+    },
+    "styles": {
+        "more": "css/more.css"
+    }
+}

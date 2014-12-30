@@ -1,0 +1,7 @@
+{
+    "name": "autocomplete",
+    "version": "1.0.0",
+    "scripts": {
+        "autocomplete": "js/autocomplete.js"
+    }
+}

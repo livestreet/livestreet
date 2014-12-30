@@ -1,0 +1,17 @@
+{
+    "name": "alert",
+    "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*",
+        "icon": "*"
+    },
+    "templates": {
+        "alert": "alert.tpl"
+    },
+    "scripts": {
+        "alert": "js/alert.js"
+    },
+    "styles": {
+        "alert": "css/alert.css"
+    }
+}

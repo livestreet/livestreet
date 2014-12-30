@@ -1,0 +1,13 @@
+{
+    "name": "modal",
+    "version": "1.0.0",
+    "templates": {
+        "modal": "modal.tpl"
+    },
+    "scripts": {
+        "modal": "js/modal.js"
+    },
+    "styles": {
+        "modal": "css/modal.css"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "name": "comment",
+    "version": "1.0.0",
+    "dependencies": {
+        "actionbar": "*",
+        "favourite": "*",
+        "vote": "*",
+        "editor": "*"
+    },
+    "templates": {
+        "form": "comment-form.tpl",
+        "list": "comment-list.tpl",
+        "tree": "comment-tree.tpl",
+        "comment": "tests/visual/comment.tpl",
+        "comments": "comments.tpl",
+        "toolbar.comment": "toolbar.comment.tpl"
+    },
+    "scripts": {
+        "toolbar.comments": "js/toolbar.comments.js",
+        "comment": "js/comment.js"
+    },
+    "styles": {
+        "form": "css/comment-form.css",
+        "comment": "css/comment.css",
+        "comments": "css/comments.css",
+        "toolbar-comments": "css/toolbar-comments.css"
+    }
+}

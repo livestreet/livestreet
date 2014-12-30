@@ -1,0 +1,14 @@
+{
+    "name": "crop",
+    "version": "1.0.0",
+    "templates": {
+        "crop": "crop.tpl"
+    },
+    "scripts": {
+        "modal": "js/crop-modal.js",
+        "crop": "js/crop.js"
+    },
+    "styles": {
+        "crop": "css/crop.css"
+    }
+}

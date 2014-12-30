@@ -1,0 +1,11 @@
+{
+    "name": "icons-contact",
+    "dependencies": {
+        "css-reset": "*",
+        "icon": "*"
+    },
+    "version": "1.0.0",
+    "styles": {
+        "icons-contact": "css/icons-contact.css"
+    }
+}

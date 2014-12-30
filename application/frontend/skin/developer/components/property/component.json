@@ -1,0 +1,24 @@
+{
+    "name": "property",
+    "version": "1.0.0",
+    "templates": {
+        "item": "output/item.tpl",
+        "list": "output/list.tpl",
+        "modal.property-input-video": "input/modal.property-input-video.tpl",
+        "property.date": "input/property.date.tpl",
+        "property.checkbox": "input/property.checkbox.tpl",
+        "property.file": "output/property.file.tpl",
+        "property.float": "input/property.float.tpl",
+        "property.image": "output/property.image.tpl",
+        "property.int": "input/property.int.tpl",
+        "property.select": "input/property.select.tpl",
+        "property.text": "input/property.text.tpl",
+        "property.tags": "input/property.tags.tpl",
+        "property.varchar": "input/property.varchar.tpl",
+        "property.video_link": "input/property.video_link.tpl",
+        "property.default": "output/property.default.tpl"
+    },
+    "styles": {
+        "property": "css/property.css"
+    }
+}

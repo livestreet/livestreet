@@ -1,0 +1,42 @@
+{
+    "name": "ls-vendor",
+    "version": "1.0.0",
+    "scripts": {
+        "jquery-ui-datepicker-ru": "jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
+        "jquery-ui-timepicker-addon": "timepicker/jquery-ui-timepicker-addon.js",
+
+        "jquery.charcount": "jquery.charcount.js",
+        "jquery.browser": "jquery.browser.js",
+        "jquery.cookie": "jquery.cookie.js",
+        "jquery.fileupload": "jquery.fileupload.js",
+        "jquery.form": "jquery.form.js",
+        "jquery.hotkeys": "jquery.hotkeys.js",
+        "jquery.jqplugin": "jquery.jqplugin.js",
+        "jquery.livequery": "jquery.livequery.js",
+        "jquery.rich-array.min": "jquery.rich-array.min.js",
+        "jquery.scrollto": "jquery.scrollto.js",
+        "jquery.serializejson": "jquery.serializejson.js",
+        "jquery.timers": "jquery.timers.js",
+        "jquery.Jcrop": "jcrop/jquery.Jcrop.js",
+        "jquery.notifier": "notifier/jquery.notifier.js",
+        "jquery.colorbox": "colorbox/jquery.colorbox.js",
+
+        "nprogress": "nprogress/nprogress.js",
+        "fotorama": "fotorama/fotorama.js",
+
+        "highlight": "highlight/highlight.pack.js",
+
+        "parsley": "parsley/parsley.js",
+        "messages.ru": "parsley/i18n/messages.ru.js"
+    },
+    "styles": {
+        "jquery-ui": "jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",
+        "jquery-ui-timepicker-addon": "timepicker/jquery-ui-timepicker-addon.css",
+        "jquery.Jcrop": "jcrop/jquery.Jcrop.css",
+        "jquery.notifier": "notifier/jquery.notifier.css",
+        "fotorama": "fotorama/fotorama.css",
+        "nprogress": "nprogress/nprogress.css",
+        "highlight": "highlight/styles/googlecode.css",
+        "colorbox": "colorbox/colorbox.css"
+    }
+}

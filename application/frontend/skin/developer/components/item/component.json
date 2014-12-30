@@ -1,0 +1,10 @@
+{
+    "name": "item",
+    "version": "1.0.0",
+    "templates": {
+        "item": "item.tpl"
+    },
+    "styles": {
+        "item": "css/item.css"
+    }
+}

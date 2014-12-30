@@ -1,0 +1,13 @@
+{
+    "name": "favourite",
+    "version": "1.0.0",
+    "templates": {
+        "favourite": "favourite.tpl"
+    },
+    "scripts": {
+        "favourite": "js/favourite.js"
+    },
+    "styles": {
+        "favourite": "css/favourite.css"
+    }
+}

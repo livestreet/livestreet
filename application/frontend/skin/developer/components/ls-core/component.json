@@ -1,0 +1,15 @@
+{
+    "name": "ls-core",
+    "version": "1.0.0",
+    "scripts": {
+        "ajax": "ajax.js",
+        "dev": "dev.js",
+        "hook": "hook.js",
+        "i18n": "i18n.js",
+        "main": "main.js",
+        "polyfills": "polyfills.js",
+        "registry": "registry.js",
+        "timer": "timer.js",
+        "utils": "utils.js"
+    }
+}

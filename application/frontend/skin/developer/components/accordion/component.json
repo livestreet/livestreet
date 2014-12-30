@@ -1,0 +1,13 @@
+{
+    "name": "accordion",
+    "version": "1.0.0",
+    "templates": {
+        "accordion": "accordion.tpl"
+    },
+    "scripts": {
+        "accordion": "js/accordion.js"
+    },
+    "styles": {
+        "accordion": "css/accordion.css"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "css-reset",
+    "version": "1.0.0",
+    "styles": {
+        "css-reset": "vendor/normalize/normalize.css"
+    }
+}

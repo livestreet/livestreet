@@ -1,0 +1,7 @@
+{
+    "name": "email",
+    "version": "1.0.0",
+    "templates": {
+        "email": "email.tpl"
+    }
+}

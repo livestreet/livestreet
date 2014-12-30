@@ -1,0 +1,13 @@
+{
+    "name": "button",
+    "version": "1.0.0",
+    "templates": {
+        "button": "button.tpl"
+    },
+    "scripts": {
+        "button-polyfills": "js/button-polyfills.js"
+    },
+    "styles": {
+        "button": "css/button.css"
+    }
+}

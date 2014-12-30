@@ -1,0 +1,7 @@
+{
+    "name": "text",
+    "version": "1.0.0",
+    "styles": {
+        "text": "css/text.css"
+    }
+}

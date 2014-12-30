@@ -1,0 +1,14 @@
+{
+    "name": "vote",
+    "version": "1.0.0",
+    "templates": {
+        "info": "vote.info.tpl",
+        "vote": "vote.tpl"
+    },
+    "scripts": {
+        "vote": "js/vote.js"
+    },
+    "styles": {
+        "vote": "css/vote.css"
+    }
+}

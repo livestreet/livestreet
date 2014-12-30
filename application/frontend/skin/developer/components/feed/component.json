@@ -1,0 +1,13 @@
+{
+    "name": "feed",
+    "version": "1.0.0",
+    "templates": {
+        "blogs": "blogs.tpl",
+        "users": "users.tpl",
+        "block.userfeed-blogs": "blocks/block.userfeed-blogs.tpl",
+        "block.userfeed-users": "blocks/block.userfeed-users.tpl"
+    },
+    "scripts": {
+        "feed-blogs": "js/feed-blogs.js"
+    }
+}

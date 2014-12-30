@@ -1,0 +1,21 @@
+{
+    "name": "uploader",
+    "version": "1.0.0",
+    "templates": {
+        "modal.uploader": "modal.uploader.tpl",
+        "uploader-block.info-group": "uploader-block.info-group.tpl",
+        "uploader-block.info": "uploader-block.info.tpl",
+        "uploader-block": "uploader-block.tpl",
+        "uploader": "uploader.tpl",
+        "uploader-file": "uploader-file.tpl"
+    },
+    "scripts": {
+        "uploader-file-list": "js/uploader-file-list.js",
+        "uploader-file": "js/uploader-file.js",
+        "uploader": "js/uploader.js",
+        "uploader-info": "js/uploader-info.js"
+    },
+    "styles": {
+        "uploader": "css/uploader.css"
+    }
+}

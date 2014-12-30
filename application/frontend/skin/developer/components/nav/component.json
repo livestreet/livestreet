@@ -1,0 +1,10 @@
+{
+    "name": "nav",
+    "version": "1.0.0",
+    "templates": {
+        "nav": "nav.tpl"
+    },
+    "styles": {
+        "nav": "css/nav.css"
+    }
+}

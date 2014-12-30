@@ -1,0 +1,10 @@
+{
+    "name": "info-list",
+    "version": "1.0.0",
+    "templates": {
+        "info-list": "info-list.tpl"
+    },
+    "styles": {
+        "info-list": "css/info-list.css"
+    }
+}

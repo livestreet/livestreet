@@ -1,0 +1,14 @@
+{
+    "name": "toolbar",
+    "version": "1.0.0",
+    "templates": {
+        "item": "toolbar.item.tpl",
+        "toolbar": "toolbar.tpl"
+    },
+    "scripts": {
+        "toolbar": "js/toolbar.js"
+    },
+    "styles": {
+        "toolbar": "css/toolbar.css"
+    }
+}

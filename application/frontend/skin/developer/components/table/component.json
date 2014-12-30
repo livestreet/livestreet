@@ -1,0 +1,7 @@
+{
+    "name": "table",
+    "version": "1.0.0",
+    "styles": {
+        "table": "css/table.css"
+    }
+}

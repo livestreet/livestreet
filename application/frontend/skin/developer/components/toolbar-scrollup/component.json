@@ -1,0 +1,13 @@
+{
+    "name": "toolbar-scrollup",
+    "version": "1.0.0",
+    "templates": {
+        "toolbar.scrollup": "toolbar.scrollup.tpl"
+    },
+    "scripts": {
+        "toolbar.scrollup": "js/toolbar.scrollup.js"
+    },
+    "styles": {
+        "toolbar-scrollup": "css/toolbar-scrollup.css"
+    }
+}

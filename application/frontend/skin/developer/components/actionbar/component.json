@@ -1,0 +1,15 @@
+{
+    "name": "actionbar",
+    "version": "1.0.0",
+    "templates": {
+        "item.select": "actionbar-item.select.tpl",
+        "item": "actionbar-item.tpl",
+        "actionbar": "actionbar.tpl"
+    },
+    "scripts": {
+        "item-select": "js/actionbar-item-select.js"
+    },
+    "styles": {
+        "actionbar": "css/actionbar.css"
+    }
+}

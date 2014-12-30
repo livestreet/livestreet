@@ -1,0 +1,7 @@
+{
+    "name": "badge",
+    "version": "1.0.0",
+    "styles": {
+        "badge": "css/badge.css"
+    }
+}

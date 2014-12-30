@@ -1,0 +1,32 @@
+{
+    "name": "field",
+    "version": "1.0.0",
+    "templates": {
+        "field": "field.tpl",
+        "captcha": "field.captcha.tpl",
+        "category": "field.category.tpl",
+        "checkbox": "field.checkbox.tpl",
+        "date": "field.date.tpl",
+        "email": "field.email.tpl",
+        "file": "field.file.tpl",
+        "geo": "field.geo.tpl",
+        "hidden": "field.hidden.tpl",
+        "hidden.security_key": "field.hidden.security_key.tpl",
+        "image-ajax-items": "field.image-ajax-items.tpl",
+        "image-ajax": "field.image-ajax.tpl",
+        "image": "field.image.tpl",
+        "radio": "field.radio.tpl",
+        "select": "field.select.tpl",
+        "text": "field.text.tpl",
+        "textarea": "field.textarea.tpl",
+        "upload-area": "field.upload-area.tpl"
+    },
+    "scripts": {
+        "captcha": "js/field.captcha.js",
+        "geo": "js/field.geo.js",
+        "image-ajax": "js/field.image-ajax.js"
+    },
+    "styles": {
+        "field": "css/field.css"
+    }
+}

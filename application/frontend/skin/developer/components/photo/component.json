@@ -1,0 +1,13 @@
+{
+    "name": "photo",
+    "version": "1.0.0",
+    "templates": {
+        "photo": "photo.tpl"
+    },
+    "scripts": {
+        "photo": "js/photo.js"
+    },
+    "styles": {
+        "photo": "css/photo.css"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "search-ajax",
+    "version": "1.0.0",
+    "scripts": {
+        "search-ajax": "js/search-ajax.js"
+    }
+}

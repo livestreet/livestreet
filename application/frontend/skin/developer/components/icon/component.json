@@ -1,0 +1,10 @@
+{
+    "name": "icons",
+    "version": "1.0.0",
+    "templates": {
+        "icon": "icon.tpl"
+    },
+    "styles": {
+        "icons": "css/icons.css"
+    }
+}

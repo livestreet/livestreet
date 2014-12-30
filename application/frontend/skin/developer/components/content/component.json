@@ -1,0 +1,7 @@
+{
+    "name": "content",
+    "version": "1.0.0",
+    "scripts": {
+        "content": "js/content.js"
+    }
+}

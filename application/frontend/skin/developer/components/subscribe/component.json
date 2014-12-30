@@ -1,0 +1,7 @@
+{
+    "name": "subscribe",
+    "version": "1.0.0",
+    "scripts": {
+        "subscribe": "js/subscribe.js"
+    }
+}

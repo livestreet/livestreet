@@ -1,0 +1,19 @@
+{
+    "name": "wall",
+    "version": "1.0.0",
+    "templates": {
+        "wall.comments": "wall.comments.tpl",
+        "wall.entry": "wall.entry.tpl",
+        "wall.form": "wall.form.tpl",
+        "wall.posts": "wall.posts.tpl",
+        "wall": "wall.tpl"
+    },
+    "scripts": {
+        "wall-entry": "js/wall-entry.js",
+        "wall-form": "js/wall-form.js",
+        "wall": "js/wall.js"
+    },
+    "styles": {
+        "wall": "css/wall.css"
+    }
+}

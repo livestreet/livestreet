@@ -1,0 +1,39 @@
+{
+    "name": "blog",
+    "version": "1.0.0",
+    "templates": {
+        "add": "add.tpl",
+        "admin": "admin.tpl",
+        "list-item": "blog-list-item.tpl",
+        "list": "blog-list.tpl",
+        "blog": "blog.tpl",
+        "join": "join.tpl",
+        "search-form": "search-form.blogs.tpl",
+        "block.actions": "blocks/block.blog-actions.tpl",
+        "block.add": "blocks/block.blog-add.tpl",
+        "block.admins": "blocks/block.blog-admins.tpl",
+        "block.info-note": "blocks/block.blog-info-note.tpl",
+        "block.info": "blocks/block.blog-info.tpl",
+        "block.invite": "blocks/block.blog-invite.tpl",
+        "block.photo": "blocks/block.blog-photo.tpl",
+        "block.users": "blocks/block.blog-users.tpl",
+        "block.blogs-search": "blocks/block.blogs-search.tpl",
+        "block.blogs": "blocks/block.blogs.tpl",
+        "blogs-top": "blocks/blogs-top.tpl",
+        "invite-item": "invite/invite-item.tpl",
+        "invite-list": "invite/invite-list.tpl",
+        "invite": "invite/invite.tpl",
+        "modal.delete": "modals/modal.blog-delete.tpl",
+        "modal.crop-avatar": "modals/modal.crop-avatar.tpl"
+    },
+    "scripts": {
+        "blog-add": "js/blog-add.js",
+        "blog-info": "js/blog-info.js",
+        "blog-invites": "js/blog-invites.js",
+        "blog-join": "js/blog-join.js"
+    },
+    "styles": {
+        "blog-blocks": "css/blog-blocks.css",
+        "blog": "css/blog.css"
+    }
+}

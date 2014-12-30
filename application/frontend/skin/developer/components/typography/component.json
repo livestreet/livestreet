@@ -1,0 +1,10 @@
+{
+    "name": "typography",
+    "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
+    "styles": {
+        "typography": "css/typography.css"
+    }
+}

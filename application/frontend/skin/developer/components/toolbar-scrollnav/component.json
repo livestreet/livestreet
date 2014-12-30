@@ -1,0 +1,13 @@
+{
+    "name": "toolbar-scrollnav",
+    "version": "1.0.0",
+    "templates": {
+        "toolbar.scrollnav": "toolbar.scrollnav.tpl"
+    },
+    "scripts": {
+        "toolbar.scrollnav": "js/toolbar.scrollnav.js"
+    },
+    "styles": {
+        "toolbar-scrollnav": "css/toolbar-scrollnav.css"
+    }
+}

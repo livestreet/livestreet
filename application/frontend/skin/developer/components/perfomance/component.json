@@ -1,0 +1,10 @@
+{
+    "name": "perfomance",
+    "version": "1.0.0",
+    "templates": {
+        "performance": "performance.tpl"
+    },
+    "styles": {
+        "perfomance": "css/perfomance.css"
+    }
+}

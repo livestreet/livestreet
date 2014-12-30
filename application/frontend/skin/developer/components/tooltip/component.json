@@ -1,0 +1,10 @@
+{
+    "name": "tooltip",
+    "version": "1.0.0",
+    "scripts": {
+        "tooltip": "js/tooltip.js"
+    },
+    "styles": {
+        "tooltip": "css/tooltip.css"
+    }
+}

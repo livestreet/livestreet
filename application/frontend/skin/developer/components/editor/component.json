@@ -1,0 +1,16 @@
+{
+    "name": "editor",
+    "version": "1.0.0",
+    "templates": {
+        "markup-help": "editor.markup.help.tpl",
+        "editor": "tests/visual/editor.tpl"
+    },
+    "scripts": {
+        "editor": "js/editor.js",
+        "markup": "js/editor.markup.js",
+        "visual": "js/editor.visual.js"
+    },
+    "styles": {
+        "editor": "css/editor.css"
+    }
+}

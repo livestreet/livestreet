@@ -1,0 +1,10 @@
+{
+    "name": "page-header",
+    "version": "1.0.0",
+    "templates": {
+        "page-header": "page-header.tpl"
+    },
+    "styles": {
+        "page-header": "css/page-header.css"
+    }
+}
