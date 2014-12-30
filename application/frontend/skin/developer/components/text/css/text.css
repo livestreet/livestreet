@@ -27,24 +27,15 @@
 
 
 /* Preformatted text */
-.text pre {
-    max-height: 400px;
-    margin: 0;
-    padding: 10px 14px;
-    background: #fcfcfc;
-    border: 1px solid #eaeaea;
-    border-radius: 3px;
-    font: normal 12px/1.5 Menlo, Monaco, Consolas, monospace;
-    overflow: auto;
-    clear: both;
-    direction: ltr !important;
+.text pre code {
+    line-height: 1.5em;
+    padding: 15px 20px;
+    font-size: 12px;
 }
-.text code {
-    background: #fcfcfc;
-    font-family: Menlo, Monaco, Consolas, monospace;
-    border: 1px solid #eaeaea;
-    border-radius: 3px;
-    padding: 2px 5px;
+.text pre {
+    padding: 0;
+    border: none;
+    background-color: transparent;
 }
 
 

@@ -52,7 +52,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Accordion
 	 */
-	$('.js-accordion-default').accordion({
+	$('.js-accordion-default').lsAccordion({
 		collapsible: true
 	});
 
@@ -155,7 +155,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Code highlight
 	 */
-	prettyPrint();
+	$( 'pre code' ).lsHighlighter();
 
 
 	/**

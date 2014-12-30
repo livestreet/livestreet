@@ -1,0 +1,11 @@
+{
+    "name": "highlighter",
+    "version": "1.0.0",
+    "scripts": {
+        "vendor-highlight": "vendor/highlight/highlight.pack.js",
+        "highlighter": "js/highlighter.js"
+    },
+    "styles": {
+        "vendor-highlight": "vendor/highlight/styles/github.css"
+    }
+}

@@ -483,7 +483,7 @@ $config['components'] = array(
     // Базовые компоненты
     'css-reset', 'css-helpers', 'typography', 'forms', 'grid', 'ls-vendor', 'ls-core', 'accordion', 'alert', 'dropdown', 'button', 'block',
     'nav', 'tooltip', 'tabs', 'modal', 'table', 'text', 'uploader', 'field', 'comment', 'pagination', 'editor', 'more', 'crop',
-    'perfomance', 'toolbar', 'media', 'actionbar', 'page-header', 'progressbar', 'badge', 'property', 'autocomplete', 'icon', 'item',
+    'perfomance', 'toolbar', 'media', 'actionbar', 'page-header', 'progressbar', 'badge', 'property', 'autocomplete', 'icon', 'item', 'highlighter',
 
     // Компоненты LS CMS
     'favourite', 'vote', 'photo', 'note', 'icons-contact', 'user-list-add', 'subscribe', 'content', 'notification', 'report',
