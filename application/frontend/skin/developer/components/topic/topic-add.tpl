@@ -41,7 +41,7 @@
             ]}
         {/foreach}
 
-        {component 'field' template='select'
+        {include 'components/field/field.select.tpl'
             label         = $aLang.topic.add.fields.blog.label
             name          = 'topic[blogs_id_raw][]'
             placeholder   = 'Выберите блоги для публикации'
