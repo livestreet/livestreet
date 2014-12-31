@@ -22,26 +22,33 @@
 
 
     {* Выбор блога *}
-    {if !$smarty.local.skipBlogs}
-        <script type="text/javascript">
-            jQuery(function($){
-                $(".chosen-select").chosen({ max_selected_options: {Config::Get('module.topic.max_blog_count')} });
-            });
-        </script>
+    {if ! $smarty.local.skipBlogs}
+        {$blogsSelect = []}
 
-        {$blogsId=(( $topic ) ? $topic->getBlogsId() : [])}
+        {foreach $smarty.local.blogs as $blogType => $blogs}
+            {$blogsSelectOptions = []}
 
-        {$aLang.topic.add.fields.blog.label}
-        <select name="topic[blogs_id_raw][]" data-placeholder="Выберите блог для публикации" style="width:100%;" class="chosen-select" multiple>
-            <option value=""></option>
-            {foreach $smarty.local.blogs as $blogType => $blogs}
-                <optgroup label="{lang "blog.types.{$blogType}"}">
-                    {foreach $blogs as $blog}
-                        <option {if in_array($blog->getId(),$blogsId)}selected="selected"{/if} value="{$blog->getId()}">{$blog->getTitle()|escape}</option>
-                    {/foreach}
-                </optgroup>
+            {foreach $blogs as $blog}
+                {$blogsSelectOptions[] = [
+                    'text' => $blog->getTitle()|escape,
+                    'value' => $blog->getId()
+                ]}
             {/foreach}
-        </select>
+
+            {$blogsSelect[] = [
+                'text' => {lang "blog.types.{$blogType}"},
+                'value' => $blogsSelectOptions
+            ]}
+        {/foreach}
+
+        {component 'field' template='select'
+            label         = $aLang.topic.add.fields.blog.label
+            name          = 'topic[blogs_id_raw][]'
+            placeholder   = 'Выберите блоги для публикации'
+            inputClasses  = 'js-topic-add-blogs'
+            isMultiple    = true
+            selectedValue = ( ( $topic ) ? $topic->getBlogsId() : [] )
+            items         = $blogsSelect}
     {/if}
 
 
@@ -54,7 +61,6 @@
         label       = $aLang.topic.add.fields.title.label}
 
     {block 'add_topic_form_text_before'}{/block}
-
 
 
     {* Текст топика *}

@@ -16,6 +16,9 @@
          * Дефолтные опции
          */
         options: {
+            // Максимальное кол-во блогов которое можно выбрать
+            max_blog_count: 3,
+
             // Ссылки
             urls: {
                 add: aRouter[ 'content' ] + 'ajax/add/',
@@ -28,6 +31,7 @@
                 preview: '#topic-text-preview',
                 preview_content: '#topic-text-preview .js-topic-preview-content',
                 image_preview: '.js-topic-add-field-image-preview',
+                blogs: '.js-topic-add-blogs',
                 buttons: {
                     preview: '.js-topic-preview-text-button',
                     preview_hide: '.js-topic-preview-text-hide-button',
@@ -49,6 +53,7 @@
                 preview: $( this.option( 'selectors.preview' ) ),
                 preview_content: $( this.option( 'selectors.preview_content' ) ),
                 image_preview: this.element.find( this.option( 'selectors.image_preview' ) ),
+                blogs: this.element.find( this.option( 'selectors.blogs' ) ),
                 buttons: {
                     preview: this.element.find( this.option( 'selectors.buttons.preview' ) ),
                     preview_hide: $( this.option( 'selectors.buttons.preview_hide' ) ),
@@ -63,6 +68,12 @@
                     add: this.option( 'urls.add' ),
                     edit: this.option( 'urls.edit' )
                 }
+            });
+
+            // Выбор блогов
+            this.elements.blogs.chosen({
+                max_selected_options: this.option( 'max_blog_count' ),
+                width: '100%'
             });
 
             // Превью (изображение)
