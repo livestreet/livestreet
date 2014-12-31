@@ -456,7 +456,9 @@ jQuery(document).ready(function($){
 	$( '.js-topic' ).lsTopic();
 
 	// Форма добавления
-	$( '#topic-add-form' ).lsTopicAdd();
+	$( '#topic-add-form' ).lsTopicAdd({
+		max_blog_count: ls.registry.get('topic_max_blog_count')
+	});
 
 	// Пагинация
 	$('.js-pagination-topics').lsPagination({
