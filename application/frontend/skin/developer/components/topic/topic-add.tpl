@@ -41,7 +41,7 @@
             ]}
         {/foreach}
 
-        {include 'components/field/field.select.tpl'
+        {component 'field' template='select'
             label         = $aLang.topic.add.fields.blog.label
             name          = 'topic[blogs_id_raw][]'
             placeholder   = 'Выберите блоги для публикации'
@@ -53,7 +53,7 @@
 
 
     {* Заголовок топика *}
-    {include 'components/field/field.text.tpl'
+    {component 'field' template='text'
         name        = 'topic[topic_title]'
         value       = {(( $topic ) ? $topic->getTitle() : '')|escape}
         entityField = 'topic_title'
@@ -65,7 +65,7 @@
 
     {* Текст топика *}
     {if $type->getParam('allow_text')}
-        {include 'components/editor/editor.tpl'
+        {component 'editor'
             name            = 'topic[topic_text_source]'
             value           = (( $topic ) ? $topic->getTextSource() : '')|escape
             label           = $aLang.topic.add.fields.text.label
@@ -81,7 +81,7 @@
 
     {* Теги *}
     {if $type->getParam('allow_tags')}
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
             name    = 'topic[topic_tags]'
             value     = {(( $topic ) ? $topic->getTags() : '')|escape}
             rules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
@@ -100,7 +100,7 @@
 
 
     {* Выбор превью *}
-    {include 'components/field/field.image-ajax.tpl'
+    {component 'field' template='image-ajax'
         label      = 'Превью'
         modalTitle = 'Выбор превью для топика'
         targetType = 'topic'
@@ -110,14 +110,14 @@
 
     {* Вставка опросов *}
     {if $type->getParam('allow_poll')}
-        {include 'components/poll/poll.manage.tpl'
+        {component 'poll' template='manage'
             targetType = 'topic'
             targetId   = ( $topic ) ? $topic->getId() : ''}
     {/if}
 
 
     {* Запретить комментарии *}
-    {include 'components/field/field.checkbox.tpl'
+    {component 'field' template='checkbox'
         name    = 'topic[topic_forbid_comment]'
         checked = {( $topic && $topic->getForbidComment() ) ? true : false }
         note    = $aLang.topic.add.fields.forbid_comments.note
@@ -126,13 +126,13 @@
 
     {* Принудительный вывод топиков на главную (доступно только админам) *}
     {if $oUserCurrent->isAdministrator()}
-        {include 'components/field/field.checkbox.tpl'
+        {component 'field' template='checkbox'
             name    = 'topic[topic_publish_index]'
             checked = {($topic && $topic->getPublishIndex()) ? true : false }
             note    = $aLang.topic.add.fields.publish_index.note
             label   = $aLang.topic.add.fields.publish_index.label}
 
-        {include 'components/field/field.checkbox.tpl'
+        {component 'field' template='checkbox'
             name    = 'topic[topic_skip_index]'
             checked = {($topic && $topic->getSkipIndex()) ? true : false }
             note    = $aLang.topic.add.fields.skip_index.note
@@ -145,7 +145,7 @@
 
 
     {* Скрытые поля *}
-    {include 'components/field/field.hidden.tpl' name='topic_type' value=$type->getCode()}
+    {component 'field' template='hidden' name='topic_type' value=$type->getCo}
 
     {if $topic}
         {include "components/field/field.hidden.tpl" name='topic[id]' value=$topic->getId()}
@@ -157,18 +157,18 @@
      *}
 
     {* Опубликовать / Сохранить изменения *}
-    {include 'components/button/button.tpl'
+    {component 'button'
         id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
         mods    = 'primary'
         classes = 'fl-r'
         text    = $aLang.topic.add.button[ ( $sEvent == 'add' or ( $topic && $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
 
     {* Превью *}
-    {include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
+    {component 'button' type='button' classes='js-topic-preview-text-button' text=$aLang.common.preview_text}
 
     {* Сохранить в черновиках / Перенести в черновики *}
     {if ! $topic || ( $topic && $topic->getPublish() != 0 )}
-        {include 'components/button/button.tpl' type='button' classes='js-topic-draft-button' text=$aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
+        {component 'button' type='button' classes='js-topic-draft-button' text=$aLang.topic.add.button[ ( $sEvent == 'add' ) ? 'save_as_draft' : 'mark_as_draft' ]}
     {/if}
 </form>
 

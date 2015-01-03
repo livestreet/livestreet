@@ -11,5 +11,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-    {include 'components/button/button.tpl' text={lang 'user.photo.crop_photo.submit'} classes='js-crop-submit' mods='primary'}
+    {component 'button' text={lang 'user.photo.crop_photo.submit'} classes='js-crop-submit' mods='primary'}
 {/block}

@@ -13,7 +13,7 @@
 		<legend>{lang name='user.settings.account.account'}</legend>
 
         {* E-mail *}
-        {include 'components/field/field.email.tpl'
+        {component 'field' template='email'
                  value = $user->getMail()|escape
                  note  = {lang name='user.settings.account.fields.email.note'}}
 	</fieldset>
@@ -25,14 +25,14 @@
 		<p class="text-info">{lang name='user.settings.account.password_note'}</p>
 
         {* Текущий пароль *}
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
                  name    = 'password_now'
                  type    = 'password'
                  inputClasses = 'width-200'
                  label   = {lang name='user.settings.account.fields.password.label'}}
 
         {* Новый пароль *}
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
                  name    = 'password'
                  rules   = [ 'rangelength' => '[5,20]' ]
                  type    = 'password'
@@ -40,7 +40,7 @@
                  label   = {lang name='user.settings.account.fields.password_new.label'}}
 
         {* Повторить новый пароль *}
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
                  name    = 'password_confirm'
                  rules   = [ 'rangelength' => '[5,20]', 'equalto' => '.js-user-settings-password' ]
                  type    = 'password'
@@ -52,10 +52,10 @@
 	{hook run='form_settings_account_end'}
 
     {* Скрытые поля *}
-    {include 'components/field/field.hidden.security_key.tpl'}
+    {component 'field' template='hidden.security-key'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl' name='submit_account_edit' mods='primary' text=$aLang.common.save}
+    {component 'button' name='submit_account_edit' mods='primary' text=$aLang.common.save}
 </form>
 
 {hook run='settings_account_end'}

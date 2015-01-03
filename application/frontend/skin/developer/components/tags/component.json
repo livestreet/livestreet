@@ -2,8 +2,8 @@
     "name": "tags",
     "version": "1.0.0",
     "templates": {
-        "tag-cloud": "tag-cloud.tpl",
-        "search-form.tags": "search-form.tags.tpl",
+        "cloud": "tag-cloud.tpl",
+        "search-form": "search-form.tags.tpl",
         "tags": "tags.tpl",
         "block.tags": "blocks/block.tags.tpl"
     },

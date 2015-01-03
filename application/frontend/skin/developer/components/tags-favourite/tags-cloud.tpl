@@ -9,7 +9,7 @@
 {$user = $smarty.local.user}
 {$activeTag = $smarty.local.activeTag}
 
-{include 'components/tags/tag-cloud.tpl'
+{component 'tags' template='cloud'
 	tags   = $smarty.local.tags
 	url    = '{$user->getUserWebPath()}favourites/topics/tag/{$tag->getText()|escape:\'url\'}/'
 	active = $activeTag

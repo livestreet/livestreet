@@ -16,6 +16,7 @@
 
 {* Переменные *}
 {$mods = $smarty.local.mods}
+{$target = $smarty.local.target}
 
 {* True если объект находится в избранном *}
 {$isActive = $target && $target->getIsFavourite()}

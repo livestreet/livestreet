@@ -36,7 +36,7 @@
         <legend>{lang name='user.settings.profile.generic'}</legend>
 
         {* Имя *}
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
             name   = 'profile_name'
             rules  = [ 'rangelength' => "[2,{Config::Get('module.user.name_max')}]" ]
             value  = $user->getProfileName()|escape
@@ -50,7 +50,7 @@
             [ 'value' => 'other', 'text' => {lang name='user.gender.none'} ]
         ]}
 
-        {include 'components/field/field.select.tpl'
+        {component 'field' template='select'
             name          = 'profile_sex'
             label         = {lang name='user.settings.profile.fields.sex.label'}
             items         = $sex
@@ -58,14 +58,14 @@
 
 
         {* Дата рождения *}
-        {include 'components/field/field.date.tpl'
+        {component 'field' template='date'
             name   = 'profile_birthday'
             items  = $user->getProfileBirthday()
             label  = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
         {* Местоположение *}
-        {include 'components/field/field.geo.tpl'
+        {component 'field' template='geo'
             classes   = 'js-field-geo-default'
             name      = 'geo'
             label     = {lang name='user.settings.profile.fields.place.label'}
@@ -76,7 +76,7 @@
 
 
         {* О себе *}
-        {include 'components/field/field.textarea.tpl'
+        {component 'field' template='textarea'
             name   = 'profile_about'
             rules  = [ 'rangelength' => '[1,3000]' ]
             rows   = 5
@@ -88,7 +88,7 @@
         {$userfields = $user->getUserFieldValues(false, '')}
 
         {foreach $userfields as $field}
-            {include 'components/field/field.text.tpl'
+            {component 'field' template='text'
                 name   = "profile_user_field_`$field->getId()`"
                 value  = $field->getValue()|escape
                 label  = $field->getTitle()|escape}
@@ -107,22 +107,22 @@
             {foreach $contacts as $contact}
                 {call userfield field=$contact}
             {foreachelse}
-                {include 'components/alert/alert.tpl' mods='empty' classes='js-user-fields-empty' text=$aLang.common.empty}
+                {component 'alert' mods='empty' classes='js-user-fields-empty' text=$aLang.common.empty}
             {/foreach}
         </div>
 
         {if $aUserFieldsContact}
-            {include 'components/button/button.tpl' type='button' classes='js-user-fields-submit' text=$aLang.common.add}
+            {component 'button' type='button' classes='js-user-fields-submit' text=$aLang.common.add}
         {/if}
     </fieldset>
 
     {hook run='form_settings_profile_end'}
 
     {* Скрытые поля *}
-    {include 'components/field/field.hidden.security_key.tpl'}
+    {component 'field' template='hidden.security-key'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl' name='submit_profile_edit' mods='primary' text=$aLang.common.save}
+    {component 'button' name='submit_profile_edit' mods='primary' text=$aLang.common.save}
 </form>
 
 {hook run='settings_profile_end'}

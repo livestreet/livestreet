@@ -3,7 +3,7 @@
  *}
 
 {if $periodSelectCurrent}
-	{include 'components/dropdown/dropdown.tpl'
+	{component 'dropdown'
 		classes    = 'js-dropdown-default'
 		name       = 'sort_by_date'
 		text       = 'Loading...'

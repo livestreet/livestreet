@@ -25,7 +25,7 @@
 	</p>
 
     {* E-mail *}
-    {include 'components/field/field.text.tpl'
+    {component 'field' template='text'
              name  = 'invite_mail'
              note  = {lang name='user.settings.invites.fields.email.note'}
              label = {lang name='user.settings.invites.fields.email.label'}}
@@ -33,10 +33,10 @@
 	{hook run='form_settings_invite_end'}
 
     {* Скрытые поля *}
-    {include 'components/field/field.hidden.security_key.tpl'}
+    {component 'field' template='hidden.security-key'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
+    {component 'button' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
 </form>
 
 {hook run='settings_invite_end'}

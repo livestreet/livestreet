@@ -16,13 +16,13 @@
 {block 'block_content'}
 	<form method="post" action="" enctype="multipart/form-data">
 		{* Показывать ленту с превьюшками *}
-		{include 'components/field/field.checkbox.tpl'
+		{component 'field' template='checkbox'
 				 name    = 'use_thumbs'
 				 checked = true
 				 label   = {lang name='media.photoset.settings.fields.use_thumbs.label'}}
 
 		{* Показывать описания фотографий *}
-		{include 'components/field/field.checkbox.tpl'
+		{component 'field' template='checkbox'
 				 name    = 'show_caption'
 				 label   = {lang name='media.photoset.settings.fields.show_caption.label'}}
 	</form>

@@ -10,13 +10,13 @@
 	{if $bPollItemIsTemplate|default:false}style="display: none"{/if}>
 
 	{* ID *}
-	{include 'components/field/field.hidden.tpl'
+	{component 'field' template='hidden'
 		name    = "answers[{$iPollItemIndex|default:0}][id]"
 		value   = "{if $oPollItem}{$oPollItem->getId()}{/if}"
 		classes = "js-poll-form-answer-item-id"}
 
 	{* Текст *}
-	{include 'components/field/field.text.tpl'
+	{component 'field' template='text'
 		name         = 'answers[]'
 		value        = ($oPollItem) ? $oPollItem->getTitle() : ''
 		isDisabled   = ! $bPollIsAllowUpdate|default:true

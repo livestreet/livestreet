@@ -20,13 +20,13 @@
 
     {if $resultItems}
         {if $searchType == 'topics'}
-            {include 'components/topic/topic-list.tpl' topics=$resultItems paging=$paging}
+            {component 'topic' template='list' topics=$resultItems paging=$paging}
         {elseif $searchType == 'comments'}
-            {include 'components/comment/comment-list.tpl' comments=$resultItems}
+            {component 'comment' template='list' comments=$resultItems paging=$paging}
         {else}
             {hook run='search_result' type=$searchType}
         {/if}
     {elseif $_aRequest.q}
-        {include 'components/alert/alert.tpl' text=$aLang.search.alerts.empty mods='empty'}
+        {component 'alert' text=$aLang.search.alerts.empty mods='empty'}
     {/if}
 {/block}

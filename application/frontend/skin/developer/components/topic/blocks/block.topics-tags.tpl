@@ -15,10 +15,10 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/tags/tag-cloud.tpl' tags=$smarty.local.tags     url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/' assign=tags_block_all}
-	{include 'components/tags/tag-cloud.tpl' tags=$smarty.local.tagsUser url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/' assign=tags_block_favourite}
+	{component 'tags' template='cloud' tags=$smarty.local.tags     url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/' assign=tags_block_all}
+	{component 'tags' template='cloud' tags=$smarty.local.tagsUser url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/' assign=tags_block_favourite}
 
-	{include 'components/tabs/tabs.tpl' classes='js-tabs-block' tabs=[
+	{component 'tabs' classes='js-tabs-block' tabs=[
         [ 'text' => {lang 'tags.block_tags.nav.all'},       'content' => $tags_block_all ],
         [ 'text' => {lang 'tags.block_tags.nav.favourite'}, 'content' => $tags_block_favourite, 'is_enabled' => !! $oUserCurrent ]
     ]}
@@ -26,5 +26,5 @@
 
 {* Подвал *}
 {block 'block_footer'}
-	{include 'components/tags/search-form.tags.tpl' mods='light'}
+    {component 'tags' template='search-form' mods='light'}
 {/block}

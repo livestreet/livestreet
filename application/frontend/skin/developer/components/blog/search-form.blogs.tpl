@@ -2,7 +2,7 @@
  * Форма поиска блогов
  *}
 
-{include 'components/search-form/search-form.tpl'
+{component 'search-form'
     name            = 'blog'
     method          = 'post'
     placeholder     = $aLang.blog.search.placeholder

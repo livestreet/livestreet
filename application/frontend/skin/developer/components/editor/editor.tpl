@@ -19,7 +19,7 @@
  * Textarea
  *}
 {function editor_textarea}
-	{include 'components/field/field.textarea.tpl'
+	{component 'field' template='textarea'
 		name            = $smarty.local.name
 		value           = $smarty.local.value
 		label           = $smarty.local.label
@@ -65,7 +65,7 @@
 {/if}
 
 {* Управление медиа-файлами *}
-{include 'components/media/media.tpl'
+{component 'media'
 	sMediaTargetType = $smarty.local.mediaTargetType
 	sMediaTargetId   = $smarty.local.mediaTargetId
 	id               = $_mediaUid

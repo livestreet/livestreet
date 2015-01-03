@@ -2,7 +2,7 @@
  * Навигация в профиле пользователя в разделе "Избранное"
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'profile_favourite'
     activeItem = $sMenuSubItemSelect
     mods       = 'pills'

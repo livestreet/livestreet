@@ -12,7 +12,7 @@
 {/block}
 
 {block 'layout_content' append}
-    {include 'components/activity/activity.tpl'
+    {component 'activity'
         events   = $activityEvents
         count    = $activityEventsAllCount
         targetId = $oUserProfile->getId()

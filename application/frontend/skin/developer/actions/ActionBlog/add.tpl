@@ -24,5 +24,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/blog/add.tpl' blog=$blogEdit}
+    {component 'blog' template='add' blog=$blogEdit}
 {/block}

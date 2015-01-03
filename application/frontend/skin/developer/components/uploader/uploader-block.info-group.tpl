@@ -25,7 +25,7 @@
 		{* Текстовые св-ва *}
 		<div class="{$component_info}-fields">
 			{foreach $smarty.local.propertiesFields as $property}
-				{include 'components/field/field.text.tpl'
+				{component 'field' template='text'
 					name            = $property['name']
 					inputClasses    = "js-{$component_info}-property"
 					inputAttributes = [ 'data-name' => $property['name'] ]

@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/auth/auth.reactivation.tpl'}
+    {component 'auth' template='reactivation'}
 {/block}

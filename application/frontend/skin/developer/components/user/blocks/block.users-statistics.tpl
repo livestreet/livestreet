@@ -13,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/user/stat.tpl' stat=$usersStat}
+	{component 'user' template='stat' stat=$usersStat}
 {/block}

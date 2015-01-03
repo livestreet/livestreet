@@ -2,7 +2,7 @@
  * Навигация по результатам поиска
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'search'
     activeItem = $searchType
     mods       = 'pills'

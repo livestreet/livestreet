@@ -18,14 +18,14 @@
 
 	<div class="comments js-comments" id="comments">
 		<div class="comment-wrapper js-comment-wrapper" data-id="{$comment1->getId()}">
-			{include 'components/comment/comment.tpl'
+			{component 'comment'
 				oComment        = $comment1
 				bShowVote       = true
 				sDateLastRead   = '2014-01-01 00:00:00'}
 		</div>
 
 		<div class="comment-wrapper js-comment-wrapper" data-id="{$comment2->getId()}">
-			{include 'components/comment/comment.tpl'
+			{component 'comment'
 				comment         = $comment2
 				bShowVote       = true
 				sDateLastRead   = '2014-01-01 00:00:00'}

@@ -2,8 +2,8 @@
     "name": "sort",
     "version": "1.0.0",
     "templates": {
-        "sort.ajax": "sort.ajax.tpl",
-        "sort.timespan": "sort.timespan.tpl",
+        "ajax": "sort.ajax.tpl",
+        "timespan": "sort.timespan.tpl",
         "sort": "sort.tpl"
     },
     "styles": {

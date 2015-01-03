@@ -5,7 +5,7 @@
 {/block}
 
 {block 'media_pane_footer' prepend}
-	{include 'components/button/button.tpl'
+	{component 'button'
 		mods    = 'primary'
 		classes = 'js-media-photoset-submit'
 		text    = {lang name='media.photoset.submit'}}

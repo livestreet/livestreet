@@ -12,11 +12,11 @@
 {/block}
 
 {block 'modal_content'}
-    {include 'components/poll/poll.form.tpl'}
+    {component 'poll' template='form'}
 {/block}
 
 {block 'modal_footer_begin'}
-    {include 'components/button/button.tpl'
+    {component 'button'
         form    = 'js-poll-form'
         text    =  ($oPoll) ? $aLang.common.save : $aLang.common.add
         classes = 'js-poll-form-submit'

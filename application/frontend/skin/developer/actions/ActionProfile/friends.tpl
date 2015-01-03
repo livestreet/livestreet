@@ -12,5 +12,5 @@
 {/block}
 
 {block 'layout_content' append}
-    {include 'components/user/user-list.tpl' users=$friends pagination=$paging}
+    {component 'user' template='list' users=$friends pagination=$paging}
 {/block}

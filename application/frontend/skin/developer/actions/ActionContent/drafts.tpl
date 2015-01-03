@@ -16,5 +16,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/topic/topic-list.tpl' topics=$topics paging=$paging}
+    {component 'topic' template='list' topics=$topics paging=$paging}
 {/block}

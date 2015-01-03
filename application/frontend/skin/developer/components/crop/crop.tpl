@@ -10,6 +10,7 @@
  * @param integer $originalHeight
  *
  * TODO: Возможность задавать размеры превью
+ * TODO: Разделить на модальное и на контейнер с кропом
  *}
 
 {extends 'components/modal/modal.tpl'}
@@ -48,5 +49,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-    {include 'components/button/button.tpl' text=$aLang.common.save classes='js-crop-submit' mods='primary'}
+    {component 'button' text=$aLang.common.save classes='js-crop-submit' mods='primary'}
 {/block}

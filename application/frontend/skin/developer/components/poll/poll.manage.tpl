@@ -15,7 +15,7 @@
 
 	<div class="fieldset-body">
 		{* Кнопка добавить *}
-		{include 'components/button/button.tpl' text=$aLang.common.add type='button' classes='poll-manage-add js-poll-manage-add'}
+		{component 'button' text=$aLang.common.add type='button' classes='poll-manage-add js-poll-manage-add'}
 
 		{* Список добавленных опросов *}
 		{insert name="block" block="pollFormItems" params=[

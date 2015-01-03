@@ -64,7 +64,7 @@
 						]}
 					{/block}
 
-					{include 'components/actionbar/actionbar.tpl' items=$items}
+					{component 'actionbar' items=$items}
 				{/if}
 			</header>
 		{/block}
@@ -87,7 +87,7 @@
 
 				{* Кат *}
 				{if $isList && $article->getTextShort()}
-					{include 'components/button/button.tpl'
+					{component 'button'
 						classes = "{$component}-cut"
 						url     = "{$article->getUrl()}#cut"
 						text    = "{$article->getCutText()|default:$aLang.topic.read_more}"}
@@ -107,7 +107,7 @@
 						{block 'article_footer_info_items'}
 							{* Автор топика *}
 							<li class="{$component}-info-item {$component}-info-item--author">
-								{include 'components/user/user-item.tpl' user=$user avatarSize=48 mods='rounded'}
+								{component 'user' template='item' user=$user avatarSize=48 mods='rounded'}
 							</li>
 
 							{* Ссылка на комментарии *}

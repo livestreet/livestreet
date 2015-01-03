@@ -2,7 +2,7 @@
  * Навигация на главной странице профиля
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'profile_info'
     activeItem = $sMenuSubItemSelect
     mods       = 'pills'

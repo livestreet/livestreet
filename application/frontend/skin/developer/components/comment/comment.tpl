@@ -113,7 +113,7 @@
             {if $smarty.local.useVote}
                 <li>
                     {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
-                    {include 'components/vote/vote.tpl'
+                    {component 'vote'
                             classes  = "{$component}-vote js-vote-{$component}"
                             target   = $comment
                             isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
@@ -123,7 +123,7 @@
             {* Избранное *}
             {if $oUserCurrent && $smarty.local.useFavourite}
                 <li>
-                    {include 'components/favourite/favourite.tpl' classes='comment-favourite js-favourite-comment' target=$comment}
+                    {component 'favourite' classes='comment-favourite js-favourite-comment' target=$comment}
                 </li>
             {/if}
         </ul>

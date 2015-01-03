@@ -29,7 +29,7 @@
         {/if}
     {/if}
 
-    {include 'components/photo/photo.tpl'
+    {component 'photo'
         classes      = 'js-user-photo'
         hasPhoto     = $oUserProfile->getProfileFoto()
         editable     = $oUserProfile->isAllowEdit()

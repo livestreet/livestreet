@@ -40,7 +40,7 @@
                 ]}
             {/if}
 
-            {include 'components/nav/nav.tpl' name='userbar' activeItem=$sMenuHeadItemSelect mods='userbar' items=$items}
+            {component 'nav' name='userbar' activeItem=$sMenuHeadItemSelect mods='userbar' items=$items}
         </nav>
 
         {include 'components/search/search-form.main.tpl' mods='light'}
@@ -48,5 +48,5 @@
 </div>
 
 {if $oUserCurrent}
-    {include 'components/modal-create/modal-create.tpl'}
+    {component 'modal-create'}
 {/if}

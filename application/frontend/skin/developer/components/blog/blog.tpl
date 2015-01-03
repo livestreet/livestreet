@@ -57,6 +57,6 @@
             {$info[] = [ 'label' => "{$aLang.blog.categories.category}:", 'content' => $blog->category->getCategory()->getTitle() ]}
         {/if}
 
-        {include 'components/info-list/info-list.tpl' list=$info}
+        {component 'info-list' list=$info}
     </div>
 </div>

@@ -2,7 +2,7 @@
  * Навгиация редактирования блога
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name          = 'blog_edit'
     activeItem    = $sMenuItemSelect
     mods          = 'pills'

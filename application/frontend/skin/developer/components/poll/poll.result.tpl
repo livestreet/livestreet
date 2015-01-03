@@ -37,7 +37,7 @@
 </ul>
 
 {* Кнопка сортировки *}
-{include 'components/button/button.tpl'
+{component 'button'
     mods       = 'icon'
     classes    = 'js-poll-result-sort'
     icon       = 'icon-align-left'

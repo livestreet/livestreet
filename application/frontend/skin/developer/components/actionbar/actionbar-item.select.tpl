@@ -29,7 +29,7 @@
     {/foreach}
 
     {* Выпадающее меню *}
-    {include 'components/dropdown/dropdown.tpl'
+    {component 'dropdown'
         classes = "actionbar-item-link {$smarty.local.classes}"
         text    = {lang 'actionbar.select.title'}
         menu    = $menu}

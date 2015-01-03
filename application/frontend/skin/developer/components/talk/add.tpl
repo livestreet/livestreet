@@ -7,10 +7,10 @@
 <form action="" method="POST" enctype="multipart/form-data" class="js-form-validate">
 	{hook run='form_add_talk_begin'}
 
-	{include 'components/field/field.hidden.security_key.tpl'}
+	{component 'field' template='hidden.security-key'}
 
 	{* Получатели *}
-	{include 'components/field/field.text.tpl'
+	{component 'field' template='text'
 			 name    = 'talk_users'
 			 rules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
 			 label   = $aLang.talk.add.fields.users.label
@@ -18,19 +18,19 @@
 			 note    = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">{lang 'talk.add.choose_friends'}</a>"}
 
 	{* Заголовок *}
-	{include 'components/field/field.text.tpl'
+	{component 'field' template='text'
 			 name    = 'talk_title'
 			 rules   = [ 'required' => true, 'rangelength' => '[2,200]' ]
 			 label   = $aLang.talk.add.fields.title.label}
 
 	{* Текст сообщения *}
-	{include 'components/editor/editor.tpl'
+	{component 'editor'
 			sSet             = 'light'
 			sMediaTargetType = 'talk'
-			name            = 'talk_text'
-			rules           = [ 'required' => true, 'rangelength' => '[2,3000]' ]
-			label           = $aLang.talk.add.fields.text.label
-			inputClasses    = 'js-editor-default'}
+			name             = 'talk_text'
+			rules            = [ 'required' => true, 'rangelength' => '[2,3000]' ]
+			label            = $aLang.talk.add.fields.text.label
+			inputClasses     = 'js-editor-default'}
 
 	{* Preview *}
 	<div class="text mb-20" id="text_preview" style="display: none;"></div>
@@ -38,8 +38,8 @@
 	{hook run='form_add_talk_end'}
 
 	{* Кнопки *}
-	{include 'components/button/button.tpl' name='submit_talk_add' mods='primary' text=$aLang.common.send}
-	{include 'components/button/button.tpl'
+	{component 'button' name='submit_talk_add' mods='primary' text=$aLang.common.send}
+	{component 'button'
 		name       = 'submit_preview'
 		type       = 'button'
 		text       = $aLang.common.preview_text

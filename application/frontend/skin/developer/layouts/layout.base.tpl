@@ -58,7 +58,7 @@
     {**
      * Юзербар
      *}
-    {include 'components/userbar/userbar.tpl'}
+    {component 'userbar'}
 
 
     {**
@@ -130,11 +130,11 @@
                     {* Системные сообщения *}
                     {if $layoutShowSystemMessages}
                         {if $aMsgError}
-                            {include 'components/alert/alert.tpl' text=$aMsgError mods='error' close=true}
+                            {component 'alert' text=$aMsgError mods='error' close=true}
                         {/if}
 
                         {if $aMsgNotice}
-                            {include 'components/alert/alert.tpl' text=$aMsgNotice close=true}
+                            {component 'alert' text=$aMsgNotice close=true}
                         {/if}
                     {/if}
                 {/block}
@@ -169,9 +169,9 @@
 
     {* Подключение модальных окон *}
     {if $oUserCurrent}
-        {include 'components/tags-favourite/modal.favourite_tags.tpl'}
+        {component 'tags-favourite' template='modal'}
     {else}
-        {include 'components/auth/modal.auth.tpl'}
+        {component 'auth' template='modal'}
     {/if}
 
 
@@ -183,5 +183,5 @@
     {add_block group='toolbar' name='components/toolbar-scrollup/toolbar.scrollup.tpl' priority=-100}
 
     {* Подключение тулбара *}
-    {include 'components/toolbar/toolbar.tpl'}
+    {component 'toolbar'}
 {/block}

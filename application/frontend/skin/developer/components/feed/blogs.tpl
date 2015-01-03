@@ -16,7 +16,7 @@
         {if $smarty.local.blogsJoined}
             <div class="field-checkbox-group">
                 {foreach $smarty.local.blogsJoined as $blog}
-                    {include 'components/field/field.checkbox.tpl'
+                    {component 'field' template='checkbox'
                         inputClasses    = 'js-feed-blogs-subscribe'
                         inputAttributes = [ 'data-id' => $blog->getId() ]
                         checked         = isset($blogsSubscribed[ $blog->getId() ])
@@ -24,7 +24,7 @@
                 {/foreach}
             </div>
         {else}
-            {include 'components/alert/alert.tpl' text=$aLang.feed.blogs.empty mods='info'}
+            {component 'alert' text=$aLang.feed.blogs.empty mods='info'}
         {/if}
     </div>
 {/if}

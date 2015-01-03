@@ -2,12 +2,12 @@
     "name": "uploader",
     "version": "1.0.0",
     "templates": {
-        "modal.uploader": "modal.uploader.tpl",
-        "uploader-block.info-group": "uploader-block.info-group.tpl",
-        "uploader-block.info": "uploader-block.info.tpl",
-        "uploader-block": "uploader-block.tpl",
         "uploader": "uploader.tpl",
-        "uploader-file": "uploader-file.tpl"
+        "block.info-group": "uploader-block.info-group.tpl",
+        "block.info": "uploader-block.info.tpl",
+        "block": "uploader-block.tpl",
+        "modal": "modal.uploader.tpl",
+        "file": "uploader-file.tpl"
     },
     "scripts": {
         "uploader-file-list": "js/uploader-file-list.js",

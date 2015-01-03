@@ -36,6 +36,6 @@
         "fotorama": "fotorama/fotorama.css",
         "nprogress": "nprogress/nprogress.css",
         "colorbox": "colorbox/colorbox.css",
-        "chosen": "chosen/chosen.min.css"
+        "chosen": "chosen/chosen.css"
     }
 }

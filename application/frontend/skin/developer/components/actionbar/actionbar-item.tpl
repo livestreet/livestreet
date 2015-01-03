@@ -14,7 +14,7 @@
 {if $smarty.local.show|default:true}
     <li class="{$component}">
         {block 'actionbar_item'}
-            {include 'components/button/button.tpl'
+            {component 'button'
                 url        = $smarty.local.url
                 classes    = "{$component}-link {$smarty.local.classes}"
                 text       = $smarty.local.text

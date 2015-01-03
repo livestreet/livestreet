@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/auth/auth.reset.tpl'}
+    {component 'auth' template='reset'}
 {/block}

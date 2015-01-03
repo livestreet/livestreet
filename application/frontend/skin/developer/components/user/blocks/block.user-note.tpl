@@ -15,5 +15,5 @@
 {/block}
 
 {block 'block_content_after'}
-	{include 'components/note/note.tpl' classes='js-user-note' note=$oUserProfile->getUserNote() targetId=$oUserProfile->getId()}
+	{component 'note' classes='js-user-note' note=$oUserProfile->getUserNote() targetId=$oUserProfile->getId()}
 {/block}

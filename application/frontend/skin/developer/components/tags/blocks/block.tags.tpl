@@ -15,5 +15,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/tags/tag-cloud.tpl' tags=$smarty.local.tags url=$smarty.local.url}
+	{component 'tags' template='cloud' tags=$smarty.local.tags url=$smarty.local.url}
 {/block}

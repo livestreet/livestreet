@@ -19,17 +19,17 @@
             {include './field.image-ajax-items.tpl' imagePreviewItems=$imagePreviewItems}
         </div>
 
-        {include 'components/button/button.tpl'
+        {component 'button'
             type    = 'button'
             text    = {lang 'common.remove'}
             classes = 'js-field-image-ajax-remove' attributes=[ 'style' => ( ! $imagePreviewItems ) ? 'display: none' : '' ]}
 
-        {include 'components/button/button.tpl'
+        {component 'button'
             type    = 'button'
             text    = {lang 'common.choose'}
             classes = 'js-field-image-ajax-show-modal' attributes=[ 'style' => ( $imagePreviewItems ) ? 'display: none' : '' ]}
 
-        {include 'components/uploader/modal.uploader.tpl'
+        {component 'uploader' template='modal'
             classes = 'js-field-image-ajax-modal'
             title   = $smarty.local.modalTitle}
     </div>

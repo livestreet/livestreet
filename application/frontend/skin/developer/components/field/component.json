@@ -11,7 +11,7 @@
         "file": "field.file.tpl",
         "geo": "field.geo.tpl",
         "hidden": "field.hidden.tpl",
-        "hidden.security_key": "field.hidden.security_key.tpl",
+        "hidden.security-key": "field.hidden.security-key.tpl",
         "image-ajax-items": "field.image-ajax-items.tpl",
         "image-ajax": "field.image-ajax.tpl",
         "image": "field.image.tpl",

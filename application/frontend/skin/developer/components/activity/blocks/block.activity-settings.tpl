@@ -13,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-    {include 'components/activity/settings.tpl' typesActive=$typesActive types=$types}
+    {include '../settings.tpl' typesActive=$typesActive types=$types}
 {/block}

@@ -28,6 +28,6 @@
 
     {* Пользователь *}
     {block 'user_list_small_item_content'}
-        {include 'components/user/user-item.tpl' user=$user}
+        {component 'user' template='item' user=$user}
     {/block}
 </li>

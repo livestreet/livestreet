@@ -1,4 +1,4 @@
-{include 'components/field/field.file.tpl'
+{component 'field' template='file'
     name          = "property[{$property->getId()}][file]"
     removeName    = "property[{$property->getId()}][remove]"
     classes       = 'width-300'

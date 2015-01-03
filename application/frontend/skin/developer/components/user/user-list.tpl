@@ -23,14 +23,14 @@
     {* Кнопка подгрузки *}
     {if $smarty.local.useMore}
         {if ! $smarty.local.hideMore}
-            {include 'components/more/more.tpl'
+            {component 'more'
                 classes    = 'js-more-search'
                 target     = '.js-more-users-container'
                 attributes = [ 'data-search-type' => 'users', 'data-proxy-page-next' => '2' ]}
         {/if}
     {else}
-        {include 'components/pagination/pagination.tpl' paging=$smarty.local.pagination}
+        {component 'pagination' paging=$smarty.local.pagination}
     {/if}
 {else}
-    {include 'components/alert/alert.tpl' text=$smarty.local.textEmpty|default:{lang name='user.notices.empty'} mods='empty'}
+    {component 'alert' text=$smarty.local.textEmpty|default:{lang name='user.notices.empty'} mods='empty'}
 {/if}

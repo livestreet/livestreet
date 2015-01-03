@@ -8,7 +8,7 @@
 
 {$entry = $smarty.local.entry}
 
-{include 'components/comment/comment.tpl'
+{component 'comment'
     comment    = $entry
     showReply  = $smarty.local.showReply
     attributes = [ 'data-type' => $smarty.local.type, 'data-user-id' => $entry->getUser()->getId() ]

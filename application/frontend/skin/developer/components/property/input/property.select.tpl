@@ -18,7 +18,7 @@
     ]}
 {/foreach}
 
-{include 'components/field/field.select.tpl'
+{component 'field' template='select'
     name          = "property[{$property->getId()}][]"
     label         = $property->getTitle()
     note          = $property->getDescription()

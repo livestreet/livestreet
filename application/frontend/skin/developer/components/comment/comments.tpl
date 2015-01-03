@@ -76,7 +76,7 @@
 
     {* TODO: Добавить хук *}
 
-    {include 'components/actionbar/actionbar.tpl' items=$items classes='comments-actions'}
+    {component 'actionbar' items=$items classes='comments-actions'}
 
 
     {**
@@ -105,7 +105,7 @@
 
     {* Проверяем запрещено комментирование или нет *}
     {if $forbidAdd}
-        {include 'components/alert/alert.tpl' mods='info' text=$smarty.local.forbidText}
+        {component 'alert' mods='info' text=$smarty.local.forbidText}
 
     {* Если разрешено то показываем форму добавления комментария *}
     {else}
@@ -115,7 +115,7 @@
                 <a href="#" class="link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
             </h4>
         {else}
-            {include 'components/alert/alert.tpl' mods='info' text=$aLang.comments.alerts.unregistered}
+            {component 'alert' mods='info' text=$aLang.comments.alerts.unregistered}
         {/if}
     {/if}
 

@@ -14,7 +14,7 @@
 
 {block 'block_content'}
     {* Сейчас на сайте *}
-    {include 'components/field/field.checkbox.tpl'
+    {component 'field' template='checkbox'
         name         = 'is_online'
         inputClasses = 'js-search-ajax-user-online'
         checked      = false
@@ -23,13 +23,13 @@
     {* Пол *}
     <p class="mb-10">Пол</p>
     <div class="field-checkbox-group">
-        {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='' checked=true label='Любой'}
-        {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='man' label='Мужской'}
-        {include 'components/field/field.radio.tpl' inputClasses='js-search-ajax-user-sex' name='sex' value='woman' label='Женский'}
+        {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='' checked=true label='Любой'}
+        {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='man' label='Мужской'}
+        {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='woman' label='Женский'}
     </div>
 
     {* Страна/город *}
-    {include 'components/field/field.geo.tpl'
+    {component 'field' template='geo'
         classes    = 'js-field-geo-default'
         targetType = 'user'
         countries  = $countriesUsed

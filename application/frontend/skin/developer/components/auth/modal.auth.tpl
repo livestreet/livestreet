@@ -14,15 +14,15 @@
 
 {block 'modal_content'}
     {if ! Config::Get('general.reg.invite')}
-        {include 'components/auth/auth.registration.tpl' assign=auth_tab_reg}
+        {component 'auth' template='registration' assign=auth_tab_reg}
     {else}
-        {include 'components/auth/auth.invite.tpl' assign=auth_tab_reg}
+        {component 'auth' template='invite' assign=auth_tab_reg}
     {/if}
 
-    {include 'components/auth/auth.login.tpl' assign=auth_tab_login}
-    {include 'components/auth/auth.reset.tpl' assign=auth_tab_reset}
+    {component 'auth' template='login' assign=auth_tab_login}
+    {component 'auth' template='reset' assign=auth_tab_reset}
 
-    {include 'components/tabs/tabs.tpl' classes='js-tabs-auth' tabs=[
+    {component 'tabs' classes='js-tabs-auth' tabs=[
         [ 'text' => {lang 'auth.login.title'},        'content' => $auth_tab_login, 'classes' => 'js-auth-tab-login' ],
         [ 'text' => {lang 'auth.registration.title'}, 'content' => $auth_tab_reg,   'classes' => 'js-auth-tab-reg' ],
         [ 'text' => {lang 'auth.reset.title'},        'content' => $auth_tab_reset ]

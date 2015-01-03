@@ -2,9 +2,9 @@
     "name": "tags-favourite",
     "version": "1.0.0",
     "templates": {
-        "modal.favourite_tags": "modal.favourite_tags.tpl",
-        "tags-cloud": "tags-cloud.tpl",
-        "tags": "tags.tpl"
+        "modal": "modal.favourite_tags.tpl",
+        "cloud": "tags-cloud.tpl",
+        "tags-favourite": "tags.tpl"
     },
     "scripts": {
         "tags-favourite": "js/tags-favourite.js"

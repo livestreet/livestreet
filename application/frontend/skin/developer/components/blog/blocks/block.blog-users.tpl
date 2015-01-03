@@ -21,5 +21,5 @@
 {/block}
 
 {block 'block_content'}
-    {include 'components/user/user-list-avatar.tpl' aUsersList=$blogUsers}
+    {component 'user' template='list-avatar' users=$blogUsers}
 {/block}

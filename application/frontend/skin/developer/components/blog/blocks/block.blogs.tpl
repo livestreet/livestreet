@@ -14,7 +14,7 @@
 {/block}
 
 {block 'block_content'}
-    {include 'components/tabs/tabs.tpl' classes='js-tabs-block' tabs=[
+    {component 'tabs' classes='js-tabs-block' tabs=[
         [ 'text' => {lang 'blog.blocks.blogs.nav.top'},    'url' => "{router page='ajax'}blogs/top",  'content' => $sBlogsTop ],
         [ 'text' => {lang 'blog.blocks.blogs.nav.joined'}, 'url' => "{router page='ajax'}blogs/join", 'is_enabled' => !! $oUserCurrent ],
         [ 'text' => {lang 'blog.blocks.blogs.nav.self'},   'url' => "{router page='ajax'}blogs/self", 'is_enabled' => !! $oUserCurrent ]

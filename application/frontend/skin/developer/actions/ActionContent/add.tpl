@@ -24,5 +24,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/topic/topic-add.tpl' topic=$topicEdit type=$topicType blogs=$blogsAllow blogId=$blogId skipBlogs=$skipBlogs}
+    {component 'topic' template='add' topic=$topicEdit type=$topicType blogs=$blogsAllow blogId=$blogId skipBlogs=$skipBlogs}
 {/block}

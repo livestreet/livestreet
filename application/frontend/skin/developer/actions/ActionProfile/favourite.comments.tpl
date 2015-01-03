@@ -13,5 +13,5 @@
 
 {block 'layout_content' append}
     {include 'navs/nav.user.favourite.tpl'}
-    {include 'components/comment/comment-list.tpl' comments=$comments paging=$paging}
+    {component 'comment' template='list' comments=$comments paging=$paging}
 {/block}

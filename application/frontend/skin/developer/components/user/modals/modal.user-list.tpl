@@ -18,18 +18,18 @@
 {block 'modal_content'}
     {* Экшнбар *}
     {if $smarty.local.users && $smarty.local.selectable}
-        {include 'components/actionbar/actionbar-item.select.tpl'
+        {component 'actionbar' template='item.select'
             classes = 'js-user-list-modal-actionbar'
             target  = '.js-user-list-select .js-user-list-small-item'
             assign  = users}
 
-        {include 'components/actionbar/actionbar.tpl' items=[
+        {component 'actionbar' items=[
             [ 'html' => $users ]
         ]}
     {/if}
 
     {* Список *}
-    {include 'components/user/user-list-small.tpl'
+    {component 'user' template='list-small'
         users      = $smarty.local.users
         selectable = $smarty.local.selectable
         showEmpty  = true
@@ -38,7 +38,7 @@
 
 {block 'modal_footer_begin'}
     {if $smarty.local.users && $smarty.local.selectable}
-        {include 'components/button/button.tpl'
+        {component 'button'
             text       = $aLang.common.add
             mods       = 'primary'
             classes    = 'js-user-list-select-add'

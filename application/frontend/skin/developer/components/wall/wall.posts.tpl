@@ -15,7 +15,7 @@
     <div class="wall-comments js-wall-comment-wrapper" data-id="{$postId}">
         {* Кнопка подгрузки комментариев *}
         {if count( $comments ) < $post->getCountReply()}
-            {include 'components/more/more.tpl'
+            {component 'more'
                 classes    = 'wall-more-comments js-wall-more-comments'
                 count      = $post->getCountReply() - Config::Get('module.wall.count_last_reply')
                 append     = 'false'

@@ -8,7 +8,7 @@
 	<form method="post" action="" enctype="multipart/form-data" class="mb-20 js-media-url-form">
 		{* Типы файлов *}
 		{* TODO: Add hook *}
-		{include 'components/field/field.select.tpl'
+		{component 'field' template='select'
 			name          = 'filetype'
 			label         = 'Type'
 			inputClasses  = 'width-300 js-media-url-type'
@@ -17,7 +17,7 @@
 			]}
 
 		{* Ссылка *}
-		{include 'components/field/field.text.tpl'
+		{component 'field' template='text'
 				 name    = 'url'
 				 value   = 'http://'
 				 inputClasses = 'js-media-url-form-url'
@@ -32,12 +32,12 @@
 {/block}
 
 {block 'media_pane_footer' prepend}
-	{include 'components/button/button.tpl'
+	{component 'button'
 		mods    = 'primary'
 		classes = 'js-media-url-submit-insert'
 		text    = {lang 'media.url.submit_insert'}}
 
-	{include 'components/button/button.tpl'
+	{component 'button'
 		mods    = 'primary'
 		classes = 'js-media-url-submit-upload'
 		text    = {lang 'media.url.submit_upload'}}

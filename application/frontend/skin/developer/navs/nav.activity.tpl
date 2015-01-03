@@ -2,7 +2,7 @@
  * Навигация на странице активности
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'activity'
     activeItem = $sMenuItemSelect
     mods       = 'pills'

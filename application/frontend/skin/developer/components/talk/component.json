@@ -4,7 +4,7 @@
     "templates": {
         "add": "add.tpl",
         "blacklist": "blacklist.tpl",
-        "talk-list": "talk-list.tpl",
+        "list": "talk-list.tpl",
         "message-root": "talk-message-root.tpl",
         "search-form": "talk-search-form.tpl",
         "talk": "talk.tpl",

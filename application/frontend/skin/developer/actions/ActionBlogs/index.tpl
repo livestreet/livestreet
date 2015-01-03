@@ -17,10 +17,10 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/blog/search-form.blogs.tpl'}
+    {component 'blog' template='search-form'}
 
     {* Сортировка *}
-    {include 'components/sort/sort.ajax.tpl'
+    {component 'sort' template='ajax'
         classes = 'js-search-sort'
         items = [
             [ name => 'blog_count_user',  text => $aLang.blog.sort.by_users ],
@@ -29,6 +29,6 @@
         ]}
 
     <div class="js-search-ajax-blog">
-        {include 'components/blog/blog-list.tpl' blogs=$blogs useMore=true}
+        {component 'blog' template='list' blogs=$blogs useMore=true}
     </div>
 {/block}

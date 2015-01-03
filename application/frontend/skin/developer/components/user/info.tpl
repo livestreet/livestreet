@@ -75,7 +75,7 @@
 	]}
 {/if}
 
-{include 'components/user/info-group.tpl' title={lang name='user.profile.personal.title'} items=$items}
+{component 'user' template='info-group' title={lang name='user.profile.personal.title'} items=$items}
 
 
 {**
@@ -91,7 +91,7 @@
 	]}
 {/foreach}
 
-{include 'components/user/info-group.tpl' name='contact' title={lang name='user.profile.contact'} items=$items}
+{component 'user' template='info-group' name='contact' title={lang name='user.profile.contact'} items=$items}
 
 
 {**
@@ -107,7 +107,7 @@
 	]}
 {/foreach}
 
-{include 'components/user/info-group.tpl' name='social-networks' title={lang name='user.profile.social_networks'} items=$items}
+{component 'user' template='info-group' name='social-networks' title={lang name='user.profile.social_networks'} items=$items}
 
 
 
@@ -213,17 +213,17 @@
 	]}
 {/if}
 
-{include 'components/user/info-group.tpl' name='activity' title={lang name='user.profile.activity.title'} items=$items}
+{component 'user' template='info-group' name='activity' title={lang name='user.profile.activity.title'} items=$items}
 
 {**
  * Друзья
  *}
 {if $smarty.local.friends}
 	{capture 'user_info_friends'}
-		{include 'components/user/user-list-avatar.tpl' aUsersList=$smarty.local.friends}
+		{component 'user' template='list-avatar' users=$smarty.local.friends}
 	{/capture}
 
-	{include 'components/user/info-group.tpl'
+	{component 'user' template='info-group'
 		title = "<a href=\"{$user->getUserWebPath()}friends/\">{$aLang.user.friends.title}</a> ({$iCountFriendsUser})"
 		html  = $smarty.capture.user_info_friends}
 {/if}
@@ -238,7 +238,7 @@
 	]}
 {/capture}
 
-{include 'components/user/info-group.tpl' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
+{component 'user' template='info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
 
 
 {hook run='user_info_end' user=$user}

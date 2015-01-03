@@ -2,7 +2,7 @@
  * Навигация по топикам
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'topics'
     activeItem = $sMenuItemSelect
     mods    = 'pills'

@@ -24,7 +24,7 @@
 
                     <tr>
                         <td class="cell-name">
-                            {include 'components/user/user-item.tpl' user=$user}
+                            {component 'user' template='item' user=$user}
                         </td>
 
                         {if $user->getId() == $oUserCurrent->getId()}
@@ -41,13 +41,13 @@
         </table>
 
         {* Скрытые поля *}
-        {include 'components/field/field.hidden.security_key.tpl'}
+        {component 'field' template='hidden.security-key'}
 
         {* Кнопки *}
-        {include 'components/button/button.tpl' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
+        {component 'button' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
     </form>
 
-    {include 'components/pagination/pagination.tpl' paging=$smarty.local.pagination}
+    {component 'pagination' paging=$smarty.local.pagination}
 {else}
-    {include 'components/alert/alert.tpl' text=$aLang.blog.admin.alerts.empty mods='empty'}
+    {component 'alert' text=$aLang.blog.admin.alerts.empty mods='empty'}
 {/if}

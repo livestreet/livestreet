@@ -22,10 +22,10 @@
 	{* Полная версия *}
 	{test_heading sText='Default'}
 
-	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' name='text'}
+	{component 'editor' sBindClass='js-editor-test' name='text'}
 
 	{* Облегченная версия *}
 	{test_heading sText='Light'}
 
-	{include 'components/editor/editor.tpl' sBindClass='js-editor-test' sSet='light' name='text'}
+	{component 'editor' sBindClass='js-editor-test' sSet='light' name='text'}
 {/block}

@@ -15,5 +15,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/user/user-list.tpl' users=$blogUsers pagination=$paging}
+    {component 'user' template='list' users=$blogUsers pagination=$paging}
 {/block}

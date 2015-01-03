@@ -8,9 +8,11 @@
  * @param boolean $selectable
  * @param array   $exclude
  * @param string  $itemTemplate
+ * @param string  $classes
  *}
 
 {$users = $smarty.local.users}
+{$classes = $smarty.local.classes}
 
 {* Заголовок *}
 {if $smarty.local.title}
@@ -19,7 +21,7 @@
 
 {* Уведомление о пустом списке *}
 {if ! $users || $smarty.local.hideableEmptyAlert}
-	{include 'components/alert/alert.tpl'
+	{component 'alert'
 		text    = $aLang.common.empty
 		mods    = 'empty'
 		classes = 'js-user-list-small-empty'

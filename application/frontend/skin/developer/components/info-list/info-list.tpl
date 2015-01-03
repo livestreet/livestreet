@@ -7,6 +7,8 @@
 {* Название компонента *}
 {$component = 'info-list'}
 
+{$list = $smarty.local.list}
+
 {if $list}
 	<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 		{* Заголовок *}

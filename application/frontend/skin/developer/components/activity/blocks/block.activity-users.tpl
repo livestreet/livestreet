@@ -13,5 +13,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/activity/users.tpl' users=$users}
+	{include '../users.tpl' users=$users}
 {/block}

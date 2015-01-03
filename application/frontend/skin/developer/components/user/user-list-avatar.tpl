@@ -1,27 +1,29 @@
 {**
  * Список пользователей (аватары)
  *
- * @param array $aUsersList      Список пользователей
- * @param array $bShowPagination Показывать или нет пагинацию (false)
+ * @param array $users      Список пользователей
+ * @param array $showPagination Показывать или нет пагинацию (false)
  *}
 
-{if $aUsersList}
+{$users = $smarty.local.users}
+
+{if $users}
 	<ul class="user-list-avatar">
-		{foreach $aUsersList as $oUser}
+		{foreach $users as $oUser}
 			{* TODO: Костыль для блогов *}
 			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
-			
-			<li>{include 'components/user/user-item.tpl' user=$oUser avatarSize=64}</li>
+
+			<li>{component 'user' template='item' user=$oUser avatarSize=64}</li>
 		{/foreach}
 	</ul>
 {else}
 	{if $sUserListEmpty}
-		{include 'components/alert/alert.tpl' text=$sUserListEmpty mods='empty'}
+		{component 'alert' text=$sUserListEmpty mods='empty'}
 	{else}
-		{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
+		{component 'alert' text=$aLang.common.empty mods='empty'}
 	{/if}
 {/if}
 
-{if isset($bShowPagination) && bShowPagination === true}
-	{include 'components/pagination/pagination.tpl' paging=$aPaging}
+{if $showPagination}
+	{component 'pagination' paging=$aPaging}
 {/if}

@@ -1,0 +1,12 @@
+{
+    "name": "auth",
+    "version": "1.0.0",
+    "templates": {
+        "invite": "auth.invite.tpl",
+        "login": "auth.login.tpl",
+        "reactivation": "auth.reactivation.tpl",
+        "registration": "auth.registration.tpl",
+        "reset": "auth.reset.tpl",
+        "modal": "modal.auth.tpl"
+    }
+}

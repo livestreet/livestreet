@@ -12,6 +12,6 @@
 
 {block 'user_list_small_item'}
     {block 'user_list_add_item'}
-        {include 'components/user-list-add/item.tpl' user=$user showActions=true}
+        {component 'user-list-add' template='item' user=$user showActions=true}
     {/block}
 {/block}

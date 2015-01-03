@@ -13,5 +13,5 @@
 
 {block 'layout_content' append}
     {include 'navs/nav.user.created.tpl'}
-    {include 'components/topic/topic-list.tpl' topics=$topics paging=$paging}
+    {component 'topic' template='list' topics=$topics paging=$paging}
 {/block}

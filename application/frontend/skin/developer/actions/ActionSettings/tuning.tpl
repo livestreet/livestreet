@@ -5,5 +5,5 @@
 {extends 'layouts/layout.user.settings.tpl'}
 
 {block 'layout_content' append}
-    {include 'components/user/settings/tuning.tpl' user=$oUserCurrent}
+    {component 'user' template='settings/tuning' user=$oUserCurrent}
 {/block}

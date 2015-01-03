@@ -7,7 +7,7 @@
 
 <form action="" method="post" id="js-poll-form" data-action="{if $oPoll}update{else}add{/if}">
 	{* Заголовок *}
-	{include 'components/field/field.text.tpl'
+	{component 'field' template='text'
 			 name  = 'poll[title]'
 			 value = {($oPoll) ? $oPoll->getTitle() : '' }
 			 label = $aLang.poll.answer
@@ -21,14 +21,14 @@
 
 	<p class="mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
-	{include 'components/field/field.radio.tpl'
+	{component 'field' template='radio'
 			 name  = 'poll[type]'
 			 value = 'one'
 			 label = $aLang.poll.form.fields.type.label_one
 			 checked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
 			 isDisabled = $bDisableChangeType}
 
-	{include 'components/field/field.radio.tpl'
+	{component 'field' template='radio'
 			 displayInline = true
 			 name          = 'poll[type]'
 			 value         = 'many'
@@ -36,7 +36,7 @@
 			 checked       = $oPoll && $oPoll->getCountAnswerMax() > 1
 			 isDisabled    = $bDisableChangeType}
 
-	{include 'components/field/field.text.tpl'
+	{component 'field' template='text'
 			 displayInline = true
 			 name          = 'poll[count_answer_max]'
 			 value         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
@@ -71,7 +71,7 @@
 
 		{if ! $oPoll or $oPoll->isAllowUpdate()}
 			<footer class="fieldset-footer">
-				{include 'components/button/button.tpl'
+				{component 'button'
 						 type       = 'button'
 						 text       = $aLang.common.add
 						 attributes = [ 'title' => '[Ctrl + Enter]' ]
@@ -83,13 +83,13 @@
 
 	{* Скрытые поля *}
 	{if $oPoll}
-		{include 'components/field/field.hidden.tpl' name='poll_id' value=$oPoll->getId()}
+		{component 'field' template='hidden' name='poll_id' value=$oPoll->getId()}
 	{else}
-		{include 'components/field/field.hidden.tpl' name='target[type]' value=$sTargetType}
-		{include 'components/field/field.hidden.tpl' name='target[id]' value=$sTargetId}
+		{component 'field' template='hidden' name='target[type]' value=$sTargetType}
+		{component 'field' template='hidden' name='target[id]' value=$sTargetId}
 	{/if}
 
-	{include 'components/field/field.hidden.tpl' name='target[tmp]' value=$sTargetTmp}
+	{component 'field' template='hidden' name='target[tmp]' value=$sTargetTmp}
 </form>
 
 {* Шаблон ответа для добавления с помощью js *}

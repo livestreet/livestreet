@@ -16,5 +16,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/activity/activity.tpl' events=$activityEvents count=$activityEventsAllCount classes='js-activity--all'}
+    {component 'activity' events=$activityEvents count=$activityEventsAllCount classes='js-activity--all'}
 {/block}

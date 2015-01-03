@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/auth/auth.login.tpl' showExtra=true}
+    {component 'auth' template='login' showExtra=true}
 {/block}

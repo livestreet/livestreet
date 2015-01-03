@@ -17,7 +17,7 @@
 
 	{block 'uploader_content'}
 		{* Drag & drop зона *}
-		{include 'components/field/field.upload-area.tpl'
+		{component 'field' template='upload-area'
 			classes      = 'js-uploader-area'
 			inputClasses = 'js-uploader-file'
 			inputName    = 'filedata'}
@@ -30,7 +30,7 @@
 			{* Сайдбар *}
 			<div class="{$component}-aside js-uploader-aside is-empty">
 				{* Блок отображаемый когда нет активного файла *}
-				{include 'components/alert/alert.tpl'
+				{component 'alert'
 					mods    = 'empty'
 					text    = {lang name='uploader.info.empty'}
 					classes = "{$component}-aside-empty js-{$component}-aside-empty"}

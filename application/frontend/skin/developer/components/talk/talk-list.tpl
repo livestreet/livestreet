@@ -9,12 +9,12 @@
 {if $smarty.local.talks}
 	<form action="{router page='talk'}" method="post" id="talk-form">
 		{* Скрытые поля *}
-		{include 'components/field/field.hidden.security_key.tpl'}
-		{include 'components/field/field.hidden.tpl' name='form_action' id='talk-form-action'}
+		{component 'field' template='hidden.security-key'}
+		{component 'field' template='hidden' name='form_action' id='talk-form-action'}
 
 		{* Экшнбар *}
 		{if $smarty.local.selectable}
-			{include 'components/actionbar/actionbar-item.select.tpl'
+			{component 'actionbar' template='item.select'
 				classes  = 'js-talk-actionbar-select'
 				target   = '.js-message-list-item'
 				assign   = select
@@ -23,7 +23,7 @@
 					[ 'text' => $aLang.talk.actionbar.unread, 'filter' => ".message-unread" ]
 				]}
 
-			{include 'components/actionbar/actionbar.tpl' items=[
+			{component 'actionbar' items=[
 				[ 'html' => $select ],
 				[ 'icon' => 'icon-ok', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="mark_as_read"', 'text' => $aLang.talk.actionbar.mark_as_read ],
 				[ 'icon' => 'icon-remove', 'classes' => 'js-talk-form-action', 'attributes' => 'data-action="remove"', 'text' => $aLang.common.remove ]
@@ -53,7 +53,7 @@
 
 						{* Избранное *}
 						<td class="cell-favourite">
-							{include 'components/favourite/favourite.tpl' classes='js-favourite-talk' target=$talk}
+							{component 'favourite' classes='js-favourite-talk' target=$talk}
 						</td>
 
 						{* Основная информация о диалоге *}
@@ -121,7 +121,7 @@
 		</table>
 	</form>
 {else}
-	{include 'components/alert/alert.tpl' text=$aLang.talk.notices.empty mods='empty'}
+	{component 'alert' text=$aLang.talk.notices.empty mods='empty'}
 {/if}
 
-{include 'components/pagination/pagination.tpl' paging=$smarty.local.paging}
+{component 'pagination' paging=$smarty.local.paging}

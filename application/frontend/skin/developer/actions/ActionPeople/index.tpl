@@ -15,10 +15,10 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/user/search-form.users.tpl'}
+    {component 'user' template='search-form'}
 
     {* Сортировка *}
-    {include 'components/sort/sort.ajax.tpl'
+    {component 'sort' template='ajax'
         classes = 'js-search-sort'
         items = [
             [ name => 'user_rating',        text => $aLang.sort.by_rating, order => 'asc' ],
@@ -27,6 +27,6 @@
         ]}
 
     <div class="js-search-ajax-users">
-        {include 'components/user/user-list.tpl' users=$users useMore=true}
+        {component 'user' template='list' users=$users useMore=true}
     </div>
 {/block}

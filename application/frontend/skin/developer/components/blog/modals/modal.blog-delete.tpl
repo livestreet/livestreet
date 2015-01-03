@@ -30,16 +30,16 @@
             ]}
         {/foreach}
 
-        {include 'components/field/field.select.tpl'
+        {component 'field' template='select'
             name  = 'topic_move_to'
             label = $aLang.blog.remove.move_to
             items = $selectBlogs}
 
         {* Скрытые поля *}
-        {include 'components/field/field.hidden.security_key.tpl'}
+        {component 'field' template='hidden.security-key'}
     </form>
 {/block}
 
 {block 'modal_footer_begin'}
-    {include 'components/button/button.tpl' form='js-blog-remove-form' text=$aLang.common.remove mods='primary'}
+    {component 'button' form='js-blog-remove-form' text=$aLang.common.remove mods='primary'}
 {/block}

@@ -15,5 +15,5 @@
 {/block}
 
 {block 'block_content'}
-	{include 'components/user/actions.tpl' user=$oUserProfile}
+	{component 'user' template='actions' user=$oUserProfile}
 {/block}

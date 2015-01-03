@@ -25,12 +25,12 @@
         {if $smarty.local.count > Config::Get('module.stream.count_default')}
             {$last = end($events)}
 
-            {include 'components/more/more.tpl'
+            {component 'more'
                 count      = $smarty.local.count
                 classes    = "js-activity-more"
                 attributes = [ 'data-proxy-last_id' => $last->getId(), 'data-param-target_id' => $smarty.local.targetId ]}
         {/if}
     {else}
-        {include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
+        {component 'alert' text=$aLang.common.empty mods='empty'}
     {/if}
 </div>

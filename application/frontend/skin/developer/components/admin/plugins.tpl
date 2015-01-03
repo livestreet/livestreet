@@ -13,7 +13,7 @@
                     <h3>{$plugin.property->name->data}</h3>
                     <p>{$plugin.property->description->data}</p>
 
-                    {include 'components/info-list/info-list.tpl' list=[
+                    {component 'info-list' list=[
                         [ 'label' => {lang 'admin.plugins.plugin.version'}, 'content' => $plugin.property->version|escape ],
                         [ 'label' => {lang 'admin.plugins.plugin.author'},  'content' => $plugin.property->author->data ],
                         [ 'label' => {lang 'admin.plugins.plugin.url'},     'content' => $plugin.property->homepage ]

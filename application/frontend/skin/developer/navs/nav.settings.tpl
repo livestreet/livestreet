@@ -2,7 +2,7 @@
  * Навигация на странице настроек
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'settings'
     activeItem = $sMenuSubItemSelect
     mods       = 'pills'

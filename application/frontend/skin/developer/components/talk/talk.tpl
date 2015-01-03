@@ -22,7 +22,7 @@
         excludeRemove = [ $oUserCurrent->getId() ]}
 
     {* Вывод комментариев к сообщению *}
-    {include 'components/comment/comments.tpl'
+    {component 'comment' template='comments'
         comments      = $smarty.local.comments
         classes       = 'js-comments-talk'
         attributes    = [ 'id' => 'comments' ]

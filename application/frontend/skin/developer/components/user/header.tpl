@@ -34,7 +34,7 @@
 	</div>
 
 	{* Голосование *}
-	{include 'components/vote/vote.tpl'
+	{component 'vote'
 			 classes   = 'js-vote-user'
 			 mods      = 'large'
 			 target    = $user

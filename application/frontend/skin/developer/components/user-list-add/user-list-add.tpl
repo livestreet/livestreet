@@ -33,13 +33,13 @@
         <form class="{$component}-form js-{$component}-form">
             {$uid = "js-$component-form-users-"|cat:rand(0, 10e10)}
 
-            {include 'components/field/field.text.tpl'
+            {component 'field' template='text'
                 name         = 'add'
                 inputClasses = "autocomplete-users-sep {$uid}"
                 label        = $aLang.user_list_add.form.fields.add.label
                 note         = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$uid}\">Выбрать из списка друзей</a>"}
 
-            {include 'components/button/button.tpl' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
+            {component 'button' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
         </form>
     {/if}
 

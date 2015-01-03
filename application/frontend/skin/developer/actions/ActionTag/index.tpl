@@ -13,6 +13,6 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/tags/search-form.tags.tpl'}
-    {include 'components/topic/topic-list.tpl' topics=$topics paging=$paging}
+    {component 'tags' template='search-form'}
+    {component 'topic' template='list' topics=$topics paging=$paging}
 {/block}

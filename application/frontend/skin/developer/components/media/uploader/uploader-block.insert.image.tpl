@@ -18,7 +18,7 @@
 {block 'block_content'}
 	<form method="post" action="" enctype="multipart/form-data">
 		{* Выравнивание *}
-		{include 'components/field/field.select.tpl'
+		{component 'field' template='select'
 			name  = 'align'
 			label = {lang name='media.image_align.title'}
 			items = [
@@ -30,7 +30,7 @@
 
 		{* Размер *}
 		{if $smarty.local.useSizes|default:true}
-			{include 'components/field/field.select.tpl'
+			{component 'field' template='select'
 				name          = 'size'
 				label         = {lang name='media.insert.settings.fields.size.label'}
 				items         = [[ 'value' => 'original', 'text' => {lang name='media.insert.settings.fields.size.original'} ]]}

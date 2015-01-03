@@ -11,7 +11,7 @@
 
 <form action="{$smarty.local.action}" method="{$smarty.local.method|default:'get'}" class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 	{block 'search_form'}
-		{include 'components/field/field.text.tpl'
+		{component 'field' template='text'
 				placeholder  = ( $smarty.local.placeholder ) ? $smarty.local.placeholder : $aLang.search.search
 				note         = $smarty.local.note
 				value        = $smarty.local.value
@@ -20,7 +20,7 @@
 				name         = $smarty.local.inputName|default:'q'}
 
 		{if ! $smarty.local.noSubmitButton}
-			{include 'components/button/button.tpl' mods='icon' classes="{$component}-submit" icon='icon-search'}
+			{component 'button' mods='icon' classes="{$component}-submit" icon='icon-search'}
 		{/if}
 	{/block}
 </form>

@@ -13,7 +13,7 @@
 {extends 'layouts/layout.user.tpl'}
 
 {block 'layout_content' append}
-    {include 'components/user/info.tpl'
+    {component 'user' template='info'
         user            = $oUserProfile
         friends         = $userFriends
         usersInvited    = $usersInvited

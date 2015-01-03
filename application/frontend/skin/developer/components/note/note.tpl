@@ -40,10 +40,10 @@
 	{* Форма редактирования *}
 	{if $isEditable}
 		<form class="{$component}-form js-{$component}-form" style="display: none;">
-			{include 'components/field/field.textarea.tpl' inputClasses="$component-form-text js-$component-form-text"}
+			{component 'field' template='textarea' inputClasses="$component-form-text js-$component-form-text"}
 
-			{include 'components/button/button.tpl' mods='primary' text=$aLang.common.save}
-			{include 'components/button/button.tpl' type='button' classes="js-$component-form-cancel" text=$aLang.common.cancel}
+			{component 'button' mods='primary' text=$aLang.common.save}
+			{component 'button' type='button' classes="js-$component-form-cancel" text=$aLang.common.cancel}
 		</form>
 	{/if}
 </div>

@@ -17,5 +17,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/blog/admin.tpl' users=$blogUsers pagination=$paging}
+    {component 'blog' template='admin' users=$blogUsers pagination=$paging}
 {/block}

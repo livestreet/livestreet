@@ -31,11 +31,11 @@
 
         {block 'comment-form-fields'}
             {* Скрытые поля *}
-            {include 'components/field/field.hidden.tpl' name='reply' value='0' inputClasses='js-comment-form-id'}
-            {include 'components/field/field.hidden.tpl' name='cmt_target_id' value=$targetId}
+            {component 'field' template='hidden' name='reply' value='0' inputClasses='js-comment-form-id'}
+            {component 'field' template='hidden' name='cmt_target_id' value=$targetId}
 
             {* Текст комментария *}
-            {include 'components/editor/editor.tpl'
+            {component 'editor'
                 set             = $smarty.local.editorSet|default:'light'
                 name            = 'comment_text'
                 inputClasses    = 'js-editor-default js-comment-form-text'
@@ -50,13 +50,13 @@
          *}
 
         {* Кнопка добавления *}
-        {include 'components/button/button.tpl' name='submit_comment' text=$aLang.common.add mods='primary' classes='js-comment-form-submit'}
+        {component 'button' name='submit_comment' text=$aLang.common.add mods='primary' classes='js-comment-form-submit'}
 
         {* Кнопки редактирования *}
-        {include 'components/button/button.tpl' name='submit_comment' type='button' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
-        {include 'components/button/button.tpl' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r hide'}
+        {component 'button' name='submit_comment' type='button' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
+        {component 'button' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r hide'}
 
         {* Кнопка превью текста *}
-        {include 'components/button/button.tpl' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}
+        {component 'button' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}
     {/block}
 </form>

@@ -12,6 +12,6 @@
 	<div class="topic-preview-body js-topic-preview-content"></div>
 
 	<footer class="topic-preview-footer">
-        {include 'components/button/button.tpl' type='button' classes='js-topic-preview-text-hide-button' text=$aLang.common.cancel}
+        {component 'button' type='button' classes='js-topic-preview-text-hide-button' text=$aLang.common.cancel}
 	</footer>
 </div>

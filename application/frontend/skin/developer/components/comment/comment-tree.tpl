@@ -59,5 +59,5 @@
         {/section}
     {/if}
 {foreachelse}
-    {include 'components/alert/alert.tpl' mods='empty' classes='js-comments-empty' text=$aLang.common.empty}
+    {component 'alert' mods='empty' classes='js-comments-empty' text=$aLang.common.empty}
 {/foreach}

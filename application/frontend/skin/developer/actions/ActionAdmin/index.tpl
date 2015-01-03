@@ -11,7 +11,7 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/nav/nav.tpl'
+    {component 'nav'
         name  = 'admin'
         mods  = 'stacked pills'
         items = [

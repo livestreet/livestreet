@@ -10,14 +10,14 @@
     {hook run='form_add_blog_begin'}
 
     {* Название блога *}
-    {include 'components/field/field.text.tpl'
+    {component 'field' template='text'
         name  = 'blog_title'
         rules = [ 'required' => true, 'rangelength' => "[2,200]" ]
         note  = $aLang.blog.add.fields.title.note
         label = $aLang.blog.add.fields.title.label}
 
     {* URL блога *}
-    {include 'components/field/field.text.tpl'
+    {component 'field' template='text'
         name       = 'blog_url'
         rules      = [ 'required' => true, 'regexp' => '^[\w- ]{2,50}$' ]
         isDisabled = $_aRequest.blog_id && ! $oUserCurrent->isAdministrator()
@@ -31,7 +31,7 @@
     {/if}
 
     {* Тип блога *}
-    {include 'components/field/field.select.tpl'
+    {component 'field' template='select'
         name          = 'blog_type'
         label         = $aLang.blog.add.fields.type.label
         note          = $aLang.blog.add.fields.type.note_open
@@ -44,7 +44,7 @@
         ]}
 
     {* Описание блога *}
-    {include 'components/editor/editor.tpl'
+    {component 'editor'
         set             = 'light'
         mediaTargetType = 'blog'
         name            = 'blog_description'
@@ -53,7 +53,7 @@
         label           = $aLang.blog.add.fields.description.label}
 
     {* Ограничение по рейтингу *}
-    {include 'components/field/field.text.tpl'
+    {component 'field' template='text'
         name         = 'blog_limit_rating_topic'
         rules        = [ 'required' => true, 'type' => 'number' ]
         value        = '0'
@@ -65,10 +65,10 @@
     {hook run='form_add_blog_end'}
 
     {* Скрытые поля *}
-    {include 'components/field/field.hidden.security_key.tpl'}
+    {component 'field' template='hidden.security-key'}
 
     {* Кнопки *}
-    {include 'components/button/button.tpl'
+    {component 'button'
         name = 'submit_blog_add'
         text = {lang "{( $sEvent == 'add' ) ? 'common.create' : 'common.save'}"}
         mods = 'primary'}

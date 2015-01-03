@@ -11,10 +11,10 @@
 
 {block 'layout_content'}
     {* Топик *}
-    {include 'components/topic/topic.tpl' topic=$topic}
+    {component 'topic' topic=$topic}
 
     {* Комментарии *}
-    {include 'components/comment/comments.tpl'
+    {component 'comment' template='comments'
         comments      = $comments
         count         = $topic->getCountComment()
         classes       = 'js-comments-topic'

@@ -12,7 +12,7 @@
 {/block}
 
 {block 'modal_content_after'}
-	{include 'components/media/media-content.tpl'}
+	{include './media-content.tpl'}
 {/block}
 
 {* Убираем подвал *}

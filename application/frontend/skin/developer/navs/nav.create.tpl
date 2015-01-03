@@ -19,7 +19,7 @@
     'count' => $iUserCurrentCountTopicDraft
 ]}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'create'
     activeItem = $sMenuSubItemSelect
     mods       = 'pills'

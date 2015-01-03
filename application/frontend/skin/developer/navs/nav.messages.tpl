@@ -2,7 +2,7 @@
  * Навигация на странице личных сообщений
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name       = 'talk'
     activeItem = $sMenuSubItemSelect
     mods       = 'pills'

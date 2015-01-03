@@ -13,7 +13,7 @@
 {block 'modal_content'}
 	{* TODO: Form validation (front-end / back-end) *}
 	<form id="add_friend_form" class="js-user-friend-form">
-		{include 'components/field/field.textarea.tpl'
+		{component 'field' template='textarea'
 				 name     = 'add_friend_text'
 				 rules    = [ 'required' => true, 'rangelength' => '[2,200]' ]
 				 rows     = 3
@@ -23,5 +23,5 @@
 {/block}
 
 {block 'modal_footer_begin'}
-	 {include 'components/button/button.tpl' mods='primary' form='add_friend_form' text={lang name='user.friends.form.fields.submit.text'}}
+	 {component 'button' mods='primary' form='add_friend_form' text={lang name='user.friends.form.fields.submit.text'}}
 {/block}

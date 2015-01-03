@@ -2,7 +2,7 @@
  * Навигация в профиле пользователя в разделе "Публикации"
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
     name          = 'profile_created'
     activeItem    = $sMenuSubItemSelect
     mods          = 'pills'

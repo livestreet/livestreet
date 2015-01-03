@@ -23,16 +23,16 @@
 		{/foreach}
 	</ul>
 
-	{include 'components/field/field.hidden.tpl' name='id' value=$poll->getId()}
+	{component 'field' template='hidden' name='id' value=$poll->getId()}
 
 	{if $oUserCurrent}
 		{* Проголосовать *}
-		{include 'components/button/button.tpl' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
+		{component 'button' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
 
 		{* Воздержаться *}
-		{include 'components/button/button.tpl' text=$aLang.poll.abstain type='button' classes='js-poll-abstain'}
+		{component 'button' text=$aLang.poll.abstain type='button' classes='js-poll-abstain'}
 	{else}
 		{* Предупрежение: голосовать могут только авторизованные пользователи *}
-		{include 'components/alert/alert.tpl' mods='info' text=$aLang.poll.only_auth}
+		{component 'alert' mods='info' text=$aLang.poll.only_auth}
 	{/if}
 </form>

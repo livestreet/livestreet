@@ -63,14 +63,14 @@
 	{* Дополнительные поля *}
 	{block 'topic_content_properties'}
 		{if ! $isList}
-			{include 'components/property/output/list.tpl' properties=$topic->property->getPropertyList()}
+			{component 'property' template='output.list' properties=$topic->property->getPropertyList()}
 		{/if}
 	{/block}
 
 	{* Опросы *}
 	{block 'topic_content_polls'}
 		{if ! $isList}
-			{include 'components/poll/poll.list.tpl' polls=$topic->getPolls()}
+			{component 'poll' template='list' polls=$topic->getPolls()}
 		{/if}
 	{/block}
 {/block}
@@ -82,7 +82,7 @@
 		{$favourite = $topic->getFavourite()}
 
 		{if ! $isPreview}
-			{include 'components/tags-favourite/tags.tpl'
+			{component 'tags-favourite'
 				tags          = $topic->getTagsArray()
 				tagsFavourite = ( $favourite ) ? $favourite->getTagsArray() : []
 				isEditable    = ! $favourite
@@ -113,7 +113,7 @@
 		<li class="{$component}-info-item {$component}-info-item--vote">
 			{$isExpired = strtotime($topic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
 
-			{include 'components/vote/vote.tpl'
+			{component 'vote'
 					 target     = $topic
 					 classes    = 'js-vote-topic'
 					 mods       = 'small white topic'
@@ -128,7 +128,7 @@
 	{if ! $isList && ! $isPreview}
 		{* Избранное *}
 		<li class="{$component}-info-item {$component}-info-item--favourite">
-			{include 'components/favourite/favourite.tpl' classes="js-favourite-{$type}" target=$article}
+			{component 'favourite' classes="js-favourite-{$type}" target=$article}
 		</li>
 
 		{* Поделиться *}

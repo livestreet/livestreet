@@ -9,7 +9,7 @@
  * @param array  items
  *}
 
-{include 'components/nav/nav.tpl'
+{component 'nav'
 	name       = ( $smarty.local.name ) ? "{$smarty.local.name}_menu" : ''
 	activeItem = $smarty.local.activeItem
 	mods       = 'stacked dropdown'

@@ -14,7 +14,7 @@
 		{include './topic-type.tpl' topic=$topic isList=true}
 	{/foreach}
 
-	{include 'components/pagination/pagination.tpl' paging=$smarty.local.paging classes='js-pagination-topics'}
+	{component 'pagination' paging=$smarty.local.paging classes='js-pagination-topics'}
 {else}
-	{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
+	{component 'alert' text=$aLang.common.empty mods='empty'}
 {/if}

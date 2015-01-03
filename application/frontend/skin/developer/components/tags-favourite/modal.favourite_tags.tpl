@@ -13,7 +13,7 @@
 
 {block 'modal_content'}
     <form id="js-favourite-form">
-        {include 'components/field/field.text.tpl'
+        {component 'field' template='text'
             name         = 'tags'
             noMargin     = true
             autofocus    = true
@@ -22,7 +22,7 @@
 {/block}
 
 {block 'modal_footer_begin'}
-    {include 'components/button/button.tpl'
+    {component 'button'
         form    = 'js-favourite-form'
         text    = $aLang.common.save
         classes = 'js-tags-form-submit'

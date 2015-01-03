@@ -2,7 +2,7 @@
  * Форма поиска по тегам
  *}
 
-{include 'components/search-form/search-form.tpl'
+{component 'search-form'
 		name         = 'tags'
 		mods         = $smarty.local.mods
 		placeholder  = {lang 'tags.search.label'}

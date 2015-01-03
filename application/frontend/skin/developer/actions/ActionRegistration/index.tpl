@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/auth/auth.registration.tpl'}
+    {component 'auth' template='registration'}
 {/block}

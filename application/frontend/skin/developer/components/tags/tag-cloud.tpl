@@ -24,5 +24,5 @@
 		{/foreach}
 	</ul>
 {else}
-	{include 'components/alert/alert.tpl' text=$aLang.common.empty mods='empty'}
+	{component 'alert' text=$aLang.common.empty mods='empty'}
 {/if}

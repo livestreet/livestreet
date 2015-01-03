@@ -11,7 +11,7 @@
 {/block}
 
 {block 'block_content'}
-    {include 'components/photo/photo.tpl'
+    {component 'photo'
         classes      = 'js-blog-avatar'
         useAvatar    = false
         hasPhoto     = $blog->getAvatar()
