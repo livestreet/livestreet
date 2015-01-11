@@ -142,8 +142,9 @@ class ActionStream extends Action
             return parent::EventNotFound();
         }
 
-        $this->GetMore(function ($lastId) {
-            return $this->Stream_Read(null, $lastId);
+        $_this=$this;
+        $this->GetMore(function ($lastId) use ($_this) {
+            return $_this->Stream_Read(null, $lastId);
         });
     }
 
@@ -152,8 +153,9 @@ class ActionStream extends Action
      */
     protected function EventGetMoreAll()
     {
-        $this->GetMore(function ($lastId) {
-            return $this->Stream_ReadAll(null, $lastId);
+        $_this=$this;
+        $this->GetMore(function ($lastId) use ($_this) {
+            return $_this->Stream_ReadAll(null, $lastId);
         });
     }
 
@@ -162,12 +164,13 @@ class ActionStream extends Action
      */
     protected function EventGetMoreUser()
     {
-        $this->GetMore(function ($lastId) {
-            if (!($oUser = $this->User_GetUserById(getRequestStr('target_id')))) {
+        $_this=$this;
+        $this->GetMore(function ($lastId) use ($_this) {
+            if (!($oUser = $_this->User_GetUserById(getRequestStr('target_id')))) {
                 return false;
             }
 
-            return $this->Stream_ReadByUserId($oUser->getId(), null, $lastId);
+            return $_this->Stream_ReadByUserId($oUser->getId(), null, $lastId);
         });
     }
 
