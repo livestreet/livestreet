@@ -145,7 +145,7 @@
 
 
     {* Скрытые поля *}
-    {component 'field' template='hidden' name='topic_type' value=$type->getCo}
+    {component 'field' template='hidden' name='topic_type' value=$type->getCode()}
 
     {if $topic}
         {include "components/field/field.hidden.tpl" name='topic[id]' value=$topic->getId()}
