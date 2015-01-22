@@ -9,7 +9,7 @@
 {$type = $topic->getType()}
 
 {if $LS->Topic_IsAllowTopicType( $type )}
-	{$template = "./topic.type.{$type}.tpl"}
+	{$template = $smarty.current_dir|cat:"/topic.type.{$type}.tpl"}
 
 	{* Если для указанного типа существует шаблон, то подключаем его *}
 	{* Иначе подключаем дефолтный шаблон топика *}
