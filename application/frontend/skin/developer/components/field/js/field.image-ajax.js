@@ -29,7 +29,7 @@
                 image: '.js-field-image-ajax-image',
                 modal: '.js-field-image-ajax-modal',
                 uploader: '.js-uploader-modal',
-                choose: '.js-uploader-modal-choose',
+                choose: '.js-uploader-modal-choose'
             }
         },
 
@@ -56,6 +56,8 @@
             this.elements.modal.lsModal({
                 aftershow: function () {
                     _this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
+                    // т.к. генерация происходит после инициализации
+                    _this.options.params.target_tmp = _this.elements.uploader.lsUploader( 'option', 'params.target_tmp' );
                 }
             });
 
@@ -75,8 +77,6 @@
             this.elements.choose.on( 'click' + this.eventNamespace, function () {
                 _this.insertFiles();
             });
-
-            this.options.params.target_tmp = this.elements.uploader.lsUploader( 'option', 'params.target_tmp' );
         },
 
         /**
@@ -132,6 +132,6 @@
                     this.elements.image.html( $.trim( response.sTemplatePreview ) );
                 }
             }.bind( this ));
-        },
+        }
     });
 })(jQuery);
