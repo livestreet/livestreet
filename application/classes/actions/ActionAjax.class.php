@@ -750,7 +750,11 @@ class ActionAjax extends Action
 
         $aMediaItems = array();
         if ($sId) {
-            $aMediaItems = $this->Media_GetMediaByTarget($sType, $sId, $this->oUserCurrent->getId());
+            if (!$this->Media_CheckTarget($sType, $sId, ModuleMedia::TYPE_CHECK_ALLOW_VIEW_LIST)) {
+                $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+                return;
+            }
+            $aMediaItems = $this->Media_GetMediaByTarget($sType, $sId);
         } elseif ($sTmp) {
             $aMediaItems = $this->Media_GetMediaByTargetTmp($sTmp, $this->oUserCurrent->getId());
         }
@@ -801,13 +805,7 @@ class ActionAjax extends Action
             $aIds[] = (int)$iId;
         }
 
-        $iUserId = $this->oUserCurrent ? $this->oUserCurrent->getId() : null;
-
-        $aMediaItems = $this->Media_GetMediaItemsByFilter(array(
-                '#where' => array('id in (?a) AND ( user_id is null OR user_id = ?d )' => array($aIds, $iUserId))
-            )
-        );
-        if (!$aMediaItems) {
+        if (!($aMediaItems = $this->Media_GetAllowMediaItemsById($aIds))) {
             $this->Message_AddError('Необходимо выбрать элементы');
             return false;
         }
