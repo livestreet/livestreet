@@ -1,0 +1,13 @@
+{
+    "name": "jumbotron",
+    "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
+    "templates": {
+        "jumbotron": "jumbotron.tpl"
+    },
+    "styles": {
+        "jumbotron": "css/jumbotron.css"
+    }
+}
