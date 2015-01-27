@@ -1168,7 +1168,7 @@ class ActionBlog extends Action
     protected function SubmitComment()
     {
 
-        $oTopic = $this->Topic_GetTopicById(getRequestStr('cmt_target_id'));
+        $oTopic = $this->Topic_GetTopicById(getRequestStr('comment_target_id'));
         $sText = getRequestStr('comment_text');
         $sParentId = (int)getRequest('reply');
         $oCommentParent = null;
@@ -1298,7 +1298,7 @@ class ActionBlog extends Action
         /**
          * Топик существует?
          */
-        $idTopic = getRequestStr('idTarget', null, 'post');
+        $idTopic = getRequestStr('target_id', null, 'post');
         if (!($oTopic = $this->Topic_GetTopicById($idTopic))) {
             return $this->EventErrorDebug();
         }
@@ -1309,13 +1309,13 @@ class ActionBlog extends Action
             return $this->EventErrorDebug();
         }
 
-        $idCommentLast = getRequestStr('idCommentLast', null, 'post');
-        $selfIdComment = getRequestStr('selfIdComment', null, 'post');
+        $idCommentLast = getRequestStr('last_comment_id', null, 'post');
+        $selfIdComment = getRequestStr('self_comment_id', null, 'post');
         $aComments = array();
         /**
          * Если используется постраничность, возвращаем только добавленный комментарий
          */
-        if (getRequest('bUsePaging', null, 'post') and $selfIdComment) {
+        if (getRequest('use_paging', null, 'post') and $selfIdComment) {
             if ($oComment = $this->Comment_GetCommentById($selfIdComment) and $oComment->getTargetId() == $oTopic->getId() and $oComment->getTargetType() == 'topic') {
                 $oViewerLocal = $this->Viewer_GetLocalViewer();
 
@@ -1354,15 +1354,15 @@ class ActionBlog extends Action
         if ($aCmts and is_array($aCmts)) {
             foreach ($aCmts as $aCmt) {
                 $aComments[] = array(
-                    'html'     => $aCmt['html'],
-                    'idParent' => $aCmt['obj']->getPid(),
-                    'id'       => $aCmt['obj']->getId(),
+                    'html'      => $aCmt['html'],
+                    'parent_id' => $aCmt['obj']->getPid(),
+                    'id'        => $aCmt['obj']->getId(),
                 );
             }
         }
 
-        $this->Viewer_AssignAjax('iMaxIdComment', $iMaxIdComment);
-        $this->Viewer_AssignAjax('aComments', $aComments);
+        $this->Viewer_AssignAjax('last_comment_id', $iMaxIdComment);
+        $this->Viewer_AssignAjax('comments', $aComments);
     }
 
     /**
@@ -1375,8 +1375,8 @@ class ActionBlog extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $aUsers = getRequest('aUserList', null, 'post');
-        $sBlogId = getRequestStr('iTargetId', null, 'post');
+        $aUsers = getRequest('users', null, 'post');
+        $sBlogId = getRequestStr('target_id', null, 'post');
         /**
          * Если пользователь не авторизирован, возвращаем ошибку
          */
@@ -1425,7 +1425,7 @@ class ActionBlog extends Action
                     'sMsgTitle'   => $this->Lang_Get('error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserLogin'  => htmlspecialchars($sUser)
+                    'user_login'  => htmlspecialchars($sUser)
                 );
                 continue;
             }
@@ -1460,11 +1460,9 @@ class ActionBlog extends Action
                         'sMsgTitle'     => $this->Lang_Get('attention'),
                         'sMsg'          => $this->Lang_Get('blog.invite.notices.add',
                             array('login' => htmlspecialchars($sUser))),
-                        'sUserLogin'    => htmlspecialchars($sUser),
-                        'sUserWebPath'  => $oUser->getUserWebPath(),
-                        'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                        'iUserId'       => $oUser->getId(),
-                        'sHtml'         => $oViewer->Fetch("components/blog/invite/invite-item.tpl")
+                        'user_id'       => $oUser->getId(),
+                        'user_login'    => htmlspecialchars($sUser),
+                        'html'         => $oViewer->Fetch("components/blog/invite/invite-item.tpl")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
                 } else {
@@ -1472,7 +1470,7 @@ class ActionBlog extends Action
                         'bStateError' => true,
                         'sMsgTitle'   => $this->Lang_Get('error'),
                         'sMsg'        => $this->Lang_Get('system_error'),
-                        'sUserLogin'  => htmlspecialchars($sUser)
+                        'user_login'  => htmlspecialchars($sUser)
                     );
                 }
             } else {
@@ -1500,7 +1498,7 @@ class ActionBlog extends Action
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('error'),
                     'sMsg'        => $sErrorMessage,
-                    'sUserLogin'  => htmlspecialchars($sUser)
+                    'user_login'  => htmlspecialchars($sUser)
                 );
                 continue;
             }
@@ -1508,7 +1506,7 @@ class ActionBlog extends Action
         /**
          * Передаем во вьевер массив с результатами обработки по каждому пользователю
          */
-        $this->Viewer_AssignAjax('aUserList', $aResult);
+        $this->Viewer_AssignAjax('users', $aResult);
     }
 
     /**
@@ -1521,8 +1519,8 @@ class ActionBlog extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $sUserId = getRequestStr('iUserId', null, 'post');
-        $sBlogId = getRequestStr('iTargetId', null, 'post');
+        $sUserId = getRequestStr('user_id', null, 'post');
+        $sBlogId = getRequestStr('target_id', null, 'post');
         /**
          * Если пользователь не авторизирован, возвращаем ошибку
          */
@@ -1575,8 +1573,8 @@ class ActionBlog extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $sUserId = getRequestStr('iUserId', null, 'post');
-        $sBlogId = getRequestStr('iTargetId', null, 'post');
+        $sUserId = getRequestStr('user_id', null, 'post');
+        $sBlogId = getRequestStr('target_id', null, 'post');
         /**
          * Если пользователь не авторизирован, возвращаем ошибку
          */

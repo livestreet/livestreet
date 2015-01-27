@@ -1776,7 +1776,7 @@ class ActionAjax extends Action
         /**
          * Комментарий существует?
          */
-        $idComment = getRequestStr('idComment', null, 'post');
+        $idComment = getRequestStr('comment_id', null, 'post');
         if (!($oComment = $this->Comment_GetCommentById($idComment))) {
             return $this->EventErrorDebug();
         }
@@ -1808,8 +1808,8 @@ class ActionAjax extends Action
          * Показываем сообщение и передаем переменные в ajax ответ
          */
         $this->Message_AddNoticeSingle($sMsg, $this->Lang_Get('attention'));
-        $this->Viewer_AssignAjax('bState', $bState);
-        $this->Viewer_AssignAjax('sTextToggle', $sTextToggle);
+        $this->Viewer_AssignAjax('state', $bState);
+        $this->Viewer_AssignAjax('toggle_text', $sTextToggle);
     }
 
     /**
@@ -1821,7 +1821,7 @@ class ActionAjax extends Action
         /**
          * Комментарий существует?
          */
-        $idComment = getRequestStr('idComment', null, 'post');
+        $idComment = getRequestStr('comment_id', null, 'post');
         if (!($oComment = $this->Comment_GetCommentById($idComment))) {
             return $this->EventErrorDebug();
         }
@@ -1830,7 +1830,7 @@ class ActionAjax extends Action
             return;
         }
         $sText = $oComment->getTextSource() ? $oComment->getTextSource() : $oComment->getText();
-        $this->Viewer_AssignAjax('sText', $sText);
+        $this->Viewer_AssignAjax('text', $sText);
     }
 
     /**
@@ -1880,7 +1880,7 @@ class ActionAjax extends Action
             $oViewerLocal->Assign('comment', $oComment, true);
             $sHtml = $oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oComment->getTargetId(),
                 $oComment->getTargetType()));
-            $this->Viewer_AssignAjax('sHtml', $sHtml);
+            $this->Viewer_AssignAjax('html', $sHtml);
         } else {
             return $this->EventErrorDebug();
         }

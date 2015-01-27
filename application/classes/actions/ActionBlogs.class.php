@@ -93,8 +93,8 @@ class ActionBlogs extends Action
             'blog_count_user',
             'blog_count_topic'
         )) ? getRequestStr('sort_by') : 'blog_count_user';
-        if (is_numeric(getRequestStr('pageNext')) and getRequestStr('pageNext') > 0) {
-            $iPage = getRequestStr('pageNext');
+        if (is_numeric(getRequestStr('next_page')) and getRequestStr('next_page') > 0) {
+            $iPage = getRequestStr('next_page');
         } else {
             $iPage = 1;
         }
@@ -152,13 +152,13 @@ class ActionBlogs extends Action
         $oViewer->Assign('useMore', true, true);
         $oViewer->Assign('hideMore', $bHideMore, true);
         $oViewer->Assign('searchCount', $aResult['count'], true);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/blog/blog-list.tpl"));
+        $this->Viewer_AssignAjax('html', $oViewer->Fetch("components/blog/blog-list.tpl"));
         /**
          * Для подгрузки
          */
         $this->Viewer_AssignAjax('count_loaded', count($aResult['collection']));
-        $this->Viewer_AssignAjax('pageNext', count($aResult['collection']) > 0 ? $iPage + 1 : $iPage);
-        $this->Viewer_AssignAjax('bHideMore', $bHideMore);
+        $this->Viewer_AssignAjax('next_page', count($aResult['collection']) > 0 ? $iPage + 1 : $iPage);
+        $this->Viewer_AssignAjax('hide', $bHideMore);
     }
 
     /**

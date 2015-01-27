@@ -253,7 +253,7 @@ class ActionStream extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $aUsers = getRequest('aUserList', null, 'post');
+        $aUsers = getRequest('users', null, 'post');
 
         /**
          * Валидация
@@ -293,11 +293,9 @@ class ActionStream extends Action
                     'sMsgTitle'     => $this->Lang_Get('attention'),
                     'sMsg'          => $this->Lang_Get('common.success.add',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserId'       => $oUser->getId(),
-                    'sUserLogin'    => htmlspecialchars($sUser),
-                    'sUserWebPath'  => $oUser->getUserWebPath(),
-                    'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                    'sHtml'         => $oViewer->Fetch("components/user-list-add/item.tpl")
+                    'user_id'       => $oUser->getId(),
+                    'user_login'    => htmlspecialchars($sUser),
+                    'html'         => $oViewer->Fetch("components/user-list-add/item.tpl")
                 );
             } else {
                 $aResult[] = array(
@@ -305,14 +303,14 @@ class ActionStream extends Action
                     'sMsgTitle'   => $this->Lang_Get('error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserLogin'  => htmlspecialchars($sUser)
+                    'user_login'  => htmlspecialchars($sUser)
                 );
             }
         }
         /**
          * Передаем во вьевер массив с результатами обработки по каждому пользователю
          */
-        $this->Viewer_AssignAjax('aUserList', $aResult);
+        $this->Viewer_AssignAjax('users', $aResult);
     }
 
     /**
@@ -320,6 +318,7 @@ class ActionStream extends Action
      */
     protected function EventAjaxRemoveUser()
     {
+        $iUserId = (int) getRequestStr('user_id');
         /**
          * Устанавливаем формат Ajax ответа
          */
@@ -333,14 +332,14 @@ class ActionStream extends Action
         /**
          * Пользователь с таким ID существует?
          */
-        if (!$this->User_GetUserById(getRequestStr('iUserId'))) {
+        if (!$this->User_GetUserById($iUserId)) {
             return $this->EventErrorDebug();
         }
         /**
          * Отписываем
          */
-        $this->Stream_unsubscribeUser($this->oUserCurrent->getId(), getRequestStr('iUserId'));
-        $this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
+        $this->Stream_unsubscribeUser($this->oUserCurrent->getId(), $iUserId);
+        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('attention'));
     }
 
     /**

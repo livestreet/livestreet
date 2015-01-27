@@ -781,7 +781,7 @@ class ActionTalk extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $aUsers = getRequest('aUserList', null, 'post');
+        $aUsers = getRequest('users', null, 'post');
 
         /**
          * Валидация
@@ -837,18 +837,16 @@ class ActionTalk extends Action
                             'sMsgTitle'     => $this->Lang_Get('attention'),
                             'sMsg'          => $this->Lang_Get('common.success.add',
                                 array('login' => htmlspecialchars($sUser))),
-                            'sUserId'       => $oUser->getId(),
-                            'sUserLogin'    => htmlspecialchars($sUser),
-                            'sUserWebPath'  => $oUser->getUserWebPath(),
-                            'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                            'sHtml'         => $oViewer->Fetch("components/user/user-list-add/item.tpl")
+                            'user_id'       => $oUser->getId(),
+                            'user_login'    => htmlspecialchars($sUser),
+                            'html'         => $oViewer->Fetch("components/user/user-list-add/item.tpl")
                         );
                     } else {
                         $aResult[] = array(
                             'bStateError' => true,
                             'sMsgTitle'   => $this->Lang_Get('error'),
                             'sMsg'        => $this->Lang_Get('system_error'),
-                            'sUserLogin'  => htmlspecialchars($sUser)
+                            'user_login'  => htmlspecialchars($sUser)
                         );
                     }
                 } else {
@@ -860,7 +858,7 @@ class ActionTalk extends Action
                         'sMsgTitle'   => $this->Lang_Get('error'),
                         'sMsg'        => $this->Lang_Get('user_list_add.notices.error_already_added',
                             array('login' => htmlspecialchars($sUser))),
-                        'sUserLogin'  => htmlspecialchars($sUser)
+                        'user_login'  => htmlspecialchars($sUser)
                     );
                     continue;
                 }
@@ -870,14 +868,14 @@ class ActionTalk extends Action
                     'sMsgTitle'   => $this->Lang_Get('error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserLogin'  => htmlspecialchars($sUser)
+                    'user_login'  => htmlspecialchars($sUser)
                 );
             }
         }
         /**
          * Передаем во вьевер массив с результатами обработки по каждому пользователю
          */
-        $this->Viewer_AssignAjax('aUserList', $aResult);
+        $this->Viewer_AssignAjax('users', $aResult);
     }
 
     /**
@@ -890,7 +888,7 @@ class ActionTalk extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $iUserId = getRequestStr('iUserId', null, 'post');
+        $iUserId = getRequestStr('user_id', null, 'post');
         /**
          * Если пользователь не авторизирован, возвращаем ошибку
          */
@@ -953,8 +951,8 @@ class ActionTalk extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $iUserId = getRequestStr('iUserId', null, 'post');
-        $iTalkId = getRequestStr('iTargetId', null, 'post');
+        $iUserId = getRequestStr('user_id', null, 'post');
+        $iTalkId = getRequestStr('target_id', null, 'post');
         /**
          * Если пользователь не авторизирован, возвращаем ошибку
          */
@@ -1031,8 +1029,8 @@ class ActionTalk extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $aUsers = getRequest('aUserList', null, 'post');
-        $idTalk = getRequestStr('iTargetId', null, 'post');
+        $aUsers = getRequest('users', null, 'post');
+        $idTalk = getRequestStr('target_id', null, 'post');
         /**
          * Валидация
          */
@@ -1128,12 +1126,9 @@ class ActionTalk extends Action
                                         'sMsgTitle'     => $this->Lang_Get('attention'),
                                         'sMsg'          => $this->Lang_Get('user_list_add.notices.success_add',
                                             array('login', htmlspecialchars($sUser))),
-                                        'iUserId'       => $oUser->getId(),
-                                        'sUserLogin'    => $oUser->getLogin(),
-                                        'sUserLink'     => $oUser->getUserWebPath(),
-                                        'sUserWebPath'  => $oUser->getUserWebPath(),
-                                        'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                                        'sHtml'         => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
+                                        'user_id'       => $oUser->getId(),
+                                        'user_login'    => $oUser->getLogin(),
+                                        'html'         => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
                                     );
                                     $bState = true;
                                 } else {
@@ -1197,8 +1192,8 @@ class ActionTalk extends Action
                             'sMsgTitle'   => $this->Lang_Get('attention'),
                             'sMsg'        => $this->Lang_Get('user_list_add.notices.success_add',
                                 array('login', htmlspecialchars($sUser))),
-                            'iUserId'     => $oUser->getId(),
-                            'sHtml'       => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
+                            'user_id'     => $oUser->getId(),
+                            'html'       => $oViewer->Fetch("components/talk/participants/participants-item.tpl")
                         );
                         $bState = true;
                     } else {
@@ -1234,7 +1229,7 @@ class ActionTalk extends Action
         /**
          * Передаем во вьевер массив результатов обработки по каждому пользователю
          */
-        $this->Viewer_AssignAjax('aUserList', $aResult);
+        $this->Viewer_AssignAjax('users', $aResult);
     }
 
     /**

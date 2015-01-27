@@ -160,7 +160,7 @@ class ActionUserfeed extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $aUsers = getRequest('aUserList', null, 'post');
+        $aUsers = getRequest('users', null, 'post');
         /**
          * Валидация
          */
@@ -200,11 +200,9 @@ class ActionUserfeed extends Action
                     'sMsgTitle'     => $this->Lang_Get('attention'),
                     'sMsg'          => $this->Lang_Get('common.success.add',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserId'       => $oUser->getId(),
-                    'sUserLogin'    => htmlspecialchars($sUser),
-                    'sUserWebPath'  => $oUser->getUserWebPath(),
-                    'sUserAvatar48' => $oUser->getProfileAvatarPath(48),
-                    'sHtml'         => $oViewer->Fetch("components/user-list-add/item.tpl")
+                    'user_id'       => $oUser->getId(),
+                    'user_login'    => htmlspecialchars($sUser),
+                    'html'          => $oViewer->Fetch("components/user-list-add/item.tpl")
                 );
             } else {
                 $aResult[] = array(
@@ -212,14 +210,14 @@ class ActionUserfeed extends Action
                     'sMsgTitle'   => $this->Lang_Get('error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
-                    'sUserLogin'  => htmlspecialchars($sUser)
+                    'user_login'  => htmlspecialchars($sUser)
                 );
             }
         }
         /**
          * Передаем во вьевер массив с результатами обработки по каждому пользователю
          */
-        $this->Viewer_AssignAjax('aUserList', $aResult);
+        $this->Viewer_AssignAjax('users', $aResult);
     }
 
     /**
@@ -245,7 +243,7 @@ class ActionUserfeed extends Action
                 break;
             case 'users':
                 $iType = ModuleUserfeed::SUBSCRIBE_TYPE_USER;
-                $sId = getRequestStr('iUserId');
+                $sId = getRequestStr('user_id');
                 break;
             default:
                 $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
@@ -259,7 +257,7 @@ class ActionUserfeed extends Action
          * Отписываем пользователя
          */
         $this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, $sId);
-        $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('attention'));
     }
 
     /**
