@@ -6,7 +6,7 @@
 
 {block 'modal_options' append}
     {$mods = "$mods uploader"}
-    {$attributes = array_merge( $attributes|default:[], [ 'data-modal-center' => 'false' ] )}
+    {$options = array_merge( $options|default:[], [ 'center' => 'false' ] )}
 {/block}
 
 {block 'modal_content'}

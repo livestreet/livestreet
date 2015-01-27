@@ -8,7 +8,7 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-$.widget( "livestreet.lsAlert", {
+$.widget( "livestreet.lsAlert", $.livestreet.lsComponent, {
     /**
      * Дефолтные опции
      */
@@ -37,9 +37,9 @@ $.widget( "livestreet.lsAlert", {
      * @private
      */
     _create: function() {
-        this.closeButton = this.element.find( this.option( 'selectors.close' ) );
+        this._super();
 
-        this._on( this.closeButton, { 'click': this.hide } );
+        this._on( this.elements.close, { 'click': this.hide } );
     },
 
     /**

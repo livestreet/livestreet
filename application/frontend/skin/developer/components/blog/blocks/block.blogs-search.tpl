@@ -15,12 +15,13 @@
 {block 'block_content'}
     <h3>{lang 'blog.blocks.search.categories.title'}</h3>
 
+    {* Категории *}
     {if $aBlogCategories}
         {$items = [[
             'name'       => 'all',
             'text'       => {lang 'blog.blocks.search.categories.all'},
             'url'        => {router page='blogs'},
-            'attributes' => "data-value=\"0\"",
+            'attributes' => [ 'data-value' => '0' ],
             'count'      => $iCountBlogsAll
         ]]}
 
@@ -30,7 +31,7 @@
             {$items[] = [
                 'text'       => ($oCategory->getTitle()),
                 'url'        => '#',
-                'attributes' => "data-value=\"{$oCategory->getId()}\" style=\"margin-left: {$category.level * 20}px;\"",
+                'attributes' => [ 'data-value' => $oCategory->getId(), 'style' => "margin-left: {$category.level * 20}px;" ],
                 'count'      => $oCategory->getCountTargetOfDescendants()
             ]}
         {/foreach}

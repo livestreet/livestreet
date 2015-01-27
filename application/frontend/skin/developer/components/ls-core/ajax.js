@@ -20,7 +20,7 @@ ls.ajax = (function ($) {
 		more = more || {};
 		params = params || {};
 
-		if (!more.progressNotShow) {
+		if ( ! more.progressNotShow ) {
 			NProgress.start();
 		}
 
@@ -41,7 +41,16 @@ ls.ajax = (function ($) {
 			url: url,
 			data: params,
 			dataType: 'json',
-			success: callback || function(){
+			success: function( response ) {
+				if ( response.bStateError ) {
+					if ( response.sMsgTitle || response.sMsg ) ls.msg.error( response.sMsgTitle, response.sMsg );
+				} else {
+					if ( response.sMsgTitle || response.sMsg ) ls.msg.notice( response.sMsgTitle, response.sMsg );
+					callback.apply( this, arguments );
+				}
+
+				// TODO: Добавить общий коллбэк
+
 				ls.dev.debug("ajax success: ");
 				ls.dev.debug.apply(ls.dev, arguments);
 			}.bind(this),

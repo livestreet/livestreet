@@ -1,6 +1,10 @@
 {
     "name": "vote",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "tooltip": "*"
+    },
     "templates": {
         "info": "vote.info.tpl",
         "vote": "vote.tpl"

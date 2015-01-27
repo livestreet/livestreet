@@ -98,7 +98,7 @@
          * Добавление в черновик
          */
         saveAsDraft: function() {
-            this.element.lsContent( 'submit', { is_draft: 1 });
+            this.element.lsContent( 'submit', { is_draft: 1 } );
         },
 
         /**

@@ -46,5 +46,26 @@ $.widget( "livestreet.lsEditor", {
 	 */
 	insert: function ( text ) {
 		this.element[ this.strategy ]( 'insert', text );
+	},
+
+	/**
+	 * 
+	 */
+	getText: function () {
+		return this.element[ this.strategy ]( 'getText' );
+	},
+
+	/**
+	 * 
+	 */
+	setText: function ( text ) {
+		this.element[ this.strategy ]( 'setText', text );
+	},
+
+	/**
+	 * 
+	 */
+	focus: function () {
+		this.element[ this.strategy ]( 'focus' );
 	}
 });

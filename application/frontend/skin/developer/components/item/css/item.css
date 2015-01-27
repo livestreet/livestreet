@@ -10,35 +10,49 @@
 
 
 .item {
-	border-top: 1px solid #eee;
-	padding: 15px 0 15px 120px;
-	position: relative;
-	min-height: 100px;
+    border-top: 1px solid #eee;
+    padding: 15px 0 15px 120px;
+    position: relative;
+    min-height: 100px;
 }
 .item-image {
-	position: absolute;
-	top: 17px;
-	left: 0;
+    position: absolute;
+    top: 17px;
+    left: 0;
 }
 .item-title {
-	font-size: 24px;
-	line-height: 1.1em;
-	margin-bottom: 15px;
+    font-size: 24px;
+    line-height: 1.1em;
+    margin-bottom: 15px;
 }
 .item-description {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 .item-actions {
-	position: absolute;
-	top: 15px;
-	right: 0;
-	width: 150px;
-	text-align: right;
+    position: absolute;
+    top: 15px;
+    right: 0;
+    width: 150px;
+    text-align: right;
 }
 .item .info-list {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
+.item-list {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+.item-list.item-list--has-actions .item {
+    padding-right: 170px;
+}
 
-.item-list                  { margin-bottom: 20px; border-bottom: 1px solid #eee; }
-.item-list.item-list--has-actions .item { padding-right: 170px; }
+@media (max-width: 480px)  {
+    .item {
+        padding-left: 80px;
+    }
+    .item-image {
+        width: 60px;
+        height: 60px;
+    }
+}

@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsFieldGeo", {
+    $.widget( "livestreet.lsFieldGeo", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -26,7 +26,8 @@
                 country: '.js-field-geo-country',
                 region: '.js-field-geo-region',
                 city: '.js-field-geo-city'
-            }
+            },
+            params: {}
         },
 
         /**
@@ -36,15 +37,10 @@
          * @private
          */
         _create: function () {
-            var _this = this;
-
-            this.elements = {
-                country: this.element.find( this.option( 'selectors.country' ) ),
-                region: this.element.find( this.option( 'selectors.region' ) ),
-                city: this.element.find( this.option( 'selectors.city' ) )
-            };
+            this._super();
 
             this.type = this.element.data( 'type' );
+            this.option( 'params.type', this.type );
 
             this.elements.country.on( 'change' + this.eventNamespace, this._loadRegions.bind( this ) );
             this.elements.region.on( 'change' + this.eventNamespace, this._loadCities.bind( this ) );
@@ -61,12 +57,8 @@
                 return;
             }
 
-            ls.ajax.load( this.option( 'urls.regions' ), { country: this.elements.country.val(), target_type: this.type }, function( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( null, response.sMsg );
-                } else {
-                    this.append( this.elements.region, response.aRegions, ls.lang.get( 'field.geo.select_region' ) );
-                }
+            this._load( 'regions', { country: this.elements.country.val(), target_type: this.type }, function( response ) {
+                this.append( this.elements.region, response.aRegions, ls.lang.get( 'field.geo.select_region' ) );
             }.bind( this ));
         },
 
@@ -79,12 +71,8 @@
                 return;
             }
 
-            ls.ajax.load( this.option( 'urls.cities' ), { region: this.elements.region.val(), target_type: this.type }, function( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( null, response.sMsg );
-                } else {
-                    this.append( this.elements.city, response.aCities, ls.lang.get( 'field.geo.select_city' ) );
-                }
+            this._load( 'cities', { region: this.elements.region.val(), target_type: this.type }, function( response ) {
+                this.append( this.elements.city, response.aCities, ls.lang.get( 'field.geo.select_city' ) );
             }.bind( this ));
         },
 

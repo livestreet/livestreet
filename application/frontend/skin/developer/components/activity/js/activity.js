@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsActivity", {
+	$.widget( "livestreet.lsActivity", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -25,13 +25,11 @@
 			// Селекторы
 			selectors: {
 				// Список событий
-				list:  '.js-activity-event-list',
-
+				list: '.js-activity-event-list',
 				// Событие
 				event: '.js-activity-event',
-
 				// Кнопка подгрузки событий
-				more:  '.js-activity-more'
+				more: '.js-activity-more'
 			}
 		},
 
@@ -42,20 +40,17 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
-
-			this.elements = {
-				list: this.element.find( this.option( 'selectors.list' ) ),
-				more: this.element.find( this.option( 'selectors.more' ) )
-			};
+			this._super();
 
 			// Подгрузка событий
 			this.elements.more.lsMore({
-				url: this.option( 'urls.more' ),
+				urls: {
+					load: this.option( 'urls.more' ),
+				},
 				target: this.elements.list,
 				beforeload: function (e, context) {
-					context.options.params.date_last = _this.getDateLast();
-				}
+					context._setParam( 'date_last', this.getDateLast() );
+				}.bind( this )
 			});
 		},
 

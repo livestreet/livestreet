@@ -7,26 +7,23 @@
  *}
 
 {$component = 'sort'}
-{$uid = "sort{rand( 0, 10e10 )}"}
 
-<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}">
-    {if $smarty.local.showLabel|default:true}
-        <div class="sort-label">{$smarty.local.label|default:$aLang.sort.label}</div>
-    {/if}
+{$items = $smarty.local.items}
+{$classes = "{$smarty.local.classes} sort"}
 
-    <div class="dropdown dropdown-toggle js-dropdown-default" data-dropdown-target="{$uid}" data-dropdown-selectable="true">...</div>
+{foreach $items as $item}
+    {$items[ $item@key ][ 'attributes' ] = array_merge( $items[ $item@key ][ 'attributes' ]|default:[], [
+        'data-name' => 'sort_by',
+        'data-value' => $item[ 'name' ],
+        'data-order' => $item[ 'order' ]|default:'desc'
+    ])}
+{/foreach}
 
-    <ul class="nav nav--stacked nav--dropdown dropdown-menu js-search-sort-menu" id="{$uid}">
-        {foreach $smarty.local.items as $item}
-            <li class="nav-item sort-item {if $item@index == 0}active{/if}"
-                data-name="sort_by"
-                data-value="{$item[ 'name' ]}"
-                data-order="{$item[ 'order' ]|default:'desc'}">
-
-                <a href="#">
-                    {$item['text']}
-                </a>
-            </li>
-        {/foreach}
-    </ul>
-</div>
+{component 'button' template='group' classes=$classes params=$smarty.local.params buttons=[
+    [ 'text' => $smarty.local.label|default:$aLang.sort.label, 'isDisabled' => true ],
+    {component 'dropdown'
+        text       = $smarty.local.text|default:'...'
+        classes    = 'js-dropdown-default'
+        attributes = [ 'data-lsdropdown-selectable' => 'true' ]
+        menu       = $items}
+]}

@@ -8,13 +8,16 @@
 	{$id = $smarty.local.id}
 	{$title = $smarty.local.title}
 	{$content = $smarty.local.content}
+	{$options = $smarty.local.options}
 	{$classes = $smarty.local.classes}
 	{$mods = $smarty.local.mods}
+	{$attributes = $smarty.local.attributes}
 {/block}
 
 <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}
 	id="{$id}"
-	data-type="modal">
+	data-type="modal"
+	{cattr prefix='data-lsmodal-' list=$options}>
 
 	{* Шапка *}
 	{block 'modal_title'}
@@ -32,7 +35,7 @@
 	{block 'modal_header_after'}{/block}
 
 	{* Содержимое *}
-	{block 'modal_content'}
+	{block 'modal_content' hide}
 		<div class="modal-body">
 			{$content}{$smarty.block.child}
 		</div>

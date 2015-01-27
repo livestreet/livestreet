@@ -39,9 +39,9 @@
         {component 'more'
             classes    = 'js-wall-more'
             count      = $moreCount
-            attributes = [
-                'data-more-target' => '.js-wall-entry-container[data-id=0]',
-                'data-proxy-last_id' => $smarty.local.lastId
+            target     = '.js-wall-entry-container[data-id=0]'
+            ajaxParams = [
+                'last_id' => $smarty.local.lastId
             ]}
     {/if}
 </div>

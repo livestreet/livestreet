@@ -15,6 +15,7 @@
 {* Уникальный ID окна загрузки файлов *}
 {$_mediaUid = "media{$_uid}"}
 
+
 {**
  * Textarea
  *}
@@ -69,7 +70,7 @@
 	sMediaTargetType = $smarty.local.mediaTargetType
 	sMediaTargetId   = $smarty.local.mediaTargetId
 	id               = $_mediaUid
-	assign           = 'sMediaModal'}
+	assign           = 'mediaModal'}
 
 {* Добавляем модальное окно (компонент media) в конец лэйаута чтобы избежать вложенных форм *}
-{$sLayoutAfter = "$sLayoutAfter $sMediaModal" scope='root'}
+{$sLayoutAfter = "$sLayoutAfter $mediaModal" scope='root'}

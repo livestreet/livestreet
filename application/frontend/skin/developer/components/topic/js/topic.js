@@ -11,14 +11,17 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsTopic", {
+    $.widget( "livestreet.lsTopic", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
         options: {
             // Ссылки
             urls: {
+                vote: aRouter.ajax + 'vote/topic/',
+                voteInfo: aRouter.ajax + 'vote/get/info/topic'
             },
+
             // Селекторы
             selectors: {
                 vote: '.js-vote-topic',
@@ -33,14 +36,16 @@
          * @private
          */
         _create: function () {
+            this._super();
+
             // Избранное
-            this.element.find( this.option( 'selectors.favourite' ) ).lsTopicFavourite();
+            this.elements.favourite.lsTopicFavourite();
 
             // Голосование за топик
-            this.element.find( this.option( 'selectors.vote' ) ).lsVote({
+            this.elements.vote.lsVote({
                 urls: {
-                    vote: aRouter.ajax + 'vote/topic/',
-                    info: aRouter.ajax + 'vote/get/info/topic'
+                    vote: this.option( 'urls.vote' ),
+                    info: this.option( 'urls.voteInfo' )
                 }
             });
         }

@@ -8,7 +8,7 @@
     {$mods = "$mods media"}
     {$classes = "$classes js-modal-media"}
     {$title = {lang name='media.title'}}
-    {$attributes = array_merge( $attributes|default:[], [ 'data-modal-center' => 'false' ] )}
+    {$options = array_merge( $options|default:[], [ 'center' => 'false' ] )}
 {/block}
 
 {block 'modal_content_after'}

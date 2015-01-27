@@ -46,8 +46,9 @@
                                {if isset($item['count'])}{$component}-item--has-counter{/if}
                                {if $isDropdown}{$component}-item--has-children{/if}
                                {$item['classes']}"
+                        role="menuitem"
                         {if isset($item['title'])}title="{$item['title']}"{/if}
-                        {$item['attributes']}
+                        {cattr list=$item['attributes']}
                         {foreach $item['data'] as $data}
                             data-{$data@key}={$data@value}
                         {/foreach}>

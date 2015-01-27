@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsActivitySettings", {
+	$.widget( "livestreet.lsActivitySettings", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -34,28 +34,18 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
+			this._super();
 
-			this.elements = {
-				type_checkboxes: this.element.find( this.option( 'selectors.type_checkbox' ) )
-			};
-
-			this._on( this.elements.type_checkboxes, { change: this.toggleEventType } );
+			this._on( this.elements.type_checkbox, { change: 'toggleEventType' } );
 		},
 
 		/**
 		 * Сохранение настроек
 		 */
 		toggleEventType: function( event ) {
-			var type = $( event.target ).data( 'type' );
+			this.option( 'params.type', $( event.target ).data( 'type' ) );
 
-			ls.ajax.load( this.option( 'urls.toggle_type' ), { 'type': type }, function( response ) {
-				if ( ! response.bStateError ) {
-					ls.msg.notice( response.sMsgTitle, response.sMsg );
-
-					ls.hook.run( 'ls_activity_toggle_event_type_after', [ type, response ] );
-				}
-			});
+			this._load( 'toggle_type', function( response ) {} );
 		}
 	});
 })(jQuery);

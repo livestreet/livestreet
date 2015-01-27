@@ -7,22 +7,9 @@
  * @param array  $attributes
  *}
 
-{$component = 'actionbar'}
+{extends 'components/button/toolbar.tpl'}
 
-{if $smarty.local.items}
-    <ul class="{$component} clearfix {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
-        {foreach $smarty.local.items as $item}
-            {if $item[ 'html' ]}
-                {$item[ 'html' ]}
-            {else}
-                {include './actionbar-item.tpl'
-                    url        = $item[ 'url' ]
-                    classes    = $item[ 'classes' ]
-                    text       = $item[ 'text' ]
-                    icon       = $item[ 'icon' ]
-                    show       = $item[ 'show' ]
-                    attributes = $item[ 'attributes' ]}
-            {/if}
-        {/foreach}
-    </ul>
-{/if}
+{block 'button_toolbar_options' append}
+    {$groups = $smarty.local.items}
+    {$classes = "$classes actionbar"}
+{/block}

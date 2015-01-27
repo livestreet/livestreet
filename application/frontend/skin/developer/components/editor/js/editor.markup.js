@@ -107,6 +107,27 @@ $.widget( "livestreet.lsEditorMarkup", {
 	/**
 	 * 
 	 */
+	getText: function () {
+		return this.element.val();
+	},
+
+	/**
+	 * 
+	 */
+	setText: function ( text ) {
+		return this.element.val( text );
+	},
+
+	/**
+	 * 
+	 */
+	focus: function () {
+		this.element.focus();
+	},
+
+	/**
+	 * 
+	 */
 	showMedia: function ( text ) {
 		this.option( 'media' ).lsMedia( 'show' );
 	}

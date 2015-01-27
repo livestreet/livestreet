@@ -60,6 +60,15 @@
 .article-info-item.article-info-item--vote { padding: 0; }
 
 /**
+ * 
+ */
+@media (max-width: 480px)  {
+    .article-header .article-title {
+        font-size: 24px;
+    }
+}
+
+/**
  * Превью (изображение)
  */
 .topic-preview-image {

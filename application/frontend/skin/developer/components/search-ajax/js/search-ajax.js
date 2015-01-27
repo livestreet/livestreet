@@ -54,8 +54,9 @@
             // Кнопка подгрузки
             this.elements.more.livequery(function () {
                 $( this ).lsMore({
-                    url: _this.option( 'urls.search' ),
-                    result: 'sText', // тут лучше на дефолтный sHtml заменить
+                    urls: {
+                        load: _this.option( 'urls.search' )
+                    },
                     beforeload: function ( event, context ) {
                         $.extend( context.option( 'params' ), _this.option( 'params' ) );
                     }
@@ -173,7 +174,7 @@
          */
         update: function() {
             ls.ajax.load( this.option( 'urls.search' ), this.option( 'params' ), function ( response ) {
-                this.element.html( $.trim( response.sText ) );
+                this.element.html( $.trim( response.html ) );
             }.bind( this ));
         },
 

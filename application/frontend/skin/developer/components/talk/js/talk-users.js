@@ -55,42 +55,35 @@
 		/**
 		 * Активирует пользователя при его повторном добавлении
 		 */
-		_onUserAdd: function (oUser) {
-			this.userActivate(oUser.iUserId);
+		_onUserAdd: function ( user ) {
+			this.userActivate( user.user_id );
 		},
 
 		/**
 		 * Повторное приглашение пользователя в диалог
 		 */
-		inactivate: function (oButton) {
-			var iUserId = oButton.data('user-id'),
-				oParams = {
-					iUserId: iUserId
-				};
+		inactivate: function ( button ) {
+			var userId = button.data( 'user-id' );
 
-			oParams = $.extend({}, oParams, this.options.params);
+			this._load( 'inactivate', { user_id: userId }, function( response ) {
+				this.userInactivate( userId );
 
-			ls.ajax.load(this.options.urls.inactivate, oParams, function(oResponse) {
-				ls.msg.notice(null, oResponse.sMsg);
-
-				this.userInactivate(iUserId);
-
-				this._trigger("afterinactivate", null, { context: this, response: oResponse, oParams: oParams });
-			}.bind(this));
+				this._trigger( "afterinactivate", null, { context: this, response: response } );
+			});
 		},
 
 		/**
 		 * Активирует пользователя при его повторном добавлении
 		 */
-		userActivate: function (iUserId) {
-			this._getUserById( iUserId ).removeClass('inactive');
+		userActivate: function ( userId ) {
+			this._getUserById( userId ).removeClass( 'inactive' );
 		},
 
 		/**
 		 * Отключения пользователя от диалога
 		 */
-		userInactivate: function (iUserId) {
-			this._getUserById( iUserId ).addClass('inactive');
+		userInactivate: function ( userId ) {
+			this._getUserById( userId ).addClass( 'inactive' );
 		},
 	});
 })(jQuery);

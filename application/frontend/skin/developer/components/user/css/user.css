@@ -1,89 +1,33 @@
 /**
  * Профиль пользователя
  *
- * @template actions/ActionProfile/*.tpl
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 
-/**
- * Шапка профиля
- */
-.user-profile {
-	width: 100%;
-	position: relative;
-	min-height: 64px;
-	padding: 30px 40px 30px 40px;
-	margin: -40px 0 25px -40px;
-	border-bottom: 1px solid #eee;
-}
-
-/* Голосование */
-.user-profile .vote {
-	position: absolute;
-	top: 40px;
-	right: 40px;
-}
-
-/* Пользователь */
-.user-profile-user {
-	position: relative;
-	padding-left: 80px;
-}
-
-.user-profile-user-avatar {
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-radius: 100px;
-}
-
-.user-profile-user-login {
-	width: 270px;
-	padding-top: 15px;
-	margin-bottom: 5px;
-	font-size: 27px;
-	line-height: 1em;
-}
-.user-profile-user-login a { color: #555; }
-.user-profile-user-login a:hover { color: #f00; }
-.user-profile--has-name .user-profile-user-login { padding-top: 5px; }
-
-.user-profile-user-name { color: #aaa; }
-
-
-/**
- * Заголовок
- */
+/* Заголовок */
 .profile-page-header {
-	font-size: 25px;
-	margin-bottom: 25px;
-	color: #555;
+    font-size: 25px;
+    margin-bottom: 25px;
+    color: #555;
 }
 
-
-/**
- * О себе
- */
+/* О себе */
 .profile-info-about {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
-
-/**
- * Блок с информацией
- */
-.user-info-group { margin-bottom: 50px; }
-.user-info-group:last-child { margin-bottom: 0; }
-
+/* Блок с информацией */
+.user-info-group {
+    margin-bottom: 50px;
+}
+.user-info-group:last-child {
+    margin-bottom: 0;
+}
 .user-info-group-title {
-	font-size: 18px;
-	border-bottom: 1px solid #eee;
-	padding-bottom: 7px;
-	color: #555;
+    font-size: 18px;
 }
 
 /* Список */

@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsContent", {
+    $.widget( "livestreet.lsContent", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -20,7 +20,10 @@
             urls: {
                 add: null,
                 edit: null
-            }
+            },
+
+            // Ajax параметры
+            params: {}
         },
 
         /**
@@ -30,7 +33,7 @@
          * @private
          */
         _create: function () {
-            var _this = this;
+            this._super();
 
             this.action = this.element.data( 'content-action' );
 
@@ -49,16 +52,12 @@
          * Отправка формы
          */
         submit: function( params ) {
-            ls.ajax.submit( this.option( 'urls.' + this.action ), this.element, function( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( null, response.sMsg );
-                } else {
-                    if ( response.sUrlRedirect ) {
-                        window.location.href = response.sUrlRedirect;
-                    }
+            $.extend( this.option( 'params' ), params || {} );
+
+            this._submit( this.action, this.element, function( response ) {
+                if ( response.sUrlRedirect ) {
+                    window.location.href = response.sUrlRedirect;
                 }
-            }, {
-                params: params || {}
             });
         }
     });

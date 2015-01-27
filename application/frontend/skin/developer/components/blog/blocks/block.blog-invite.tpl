@@ -17,5 +17,5 @@
     {component 'blog' template='invite'
         users      = $blogUsersInvited
         classes    = 'js-user-list-add-blog-invite'
-        attributes = [ 'data-param-i-target-id' => $blogEdit->getId() ]}
+        attributes = [ 'data-param-target_id' => $blogEdit->getId() ]}
 {/block}

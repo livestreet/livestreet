@@ -2,7 +2,6 @@
  * Голосование
  *
  * @module ls/vote
- * @dependencies jquery, jquery.widget, tooltip, ls.utils, ls.ajax
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -10,139 +9,127 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsVote", {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			// Ссылки
-			urls: {
-				// Голосование
-				vote: null,
-				// Информация о голосовании
-				info: null
-			},
-			// Селекторы
-			selectors: {
-				// Кнопки голосования
-				item:   '.js-vote-item',
-				// Рейтинг
-				rating: '.js-vote-rating',
-			},
-			// Классы
-			classes : {
-				// Пользователь проголосовал
-				voted:          'vote--voted',
-				// Не проголосовал
-				not_voted:      'vote--not-voted',
-				// Понравилось
-				voted_up:       'vote--voted-up',
-				// Не понравилось
-				voted_down:     'vote--voted-down',
-				// Воздержался
-				voted_zero:     'vote--voted-zero',
+    $.widget( "livestreet.lsVote", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                // Голосование
+                vote: null,
+                // Информация о голосовании
+                info: null
+            },
 
-				// Рейтинг больше нуля
-				count_positive: 'vote--count-positive',
-				// Меньше нуля
-				count_negative: 'vote--count-negative',
-				// Равен нулю
-				count_zero:     'vote--count-zero',
+            // Селекторы
+            selectors: {
+                // Кнопки голосования
+                item:   '.js-vote-item',
+                // Рейтинг
+                rating: '.js-vote-rating',
+            },
 
-				// Рейтинг скрыт
-				rating_hidden:  'vote--rating-hidden',
-			},
-			// Параметры отправляемые при каждом аякс запросе
-			params: {},
-			// Опции тултипа с информацией о голосовании
-			tooltip_options: {}
-		},
+            // Классы
+            classes : {
+                // Пользователь проголосовал
+                voted:          'vote--voted',
+                // Не проголосовал
+                not_voted:      'vote--not-voted',
+                // Понравилось
+                voted_up:       'vote--voted-up',
+                // Не понравилось
+                voted_down:     'vote--voted-down',
+                // Воздержался
+                voted_zero:     'vote--voted-zero',
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			var _this = this;
+                // Рейтинг больше нуля
+                count_positive: 'vote--count-positive',
+                // Меньше нуля
+                count_negative: 'vote--count-negative',
+                // Равен нулю
+                count_zero:     'vote--count-zero',
 
-			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.element, 'param'));
+                // Рейтинг скрыт
+                rating_hidden:  'vote--rating-hidden',
+            },
+            // Параметры отправляемые при каждом аякс запросе
+            params: {},
+            // Опции тултипа с информацией о голосовании
+            tooltip_options: {}
+        },
 
-			this.elements = {};
-			this.elements.rating = this.element.find(this.options.selectors.rating);
-			this.elements.items = this.element.find(this.options.selectors.item);
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			// Обработка кликов по кнопкам голосования
-			if ( ! this.element.hasClass(this.options.classes.voted) ) {
-				this._on( this.elements.items, {
-					'click': function (e) {
-						_this.vote( $(e.currentTarget).data('vote-value') );
-						e.preventDefault();
-					}
-				});
-			}
+            // Обработка кликов по кнопкам голосования
+            if ( ! this._hasClass( 'voted' ) ) {
+                this._on( this.elements.item, {
+                    click: function ( event ) {
+                        this.vote( $( event.currentTarget ).data( 'vote-value' ) );
+                        event.preventDefault();
+                    }
+                });
+            }
 
-			// Иниц-ия тултипа с информацией о голосовании
-			// Показываем инфо-ию только если рейтинг отображается
-			if ( ! this.element.hasClass(this.options.classes.rating_hidden) ) {
-				this.info();
-			}
-		},
+            // Иниц-ия тултипа с информацией о голосовании
+            // Показываем инфо-ию только если рейтинг отображается
+            if ( ! this._hasClass( 'rating_hidden' ) ) {
+                this.info();
+            }
+        },
 
-		/**
-		 * Голосование
-		 *
-		 * @param {Number} value Значение
-		 */
-		vote: function( value ) {
-			var params = $.extend({}, { value: value }, this.options.params);
+        /**
+         * Голосование
+         *
+         * @param {Number} value Значение
+         */
+        vote: function( value ) {
+            this.option( 'params.value', value );
 
-			ls.ajax.load(this.options.urls.vote, params, function (oResponse) {
-				if (oResponse.bStateError) {
-					ls.msg.error(null, oResponse.sMsg);
-				} else {
-					ls.msg.notice(null, oResponse.sMsg);
+            this._load( 'vote', function ( response ) {
+                response.iRating = parseFloat( response.iRating );
 
-					oResponse.iRating = parseFloat(oResponse.iRating);
+                // Добавляем/удаляем классы
+                this._removeClass( 'count_negative count_positive count_zero rating_hidden not_voted' );
+                this._addClass( 'voted' );
+                this._addClass( value > 0 ? 'voted_up' : ( value < 0 ? 'voted_down' : 'voted_zero' ) );
+                this._addClass( response.iRating > 0 ? 'count_positive' : ( response.iRating < 0 ? 'count_negative' : 'count_zero' ) );
 
-					this.element
-						.removeClass(this.options.classes.count_negative + ' ' + this.options.classes.count_positive + ' ' + this.options.classes.count_zero)
-						.removeClass(this.options.classes.rating_hidden + ' ' + this.options.classes.not_voted)
-						.addClass(this.options.classes.voted)
-						.addClass(this.options.classes[ value > 0 ? 'voted_up' : ( value < 0 ? 'voted_down' : 'voted_zero' ) ])
-						.addClass(this.options.classes[ oResponse.iRating > 0 ? 'count_positive' : ( oResponse.iRating < 0 ? 'count_negative' : 'count_zero' ) ]);
+                // Не обрабатываем клики после голосования
+                this._off( this.elements.item, 'click' );
 
-					this.elements.rating.text(oResponse.iRating);
+                // Удаляем подсказки и устанавливаем рейтинг
+                this.elements.item.removeAttr( 'title' );
+                this.elements.rating.text( response.iRating );
 
-					// Не обрабатываем клики после голосования
-					this._off(this.elements.items, 'click');
+                // Иниц-ия тултипа
+                this.info().lsTooltip( 'show' );
+            });
+        },
 
-					// Удаляем подсказки
-					this.elements.items.removeAttr('title');
+        /**
+         * Иниц-ия тултипа с информацией о голосовании
+         *
+         * @return {jQuery}
+         */
+        info: function () {
+            if ( ! this.options.urls.info ) return $();
 
-					// Иниц-ия тултипа
-					this.info().lsTooltip('show');
-				}
-			}.bind(this));
-		},
-
-		/**
-		 * Иниц-ия тултипа с информацией о голосовании
-		 *
-		 * @return {jQuery}
-		 */
-		info: function () {
-			if ( ! this.options.urls.info ) return $();
-
-			return this.element.lsTooltip($.extend({}, {
-				ajax: {
-					url: this.options.urls.info,
-					params: this.options.params
-				}
-			}, this.options.tooltip_options));
-		}
-	});
+            return this.element.lsTooltip($.extend({}, {
+                ajax: {
+                    url: this.options.urls.info,
+                    params: this.options.params
+                }
+            }, this.options.tooltip_options));
+        }
+    });
 })(jQuery);

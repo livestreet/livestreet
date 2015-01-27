@@ -21,7 +21,7 @@
 
                 <p>
                     <time datetime="{date_format date=$comment->getDate() format='c'}">
-                        {date_format date=$comment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
+                        {date_format date=$comment->getDate() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y"}
                     </time> |
 
                     {lang name='comments.comments_declension' count=$topic->getCountComment() plural=true}

@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsCrop", {
+    $.widget( "livestreet.lsCrop", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -36,10 +36,7 @@
         _create: function () {
             var _this = this;
 
-            this.elements = {
-                image: this.element.find( this.option( 'selectors.image' ) ),
-                previews: this.element.find( this.option( 'selectors.preview' ) ),
-            };
+            this._super();
 
             // Вычисляем минимальные ширину и высоту
             var ratio = this.elements.image.innerWidth() / this.element.data( 'crop-width' );
@@ -100,7 +97,7 @@
         _updatePreviews: function( coords ) {
             var _this = this;
 
-            this.elements.previews.each(function() {
+            this.elements.preview.each(function() {
                 var preview = $( this ),
                     size = preview.data('size'),
                     rx = size / coords.w,

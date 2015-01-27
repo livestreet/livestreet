@@ -35,17 +35,18 @@
         "settings/tuning": "settings/tuning.tpl"
     },
     "scripts": {
-        "user-fields": "js/user-fields.js",
-        "user-follow": "js/user-follow.js",
-        "user-friend": "js/user-friend.js",
-        "user-photo": "js/user-photo.js",
+        "fields": "js/user-fields.js",
+        "follow": "js/user-follow.js",
+        "friend": "js/user-friend.js",
+        "photo": "js/user-photo.js",
         "user": "js/user.js"
     },
     "styles": {
-        "user-blocks": "css/user-blocks.css",
-        "user-item": "css/user-item.css",
-        "user-list-avatar": "css/user-list-avatar.css",
-        "user-list-small": "css/user-list-small.css",
+        "blocks": "css/user-blocks.css",
+        "header": "css/user-header.css",
+        "item": "css/user-item.css",
+        "list-avatar": "css/user-list-avatar.css",
+        "list-small": "css/user-list-small.css",
         "user": "css/user.css"
     }
 }

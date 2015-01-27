@@ -20,17 +20,16 @@
 {**
  * О себе
  *}
-{if $user->getProfileAbout()}
-	<div class="profile-info-about">
-		<h3 class="h5">{$aLang.user.profile.about.title}</h3>
 
+{if $user->getProfileAbout()}
+	{capture 'user_info_about'}
 		<div class="text">
 			{$user->getProfileAbout()}
 		</div>
-	</div>
-{/if}
+	{/capture}
 
-{hook run='user_info_about_after' user=$user}
+	{component 'user' template='info-group' title={lang name='user.profile.about.title'} html=$smarty.capture.user_info_about}
+{/if}
 
 
 {**

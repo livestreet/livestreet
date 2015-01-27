@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsBlock", {
+    $.widget( "livestreet.lsBlock", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -20,6 +20,7 @@
             selectors: {
                 tabs: '.js-tabs-block',
                 update: '.js-block-update-tabs',
+                pane_container: '[data-type=tab-panes]'
             }
         },
 
@@ -30,24 +31,16 @@
          * @private
          */
         _create: function () {
-            var _this = this;
-
-            this.elements = {
-                tabs: this.element.find( this.option( 'selectors.tabs' ) ),
-                update: this.element.find( this.option( 'selectors.update' ) ),
-                pane_container: this.element.find( '[data-type=tab-panes]' )
-            };
-
-            this.elements.tabs.lsTabs();
+            this._super();
 
             // Сохраняем высоту блока при переключении табов
-            this.elements.tabs.lsTabs( 'getTabs' ).lsTab( 'option', {
+            this.elements.tabs.lsTabs().lsTabs( 'getTabs' ).lsTab( 'option', {
                 beforeactivate: function ( e, data ) {
-                    _this.elements.pane_container.css( 'height', _this.elements.pane_container.height() );
-                },
+                    this.elements.pane_container.css( 'height', this.elements.pane_container.height() );
+                }.bind( this ),
                 activate: function ( e, data ) {
-                    _this.elements.pane_container.css( 'height', 'auto' );
-                }
+                    this.elements.pane_container.css( 'height', 'auto' );
+                }.bind( this )
             });
         }
     });

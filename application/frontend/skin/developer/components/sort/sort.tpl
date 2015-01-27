@@ -1,14 +1,5 @@
 {**
- * Блок сортировки
- *
- * @param string  $sSortName     
- * @param array   $aSortList     
- * @param string  $sSortOrder    
- * @param string  $sSortOrderWay 
- * @param string  $sSortLabel    
- * @param boolean $bSortShowLabel
- *
- * @styles assets/css/sort.css
+ * 
  *}
 
 <div class="sort {$sSortClasses}">

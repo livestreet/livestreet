@@ -64,7 +64,10 @@
 
 			// Подгрузка новых постов
 			this.elements.more.lsMore({
-				url: this.option( 'urls.load' ),
+				urls: {
+					load: this.option( 'urls.load' )
+				},
+				proxy: [ 'last_id' ],
 				params: {
 					user_id: this.getUserId()
 				}
@@ -73,7 +76,11 @@
 			// Подгрузка комментариев
 			this.elements.more_comments.livequery( function () {
 				$( this ).lsMore({
-					url: _this.option( 'urls.load_comments' ),
+					urls: {
+						load: _this.option( 'urls.load_comments' )
+					},
+					append: false,
+					proxy: [ 'last_id' ],
 					params: {
 						user_id: _this.getUserId()
 					}

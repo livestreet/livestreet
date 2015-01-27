@@ -8,21 +8,17 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.sort { margin-bottom: 20px; overflow: hidden; }
-.sort .dropdown { float: left; margin: 0; background: #333; }
-
-.sort-label {
-	float: left;
-	background: #555;
-	color: #FFF;
-	padding: 7px 13px 7px 13px;
+.sort {
+    margin-bottom: 15px;
+}
+.sort--inline {
+    display: inline;
+    margin-right: 10px;
 }
 
-.sort-item.active[data-order=asc] a:after { content: "↑"; }
-.sort-item.active[data-order=desc] a:after { content: "↓"; }
-
-
-/**
- * Inline
- */
-.sort-inline { display: inline; margin-right: 10px; }
+.sort li.active[data-order=asc] a:after {
+    content: "↑";
+}
+.sort li.active[data-order=desc] a:after {
+    content: "↓";
+}

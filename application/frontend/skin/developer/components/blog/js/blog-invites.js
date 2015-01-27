@@ -48,14 +48,10 @@
         /**
          * Отправляет инвайт заново
          */
-        reinvite: function (iUserId) {
-            var oParams = $.extend({}, { iUserId: iUserId }, this.options.params);
-
-            ls.ajax.load(this.options.urls.reinvite, oParams, function(oResponse) {
-                ls.msg.notice(null, oResponse.sMsg);
-
-                this._trigger("afterreinvite", null, { context: this, response: oResponse, oParams: oParams });
-            }.bind(this));
-        },
+        reinvite: function ( userId ) {
+            this._load( 'reinvite', { user_id: userId }, function( response ) {
+                this._trigger( "afterreinvite", null, { context: this, response: response } );
+            });
+        }
     });
 })(jQuery);

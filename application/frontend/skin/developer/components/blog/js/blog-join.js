@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsBlogJoin", {
+    $.widget( "livestreet.lsBlogJoin", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -50,14 +50,8 @@
         toggle: function() {
             this.element.addClass( ls.options.classes.states.loading );
 
-            ls.ajax.load( this.option( 'urls.toggle' ), this.option( 'params' ), function( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( null, response.sMsg );
-                } else {
-                    ls.msg.notice( null, response.sMsg );
-
-                    this.onToggle( response );
-                }
+            this._load('toggle', function( response ) {
+                this.onToggle( response );
 
                 this.element.removeClass( ls.options.classes.states.loading );
             }.bind( this ));

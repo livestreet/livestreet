@@ -26,7 +26,7 @@
             {component 'more'
                 classes    = 'js-more-search'
                 target     = '.js-more-users-container'
-                attributes = [ 'data-search-type' => 'users', 'data-proxy-page-next' => '2' ]}
+                ajaxParams = [ 'next_page' => 2 ]}
         {/if}
     {else}
         {component 'pagination' paging=$smarty.local.pagination}

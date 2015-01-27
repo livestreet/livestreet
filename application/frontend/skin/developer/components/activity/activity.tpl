@@ -27,8 +27,11 @@
 
             {component 'more'
                 count      = $smarty.local.count
-                classes    = "js-activity-more"
-                attributes = [ 'data-proxy-last_id' => $last->getId(), 'data-param-target_id' => $smarty.local.targetId ]}
+                classes    = 'js-activity-more'
+                ajaxParams = [
+                    'last_id' => $last->getId(),
+                    'target_id' => $smarty.local.targetId
+                ]}
         {/if}
     {else}
         {component 'alert' text=$aLang.common.empty mods='empty'}

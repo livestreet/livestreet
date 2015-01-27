@@ -18,11 +18,10 @@
             {component 'more'
                 classes    = 'wall-more-comments js-wall-more-comments'
                 count      = $post->getCountReply() - Config::Get('module.wall.count_last_reply')
-                append     = 'false'
-                attributes = [
-                   'data-more-target'     => ".js-wall-entry-container[data-id={$postId}]",
-                   'data-proxy-last_id'   => $comments[0]->getId(),
-                   'data-param-target_id' => $postId
+                target     = ".js-wall-entry-container[data-id={$postId}]"
+                ajaxParams = [
+                   'last_id'   => $comments[0]->getId(),
+                   'target_id' => $postId
                 ]}
         {/if}
 

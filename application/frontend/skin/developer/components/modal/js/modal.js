@@ -143,11 +143,15 @@ var ls = ls || {};
 	// Plugin
 	// ----------
 
-	$.widget( "livestreet.lsModal", {
+	$.widget( "livestreet.lsModal", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
 		options: {
+			selectors: {
+				// Кнопка закрытия модального
+				close: '[data-type=modal-close]'
+			},
 			// Анимация при показе
 			show: {
 				effect: 'slide',
@@ -180,10 +184,9 @@ var ls = ls || {};
 		 * @private
 		 */
 		_create: function() {
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'modal'));
+			this._super();
 
 			this._toggle = $( '[data-modal-target=' + this.element.attr('id') + ']' );
-			this.closeButton = this.element.find('[data-type=modal-close]');
 
 			// Переносим все модальные в оверлей
 			if ( this.options.url ) {
@@ -206,7 +209,7 @@ var ls = ls || {};
 			});
 
 			// Кнопки закрытия модального окна
-			this._on( this.closeButton, { click: this.hide });
+			this._on( this.getElement( 'close' ), { click: this.hide });
 
 			this._trigger("create", null, this);
 		},

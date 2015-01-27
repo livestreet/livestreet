@@ -36,4 +36,15 @@
 /**
  * Кнопка подгрузки комментариев
  */
-.more.wall-more-comments { border: none; margin: 0 0 2px; }
+.more.wall-more-comments {
+    border: none;
+    margin: 0 0 2px;
+    background-color: #f7f7f7;
+    color: #777;
+}
+.more.wall-more-comments:hover {
+    background-color: #eee;
+}
+.more.wall-more-comments.more--locked {
+    background-color: #f7f7f7;
+}

@@ -7,16 +7,11 @@
  */
 
 .actionbar {
+    display: block;
     background: #fafafa;
     padding: 10px 10px 0;
     margin-bottom: 10px;
-    list-style: none;
 }
-.actionbar-item {
-    float: left;
-    white-space: nowrap;
-    margin-right: 10px;
-}
-.actionbar-item-link {
+.actionbar .button-group {
     margin-bottom: 10px;
 }

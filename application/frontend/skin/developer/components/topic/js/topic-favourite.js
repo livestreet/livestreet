@@ -1,7 +1,7 @@
 /**
- * Приглашение пользователей в закрытый блог
+ * Кнопка добавления топика в избранное
  *
- * @module blog_invite_users
+ * @module ls/topic/favourite
  *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
@@ -9,23 +9,25 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsTopicFavourite", $.livestreet.lsFavourite, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			urls: {
-				toggle: aRouter['ajax'] + 'favourite/topic/'
-			},
-			aftertogglesuccess: function (e, data) {
-				if (data.response.bState) {
-					ls.tags && ls.tags.showPersonalTags('topic', data.context.options.params.iTargetId);
-				} else {
-					ls.tags && ls.tags.hidePersonalTags('topic', data.context.options.params.iTargetId);
-				}
-			}
-		}
-	});
+    $.widget( "livestreet.lsTopicFavourite", $.livestreet.lsFavourite, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            urls: {
+                toggle: aRouter['ajax'] + 'favourite/topic/'
+            }
+        },
+
+        /**
+         * 
+         */
+        onToggleSuccess: function ( response ) {
+            this._super( response );
+
+            ls.tags[ ( response.bState ? 'show' : 'hide' ) + 'PersonalTags' ]( 'topic', this.options.params.iTargetId );
+        }
+    });
 })(jQuery);

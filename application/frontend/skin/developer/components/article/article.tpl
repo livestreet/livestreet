@@ -59,12 +59,12 @@
 				{if $article->getIsAllowAction() && ! $isPreview}
 					{block 'article_header_actions'}
 						{$items = [
-							[ 'icon' => 'icon-edit', 'url' => $article->getUrlEdit(), 'text' => $aLang.common.edit, 'show' => $article->getIsAllowEdit() ],
-							[ 'icon' => 'icon-trash', 'url' => "{$article->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => $aLang.common.remove, 'show' => $article->getIsAllowDelete() ]
+							[ 'icon' => 'edit', 'url' => $article->getUrlEdit(), 'text' => $aLang.common.edit, 'show' => $article->getIsAllowEdit() ],
+							[ 'icon' => 'trash', 'url' => "{$article->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => $aLang.common.remove, 'show' => $article->getIsAllowDelete() ]
 						]}
 					{/block}
 
-					{component 'actionbar' items=$items}
+					{component 'actionbar' items=[[ 'buttons' => $items ]]}
 				{/if}
 			</header>
 		{/block}

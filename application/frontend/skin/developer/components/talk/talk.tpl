@@ -16,7 +16,7 @@
     {include './participants/participants.tpl'
         users         = $talk->getTalkUsers()
         classes       = 'message-users js-message-users'
-        attributes    = [ 'data-param-i-target-id' => $talk->getId() ]
+        attributes    = [ 'data-param-target_id' => $talk->getId() ]
         editable      = $talk->getUserId() == $oUserCurrent->getId() || $oUserCurrent->isAdministrator()
         title         = $aLang.talk.users.title
         excludeRemove = [ $oUserCurrent->getId() ]}

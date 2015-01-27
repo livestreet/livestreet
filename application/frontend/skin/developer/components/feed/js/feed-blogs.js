@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsFeedBlogs", {
+	$.widget( "livestreet.lsFeedBlogs", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -35,15 +35,9 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
+			this._super();
 
-			this.elements = {
-				checkboxes: this.element.find( this.option( 'selectors.checkbox' ) )
-			};
-
-			this.type = 'blogs';
-
-			this._on( this.elements.checkboxes, { change: this.toggleSubscribe } );
+			this._on( this.getElement( 'checkbox' ), { change: this.toggleSubscribe } );
 		},
 
 		/**
@@ -56,7 +50,7 @@
 			ls.ajax.load(
 				this.option( 'urls.' + ( checkbox.is(':checked') ? 'subscribe' : 'unsubscribe' ) ),
 				{
-					type: this.type,
+					type: 'blogs',
 					id: id
 				},
 				function( response ) {

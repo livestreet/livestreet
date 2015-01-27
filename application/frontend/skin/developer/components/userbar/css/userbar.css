@@ -56,3 +56,13 @@
 .nav.nav--userbar .dropdown-toggle:after      { border-top-color: #000; }
 .nav.nav--userbar .dropdown-toggle.open       { background: #08c; color: #fff; }
 .nav.nav--userbar .dropdown-toggle.open:after { border-top-color: #fff; }
+
+
+/**
+ * Responsive styles
+ */
+@media (max-width: 360px)  {
+    .userbar-inner {
+        padding: 0;
+    }
+}

@@ -164,7 +164,7 @@ $.widget( "livestreet.lsTooltip", {
 
         // Ajax
         if ( this.options.ajax.url && ! this.loading ) {
-            this._load();
+            this.__load();
         }
 
         this._trigger("show", null, this);
@@ -246,7 +246,7 @@ $.widget( "livestreet.lsTooltip", {
     /**
      * Загрузка содержимого тултипа через аякс
      */
-    _load: function () {
+    __load: function () {
         var params = $.extend( {}, this.options.ajax.params, ls.utils.getDataOptions(this.element, 'param') ) || {};
 
         this._targetContent.empty().addClass( ls.options.classes.states.loading );

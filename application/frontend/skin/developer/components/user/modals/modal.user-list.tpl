@@ -23,9 +23,7 @@
             target  = '.js-user-list-select .js-user-list-small-item'
             assign  = users}
 
-        {component 'actionbar' items=[
-            [ 'html' => $users ]
-        ]}
+        {component 'actionbar' items=[[ 'buttons' => [ 'html' => $users ] ]]}
     {/if}
 
     {* Список *}

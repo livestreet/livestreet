@@ -28,7 +28,7 @@
             {component 'more'
                 classes    = 'js-more-search'
                 target     = '.js-more-blogs-container'
-                attributes = [ 'data-search-type' => 'blogs', 'data-proxy-page-next' => '2' ]}
+                ajaxParams = [ 'next_page' => 2 ]}
         {/if}
     {else}
         {component 'pagination' paging=$smarty.local.pagination}

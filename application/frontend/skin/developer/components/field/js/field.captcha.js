@@ -11,12 +11,12 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsCaptcha", {
+    $.widget( "livestreet.lsCaptcha", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
         options: {
-            name: '',
+            name: null,
             url: aRouter.ajax + 'captcha/'
         },
 
@@ -27,11 +27,10 @@
          * @private
          */
         _create: function() {
-            this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'captcha'));
-
-            this._on({ click: this.update });
-
+            this._super();
             this.update();
+
+            this._on({ click: 'update' });
         },
 
         /**

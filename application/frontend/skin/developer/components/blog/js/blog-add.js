@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsBlogAdd", {
+    $.widget( "livestreet.lsBlogAdd", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -32,10 +32,7 @@
         _create: function () {
             var _this = this;
 
-            this.elements = {
-                type: this.element.find( this.option( 'selectors.type' ) ),
-                type_note: this.element.find( this.option( 'selectors.type_note' ) )
-            };
+            this._super();
 
             // Подгрузка информации о выбранном типе блога при создании блога
             this.elements.type.on( 'change' + this.eventNamespace, function () {
