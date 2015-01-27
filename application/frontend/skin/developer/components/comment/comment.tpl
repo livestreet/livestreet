@@ -67,6 +67,7 @@
 <section class   = "{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} open js-{$component}"
          id      = "comment{$commentId}"
          data-id = "{$commentId}"
+         data-parent-id = "{$comment->getPid()}"
          {cattr list=$smarty.local.attributes}>
 
     {* Показываем удаленные комментарии только администраторам *}
@@ -99,9 +100,7 @@
             {if $smarty.local.useScroll|default:true}
                 {if $comment->getPid()}
                     <li class          = "{$component}-scroll-to {$component}-scroll-to-parent js-comment-scroll-to-parent"
-                        title          = "{$aLang.comments.comment.scroll_to_parent}"
-                        data-id        = "{$commentId}"
-                        data-parent-id = "{$comment->getPid()}">↑</li>
+                        title          = "{$aLang.comments.comment.scroll_to_parent}">↑</li>
                 {/if}
 
                 {* Прокрутка к дочернему комментарию *}
@@ -114,16 +113,16 @@
                 <li>
                     {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
                     {component 'vote'
-                            classes  = "{$component}-vote js-vote-{$component}"
-                            target   = $comment
-                            isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
+                        classes  = "{$component}-vote js-{$component}-vote"
+                        target   = $comment
+                        isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
                 </li>
             {/if}
 
             {* Избранное *}
             {if $oUserCurrent && $smarty.local.useFavourite}
                 <li>
-                    {component 'favourite' classes='comment-favourite js-favourite-comment' target=$comment}
+                    {component 'favourite' classes='comment-favourite js-comment-favourite' target=$comment}
                 </li>
             {/if}
         </ul>

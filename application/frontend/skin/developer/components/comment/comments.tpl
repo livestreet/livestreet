@@ -12,8 +12,7 @@
  * @param array    $pagination
  * @param boolean  $isSubscribed
  *
- * @param boolean  $useVote
- * @param boolean  $useFavourite
+ * @param array    $commentParams
  * @param boolean  $useSubscribe
  *
  * @param string   $forbidText
@@ -63,15 +62,14 @@
      *}
 
     {* Свернуть/развернуть все комментарии *}
-    {$items = [ [ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ] ]}
+    {$items = [[ 'buttons' => [[ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ]]]]}
 
     {* Подписка на комментарии *}
     {if $smarty.local.useSubscribe && $oUserCurrent}
-        {$items[] = [
-            'classes'    => "comments-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
-            'attributes' => [ 'data-type' => $targetType, 'data-target-id' => $targetId ],
-            'text'       => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
-        ]}
+        {$items[] = [ 'buttons' => [[
+            'classes' => "comments-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
+            'text'    => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
+        ]]]}
     {/if}
 
     {* TODO: Добавить хук *}
@@ -84,12 +82,12 @@
      *}
     <div class="comment-list js-comment-list">
         {include './comment-tree.tpl'
-            comments     = $smarty.local.comments
-            forbidAdd    = $forbidAdd
-            authorText   = $smarty.local.authorText
-            dateReadLast = $smarty.local.dateReadLast
-            useFavourite = $smarty.local.useFavourite
-            useVote      = $smarty.local.useVote}
+            comments      = $smarty.local.comments
+            forbidAdd     = $forbidAdd
+            authorid      = $smarty.local.authorid
+            authorText    = $smarty.local.authorText
+            dateReadLast  = $smarty.local.dateReadLast
+            commentParams = $smarty.local.commentParams}
     </div>
 
 

@@ -32,13 +32,13 @@
         {block 'comment-form-fields'}
             {* Скрытые поля *}
             {component 'field' template='hidden' name='reply' value='0' inputClasses='js-comment-form-id'}
-            {component 'field' template='hidden' name='cmt_target_id' value=$targetId}
+            {component 'field' template='hidden' name='comment_target_id' value=$targetId}
 
             {* Текст комментария *}
             {component 'editor'
                 set             = $smarty.local.editorSet|default:'light'
                 name            = 'comment_text'
-                inputClasses    = 'js-editor-default js-comment-form-text'
+                inputClasses    = 'js-comment-form-text'
                 help            = false
                 mediaTargetType = 'comment'}
         {/block}
@@ -53,8 +53,8 @@
         {component 'button' name='submit_comment' text=$aLang.common.add mods='primary' classes='js-comment-form-submit'}
 
         {* Кнопки редактирования *}
-        {component 'button' name='submit_comment' type='button' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
-        {component 'button' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r hide'}
+        {component 'button' name='submit_comment' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
+        {component 'button' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r'}
 
         {* Кнопка превью текста *}
         {component 'button' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}

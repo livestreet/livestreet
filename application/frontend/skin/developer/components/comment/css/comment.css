@@ -142,11 +142,10 @@
 
 /* Сворачивание */
 .comment-fold {
-    background: #CBCBF3;
     display: none;
 }
-.comment-fold.open {
-    background: transparent;
+.comment--folded .comment-fold {
+    background: #CBCBF3;
 }
 
 /* Информация о редактировании */

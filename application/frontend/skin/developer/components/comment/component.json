@@ -2,6 +2,7 @@
     "name": "comment",
     "version": "1.0.0",
     "dependencies": {
+        "ls-core": "*",
         "actionbar": "*",
         "favourite": "*",
         "vote": "*",
@@ -12,16 +13,19 @@
         "list": "comment-list.tpl",
         "tree": "comment-tree.tpl",
         "comments": "comments.tpl",
-        "toolbar.comment": "toolbar.comment.tpl"
+        "comment": "comment.tpl",
+        "toolbar": "toolbar.comment.tpl"
     },
     "scripts": {
-        "toolbar.comments": "js/toolbar.comments.js",
-        "comment": "js/comment.js"
+        "toolbar": "js/comments-toolbar.js",
+        "form": "js/comment-form.js",
+        "comment": "js/comment.js",
+        "comments": "js/comments.js"
     },
     "styles": {
         "form": "css/comment-form.css",
         "comment": "css/comment.css",
         "comments": "css/comments.css",
-        "toolbar-comments": "css/toolbar-comments.css"
+        "toolbar": "css/comments-toolbar.css"
     }
 }
