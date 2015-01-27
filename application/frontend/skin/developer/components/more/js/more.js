@@ -9,134 +9,146 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsMore", {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			// Селектор блока с содержимым
-			target: null,
-			// Добавление контента в конец/начало контейнера
-			// true - в конец
-			// false - в начало
-			append: true,
-			// Ссылка
-			url: null,
-			// Название переменной с результатом
-			result: 'html',
-			// Параметры запроса
-			params: {},
-			// Проксирующие параметры
-			proxy: {}
-		},
+    $.widget( "livestreet.lsMore", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            urls: {
+                load: null
+            },
+            selectors: {
+                counter: '.js-more-count'
+            },
+            classes: {
+                loading: 'loading',
+                locked: 'more--locked'
+            },
+            // Селектор блока с содержимым
+            target: null,
+            // Добавление контента в конец/начало контейнера
+            // true - в конец
+            // false - в начало
+            append: true,
+            // Параметры запроса
+            params: {},
+            // Проксирующие параметры
+            proxy: []
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'more'));
-			this.options.proxy = $.extend({}, this.options.proxy, ls.utils.getDataOptions(this.element, 'proxy'));
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			this.target = $( this.options.target );
-			this.counter = this.element.find('.js-more-count');
+            this.target = $( this.options.target );
 
-			this._on({
-				click: function (e) {
-					! this.isLocked && this.load();
-					e.preventDefault();
-				}
-			});
-		},
+            this._on({ click: 'onClick' });
+            this.element.bind( 'keydown' + this.eventNamespace, 'return', this.onClick.bind( this ) );
+        },
 
-		/**
-		 * Блокирует блок подгрузки
-		 */
-		lock: function () {
-			this.isLocked = true;
-			this.element.addClass(ls.options.classes.states.loading);
-		},
+        /**
+         * Коллбэк вызываемый при клике по кнопке
+         */
+        onClick: function ( event ) {
+            if ( ! this.isLocked() ) this.load();
+            event.preventDefault();
+        },
 
-		/**
-		 * Разблокировывает блок подгрузки
-		 */
-		unlock: function () {
-			this.isLocked = false;
-			this.element.removeClass(ls.options.classes.states.loading);
-		},
+        /**
+         * Блокирует блок подгрузки
+         */
+        lock: function () {
+            this._isLocked = true;
+            this._addClass( 'loading locked' );
+        },
 
-		/**
-		 * Получает значение счетчика
-		 */
-		getCount: function () {
-			return this.counter.length && parseInt( this.counter.text(), 10 );
-		},
+        /**
+         * Разблокировывает блок подгрузки
+         */
+        unlock: function () {
+            this._isLocked = false;
+            this._removeClass( 'loading locked' );
+        },
 
-		/**
-		 * Устанавливает значение счетчика
-		 */
-		setCount: function ( number ) {
-			this.counter.length && this.counter.text( number );
-		},
+        /**
+         * Проверяет заблокирован виджет или нет
+         */
+        isLocked: function () {
+            return this._isLocked;
+        },
 
-		/**
-		 * Подгрузка
-		 */
-		load: function () {
-			this._trigger("beforeload", null, this);
+        /**
+         * Получает значение счетчика
+         */
+        getCount: function () {
+            return this.elements.counter.length && parseInt( this.elements.counter.text(), 10 );
+        },
 
-			this.options.params = $.extend({}, this.options.params, ls.utils.getDataOptions(this.element, 'param'));
-			this.lock();
+        /**
+         * Устанавливает значение счетчика
+         */
+        setCount: function ( number ) {
+            this.elements.counter.length && this.elements.counter.text( number );
+        },
 
-			var params=$.extend({}, this.options.params, this.options.proxy);
+        /**
+         * Подгрузка
+         */
+        load: function () {
+            this._trigger("beforeload", null, this);
 
-			ls.ajax.load(this.options.url, params, function (oResponse) {
-				if (oResponse.count_loaded > 0) {
-					var html = $('<div></div>').html( $.trim( oResponse[this.options.result] ) );
+            this.lock();
 
-					if ( html.find( this.options.target ).length ) {
-						html = html.find( this.options.target ).first();
-					}
+            this._load( 'load', function ( response ) {
+                if ( response.count_loaded > 0 ) {
+                    var html = $('<div></div>').html( $.trim( response.html ) );
 
-					this.target[ this.options.append ? 'append' : 'prepend' ]( html.html() );
-					this.element.attr( 'data-param-last_id', oResponse.last_id );
+                    if ( html.find( this.options.target ).length ) {
+                        html = html.find( this.options.target ).first();
+                    }
 
-					// Обновляем счетчик
-					if (this.counter.length) {
-						var iCountLeft = this.getCount() - oResponse.count_loaded;
+                    this.target[ this.options.append ? 'append' : 'prepend' ]( html.html() );
 
-						if (iCountLeft <= 0) {
-							this.element.remove();
-						} else {
-							this.setCount( iCountLeft );
-						}
-					}
+                    // Обновляем счетчик
+                    if ( this.elements.counter.length ) {
+                        var countLeft = this.getCount() - response.count_loaded;
 
-					// Обновляем параметры
-					$.each(this.options.proxy,function( k, v ) {
-						if ( oResponse[k] ) {
-							this.options.proxy[k] = oResponse[k];
-						}
-					}.bind(this));
+                        if ( countLeft <= 0 ) {
+                            this.destroy();
+                            this.element.remove();
+                        } else {
+                            this.setCount( countLeft );
+                        }
+                    }
 
-					if ( oResponse.bHideMore ) {
-						this.element.remove();
-					}
-				} else {
-					// Для блоков без счетчиков
-					// TODO: i18n
-					ls.msg.notice(null, 'Больше нечего подгружать');
-					this.element.remove();
-				}
+                    // Обновляем параметры
+                    $.each( this.options.proxy, function( k, v ) {
+                        if ( response[ v ] ) this._setParam( v, response[ v ] );
+                    }.bind( this ));
 
-				this.unlock();
+                    if ( response.hide ) {
+                        this.destroy();
+                        this.element.remove();
+                    }
+                } else {
+                    // Для блоков без счетчиков
+                    ls.msg.notice( null, ls.lang.get( 'more.empty' ) );
 
-				this._trigger("afterload", null, { context: this, response: oResponse });
-			}.bind(this));
-		}
-	});
+                    this.destroy();
+                    this.element.remove();
+                }
+
+                this.unlock();
+
+                this._trigger("afterload", null, { context: this, response: response });
+            });
+        }
+    });
 })(jQuery);

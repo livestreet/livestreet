@@ -1,30 +1,33 @@
 /**
  * Подгрузка контента
  *
- * @template components/more/more.tpl
- * @scripts <common>/js/more.js
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 .more {
-	display: block;
-	overflow: hidden;
-	padding: 12px 0;
-	margin-top: 30px;
-	text-align: center;
-	background-color: #fafafa;
-	color: #aaa;
-	border-top: 1px solid #eee;
-	text-decoration: none;
-	cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 12px;
+    margin-top: 30px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #B39DDB;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    -webkit-transition: background-color .2s;
+            transition: background-color .2s;
 }
 .more:hover {
-	background-color: #f7f7f7;
-	color: #555;
+    background-color: #9575CD;
 }
+
 .more.loading {
-	text-indent: -200%;
+    text-indent: -9999px;
+}
+.more.more--locked {
+    background-color: #D1C4E9;
+    cursor: not-allowed;
 }
