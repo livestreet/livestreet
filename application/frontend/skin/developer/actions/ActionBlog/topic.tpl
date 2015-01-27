@@ -17,7 +17,7 @@
     {component 'comment' template='comments'
         comments      = $comments
         count         = $topic->getCountComment()
-        classes       = 'js-comments-topic'
+        classes       = 'js-topic-comments'
         attributes    = [ 'id' => 'comments' ]
         targetId      = $topic->getId()
         targetType    = 'topic'
@@ -30,6 +30,9 @@
         isSubscribed  = $topic->getSubscribeNewComment() && $topic->getSubscribeNewComment()->getStatus()
         lastCommentId = $lastCommentId
         pagination    = $pagingComments
-        useVote       = true
-        useFavourite  = true}
+        commentParams = [
+            useVote       => true,
+            useEdit       => true,
+            useFavourite  => true
+        ]}
 {/block}

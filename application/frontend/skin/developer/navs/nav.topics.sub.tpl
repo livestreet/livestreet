@@ -15,7 +15,7 @@
             [ 'name' => 'top',       'url' => "{$sNavTopicsSubUrl}top/",       'text' => {lang name='blog.menu.all_top'} ]
         ]}
 
-    {component 'sort' template='timespan'}
+    {component 'sort' template='timespan' activeItem=$periodSelectCurrent}
 {/if}
 
 {hook run='nav_topics_sub_after' sMenuSubItemSelect=$sMenuSubItemSelect sNavTopicsSubUrl=$sNavTopicsSubUrl}

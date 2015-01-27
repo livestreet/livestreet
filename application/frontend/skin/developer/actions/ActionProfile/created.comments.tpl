@@ -13,5 +13,5 @@
 
 {block 'layout_content' append}
     {include 'navs/nav.user.created.tpl'}
-    {component 'comment' template='list' comments=$comments paging=$paging}
+    {component 'comment' template='list' comments=$comments paging=$paging classes='js-topic-comments-list'}
 {/block}

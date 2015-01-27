@@ -19,7 +19,8 @@
 
     {* Сортировка *}
     {component 'sort' template='ajax'
-        classes = 'js-search-sort'
+        classes = 'js-search-sort js-search-sort-menu'
+        text = $aLang.sort.by_rating
         items = [
             [ name => 'user_rating',        text => $aLang.sort.by_rating, order => 'asc' ],
             [ name => 'user_login',         text => $aLang.sort.by_login ],

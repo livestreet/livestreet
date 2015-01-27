@@ -21,7 +21,8 @@
 
     {* Сортировка *}
     {component 'sort' template='ajax'
-        classes = 'js-search-sort'
+        classes = 'js-search-sort js-search-sort-menu'
+        text = $aLang.blog.sort.by_users
         items = [
             [ name => 'blog_count_user',  text => $aLang.blog.sort.by_users ],
             [ name => 'blog_count_topic', text => $aLang.blog.sort.by_topics ],

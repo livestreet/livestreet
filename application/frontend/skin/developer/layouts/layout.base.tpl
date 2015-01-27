@@ -23,7 +23,7 @@
 {block 'layout_head' append}
     <script>
         ls.lang.load({json var = $aLangJs});
-        ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, field.geo.select_city, field.geo.select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last, user.actions.unfollow, user.actions.follow, user.friends.status.added, user.friends.status.notfriends, user.friends.status.pending, user.friends.status.rejected, user.friends.status.sent, user.friends.status.linked, blog.blocks.navigator.blog, user.settings.profile.notices.error_max_userfields, common.remove_confirm"});
+        ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, field.geo.select_city, field.geo.select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last, user.actions.unfollow, user.actions.follow, user.friends.status.added, user.friends.status.notfriends, user.friends.status.pending, user.friends.status.rejected, user.friends.status.sent, user.friends.status.linked, blog.blocks.navigator.blog, user.settings.profile.notices.error_max_userfields, common.remove_confirm, more.empty"});
 
         ls.registry.set({json var = $aVarsJs});
         ls.registry.set('comment_max_tree', {json var=Config::Get('module.comment.max_tree')});
@@ -38,7 +38,7 @@
         <style>
             .grid-role-userbar,
             .grid-role-nav .nav--main,
-            .grid-role-header .site-info,
+            .grid-role-header .jumbotron-inner,
             .grid-role-container {
                 min-width: {cfg name='view.grid.fluid_min_width'};
                 max-width: {cfg name='view.grid.fluid_max_width'};
@@ -48,7 +48,7 @@
         <style>
             .grid-role-userbar,
             .grid-role-nav .nav--main,
-            .grid-role-header .site-info,
+            .grid-role-header .jumbotron-inner,
             .grid-role-container { width: {cfg name='view.grid.fixed_width'}; }
         </style>
     {/if}
@@ -65,16 +65,11 @@
      * Шапка
      *}
     {if Config::Get( 'view.layout_show_banner' )}
-        <header class="grid-row grid-role-header" role="banner">
-            {hook run='header_banner_begin'}
-
-            <div class="site-info">
-                <h1 class="site-name"><a href="{router page='/'}">{cfg name='view.name'}</a></h1>
-                <h2 class="site-description">{cfg name='view.description'}</h2>
-            </div>
-
-            {hook run='header_banner_end'}
-        </header>
+        {component 'jumbotron'
+            title    = Config::Get('view.name')
+            subtitle = Config::Get('view.description')
+            titleUrl = {router page='/'}
+            classes  = 'grid-role-header'}
     {/if}
 
 

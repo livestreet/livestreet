@@ -17,18 +17,6 @@
     background: #fff;
     padding: 40px !important;
 }
-.grid-role-header {
-    padding: 65px 50px;
-    background-color: #000;
-    background-image: url(../images/header.jpg);
-    -webkit-background-size: cover;
-    background-size: cover;
-}
-.grid-role-nav {
-    padding: 0 50px;
-    margin-bottom: 10px;
-    background: #222;
-}
 .grid-role-nav .nav.nav--main {
     margin: 0 auto;
 }
@@ -50,33 +38,39 @@
 
 /* Responsive */
 @media (max-width: 999px)  {
-    .grid-role-content { width: 100%; margin-bottom: 30px; }
-    .grid-role-sidebar { width: 100%; margin-bottom: 30px; padding: 0; }
+    .grid-role-content { width: 100% !important; margin-bottom: 30px; padding: 15px !important; }
+    .grid-role-sidebar { width: 100% !important; margin-bottom: 30px; padding: 0; }
+
+    .toolbar {
+        display: none;
+    }
+}
+@media (max-width: 480px)  {
+    .grid-role-container {
+        padding: 0;
+    }
+}
+
+/**
+ * Главное меню
+ */
+.grid-role-nav {
+    padding: 0 50px;
+    margin-bottom: 10px;
+    background: #222;
+}
+
+@media (max-width: 480px)  {
+    .grid-role-nav {
+        padding: 0;
+        margin-bottom: 0;
+    }
 }
 
 
 /**
  * Шапка сайта
  */
-.grid-role-header a {
-    text-decoration: none;
-    color: #fff;
-}
-.grid-role-header .site-info {
-    margin: 0 auto;
-}
-.grid-role-header .site-name {
-    margin: 0 0 10px;
-    font-size: 65px;
-    line-height: 1em;
-    font-weight: 300;
-}
-.grid-role-header .site-name a:hover {
-    color: #fff;
-    opacity: .9;
-}
-.grid-role-header .site-description {
-    max-width: 600px;
-    color: #fff;
-    font-size: 15px;
+.jumbotron {
+    background-image: url(../images/header.jpg);
 }

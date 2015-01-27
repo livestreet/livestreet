@@ -469,11 +469,16 @@ jQuery(document).ready(function($){
 	});
 
 	// Комментарии
-	$('.js-comments-topic').lsComments({
+	$('.js-topic-comments, .js-topic-comments-list').lsComments({
 		urls: {
 			add:  aRouter['blog'] + 'ajaxaddcomment/',
 			load: aRouter['blog'] + 'ajaxresponsecomment/'
 		}
+	});
+
+	// Кнопка обновления комментариев
+	$('.js-comments-toolbar').lsCommentsToolbar({
+		comments: $('.js-topic-comments')
 	});
 
 
@@ -544,7 +549,6 @@ jQuery(document).ready(function($){
 		offsetX: 10
 	});
 	$('.js-toolbar-scrollup').lsToolbarScrollUp();
-	$('.js-toolbar-comments').lsToolbarComments();
 	$('.js-toolbar-topics').lsToolbarTopics();
 
 
