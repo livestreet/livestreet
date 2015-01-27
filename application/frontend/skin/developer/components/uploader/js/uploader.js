@@ -21,7 +21,7 @@
 				// Загрузка файла
 				upload: aRouter['ajax'] + 'media/upload/',
 				// Генерация временного хэша
-				generate_target_tmp: aRouter['ajax'] + 'media/generate-target-tmp/',
+				generate_target_tmp: aRouter['ajax'] + 'media/generate-target-tmp/'
 			},
 
 			// Селекторы
@@ -42,7 +42,7 @@
 				// Drag & drop зона
 				upload_zone:  '.js-uploader-area',
 				// Инпут
-				upload_input: '.js-uploader-file',
+				upload_input: '.js-uploader-file'
 			},
 
 			// Классы
@@ -86,8 +86,14 @@
 			// Получение параметров
 			this.option( 'params', $.extend( {}, this.option( 'params' ), ls.utils.getDataOptions( this.element, 'param' ) ) );
 
-			// Генерация временного хэша для привязки
-			// TODO: Перенести в media
+			/**
+			 * Генерация временного хэша для привязки
+			 * TODO: Перенести в media
+			 *
+			 * Может быть ситуация, когда на странице несколько аплоадеров для одного типа таргета медиа
+			 * В итоге они все делают запрос на получение временного ключа и перезаписывают его
+			 * Нужно использовать внешний триггер для фиксации первого запроса
+			 */
 			if ( ! this.option( 'params.target_id' ) ) {
 				this.option( 'params.target_tmp', this.element.data( 'tmp' ) || $.cookie( 'media_target_tmp_' + this.option( 'params.target_type' ) ) );
 
@@ -186,13 +192,23 @@
 
 		/**
 		 * Генерация хэша для привязки к нему загруженных файлов
+		 * Суть в том, чтобы не делать несколько запросов на генерацию для одного типа (когда на одной странице несколько аплоадеров)
 		 */
 		generateTargetTmp: function() {
-			ls.ajax.load( this.option( 'urls.generate_target_tmp' ), {
-				type: this.option( 'params.target_type' )
-			}, function( response ) {
-				this.option( 'params.target_tmp', response.sTmpKey || null );
-			}.bind( this ));
+			var key='ls.media.target_tmp_create_request_' + this.option( 'params.target_type' );
+			if (ls.registry.get(key)) {
+				$(window).bind(key, function(e, sTmpKey){
+					this.option( 'params.target_tmp', sTmpKey || null );
+				}.bind( this ));
+			} else {
+				ls.registry.set(key, true);
+				ls.ajax.load( this.option( 'urls.generate_target_tmp' ), {
+					type: this.option( 'params.target_type' )
+				}, function( response ) {
+					$(window).trigger(key,[response.sTmpKey]);
+					this.option( 'params.target_tmp', response.sTmpKey || null );
+				}.bind( this ));
+			}
 		},
 
 		/**
@@ -239,6 +255,6 @@
 		 */
 		getElement: function( name ) {
 			return this.elements[ name ];
-		},
+		}
 	});
 })(jQuery);

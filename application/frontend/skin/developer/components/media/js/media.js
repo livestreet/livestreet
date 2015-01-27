@@ -30,7 +30,7 @@
 				// Загрузка файла по ссылке
 				url_upload: aRouter.ajax + 'media/upload-link/',
 				// Вставка файла по ссылке
-				url_insert: aRouter.ajax + 'media/upload-insert/',
+				url_insert: aRouter.ajax + 'media/upload-insert/'
 			},
 
 			// Селекторы
@@ -86,7 +86,7 @@
 					submit_upload: this.element.find( this.option( 'selectors.url.submit_upload' ) ),
 					submit_insert: this.element.find( this.option( 'selectors.url.submit_insert' ) ),
 					image_preview: this.element.find( this.option( 'selectors.url.image_preview' ) )
-				},
+				}
 			};
 
 			this.elements.url.blocks = this.elements.url.block_container.find( this.option( 'selectors.block' ) );
@@ -301,6 +301,6 @@
 				validate: false,
 				submitButton: this.elements.url[ upload ? 'submit_upload' : 'submit_insert' ]
 			});
-		},
+		}
 	});
 })(jQuery);

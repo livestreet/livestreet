@@ -62,7 +62,7 @@ $.widget( "livestreet.lsEditorMarkup", {
 					{ name: ls.lang.get('panel_clear_tags'), className: 'editor-clean', replaceWith: function( markitup ) { return markitup.selection.replace(/<(.*?)>/g, "") } }
 				]
 			}
-		},
+		}
 	},
 
 	/**

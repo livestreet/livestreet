@@ -20,7 +20,7 @@
             urls: {
                 create: aRouter['ajax'] + 'media/create-preview-file/',
                 remove: aRouter['ajax'] + 'media/remove-preview-file/',
-                load: aRouter['ajax'] + 'media/load-preview-items/',
+                load: aRouter['ajax'] + 'media/load-preview-items/'
             },
             // Селекторы
             selectors: {
@@ -29,7 +29,7 @@
                 image: '.js-field-image-ajax-image',
                 modal: '.js-field-image-ajax-modal',
                 uploader: '.js-field-image-ajax-modal .js-uploader-modal',
-                choose: '.js-field-image-ajax-modal .js-uploader-modal-choose',
+                choose: '.js-field-image-ajax-modal .js-uploader-modal-choose'
             },
             params: {}
         },
@@ -48,6 +48,8 @@
             this.elements.modal.lsModal({
                 aftershow: function () {
                     _this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
+                    // т.к. генерация происходит после инициализации
+                    _this._setParam( 'target_tmp', _this.elements.uploader.lsUploader( 'option', 'params.target_tmp' ) );
                 }
             });
 
@@ -63,7 +65,6 @@
             this.elements.remove.on( 'click' + this.eventNamespace, this.remove.bind( this ) );
             this.elements.choose.on( 'click' + this.eventNamespace, this.createPreview.bind( this ) );
 
-            this._setParam( 'target_tmp', this.elements.uploader.lsUploader( 'option', 'params.target_tmp' ) );
         },
 
         /**
@@ -102,6 +103,6 @@
             this._load( 'load', function( response ) {
                 this.elements.image.removeClass( 'loading' ).show().html( $.trim( response.sTemplatePreview ) );
             });
-        },
+        }
     });
 })(jQuery);

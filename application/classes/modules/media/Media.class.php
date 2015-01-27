@@ -39,7 +39,8 @@ class ModuleMedia extends ModuleORM
     const TYPE_CHECK_ALLOW_ADD = 'add';
     const TYPE_CHECK_ALLOW_REMOVE = 'remove';
     const TYPE_CHECK_ALLOW_UPDATE = 'update';
-    const TYPE_CHECK_ALLOW_PREVIEW = 'preview';
+    const TYPE_CHECK_ALLOW_PREVIEW = 'preview'; // возможность создания превью для объекта
+    const TYPE_CHECK_ALLOW_VIEW_LIST = 'view_list'; // просмотр списка медиа у объекта
     /**
      * Объект текущего пользователя
      *
@@ -605,7 +606,9 @@ class ModuleMedia extends ModuleORM
 
     /**
      * Возвращает список media с учетов прав доступа текущего пользователя
-     *
+     * В методе происходит проверка на права:
+     * 1. разрешаем объекты, которые создал пользователь
+     * 2. разрешаем объекты, которые связаны таргетом, к которому у пользователя есть доступ на редактирование
      * @param array $aId
      *
      * @return array
@@ -616,18 +619,64 @@ class ModuleMedia extends ModuleORM
         foreach ((array)$aId as $iId) {
             $aIdItems[] = (int)$iId;
         }
+        $aIdItemsAll = $aIdItems;
 
         if (is_array($aIdItems) and count($aIdItems)) {
             $iUserId = $this->oUserCurrent ? $this->oUserCurrent->getId() : null;
-            return $this->Media_GetMediaItemsByFilter(array(
+            $aMediaItems = $this->Media_GetMediaItemsByFilter(array(
                     '#where' => array(
                         'id in (?a) AND ( user_id is null OR user_id = ?d )' => array(
                             $aIdItems,
                             $iUserId
                         )
-                    )
+                    ),
+                    '#index-from-primary'
                 )
             );
+
+            /**
+             * Смотрим что осталось
+             */
+            if (!is_null($iUserId) and $aIdItems = array_diff($aIdItems, array_keys($aMediaItems))) {
+                $aMediaAllowIds = array();
+                $aTargetMediaGroup = $this->GetTargetItemsByFilter(array(
+                    'media_id in'  => $aIdItems,
+                    '#index-group' => 'media_id'
+                ));
+                $_this = $this;
+                foreach ($aTargetMediaGroup as $iMediaId => $aTargetMedia) {
+                    /**
+                     * Проверяем каждый таргет
+                     */
+                    foreach ($aTargetMedia as $oTargetMedia) {
+                        if ($this->Cache_Remember("media_check_target_{$oTargetMedia->getTargetType()}_{$oTargetMedia->getTargetId()}",
+                            function () use ($_this, $oTargetMedia) {
+                                return $_this->CheckTarget($oTargetMedia->getTargetType(), $oTargetMedia->getTargetId(),
+                                    self::TYPE_CHECK_ALLOW_ADD);
+                            }, false, array(), 'life', true)
+                        ) {
+                            $aMediaAllowIds[] = $oTargetMedia->getMediaId();
+                            break;
+                        }
+                    }
+                }
+                if ($aMediaAllowIds) {
+                    $aMediaItems = $aMediaItems + $this->GetMediaItemsByFilter(array(
+                            'id in' => $aMediaAllowIds,
+                            '#index-from-primary'
+                        ));
+                }
+            }
+            /**
+             * Нужно отсортировать по первоначальному массиву $aIdItems
+             */
+            $aReturn = array();
+            foreach ($aIdItemsAll as $iId) {
+                if (isset($aMediaItems[$iId])) {
+                    $aReturn[$iId] = $aMediaItems[$iId];
+                }
+            }
+            return $aReturn;
         }
         return array();
     }
@@ -646,9 +695,12 @@ class ModuleMedia extends ModuleORM
     {
         if (isset($aParams['items'])) {
             $aItems = explode(',', $aParams['items']);
+            $aItems = array_unique($aItems);
+        } else {
+            return '';
         }
 
-        if (!(isset($aItems) and $aMediaItems = $this->Media_GetAllowMediaItemsById($aItems))) {
+        if (!($aMediaItems = $this->GetAllowMediaItemsById($aItems))) {
             return '';
         }
 
@@ -665,7 +717,7 @@ class ModuleMedia extends ModuleORM
             if (isset($aParams['caption']) and $aParams['caption']) {
                 $aParamsMedia['data']['caption'] = htmlspecialchars($oMedia->getDataOne('title'));
             }
-            $sTextResult .= "\t" . $this->Media_BuildCodeForEditor($oMedia, $aParamsMedia) . "\r\n";
+            $sTextResult .= "\t" . $this->BuildCodeForEditor($oMedia, $aParamsMedia) . "\r\n";
         }
         $sTextResult .= "</div>\r\n";
         return $sTextResult;
@@ -1068,7 +1120,8 @@ class ModuleMedia extends ModuleORM
         if (!$oUser = $aParams['user']) {
             return false;
         }
-        if (in_array($sAllowType, array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_PREVIEW))) {
+        if (in_array($sAllowType,
+            array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_PREVIEW, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
             if (is_null($iTargetId)) {
                 /**
                  * Разрешаем для всех новых топиков
@@ -1104,7 +1157,7 @@ class ModuleMedia extends ModuleORM
         if (!$oUser = $aParams['user']) {
             return false;
         }
-        if ($sAllowType == self::TYPE_CHECK_ALLOW_ADD) {
+        if (in_array($sAllowType, array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
             if (is_null($iTargetId)) {
                 /**
                  * Разрешаем для всех новых комментариев
@@ -1140,7 +1193,7 @@ class ModuleMedia extends ModuleORM
         if (!$oUser = $aParams['user']) {
             return false;
         }
-        if ($sAllowType == self::TYPE_CHECK_ALLOW_ADD) {
+        if (in_array($sAllowType, array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
             if (is_null($iTargetId)) {
                 /**
                  * Разрешаем для всех новых блогов
@@ -1176,10 +1229,10 @@ class ModuleMedia extends ModuleORM
         if (!$oUser = $aParams['user']) {
             return false;
         }
-        if ($sAllowType == self::TYPE_CHECK_ALLOW_ADD) {
+        if (in_array($sAllowType, array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
             if (is_null($iTargetId)) {
                 /**
-                 * Разрешаем для всех новых блогов
+                 * Разрешаем для всех новых сообщений
                  */
                 return true;
             }

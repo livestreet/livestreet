@@ -11,7 +11,7 @@
 
 {block 'layout_content'}
     {* Топик *}
-    {component 'topic' topic=$topic}
+    {component 'topic' template='topic-type' topic=$topic}
 
     {* Комментарии *}
     {component 'comment' template='comments'
