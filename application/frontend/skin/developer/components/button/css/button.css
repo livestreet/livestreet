@@ -28,19 +28,15 @@
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
-    -webkit-transition: background .2s, color .2s;
-       -moz-transition: background .2s, color .2s;
-            transition: background .2s, color .2s;
-}
-.button:active {
-    position: relative;
-    top: 1px;
+    -webkit-transition: background .1s, color .1s;
+       -moz-transition: background .1s, color .1s;
+            transition: background .1s, color .1s;
 }
 .button:active,
 .button.active {
     outline: none;
-    -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+    -webkit-box-shadow: inset 0 0px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 0 7px rgba(0,0,0,.2);
 }
 
 /* Icon */
@@ -48,7 +44,7 @@
 .button [class*=" icon-"] {
     float: left;
     position: relative;
-    margin-right: 5px;
+    margin: 0px 5px 1px 0;
 }
 
 /**
@@ -59,6 +55,8 @@
     background-color: #fff;
     border-color: #ccc;
 }
+.button:active,
+.button.active,
 .button:hover {
     color: #333;
     background-color: #e6e6e6;
@@ -70,6 +68,8 @@
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+.button--primary:active,
+.button--primary.active,
 .button--primary:hover {
     color: #fff;
     background-color: #286090;
@@ -81,6 +81,8 @@
     background-color: #5cb85c;
     border-color: #4cae4c;
 }
+.button--success:active,
+.button--success.active,
 .button--success:hover {
     color: #fff;
     background-color: #449d44;
@@ -92,6 +94,8 @@
     background-color: #5bc0de;
     border-color: #46b8da;
 }
+.button--info:active,
+.button--info.active,
 .button--info:hover {
     color: #fff;
     background-color: #31b0d5;
@@ -103,6 +107,8 @@
     background-color: #f0ad4e;
     border-color: #eea236;
 }
+.button--warning:active,
+.button--warning.active,
 .button--warning:hover {
     color: #fff;
     background-color: #ec971f;
@@ -114,6 +120,8 @@
     background-color: #d9534f;
     border-color: #d43f3a;
 }
+.button--danger:active,
+.button--danger.active,
 .button--danger:hover {
     color: #fff;
     background-color: #c9302c;
@@ -143,9 +151,9 @@
 /**
  * Icon
  */
-.button.button--icon { padding-left: 6px; padding-right: 6px; }
+.button.button--icon { padding-left: 8px; padding-right: 8px; }
 .button.button--icon [class^="icon-"],
-.button.button--icon [class*=" icon-"] { margin: 0; }
+.button.button--icon [class*=" icon-"] { margin-right: 0; }
 
 /**
  * Sizes

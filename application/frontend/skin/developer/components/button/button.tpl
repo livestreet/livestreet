@@ -17,23 +17,31 @@
 {* Название компонента *}
 {$component = 'button'}
 
+{$mods = $smarty.local.mods}
+{$icon = $smarty.local.icon}
+
+{if $icon && ! $text}
+    {$mods = "$mods icon"}
+{/if}
+
 {* Если указана ссылка url то заменяем тег <button> на <a> *}
 <{( $smarty.local.url ) ? 'a' : 'button'}
         {if ! $smarty.local.url}
-            type="{( $smarty.local.type ) ? $smarty.local.type : 'submit'}"
+            type="{$smarty.local.type|default:'submit'}"
             value="{if $smarty.local.value}{$smarty.local.value}{elseif isset( $_aRequest[ $smarty.local.name ] )}{$_aRequest[ $smarty.local.name ]}{/if}"
             {if $smarty.local.isDisabled}disabled{/if}
             {if $smarty.local.form}form="{$smarty.local.form}"{/if}
         {else}
             href="{$smarty.local.url}"
+            role="button"
         {/if}
         {if $smarty.local.id}id="{$smarty.local.id}"{/if}
         {if $smarty.local.name}name="{$smarty.local.name}"{/if}
-        class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+        class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}"
         {cattr list=$smarty.local.attributes}>
     {* Иконка *}
-    {if $smarty.local.icon}
-        <i class="{$smarty.local.icon}"></i>
+    {if $icon}
+        {component 'icon' icon=$icon attributes=[ 'aria-hidden' => 'true' ]}
     {/if}
 
     {* Текст *}

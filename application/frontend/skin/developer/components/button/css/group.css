@@ -1,0 +1,50 @@
+/**
+ * Группировка кнопок
+ * Стили частично позаимствованы у бутстрапа
+ *
+ * @module ls/button/group
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.button-group {
+    display: inline-block;
+}
+.button-group > .dropdown,
+.button-group > .button {
+    float: left;
+    position: relative;
+}
+
+/* Переносим кнопки вперед, */
+/* чтобы бордеры нормально отображались при ховере и фокусе */
+.button-group .button:hover,
+.button-group .button:focus {
+    z-index: 2;
+}
+
+/* Убираем двойные бордеры */
+.button-group > * + * {
+    margin-left: -1px;
+}
+.button-group > *:first-child {
+    margin-left: 0;
+}
+
+/* Убираем закругления у кнопок посередине */
+.button-group > .dropdown:not(:last-child):not(:first-child) > .button,
+.button-group > .button:not(:last-child):not(:first-child) {
+    border-radius: 0;
+}
+.button-group > .dropdown:first-child:not(:last-child) > .button,
+.button-group > .button:first-child:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.button-group > .dropdown:last-child:not(:first-child) > .button,
+.button-group > .button:last-child:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
