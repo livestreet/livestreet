@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "templates": {
         "dropdown": "dropdown.tpl",
-        "menu": "dropdown.menu.tpl"
+        "menu": "dropdown-menu.tpl"
     },
     "scripts": {
         "dropdown": "js/dropdown.js"

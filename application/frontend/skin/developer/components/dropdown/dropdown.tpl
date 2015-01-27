@@ -9,18 +9,42 @@
 {* Название компонента *}
 {$component = 'dropdown'}
 
-{* Уникальный ID для привязки кнопки к меню *}
-{$uid = "dropdown{rand( 0, 10e10 )}"}
+{foreach [ 'text', 'activeItem', 'activeItem', 'menu', 'classes', 'attributes' ] as $param}
+    {assign var="$param" value=$smarty.local.$param}
+{/foreach}
 
-{* Кнопка *}
-{component 'button'
-    type       = 'button'
-    classes    = "{$component}-toggle {$smarty.local.classes}"
-    attributes = array_merge( $smarty.local.attributes|default:[], [ 'data-dropdown-target' => $uid ] )
-    text       = $smarty.local.text}
+{if ! $smarty.local.text}
+    {$mods = "$mods no-text"}
+{/if}
 
-{* Меню *}
-{include './dropdown.menu.tpl'
-    id         = $uid
-    activeItem = $smarty.local.activeItem
-    items      = $smarty.local.menu}
+{block 'dropdown_options'}{/block}
+
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
+    {* Кнопка *}
+    {if $smarty.local.isSplit}
+        {component 'button' template='group' buttons=[
+            [ 'text' => $smarty.local.text, 'mods' => $mods, 'attributes' => [ 'tabindex' => -1 ] ],
+            {component 'button'
+                type       = 'button'
+                classes    = "{$component}-toggle js-dropdown-toggle"
+                mods       = "{$mods} no-text"
+                attributes = array_merge( $attributes|default:[], [
+                    'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false'
+                ])}
+        ]}
+    {else}
+        {component 'button'
+            type       = 'button'
+            classes    = "{$component}-toggle js-dropdown-toggle"
+            mods       = $mods
+            text       = $smarty.local.text
+            attributes = array_merge( $attributes|default:[], [
+                'aria-haspopup' => 'true',
+                'aria-expanded' => 'false'
+            ])}
+    {/if}
+
+    {* Меню *}
+    {include './dropdown-menu.tpl' activeItem=$activeItem items=$menu}
+</div>
