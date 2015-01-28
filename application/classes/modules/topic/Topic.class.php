@@ -167,10 +167,10 @@ class ModuleTopic extends Module
             } else {
                 $oTopic->setUser(null); // или $oTopic->setUser(new ModuleUser_EntityUser());
             }
-            $aBlogsTopic=array();
-            foreach($oTopic->getBlogIds() as $iBlogId) {
+            $aBlogsTopic = array();
+            foreach ($oTopic->getBlogIds() as $iBlogId) {
                 if (isset($aBlogs[$iBlogId])) {
-                    $aBlogsTopic[]=$aBlogs[$iBlogId];
+                    $aBlogsTopic[] = $aBlogs[$iBlogId];
                 }
             }
             $oTopic->setBlogs($aBlogsTopic);
@@ -266,22 +266,23 @@ class ModuleTopic extends Module
      * Удаляет топик.
      * Если тип таблиц в БД InnoDB, то удалятся всё связи по топику(комменты,голосования,избранное)
      *
-     * @param ModuleTopic_EntityTopic|int $oTopicId Объект топика или ID
+     * @param ModuleTopic_EntityTopic|int $oTopic Объект топика или ID
      * @return bool
      */
-    public function DeleteTopic($oTopicId)
+    public function DeleteTopic($oTopic)
     {
-        if ($oTopicId instanceof ModuleTopic_EntityTopic) {
-            $sTopicId = $oTopicId->getId();
+        if ($oTopic instanceof ModuleTopic_EntityTopic) {
+            $sTopicId = $oTopic->getId();
             $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-                array("topic_update_user_{$oTopicId->getUserId()}"));
+                array("topic_update_user_{$oTopic->getUserId()}"));
         } else {
-            $sTopicId = $oTopicId;
+            $sTopicId = $oTopic;
+            $oTopic = $this->GetTopicById($sTopicId);
         }
         /**
          * Удаляем дополнительные поля
          */
-        $this->Property_RemovePropertiesValue(($oTopicId instanceof ModuleTopic_EntityTopic) ? $oTopicId : $this->GetTopicById($oTopicId));
+        $this->Property_RemovePropertiesValue($oTopic);
         /**
          * Чистим зависимые кеши
          */
@@ -291,6 +292,11 @@ class ModuleTopic extends Module
          * Если топик успешно удален, удаляем связанные данные
          */
         if ($this->oMapperTopic->DeleteTopic($sTopicId)) {
+            /**
+             * Обновляем счетчики топиков в блогах
+             */
+            $this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogsId());
+
             return $this->DeleteTopicAdditionalData($sTopicId);
         }
 
@@ -1213,11 +1219,12 @@ class ModuleTopic extends Module
                 break;
         }
         $this->Hook_Run('get_topics_by_custom_filter',
-            array('aFilter'   => &$aFilter,
-                  'iPage'     => $iPage,
-                  'iPerPage'  => $iPerPage,
-                  'sShowType' => $sShowType,
-                  'sMethod'   => __FUNCTION__
+            array(
+                'aFilter'   => &$aFilter,
+                'iPage'     => $iPage,
+                'iPerPage'  => $iPerPage,
+                'sShowType' => $sShowType,
+                'sMethod'   => __FUNCTION__
             ));
         return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
     }

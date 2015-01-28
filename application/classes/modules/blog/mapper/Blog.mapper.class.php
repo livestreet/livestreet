@@ -531,7 +531,13 @@ class ModuleBlog_MapperBlog extends Mapper
                     SELECT count(*)
                     FROM " . Config::Get('db.table.topic') . " t
                     WHERE
-                        t.blog_id = b.blog_id
+                       (
+                            t.blog_id = b.blog_id OR
+                            t.blog_id2 = b.blog_id OR
+                            t.blog_id3 = b.blog_id OR
+                            t.blog_id4 = b.blog_id OR
+                            t.blog_id5 = b.blog_id
+                       )
                     AND
                         t.topic_publish = 1
                 )
