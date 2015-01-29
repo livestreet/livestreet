@@ -23,7 +23,28 @@
     </table>
 {/capture}
 
-{test_example content=$smarty.capture.test_example_content}
+{capture 'test_example_code'}
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{$smarty.section.table_rows.index + 1}</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+        </tr>
+
+        ...
+    </tbody>
+</table>
+{/capture}
+
+{test_example content=$smarty.capture.test_example_content code=$smarty.capture.test_example_code}
 
 
 {**
@@ -53,7 +74,13 @@
     </table>
 {/capture}
 
-{test_example content=$smarty.capture.test_example_content showCode=false}
+{capture 'test_example_code'}
+<table class="table table--condensed">
+    ...
+</table>
+{/capture}
+
+{test_example content=$smarty.capture.test_example_content code=$smarty.capture.test_example_code}
 
 
 {**
@@ -83,7 +110,13 @@
     </table>
 {/capture}
 
-{test_example content=$smarty.capture.test_example_content showCode=false}
+{capture 'test_example_code'}
+<table class="table table--hover">
+    ...
+</table>
+{/capture}
+
+{test_example content=$smarty.capture.test_example_content code=$smarty.capture.test_example_code}
 
 
 {**
@@ -113,4 +146,10 @@
     </table>
 {/capture}
 
-{test_example content=$smarty.capture.test_example_content showCode=false}
+{capture 'test_example_code'}
+<table class="table table--striped">
+    ...
+</table>
+{/capture}
+
+{test_example content=$smarty.capture.test_example_content code=$smarty.capture.test_example_code}
