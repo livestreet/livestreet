@@ -1112,15 +1112,24 @@ class ModuleBlog extends Module
     /**
      * Пересчет количества топиков в конкретном блоге
      *
-     * @param int $iBlogId ID блога
+     * @param int|array $aBlogIds Список ID блогов
      * @return bool
      */
-    public function RecalculateCountTopicByBlogId($iBlogId)
+    public function RecalculateCountTopicByBlogId($aBlogIds)
     {
-        //чистим зависимые кеши
-        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('blog_update', "blog_update_{$iBlogId}"));
-        $this->Cache_Delete("blog_{$iBlogId}");
-        return $this->oMapperBlog->RecalculateCountTopic($iBlogId);
+        if (!is_array($aBlogIds)) {
+            $aBlogIds=array($aBlogIds);
+        }
+        if ($aBlogIds) {
+            foreach($aBlogIds as $iBlogId) {
+                //чистим зависимые кеши
+                $this->oMapperBlog->RecalculateCountTopic($iBlogId);
+                $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("blog_update_{$iBlogId}"));
+                $this->Cache_Delete("blog_{$iBlogId}");
+            }
+        }
+        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('blog_update'));
+        return true;
     }
 
     /**

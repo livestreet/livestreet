@@ -311,9 +311,10 @@ class ActionContent extends Action
             return $this->EventErrorDebug();
         }
         /**
-         * Сохраняем старое значение идентификатора блога
+         * Сохраняем старое значение идентификатора основного блога и всех блогов
          */
         $sBlogIdOld = $oTopic->getBlogId();
+        $aBlogsIdOld = $oTopic->getBlogsId();
 
         $oTopic->_setDataSafe(getRequest('topic'));
         $oTopic->setProperties(getRequest('property'));
@@ -407,10 +408,10 @@ class ActionContent extends Action
                 /**
                  * Обновляем количество топиков в блоге
                  */
-                if ($sBlogIdOld != $oTopic->getBlogId()) {
-                    $this->Blog_RecalculateCountTopicByBlogId($sBlogIdOld);
+                if ($aBlogsIdOld != $oTopic->getBlogsId()) {
+                    $this->Blog_RecalculateCountTopicByBlogId($aBlogsIdOld);
                 }
-                $this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+                $this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogsId());
                 /**
                  * Добавляем событие в ленту
                  */
@@ -536,9 +537,9 @@ class ActionContent extends Action
                  */
                 $oTopic = $this->Topic_GetTopicById($oTopic->getId());
                 /**
-                 * Обновляем количество топиков в блоге
+                 * Обновляем количество топиков в блогах
                  */
-                $this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogId());
+                $this->Blog_RecalculateCountTopicByBlogId($oTopic->getBlogsId());
                 /**
                  * Фиксируем ID у media файлов топика
                  */
