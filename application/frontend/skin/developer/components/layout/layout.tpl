@@ -52,14 +52,14 @@
             {$aHtmlHeadFiles.css}
         {/block}
 
-        <link href="{cfg name='path.skin.assets.web'}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
-        <link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{cfg name='view.name'}" />
+        <link href="{Config::Get('path.skin.assets.web')}/images/favicons/favicon.ico?v1" rel="shortcut icon" />
+        <link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{Config::Get('view.name')}" />
 
         <script>
             var PATH_ROOT                   = '{router page='/'}',
-                PATH_SKIN                   = '{cfg name="path.skin.web"}',
-                PATH_FRAMEWORK_FRONTEND     = '{cfg name="path.framework.frontend.web"}',
-                PATH_FRAMEWORK_LIBS_VENDOR  = '{cfg name="path.framework.libs_vendor.web"}',
+                PATH_SKIN                   = '{Config::Get('path.skin.web')}',
+                PATH_FRAMEWORK_FRONTEND     = '{Config::Get('path.framework.frontend.web')}',
+                PATH_FRAMEWORK_LIBS_VENDOR  = '{Config::Get('path.framework.libs_vendor.web')}',
 
                 LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
                 LANGUAGE                = '{Config::Get('lang.current')}',
@@ -108,7 +108,7 @@
     {$mods = "$mods user-role-not-admin"}
 {/if}
 
-{$mods = "$mods template-{cfg name='view.skin'} {cfg name='view.grid.type'}"}
+{$mods = "$mods template-{Config::Get('view.skin')} {Config::Get('view.grid.type')}"}
 
 <body class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$attributes}>
     {block 'layout_body'}{/block}

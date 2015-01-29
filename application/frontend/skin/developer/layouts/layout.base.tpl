@@ -34,14 +34,14 @@
     {**
      * Тип сетки сайта
      *}
-    {if {cfg name='view.grid.type'} == 'fluid'}
+    {if {Config::Get('view.grid.type')} == 'fluid'}
         <style>
             .grid-role-userbar,
             .grid-role-nav .nav--main,
             .grid-role-header .jumbotron-inner,
             .grid-role-container {
-                min-width: {cfg name='view.grid.fluid_min_width'};
-                max-width: {cfg name='view.grid.fluid_max_width'};
+                min-width: {Config::Get('view.grid.fluid_min_width')};
+                max-width: {Config::Get('view.grid.fluid_max_width')};
             }
         </style>
     {else}
@@ -49,7 +49,7 @@
             .grid-role-userbar,
             .grid-role-nav .nav--main,
             .grid-role-header .jumbotron-inner,
-            .grid-role-container { width: {cfg name='view.grid.fixed_width'}; }
+            .grid-role-container { width: {Config::Get('view.grid.fixed_width')}; }
         </style>
     {/if}
 {/block}

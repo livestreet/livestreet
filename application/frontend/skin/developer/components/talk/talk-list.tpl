@@ -66,7 +66,7 @@
                                 {* Участники диалога *}
                                 {if $usersCount > 2}
                                     <a href="{router page='talk'}read/{$talk->getId()}/" class="message-list-info-avatar">
-                                        <img src="{cfg name="path.skin.web"}/assets/images/avatars/avatar_male_64x64crop.png" />
+                                        <img src="{Config::Get('path.skin.web')}/assets/images/avatars/avatar_male_64x64crop.png" />
                                     </a>
 
                                     {lang name='talk.participants' count=$usersCount plural=true}

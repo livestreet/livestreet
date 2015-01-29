@@ -13,7 +13,7 @@
 {/block}
 
 {block 'block_content'}
-    {if $oUserCurrent && ($oUserCurrent->getRating() > {cfg name='acl.create.blog.rating'} or $oUserCurrent->isAdministrator())}
+    {if $oUserCurrent && ($oUserCurrent->getRating() > Config::Get('acl.create.blog.rating') or $oUserCurrent->isAdministrator())}
         <p>{$aLang.blog.can_add}</p>
 
         {component 'button' url="{router page='blog'}add/" mods='primary large' text=$aLang.blog.create_blog}
