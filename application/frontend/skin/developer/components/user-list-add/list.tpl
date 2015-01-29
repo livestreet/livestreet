@@ -8,7 +8,7 @@
  * @param array   $exclude
  *}
 
-{extends 'components/user/user-list-small.tpl'}
+{extends 'Component@user.user-list-small'}
 
 {block 'user_list_small_item'}
     {block 'user_list_add_item'}

@@ -1,4 +1,4 @@
-{extends 'components/user/user-list-small-item.tpl'}
+{extends 'Component@user.user-list-small-item'}
 
 {block 'user_list_small_item_options' append}
     {block 'user_list_add_item_options'}{/block}

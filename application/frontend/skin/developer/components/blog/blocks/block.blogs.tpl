@@ -2,7 +2,7 @@
  * Блок со списком блогов
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
     {$mods = "{$mods} blogs nopadding"}

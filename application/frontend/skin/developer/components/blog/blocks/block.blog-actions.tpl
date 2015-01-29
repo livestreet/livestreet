@@ -4,7 +4,7 @@
  * TODO: Уни-ать список экшенов
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
    {* TODO: Fix styles *}

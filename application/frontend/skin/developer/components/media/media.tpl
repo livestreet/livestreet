@@ -2,7 +2,7 @@
  * Загрузка медиа-файлов
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$mods = "$mods media"}

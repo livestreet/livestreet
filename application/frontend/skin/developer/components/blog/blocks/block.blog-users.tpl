@@ -2,7 +2,7 @@
  * Список пользователей блога
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_title'}
     {$usersCount = count($blogUsers)}

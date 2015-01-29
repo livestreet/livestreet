@@ -1,4 +1,4 @@
-{extends 'components/item/item.tpl'}
+{extends 'Component@item.item'}
 
 {block 'options' append}
     {if $user->getUser()}

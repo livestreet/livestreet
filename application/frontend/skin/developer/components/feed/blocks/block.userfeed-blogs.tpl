@@ -2,7 +2,7 @@
  * Выбор блогов для чтения в ленте
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
 	{$mods = "{$mods} feed-blogs"}

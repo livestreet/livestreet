@@ -2,7 +2,7 @@
  * 
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_type'}blog-actions{/block}
 

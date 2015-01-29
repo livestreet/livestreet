@@ -7,7 +7,7 @@
  * @param array  $attributes
  *}
 
-{extends 'components/button/toolbar.tpl'}
+{extends 'Component@button.toolbar'}
 
 {block 'button_toolbar_options' append}
     {$groups = $smarty.local.items}

@@ -4,7 +4,7 @@
  * @param array $types
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = "modal-complaint-user"}

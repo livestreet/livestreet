@@ -4,7 +4,7 @@
  * @styles css/blocks.css
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
 	{$mods = "{$mods} user-note nopadding transparent"}

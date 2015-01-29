@@ -4,7 +4,7 @@
  * @param object $blog
  *}
 
-{extends 'components/item/item.tpl'}
+{extends 'Component@item.item'}
 
 {block 'options' append}
     {$blog = $smarty.local.blog}

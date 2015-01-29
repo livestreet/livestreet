@@ -2,7 +2,7 @@
  * Модальное окно с предпросмотром видео для свойства с типом video
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = "modal-property-type-video-{$value->getId()}"}

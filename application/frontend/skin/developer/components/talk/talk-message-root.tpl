@@ -2,7 +2,7 @@
  * Первое сообщение в диалоге
  *}
 
-{extends 'components/article/article.tpl'}
+{extends 'Component@article.article'}
 
 {block 'article_options'}
 	{$article = $smarty.local.talk}

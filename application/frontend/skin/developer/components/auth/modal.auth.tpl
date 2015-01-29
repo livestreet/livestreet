@@ -2,7 +2,7 @@
  * Модальное окно с формами входа, регистрации и напоминанием пароля
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = 'modal-login'}

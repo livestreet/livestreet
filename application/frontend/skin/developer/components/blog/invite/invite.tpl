@@ -2,7 +2,7 @@
  * Приглашение пользователей в закрытый блог
  *}
 
-{extends 'components/user-list-add/user-list-add.tpl'}
+{extends 'Component@user-list-add.user-list-add'}
 
 {block 'user_list_add_list'}
     {include './invite-list.tpl'

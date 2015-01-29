@@ -6,7 +6,7 @@
  * @param string  $layoutShowSystemMessages Кастомный путь до навигации контента
  *}
 
-{extends 'components/layout/layout.tpl'}
+{extends 'Component@layout.layout'}
 
 {block 'layout_options' append}
     {$layoutShowSystemMessages = $layoutShowSystemMessages|default:true}

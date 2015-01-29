@@ -2,7 +2,7 @@
  * 
  *}
 
-{extends 'components/user-list-add/item.tpl'}
+{extends 'Component@user-list-add.item'}
 
 {block 'user_list_add_item_options' append}
     {if $userContainer && $userContainer->getUserActive() != $TALK_USER_ACTIVE}

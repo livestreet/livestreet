@@ -3,7 +3,7 @@
  * Выводится на странице администрирования пользователей закрытого блога.
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_title'}
     {$aLang.blog.invite.invite_users}

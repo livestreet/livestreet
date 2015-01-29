@@ -2,7 +2,7 @@
  * Выбор пользователей для чтения в ленте активности
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_title'}
     {$aLang.activity.users.title}

@@ -2,7 +2,7 @@
  * Список тегов
  *}
 
-{extends 'components/tags/tags.tpl'}
+{extends 'Component@tags.tags'}
 
 {block 'tags_list' append}
 	{* Персональные теги *}

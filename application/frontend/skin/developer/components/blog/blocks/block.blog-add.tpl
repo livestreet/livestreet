@@ -2,7 +2,7 @@
  * Блок с кнопкой добавления блога
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
     {$mods = "{$mods} blog-add"}

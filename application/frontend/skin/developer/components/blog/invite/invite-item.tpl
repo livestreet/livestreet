@@ -2,7 +2,7 @@
  * Пользователь
  *}
 
-{extends 'components/user-list-add/item.tpl'}
+{extends 'Component@user-list-add.item'}
 
 {block 'user_list_add_item_actions' prepend}
     {* Кнопка "Повторно отправить инвайт" *}

@@ -6,7 +6,7 @@
  * @param string  $target
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = "modal-users-select"}

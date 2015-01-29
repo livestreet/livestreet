@@ -2,7 +2,7 @@
  * Добавление пользовательских тегов к топику
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = "favourite-form-tags"}

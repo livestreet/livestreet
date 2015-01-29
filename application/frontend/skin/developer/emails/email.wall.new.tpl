@@ -2,7 +2,7 @@
  * Новое сообщение на стене
  *}
 
-{extends 'components/email/email.tpl'}
+{extends 'Component@email.email'}
 
 {block 'content'}
 	{lang name='emails.wall_new.text' params=[

@@ -2,7 +2,7 @@
  * Список управляющих блога
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_title'}
     {$aLang.blog.administrators}

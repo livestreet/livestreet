@@ -2,7 +2,7 @@
  * Опции фотосета
  *}
 
-{extends 'components/uploader/uploader-block.tpl'}
+{extends 'Component@uploader.uploader-block'}
 
 {block 'block_options' append}
 	{$classes = "{$classes} js-media-info-block"}

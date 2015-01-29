@@ -2,7 +2,7 @@
  * Статистика по пользователям
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
     {$mods = "{$mods} users-search"}

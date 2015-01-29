@@ -5,7 +5,7 @@
  * @param array  $blogs
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$id = "modal-blog-delete"}

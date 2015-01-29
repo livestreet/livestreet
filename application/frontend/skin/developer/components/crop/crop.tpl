@@ -13,7 +13,7 @@
  * TODO: Разделить на модальное и на контейнер с кропом
  *}
 
-{extends 'components/modal/modal.tpl'}
+{extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
     {$mods = "$mods crop"}

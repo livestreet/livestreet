@@ -1,4 +1,4 @@
-{extends 'components/uploader/uploader.tpl'}
+{extends 'Component@uploader.uploader'}
 
 {block 'uploader_options' append}
     {$attributes = array_merge( $attributes|default:[], [

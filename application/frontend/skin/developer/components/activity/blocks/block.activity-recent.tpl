@@ -2,7 +2,7 @@
  * Последняя активность
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_title'}
     <a href="{router page='stream'}">{lang 'activity.block_recent.title'}</a>

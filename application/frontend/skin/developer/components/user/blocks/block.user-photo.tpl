@@ -2,7 +2,7 @@
  * Блок с фотографией пользователя в профиле
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
     {$mods = "{$mods} user-photo"}

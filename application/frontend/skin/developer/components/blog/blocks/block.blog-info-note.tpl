@@ -2,7 +2,7 @@
  * Подсказка отображаемая при создании топика
  *}
 
-{extends 'components/block/block.tpl'}
+{extends 'Component@block.block'}
 
 {block 'block_options' append}
     {$mods = "{$mods} blog-info-note"}
