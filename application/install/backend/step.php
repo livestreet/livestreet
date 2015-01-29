@@ -163,7 +163,7 @@ abstract class InstallStep
         if (isset($aParams['prefix'])) {
             $sFileQuery = str_replace('prefix_', $aParams['prefix'], $sFileQuery);
         }
-        $aQuery = preg_split("#;\n|\r#", $sFileQuery, null, PREG_SPLIT_NO_EMPTY);
+        $aQuery = preg_split("#;(\n|\r)#", $sFileQuery, null, PREG_SPLIT_NO_EMPTY);
         /**
          * Массив для сбора ошибок
          */
