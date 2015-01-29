@@ -207,43 +207,49 @@ class ModuleBlog_MapperBlog extends Mapper
      */
     public function GetBlogUsers($aFilter, &$iCount = null, $iCurrPage = null, $iPerPage = null)
     {
-        $sWhere = ' 1=1 ';
-        if (isset($aFilter['blog_id'])) {
-            $sWhere .= " AND bu.blog_id =  " . (int)$aFilter['blog_id'];
+
+        if (isset($aFilter['blog_id']) and !is_array($aFilter['blog_id'])) {
+            $aFilter['blog_id']=array($aFilter['blog_id']);
         }
-        if (isset($aFilter['user_id'])) {
-            $sWhere .= " AND bu.user_id =  " . (int)$aFilter['user_id'];
+        if (isset($aFilter['user_role']) and !is_array($aFilter['user_role'])) {
+            $aFilter['user_role']=array($aFilter['user_role']);
         }
-        if (isset($aFilter['user_role'])) {
-            if (!is_array($aFilter['user_role'])) {
-                $aFilter['user_role'] = array($aFilter['user_role']);
-            }
-            $sWhere .= " AND bu.user_role IN ('" . join("', '", $aFilter['user_role']) . "')";
-        } else {
-            $sWhere .= " AND bu.user_role>" . ModuleBlog::BLOG_USER_ROLE_GUEST;
+
+        if (is_null($iCurrPage)) {
+            $iCurrPage=1;
+        }
+        if (is_null($iPerPage)) {
+            $iPerPage=1000;
         }
 
         $sql = "SELECT
-					bu.*				
-				FROM 
+					bu.*
+				FROM
 					" . Config::Get('db.table.blog_user') . " as bu
-				WHERE 
-					" . $sWhere . " ";
+				WHERE
+					1=1
+		        	{ AND bu.blog_id IN (?a) }
+		        	{ AND bu.user_id = ?d }
+		        	{ AND bu.user_role IN (?a) }
+		        	{ AND bu.user_role > ?d }
 
-        if (is_null($iCurrPage)) {
-            $aRows = $this->oDb->select($sql);
-        } else {
-            $sql .= " LIMIT ?d, ?d ";
-            $aRows = $this->oDb->selectPage($iCount, $sql, ($iCurrPage - 1) * $iPerPage, $iPerPage);
-        }
+                LIMIT ?d, ?d
+        ";
 
-        $aBlogUsers = array();
-        if ($aRows) {
-            foreach ($aRows as $aUser) {
-                $aBlogUsers[] = Engine::GetEntity('Blog_BlogUser', $aUser);
+        $aResult = array();
+        if ($aRows = $this->oDb->selectPage($iCount, $sql,
+            (isset($aFilter['blog_id']) and count($aFilter['blog_id'])) ? $aFilter['blog_id'] : DBSIMPLE_SKIP,
+            isset($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP,
+            (isset($aFilter['user_role']) and count($aFilter['user_role'])) ? $aFilter['user_role'] : DBSIMPLE_SKIP,
+            !isset($aFilter['user_role']) ? ModuleBlog::BLOG_USER_ROLE_GUEST : DBSIMPLE_SKIP,
+            ($iCurrPage - 1) * $iPerPage, $iPerPage
+        )
+        ) {
+            foreach ($aRows as $aRow) {
+                $aResult[] = Engine::GetEntity('Blog_BlogUser', $aRow);
             }
         }
-        return $aBlogUsers;
+        return $aResult;
     }
 
     /**

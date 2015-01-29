@@ -1583,26 +1583,42 @@ class ModuleTopic extends Module
     }
 
     /**
-     * Рассылает уведомления о новом топике подписчикам блога
+     * Рассылает уведомления о новом топике подписчикам блогов
      *
-     * @param ModuleBlog_EntityBlog $oBlog Объект блога
      * @param ModuleTopic_EntityTopic $oTopic Объект топика
      * @param ModuleUser_EntityUser $oUserTopic Объект пользователя
      */
-    public function SendNotifyTopicNew($oBlog, $oTopic, $oUserTopic)
+    public function SendNotifyTopicNew($oTopic, $oUserTopic)
     {
-        $aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId($oBlog->getId(), null,
-            null); // нужно постранично пробегаться по всем
-        $aBlogUsers = $aBlogUsersResult['collection'];
-        foreach ($aBlogUsers as $oBlogUser) {
-            if ($oBlogUser->getUserId() == $oUserTopic->getId()) {
-                continue;
+        /**
+         * Сначала отправляем подписчикам блогов
+         */
+        $iPage = 1;
+        $aBlogs = $oTopic->getBlogsId();
+        $aUserIdSend = array($oUserTopic->getId());
+        while ($aBlogUsersResult = $this->Blog_GetBlogUsersByBlogId($aBlogs, null, $iPage,
+                50) and $aBlogUsersResult['collection']) {
+            $aBlogUsers = $aBlogUsersResult['collection'];
+            foreach ($aBlogUsers as $oBlogUser) {
+                if (in_array($oBlogUser->getUserId(), $aUserIdSend)) {
+                    continue;
+                }
+                $this->Notify_SendTopicNewToSubscribeBlog($oBlogUser->getUser(), $oTopic, $oBlogUser->getBlog(),
+                    $oUserTopic);
+                $aUserIdSend[] = $oBlogUser->getUserId();
             }
-            $this->Notify_SendTopicNewToSubscribeBlog($oBlogUser->getUser(), $oTopic, $oBlog, $oUserTopic);
+
+            $iPage++;
         }
-        //отправляем создателю блога
-        if ($oBlog->getOwnerId() != $oUserTopic->getId()) {
-            $this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(), $oTopic, $oBlog, $oUserTopic);
+        /**
+         * Теперь отправляем авторам блогов
+         */
+        $aBlogs = $this->Blog_GetBlogsAdditionalData($aBlogs);
+        foreach ($aBlogs as $oBlog) {
+            if ($oBlog->getOwnerId() != $oUserTopic->getId() and !in_array($oBlog->getOwnerId(), $aUserIdSend)) {
+                $this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(), $oTopic, $oBlog, $oUserTopic);
+                $aUserIdSend[] = $oBlog->getOwnerId();
+            }
         }
     }
 

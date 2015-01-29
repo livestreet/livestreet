@@ -421,7 +421,7 @@ class ActionContent extends Action
                  * Рассылаем о новом топике подписчикам блога
                  */
                 if ($bSendNotify) {
-                    $this->Topic_SendNotifyTopicNew($oBlog, $oTopic, $oTopic->getUser());
+                    $this->Topic_SendNotifyTopicNew($oTopic, $oTopic->getUser());
                 }
                 if (!$oTopic->getPublish() and !$this->oUserCurrent->isAdministrator() and $this->oUserCurrent->getId() != $oTopic->getUserId()) {
                     $sUrlRedirect = $oBlog->getUrlFull();
@@ -562,7 +562,7 @@ class ActionContent extends Action
                  * Делаем рассылку спама всем, кто состоит в этом блоге
                  */
                 if ($oTopic->getPublish() == 1 and $oBlog->getType() != 'personal') {
-                    $this->Topic_SendNotifyTopicNew($oBlog, $oTopic, $oUser);
+                    $this->Topic_SendNotifyTopicNew($oTopic, $oUser);
                 }
                 /**
                  * Добавляем событие в ленту

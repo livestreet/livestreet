@@ -495,7 +495,7 @@ class ModuleBlog extends Module
 
     public function GetBlogsByType($sType)
     {
-        $aBlogs=$this->GetBlogsByFilter(array('type' => $sType), array('blog_title'=>'asc'), 1, 100);
+        $aBlogs = $this->GetBlogsByFilter(array('type' => $sType), array('blog_title' => 'asc'), 1, 100);
         return $aBlogs['collection'];
     }
 
@@ -513,14 +513,14 @@ class ModuleBlog extends Module
          * Блоги в которых состоит
          */
         $aBlogs = $this->GetBlogsByFilter(array(
-                'type'          => $sType,
-                'roles_user_id' => $iUserId,
-                'roles'         => array(
-                    self::BLOG_USER_ROLE_USER,
-                    self::BLOG_USER_ROLE_MODERATOR,
-                    self::BLOG_USER_ROLE_ADMINISTRATOR
-                )
-            ), array(), 1, 100);
+            'type'          => $sType,
+            'roles_user_id' => $iUserId,
+            'roles'         => array(
+                self::BLOG_USER_ROLE_USER,
+                self::BLOG_USER_ROLE_MODERATOR,
+                self::BLOG_USER_ROLE_ADMINISTRATOR
+            )
+        ), array(), 1, 100);
         foreach ($aBlogs['collection'] as $oBlog) {
             $aResult[$oBlog->getId()] = $oBlog;
         }
@@ -540,16 +540,19 @@ class ModuleBlog extends Module
      * Получает список пользователей блога.
      * Если роль не указана, то считаем что поиск производиться по положительным значениям (статусом выше GUEST).
      *
-     * @param int $sBlogId ID блога
+     * @param int|array $aBlogId ID блога или список ID блогов
      * @param int|null $iRole Роль пользователей в блоге
      * @param int $iPage Номер текущей страницы
      * @param int $iPerPage Количество элементов на одну страницу
      * @return array
      */
-    public function GetBlogUsersByBlogId($sBlogId, $iRole = null, $iPage = 1, $iPerPage = 100)
+    public function GetBlogUsersByBlogId($aBlogId, $iRole = null, $iPage = 1, $iPerPage = 100)
     {
+        if (!is_array($aBlogId)) {
+            $aBlogId = array($aBlogId);
+        }
         $aFilter = array(
-            'blog_id' => $sBlogId,
+            'blog_id' => $aBlogId,
         );
         if ($iRole !== null) {
             $aFilter['user_role'] = $iRole;
@@ -560,8 +563,11 @@ class ModuleBlog extends Module
                 'collection' => $this->oMapperBlog->GetBlogUsers($aFilter, $iCount, $iPage, $iPerPage),
                 'count'      => $iCount
             );
-            $this->Cache_Set($data, "blog_relation_user_by_filter_{$s}_{$iPage}_{$iPerPage}",
-                array("blog_relation_change_blog_{$sBlogId}"), 60 * 60 * 24 * 3);
+            $aTags = array();
+            foreach ($aBlogId as $iBlogId) {
+                $aTags[] = "blog_relation_change_blog_{$iBlogId}";
+            }
+            $this->Cache_Set($data, "blog_relation_user_by_filter_{$s}_{$iPage}_{$iPerPage}", $aTags, 60 * 60 * 24 * 3);
         }
         /**
          * Достаем дополнительные данные, для этого формируем список юзеров и делаем мульти-запрос
@@ -572,7 +578,7 @@ class ModuleBlog extends Module
                 $aUserId[] = $oBlogUser->getUserId();
             }
             $aUsers = $this->User_GetUsersAdditionalData($aUserId);
-            $aBlogs = $this->Blog_GetBlogsAdditionalData($sBlogId);
+            $aBlogs = $this->Blog_GetBlogsAdditionalData($aBlogId);
 
             $aResults = array();
             foreach ($data['collection'] as $oBlogUser) {
@@ -1118,10 +1124,10 @@ class ModuleBlog extends Module
     public function RecalculateCountTopicByBlogId($aBlogIds)
     {
         if (!is_array($aBlogIds)) {
-            $aBlogIds=array($aBlogIds);
+            $aBlogIds = array($aBlogIds);
         }
         if ($aBlogIds) {
-            foreach($aBlogIds as $iBlogId) {
+            foreach ($aBlogIds as $iBlogId) {
                 //чистим зависимые кеши
                 $this->oMapperBlog->RecalculateCountTopic($iBlogId);
                 $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("blog_update_{$iBlogId}"));
