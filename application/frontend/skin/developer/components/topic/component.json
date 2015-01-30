@@ -2,6 +2,7 @@
     "name": "topic",
     "version": "1.0.0",
     "dependencies": {
+        "article": "*",
         "favourite": "*",
         "tags-favourite": "*",
         "vote": "*"

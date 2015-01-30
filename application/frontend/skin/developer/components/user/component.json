@@ -1,6 +1,14 @@
 {
     "name": "user",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "article": "*",
+        "comment": "*",
+        "button": "*",
+        "field": "*",
+        "alert": "*"
+    },
     "templates": {
         "list": "user-list.tpl",
         "actions": "actions.tpl",

@@ -1,7 +1,8 @@
 {
     "name": "forms",
     "dependencies": {
-        "css-reset": "*"
+        "css-reset": "*",
+        "typography": "*"
     },
     "version": "1.0.0",
     "styles": {

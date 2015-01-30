@@ -1,6 +1,10 @@
 {
     "name": "favourite",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "icon": "*"
+    },
     "templates": {
         "favourite": "favourite.tpl"
     },

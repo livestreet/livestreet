@@ -98,11 +98,9 @@
 
                 {* Основной заголовок страницы *}
                 {block 'layout_page_title' hide}
-                    {* TODO: Временный фикс *}
                     <h2 class="page-header">
                         {$smarty.block.child}
                     </h2>
-                    {*include 'components/page-header/page-header.tpl' text="{$smarty.block.child}"*}
                 {/block}
 
                 {block 'layout_content_header'}
@@ -174,8 +172,8 @@
      * Тулбар
      * Добавление кнопок в тулбар
      *}
-    {add_block group='toolbar' name='components/admin/toolbar.admin.tpl' priority=100}
-    {add_block group='toolbar' name='components/toolbar-scrollup/toolbar.scrollup.tpl' priority=-100}
+    {add_block group='toolbar' name='component@admin.toolbar.admin' priority=100}
+    {add_block group='toolbar' name='component@toolbar-scrollup.toolbar.scrollup' priority=-100}
 
     {* Подключение тулбара *}
     {component 'toolbar'}

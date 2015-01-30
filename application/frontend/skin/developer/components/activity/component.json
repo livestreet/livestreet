@@ -1,6 +1,14 @@
 {
     "name": "activity",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "user-list-add": "*",
+        "block": "*",
+        "button": "*",
+        "field": "*",
+        "alert": "*"
+    },
     "templates": {
         "activity": "activity.tpl",
         "event-list": "event-list.tpl",

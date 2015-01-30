@@ -1,6 +1,6 @@
 {$value = $property->getValue()}
 
-{include "components/field/field.text.tpl"
+{component 'field' template='text'
     name  = "property[{$property->getId()}]"
     value = $value->getValueVarchar()
     id    = "property-value-tags-{$property->getId()}"

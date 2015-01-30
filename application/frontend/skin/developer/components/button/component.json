@@ -1,6 +1,12 @@
 {
     "name": "button",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*",
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "icon": "*"
+    },
     "templates": {
         "button": "button.tpl",
         "toolbar": "toolbar.tpl",

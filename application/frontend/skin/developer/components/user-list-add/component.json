@@ -1,6 +1,11 @@
 {
     "name": "user-list-add",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "user": "*",
+        "field": "*"
+    },
     "templates": {
         "item": "item.tpl",
         "list": "list.tpl",

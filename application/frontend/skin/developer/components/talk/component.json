@@ -1,6 +1,19 @@
 {
     "name": "talk",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "user-list-add": "*",
+        "accordion": "*",
+        "search-form": "*",
+        "article": "*",
+        "comment": "*",
+        "vote": "*",
+        "favourite": "*",
+        "button": "*",
+        "field": "*",
+        "alert": "*"
+    },
     "templates": {
         "add": "add.tpl",
         "blacklist": "blacklist.tpl",

@@ -1,6 +1,12 @@
 {
     "name": "auth",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*",
+        "form": "*",
+        "modal": "*",
+        "field": "*"
+    },
     "templates": {
         "invite": "auth.invite.tpl",
         "login": "auth.login.tpl",

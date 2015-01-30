@@ -1,6 +1,10 @@
 {
     "name": "property",
     "version": "1.0.0",
+    "dependencies": {
+        "field": "*",
+        "modal": "*"
+    },
     "templates": {
         "input.item": "input/item.tpl",
         "input.list": "input/list.tpl",

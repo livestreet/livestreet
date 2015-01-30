@@ -1,6 +1,9 @@
 {
     "name": "photo",
     "version": "1.0.0",
+    "dependencies": {
+        "crop": "*"
+    },
     "templates": {
         "photo": "photo.tpl"
     },

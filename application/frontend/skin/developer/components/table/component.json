@@ -1,6 +1,9 @@
 {
     "name": "table",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
     "styles": {
         "table": "css/table.css"
     }

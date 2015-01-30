@@ -1,6 +1,12 @@
 {
     "name": "actionbar",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "css-reset": "*",
+        "button": "*"
+    },
     "templates": {
         "item.select": "actionbar-item.select.tpl",
         "actionbar": "actionbar.tpl"

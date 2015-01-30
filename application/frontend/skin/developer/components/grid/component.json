@@ -1,6 +1,9 @@
 {
     "name": "grid",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
     "styles": {
         "grid": "css/grid.css"
     }

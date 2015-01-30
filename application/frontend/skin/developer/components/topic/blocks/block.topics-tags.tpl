@@ -4,7 +4,7 @@
  * @styles css/blocks.css
  *}
 
-{extends 'components/tags/blocks/block.tags.tpl'}
+{extends 'component@tags.block.tags'}
 
 {block 'block_title'}
 	{lang 'tags.block_tags.title'}

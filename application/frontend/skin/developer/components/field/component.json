@@ -1,6 +1,13 @@
 {
     "name": "field",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "ls-component": "*",
+        "css-reset": "*",
+        "forms": "*"
+    },
     "templates": {
         "field": "field.tpl",
         "captcha": "field.captcha.tpl",

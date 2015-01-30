@@ -15,7 +15,7 @@
 {/block}
 
 {block 'layout_content'}
-    {include 'components/search/search-form.main.tpl' searchType=$searchType}
+    {component 'search' template='main' searchType=$searchType}
     {include 'navs/nav.search.tpl'}
 
     {if $resultItems}

@@ -1,6 +1,13 @@
 {
     "name": "poll",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "modal": "*",
+        "forms": "*",
+        "button": "*",
+        "field": "*"
+    },
     "templates": {
         "poll": "poll.tpl",
         "form": "poll.form.tpl",

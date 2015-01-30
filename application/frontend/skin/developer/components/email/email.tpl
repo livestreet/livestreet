@@ -19,7 +19,7 @@
 {$footerLinkColor = '949fa3'}           {* Цвет ссылки в футере *}
 
 {* Путь до папки с изображенями *}
-{$imagesDir = "{Config::Get('path.skin.web')}/components/email/images"}
+{$imagesDir = "{$LS->getInstance()->Component_GetWebPath('email')}/images"}
 
 
 {* Фон *}

@@ -1,6 +1,10 @@
 {
     "name": "search-form",
     "version": "1.0.0",
+    "dependencies": {
+        "field": "*",
+        "button": "*"
+    },
     "templates": {
         "search-form": "search-form.tpl"
     },

@@ -1,6 +1,16 @@
 {
     "name": "uploader",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "ls-component": "*",
+        "css-reset": "*",
+        "field": "*",
+        "alert": "*",
+        "button": "*",
+        "modal": "*"
+    },
     "templates": {
         "uploader": "uploader.tpl",
         "block.info-group": "uploader-block.info-group.tpl",

@@ -148,7 +148,7 @@
     {component 'field' template='hidden' name='topic_type' value=$type->getCode()}
 
     {if $topic}
-        {include "components/field/field.hidden.tpl" name='topic[id]' value=$topic->getId()}
+        {component 'field' template='hidden' name='topic[id]' value=$topic->getId()}
     {/if}
 
 

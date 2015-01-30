@@ -1,4 +1,4 @@
-{include "components/field/field.date.tpl"
+{component 'field' template='date'
     name    = "property[{$property->getId()}][date]"
     value   = $property->getValue()->getValueForForm()
     note    = $property->getDescription()

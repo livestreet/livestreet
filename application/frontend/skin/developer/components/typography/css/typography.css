@@ -70,6 +70,17 @@ h4 small, .h4 small,
 h5 small, .h5 small,
 h6 small, .h6 small { font-size: 65%; color: #aaa; }
 
+/* Заголовок страницы */
+.page-header {
+    color: #333;
+    font-size: 30px;
+    line-height: 1em;
+    margin-bottom: 20px;
+}
+.page-header span {
+    color: #aaa;
+}
+
 
 /**
  * Выделенный текст

@@ -1,6 +1,11 @@
 {
     "name": "notification",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "css-reset": "*"
+    },
     "scripts": {
         "notification": "js/notification.js"
     }

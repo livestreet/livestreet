@@ -46,7 +46,7 @@
     {* Список пользователей *}
     {* TODO: Изменить порядок вывода - сначало новые *}
     {block 'user_list_add_list'}
-        {include 'components/user-list-add/list.tpl'
+        {component 'user-list-add' template='list'
             hideableEmptyAlert = true
             users              = $smarty.local.users
             showActions        = true

@@ -50,12 +50,12 @@
 {* Markup редактор *}
 {else}
 	{hookb run='editor_markup'}
-		{asset type='js' name='editor_markup' file="{Config::Get('path.skin.web')}/components/ls-vendor/markitup/jquery.markitup.js"}
-		{asset type='js' name='editor_markup_options' file="{Config::Get('path.skin.web')}/components/editor/js/editor.markup.js"}
+		{asset type='js' name='editor_markup' file="Component@ls-vendor.markitup/jquery.markitup"}
+		{asset type='js' name='editor_markup_options' file="Component@editor.markup"}
 
-		{asset type='css' name='editor_markup' file="{Config::Get('path.skin.web')}/components/ls-vendor/markitup/skins/livestreet/style.css"}
-		{asset type='css' name='editor_markup_set' file="{Config::Get('path.skin.web')}/components/ls-vendor/markitup/sets/livestreet/style.css"}
-		{asset type='css' name='editor_markup_help' file="{Config::Get('path.skin.web')}/components/editor/css/editor.css"}
+		{asset type='css' name='editor_markup' file="Component@ls-vendor.markitup/skins/livestreet/style"}
+		{asset type='css' name='editor_markup' file="Component@ls-vendor.markitup/sets/livestreet/style"}
+		{asset type='css' name='editor_markup_help' file="Component@editor.editor"}
 
 		{editor_textarea}
 

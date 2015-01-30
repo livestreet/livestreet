@@ -1,6 +1,9 @@
 {
     "name": "search-ajax",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*"
+    },
     "scripts": {
         "search-ajax": "js/search-ajax.js"
     }

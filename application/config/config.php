@@ -484,7 +484,7 @@ $config['components'] = array(
     // Базовые компоненты
     'css-reset', 'css-helpers', 'typography', 'forms', 'grid', 'ls-vendor', 'ls-core', 'ls-component', 'accordion', 'alert', 'dropdown', 'button', 'block',
     'nav', 'tooltip', 'tabs', 'modal', 'table', 'text', 'uploader', 'field', 'comment', 'pagination', 'editor', 'more', 'crop',
-    'perfomance', 'toolbar', 'media', 'actionbar', 'page-header', 'progressbar', 'badge', 'property', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron',
+    'perfomance', 'toolbar', 'media', 'actionbar', 'progressbar', 'badge', 'property', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron',
 
     // Компоненты LS CMS
     'favourite', 'vote', 'photo', 'note', 'icons-contact', 'user-list-add', 'subscribe', 'content', 'notification', 'report',
@@ -495,9 +495,6 @@ $config['components'] = array(
 $config['head']['default']['js'] = array(
     //"___path.skin.web___/components/ls-vendor/html5shiv.js" => array('browser' => 'lt IE 9'),
     //"___path.skin.web___/components/ls-vendor/jquery.placeholder.min.js" => array('browser' => 'lt IE 9'),
-
-    "___path.skin.web___/components/ls-vendor/jquery-1.9.1.min.js",
-    "___path.skin.web___/components/ls-vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
 
     "//yandex.st/share/share.js" => array('merge' => false),
 );

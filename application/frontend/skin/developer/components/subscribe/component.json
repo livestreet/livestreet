@@ -1,6 +1,9 @@
 {
     "name": "subscribe",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-core": "*"
+    },
     "scripts": {
         "subscribe": "js/subscribe.js"
     }

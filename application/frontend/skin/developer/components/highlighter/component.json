@@ -1,6 +1,13 @@
 {
     "name": "highlighter",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*",
+        "typography": "*",
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "ls-component": "*"
+    },
     "scripts": {
         "vendor-highlight": "vendor/highlight/highlight.pack.js",
         "highlighter": "js/highlighter.js"

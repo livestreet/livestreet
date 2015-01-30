@@ -1,6 +1,10 @@
 {
     "name": "text",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*",
+        "typography": "*"
+    },
     "styles": {
         "text": "css/text.css"
     }

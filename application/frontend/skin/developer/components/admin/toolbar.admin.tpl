@@ -3,7 +3,7 @@
  * Кнопка перехода в админку
  *}
 
-{extends 'components/toolbar/toolbar.item.tpl'}
+{extends 'component@toolbar.toolbar.item'}
 
 {block 'toolbar_item_options' append}
     {$_mods = 'admin'}

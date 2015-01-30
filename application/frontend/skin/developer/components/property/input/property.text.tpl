@@ -1,4 +1,4 @@
-{include "components/field/field.textarea.tpl"
+{component 'field' template='textarea'
     name  = "property[{$property->getId()}]"
     value = $property->getValue()->getValueForForm()
     rows  = 10

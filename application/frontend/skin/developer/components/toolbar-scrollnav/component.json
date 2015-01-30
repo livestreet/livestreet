@@ -1,6 +1,9 @@
 {
     "name": "toolbar-scrollnav",
     "version": "1.0.0",
+    "dependencies": {
+        "toolbar": "*"
+    },
     "templates": {
         "toolbar.scrollnav": "toolbar.scrollnav.tpl"
     },

@@ -1,6 +1,17 @@
 {
     "name": "blog",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "user-list-add": "*",
+        "search-form": "*",
+        "button": "*",
+        "modal": "*",
+        "block": "*",
+        "item": "*",
+        "field": "*",
+        "alert": "*"
+    },
     "templates": {
         "add": "add.tpl",
         "admin": "admin.tpl",

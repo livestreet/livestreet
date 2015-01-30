@@ -1,6 +1,13 @@
 {
     "name": "wall",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "alert": "*",
+        "comment": "*",
+        "button": "*",
+        "field": "*"
+    },
     "templates": {
         "wall.comments": "wall.comments.tpl",
         "wall.entry": "wall.entry.tpl",

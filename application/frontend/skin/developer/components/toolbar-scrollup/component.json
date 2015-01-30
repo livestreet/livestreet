@@ -1,6 +1,9 @@
 {
     "name": "toolbar-scrollup",
     "version": "1.0.0",
+    "dependencies": {
+        "toolbar": "*"
+    },
     "templates": {
         "toolbar.scrollup": "toolbar.scrollup.tpl"
     },

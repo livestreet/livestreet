@@ -1,6 +1,11 @@
 {
     "name": "tags-favourite",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "tag": "*",
+        "modal": "*"
+    },
     "templates": {
         "modal": "modal.favourite_tags.tpl",
         "cloud": "tags-cloud.tpl",

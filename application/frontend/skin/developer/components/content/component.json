@@ -1,6 +1,11 @@
 {
     "name": "content",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-vendor": "*",
+        "ls-core": "*",
+        "ls-component": "*"
+    },
     "scripts": {
         "content": "js/content.js"
     }

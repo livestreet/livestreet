@@ -1,6 +1,11 @@
 {
     "name": "media",
     "version": "1.0.0",
+    "dependencies": {
+        "modal": "*",
+        "tabs": "*",
+        "uploader": "*"
+    },
     "templates": {
         "media-content": "media-content.tpl",
         "media": "media.tpl",

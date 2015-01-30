@@ -1,6 +1,9 @@
 {
     "name": "badge",
     "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
     "styles": {
         "badge": "css/badge.css"
     }

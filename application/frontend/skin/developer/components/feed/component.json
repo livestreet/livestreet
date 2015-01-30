@@ -1,6 +1,14 @@
 {
     "name": "feed",
     "version": "1.0.0",
+    "dependencies": {
+        "ls-component": "*",
+        "user-list-add": "*",
+        "block": "*",
+        "button": "*",
+        "field": "*",
+        "alert": "*"
+    },
     "templates": {
         "blogs": "blogs.tpl",
         "users": "users.tpl",
