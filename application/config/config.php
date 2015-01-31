@@ -468,10 +468,10 @@ $config['block']['rule_blog'] = array(
     'action' => array('blog' => array('{blog}')),
     'blocks' => array(
         'right' => array(
-            'component@blog.photo'   => array('priority' => 300),
-            'component@blog.actions' => array('priority' => 300),
-            'component@blog.users'   => array('priority' => 300),
-            'component@blog.admins'  => array('priority' => 300)
+            'component@blog.block.photo'   => array('priority' => 300),
+            'component@blog.block.actions' => array('priority' => 300),
+            'component@blog.block.users'   => array('priority' => 300),
+            'component@blog.block.admins'  => array('priority' => 300)
         )
     ),
     'clear'  => true

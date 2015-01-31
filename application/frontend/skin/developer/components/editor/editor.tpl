@@ -54,7 +54,7 @@
 		{asset type='js' name='editor_markup_options' file="Component@editor.markup"}
 
 		{asset type='css' name='editor_markup' file="Component@ls-vendor.markitup/skins/livestreet/style"}
-		{asset type='css' name='editor_markup' file="Component@ls-vendor.markitup/sets/livestreet/style"}
+		{asset type='css' name='editor_markup_set' file="Component@ls-vendor.markitup/sets/livestreet/style"}
 		{asset type='css' name='editor_markup_help' file="Component@editor.editor"}
 
 		{editor_textarea}
