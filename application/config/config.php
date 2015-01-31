@@ -408,7 +408,7 @@ $config['block']['rule_topic_type'] = array(
     'action' => array(
         'content' => array('add', 'edit'),
     ),
-    'blocks' => array('right' => array('components/blog/blocks/block.blog-info-note.tpl')),
+    'blocks' => array('right' => array('component@blog.block.info-note')),
 );
 $config['block']['rule_personal_blog'] = array(
     'action' => array('personal_blog'),
@@ -422,7 +422,7 @@ $config['block']['rule_blogs'] = array(
     'action' => array('blogs'),
     'blocks' => array(
         'right' => array(
-            'components/blog/blocks/block.blog-add.tpl' => array('priority' => 100),
+            'component@blog.block.add' => array('priority' => 100),
             'blogsSearch'              => array('priority' => 50)
         )
     ),
@@ -448,8 +448,8 @@ $config['block']['rule_users'] = array(
     'action' => array('people'),
     'blocks' => array(
         'right' => array(
-            'components/user/blocks/block.users-statistics.tpl',
-            'components/user/blocks/block.users-search.tpl',
+            'component@user.block.users-statistics',
+            'component@user.block.users-search',
         )
     )
 );
@@ -457,10 +457,10 @@ $config['block']['rule_profile'] = array(
     'action' => array('profile', 'talk', 'settings'),
     'blocks' => array(
         'right' => array(
-            'components/user/blocks/block.user-photo.tpl'   => array('priority' => 100),
-            'components/user/blocks/block.user-actions.tpl' => array('priority' => 50),
-            'components/user/blocks/block.user-note.tpl'    => array('priority' => 25),
-            'components/user/blocks/block.user-nav.tpl'     => array('priority' => 1),
+            'component@user.block.photo'   => array('priority' => 100),
+            'component@user.block.actions' => array('priority' => 50),
+            'component@user.block.note'    => array('priority' => 25),
+            'component@user.block.nav'     => array('priority' => 1),
         )
     )
 );
@@ -468,10 +468,10 @@ $config['block']['rule_blog'] = array(
     'action' => array('blog' => array('{blog}')),
     'blocks' => array(
         'right' => array(
-            'components/blog/blocks/block.blog-photo.tpl'   => array('priority' => 300),
-            'components/blog/blocks/block.blog-actions.tpl' => array('priority' => 300),
-            'components/blog/blocks/block.blog-users.tpl'   => array('priority' => 300),
-            'components/blog/blocks/block.blog-admins.tpl'  => array('priority' => 300)
+            'component@blog.photo'   => array('priority' => 300),
+            'component@blog.actions' => array('priority' => 300),
+            'component@blog.users'   => array('priority' => 300),
+            'component@blog.admins'  => array('priority' => 300)
         )
     ),
     'clear'  => true

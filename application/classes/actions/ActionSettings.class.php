@@ -220,7 +220,7 @@ class ActionSettings extends Action
         $oViewer->Assign('width', (int) getRequest('width'), true);
         $oViewer->Assign('height', (int) getRequest('height'), true);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.crop-photo.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.crop-photo"));
     }
 
     /**
@@ -238,7 +238,7 @@ class ActionSettings extends Action
         $oViewer->Assign('width', (int) getRequest('width'), true);
         $oViewer->Assign('height', (int) getRequest('height'), true);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.crop-avatar.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.crop-avatar"));
     }
 
     /**

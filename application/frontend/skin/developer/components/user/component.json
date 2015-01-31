@@ -25,10 +25,10 @@
         "list-small-item": "user-list-small-item.tpl",
         "list-small": "user-list-small.tpl",
 
-        "block.user-actions": "blocks/block.user-actions.tpl",
-        "block.user-nav": "blocks/block.user-nav.tpl",
-        "block.user-note": "blocks/block.user-note.tpl",
-        "block.user-photo": "blocks/block.user-photo.tpl",
+        "block.actions": "blocks/block.user-actions.tpl",
+        "block.nav": "blocks/block.user-nav.tpl",
+        "block.note": "blocks/block.user-note.tpl",
+        "block.photo": "blocks/block.user-photo.tpl",
         "block.users-search": "blocks/block.users-search.tpl",
         "block.users-statistics": "blocks/block.users-statistics.tpl",
 

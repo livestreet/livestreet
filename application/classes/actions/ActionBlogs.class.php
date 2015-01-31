@@ -152,7 +152,7 @@ class ActionBlogs extends Action
         $oViewer->Assign('useMore', true, true);
         $oViewer->Assign('hideMore', $bHideMore, true);
         $oViewer->Assign('searchCount', $aResult['count'], true);
-        $this->Viewer_AssignAjax('html', $oViewer->Fetch("components/blog/blog-list.tpl"));
+        $this->Viewer_AssignAjax('html', $oViewer->Fetch("component@blog.list"));
         /**
          * Для подгрузки
          */

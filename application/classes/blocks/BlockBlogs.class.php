@@ -42,10 +42,10 @@ class BlockBlogs extends Block
             /**
              * Формируем результат в виде шаблона и возвращаем
              */
-            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
+            $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_Assign('sBlogsTop', $sTextResult);
         }
 
-        $this->SetTemplate('components/blog/blocks/block.blogs.tpl');
+        $this->SetTemplate('component@blog.block.blogs');
     }
 }

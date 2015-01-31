@@ -154,7 +154,7 @@ class ActionProfile extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('types', $types, true);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/report/modal.report.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@report.report"));
     }
 
     /**
@@ -1176,7 +1176,7 @@ class ActionProfile extends Action
 
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('target', $iTarget, true);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.add-friend.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.add-friend"));
     }
 
     /**

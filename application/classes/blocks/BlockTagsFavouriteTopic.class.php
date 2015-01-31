@@ -54,7 +54,7 @@ class BlockTagsFavouriteTopic extends Block
             $this->Viewer_Assign("user", $oUser, true);
             $this->Viewer_Assign("activeTag", $this->getParam('activeTag'), true);
 
-            $this->SetTemplate('components/tags-favourite/tags-cloud.tpl');
+            $this->SetTemplate('component@tags-favourite.cloud');
         }
     }
 }

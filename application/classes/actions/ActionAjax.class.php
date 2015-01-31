@@ -158,7 +158,7 @@ class ActionAjax extends Action
         $oViewer->Assign('selectable', $bSelectable, true);
         $oViewer->Assign('target', $sTarget, true);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/user/modals/modal.user-list.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.user-list"));
     }
 
     /**
@@ -177,7 +177,7 @@ class ActionAjax extends Action
         $oViewer->Assign('title', getRequestStr('title'), true);
         $oViewer->Assign('desc', getRequestStr('desc'), true);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/crop/crop.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@crop.crop"));
     }
 
     protected function EventPollVote()
@@ -253,7 +253,7 @@ class ActionAjax extends Action
         if ($oVote->Add()) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('oPoll', $oPoll);
-            $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/poll/poll.result.tpl"));
+            $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.result"));
         } else {
             return $this->EventErrorDebug();
         }
@@ -278,7 +278,7 @@ class ActionAjax extends Action
             if ($oPoll->Add()) {
                 $oViewer = $this->Viewer_GetLocalViewer();
                 $oViewer->Assign('oPoll', $oPoll);
-                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("components/poll/poll.manage.item.tpl"));
+                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("component@poll.manage.item"));
                 return true;
             } else {
                 $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
@@ -322,7 +322,7 @@ class ActionAjax extends Action
             if ($oPoll->Update()) {
                 $oViewer = $this->Viewer_GetLocalViewer();
                 $oViewer->Assign('oPoll', $oPoll);
-                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("components/poll/poll.manage.item.tpl"));
+                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("component@poll.manage.item"));
                 $this->Viewer_AssignAjax('iPollId', $oPoll->getId());
                 return true;
             } else {
@@ -405,7 +405,7 @@ class ActionAjax extends Action
         $oViewer->Assign('sTargetType', $sTargetType);
         $oViewer->Assign('sTargetId', $sTargetId);
         $oViewer->Assign('sTargetTmp', $sTargetTmp);
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/poll/modal.poll-create.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.modal.create"));
     }
 
     protected function EventPollModalUpdate()
@@ -434,7 +434,7 @@ class ActionAjax extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('oPoll', $oPoll);
         $oViewer->Assign('sTargetTmp', getRequestStr('target_tmp'));
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/poll/modal.poll-create.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.modal.create"));
     }
 
     /**
@@ -763,7 +763,7 @@ class ActionAjax extends Action
         $sTemplate = '';
         foreach ($aMediaItems as $oMediaItem) {
             $oViewer->Assign('oMediaItem', $oMediaItem);
-            $sTemplate .= $oViewer->Fetch('components/uploader/uploader-file.tpl');
+            $sTemplate .= $oViewer->Fetch('component@uploader.file');
         }
 
         $this->Viewer_AssignAjax('html', $sTemplate);
@@ -795,7 +795,7 @@ class ActionAjax extends Action
         $aTargetItems = $this->Media_GetTargetItemsByFilter($aFilter);
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('imagePreviewItems', $aTargetItems);
-        $this->Viewer_AssignAjax('sTemplatePreview', $oViewer->Fetch('components/field/field.image-ajax-items.tpl'));
+        $this->Viewer_AssignAjax('sTemplatePreview', $oViewer->Fetch('component@field.image-ajax-items'));
     }
 
     protected function EventMediaSubmitInsert()
@@ -927,7 +927,7 @@ class ActionAjax extends Action
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('oMediaItem', $mResult);
 
-            $sTemplateFile = $oViewer->Fetch('components/uploader/uploader-file.tpl');
+            $sTemplateFile = $oViewer->Fetch('component@uploader.file');
 
             $this->Viewer_AssignAjax('sTemplateFile', $sTemplateFile);
         } else {
@@ -988,7 +988,7 @@ class ActionAjax extends Action
         $oViewer->Assign('target', $oTopic, true);
         $oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/vote/vote.info.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@vote.info"));
     }
 
     /**
@@ -1533,7 +1533,7 @@ class ActionAjax extends Action
         if ($aComments = $this->Comment_GetCommentsOnline('topic', Config::Get('block.stream.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('comments', $aComments, true);
-            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-comments.tpl");
+            $sTextResult = $oViewer->Fetch("component@activity.recent-comments");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_stream_comments_no'), $this->Lang_Get('attention'));
@@ -1551,7 +1551,7 @@ class ActionAjax extends Action
         if ($oTopics = $this->Topic_GetTopicsLast(Config::Get('block.stream.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('topics', $oTopics, true);
-            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-topics.tpl");
+            $sTextResult = $oViewer->Fetch("component@activity.recent-topics");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.topics_empty'),
@@ -1574,7 +1574,7 @@ class ActionAjax extends Action
             $aBlogs = $aResult['collection'];
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
+            $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
@@ -1602,7 +1602,7 @@ class ActionAjax extends Action
         if ($aBlogs = $this->Blog_GetBlogsRatingSelf($this->oUserCurrent->getId(), Config::Get('block.blogs.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
+            $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_blogs_self_error'), $this->Lang_Get('attention'));
@@ -1630,7 +1630,7 @@ class ActionAjax extends Action
         if ($aBlogs = $this->Blog_GetBlogsRatingJoin($this->oUserCurrent->getId(), Config::Get('block.blogs.row'))) {
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('aBlogs', $aBlogs);
-            $sTextResult = $oViewer->Fetch("components/blog/blocks/blogs-top.tpl");
+            $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('block_blogs_join_error'), $this->Lang_Get('attention'));
@@ -2012,7 +2012,7 @@ class ActionAjax extends Action
         $this->Viewer_Assign('oUserCurrent',
             $this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
 
-        $this->Viewer_AssignAjax('html', $this->Viewer_Fetch('components/wall/wall.posts.tpl'));
+        $this->Viewer_AssignAjax('html', $this->Viewer_Fetch('component@wall.posts'));
         $this->Viewer_AssignAjax('count_loaded', count($aWall['collection']));
 
         if (count($aWall['collection'])) {
@@ -2058,7 +2058,7 @@ class ActionAjax extends Action
         // Передаем переменные
         $this->Viewer_Assign('comments', $aWall['collection'], true);
 
-        $this->Viewer_AssignAjax('html', $this->Viewer_Fetch('components/wall/wall.comments.tpl'));
+        $this->Viewer_AssignAjax('html', $this->Viewer_Fetch('component@wall.comments'));
         $this->Viewer_AssignAjax('count_loaded', count($aWall['collection']));
 
         if (count($aWall['collection'])) {

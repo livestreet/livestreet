@@ -15,9 +15,9 @@
         "event": "event.tpl",
         "users": "users.tpl",
         "settings": "settings.tpl",
-        "block.activity-recent": "blocks/block.activity-recent.tpl",
-        "block.activity-users": "blocks/block.activity-users.tpl",
-        "block.activity-settings": "blocks/block.activity-settings.tpl",
+        "block.recent": "blocks/block.activity-recent.tpl",
+        "block.users": "blocks/block.activity-users.tpl",
+        "block.settings": "blocks/block.activity-settings.tpl",
         "recent-comments": "blocks/recent-comments.tpl",
         "recent-topics": "blocks/recent-topics.tpl"
     },

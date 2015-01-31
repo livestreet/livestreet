@@ -17,7 +17,7 @@
         "manage.list": "poll.manage.list.tpl",
         "manage": "poll.manage.tpl",
         "result": "poll.result.tpl",
-        "modal.poll-create": "modal.poll-create.tpl",
+        "modal.create": "modal.poll-create.tpl",
         "vote": "poll.vote.tpl"
     },
     "scripts": {

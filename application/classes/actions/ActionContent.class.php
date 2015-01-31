@@ -654,7 +654,7 @@ class ActionContent extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('isPreview', true, true);
         $oViewer->Assign('topic', $oTopic, true);
-        $sTemplate = 'components/topic/topic-type.tpl';
+        $sTemplate = 'component@topic.type';
         $sTextResult = $oViewer->Fetch($sTemplate);
         /**
          * Передаем результат в ajax ответ

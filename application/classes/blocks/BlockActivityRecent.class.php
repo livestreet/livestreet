@@ -41,10 +41,10 @@ class BlockActivityRecent extends Block
             /**
              * Формируем результат в виде шаблона и возвращаем
              */
-            $sTextResult = $oViewer->Fetch("components/activity/blocks/recent-comments.tpl");
+            $sTextResult = $oViewer->Fetch("component@activity.recent-comments");
             $this->Viewer_Assign('content', $sTextResult, true);
         }
 
-        $this->SetTemplate('components/activity/blocks/block.activity-recent.tpl');
+        $this->SetTemplate('component@activity.block.recent');
     }
 }

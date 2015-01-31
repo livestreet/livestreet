@@ -46,6 +46,6 @@ class BlockWall extends Block
             $this->Viewer_Assign('lastId', end($posts)->getId(), true);
         }
 
-        $this->SetTemplate('components/wall/wall.tpl');
+        $this->SetTemplate('component@wall.wall');
     }
 }

@@ -43,6 +43,6 @@ class BlockUserfeedUsers extends Block
             $this->Viewer_Assign('users', $aResult['users']);
         }
 
-        $this->SetTemplate('components/feed/blocks/block.userfeed-users.tpl');
+        $this->SetTemplate('component@feed.block.users');
     }
 }

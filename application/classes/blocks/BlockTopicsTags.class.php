@@ -64,6 +64,6 @@ class BlockTopicsTags extends Block
             }
         }
 
-        $this->SetTemplate('components/topic/blocks/block.topics-tags.tpl');
+        $this->SetTemplate('component@topic.block.tags');
     }
 }

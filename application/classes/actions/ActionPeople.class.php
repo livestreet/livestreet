@@ -158,7 +158,7 @@ class ActionPeople extends Action
         $oViewer->Assign('useMore', true, true);
         $oViewer->Assign('hideMore', $bHideMore, true);
         $oViewer->Assign('searchCount', $aResult['count'], true);
-        $this->Viewer_AssignAjax('html', $oViewer->Fetch("components/user/user-list.tpl"));
+        $this->Viewer_AssignAjax('html', $oViewer->Fetch("component@user.list"));
         /**
          * Для подгрузки
          */

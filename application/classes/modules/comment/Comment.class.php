@@ -750,7 +750,7 @@ class ModuleComment extends Module
      */
     public function GetTemplateCommentByTarget($iTargetId, $sTargetType)
     {
-        return "components/comment/comment.tpl";
+        return "component@comment.comment";
     }
 
     /**

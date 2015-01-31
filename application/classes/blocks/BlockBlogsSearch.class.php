@@ -39,6 +39,6 @@ class BlockBlogsSearch extends Block
         $aBlogsAll = $this->Blog_GetBlogsByFilter(array('exclude_type' => 'personal'), array(), 1, 1, array());
         $this->Viewer_Assign("aBlogCategories", $aCategories);
         $this->Viewer_Assign("iCountBlogsAll", $aBlogsAll['count']);
-        $this->SetTemplate('components/blog/blocks/block.blogs-search.tpl');
+        $this->SetTemplate('component@blog.block.search');
     }
 }

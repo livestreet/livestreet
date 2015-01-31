@@ -39,6 +39,6 @@ class BlockActivityUsers extends Block
             $this->Viewer_Assign('users', $this->Stream_getUserSubscribes($oUserCurrent->getId()));
         }
 
-        $this->SetTemplate('components/activity/blocks/block.activity-users.tpl');
+        $this->SetTemplate('component@activity.block.users');
     }
 }

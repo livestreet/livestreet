@@ -9,10 +9,10 @@
         "field": "*"
     },
     "templates": {
-        "wall.comments": "wall.comments.tpl",
-        "wall.entry": "wall.entry.tpl",
-        "wall.form": "wall.form.tpl",
-        "wall.posts": "wall.posts.tpl",
+        "comments": "wall.comments.tpl",
+        "entry": "wall.entry.tpl",
+        "form": "wall.form.tpl",
+        "posts": "wall.posts.tpl",
         "wall": "wall.tpl"
     },
     "scripts": {

@@ -202,7 +202,7 @@ class ActionUserfeed extends Action
                         array('login' => htmlspecialchars($sUser))),
                     'user_id'       => $oUser->getId(),
                     'user_login'    => htmlspecialchars($sUser),
-                    'html'          => $oViewer->Fetch("components/user-list-add/item.tpl")
+                    'html'          => $oViewer->Fetch("component@user-list-add.item")
                 );
             } else {
                 $aResult[] = array(

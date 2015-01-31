@@ -67,6 +67,6 @@ class BlockFieldCategory extends Block
             }
         }
 
-        $this->SetTemplate('components/field/field.category.tpl');
+        $this->SetTemplate('component@field.category');
     }
 }

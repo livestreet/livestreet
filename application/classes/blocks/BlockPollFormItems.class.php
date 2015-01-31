@@ -32,7 +32,7 @@ class BlockPollFormItems extends Block
      */
     public function Exec()
     {
-        $this->SetTemplate('components/poll/poll.manage.list.tpl');
+        $this->SetTemplate('component@poll.manage.list');
 
         $sTargetType = $this->GetParam('target_type');
         $sTargetId = $this->GetParam('target_id');

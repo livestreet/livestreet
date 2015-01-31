@@ -537,7 +537,7 @@ class ActionBlog extends Action
             $aBlogUsersInvited = $this->Blog_GetBlogUsersByBlogId($oBlog->getId(), ModuleBlog::BLOG_USER_ROLE_INVITE,
                 null);
             $this->Viewer_Assign('blogUsersInvited', $aBlogUsersInvited['collection']);
-            $this->Viewer_AddBlock('right', 'components/blog/blocks/block.blog-invite.tpl');
+            $this->Viewer_AddBlock('right', 'component@blog.block.invite');
         }
     }
 
@@ -1462,7 +1462,7 @@ class ActionBlog extends Action
                             array('login' => htmlspecialchars($sUser))),
                         'user_id'       => $oUser->getId(),
                         'user_login'    => htmlspecialchars($sUser),
-                        'html'         => $oViewer->Fetch("components/blog/invite/invite-item.tpl")
+                        'html'         => $oViewer->Fetch("component@blog.invite-item")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
                 } else {
@@ -2143,7 +2143,7 @@ class ActionBlog extends Action
         $oViewer->Assign('width', (int)getRequest('width'), true);
         $oViewer->Assign('height', (int)getRequest('height'), true);
 
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("components/blog/modals/modal.crop-avatar.tpl"));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@blog.modal.crop-avatar"));
     }
 
     /**

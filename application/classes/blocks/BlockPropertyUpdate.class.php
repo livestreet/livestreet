@@ -59,6 +59,6 @@ class BlockPropertyUpdate extends Block
             }
         }
 
-        $this->SetTemplate('components/property/input/list.tpl');
+        $this->SetTemplate('component@property.input.list');
     }
 }
