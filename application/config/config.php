@@ -357,9 +357,7 @@ $config['router']['uri'] = array(
 $config['router']['page']['error'] = 'ActionError';
 $config['router']['page']['registration'] = 'ActionRegistration';
 $config['router']['page']['profile'] = 'ActionProfile';
-$config['router']['page']['my'] = 'ActionMy';
 $config['router']['page']['blog'] = 'ActionBlog';
-$config['router']['page']['personal_blog'] = 'ActionPersonalBlog';
 $config['router']['page']['index'] = 'ActionIndex';
 $config['router']['page']['login'] = 'ActionLogin';
 $config['router']['page']['people'] = 'ActionPeople';
@@ -409,10 +407,6 @@ $config['block']['rule_topic_type'] = array(
         'content' => array('add', 'edit'),
     ),
     'blocks' => array('right' => array('component@blog.block.info-note')),
-);
-$config['block']['rule_personal_blog'] = array(
-    'action' => array('personal_blog'),
-    'blocks' => array('right' => array('activityRecent', 'topicsTags')),
 );
 $config['block']['rule_tag'] = array(
     'action' => array('tag'),
