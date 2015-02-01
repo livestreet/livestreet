@@ -20,7 +20,7 @@
     <form action="{router page='blog'}delete/{$blog->getId()}/" method="POST" id="js-blog-remove-form">
         {* Переместить топики в блог *}
         {$selectBlogs = [
-            [ 'value' => -1, 'text' => $aLang.blog.remove.remove_topics ]
+            [ 'value' => -1, 'text' => "-- {$aLang.blog.remove.remove_topics} --" ]
         ]}
 
         {foreach $smarty.local.blogs as $blog}

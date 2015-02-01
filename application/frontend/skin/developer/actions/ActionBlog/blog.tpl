@@ -22,7 +22,7 @@
 {/block}
 
 {block 'layout_content_header'}
-    {component 'blog' blog=$blog}
+    {component 'blog' blog=$blog blogs=$blogs}
 
     {$smarty.block.parent}
 

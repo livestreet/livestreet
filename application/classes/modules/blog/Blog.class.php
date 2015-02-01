@@ -965,13 +965,32 @@ class ModuleBlog extends Module
          * При удалении топиков удаляются комментарии к ним, голоса и т.п.
          */
         $iPage = 1;
-        while ($aTopicIds = $this->Topic_GetTopicsByBlogId($iBlogId, $iPage, 100)) {
-            if (is_array($aTopicIds) and count($aTopicIds)) {
+        while ($aTopicsRes = $this->Topic_GetTopicsByBlogId($iBlogId, $iPage, 100, array(),
+                false) and $aTopicsRes['collection']) {
+            /**
+             * Удаляем топики
+             */
+            foreach ($aTopicsRes['collection'] as $oTopic) {
+                $aBlogsCurrent = $oTopic->getBlogIds();
                 /**
-                 * Удаляем топики
+                 * Удалять нужно только те топики, где текущий блог является единственным, у остальных просто удаляем связь
                  */
-                foreach ($aTopicIds as $iTopicId) {
-                    $this->Topic_DeleteTopic($iTopicId);
+                if (count($aBlogsCurrent) == 1) {
+                    $this->Topic_DeleteTopic($oTopic);
+                } else {
+                    array_splice($aBlogsCurrent, array_search($oBlog->getId(), $aBlogsCurrent), 1);
+                    /**
+                     * Устанавливаем новые связи с блогами
+                     */
+                    foreach ($aBlogsCurrent as $i => $iBlogCurrent) {
+                        $sMethodSet = 'setBlogId' . ($i == 0 ? '' : ($i + 1));
+                        call_user_func(array($oTopic, $sMethodSet), $iBlogCurrent);
+                    }
+                    for ($i = $i + 2; $i <= 10; $i++) {
+                        $sMethodSet = 'setBlogId' . $i;
+                        call_user_func(array($oTopic, $sMethodSet), null);
+                    }
+                    $this->Topic_UpdateTopic($oTopic);
                 }
             }
             $iPage++;

@@ -779,43 +779,24 @@ class ModuleTopic_MapperTopic extends Mapper
     /**
      * Перемещает топики в другой блог
      *
-     * @param  array $aTopics Список ID топиков
-     * @param  int $sBlogId ID блога
-     * @return bool
-     */
-    public function MoveTopicsByArrayId($aTopics, $sBlogId)
-    {
-        if (!is_array($aTopics)) {
-            $aTopics = array($aTopics);
-        }
-
-        $sql = "UPDATE " . Config::Get('db.table.topic') . "
-			SET 
-				blog_id= ?d
-			WHERE
-				topic_id IN(?a)
-		";
-        $res = $this->oDb->query($sql, $sBlogId, $aTopics);
-        return $this->IsSuccessful($res);
-    }
-
-    /**
-     * Перемещает топики в другой блог
-     *
      * @param  int $sBlogId ID старого блога
      * @param  int $sBlogIdNew ID нового блога
      * @return bool
      */
     public function MoveTopics($sBlogId, $sBlogIdNew)
     {
-        $sql = "UPDATE " . Config::Get('db.table.topic') . "
-			SET 
-				blog_id= ?d
-			WHERE
-				blog_id = ?d
-		";
-        $res = $this->oDb->query($sql, $sBlogIdNew, $sBlogId);
-        return $this->IsSuccessful($res);
+        $aFields=array('blog_id','blog_id2','blog_id3','blog_id4','blog_id5');
+        foreach($aFields as $sField) {
+            $sql = "UPDATE " . Config::Get('db.table.topic') . "
+                SET
+                    {$sField} = ?d
+                WHERE
+                    {$sField} = ?d
+		    ";
+            $this->oDb->query($sql, $sBlogIdNew, $sBlogId);
+        }
+
+        return true;
     }
 
     /**
@@ -834,29 +815,6 @@ class ModuleTopic_MapperTopic extends Mapper
 				blog_id = ?d
 		";
         $res = $this->oDb->query($sql, $sBlogIdNew, $sBlogId);
-        return $this->IsSuccessful($res);
-    }
-
-    /**
-     * Перемещает теги топиков в другой блог
-     *
-     * @param array $aTopics Список ID топиков
-     * @param int $sBlogId ID блога
-     * @return bool
-     */
-    public function MoveTopicsTagsByArrayId($aTopics, $sBlogId)
-    {
-        if (!is_array($aTopics)) {
-            $aTopics = array($aTopics);
-        }
-
-        $sql = "UPDATE " . Config::Get('db.table.topic_tag') . "
-			SET 
-				blog_id= ?d
-			WHERE
-				topic_id IN(?a)
-		";
-        $res = $this->oDb->query($sql, $sBlogId, $aTopics);
         return $this->IsSuccessful($res);
     }
 

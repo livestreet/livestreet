@@ -399,6 +399,15 @@ class ModuleTopic extends Module
                 $this->Comment_SetCommentsPublish($oTopic->getId(), 'topic', $oTopic->getPublish());
             }
             /**
+             * Смена главного блога
+             */
+            if ($oTopic->getBlogId() != $oTopicOld->getBlogId()) {
+                // меняем target parent у комментов
+                $this->Comment_MoveTargetParent($oTopicOld->getBlogId(), 'topic', $oTopic->getBlogId());
+                // меняем target parent у комментов в прямом эфире
+                $this->Comment_MoveTargetParentOnline($oTopicOld->getBlogId(), 'topic', $oTopic->getBlogId());
+            }
+            /**
              * Обновляем дополнительные поля
              * Здесь важный момент - перед сохранением топика всегда нужно вызывать валидацию полей $this->Property_ValidateEntityPropertiesCheck($oTopic);
              * т.к. она подготавливает данные полей для сохранений
@@ -1648,37 +1657,12 @@ class ModuleTopic extends Module
     /**
      * Перемещает топики в другой блог
      *
-     * @param  array $aTopics Список ID топиков
-     * @param  int $sBlogId ID блога
-     * @return bool
-     */
-    public function MoveTopicsByArrayId($aTopics, $sBlogId)
-    {
-        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("topic_update", "topic_new_blog_{$sBlogId}"));
-        if ($res = $this->oMapperTopic->MoveTopicsByArrayId($aTopics, $sBlogId)) {
-            // перемещаем теги
-            $this->oMapperTopic->MoveTopicsTagsByArrayId($aTopics, $sBlogId);
-            // меняем target parent у комментов
-            $this->Comment_UpdateTargetParentByTargetId($sBlogId, 'topic', $aTopics);
-            // меняем target parent у комментов в прямом эфире
-            $this->Comment_UpdateTargetParentByTargetIdOnline($sBlogId, 'topic', $aTopics);
-            return $res;
-        }
-        return false;
-    }
-
-    /**
-     * Перемещает топики в другой блог
-     * TODO: пофиксить перенос для функционала мультиблогов
-     *
      * @param  int $sBlogId ID старого блога
      * @param  int $sBlogIdNew ID нового блога
      * @return bool
      */
     public function MoveTopics($sBlogId, $sBlogIdNew)
     {
-        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array("topic_update", "topic_new_blog_{$sBlogId}", "topic_new_blog_{$sBlogIdNew}"));
         if ($res = $this->oMapperTopic->MoveTopics($sBlogId, $sBlogIdNew)) {
             // перемещаем теги
             $this->oMapperTopic->MoveTopicsTags($sBlogId, $sBlogIdNew);
@@ -1686,9 +1670,14 @@ class ModuleTopic extends Module
             $this->Comment_MoveTargetParent($sBlogId, 'topic', $sBlogIdNew);
             // меняем target parent у комментов в прямом эфире
             $this->Comment_MoveTargetParentOnline($sBlogId, 'topic', $sBlogIdNew);
-            return $res;
+            /**
+             * Обновляем количество топиков в блоге
+             */
+            $this->Blog_RecalculateCountTopicByBlogId($sBlogIdNew);
         }
-        return false;
+        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+            array("topic_update", "topic_new_blog_{$sBlogId}", "topic_new_blog_{$sBlogIdNew}"));
+        return $res;
     }
 
     /**
