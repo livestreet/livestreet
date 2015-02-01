@@ -121,15 +121,41 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
 							WHERE 
 								t.topic_publish = 1 
 								AND t.blog_id=b.blog_id 
-								AND ( b.blog_type!='close' { OR  t.blog_id IN (?a) } )
-								AND ( 1=0 { OR t.blog_id IN (?a) } { OR t.user_id IN (?a) } )
+								AND (
+								        b.blog_type!='close'
+								        { OR  t.blog_id IN (?a) }
+								        { OR  t.blog_id2 IN (?a) }
+								        { OR  t.blog_id3 IN (?a) }
+								        { OR  t.blog_id4 IN (?a) }
+								        { OR  t.blog_id5 IN (?a) }
+								    )
+								AND (
+								        1=0
+								        { OR t.blog_id IN (?a) }
+								        { OR t.blog_id2 IN (?a) }
+								        { OR t.blog_id3 IN (?a) }
+								        { OR t.blog_id4 IN (?a) }
+								        { OR t.blog_id5 IN (?a) }
+
+								        { OR t.user_id IN (?a) }
+								    )
                             ORDER BY t.topic_id DESC	
                             LIMIT ?d, ?d ";
 
         $aTopics = array();
         if ($aRows = $this->oDb->selectPage($iCount, $sql,
             count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
+            count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
+            count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
+            count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
+            count($aBlogIdClose) ? $aBlogIdClose : DBSIMPLE_SKIP,
+
             count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+            count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+            count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+            count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+            count($aBlogId) ? $aBlogId : DBSIMPLE_SKIP,
+
             count($aUserId) ? $aUserId : DBSIMPLE_SKIP,
             ($iCurrPage - 1) * $iPerPage, $iPerPage)
         ) {
