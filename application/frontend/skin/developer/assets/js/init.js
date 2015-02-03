@@ -87,6 +87,11 @@ jQuery(document).ready(function($){
 		$(this).lsCaptcha();
 	});
 
+	$('[data-type=recaptcha]').livequery(function () {
+		$(this).lsReCaptcha({
+			key: ls.registry.get('recaptcha.site_key')
+		});
+	});
 
 	/**
 	 * Alerts

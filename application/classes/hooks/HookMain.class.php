@@ -47,9 +47,15 @@ class HookMain extends Hook
         if (!$oUserCurrent and Config::Get('general.close') and !Router::CheckIsCurrentAction((array)Config::Get('general.close_exceptions'))) {
             Router::Action('login');
         }
+        $this->LoadDefaultJsVar();
         /**
          * Запуск обработки сборщика
          */
         $this->Ls_SenderRun();
+    }
+
+    public function LoadDefaultJsVar()
+    {
+        $this->Viewer_AssignJs('recaptcha.site_key', Config::Get('module.validate.recaptcha.site_key'));
     }
 }

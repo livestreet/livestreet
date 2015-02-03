@@ -268,6 +268,15 @@ $config['module']['media']['image']['preview']['sizes'] = array(  // списо�
         'crop' => true,
     ),
 );
+/**
+ * Модуль Validate
+ */
+// Настройки Google рекаптчи - https://www.google.com/recaptcha/admin#createsite
+$config['module']['validate']['recaptcha']= array(
+    'site_key' => '', // Ключ
+    'secret_key' => '', // Секретный ключ
+    'use_ip' => false, // Использовать при валидации IP адрес клиента
+);
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook', 'Cache', 'Logger', 'Security', 'Session', 'Lang', 'Message', 'User');
@@ -491,6 +500,7 @@ $config['head']['default']['js'] = array(
     //"___path.skin.web___/components/ls-vendor/jquery.placeholder.min.js" => array('browser' => 'lt IE 9'),
 
     "//yandex.st/share/share.js" => array('merge' => false),
+    "https://www.google.com/recaptcha/api.js?onload=__do_nothing__&render=explicit" => array('merge' => false),
 );
 
 $config['head']['default']['css'] = array();
