@@ -2,7 +2,7 @@
     "name": "modal-create",
     "version": "1.0.0",
     "dependencies": {
-        "modal": "*",
+        "modal": "*"
     },
     "templates": {
         "modal-create": "modal-create.tpl"
