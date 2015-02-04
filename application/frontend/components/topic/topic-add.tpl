@@ -43,11 +43,12 @@
 
         {component 'field' template='select'
             label         = $aLang.topic.add.fields.blog.label
-            name          = 'topic[blogs_id_raw][]'
+            name          = ''
             placeholder   = 'Выберите блоги для публикации'
             inputClasses  = 'js-topic-add-blogs'
             isMultiple    = true
             selectedValue = ( ( $topic ) ? $topic->getBlogsId() : [] )
+            inputAttributes    = [ 'data-chosen-order' => {json var=$topic->getBlogsId()} ]
             items         = $blogsSelect}
     {/if}
 

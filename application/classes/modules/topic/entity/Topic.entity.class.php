@@ -154,6 +154,9 @@ class ModuleTopic_EntityTopic extends Entity
      */
     public function ValidateBlogs($sValue, $aParams)
     {
+        if (is_string($sValue)) {
+            $sValue = explode(',', $sValue);
+        }
         if (!$sValue or !is_array($sValue)) {
             if ($oBlog = $this->Blog_GetPersonalBlogByUserId($this->getUserId())) {
                 $this->setBlogs(array($oBlog));
@@ -601,7 +604,7 @@ class ModuleTopic_EntityTopic extends Entity
         $aResult = array();
         if ($aBlogs = $this->getBlogs()) {
             foreach ($aBlogs as $oBlog) {
-                $aResult[] = $oBlog->getId();
+                $aResult[] = (int)$oBlog->getId();
             }
         }
         return $aResult;

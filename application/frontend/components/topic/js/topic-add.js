@@ -67,6 +67,11 @@
                 urls: {
                     add: this.option( 'urls.add' ),
                     edit: this.option( 'urls.edit' )
+                },
+                callbacks: {
+                    beforeSubmit: function() {
+                        _this.prepareParams(this);
+                    }
                 }
             });
 
@@ -75,6 +80,12 @@
                 max_selected_options: this.option( 'max_blog_count' ),
                 width: '100%'
             });
+
+            // Установка правильной сортировки блогов
+            var chosenOrder = this.elements.blogs.data('chosenOrder');
+            if (chosenOrder && chosenOrder.length) {
+                this.elements.blogs.setSelectionOrder(chosenOrder);
+            }
 
             // Превью (изображение)
             this.elements.image_preview.lsFieldImageAjax({
@@ -123,6 +134,21 @@
         previewHide: function() {
             this.elements.preview.hide();
             this.elements.preview_content.empty();
+        },
+
+        /**
+         * Дополнительная обработка параметров перед отправкой формы
+         * @param formContent
+         */
+        prepareParams: function(formContent) {
+            /**
+             * Корректируем сортировку выбранных блогов
+             */
+            if (this.elements.blogs.length) {
+                formContent.option('params', {
+                    'topic[blogs_id_raw]': this.elements.blogs.getSelectionOrder()
+                });
+            }
         }
     });
 })(jQuery);

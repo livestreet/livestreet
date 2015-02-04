@@ -23,7 +23,11 @@
             },
 
             // Ajax параметры
-            params: {}
+            params: {},
+
+            callbacks: {
+                beforeSubmit: null
+            }
         },
 
         /**
@@ -53,6 +57,9 @@
          */
         submit: function( params ) {
             $.extend( this.option( 'params' ), params || {} );
+
+            this.option( 'callbacks' )['beforeSubmit'].call(this);
+
 
             this._submit( this.action, this.element, function( response ) {
                 if ( response.sUrlRedirect ) {
