@@ -101,13 +101,14 @@
 
 
     {* Выбор превью *}
-    {component 'field' template='image-ajax'
-        label      = 'Превью'
-        modalTitle = 'Выбор превью для топика'
-        targetType = 'topic'
-        targetId   = ( $topic ) ? $topic->getId() : ''
-        classes    = 'js-topic-add-field-image-preview'}
-
+    {if $type->getParam('allow_preview')}
+        {component 'field' template='image-ajax'
+            label      = 'Превью'
+            modalTitle = 'Выбор превью для топика'
+            targetType = 'topic'
+            targetId   = ( $topic ) ? $topic->getId() : ''
+            classes    = 'js-topic-add-field-image-preview'}
+    {/if}
 
     {* Вставка опросов *}
     {if $type->getParam('allow_poll')}

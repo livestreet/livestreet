@@ -1133,6 +1133,16 @@ class ModuleMedia extends ModuleORM
                  * Проверяем права на редактирование топика
                  */
                 if ($this->ACL_IsAllowEditTopic($oTopic, $oUser)) {
+                    /**
+                     * Дополнительно возможность исползования превью (настраивается отдельно для каждого типа топика)
+                     */
+                    if ($sAllowType == self::TYPE_CHECK_ALLOW_PREVIEW) {
+                        if ($oTopicType = $this->Topic_GetTopicType($oTopic->getType())) {
+                            if (!$oTopicType->getParam('allow_preview')) {
+                                return false;
+                            }
+                        }
+                    }
                     return true;
                 }
             }
