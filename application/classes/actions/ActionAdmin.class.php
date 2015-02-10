@@ -107,7 +107,7 @@ class ActionAdmin extends Action
         /**
          * Загружаем переменные в шаблон
          */
-        $this->Viewer_Assign("plugins", $aPlugins);
+        $this->Viewer_Assign('plugins', $aPlugins);
         $this->Viewer_AddHtmlTitle($this->Lang_Get('admin.plugins.title'));
         /**
          * Устанавливаем шаблон вывода

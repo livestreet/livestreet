@@ -107,6 +107,9 @@ return array(
                 'passwd' => 'Пароль должен быть от 3-х символов',
             ),
         ),
+        'installComplete'     => array(
+            'title'  => 'Установка завершена!',
+        ),
         'updateVersion'     => array(
             'title'  => 'Выбор текущей версии',
             'errors' => array(
@@ -115,6 +118,9 @@ return array(
         ),
         'updateDb'     => array(
             'title'  => 'Настройка базы данных',
+        ),
+        'updateComplete'     => array(
+            'title'  => 'Обновление успешно завершено!',
         ),
     ),
     'config'        => array(
