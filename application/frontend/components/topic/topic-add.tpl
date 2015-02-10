@@ -41,6 +41,10 @@
             ]}
         {/foreach}
 
+        {if $topic}
+            {json var=$topic->getBlogsId() assign='chosenOrder'}
+        {/if}
+
         {component 'field' template='select'
             label         = $aLang.topic.add.fields.blog.label
             name          = ''
@@ -48,7 +52,7 @@
             inputClasses  = 'js-topic-add-blogs'
             isMultiple    = true
             selectedValue = ( ( $topic ) ? $topic->getBlogsId() : [] )
-            inputAttributes    = [ 'data-chosen-order' => {json var=$topic->getBlogsId()} ]
+            inputAttributes    = [ 'data-chosen-order' => {$chosenOrder} ]
             items         = $blogsSelect}
     {/if}
 
