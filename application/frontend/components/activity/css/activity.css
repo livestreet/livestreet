@@ -13,28 +13,25 @@
 .activity-event-list {
     margin: 0 0 20px;
 }
+
+/* Дата-заголовок */
 .activity-date {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 20px;
-    margin-top: 45px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    font: 400 18px/1.3em 'Open Sans', sans-serif;
+    padding: 10px 0;
+    border-bottom: 1px solid #E7E7E7;
+}
+.activity-event + .activity-date {
+    margin-top: 30px;
 }
 
 /**
  * Событие
  */
 .activity-event {
-    margin-bottom: 5px;
-    min-height: 48px;
-    background: #fafafa;
-    padding: 15px 15px 15px 75px;
-    position: relative;
+    padding: 15px;
 }
-.activity-event-avatar {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+.activity-event + .activity-event {
+    border-top: 1px solid #f2f2f2;
 }
 .activity-event-date {
     display: block;
@@ -43,9 +40,8 @@
 }
 .activity-event-text {
     padding: 10px 15px;
-    background: #fff;
-    border: 1px solid #eee;
-    border-bottom-color: #ddd;
     margin-top: 10px;
+    color: #777;
+    background: #fafafa;
     font-size: 13px;
 }

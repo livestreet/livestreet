@@ -2,14 +2,7 @@
  * Блок с фотографией пользователя в профиле
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_options' append}
-    {$mods = "{$mods} user-photo"}
-    {$classes = "{$classes} js-ajax-photo-upload"}
-{/block}
-
-{block 'block_content'}
+{capture 'block_content'}
     {$session = $oUserProfile->getSession()}
 
     {* Статус онлайн\оффлайн *}
@@ -37,4 +30,8 @@
         url          = $oUserProfile->getUserWebPath()
         photoPath    = $oUserProfile->getProfileFotoPath()
         photoAltText = $oUserProfile->getDisplayName()}
-{/block}
+{/capture}
+
+{component 'block'
+    mods     = 'user-photo'
+    content = $smarty.capture.block_content}

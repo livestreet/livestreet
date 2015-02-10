@@ -2,24 +2,18 @@
  * Список пользователей блога
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_title'}
+{capture 'block_title'}
     {$usersCount = count($blogUsers)}
 
-    <a href="{$blog->getUrlFull()}users/">
-        {if $usersCount}
-            {$usersCount} {$usersCount|declension:$aLang.blog.readers_declension:'russian'}
-        {else}
-            {$aLang.blog.users.empty}
-        {/if}
-    </a>
-{/block}
+    {if $usersCount}
+        {$usersCount} {lang "{$smarty.local.titleLang|default:'blog.readers_declension'}" count=$usersCount plural=true}
+    {else}
+        {$aLang.blog.users.empty}
+    {/if}
+{/capture}
 
-{block 'block_options' append}
-    {$mods = "{$mods} blog-users"}
-{/block}
-
-{block 'block_content'}
-    {component 'user' template='list-avatar' users=$blogUsers}
-{/block}
+{component 'block'
+    mods     = 'blog-users'
+    title    = $smarty.capture.block_title
+    titleUrl = "{$blog->getUrlFull()}users/"
+    content  = {component 'user' template='list-avatar' users=$blogUsers}}

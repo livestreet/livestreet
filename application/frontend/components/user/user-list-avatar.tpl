@@ -2,28 +2,27 @@
  * Список пользователей (аватары)
  *
  * @param array $users      Список пользователей
- * @param array $showPagination Показывать или нет пагинацию (false)
+ * @param array $pagination Массив с параметрами пагинации
+ * @param array $emptyText
  *}
 
 {$users = $smarty.local.users}
+{$pagination = $smarty.local.pagination}
+{$emptyText = $smarty.local.emptyText}
+
+{$emptyText = $emptyText|default:$aLang.common.empty}
 
 {if $users}
 	<ul class="user-list-avatar">
-		{foreach $users as $oUser}
+		{foreach $users as $user}
 			{* TODO: Костыль для блогов *}
-			{if $oUser->getUser()}{$oUser = $oUser->getUser()}{/if}
+			{if $user->getUser()}{$user = $user->getUser()}{/if}
 
-			<li>{component 'user' template='item' user=$oUser avatarSize=64}</li>
+			<li>{component 'user' template='item' user=$user avatarSize=64}</li>
 		{/foreach}
 	</ul>
 {else}
-	{if $sUserListEmpty}
-		{component 'alert' text=$sUserListEmpty mods='empty'}
-	{else}
-		{component 'alert' text=$aLang.common.empty mods='empty'}
-	{/if}
+	{component 'alert' text=$emptyText mods='empty'}
 {/if}
 
-{if $showPagination}
-	{component 'pagination' paging=$aPaging}
-{/if}
+{component 'pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/"}

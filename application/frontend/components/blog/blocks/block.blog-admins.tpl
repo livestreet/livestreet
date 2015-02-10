@@ -2,17 +2,7 @@
  * Список управляющих блога
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_title'}
-    {$aLang.blog.administrators}
-{/block}
-
-{block 'block_options' append}
-    {$mods = "{$mods} blog-admins"}
-{/block}
-
-{block 'block_content'}
+{capture 'block_content'}
     {* Создатель *}
     {component 'user' template='list-small' users=[ $blog->getOwner() ] title=$aLang.blog.owner}
 
@@ -25,4 +15,9 @@
     {if count($blogModerators)}
         {component 'user' template='list-small' users=$blogModerators title="{$aLang.blog.moderators} ({count($blogModerators)})"}
     {/if}
-{/block}
+{/capture}
+
+{component 'block'
+    mods     = 'blog-admins'
+    title    = {lang 'blog.administrators'}
+    content  = $smarty.capture.block_content}

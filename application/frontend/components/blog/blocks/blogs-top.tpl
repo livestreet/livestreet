@@ -1,25 +1,27 @@
 {**
  * Блок со списоком блогов
  * Список блогов
- *
- * TODO: Component item
  *}
 
-<ul class="block-item-list">
-    {foreach $aBlogs as $blog}
-        <li>
-            <a href="{$blog->getUrlFull()}">
-                <img src="{$blog->getAvatarPath(48)}" alt="{$blog->getTitle()|escape}" class="avatar" />
-            </a>
+{$items = []}
 
-            {if $blog->getType() == 'close'}
-                <i title="{lang 'blog.blocks.blogs.item.private'}" class="icon icon-lock"></i>
-            {/if}
+{foreach $aBlogs as $blog}
+    {capture 'item_content'}
+        {lang 'blog.users.readers_total'}: <strong>{$blog->getCountUser()}</strong><br>
+        {lang 'blog.topics_total'}: <strong>{$blog->getCountTopic()}</strong>
+    {/capture}
 
-            <a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>
+    {$items[] = [
+        'title' => $blog->getTitle()|escape,
+        'titleUrl' => $blog->getUrlFull(),
+        'mods' => $blog->getUrlFull(),
+        'content' => $smarty.capture.item_content,
+        'image' => [
+            'path' => $blog->getAvatarPath(48),
+            'url' => $blog->getUrlFull(),
+            'alt' => $blog->getTitle()|escape
+        ]
+    ]}
+{/foreach}
 
-            <p>{lang 'blog.users.readers_total'}: <strong>{$blog->getCountUser()}</strong></p>
-            <p>{lang 'blog.topics_total'}: <strong>{$blog->getCountTopic()}</strong></p>
-        </li>
-    {/foreach}
-</ul>
+{component 'item' template='group' items=$items}

@@ -2,17 +2,7 @@
  * Фильтр блогов
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_title'}
-    {lang 'blog.blocks.search.title'}
-{/block}
-
-{block 'block_options' append}
-    {$mods = "{$mods} blogs-search"}
-{/block}
-
-{block 'block_content'}
+{capture 'block_content'}
     <h3>{lang 'blog.blocks.search.categories.title'}</h3>
 
     {* Категории *}
@@ -66,4 +56,9 @@
         {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='my'   label='Мои'}
         {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='join' label='Читаю'}
     </div>
-{/block}
+{/capture}
+
+{component 'block'
+    mods    = 'blogs-search'
+    title   = {lang 'blog.blocks.search.title'}
+    content = $smarty.capture.block_content}

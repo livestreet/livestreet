@@ -4,14 +4,7 @@
  * TODO: Уни-ать список экшенов
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_options' append}
-   {* TODO: Fix styles *}
-   {$mods = "{$mods} nopadding transparent user-actions"}
-{/block}
-
-{block 'block_content'}
+{capture 'block_content'}
     <ul class="profile-actions" id="profile_actions">
         {* Список экшенов *}
         {$actions = []}
@@ -75,4 +68,8 @@
             </li>
         {/foreach}
     </ul>
-{/block}
+{/capture}
+
+{component 'block'
+    mods    = 'nopadding transparent user-actions'
+    content = $smarty.capture.block_content}

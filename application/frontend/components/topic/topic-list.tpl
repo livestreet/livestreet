@@ -6,6 +6,7 @@
  *}
 
 {$topics = $smarty.local.topics}
+{$paging = $smarty.local.paging}
 
 {if $topics}
 	{add_block group='toolbar' name='component@toolbar-scrollnav.toolbar.scrollnav' show=count( $topics )}
@@ -14,7 +15,7 @@
 		{include './topic-type.tpl' topic=$topic isList=true}
 	{/foreach}
 
-	{component 'pagination' paging=$smarty.local.paging classes='js-pagination-topics'}
+	{component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}" classes='js-pagination-topics'}
 {else}
 	{component 'alert' text=$aLang.common.empty mods='empty'}
 {/if}

@@ -68,7 +68,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Tabs
 	 */
-	$( '.js-tabs-auth, .js-tabs-block' ).lsTabs();
+	$( '.js-tabs-auth' ).lsTabs();
 
 
 	/**

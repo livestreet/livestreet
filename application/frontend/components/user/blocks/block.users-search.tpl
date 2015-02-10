@@ -2,17 +2,7 @@
  * Статистика по пользователям
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_options' append}
-    {$mods = "{$mods} users-search"}
-{/block}
-
-{block 'block_title'}
-    Поиск по пользователям
-{/block}
-
-{block 'block_content'}
+{capture 'block_content'}
     {* Сейчас на сайте *}
     {component 'field' template='checkbox'
         name         = 'is_online'
@@ -35,4 +25,9 @@
         countries  = $countriesUsed
         name       = 'geo'
         label      = {lang name='user.settings.profile.fields.place.label'} }
-{/block}
+{/capture}
+
+{component 'block'
+    mods     = 'users-search'
+    title    = {lang 'user.search.title'}
+    content  = $smarty.capture.block_content}

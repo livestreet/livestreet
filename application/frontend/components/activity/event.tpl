@@ -25,12 +25,7 @@
 
 
 {* Событие *}
-<li class="{$component} {$component}--{$type} js-{$component}">
-    {* Аватар *}
-    <a href="{$user->getUserWebPath()}">
-        <img src="{$user->getProfileAvatarPath(48)}" alt="{$user->getDisplayName()}" class="activity-event-avatar" />
-    </a>
-
+{capture 'event_content'}
     {* Дата *}
     <time datetime="{date_format date=$event->getDateAdded() format='c' notz=1}"
           class="{$component}-date"
@@ -85,4 +80,15 @@
     {else}
         {hook run="activity_event_`$type`" event=$event}
     {/if}
-</li>
+{/capture}
+
+{component 'item'
+    element='li'
+    classes="{$component} {cmods name=$component mods=$type}"
+    mods='image-rounded'
+    desc=$smarty.capture.event_content
+    image=[
+        'url' => $user->getUserWebPath(),
+        'path' => $user->getProfileAvatarPath(48),
+        'alt' => $user->getDisplayName()
+    ]}

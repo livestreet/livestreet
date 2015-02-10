@@ -47,7 +47,7 @@
         {component 'button' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
     </form>
 
-    {component 'pagination' paging=$smarty.local.pagination}
+    {component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}"}
 {else}
     {component 'alert' text=$aLang.blog.admin.alerts.empty mods='empty'}
 {/if}

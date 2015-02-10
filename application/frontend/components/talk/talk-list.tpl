@@ -128,4 +128,4 @@
     {component 'alert' text=$aLang.talk.notices.empty mods='empty'}
 {/if}
 
-{component 'pagination' paging=$smarty.local.paging}
+{component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}"}

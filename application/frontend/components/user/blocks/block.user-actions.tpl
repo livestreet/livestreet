@@ -1,19 +1,9 @@
 {**
  * Меню пользователя ("Добавить в друзья", "Написать письмо" и т.д.)
- *
- * @styles css/blocks.css
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_options' append}
-	{$mods = "{$mods} nopadding transparent user-actions"}
-
-	{if ! $oUserCurrent or ( $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId() )}
-		{$show = false}
-	{/if}
-{/block}
-
-{block 'block_content'}
-	{component 'user' template='actions' user=$oUserProfile}
-{/block}
+{if $oUserCurrent && $oUserCurrent->getId() != $oUserProfile->getId() }
+    {component 'block'
+        mods     = 'nopadding transparent user-actions'
+        content  = {component 'user' template='actions' user=$oUserProfile}}
+{/if}

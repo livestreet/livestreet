@@ -1,19 +1,9 @@
 {**
  * Блок с заметкой о пользователе
- *
- * @styles css/blocks.css
  *}
 
-{extends 'Component@block.block'}
-
-{block 'block_options' append}
-	{$mods = "{$mods} user-note nopadding transparent"}
-
-	{if ! $oUserCurrent or ( $oUserCurrent->getId() == $oUserProfile->getId() )}
-		{$show = false}
-	{/if}
-{/block}
-
-{block 'block_content_after'}
-	{component 'note' classes='js-user-note' note=$oUserProfile->getUserNote() targetId=$oUserProfile->getId()}
-{/block}
+{if $oUserCurrent && $oUserCurrent->getId() != $oUserProfile->getId() }
+    {component 'block'
+        mods     = 'nopadding transparent user-note'
+        content  = {component 'note' classes='js-user-note' note=$oUserProfile->getUserNote() targetId=$oUserProfile->getId()}}
+{/if}
