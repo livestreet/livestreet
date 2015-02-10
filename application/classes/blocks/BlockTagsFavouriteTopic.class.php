@@ -50,9 +50,9 @@ class BlockTagsFavouriteTopic extends Block
             /**
              * Устанавливаем шаблон вывода
              */
-            $this->Viewer_Assign("tags", $aTags, true);
-            $this->Viewer_Assign("user", $oUser, true);
-            $this->Viewer_Assign("activeTag", $this->getParam('activeTag'), true);
+            $this->Viewer_Assign('tags', $aTags, true);
+            $this->Viewer_Assign('user', $oUser, true);
+            $this->Viewer_Assign('activeTag', $this->getParam('activeTag'), true);
 
             $this->SetTemplate('component@tags-favourite.cloud');
         }

@@ -44,7 +44,7 @@ class BlockTopicsTags extends Block
             /**
              * Устанавливаем шаблон вывода
              */
-            $this->Viewer_Assign("tags", $aTags, true);
+            $this->Viewer_Assign('tags', $aTags, true);
         }
         /**
          * Теги пользователя
@@ -60,7 +60,7 @@ class BlockTopicsTags extends Block
                 /**
                  * Устанавливаем шаблон вывода
                  */
-                $this->Viewer_Assign("tagsUser", $aTags, true);
+                $this->Viewer_Assign('tagsUser', $aTags, true);
             }
         }
 

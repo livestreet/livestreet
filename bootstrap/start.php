@@ -35,7 +35,7 @@ $sPathToFramework = dirname(__DIR__) . '/framework/';
 /**
  * Подключаем ядро
  */
-require_once($sPathToFramework . "/classes/engine/Engine.class.php");
+require_once($sPathToFramework . '/classes/engine/Engine.class.php');
 
 /**
  * Определяем окружение
@@ -51,12 +51,12 @@ $sEnv = Engine::DetectEnvironment(array(
 /**
  * Дополнительные подготовка фреймворка
  */
-require_once($sPathToFramework . "/bootstrap/start.php");
+require_once($sPathToFramework . '/bootstrap/start.php');
 
 /**
  * Подключаем загрузчик конфигов
  */
-require_once($sPathToFramework . "/config/loader.php");
+require_once($sPathToFramework . '/config/loader.php');
 
 /**
  * Определяем дополнительные параметры роутинга
