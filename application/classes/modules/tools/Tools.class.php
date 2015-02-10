@@ -164,6 +164,7 @@ class ModuleTools extends Module
                 $sContent = fread($file, 1024 * 100);
                 echo $sContent;
             }
+            Engine::getInstance()->Shutdown();
             exit(0);
         }
         return false;
