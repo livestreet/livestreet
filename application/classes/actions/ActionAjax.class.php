@@ -1536,7 +1536,8 @@ class ActionAjax extends Action
             $sTextResult = $oViewer->Fetch("component@activity.recent-comments");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('block_stream_comments_no'), $this->Lang_Get('attention'));
+            $this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.comments_empty'),
+                $this->Lang_Get('attention'));
             return;
         }
     }
