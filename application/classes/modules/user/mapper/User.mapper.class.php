@@ -191,10 +191,11 @@ class ModuleUser_MapperUser extends Mapper
 				session_ip_create = ? ,
 				session_ip_last = ? ,
 				session_date_create = ? ,
-				session_date_last = ?
+				session_date_last = ? ,
+				session_extra = ?
 		";
         return $this->oDb->query($sql, $oSession->getKey(), $oSession->getUserId(), $oSession->getIpCreate(),
-            $oSession->getIpLast(), $oSession->getDateCreate(), $oSession->getDateLast());
+            $oSession->getIpLast(), $oSession->getDateCreate(), $oSession->getDateLast(), $oSession->getExtra());
     }
 
     /**

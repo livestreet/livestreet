@@ -830,3 +830,6 @@ ALTER TABLE `prefix_topic` ADD INDEX(`blog_id2`);
 ALTER TABLE `prefix_topic` ADD INDEX(`blog_id3`);
 ALTER TABLE `prefix_topic` ADD INDEX(`blog_id4`);
 ALTER TABLE `prefix_topic` ADD INDEX(`blog_id5`);
+
+-- 10.02.2015
+ALTER TABLE `prefix_session` ADD `session_extra` TEXT NULL ;

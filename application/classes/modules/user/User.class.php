@@ -612,6 +612,9 @@ class ModuleUser extends Module
         }
         if ($sKey = $this->Session_GetCookie('key') and is_string($sKey)) {
             if ($oUser = $this->GetUserBySessionKey($sKey) and $oSession = $this->oMapper->GetSessionByKey($sKey) and $oSession->isActive()) {
+                /**
+                 * Перед запуском авторизации дополнительно можно проверить user-agent'а пользователя
+                 */
                 $this->Authorization($oUser, true, $oSession->getKey());
             } else {
                 $this->Logout();
@@ -772,6 +775,7 @@ class ModuleUser extends Module
             $oSession->setKey($sKey);
             $oSession->setIpCreate(func_getIp());
             $oSession->setDateCreate(date("Y-m-d H:i:s"));
+            $oSession->setExtraParam('user_agent',isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
         }
         $oSession->setUserId($oUser->getId());
         $oSession->setIpLast(func_getIp());

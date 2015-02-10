@@ -98,15 +98,57 @@ class ModuleUser_EntitySession extends Entity
     }
 
     /**
+     * Возвращает дополнительные данные
+     *
+     * @return string|null
+     */
+    public function getExtra()
+    {
+        return $this->_getDataOne('session_extra');
+    }
+
+    /**
      * Проверяет факт активности сессии
      *
      * @return bool
      */
-    public function isActive() {
+    public function isActive()
+    {
         if ($this->getDateClose()) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Возвращает параметр по имени
+     *
+     * @param $sName
+     * @return null
+     */
+    public function getExtraParam($sName)
+    {
+        if ($sExtra = $this->getExtra() and $aData = @unserialize($sExtra)) {
+            if (isset($aData[$sName])) {
+                return $aData[$sName];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Устанавливает параметр по имени
+     *
+     * @param $sName
+     * @param $mValue
+     */
+    public function setExtraParam($sName, $mValue)
+    {
+        if (!($sExtra = $this->getExtra() and $aData = @unserialize($sExtra))) {
+            $aData = array();
+        }
+        $aData[$sName] = $mValue;
+        $this->setExtra(serialize($aData));
     }
 
 
@@ -178,5 +220,15 @@ class ModuleUser_EntitySession extends Entity
     public function setDateClose($data)
     {
         $this->_aData['session_date_close'] = $data;
+    }
+
+    /**
+     * Устанавливает дополнительные данные
+     *
+     * @param string $data
+     */
+    public function setExtra($data)
+    {
+        $this->_aData['session_extra'] = $data;
     }
 }
