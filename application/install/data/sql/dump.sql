@@ -996,7 +996,7 @@ ALTER TABLE `prefix_userfeed_subscribe`
 -- Ограничения внешнего ключа таблицы `prefix_user_administrator`
 --
 ALTER TABLE `prefix_user_administrator`
-  ADD CONSTRAINT `user_administrator_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `prefix_user_administrator_fk` FOREIGN KEY (`user_id`) REFERENCES `prefix_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `prefix_user_changemail`
