@@ -73,9 +73,9 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
             return false;
         }
         /**
-         * На ограниечение по размеру файла
+         * На ограничение по размеру файла
          */
-        if ($iSizeKb = $oProperty->getValidateRuleOne('size_max') and $iSizeKb * 1025 < $sFileSize) {
+        if ($iSizeKb = $oProperty->getValidateRuleOne('size_max') and $iSizeKb * 1024 < $sFileSize) {
             return "Превышен размер файла, максимальный {$iSizeKb}Kb";
         }
         /**
