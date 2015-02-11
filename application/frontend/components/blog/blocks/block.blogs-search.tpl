@@ -49,13 +49,16 @@
     </div>
 
     {* Тип принадлежности блога *}
-    <h3>{lang 'blog.blocks.search.relation.title'}</h3>
+    {if $oUserCurrent}
+        <h3>{lang 'blog.blocks.search.relation.title'}</h3>
 
-    <div class="field-checkbox-group">
-        {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='all'  label='Все' checked=true}
-        {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='my'   label='Мои'}
-        {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='join' label='Читаю'}
-    </div>
+        <div class="field-checkbox-group">
+            {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='all'  label='Все' checked=true}
+            {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='my'   label='Мои'}
+            {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='join' label='Читаю'}
+        </div>
+    {/if}
+
 {/capture}
 
 {component 'block'
