@@ -110,6 +110,9 @@ $config['acl']['vote']['comment']['limit_time'] = 60 * 60 * 24 * 5;  // огра
 /**
  * Настройки модулей
  */
+// Модуль Rating
+$config['module']['rating']['comment_multiplier'] = 0.1; // Множитель рейтинга при голосовании за комментарий
+$config['module']['rating']['topic_multiplier'] = 1;     // Множитель рейтинга при голосовании за топик
 // Модуль Blog
 $config['module']['blog']['per_page'] = 20;   // Число блогов на страницу
 $config['module']['blog']['users_per_page'] = 20;   // Число пользователей блога на страницу

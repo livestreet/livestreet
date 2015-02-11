@@ -54,8 +54,7 @@ class ModuleRating extends Module
         /**
          * Меняем рейтинг автора коммента
          */
-        $fDeltaUser = 0.1;
-        $fDeltaUser = ($iValue < 0 ? -1 : 1) * $fDeltaUser;
+        $fDeltaUser = ($iValue < 0 ? -1 : 1) * Config::Get('module.rating.comment_multiplier');
         $oUserComment = $this->User_GetUserById($oComment->getUserId());
         $oUserComment->setRating($oUserComment->getRating() + $fDeltaUser);
         $this->User_Update($oUserComment);
@@ -79,8 +78,7 @@ class ModuleRating extends Module
         /**
          * Меняем рейтинг автора топика
          */
-        $fDeltaUser = 1;
-        $fDeltaUser = ($iValue < 0 ? -1 : 1) * $fDeltaUser;
+        $fDeltaUser = ($iValue < 0 ? -1 : 1) * Config::Get('module.rating.topic_multiplier');
         $oUserTopic = $this->User_GetUserById($oTopic->getUserId());
         $oUserTopic->setRating($oUserTopic->getRating() + $fDeltaUser);
         $this->User_Update($oUserTopic);
