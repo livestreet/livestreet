@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
 --
 
 INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_count_topic`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`) VALUES
-(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', '2012-08-07 00:00:00', NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0');
+(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', NOW(), NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -646,7 +646,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
 --
 
 INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`, `user_settings_timezone`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, '2012-04-10 00:00:00', NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1, NULL);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@admin.adm', 0.000, NOW(), NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
