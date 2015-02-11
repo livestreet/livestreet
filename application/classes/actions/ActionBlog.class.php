@@ -809,6 +809,21 @@ class ActionBlog extends Action
         $this->Viewer_SetHtmlKeywords($oTopic->getTags());
         $this->Viewer_SetHtmlCanonical($oTopic->getUrl());
         /**
+         * Open Graph
+         */
+        $this->Viewer_SetOpenGraphProperty('og:type', 'article');
+        $this->Viewer_SetOpenGraphProperty('og:title', $oTopic->getTitle());
+        $this->Viewer_SetOpenGraphProperty('og:description', $this->Viewer_GetHtmlDescription());
+        $this->Viewer_SetOpenGraphProperty('og:url', $oTopic->getUrl());
+        $this->Viewer_SetOpenGraphProperty('article:author', $oTopic->getUser()->getUserWebPath());
+        $this->Viewer_SetOpenGraphProperty('article:published_time', date('c', strtotime($oTopic->getDateAdd())));
+        if ($sImage = $oTopic->getPreviewImageWebPath(Config::Get('module.topic.default_preview_size'))) {
+            $this->Viewer_SetOpenGraphProperty('og:image', $sImage);
+        }
+        if ($aTags = $oTopic->getTagsArray()) {
+            $this->Viewer_SetOpenGraphProperty('article:tag', $aTags);
+        }
+        /**
          * Вызов хуков
          */
         $this->Hook_Run('topic_show', array("oTopic" => $oTopic));
@@ -1456,13 +1471,13 @@ class ActionBlog extends Action
                     $oViewer->Assign('showActions', true, true);
 
                     $aResult[] = array(
-                        'bStateError'   => false,
-                        'sMsgTitle'     => $this->Lang_Get('attention'),
-                        'sMsg'          => $this->Lang_Get('blog.invite.notices.add',
+                        'bStateError' => false,
+                        'sMsgTitle'   => $this->Lang_Get('attention'),
+                        'sMsg'        => $this->Lang_Get('blog.invite.notices.add',
                             array('login' => htmlspecialchars($sUser))),
-                        'user_id'       => $oUser->getId(),
-                        'user_login'    => htmlspecialchars($sUser),
-                        'html'         => $oViewer->Fetch("component@blog.invite-item")
+                        'user_id'     => $oUser->getId(),
+                        'user_login'  => htmlspecialchars($sUser),
+                        'html'        => $oViewer->Fetch("component@blog.invite-item")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
                 } else {
@@ -1780,7 +1795,8 @@ class ActionBlog extends Action
         if (!$bAccess = $this->ACL_IsAllowDeleteBlog($oBlog, $this->oUserCurrent)) {
             return parent::EventNotFound();
         }
-        $aTopics = $this->Topic_GetTopicsByBlogId($sBlogId, 1,1,array(),false); // нужно переделать функционал переноса топиков в дргугой блог
+        $aTopics = $this->Topic_GetTopicsByBlogId($sBlogId, 1, 1, array(),
+            false); // нужно переделать функционал переноса топиков в дргугой блог
         switch ($bAccess) {
             case ModuleACL::CAN_DELETE_BLOG_EMPTY_ONLY :
                 if ($aTopics['count']) {
