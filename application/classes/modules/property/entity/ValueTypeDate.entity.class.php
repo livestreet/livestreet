@@ -40,6 +40,11 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
             strtotime($oValue->getValueDate())) : '';
     }
 
+    public function isEmpty()
+    {
+        return $this->getValueObject()->getValueDate() ? false : true;
+    }
+
     public function getValueForForm()
     {
         $oValue = $this->getValueObject();

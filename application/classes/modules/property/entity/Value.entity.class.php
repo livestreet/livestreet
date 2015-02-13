@@ -47,6 +47,12 @@ class ModuleProperty_EntityValue extends EntityORM
         return $oValueType->getValueForDisplay();
     }
 
+    public function isEmpty()
+    {
+        $oValueType = $this->getValueTypeObject();
+        return $oValueType->isEmpty();
+    }
+
     public function getValueForForm()
     {
         $oValueType = $this->getValueTypeObject();

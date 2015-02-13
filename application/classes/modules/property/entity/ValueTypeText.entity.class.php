@@ -33,6 +33,11 @@ class ModuleProperty_EntityValueTypeText extends ModuleProperty_EntityValueType
         return $this->getValueObject()->getValueText();
     }
 
+    public function isEmpty()
+    {
+        return $this->getValueObject()->getValueText() ? false : true;
+    }
+
     public function getValueForForm()
     {
         $oValue = $this->getValueObject();

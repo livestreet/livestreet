@@ -35,6 +35,13 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
         return is_array($aValues) ? join(', ', $aValues) : '';
     }
 
+    public function isEmpty()
+    {
+        $oValue = $this->getValueObject();
+        $aValues = $oValue->getDataOne('values');
+        return $aValues ? false : true;
+    }
+
     public function getValueForForm()
     {
         $oValue = $this->getValueObject();

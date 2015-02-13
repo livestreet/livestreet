@@ -33,6 +33,11 @@ class ModuleProperty_EntityValueTypeFloat extends ModuleProperty_EntityValueType
         return $this->getValueObject()->getValueFloat();
     }
 
+    public function isEmpty()
+    {
+        return is_null($this->getValueObject()->getValueFloat()) ? true : false;
+    }
+
     public function getValueForForm()
     {
         $oValue = $this->getValueObject();

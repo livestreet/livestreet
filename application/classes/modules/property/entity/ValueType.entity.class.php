@@ -41,6 +41,11 @@ class ModuleProperty_EntityValueType extends Entity
         return htmlspecialchars($this->getValueObject()->getValue());
     }
 
+    public function isEmpty()
+    {
+        return $this->getValueObject()->getValueVarchar() ? false : true;
+    }
+
     public function validate()
     {
         return 'Неверное значение';

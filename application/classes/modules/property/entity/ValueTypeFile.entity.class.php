@@ -33,6 +33,11 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
         return $this->getFileFullName();
     }
 
+    public function isEmpty()
+    {
+        return $this->getFileFullName() ? false : true;
+    }
+
     public function validate()
     {
         $oValue = $this->getValueObject();

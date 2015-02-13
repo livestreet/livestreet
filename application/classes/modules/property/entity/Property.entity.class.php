@@ -100,11 +100,11 @@ class ModuleProperty_EntityProperty extends EntityORM
          * Валидация зависит от типа
          */
         $oValue = Engine::GetEntity('ModuleProperty_EntityValue', array(
-                'property_type' => $this->getType(),
-                'property_id'   => $this->getId(),
-                'target_type'   => $this->getTargetType(),
-                'target_id'     => $this->getId()
-            ));
+            'property_type' => $this->getType(),
+            'property_id'   => $this->getId(),
+            'target_type'   => $this->getTargetType(),
+            'target_id'     => $this->getId()
+        ));
         $oValueType = $oValue->getValueTypeObject();
         $aRules = $oValueType->prepareValidateRulesRaw($aRulesRaw);
         $this->setValidateRules($aRules);
@@ -118,11 +118,11 @@ class ModuleProperty_EntityProperty extends EntityORM
          * Валидация зависит от типа
          */
         $oValue = Engine::GetEntity('ModuleProperty_EntityValue', array(
-                'property_type' => $this->getType(),
-                'property_id'   => $this->getId(),
-                'target_type'   => $this->getTargetType(),
-                'target_id'     => $this->getId()
-            ));
+            'property_type' => $this->getType(),
+            'property_id'   => $this->getId(),
+            'target_type'   => $this->getTargetType(),
+            'target_id'     => $this->getId()
+        ));
         $oValueType = $oValue->getValueTypeObject();
         $aParams = $oValueType->prepareParamsRaw($aParamsRaw);
         $this->setParams($aParams);
@@ -141,11 +141,11 @@ class ModuleProperty_EntityProperty extends EntityORM
                 $this->setDateCreate(date("Y-m-d H:i:s"));
 
                 $oValue = Engine::GetEntity('ModuleProperty_EntityValue', array(
-                        'property_type' => $this->getType(),
-                        'property_id'   => $this->getId(),
-                        'target_type'   => $this->getTargetType(),
-                        'target_id'     => $this->getId()
-                    ));
+                    'property_type' => $this->getType(),
+                    'property_id'   => $this->getId(),
+                    'target_type'   => $this->getTargetType(),
+                    'target_id'     => $this->getId()
+                ));
                 $oValueType = $oValue->getValueTypeObject();
                 /**
                  * Выставляем дефолтные значения параметров
@@ -328,4 +328,11 @@ class ModuleProperty_EntityProperty extends EntityORM
         return Config::Get('path.uploads.base') . '/property/' . $this->getTargetType() . '/' . $this->getType() . '/' . date('Y/m/d/H/') . ($sPostfix ? "{$sPostfix}/" : '');
     }
 
+    public function isEmpty()
+    {
+        if (!$oValue = $this->getValue()) {
+            return true;
+        }
+        return $oValue->isEmpty();
+    }
 }

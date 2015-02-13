@@ -40,6 +40,11 @@ class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueT
         return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueInt();
     }
 
+    public function isEmpty()
+    {
+        return false;
+    }
+
     public function validate()
     {
         $sValue = $this->getValueForValidate();
