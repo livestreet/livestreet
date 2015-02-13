@@ -58,8 +58,7 @@
         submit: function( params ) {
             $.extend( this.option( 'params' ), params || {} );
 
-            this.option( 'callbacks' )['beforeSubmit'].call(this);
-
+            this.option( 'callbacks' )['beforeSubmit'] && this.option( 'callbacks' )['beforeSubmit'].call(this);
 
             this._submit( this.action, this.element, function( response ) {
                 if ( response.sUrlRedirect ) {
