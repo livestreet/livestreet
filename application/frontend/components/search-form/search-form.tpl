@@ -20,7 +20,7 @@
 				name         = $smarty.local.inputName|default:'q'}
 
 		{if ! $smarty.local.noSubmitButton}
-			{component 'button' mods='icon' classes="{$component}-submit" icon='icon-search'}
+			{component 'button' mods='icon' classes="{$component}-submit" icon='search'}
 		{/if}
 	{/block}
 </form>

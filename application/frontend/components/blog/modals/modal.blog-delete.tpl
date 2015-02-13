@@ -5,19 +5,13 @@
  * @param array  $blogs
  *}
 
-{extends 'Component@modal.modal'}
-
-{block 'modal_options' append}
-    {$id = "modal-blog-delete"}
-    {$mods = "$mods blog-delete"}
-    {$classes = "$classes js-modal-default"}
-    {$title = $aLang.blog.remove.title}
-{/block}
-
-{block 'modal_content'}
+{capture 'modal_content'}
     {$blog = $smarty.local.blog}
 
     <form action="{router page='blog'}delete/{$blog->getId()}/" method="POST" id="js-blog-remove-form">
+        {* Скрытые поля *}
+        {component 'field' template='hidden.security-key'}
+
         {* Переместить топики в блог *}
         {$selectBlogs = [
             [ 'value' => -1, 'text' => "-- {$aLang.blog.remove.remove_topics} --" ]
@@ -34,12 +28,16 @@
             name  = 'topic_move_to'
             label = $aLang.blog.remove.move_to
             items = $selectBlogs}
-
-        {* Скрытые поля *}
-        {component 'field' template='hidden.security-key'}
     </form>
-{/block}
+{/capture}
 
-{block 'modal_footer_begin'}
-    {component 'button' form='js-blog-remove-form' text=$aLang.common.remove mods='primary'}
-{/block}
+{component 'modal'
+    title         = {lang 'blog.remove.title'}
+    content       = $smarty.capture.modal_content
+    classes       = 'js-modal-default'
+    mods          = 'blog-delete'
+    id            = 'modal-blog-delete'
+    primaryButton = [
+        'text' => {lang 'common.remove'},
+        'form' => 'js-blog-remove-form'
+    ]}

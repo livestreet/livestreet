@@ -6,16 +6,7 @@
  * @param string  $target
  *}
 
-{extends 'Component@modal.modal'}
-
-{block 'modal_options' append}
-    {$id = "modal-users-select"}
-    {$mods = "$mods users-select"}
-    {$classes = "$classes js-modal-default"}
-    {$title = $title|default:$aLang.user.users|escape}
-{/block}
-
-{block 'modal_content'}
+{capture 'modal_content'}
     {* Экшнбар *}
     {if $smarty.local.users && $smarty.local.selectable}
         {component 'actionbar' template='item.select'
@@ -32,14 +23,17 @@
         selectable = $smarty.local.selectable
         showEmpty  = true
         classes    = 'js-user-list-select'}
-{/block}
+{/capture}
 
-{block 'modal_footer_begin'}
-    {if $smarty.local.users && $smarty.local.selectable}
-        {component 'button'
-            text       = $aLang.common.add
-            mods       = 'primary'
-            classes    = 'js-user-list-select-add'
-            attributes = [ 'data-target' => $smarty.local.target ]}
-    {/if}
-{/block}
+{component 'modal'
+    title         = $title|default:$aLang.user.users|escape
+    content       = $smarty.capture.modal_content
+    classes       = 'js-modal-default'
+    mods          = 'users-select'
+    id            = 'modal-users-select'
+    primaryButton  = ( $smarty.local.users && $smarty.local.selectable ) ? [
+        'text'       => {lang 'common.add'},
+        'classes'    => 'js-user-list-select-add',
+        'attributes' => [ 'data-target' => $smarty.local.target ],
+        'form'       => 'form-complaint-user'
+    ] : false}

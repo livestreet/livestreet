@@ -2,16 +2,7 @@
  * Модальное с меню "Создать"
  *}
 
-{extends 'Component@modal.modal'}
-
-{block 'modal_options' append}
-    {$id = 'modal-write'}
-    {$mods = "$mods create"}
-    {$classes = "$classes js-modal-default"}
-    {$title = {lang name='modal_create.title'}}
-{/block}
-
-{block 'modal_content'}
+{capture 'modal_content'}
     {function modal_create_item}
         <li class="write-item-type-{$item}">
             {$url = "{if ! $url}{router page=$item}add{else}{$url}{/if}"}
@@ -32,6 +23,11 @@
 
         {hook run='write_item' isPopup=true}
     </ul>
-{/block}
+{/capture}
 
-{block 'modal_footer'}{/block}
+{component 'modal'
+    title   = {lang 'modal_create.title'}
+    content = $smarty.capture.modal_content
+    classes = 'js-modal-default'
+    mods    = 'create'
+    id      = 'modal-write'}

@@ -1471,6 +1471,14 @@ return array(
         ),
     ),
     /**
+     * Кастомные поля
+     */
+    'property' => array(
+        'video' => array(
+            'preview' => 'Предпросмотр видео'
+        )
+    ),
+    /**
      * Редактор
      */
     'editor'                        => array(

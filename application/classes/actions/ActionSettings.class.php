@@ -237,6 +237,7 @@ class ActionSettings extends Action
         $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
         $oViewer->Assign('width', (int) getRequest('width'), true);
         $oViewer->Assign('height', (int) getRequest('height'), true);
+        $oViewer->Assign('usePreview', true, true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.crop-avatar"));
     }
