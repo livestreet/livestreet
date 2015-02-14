@@ -330,7 +330,7 @@ class ModuleMedia extends ModuleORM
         if (in_array($sExtension, array('jpg', 'jpeg', 'gif', 'png'))) {
             return $this->ProcessingFileImage($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
         }
-        return $this->Lang_Get('media.error.incorrect_type');;
+        return $this->Lang_Get('media.error.incorrect_type');
     }
 
     public function ProcessingFileImage($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp = null)
