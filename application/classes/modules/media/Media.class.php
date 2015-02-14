@@ -259,7 +259,7 @@ class ModuleMedia extends ModuleORM
          * Проверка на размер файла
          */
         $iMaxSizeKb = $this->GetConfigParam('max_size', $sTargetType);
-        if ($aFile['size'] > $iMaxSizeKb) {
+        if ($aFile['size'] > $iMaxSizeKb * 1024) {
             return $this->Lang_Get('media.error.too_large', array('size' => $iMaxSizeKb));
         }
 
