@@ -133,7 +133,7 @@ class ModuleMedia extends ModuleORM
     }
 
     /**
-     * Возвращает конкретный парметры нужного типа
+     * Возвращает конкретный параметр нужного типа
      *
      * @param string $sTargetType
      * @param string $sName
@@ -253,11 +253,15 @@ class ModuleMedia extends ModuleORM
         }
         $sFileTmp = $sDirTmp . $sFileName;
         if (!move_uploaded_file($aFile['tmp_name'], $sFileTmp)) {
-            return 'Не удалось загрузить файл';
+            return $this->Lang_Get('media.error.upload');
         }
         /**
-         * TODO: проверить на размер файла в байтах
+         * Проверка на размер файла
          */
+        $iMaxSizeKb = $this->GetConfigParam('max_size', $sTargetType);
+        if ($aFile['size'] > $iMaxSizeKb) {
+            return $this->Lang_Get('media.error.too_large', array('size' => $iMaxSizeKb));
+        }
 
         return $this->ProcessingFile($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
     }
@@ -269,7 +273,7 @@ class ModuleMedia extends ModuleORM
          * TODO: файл может быть не только изображением, поэтому требуется рефакторинг
          */
         if (!$aImageInfo = (@getimagesize($sFileUrl))) {
-            return 'Файл не является изображением';
+            return $this->Lang_Get('media.error.not_image');
         }
         $aTypeImage = array(
             1 => 'gif',
@@ -283,10 +287,10 @@ class ModuleMedia extends ModuleORM
          */
         $rFile = fopen($sFileUrl, 'r');
         if (!$rFile) {
-            return 'Не удалось загрузить файл';
+            return $this->Lang_Get('media.error.upload');
         }
 
-        $iMaxSizeKb = $this->GetConfigParam('image.max_size_url', $sTargetType);
+        $iMaxSizeKb = $this->GetConfigParam('max_size', $sTargetType);
         $iSizeKb = 0;
         $sContent = '';
         while (!feof($rFile) and $iSizeKb < $iMaxSizeKb) {
@@ -298,8 +302,7 @@ class ModuleMedia extends ModuleORM
          * значит файл имеет недопустимый размер
          */
         if (!feof($rFile)) {
-            return 'Превышен максимальный размер файла: ' . $this->GetConfigParam('image.max_size_url',
-                $sTargetType) . 'Kb';
+            return $this->Lang_Get('media.error.too_large', array('size' => $iMaxSizeKb));
         }
         fclose($rFile);
         /**
@@ -327,7 +330,7 @@ class ModuleMedia extends ModuleORM
         if (in_array($sExtension, array('jpg', 'jpeg', 'gif', 'png'))) {
             return $this->ProcessingFileImage($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
         }
-        return 'Неверный тип файла';
+        return $this->Lang_Get('media.error.incorrect_type');;
     }
 
     public function ProcessingFileImage($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp = null)
