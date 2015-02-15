@@ -31,8 +31,8 @@ class ModuleMedia extends ModuleORM
      * Список типов медиа
      * Свои кастомные типы необходимо нумеровать с 1000
      */
-    const TYPE_IMAGE = 1;
-    const TYPE_VIDEO = 2;
+    const MEDIA_TYPE_IMAGE = 1;
+    const MEDIA_TYPE_VIDEO = 2;
     /**
      * Список типов для проверки доступа
      */
@@ -65,8 +65,8 @@ class ModuleMedia extends ModuleORM
      * @var array
      */
     protected $aMediaTypes = array(
-        self::TYPE_IMAGE,
-        self::TYPE_VIDEO
+        self::MEDIA_TYPE_IMAGE,
+        self::MEDIA_TYPE_VIDEO
     );
 
     /**
@@ -162,6 +162,52 @@ class ModuleMedia extends ModuleORM
     }
 
     /**
+     * Возвращает тип медиа по имени файла (имя файла должно содержать его расширение)
+     *
+     * @param $sFile
+     * @return int|null
+     */
+    public function GetMediaTypeByFileName($sFile)
+    {
+        $aPathInfo = pathinfo($sFile);
+        $sExtension = isset($aPathInfo['extension']) ? $aPathInfo['extension'] : 'unknown';
+        return $this->GetMediaTypeByFileExtension($sExtension);
+    }
+
+    /**
+     * Возвращает тип медиа по расширению файла
+     *
+     * @param $sExtension
+     * @return int|null
+     */
+    public function GetMediaTypeByFileExtension($sExtension)
+    {
+        $sExtension = strtolower($sExtension);
+        if (in_array($sExtension, array('jpg', 'jpeg', 'gif', 'png'))) {
+            return self::MEDIA_TYPE_IMAGE;
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает название медиа типа по его значению
+     * Название получается автоматически из константы с определением типа
+     *
+     * @param $iType
+     * @return null|string
+     */
+    public function GetMediaTypeName($iType)
+    {
+        $oRefl = new ReflectionObject($this);
+        foreach ($oRefl->getConstants() as $sName => $mValue) {
+            if (strpos($sName, 'MEDIA_TYPE_') === 0 and $mValue == $iType) {
+                return strtolower(substr($sName, strlen('MEDIA_TYPE_')));
+            }
+        }
+        return null;
+    }
+
+    /**
      * Проверка объекта target - владелец медиа
      *
      * @param string $sTargetType Тип
@@ -226,6 +272,27 @@ class ModuleMedia extends ModuleORM
         return $mValue;
     }
 
+    /**
+     * Проверяем файл на максимальный размер с учетом типа медиа
+     *
+     * @param $iSize
+     * @param $iMediaType
+     * @param $sTargetType
+     * @return bool
+     */
+    public function CheckFileUploadSize($iSize, $iMediaType, $sTargetType)
+    {
+        $sConfigParam = 'max_size';
+        $sMediaTypeName = $this->Media_GetMediaTypeName($iMediaType);
+        if (is_null($iMaxSizeKb = $this->GetConfigParam($sMediaTypeName . '.' . $sConfigParam, $sTargetType))) {
+            $iMaxSizeKb = $this->GetConfigParam($sConfigParam, $sTargetType);
+        }
+        if ($iSize > $iMaxSizeKb * 1024) {
+            return $this->Lang_Get('media.error.too_large', array('size' => $iMaxSizeKb));
+        }
+        return true;
+    }
+
     public function Upload($aFile, $sTargetType, $sTargetId, $sTargetTmp = null)
     {
         if (is_string($aFile)) {
@@ -237,13 +304,20 @@ class ModuleMedia extends ModuleORM
 
     public function UploadLocal($aFile, $sTargetType, $sTargetId, $sTargetTmp = null)
     {
-        if (!is_array($aFile) || !isset($aFile['tmp_name']) || !isset($aFile['name'])) {
+        if (!is_array($aFile) || !isset($aFile['tmp_name']) || !isset($aFile['name']) || !isset($aFile['size'])) {
             return false;
         }
 
         $aPathInfo = pathinfo($aFile['name']);
         $sExtension = isset($aPathInfo['extension']) ? $aPathInfo['extension'] : 'unknown';
         $sFileName = $aPathInfo['filename'] . '.' . $sExtension;
+        /**
+         * Проверяем на размер файла
+         */
+        $iMediaType = $this->GetMediaTypeByFileExtension($sExtension);
+        if (true!==($mRes = $this->CheckFileUploadSize($aFile['size'], $iMediaType, $sTargetType))) {
+            return $mRes;
+        }
         /**
          * Копируем загруженный файл
          */
@@ -254,13 +328,6 @@ class ModuleMedia extends ModuleORM
         $sFileTmp = $sDirTmp . $sFileName;
         if (!move_uploaded_file($aFile['tmp_name'], $sFileTmp)) {
             return $this->Lang_Get('media.error.upload');
-        }
-        /**
-         * Проверка на размер файла
-         */
-        $iMaxSizeKb = $this->GetConfigParam('max_size', $sTargetType);
-        if ($aFile['size'] > $iMaxSizeKb * 1024) {
-            return $this->Lang_Get('media.error.too_large', array('size' => $iMaxSizeKb));
         }
 
         return $this->ProcessingFile($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
@@ -323,11 +390,10 @@ class ModuleMedia extends ModuleORM
     public function ProcessingFile($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp = null)
     {
         /**
-         * Определяем тип файла по расширенияю и запускаем обработку
+         * Определяем тип медиа по файлу и запускаем обработку
          */
-        $aPathInfo = pathinfo($sFileTmp);
-        $sExtension = @strtolower($aPathInfo['extension']);
-        if (in_array($sExtension, array('jpg', 'jpeg', 'gif', 'png'))) {
+        $iType = $this->GetMediaTypeByFileName($sFileTmp);
+        if ($iType == self::MEDIA_TYPE_IMAGE) {
             return $this->ProcessingFileImage($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
         }
         return $this->Lang_Get('media.error.incorrect_type');
@@ -374,7 +440,7 @@ class ModuleMedia extends ModuleORM
          */
         $oMedia = Engine::GetEntity('ModuleMedia_EntityMedia');
         $oMedia->setUserId($this->oUserCurrent ? $this->oUserCurrent->getId() : null);
-        $oMedia->setType(self::TYPE_IMAGE);
+        $oMedia->setType(self::MEDIA_TYPE_IMAGE);
         $oMedia->setTargetType($sTargetType);
         $oMedia->setFilePath($sFileResult);
         $oMedia->setFileName($aPathInfo['filename']);
@@ -502,7 +568,7 @@ class ModuleMedia extends ModuleORM
     public function BuildCodeForEditor($oMedia, $aParams)
     {
         $sCode = '';
-        if ($oMedia->getType() == self::TYPE_IMAGE) {
+        if ($oMedia->getType() == self::MEDIA_TYPE_IMAGE) {
             $aSizes = (array)$oMedia->getDataOne('image_sizes');
 
             $sSizeParam = isset($aParams['size']) ? (string)$aParams['size'] : '';
@@ -601,7 +667,7 @@ class ModuleMedia extends ModuleORM
         /**
          * Сначала удаляем все файлы
          */
-        if ($oMedia->getType() == self::TYPE_IMAGE) {
+        if ($oMedia->getType() == self::MEDIA_TYPE_IMAGE) {
             $aSizes = $oMedia->getDataOne('image_sizes');
             $this->RemoveImageBySizes($oMedia->getFilePath(), $aSizes);
         }
@@ -810,7 +876,7 @@ class ModuleMedia extends ModuleORM
 
     public function GetFileWebPath($oMedia, $sSize = null)
     {
-        if ($oMedia->getType() == self::TYPE_IMAGE) {
+        if ($oMedia->getType() == self::MEDIA_TYPE_IMAGE) {
             /**
              * Проверяем необходимость автоматического создания превью нужного размера - если разрешено настройками и файл НЕ существует
              */
@@ -973,7 +1039,7 @@ class ModuleMedia extends ModuleORM
          */
         $this->RemoveFilePreview($oMedia, $oTarget);
 
-        if ($oMedia->getType() == self::TYPE_IMAGE) {
+        if ($oMedia->getType() == self::MEDIA_TYPE_IMAGE) {
             $aParams = $this->Image_BuildParams('media.preview_' . $oTarget->getTargetType());
 
             if (!$oImage = $this->Image_OpenFrom($oMedia->getFilePath(), $aParams)) {
@@ -1033,7 +1099,7 @@ class ModuleMedia extends ModuleORM
 
     public function RemoveFilePreview($oMedia, $oTarget)
     {
-        if ($oMedia->getType() == self::TYPE_IMAGE) {
+        if ($oMedia->getType() == self::MEDIA_TYPE_IMAGE) {
             if ($oTarget->getDataOne('image_preview')) {
                 /**
                  * Уведомляем объект о удалении превью

@@ -236,9 +236,8 @@ $config['module']['image']['params']['blog_avatar']['size_max_height'] = 1000;
 /**
  * Модуль Media
  */
-$config['module']['media']['max_size'] = 1024; // Максимальный размер файла в kB по умолчанию
-$config['module']['media']['type']['topic']['max_size'] = 1024; // Максимальный размер файла в kB в топике
-$config['module']['media']['type']['comment']['max_size'] = 1024; // Максимальный размер файла в kB в комментариях
+$config['module']['media']['max_size'] = 3*1024; // Максимальный размер файла в kB
+$config['module']['media']['image']['max_size'] = 5*1024; // Максимальный размер файла изображения в kB
 $config['module']['media']['image']['autoresize'] = true; // Разрешает автоматическое создание изображений нужного размера при их запросе
 $config['module']['media']['image']['sizes'] = array(  // список размеров, которые необходимо делать при загрузке изображения
     array(
