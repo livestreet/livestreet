@@ -40,7 +40,9 @@
     {/if}
 {/block}
 
-{add_block group='toolbar' name='component@comment.toolbar' target='.js-comment'}
+{if $oUserCurrent}
+    {add_block group='toolbar' name='component@comment.toolbar' target='.js-comment'}
+{/if}
 
 <div class="{$component} js-comments {cmods name=$component mods=$mods} {$smarty.local.classes}"
     data-target-type="{$targetType}"

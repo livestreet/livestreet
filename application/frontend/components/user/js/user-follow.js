@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsUserFollow", {
+	$.widget( "livestreet.lsUserFollow", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -23,7 +23,11 @@
 
 				// Отписаться
 				unfollow: null
-			}
+			},
+			classes: {
+				active: 'active'
+			},
+			params: {}
 		},
 
 		/**
@@ -33,7 +37,8 @@
 		 * @private
 		 */
 		_create: function () {
-			this._on({ click: this.onClick });
+			this._super();
+			this._on({ click: 'onClick' });
 		},
 
 		/**
@@ -48,28 +53,28 @@
 		 * Подписаться
 		 */
 		follow: function() {
-			ls.ajax.load( this.option( 'urls.follow' ), { aUserList: [ this.element.data('login') ] }, this.onFollow.bind(this) );
+			this._load( 'follow', { users: [ this.element.data('login') ] }, 'onFollow' );
 		},
 
 		/**
 		 * Коллбэк вызываемый при подписке
 		 */
 		onFollow: function( response ) {
-			this.element.addClass( ls.options.classes.states.active ).text( ls.lang.get('user.actions.unfollow') );
+			this._addClass( 'active' ).text( ls.lang.get('user.actions.unfollow') );
 		},
 
 		/**
 		 * Отписаться
 		 */
 		unfollow: function() {
-			ls.ajax.load( this.option( 'urls.unfollow' ), { iUserId: this.element.data('id') }, this.onUnfollow.bind(this) );
+			this._load( 'unfollow', { user_id: this.element.data('id') }, 'onUnfollow' );
 		},
 
 		/**
 		 * Коллбэк вызываемый при отписке
 		 */
 		onUnfollow: function( response ) {
-			this.element.removeClass( ls.options.classes.states.active ).text( ls.lang.get('user.actions.follow') );
+			this._removeClass( 'active' ).text( ls.lang.get('user.actions.follow') );
 		}
 	});
 })(jQuery);

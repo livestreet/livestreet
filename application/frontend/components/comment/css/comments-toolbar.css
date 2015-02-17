@@ -1,22 +1,9 @@
 /**
  * Кнопка обновления комментариев
  *
- * @template toolbar/toolbar.comment.tpl
+ * @template toolbar.comment.tpl
  */
 
-.toolbar-item--comments .toolbar-comments-update {
-    padding: 9px;
-    cursor: pointer;
-}
-.toolbar-item--comments .toolbar-comments-update i {
-    display: block;
-    width: 16px;
-    height: 16px;
-    background: url(../images/update.gif) no-repeat;
-}
-.toolbar-item--comments .toolbar-comments-update.active i {
-    background-position: -16px 0;
-}
 .toolbar-item--comments .toolbar-comments-count {
     border-top: 1px solid #eee;
     padding: 10px 0;
@@ -24,4 +11,11 @@
     text-align: center;
     font-size: 11px;
     cursor: pointer;
+}
+
+.icon-comment-update {
+    background-image: url(../images/update.gif);
+}
+.toolbar-comments-update.active .icon-comment-update {
+    background-position: -16px 0;
 }

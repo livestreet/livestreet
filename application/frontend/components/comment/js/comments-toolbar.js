@@ -68,9 +68,10 @@
             count = typeof count === 'undefined' ? this.options.comments.lsComments( 'getCommentsNew' ).length : count;
 
             if ( count ) {
-                this.elements.counter.show().text( count );
+                this.showCounter();
+                this.elements.counter.text( count );
             } else {
-                this.elements.counter.hide();
+                this.hideCounter();
             }
         },
 
@@ -84,6 +85,22 @@
                 this.updateCounter();
                 this._removeClass( this.elements.update, 'active' );
             }.bind( this ));
+        },
+
+        /**
+         * Показывает счетчик
+         */
+        showCounter: function() {
+            if ( this.elements.counter.is( ':visible' ) ) return;
+
+            this.element.append( this.elements.counter.show() );
+        },
+
+        /**
+         * Скрывает счетчик
+         */
+        hideCounter: function() {
+            this.elements.counter.hide().detach();
         },
 
         /**

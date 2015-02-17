@@ -3,16 +3,23 @@
  * Кнопка обновления комментариев
  *}
 
-{extends 'component@toolbar.toolbar.item'}
-
-{block 'toolbar_item_options' append}
-    {$_mods = 'comments'}
-    {$_bShow = !! $oUserCurrent}
-    {$_classes = 'js-comments-toolbar'}
-    {$_attributes = [ 'data-target' => '.js-comment' ]}
-{/block}
-
-{block 'toolbar_item'}
+{capture 'toolbar_item'}
     <div class="toolbar-comments-update js-toolbar-comments-update"><i></i></div>
     <div class="toolbar-comments-count js-toolbar-comments-count" style="display: none;" title="{$aLang.comments.comment.count_new}"></div>
-{/block}
+{/capture}
+
+{component 'toolbar' template='item'
+    classes = 'js-comments-toolbar'
+    mods = 'comments'
+    buttons = [
+        [
+            classes => 'toolbar-comments-update js-toolbar-comments-update',
+            attributes => [ 'title' => {lang 'comments.comment.count_new'} ],
+            icon => 'comment-update'
+        ],
+        [
+            classes => 'js-toolbar-comments-count',
+            attributes => [ 'title' => {lang 'comments.comment.count_new'} ],
+            text => '12'
+        ]
+    ]}

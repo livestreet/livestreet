@@ -176,5 +176,5 @@
     {add_block group='toolbar' name='component@toolbar-scrollup.toolbar.scrollup' priority=-100}
 
     {* Подключение тулбара *}
-    {component 'toolbar'}
+    {component 'toolbar' classes='js-toolbar-default' items={include 'blocks.tpl' group='toolbar'}}
 {/block}

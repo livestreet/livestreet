@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsUserFriend", {
+	$.widget( "livestreet.lsUserFriend", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -43,9 +43,11 @@
 		 * @private
 		 */
 		_create: function () {
+			this._super();
+
 			this.target = this.element.data( 'target' );
 
-			this._on({ click: this.onClick });
+			this._on({ click: 'onClick' });
 		},
 
 		/**
@@ -135,41 +137,25 @@
 		 * Повторное подтверждение
 		 */
 		addLinked: function() {
-			this.accept( this.option( 'urls.add' ) );
+			this.accept( 'add' );
 		},
 
 		/**
 		 * Подтверждение
 		 */
 		accept: function( url ) {
-			ls.ajax.load( url || this.option( 'urls.accept' ), {
-				idUser: this.target,
-			}, function( response ) {
-				if ( response.bStateError ) {
-					ls.msg.error( null, response.sMsg );
-				} else {
-					ls.msg.notice( null, response.sMsg );
-
-					this.setStatus( 'added' );
-				}
-			}.bind(this));
+			this._load( url || 'accept', { idUser: this.target }, function( response ) {
+				this.setStatus( 'added' );
+			});
 		},
 
 		/**
 		 * Удаление из друзей
 		 */
 		remove: function() {
-			ls.ajax.load( this.option( 'urls.remove' ), {
-				idUser: this.target
-			}, function( response ) {
-				if ( response.bStateError ) {
-					ls.msg.error(null,response.sMsg);
-				} else {
-					ls.msg.notice(null,response.sMsg);
-
-					this.setStatus( 'linked' );
-				}
-			}.bind(this));
+			this._load( 'remove', { idUser: this.target }, function( response ) {
+				this.setStatus( 'linked' );
+			});
 		}
 	});
 })(jQuery);

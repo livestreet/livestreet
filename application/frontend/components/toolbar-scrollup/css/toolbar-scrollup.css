@@ -1,5 +1,7 @@
 /**
  * Кнопка прокрутки вверх
+ *
+ * TODO: Fix icons;
  */
 
 .toolbar-item--scrollup          { display: none; }

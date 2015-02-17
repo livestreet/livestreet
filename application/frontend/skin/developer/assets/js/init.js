@@ -66,12 +66,6 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Tabs
-	 */
-	$( '.js-tabs-auth' ).lsTabs();
-
-
-	/**
 	 * Fields
 	 */
 	$('.js-field-geo-default').lsFieldGeo({
@@ -549,7 +543,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Toolbar
 	 */
-	$('.js-toolbar').lsToolbar({
+	$('.js-toolbar-default').lsToolbar({
 		target: '.grid-role-wrapper',
 		offsetX: 10
 	});

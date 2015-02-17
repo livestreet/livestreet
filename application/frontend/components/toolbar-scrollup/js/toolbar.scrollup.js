@@ -27,8 +27,8 @@
 		 * @private
 		 */
 		_create: function () {
-			this._on( { 'click': this.onClick } );
-			this._on( this.window, { 'scroll': this.onScroll } );
+			this._on({ click: 'onClick' });
+			this._on( this.window, { scroll: 'onScroll' } );
 		},
 
 		/**
