@@ -812,7 +812,8 @@ class ActionAjax extends Action
 
         $aParams = array(
             'align' => getRequestStr('align'),
-            'size'  => getRequestStr('size')
+            'size'  => getRequestStr('size'),
+            'relative_web' => true
         );
         /**
          * Если изображений несколько, то генерируем идентификатор группы для лайтбокса

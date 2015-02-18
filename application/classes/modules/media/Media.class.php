@@ -315,7 +315,7 @@ class ModuleMedia extends ModuleORM
          * Проверяем на размер файла
          */
         $iMediaType = $this->GetMediaTypeByFileExtension($sExtension);
-        if (true!==($mRes = $this->CheckFileUploadSize($aFile['size'], $iMediaType, $sTargetType))) {
+        if (true !== ($mRes = $this->CheckFileUploadSize($aFile['size'], $iMediaType, $sTargetType))) {
             return $mRes;
         }
         /**
@@ -591,8 +591,8 @@ class ModuleMedia extends ModuleORM
             }
 
             $sPath = $oMedia->getFileWebPath($sSize == 'original' ? null : $sSize);
-            $aParams['image_url'] = $sPath;
-            $aParams['href_url'] = $oMedia->getFileWebPath();
+            $aParams['image_url'] = (isset($aParams['relative_web']) and $aParams['relative_web']) ? $this->GetPathRelativeWebFromWeb($sPath) : $sPath;
+            $aParams['href_url'] = (isset($aParams['relative_web']) and $aParams['relative_web']) ? $this->GetPathRelativeWebFromWeb($oMedia->getFileWebPath()) : $oMedia->getFileWebPath();
             $aParams['need_href'] = $bNeedHref;
             if (!isset($aParams['title'])) {
                 $aParams['title'] = $oMedia->getDataOne('title');
@@ -604,6 +604,17 @@ class ModuleMedia extends ModuleORM
         }
 
         return $sCode;
+    }
+
+    /**
+     * Возвращает относительный веб путь до изображения
+     *
+     * @param string $sPath Полный веб путь до изображения
+     * @return string
+     */
+    public function GetPathRelativeWebFromWeb($sPath)
+    {
+        return '/' . ltrim(parse_url($sPath, PHP_URL_PATH), '/');
     }
 
     /**
@@ -774,8 +785,9 @@ class ModuleMedia extends ModuleORM
         }
 
         $aParamsMedia = array(
-            'size'       => '100crop',
-            'skip_title' => true
+            'size'         => '100crop',
+            'skip_title'   => true,
+            'relative_web' => true
         );
         $sProperties = '';
         if (isset($aParams['nav']) and in_array($aParams['nav'], array('thumbs'))) {
@@ -910,6 +922,13 @@ class ModuleMedia extends ModuleORM
         return null;
     }
 
+    /**
+     * Возвращает веб путь до файла изображения
+     *
+     * @param $sPath
+     * @param null $sSize
+     * @return string
+     */
     public function GetImageWebPath($sPath, $sSize = null)
     {
         $sPath = $this->Fs_GetPathWeb($sPath);
