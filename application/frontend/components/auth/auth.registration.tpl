@@ -8,17 +8,17 @@
 
 {hook run='registration_begin'}
 
-<form action="{router page='registration'}" method="post" class="js-auth-registration-form">
+<form action="{router page='auth/register'}" method="post" class="js-auth-registration-form">
     {hook run='form_registration_begin'}
 
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]
+        rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='auth'}ajax-validate-fields", 'remote-method' => 'POST' ]
         label  = $aLang.auth.labels.login}
 
     {* E-mail *}
-    {component 'field' template='email' rules=[ 'remote' => "{router page='registration'}ajax-validate-fields", 'remote-method' => 'POST' ]}
+    {component 'field' template='email' rules=[ 'remote' => "{router page='auth'}ajax-validate-fields", 'remote-method' => 'POST' ]}
 
     {* Пароль *}
     {component 'field' template='text'

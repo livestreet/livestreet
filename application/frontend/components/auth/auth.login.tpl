@@ -8,7 +8,7 @@
 
 {hook run='login_begin'}
 
-<form action="{router page='login'}" method="post" class="js-auth-login-form">
+<form action="{router page='auth/login'}" method="post" class="js-auth-login-form">
     {hook run='form_login_begin'}
 
     {* Логин *}
@@ -49,8 +49,8 @@
 
 {if $smarty.local.showExtra}
     <div class="pt-20">
-        <a href="{router page='registration'}">{$aLang.auth.registration.title}</a><br />
-        <a href="{router page='login'}reset/">{$aLang.auth.reset.title}</a>
+        <a href="{router page='auth/register'}">{$aLang.auth.registration.title}</a><br />
+        <a href="{router page='auth/password-reset'}">{$aLang.auth.reset.title}</a>
     </div>
 {/if}
 

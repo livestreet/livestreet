@@ -70,8 +70,7 @@ $config['block']['tags']['personal_tags_count'] = 70;         // сколько 
  */
 $config['general']['close'] = false; // использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям
 $config['general']['close_exceptions'] = array(
-    'registration',
-    'login',
+    'auth',
     'ajax' => array('captcha'),
 ); // список action/avent для исключения при закрытом режиме
 $config['general']['rss_editor_mail'] = '___sys.mail.from_email___'; // мыло редактора РСС
@@ -369,11 +368,10 @@ $config['router']['uri'] = array(
 );
 // Распределение action
 $config['router']['page']['error'] = 'ActionError';
-$config['router']['page']['registration'] = 'ActionRegistration';
+$config['router']['page']['auth'] = 'ActionAuth';
 $config['router']['page']['profile'] = 'ActionProfile';
 $config['router']['page']['blog'] = 'ActionBlog';
 $config['router']['page']['index'] = 'ActionIndex';
-$config['router']['page']['login'] = 'ActionLogin';
 $config['router']['page']['people'] = 'ActionPeople';
 $config['router']['page']['settings'] = 'ActionSettings';
 $config['router']['page']['tag'] = 'ActionTag';

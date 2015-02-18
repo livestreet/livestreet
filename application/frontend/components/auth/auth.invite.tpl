@@ -2,7 +2,7 @@
  * Форма регистрации через инвайт
  *}
 
-<form action="{router page='registration'}invite/" method="post">
+<form action="{router page='auth'}invite/" method="post">
     {component 'field' template='text'
         name  = 'invite_code'
         rules = [ 'required' => true, 'type' => 'alphanum' ]

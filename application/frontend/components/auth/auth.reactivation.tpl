@@ -2,7 +2,7 @@
  * Форма запроса повторной активации аккаунта
  *}
 
-<form action="{router page='registration'}reactivation/" method="post" class="js-form-reactivation">
+<form action="{router page='auth'}reactivation/" method="post" class="js-form-reactivation">
     {* E-mail *}
     {component 'field' template='email' label=$aLang.auth.reactivation.form.fields.mail.label}
 

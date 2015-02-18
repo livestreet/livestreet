@@ -1,6 +1,5 @@
 User-agent: *
-Disallow: /login/
-Disallow: /registration/
+Disallow: /auth/
 Disallow: /rss
 Disallow: /search/
 Disallow: /stream

@@ -45,7 +45,7 @@ class HookMain extends Hook
          */
         $oUserCurrent = $this->User_GetUserCurrent();
         if (!$oUserCurrent and Config::Get('general.close') and !Router::CheckIsCurrentAction((array)Config::Get('general.close_exceptions'))) {
-            Router::Action('login');
+            Router::Action('auth/login');
         }
         $this->LoadDefaultJsVar();
         /**

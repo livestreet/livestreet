@@ -23,7 +23,7 @@ ls.user = (function ($) {
 
 		/* Авторизация */
 		$('.js-auth-login-form').on('submit', function (e) {
-			ls.ajax.submit(aRouter.login + 'ajax-login', $(this), function ( response ) {
+			ls.ajax.submit(aRouter.auth + 'ajax-login', $(this), function ( response ) {
 				response.sUrlRedirect && (window.location = response.sUrlRedirect);
 			});
 
@@ -32,7 +32,7 @@ ls.user = (function ($) {
 
 		/* Регистрация */
 		$('.js-auth-registration-form').on('submit', function (e) {
-			ls.ajax.submit(aRouter.registration + 'ajax-registration', $(this), function ( response ) {
+			ls.ajax.submit(aRouter.auth + 'ajax-register', $(this), function ( response ) {
 				response.sUrlRedirect && (window.location = response.sUrlRedirect);
 			});
 
@@ -41,7 +41,7 @@ ls.user = (function ($) {
 
 		/* Восстановление пароля */
 		$('.js-auth-reset-form').on('submit', function (e) {
-			ls.ajax.submit(aRouter.login + 'ajax-reset', $(this), function ( response ) {
+			ls.ajax.submit(aRouter.auth + 'ajax-password-reset', $(this), function ( response ) {
 				response.sUrlRedirect && (window.location = response.sUrlRedirect);
 			});
 
@@ -49,7 +49,7 @@ ls.user = (function ($) {
 		});
 
 		/* Повторный запрос на ссылку активации */
-		ls.ajax.form(aRouter.login + 'ajax-reactivation', '.js-form-reactivation', function (result, status, xhr, form) {
+		ls.ajax.form(aRouter.auth + 'ajax-reactivation', '.js-form-reactivation', function (result, status, xhr, form) {
             form.find('input').val('');
             ls.hook.run('ls_user_reactivation_after', [form, result]);
 		});
