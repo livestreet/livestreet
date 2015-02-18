@@ -647,6 +647,32 @@ class ModuleUser extends Module
     }
 
     /**
+     * Устанавливает текущего пользователя
+     *
+     * @param ModuleUser_EntityUser $oUser
+     */
+    public function SetUserCurrent($oUser)
+    {
+        $this->oUserCurrent = $oUser;
+    }
+
+    /**
+     * Обновляет данные текущего пользователя
+     *
+     * @param bool $bSafe Обновлять только данные объекта ($bSafe=true) или полностью весь объект. При обновлении всего объекта происходит потеря связей старых ссылок на объект.
+     */
+    public function ReloadUserCurrent($bSafe = true)
+    {
+        if ($this->oUserCurrent and $oUser = $this->GetUserById($this->oUserCurrent->getId())) {
+            if ($bSafe) {
+                $this->oUserCurrent->_setData($oUser->_getData());
+            } else {
+                $this->oUserCurrent = $oUser;
+            }
+        }
+    }
+
+    /**
      * Проверяет является ли текущий пользователь администратором
      *
      * @param bool $bReturnUser Возвращать или нет объект пользователя
@@ -775,7 +801,8 @@ class ModuleUser extends Module
             $oSession->setKey($sKey);
             $oSession->setIpCreate(func_getIp());
             $oSession->setDateCreate(date("Y-m-d H:i:s"));
-            $oSession->setExtraParam('user_agent',isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
+            $oSession->setExtraParam('user_agent',
+                isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
         }
         $oSession->setUserId($oUser->getId());
         $oSession->setIpLast(func_getIp());
