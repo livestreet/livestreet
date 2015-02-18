@@ -248,13 +248,9 @@
 		 */
 		remove: function( button ) {
 			ls.ajax.load( this.option( 'urls.remove' ), { id: button.data('poll-id'), tmp: button.data('poll-target-tmp') }, function ( response ) {
-				if (response.bStateError) {
-					ls.msg.error(null, response.sMsg);
-				} else {
-					button.closest( this.option( 'selectors.item' ) ).fadeOut('slow', function() {
-						$(this).remove();
-					});
-				}
+				button.closest( this.option( 'selectors.item' ) ).fadeOut('slow', function() {
+					$(this).remove();
+				});
 			}.bind(this));
 		},
 	});

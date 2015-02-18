@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsWall", {
+	$.widget( "livestreet.lsWall", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -26,11 +26,7 @@
 
 			// Селекторы
 			selectors: {
-				entry: {
-					self:   '.js-wall-entry',
-					remove: '.js-comment-remove',
-					reply:  '.js-comment-reply'
-				},
+				entry:            '.js-wall-entry',
 				comment:          '.js-wall-comment',
 				post:             '.js-wall-post',
 				form:             '.js-wall-form',
@@ -39,7 +35,9 @@
 				comment_wrapper:  '.js-wall-comment-wrapper',
 				container:        '.js-wall-entry-container',
 				empty:            '.js-wall-alert-empty'
-			}
+			},
+
+			params: {}
 		},
 
 		/**
@@ -49,16 +47,9 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
+			this._super();
 
-			this.elements = {
-				empty:         this.element.find( this.option( 'selectors.empty'         ) ),
-				more:          this.element.find( this.option( 'selectors.more'          ) ),
-				more_comments: this.element.find( this.option( 'selectors.more_comments' ) ),
-				entries:       this.element.find( this.option( 'selectors.entry.self'    ) ),
-				forms:         this.element.find( this.option( 'selectors.form'          ) ),
-				container:     this.element.find( this.option( 'selectors.container'     ) )
-			};
+			var _this = this;
 
 			this.userId = this.getUserId();
 
@@ -88,7 +79,7 @@
 			});
 
 			// Записи
-			this.elements.entries.livequery( function () {
+			this.elements.entry.livequery( function () {
 				$( this ).lsWallEntry({
 					wall: _this.element,
 					urls: {
@@ -103,7 +94,7 @@
 			});
 
 			// Формы
-			this.elements.forms.livequery( function () {
+			this.elements.form.livequery( function () {
 				$( this ).lsWallForm({
 					wall: _this.element
 				});
@@ -118,18 +109,16 @@
 		add: function( pid, text ) {
 			var form = this.getFormById( pid );
 
-			ls.ajax.load( this.option( 'urls.add' ), { user_id: this.getUserId(), pid: pid, text: text }, function( response ) {
-				if ( response.bStateError ) {
-					ls.msg.error(null, response.sMsg);
-				} else {
-					if ( pid === 0 ) this.elements.empty.hide();
+			this._load( 'add', { user_id: this.getUserId(), pid: pid, text: text }, function( response ) {
+				if ( pid === 0 ) this.elements.empty.hide();
 
-					this.load( pid );
-					form.lsWallForm( 'close' );
+				this.load( pid );
+				form.lsWallForm( 'close' );
+			}, {
+				onResponse: function () {
+					ls.utils.formUnlock( form );
 				}
-
-				ls.utils.formUnlock( form );
-			}.bind(this));
+			});
 		},
 
 		/**
@@ -139,18 +128,14 @@
 		 */
 		load: function( pid ) {
 			var container = this.element.find( this.options.selectors.container + '[data-id=' + pid + ']' ),
-				firstId   = container.find( '>' + this.option( 'selectors.entry.self' ) + ':' + ( pid === 0 ? 'first' : 'last' ) ).data( 'id' ) || -1,
+				firstId   = container.find( '>' + this.option( 'selectors.entry' ) + ':' + ( pid === 0 ? 'first' : 'last' ) ).data( 'id' ) || -1,
 				params    = { user_id: this.getUserId(), first_id: firstId, target_id: pid };
 
-			ls.ajax.load( this.option( pid === 0 ? 'urls.load' : 'urls.load_comments' ), params, function( response ) {
-				if (response.bStateError) {
-					ls.msg.error(null, response.sMsg);
-				} else {
-					if ( response.count_loaded ) {
-						container[ pid === 0 ? 'prepend' : 'append' ]( response.html );
-					}
+			this._load( pid === 0 ? 'load' : 'load_comments', params, function( response ) {
+				if ( response.count_loaded ) {
+					container[ pid === 0 ? 'prepend' : 'append' ]( response.html );
 				}
-			}.bind(this));
+			});
 		},
 
 		/**

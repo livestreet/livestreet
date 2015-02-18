@@ -25,7 +25,9 @@
 			// Селекторы
 			selectors: {
 				checkbox: '.js-feed-blogs-subscribe'
-			}
+			},
+
+			params: {}
 		},
 
 		/**
@@ -44,21 +46,9 @@
 		 * Сохранение настроек
 		 */
 		toggleSubscribe: function( event ) {
-			var checkbox = $( event.target ),
-				id       = checkbox.data( 'id' );
+			var checkbox = $( event.target );
 
-			ls.ajax.load(
-				this.option( 'urls.' + ( checkbox.is(':checked') ? 'subscribe' : 'unsubscribe' ) ),
-				{
-					type: 'blogs',
-					id: id
-				},
-				function( response ) {
-					if ( ! response.bStateError ) {
-						ls.msg.notice( response.sMsgTitle, response.sMsg );
-					}
-				}
-			);
+			this._load( checkbox.is(':checked') ? 'subscribe' : 'unsubscribe', { type: 'blogs', id: checkbox.data( 'id' ) } );
 		}
 	});
 })(jQuery);

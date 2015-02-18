@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsPhoto", {
+    $.widget( "livestreet.lsPhoto", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -40,13 +40,11 @@
             // Селекторы
             selectors: {
                 image: '.js-photo-image',
-                actions: {
-                    upload: '.js-photo-actions-upload',
-                    upload_label: '.js-photo-actions-upload-label',
-                    upload_input: '.js-photo-actions-upload-input',
-                    crop_avatar: '.js-photo-actions-crop-avatar',
-                    remove: '.js-photo-actions-remove',
-                },
+                action_upload: '.js-photo-actions-upload',
+                action_upload_label: '.js-photo-actions-upload-label',
+                action_upload_input: '.js-photo-actions-upload-input',
+                action_crop_avatar: '.js-photo-actions-crop-avatar',
+                action_remove: '.js-photo-actions-remove'
             },
             // Классы
             classes: {
@@ -66,29 +64,22 @@
          * @private
          */
         _create: function () {
+            this._super();
+
             var _this = this;
 
             this.option( 'params.target_id', this.element.data( 'target-id' ) );
 
-            this.elements = {
-                image: this.element.find( this.option( 'selectors.image' ) ),
-                actions: {
-                    upload: this.element.find( this.option( 'selectors.actions.upload' ) ),
-                    upload_label: this.element.find( this.option( 'selectors.actions.upload_label' ) ),
-                    upload_input: this.element.find( this.option( 'selectors.actions.upload_input' ) ),
-                    crop_avatar: this.element.find( this.option( 'selectors.actions.crop_avatar' ) ),
-                    remove: this.element.find( this.option( 'selectors.actions.remove' ) ),
-                }
-            };
-
-            this.elements.actions.upload_input.on( 'change' + this.eventNamespace, function () {
+            this.elements.action_upload_input.on( 'change' + this.eventNamespace, function () {
                 _this.upload( $( this ) );
             });
 
-            this.elements.actions.remove.on( 'click' + this.eventNamespace, this.remove.bind( this ) );
+            // Удаление
+            this._on( this.elements.action_remove, { click: 'remove' } );
 
+            // Изменение аватара
             if ( this.option( 'use_avatar' ) ) {
-                this.elements.actions.crop_avatar.on( 'click' + this.eventNamespace, this.cropAvatar.bind( this ) );
+                this._on( this.elements.action_crop_avatar, { click: 'cropAvatar' } );
             }
         },
 
@@ -96,19 +87,15 @@
          * Удаление фото
          */
         remove: function() {
-            ls.ajax.load( this.option( 'urls.remove' ), this.option( 'params' ), function( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( null, response.sMsg );
-                } else {
-                    this.element.addClass( this.option( 'classes.nophoto' ) );
-                    this.elements.image.attr( 'src', response.photo );
-                    this.elements.actions.upload_label.text( response.upload_text );
+            this._load( 'remove', function( response ) {
+                this._addClass( 'nophoto' );
+                this.elements.image.attr( 'src', response.photo );
+                this.elements.action_upload_label.text( response.upload_text );
 
-                    if ( this.option( 'use_avatar' ) ) {
-                        this._trigger( 'changeavatar', null, [ this, response.avatars ] );
-                    }
+                if ( this.option( 'use_avatar' ) ) {
+                    this._trigger( 'changeavatar', null, [ this, response.avatars ] );
                 }
-            }.bind( this ));
+            });
         },
 
         /**
@@ -120,15 +107,12 @@
             input.appendTo( form );
             $( '<input type="hidden" name="target_id" value="' + this.option( 'params.target_id' ) + '" >').appendTo( form );
 
-            ls.ajax.submit( this.option( 'urls.upload' ), form, function ( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( response.sMsgTitle, response.sMsg );
-                } else {
-                    this.cropPhoto( response );
-                }
-
+            this._submit( 'upload', form, function ( response ) {
+                this.cropPhoto( response );
                 form.remove();
-            }.bind( this ));
+            }, {
+                lock: false
+            });
         },
 
         /**
@@ -143,9 +127,9 @@
                 params: $.extend( {}, this.option( 'params' ), image, { usePreview: this.option( 'crop_photo.usePreview' ) } ),
                 crop_options: this.option( 'crop_photo' ),
                 aftersave: function( response, modal, image ) {
-                    this.element.removeClass( this.option( 'classes.nophoto' ) );
+                    this._removeClass( 'nophoto' );
                     this.elements.image.attr( 'src', response.photo + '?' + Math.random() );
-                    this.elements.actions.upload_label.text( response.upload_text );
+                    this.elements.action_upload_label.text( response.upload_text );
 
                     if ( this.option( 'use_avatar' ) ) {
                         // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
@@ -153,7 +137,7 @@
                     }
                 }.bind( this ),
                 afterhide: function( event, modal ) {
-                    ls.ajax.load( this.option( 'urls.cancel_photo' ), this.option( 'params' ) );
+                    this._load( 'cancel_photo' );
                 }.bind( this )
             });
         },

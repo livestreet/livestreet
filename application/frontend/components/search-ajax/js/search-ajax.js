@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsSearchAjax", {
+    $.widget( "livestreet.lsSearchAjax", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -40,11 +40,9 @@
          * @private
          */
         _create: function () {
-            var _this = this;
+            this._super();
 
-            this.elements = {
-                more: this.element.find( this.option( 'selectors.more' ) )
-            };
+            var _this = this;
 
             // Иниц-ия фильтров
             $.each( this.option( 'filters' ), function ( index, value ) {
@@ -173,9 +171,9 @@
          * Обновление поиска
          */
         update: function() {
-            ls.ajax.load( this.option( 'urls.search' ), this.option( 'params' ), function ( response ) {
+            this._load( 'search', function ( response ) {
                 this.element.html( $.trim( response.html ) );
-            }.bind( this ));
+            });
         },
 
         /**

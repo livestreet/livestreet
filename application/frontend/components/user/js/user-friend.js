@@ -33,7 +33,9 @@
 			selectors: {
 				form: '.js-user-friend-form',
 				text: '.js-user-friend-text'
-			}
+			},
+
+			params: {}
 		},
 
 		/**
@@ -111,19 +113,12 @@
 
 						ls.utils.formLock( form );
 
-						ls.ajax.load( _this.option( 'urls.add' ), {
-							idUser: _this.target,
-							userText: text
-						}, function( response ) {
-							ls.utils.formUnlock( form );
-
-							if ( response.bStateError ) {
-								ls.msg.error( null, response.sMsg );
-							} else {
-								ls.msg.notice( null, response.sMsg );
-
-								modal.hide();
-								_this.setStatus( 'sent' );
+						_this._load( 'add', { idUser: _this.target, userText: text }, function( response ) {
+							modal.hide();
+							_this.setStatus( 'sent' );
+						}, {
+							onResponse: function () {
+								ls.utils.formUnlock( form );
 							}
 						});
 

@@ -49,7 +49,7 @@
 			this.id = this.element.data( 'id' );
 
 			// Кнопка "Ответить" в посте
-			this.reply = this.option( 'wall' ).lsWall( 'getEntryById', this.id ).lsWallEntry( 'getElements' ).reply;
+			this.reply = this.option( 'wall' ).lsWall( 'getEntryById', this.id ).lsWallEntry( 'getElement', 'reply' );
 
 			// Отправка формы
 			this._on({ submit: this.submit });

@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsWallEntry", {
+	$.widget( "livestreet.lsWallEntry", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -28,7 +28,9 @@
 				wrapper: '.js-wall-entry-container',
 				remove:  '.js-comment-remove',
 				reply:   '.js-comment-reply',
-			}
+			},
+
+			params: {}
 		},
 
 		/**
@@ -38,12 +40,7 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
-
-			this.elements = {
-				remove: this.element.find( this.option( 'selectors.remove' ) ),
-				reply:  this.element.find( this.option( 'selectors.reply'  ) )
-			};
+			this._super();
 
 			// ID поста
 			this.id = this.element.data( 'id' );
@@ -83,15 +80,6 @@
 		},
 
 		/**
-		 * Возвращает элементы записи
-		 *
-		 * @return {Array} Элементы записи
-		 */
-		getElements: function() {
-			return this.elements;
-		},
-
-		/**
 		 * Возвращает тип записи (комментарий/пост)
 		 *
 		 * @return {String} Тип записи (комментарий/пост)
@@ -104,7 +92,7 @@
 		 * Удаление
 		 */
 		remove: function() {
-			ls.ajax.load( this.option( 'urls.remove' ), { user_id: this.option( 'wall' ).lsWall( 'getUserId' ), id: this.id }, this.onRemove.bind( this ) );
+			this._load( 'remove', { user_id: this.option( 'wall' ).lsWall( 'getUserId' ), id: this.id }, 'onRemove' );
 		},
 
 		/**

@@ -11,7 +11,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsNote", {
+	$.widget( "livestreet.lsNote", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -34,7 +34,9 @@
 				form:        '.js-user-note-form',
 				form_text:   '.js-user-note-form-text',
 				form_cancel: '.js-user-note-form-cancel'
-			}
+			},
+
+			params: {}
 		},
 
 		/**
@@ -44,60 +46,42 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
-
-			this.options = $.extend({}, this.options, ls.utils.getDataOptions(this.element, 'note'));
-
-			// Получаем аякс параметры
-			this.params = ls.utils.getDataOptions(this.element, 'param');
-
-			// Получаем элементы
-			this.elements = {};
-			this.elements.container = this.element;
-
-			this.elements.body           = this.elements.container.find(this.options.selectors.body);
-			this.elements.text           = this.elements.body.find(this.options.selectors.text);
-			this.elements.add            = this.elements.body.find(this.options.selectors.add);
-			this.elements.actions        = this.elements.body.find(this.options.selectors.actions);
-			this.elements.actions_edit   = this.elements.actions.find(this.options.selectors.actions_edit);
-			this.elements.actions_remove = this.elements.actions.find(this.options.selectors.actions_remove);
-
-			this.elements.form        = this.elements.container.find(this.options.selectors.form);
-			this.elements.form_text   = this.elements.form.find(this.options.selectors.form_text);
-			this.elements.form_cancel = this.elements.form.find(this.options.selectors.form_cancel);
+			this._super();
 
 			// Добавление
-			this.elements.add.on('click', function (e) {
-				_this.showForm();
-				e.preventDefault();
-			});
+			this._on( this.elements.add, { click: 'onShowFormClick' } );
 
 			// Редактирование
-			this.elements.actions_edit.on('click', function (e) {
-				_this.showForm();
-				e.preventDefault();
-			});
+			this._on( this.elements.actions_edit, { click: 'onShowFormClick' } );
 
 			// Отмена редактирования
-			this.elements.form_cancel.on('click', this.hideForm.bind(this));
+			this._on( this.elements.form_cancel, { click: 'hideForm' } );
 
 			// Удаление
-			this.elements.actions_remove.on('click', function (e) {
-				_this.remove();
+			this.elements.actions_remove.on('click' + this.eventNamespace, function (e) {
+				this.remove();
 				e.preventDefault();
-			});
+			}.bind( this ));
 
 			// Сохранение
-			this.elements.form.on('submit', function (e) {
-				_this.save();
+			this.elements.form.on('submit' + this.eventNamespace, function (e) {
+				this.save();
 				e.preventDefault();
-			});
+			}.bind( this ));
+		},
+
+		/**
+		 * Добавление/Редактирование
+		 */
+		onShowFormClick: function( event ) {
+			event.preventDefault();
+			this.showForm();
 		},
 
 		/**
 		 * Показывает форму редактирования
 		 */
-		showForm: function() {
+		showForm: function( event ) {
 			this.elements.body.hide();
 			this.elements.form.show();
 			this.elements.form_text.val( $.trim(this.elements.text.html()) ).select();
@@ -115,41 +99,25 @@
 		 * Сохраняет заметку
 		 */
 		save: function() {
-			var oParams = {
-				text: this.elements.form_text.val()
-			};
+			this._setParam( 'text', this.elements.form_text.val() );
 
-			oParams = $.extend({}, oParams, this.params);
-
-			ls.utils.formLock(this.elements.form);
-
-			ls.ajax.load(this.options.urls.save, oParams, function (oResponse) {
-				ls.utils.formUnlock(this.elements.form);
-
-				if (oResponse.bStateError) {
-					ls.msg.error(null, oResponse.sMsg);
-				} else {
-					this.elements.text.html(oResponse.sText).show();
-					this.elements.add.hide();
-					this.elements.actions.show();
-					this.hideForm();
-				}
-			}.bind(this));
+			this._submit( 'save', this.elements.form, function ( response ) {
+				this.elements.text.html(response.sText).show();
+				this.elements.add.hide();
+				this.elements.actions.show();
+				this.hideForm();
+			});
 		},
 
 		/**
 		 * Удаление заметки
 		 */
 		remove: function() {
-			ls.ajax.load(this.options.urls.remove, this.params, function (oResponse) {
-				if (oResponse.bStateError) {
-					ls.msg.error(null, oResponse.sMsg);
-				} else {
-					this.elements.text.empty().hide();
-					this.elements.add.show();
-					this.elements.actions.hide();
-				}
-			}.bind(this));
+			this._load( 'remove', function () {
+				this.elements.text.empty().hide();
+				this.elements.add.show();
+				this.elements.actions.hide();
+			});
 		}
 	});
 })(jQuery);

@@ -7,6 +7,7 @@
         "comment": "*",
         "button": "*",
         "field": "*",
+        "photo": "*",
         "alert": "*"
     },
     "templates": {
@@ -46,7 +47,6 @@
         "fields": "js/user-fields.js",
         "follow": "js/user-follow.js",
         "friend": "js/user-friend.js",
-        "photo": "js/user-photo.js",
         "user": "js/user.js"
     },
     "styles": {
