@@ -488,7 +488,7 @@ $config['block']['rule_blog'] = array(
  */
 $config['components'] = array(
     // Базовые компоненты
-    'css-reset', 'css-helpers', 'typography', 'forms', 'grid', 'ls-vendor', 'ls-core', 'ls-component', 'accordion', 'alert', 'dropdown', 'button', 'block',
+    'css-reset', 'css-helpers', 'typography', 'forms', 'grid', 'ls-vendor', 'ls-core', 'ls-component', 'lightbox', 'slider', 'accordion', 'alert', 'dropdown', 'button', 'block',
     'nav', 'tooltip', 'tabs', 'modal', 'table', 'text', 'uploader', 'email', 'field', 'comment', 'pagination', 'editor', 'more', 'crop',
     'perfomance', 'toolbar', 'media', 'actionbar', 'progressbar', 'badge', 'property', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron',
 

@@ -537,7 +537,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Лайтбокс
 	 */
-	$('a.js-lbx').colorbox({ width:"100%", height:"100%" });
+	$('a.js-lbx').lsLightbox({ width:"100%", height:"100%" });
 
 
 	/**
@@ -555,7 +555,7 @@ jQuery(document).ready(function($){
 	 * Fotorama
 	 */
 	$( '.fotorama' ).livequery(function() {
-		$( this ).fotorama();
+		$( this ).lsSlider();
 	});
 
 	// Хук конца инициализации javascript-составляющих шаблона
