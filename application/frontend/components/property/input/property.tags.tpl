@@ -9,11 +9,14 @@
 
 <script>
     jQuery(function($) {
-        ls.autocomplete.add(
-        	$( "#property-value-tags-{$property->getId()}" ),
-        	aRouter.ajax + 'property/tags/autocompleter/',
-        	true,
-        	{ property_id: '{$value->getPropertyId()}' }
-        );
+        $( "#property-value-tags-{$property->getId()}" ).lsAutocomplete({
+            multiple: true,
+            urls: {
+                load: aRouter['ajax']+'property/tags/autocompleter/'
+            },
+            params: {
+                property_id: '{$value->getPropertyId()}'
+            }
+        });
     });
 </script>
