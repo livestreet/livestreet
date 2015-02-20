@@ -747,16 +747,34 @@ class ActionAjax extends Action
         $sType = getRequestStr('target_type');
         $sId = getRequestStr('target_id');
         $sTmp = getRequestStr('target_tmp');
-
+        $iPage = (int)getRequestStr('page');
+        $iPage = $iPage < 1 ? 1 : $iPage;
+        $sType = null;
         $aMediaItems = array();
-        if ($sId) {
-            if (!$this->Media_CheckTarget($sType, $sId, ModuleMedia::TYPE_CHECK_ALLOW_VIEW_LIST)) {
-                $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
-                return;
+        if ($sType) {
+            /**
+             * Получаем медиа для конкретного объекта
+             */
+            if ($sId) {
+                if (!$this->Media_CheckTarget($sType, $sId, ModuleMedia::TYPE_CHECK_ALLOW_VIEW_LIST)) {
+                    $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+                    return;
+                }
+                $aMediaItems = $this->Media_GetMediaByTarget($sType, $sId);
+            } elseif ($sTmp) {
+                $aMediaItems = $this->Media_GetMediaByTargetTmp($sTmp, $this->oUserCurrent->getId());
             }
-            $aMediaItems = $this->Media_GetMediaByTarget($sType, $sId);
-        } elseif ($sTmp) {
-            $aMediaItems = $this->Media_GetMediaByTargetTmp($sTmp, $this->oUserCurrent->getId());
+        } else {
+            /**
+             * Получаем все медиа, созданные пользователем
+             */
+            $aResult = $this->Media_GetMediaItemsByFilter(array(
+                'user_id' => $this->oUserCurrent->getId(),
+                '#page'   => array($iPage, 20),
+                '#order'  => array('id' => 'desc')
+            ));
+            $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, 20, Config::Get('pagination.pages.count'), null);
+            $aMediaItems = $aResult['collection'];
         }
 
         $oViewer = $this->Viewer_GetLocalViewer();
@@ -811,8 +829,8 @@ class ActionAjax extends Action
         }
 
         $aParams = array(
-            'align' => getRequestStr('align'),
-            'size'  => getRequestStr('size'),
+            'align'        => getRequestStr('align'),
+            'size'         => getRequestStr('size'),
             'relative_web' => true
         );
         /**
