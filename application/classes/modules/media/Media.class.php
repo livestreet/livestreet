@@ -304,8 +304,18 @@ class ModuleMedia extends ModuleORM
 
     public function UploadLocal($aFile, $sTargetType, $sTargetId, $sTargetTmp = null)
     {
-        if (!is_array($aFile) || !isset($aFile['tmp_name']) || !isset($aFile['name']) || !isset($aFile['size'])) {
+        if (!is_array($aFile) || !isset($aFile['error']) || !isset($aFile['tmp_name']) || !is_string($aFile['tmp_name']) || !isset($aFile['name']) || !isset($aFile['size'])) {
             return false;
+        }
+
+        if ($aFile['error'] != UPLOAD_ERR_OK) {
+            switch ($aFile['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    return $this->Lang_Get('media.error.too_large', array('size' => @func_init_return_bytes(ini_get('upload_max_filesize')) / 1024));
+                default:
+                    return $this->Lang_Get('media.error.upload');
+            }
         }
 
         $aPathInfo = pathinfo($aFile['name']);

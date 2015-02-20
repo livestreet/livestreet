@@ -749,7 +749,7 @@ class ActionAjax extends Action
         $sTmp = getRequestStr('target_tmp');
         $iPage = (int)getRequestStr('page');
         $iPage = $iPage < 1 ? 1 : $iPage;
-        
+
         $aMediaItems = array();
         if ($sType) {
             /**
