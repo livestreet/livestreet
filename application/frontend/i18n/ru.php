@@ -684,8 +684,7 @@ return array(
 				<br><br>
 				Ваши регистрационные данные:
 				<br><br>
-				Логин: <b>%%user_name%%</b><br>
-				Пароль: <b>%%user_password%%</b>'
+				Логин: <b>%%user_name%%</b><br>'
         ),
         // Подтверждение регистрации
         'registration_activate' => array(
@@ -695,8 +694,7 @@ return array(
 				<br><br>
 				Ваши регистрационные данные:
 				<br><br>
-				Логин: <b>%%user_name%%</b><br>
-				Пароль: <b>%%user_password%%</b>
+				Логин: <b>%%user_name%%</b>
 				<br><br>
 				Для завершения регистрации вам необходимо активировать аккаунт пройдя по ссылке:<br>
 				<a href="%%activation_url%%">%%activation_url%%</a>'
