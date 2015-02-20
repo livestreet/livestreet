@@ -312,7 +312,7 @@ class ModuleMedia extends ModuleORM
             switch ($aFile['error']) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-                    return $this->Lang_Get('media.error.too_large', array('size' => @func_init_return_bytes(ini_get('upload_max_filesize')) / 1024));
+                    return $this->Lang_Get('media.error.too_large', array('size' => @func_ini_return_bytes(ini_get('upload_max_filesize')) / 1024));
                 default:
                     return $this->Lang_Get('media.error.upload');
             }
