@@ -100,8 +100,6 @@
                 _this.getForm().lsCommentForm( 'show', 0 );
             });
 
-            this.option( 'show_form', ls.registry.get('comment_show_form') );
-
             if ( ! this.option( 'show_form' ) ) this.getForm().hide();
 
             //

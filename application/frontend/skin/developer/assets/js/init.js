@@ -478,7 +478,8 @@ jQuery(document).ready(function($){
 		urls: {
 			add:  aRouter['blog'] + 'ajaxaddcomment/',
 			load: aRouter['blog'] + 'ajaxresponsecomment/'
-		}
+		},
+        show_form: ls.registry.get('comment_show_form')
 	});
 
 	// Кнопка обновления комментариев
