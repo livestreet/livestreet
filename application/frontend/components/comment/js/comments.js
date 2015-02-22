@@ -55,6 +55,8 @@
             wysiwyg: null,
             // Включить/выключить функцию сворачивания
             folding: true,
+            // Показать/скрыть форму по умолчанию
+            show_form: false,
             // Ajax параметры
             params: {}
         },
@@ -98,7 +100,9 @@
                 _this.getForm().lsCommentForm( 'show', 0 );
             });
 
-            if ( ! ls.registry.get('comment_show_form') ) this.getForm().hide();
+            this.option( 'show_form', ls.registry.get('comment_show_form') );
+
+            if ( ! this.option( 'show_form' ) ) this.getForm().hide();
 
             //
             // ЭКШНБАР
