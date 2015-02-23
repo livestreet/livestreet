@@ -80,8 +80,11 @@ class ModuleProperty_EntityValueTypeTags extends ModuleProperty_EntityValueType
         $aRules = array();
         $aRules['allowEmpty'] = isset($aRulesRaw['allowEmpty']) ? false : true;
 
-        if (isset($aRulesRaw['count']) and ($iCount = (int)$aRulesRaw['count']) > 0) {
-            $aRules['count'] = $iCount;
+        if (isset($aRulesRaw['countMax']) and ($iCount = (int)$aRulesRaw['countMax']) > 0) {
+            $aRules['countMax'] = $iCount;
+        }
+        if (isset($aRulesRaw['countMin']) and ($iCount = (int)$aRulesRaw['countMin']) > 0) {
+            $aRules['countMin'] = $iCount;
         }
         return $aRules;
     }
