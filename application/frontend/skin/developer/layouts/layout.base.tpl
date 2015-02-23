@@ -30,6 +30,7 @@
         ls.registry.set('comment_show_form', {json var=Config::Get('module.comment.show_form')});
         ls.registry.set('topic_max_blog_count', {json var=Config::Get('module.topic.max_blog_count')});
         ls.registry.set('block_stream_show_tip', {json var=Config::Get('block.stream.show_tip')});
+        ls.registry.set('poll_max_answers', {json var=Config::Get('module.poll.max_answers')});
     </script>
 
     {**

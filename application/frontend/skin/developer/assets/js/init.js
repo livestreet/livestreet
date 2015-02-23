@@ -362,7 +362,9 @@ jQuery(document).ready(function($){
 	 * Poll
 	 */
 	$('.js-poll').lsPoll();
-	$('.js-poll-manage').lsPollManage();
+	$('.js-poll-manage').lsPollManage({
+        max: ls.registry.get('poll_max_answers')
+    });
 
 
 	/**

@@ -549,8 +549,7 @@ return array(
         ),
         // Всплывающие сообщения
         'notices'   => array(
-            // TODO: Fix max number
-            'error_answers_max' => 'Максимально возможное число вариантов ответа 20',
+            'error_answers_max' => 'Максимально возможное число вариантов ответа %%count%%',
         ),
     ),
     /**
