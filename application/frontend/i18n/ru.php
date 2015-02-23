@@ -2133,6 +2133,7 @@ return array(
     'tags'                          => array(
         'tags'       => 'Теги',
         'tag'        => 'Тег',
+        'count'      => 'Кол-во тегов должно быть от %s до %s',
         'search'     => array(
             'title' => 'Поиск по тегам',
             'label' => '___tags.search.title___',
