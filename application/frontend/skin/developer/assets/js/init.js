@@ -518,7 +518,7 @@ jQuery(document).ready(function($){
 			}
 		},
 		messages: {
-			rangetags: ls.lang.get('tags.count')
+			rangetags: ls.lang.get('validate.tags.count', { 'field': '', 'min': '%s', 'max': '%s' })
 		}
 	});
 
