@@ -549,8 +549,7 @@ return array(
         ),
         // Всплывающие сообщения
         'notices'   => array(
-            // TODO: Fix max number
-            'error_answers_max' => 'Максимально возможное число вариантов ответа 20',
+            'error_answers_max' => 'Максимально возможное число вариантов ответа %%count%%',
         ),
     ),
     /**
@@ -2131,6 +2130,7 @@ return array(
     'tags'                          => array(
         'tags'       => 'Теги',
         'tag'        => 'Тег',
+        'count'      => 'Кол-во тегов должно быть от %s до %s',
         'search'     => array(
             'title' => 'Поиск по тегам',
             'label' => '___tags.search.title___',

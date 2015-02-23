@@ -163,7 +163,7 @@
 
 			// Ограничиваем кол-во добавляемых ответов
 			if ( answers.length == this.option( 'max' ) ) {
-				ls.msg.error( null, ls.lang.get( 'poll.notices.error_answers_max' ) );
+				ls.msg.error( null, ls.lang.get( 'poll.notices.error_answers_max', { count: this.option( 'max' ) } ) );
 				return;
 			} else if ( answers.length == 2 ) {
 				answers.find( this.option( 'selectors.form.item_remove' ) ).show();

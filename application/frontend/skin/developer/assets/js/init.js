@@ -356,7 +356,9 @@ jQuery(document).ready(function($){
 	 * Poll
 	 */
 	$('.js-poll').lsPoll();
-	$('.js-poll-manage').lsPollManage();
+	$('.js-poll-manage').lsPollManage({
+        max: ls.registry.get('poll_max_answers')
+    });
 
 
 	/**
@@ -472,7 +474,8 @@ jQuery(document).ready(function($){
 		urls: {
 			add:  aRouter['blog'] + 'ajaxaddcomment/',
 			load: aRouter['blog'] + 'ajaxresponsecomment/'
-		}
+		},
+		show_form: ls.registry.get('comment_show_form')
 	});
 
 	// Кнопка обновления комментариев
@@ -514,9 +517,8 @@ jQuery(document).ready(function($){
 				return tag_count && tag_count.length >= arrayRange[0] && tag_count.length <= arrayRange[1];
 			}
 		},
-		// TODO: Вынести в лок-ию
 		messages: {
-			rangetags: "Кол-во тегов должно быть от %s до %s"
+			rangetags: ls.lang.get('tags.count')
 		}
 	});
 

@@ -23,12 +23,14 @@
 {block 'layout_head' append}
     <script>
         ls.lang.load({json var = $aLangJs});
-        ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, field.geo.select_city, field.geo.select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last, user.actions.unfollow, user.actions.follow, user.friends.status.added, user.friends.status.notfriends, user.friends.status.pending, user.friends.status.rejected, user.friends.status.sent, user.friends.status.linked, blog.blocks.navigator.blog, user.settings.profile.notices.error_max_userfields, common.remove_confirm, more.empty"});
+        ls.lang.load({lang_load name="comments.comments_declension, comments.unsubscribe, comments.subscribe, comments.folding.unfold, comments.folding.fold, comments.folding.unfold_all, comments.folding.fold_all, poll.notices.error_answers_max, blog.blog, favourite.add, favourite.remove, field.geo.select_city, field.geo.select_region, blog.add.fields.type.note_open, blog.add.fields.type.note_close, common.success.add, common.success.remove, pagination.notices.first, pagination.notices.last, user.actions.unfollow, user.actions.follow, user.friends.status.added, user.friends.status.notfriends, user.friends.status.pending, user.friends.status.rejected, user.friends.status.sent, user.friends.status.linked, blog.blocks.navigator.blog, user.settings.profile.notices.error_max_userfields, common.remove_confirm, more.empty, tags.count"});
 
         ls.registry.set({json var = $aVarsJs});
         ls.registry.set('comment_max_tree', {json var=Config::Get('module.comment.max_tree')});
+        ls.registry.set('comment_show_form', {json var=Config::Get('module.comment.show_form')});
         ls.registry.set('topic_max_blog_count', {json var=Config::Get('module.topic.max_blog_count')});
         ls.registry.set('block_stream_show_tip', {json var=Config::Get('block.stream.show_tip')});
+        ls.registry.set('poll_max_answers', {json var=Config::Get('module.poll.max_answers')});
     </script>
 
     {**
