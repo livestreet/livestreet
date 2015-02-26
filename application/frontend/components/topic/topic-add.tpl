@@ -24,6 +24,7 @@
     {* Выбор блога *}
     {if ! $smarty.local.skipBlogs}
         {$blogsSelect = []}
+        {$blogsSelectId = []}
 
         {foreach $smarty.local.blogs as $blogType => $blogs}
             {$blogsSelectOptions = []}
@@ -33,6 +34,7 @@
                     'text' => $blog->getTitle()|escape,
                     'value' => $blog->getId()
                 ]}
+                {$blogsSelectId[]=$blog->getId()}
             {/foreach}
 
             {$blogsSelect[] = [
@@ -42,7 +44,7 @@
         {/foreach}
 
         {if $topic}
-            {json var=$topic->getBlogsId() assign='chosenOrder'}
+            {json var=array_intersect($topic->getBlogsId(),$blogsSelectId) assign='chosenOrder'}
         {/if}
 
         {component 'field' template='select'
