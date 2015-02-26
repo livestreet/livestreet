@@ -154,7 +154,7 @@ class ModuleTopic_EntityTopic extends Entity
      */
     public function ValidateBlogs($sValue, $aParams)
     {
-        if (is_string($sValue)) {
+        if ($sValue and is_string($sValue)) {
             $sValue = explode(',', $sValue);
         }
         if (!$sValue or !is_array($sValue)) {
