@@ -145,7 +145,7 @@
              * Корректируем сортировку выбранных блогов
              */
             if (this.elements.blogs.length) {
-                formContent.option('params', {
+                $.extend(formContent.option('params'), {
                     'topic[blogs_id_raw]': this.elements.blogs.getSelectionOrder()
                 });
             }
