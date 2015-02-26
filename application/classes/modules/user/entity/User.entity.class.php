@@ -34,17 +34,18 @@ class ModuleUser_EntityUser extends Entity
      */
     public function __construct($aParam = false)
     {
+        $sCaptchaValidateType = func_camelize('captcha_' . Config::Get('sys.captcha.type'));
         if (Config::Get('module.user.captcha_use_registration')) {
             $this->aValidateRules[] = array(
                 'captcha',
-                'captcha',
+                $sCaptchaValidateType,
                 'name' => 'user_signup',
                 'on'   => array('registration')
             );
         }
 
         if (Config::Get('general.login.captcha')) {
-            $this->aValidateRules[] = array('captcha', 'captcha', 'name' => 'user_auth', 'on' => array('signIn'));
+            $this->aValidateRules[] = array('captcha', $sCaptchaValidateType, 'name' => 'user_auth', 'on' => array('signIn'));
         }
 
         parent::__construct($aParam);

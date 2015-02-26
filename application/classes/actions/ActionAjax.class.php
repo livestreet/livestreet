@@ -471,7 +471,8 @@ class ActionAjax extends Action
         $sValue = isset($_REQUEST['fields'][0]['value']) ? $_REQUEST['fields'][0]['value'] : '';
         $sField = isset($_REQUEST['fields'][0]['field']) ? $_REQUEST['fields'][0]['field'] : '';
 
-        if (!$this->Validate_Validate('captcha', $sValue, array('name' => $sName))) {
+        $sCaptchaValidateType = func_camelize('captcha_' . Config::Get('sys.captcha.type'));
+        if (!$this->Validate_Validate($sCaptchaValidateType, $sValue, array('name' => $sName))) {
             $aErrors = $this->Validate_GetErrors();
             $this->Viewer_AssignAjax('aErrors', array(htmlspecialchars($sField) => array(reset($aErrors))));
         }

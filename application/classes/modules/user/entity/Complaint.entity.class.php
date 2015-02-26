@@ -52,7 +52,8 @@ class ModuleUser_EntityComplaint extends Entity
             'label' => $this->Lang_Get('user_complaint_text_title')
         );
         if (Config::Get('module.user.complaint_captcha')) {
-            $this->aValidateRules[] = array('captcha', 'captcha', 'name' => 'complaint_user');
+            $sCaptchaValidateType = func_camelize('captcha_' . Config::Get('sys.captcha.type'));
+            $this->aValidateRules[] = array('captcha', $sCaptchaValidateType, 'name' => 'complaint_user');
         }
     }
 

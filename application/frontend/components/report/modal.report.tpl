@@ -22,7 +22,10 @@
 
         {* Каптча *}
         {if Config::Get('module.user.complaint_captcha')}
-            {component 'field' template='captcha' captchaName='complaint_user' name='captcha'}
+            {component 'field' template='captcha'
+                type        = Config::Get('sys.captcha.type')
+                captchaName ='complaint_user'
+                name        ='captcha'}
         {/if}
     </form>
 {/capture}

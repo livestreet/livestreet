@@ -27,6 +27,7 @@
     {* Каптча *}
     {if Config::Get('general.login.captcha')}
         {component 'field' template='captcha'
+            type   = Config::Get('sys.captcha.type')
             name   = 'captcha'
             captchaName   = 'user_auth'
             label  = $aLang.auth.labels.captcha}
