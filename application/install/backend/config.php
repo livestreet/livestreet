@@ -17,6 +17,11 @@ class InstallConfig
             $aValues = array($mName => $mValue);
         }
 
+        // добавляем дополнительные параметры для шифрования при сохранении конфига
+        $aValues['module.blog.encrypt'] = md5(time() . rand(0, 9999999));
+        $aValues['module.talk.encrypt'] = md5(time() . rand(0, 9999999));
+        $aValues['module.security.hash'] = md5(time() . rand(0, 9999999));
+
         $sContent = file_get_contents(self::$sFileConfig);
         foreach ($aValues as $sName => $mValue) {
             $sContent = self::_writeValue($sName, $mValue, $sContent);
