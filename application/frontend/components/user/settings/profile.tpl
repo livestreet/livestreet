@@ -60,7 +60,6 @@
         {* Дата рождения *}
         {component 'field' template='date'
             name   = 'profile_birthday'
-            items  = $user->getProfileBirthday()
             label  = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
