@@ -39,6 +39,7 @@ class ModulePoll_EntityVote extends EntityORM
         if ($bResult = parent::beforeSave()) {
             if ($this->_isNew()) {
                 $this->setDateCreate(date("Y-m-d H:i:s"));
+                $this->setIp(func_getIp());
             }
         }
         return $bResult;

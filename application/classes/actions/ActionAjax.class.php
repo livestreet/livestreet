@@ -182,11 +182,11 @@ class ActionAjax extends Action
 
     protected function EventPollVote()
     {
-        if (!$this->oUserCurrent) {
+        if (!$oPoll = $this->Poll_GetPollById(getRequestStr('id'))) {
             return $this->EventErrorDebug();
         }
 
-        if (!$oPoll = $this->Poll_GetPollById(getRequestStr('id'))) {
+        if (!$this->oUserCurrent and !$oPoll->getIsGuestAllow()) {
             return $this->EventErrorDebug();
         }
 
@@ -200,7 +200,7 @@ class ActionAjax extends Action
         /**
          * Пользователь уже голосовал?
          */
-        if ($this->Poll_GetVoteByUserIdAndPollId($this->oUserCurrent->getId(), $oPoll->getId())) {
+        if ($this->Poll_CheckUserAlreadyVote($oPoll, $this->oUserCurrent)) {
             $this->Message_AddErrorSingle('Вы уже голосовали');
             return;
         }
@@ -247,10 +247,17 @@ class ActionAjax extends Action
         $oVote = Engine::GetEntity('ModulePoll_EntityVote');
         $oVote->setPollId($oPoll->getId());
         $oVote->setPoll($oPoll); // для быстродействия/оптимизации
-        $oVote->setUserId($this->oUserCurrent->getId());
+        $oVote->setUserId($this->oUserCurrent ? $this->oUserCurrent->getId() : null);
+        $oVote->setGuestKey($this->oUserCurrent ? null : func_generator(32));
         $oVote->setAnswers($aAnswerIds);
         $oVote->setAnswersObject($aAnswerItems); // передаем для быстродействия, чтобы не запрашивать варианты еще раз после сохранения голоса
         if ($oVote->Add()) {
+            /**
+             * Устанавливаем куку
+             */
+            if ($oVote->getGuestKey()) {
+                $this->Session_SetCookie($this->Poll_GetCookieVoteName($oPoll), $oVote->getGuestKey(), time() + 60 * 60 * 24 * 90);
+            }
             $oViewer = $this->Viewer_GetLocalViewer();
             $oViewer->Assign('oPoll', $oPoll);
             $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.result"));

@@ -10,9 +10,20 @@
 	{component 'field' template='text'
 			 name  = 'poll[title]'
 			 value = {($oPoll) ? $oPoll->getTitle() : '' }
-			 label = $aLang.poll.answer
+			 label = $aLang.poll.form.fields.title
 			 inputAttributes= [ 'autofocus' => true ]}
 
+
+	{component 'field' template='checkbox'
+			name    = 'poll[is_guest_allow]'
+			checked = {($oPoll && $oPoll->getIsGuestAllow()) ? true : false }
+			label   = $aLang.poll.form.fields.is_guest_allow}
+
+
+	{component 'field' template='checkbox'
+			name    = 'poll[is_guest_check_ip]'
+			checked = {($oPoll && $oPoll->getIsGuestCheckIp()) ? true : false }
+			label   = $aLang.poll.form.fields.is_guest_check_ip}
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
 	{if $oPoll && $oPoll->getCountVote()}

@@ -42,6 +42,8 @@ class ModulePoll_EntityPoll extends EntityORM
         array('answers_raw', 'check_answers_raw', 'on' => array('create', 'update')),
         array('target_raw', 'check_target_raw', 'on' => array('create')),
         array('title', 'check_title', 'on' => array('create', 'update')),
+        array('is_guest_allow', 'check_is_guest_allow', 'on' => array('create', 'update')),
+        array('is_guest_check_ip', 'check_is_guest_check_ip', 'on' => array('create', 'update')),
     );
 
     protected $aRelations = array(
@@ -106,6 +108,18 @@ class ModulePoll_EntityPoll extends EntityORM
         return true;
     }
 
+    public function ValidateCheckIsGuestAllow()
+    {
+        $this->setIsGuestAllow($this->getIsGuestAllow() ? 1 : 0);
+        return true;
+    }
+
+    public function ValidateCheckIsGuestCheckIp()
+    {
+        $this->setIsGuestCheckIp($this->getIsGuestCheckIp() ? 1 : 0);
+        return true;
+    }
+
     public function ValidateCheckType()
     {
         if (!$this->_isNew() and $this->getCountVote()) {
@@ -145,9 +159,9 @@ class ModulePoll_EntityPoll extends EntityORM
          */
         if (!$this->_isNew()) {
             $aAnswersOld = $this->Poll_GetAnswerItemsByFilter(array(
-                    'poll_id' => $this->getId(),
-                    '#index-from-primary'
-                ));
+                'poll_id' => $this->getId(),
+                '#index-from-primary'
+            ));
         } else {
             $aAnswersOld = array();
         }
@@ -273,5 +287,13 @@ class ModulePoll_EntityPoll extends EntityORM
             }
         }
         return $iMax;
+    }
+
+    public function getVoteCurrent()
+    {
+        if (array_key_exists('vote_current', $this->aRelationsData)) {
+            return $this->aRelationsData['vote_current'];
+        }
+        return $this->Poll_GetVoteByUser($this, $this->User_GetUserCurrent());
     }
 }

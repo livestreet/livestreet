@@ -833,3 +833,9 @@ ALTER TABLE `prefix_topic` ADD INDEX(`blog_id5`);
 
 -- 10.02.2015
 ALTER TABLE `prefix_session` ADD `session_extra` TEXT NULL ;
+
+-- 26.02.2015
+ALTER TABLE `prefix_poll` ADD `is_guest_allow` TINYINT(1) NOT NULL DEFAULT '0' AFTER `title`, ADD `is_guest_check_ip` TINYINT(1) NOT NULL DEFAULT '0' AFTER `is_guest_allow`;
+ALTER TABLE `prefix_poll_vote` ADD `guest_key` VARCHAR(32) NULL AFTER `user_id`, ADD `ip` VARCHAR(40) NOT NULL AFTER `guest_key`, ADD INDEX (`guest_key`) ;
+ALTER TABLE `prefix_poll_vote` ADD INDEX(`ip`);
+ALTER TABLE `prefix_poll_vote` CHANGE `user_id` `user_id` INT(11) NULL DEFAULT NULL;

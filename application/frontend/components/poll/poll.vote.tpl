@@ -25,7 +25,7 @@
 
 	{component 'field' template='hidden' name='id' value=$poll->getId()}
 
-	{if $oUserCurrent}
+	{if $oUserCurrent or $poll->getIsGuestAllow()}
 		{* Проголосовать *}
 		{component 'button' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
 

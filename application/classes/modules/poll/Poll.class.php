@@ -164,7 +164,39 @@ class ModulePoll extends ModuleORM
                 '#value-default' => false
             );
         } else {
-            $aFilter['#with']['vote_current'] = array('#value-set' => false);
+            $_this = $this;
+            $aFilter['#with']['vote_current'] = array(
+                '#value-default'   => false,
+                '#callback-filter' => function ($aPollItems, &$aRelationFilter) use ($_this) {
+                    $aWhere = array();
+                    $aWhereBind = array();
+                    foreach ($aPollItems as $oPoll) {
+                        /**
+                         * Смотрим по IP
+                         */
+                        if($oPoll->getIsGuestCheckIp()) {
+                            $aWhere[] = ' ( t.poll_id = ?d and t.ip = ? ) ';
+                            $aWhereBind[] = $oPoll->getId();
+                            $aWhereBind[] = func_getIp();
+                        }
+                        /**
+                         * Смотрим в куках
+                         */
+                        if ($sKey = $_this->Session_GetCookie($_this->GetCookieVoteName($oPoll->getId()))) {
+                            $aWhere[] = ' ( t.poll_id = ?d and t.guest_key = ? ) ';
+                            $aWhereBind[] = $oPoll->getId();
+                            $aWhereBind[] = $sKey;
+                        }
+                    }
+                    if ($aWhere) {
+                        $aRelationFilter['#where'] = array(
+                            ' ( ' . join(' or ', $aWhere) . ' ) ' => $aWhereBind
+                        );
+                    } else {
+                        $aRelationFilter['#value-set'] = false;
+                    }
+                }
+            );
         }
         $aPollItems = $this->Poll_GetPollItemsByFilter($aFilter);
         return $aPollItems;
@@ -192,5 +224,64 @@ class ModulePoll extends ModuleORM
             }
         }
         return false;
+    }
+
+    /**
+     * Голосовал ли пользователь в опросе
+     *
+     * @param ModulePoll_EntityPoll $oPoll
+     * @param int|null $iUserId Если null, то проверяется для гостя
+     * @return bool
+     */
+    public function CheckUserAlreadyVote($oPoll, $iUserId)
+    {
+        return $this->GetVoteByUser($oPoll, $iUserId) ? true : false;
+    }
+
+    /**
+     * Возвращает объект голосования текущего пользователя за конкретный опрос
+     *
+     * @param ModulePoll_EntityPoll $oPoll
+     * @param int|null $iUserId Если null, то проверяется для гостя
+     * @return ModulePoll_EntityVote
+     */
+    public function GetVoteByUser($oPoll, $iUserId)
+    {
+        $iUserId = is_object($iUserId) ? $iUserId->getId() : $iUserId;
+        if (is_null($iUserId)) {
+            /**
+             * Для гостя
+             * Два варианта - проверка по IP и по кукам
+             */
+            if ($oPoll->getIsGuestCheckIp()) {
+                if ($oVote = $this->Poll_GetVoteByIpAndPollId(func_getIp(), $oPoll->getId())) {
+                    return $oVote;
+                }
+            }
+            /**
+             * По кукам
+             */
+            if ($sKey = $this->Session_GetCookie($this->GetCookieVoteName($oPoll))) {
+                return $this->Poll_GetVoteByGuestKeyAndPollId($sKey, $oPoll->getId());
+            }
+            return false;
+        } else {
+            /**
+             * Для авторизованного
+             */
+            return $this->Poll_GetVoteByUserIdAndPollId($iUserId, $oPoll->getId());
+        }
+    }
+
+    /**
+     * Возвращает название куки для хранения факта голосования
+     *
+     * @param $oPoll
+     * @return string
+     */
+    public function GetCookieVoteName($oPoll)
+    {
+        $iPollId = is_object($oPoll) ? $oPoll->getId() : $oPoll;
+        return "poll-vote-{$iPollId}";
     }
 }
