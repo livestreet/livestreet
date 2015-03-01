@@ -15,6 +15,10 @@ return array(
         'checkRequirements' => array(
             'title'        => 'Проверка требований для установки',
             'requirements' => array(
+                'install_completed'      => array(
+                    'title'    => 'В конфигурационном файле установлена настройка завершения установки',
+                    'solution' => 'Удалите настройку install_completed или поменяйте её значение на false',
+                ),
                 'php_version'            => array(
                     'title'    => 'Версия PHP',
                     'solution' => 'Минимально допустимая версия PHP 5.3.2. Обратитесь к хостингу для обновления версии.',

@@ -71,11 +71,9 @@ $aRouterParams = array(/*
 
 
 /**
- * Проверяем наличие директории install
+ * Проверяем настройку install_completed и наличие директории install
  */
-if (is_dir(rtrim(Config::Get('path.application.server'),
-            '/') . '/install') && (!isset($_SERVER['HTTP_APP_ENV']) or $_SERVER['HTTP_APP_ENV'] != 'test')
-) {
+if (!Config::Get('install_completed') && is_dir(rtrim(Config::Get('path.application.server'), '/') . '/install')) {
     $sUrl = rtrim(str_replace('index.php', '', $_SERVER['PHP_SELF']), '/\\') . '/application/install/';
     header('Location: ' . $sUrl, true, 302);
     exit();
