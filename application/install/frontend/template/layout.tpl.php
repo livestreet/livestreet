@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
     <title>Установка LiveStreet <?php echo VERSION; ?></title>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>

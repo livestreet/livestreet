@@ -6,9 +6,19 @@ class InstallStepCheckRequirements extends InstallStep
     public function show()
     {
         /**
+         * Устанавливаем пути к конфигурационным файлам
+         */
+        InstallConfig::$sFileConfig = dirname(INSTALL_DIR) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.local.php';
+        /**
          * Проверяем требования
          */
         $aRequirements = array();
+        if (InstallConfig::get('install_completed')) {
+            $aRequirements[] = array(
+                'name'   => 'install_completed',
+                'current' => InstallCore::getLang('yes')
+            );
+        }
         if (!version_compare(PHP_VERSION, '5.3.2', '>=')) {
             $aRequirements[] = array(
                 'name'    => 'php_version',
