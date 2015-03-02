@@ -17,7 +17,6 @@ class InstallStepInstallComplete extends InstallStep
             'module.blog.encrypt' => md5(time() . mt_rand()),
             'module.talk.encrypt' => md5(time() . mt_rand()),
             'module.security.hash' => md5(time() . mt_rand()),
-            'install_completed' => true,
         );
         InstallConfig::save($aSave);
     }
