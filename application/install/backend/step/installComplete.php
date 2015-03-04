@@ -14,7 +14,9 @@ class InstallStepInstallComplete extends InstallStep
          * Прописываем параметры в конфиг
          */
         $aSave = array(
-            'install_completed' => true,
+            'module.blog.encrypt' => md5(time() . mt_rand()),
+            'module.talk.encrypt' => md5(time() . mt_rand()),
+            'module.security.hash' => md5(time() . mt_rand()),
         );
         InstallConfig::save($aSave);
     }
