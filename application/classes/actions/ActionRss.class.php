@@ -67,7 +67,7 @@ class ActionRss extends Action
         /**
          * Получаем топики
          */
-        $aResult = $this->Topic_GetTopicsGood(1, Config::Get('module.topic.per_page') * 2, false);
+        $aResult = $this->Topic_GetTopicsGood(1, Config::Get('module.topic.max_rss_count'), false);
         $aTopics = $aResult['collection'];
         /**
          * Формируем данные канала RSS
@@ -109,7 +109,7 @@ class ActionRss extends Action
         /**
          * Получаем топики
          */
-        $aResult = $this->Topic_GetTopicsNew(1, Config::Get('module.topic.per_page') * 2, false);
+        $aResult = $this->Topic_GetTopicsNew(1, Config::Get('module.topic.max_rss_count'), false);
         $aTopics = $aResult['collection'];
         /**
          * Формируем данные канала RSS
@@ -155,7 +155,7 @@ class ActionRss extends Action
         /**
          * Получаем комментарии
          */
-        $aResult = $this->Comment_GetCommentsAll('topic', 1, Config::Get('module.comment.per_page') * 2, array(),
+        $aResult = $this->Comment_GetCommentsAll('topic', 1, Config::Get('module.comment.max_rss_count'), array(),
             $aCloseBlogs);
         $aComments = $aResult['collection'];
         /**
@@ -251,7 +251,7 @@ class ActionRss extends Action
         /**
          * Получаем топики
          */
-        $aResult = $this->Topic_GetTopicsByTag($sTag, 1, Config::Get('module.topic.per_page') * 2, false);
+        $aResult = $this->Topic_GetTopicsByTag($sTag, 1, Config::Get('module.topic.max_rss_count'), false);
         $aTopics = $aResult['collection'];
         /**
          * Формируем данные канала RSS
@@ -297,7 +297,7 @@ class ActionRss extends Action
         if (!$sBlogUrl or !($oBlog = $this->Blog_GetBlogByUrl($sBlogUrl)) or $oBlog->getType() == "close") {
             return parent::EventNotFound();
         } else {
-            $aResult = $this->Topic_GetTopicsByBlog($oBlog, 1, Config::Get('module.topic.per_page') * 2, 'good');
+            $aResult = $this->Topic_GetTopicsByBlog($oBlog, 1, Config::Get('module.topic.max_rss_count'), 'good');
         }
         $aTopics = $aResult['collection'];
         /**
@@ -342,7 +342,7 @@ class ActionRss extends Action
             /**
              * RSS-лента всех записей из персональных блогов
              */
-            $aResult = $this->Topic_GetTopicsPersonal(1, Config::Get('module.topic.per_page') * 2);
+            $aResult = $this->Topic_GetTopicsPersonal(1, Config::Get('module.topic.max_rss_count'));
         } elseif (!$oUser = $this->User_GetUserByLogin($this->sUserLogin)) {
             return parent::EventNotFound();
         } else {
@@ -350,7 +350,7 @@ class ActionRss extends Action
              * RSS-лента записей персонального блога указанного пользователя
              */
             $aResult = $this->Topic_GetTopicsPersonalByUser($oUser->getId(), 1, 1,
-                Config::Get('module.topic.per_page') * 2);
+                Config::Get('module.topic.max_rss_count'));
         }
         $aTopics = $aResult['collection'];
         /**

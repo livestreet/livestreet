@@ -147,6 +147,7 @@ $config['module']['topic']['allow_empty_tags'] = false; // Разрешать и
 $config['module']['topic']['default_period_top'] = 1; // Дефолтный период (количество дней) для отображения ТОП топиков. Значения: 1,7,30,'all'
 $config['module']['topic']['default_period_discussed'] = 1; // Дефолтный период (количество дней) для отображения обсуждаемых топиков. Значения: 1,7,30,'all'
 $config['module']['topic']['max_blog_count'] = 3; // Количество блогов, которые можно задать топику. Максимальное значение 5.
+$config['module']['topic']['max_rss_count'] = 20; // Максимальное количество топиков в RSS потоке
 $config['module']['topic']['default_preview_size'] = '900x300crop'; // Дефолтный размер превью для топика (все размеры задаются в конфиге media), который будет использоваться, например, для Open Graph
 // Модуль User
 $config['module']['user']['per_page'] = 15;          // Число юзеров на страницу на странице статистики и в профиле пользователя
@@ -199,6 +200,7 @@ $config['module']['comment']['edit_target_allow'] = array(
     'talk'
 );    // Список типов комментов, которые разрешено редактировать
 $config['module']['comment']['vote_target_allow'] = array('topic');    // Список типов комментов, за которые разрешено голосовать
+$config['module']['comment']['max_rss_count'] = 20; // Максимальное количество комментов в RSS потоке
 // Модуль Talk
 $config['module']['talk']['per_page'] = 30;           // Число приватных сообщений на одну страницу
 $config['module']['talk']['encrypt'] = 'livestreet'; // Ключ XXTEA шифрования идентификаторов в ссылках
