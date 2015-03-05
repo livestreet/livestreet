@@ -4,7 +4,7 @@
     "dependencies": {
         "ls-component": "*",
         "user-list-add": "*",
-        "accordion": "*",
+        "details": "*",
         "search-form": "*",
         "article": "*",
         "comment": "*",

@@ -54,7 +54,7 @@
     </form>
 {/capture}
 
-{component 'accordion' classes='js-talk-search-form' items=[[
-    'title'   => {lang 'talk.search.title'},
-    'content' => $smarty.capture.talk_search_form
-]]}
+{component 'details'
+    classes = 'js-talk-search-form'
+    title   = {lang 'talk.search.title'}
+    content = $smarty.capture.talk_search_form}

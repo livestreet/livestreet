@@ -50,11 +50,9 @@ jQuery(document).ready(function($){
 
 
 	/**
-	 * Accordion
+	 * Details
 	 */
-	$('.js-accordion-default').lsAccordion({
-		collapsible: true
-	});
+	$('.js-details-default').lsDetails();
 
 
 	/**
@@ -313,10 +311,7 @@ jQuery(document).ready(function($){
 	ls.talk.init();
 
 	// Форма поиска
-	$('.js-talk-search-form').accordion({
-		collapsible: true,
-		active: false
-	});
+	$('.js-talk-search-form').lsDetails();
 
 	// Добавление диалога в избранное
 	$('.js-favourite-talk').lsFavourite({
@@ -490,10 +485,7 @@ jQuery(document).ready(function($){
 	ls.tags.init();
 
 	// Облако тегов избранного
-	$('.js-tags-favourite-accordion').accordion({
-		collapsible: true,
-		active: false
-	});
+	$('.js-tags-favourite-cloud').lsDetails();
 
 	// Поиск по тегам
 	$('.js-tag-search-form').submit(function() {

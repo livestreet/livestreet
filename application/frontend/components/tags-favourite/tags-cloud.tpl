@@ -15,7 +15,7 @@
 	active = $activeTag
 	assign = tags}
 
-{component 'accordion' classes='js-tags-favourite-accordion' items=[[
-    'title' => "{lang 'favourite_tags.title'} {if $activeTag}({$activeTag}){/if}",
-    'content' => $tags
-]]}
+{component 'details'
+    classes = 'js-tags-favourite-cloud'
+    title   = "{lang 'favourite_tags.title'} {if $activeTag}({$activeTag}){/if}"
+    content = $tags}
