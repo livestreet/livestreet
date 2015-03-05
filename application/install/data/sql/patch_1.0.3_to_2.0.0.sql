@@ -839,3 +839,33 @@ ALTER TABLE `prefix_poll` ADD `is_guest_allow` TINYINT(1) NOT NULL DEFAULT '0' A
 ALTER TABLE `prefix_poll_vote` ADD `guest_key` VARCHAR(32) NULL AFTER `user_id`, ADD `ip` VARCHAR(40) NOT NULL AFTER `guest_key`, ADD INDEX (`guest_key`) ;
 ALTER TABLE `prefix_poll_vote` ADD INDEX(`ip`);
 ALTER TABLE `prefix_poll_vote` CHANGE `user_id` `user_id` INT(11) NULL DEFAULT NULL;
+
+-- 27.02.2015
+DROP TABLE `prefix_invite`;
+ALTER TABLE `prefix_user` ADD `user_referal_code` VARCHAR(32) NULL DEFAULT NULL AFTER `user_activate_key`, ADD INDEX (`user_referal_code`) ;
+
+CREATE TABLE IF NOT EXISTS `prefix_invite_code` (
+`id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `code` varchar(32) NOT NULL,
+  `date_create` datetime NOT NULL,
+  `date_expired` datetime DEFAULT NULL,
+  `count_allow_use` int(11) NOT NULL DEFAULT '1',
+  `count_use` int(11) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `prefix_invite_use` (
+`id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '1',
+  `code_id` int(11) DEFAULT NULL,
+  `from_user_id` int(11) DEFAULT NULL,
+  `to_user_id` int(11) NOT NULL,
+  `date_create` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `prefix_invite_code`
+ ADD PRIMARY KEY (`id`), ADD KEY `code` (`code`), ADD KEY `count_allow_use` (`count_allow_use`), ADD KEY `count_use` (`count_use`), ADD KEY `active` (`active`), ADD KEY `date_create` (`date_create`), ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `prefix_invite_use`
+ ADD PRIMARY KEY (`id`), ADD KEY `type` (`type`), ADD KEY `code_id` (`code_id`), ADD KEY `from_user_id` (`from_user_id`), ADD KEY `to_user_id` (`to_user_id`);

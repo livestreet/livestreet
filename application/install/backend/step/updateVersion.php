@@ -523,18 +523,18 @@ class InstallStepUpdateVersion extends InstallStep
             /**
              * Получаем текущий список админов
              */
-            $aUserAdmin=array();
+            $aUserAdmin = array();
             if ($this->dbCheckTable("prefix_user_administrator")) {
                 if ($aAdmins = $this->dbSelect("SELECT * FROM prefix_user_administrator ")) {
                     foreach ($aAdmins as $aRow) {
-                        $aUserAdmin[]=$aRow['user_id'];
+                        $aUserAdmin[] = $aRow['user_id'];
                     }
                 }
             }
             $iPage = 1;
             $iLimitCount = 50;
             $iLimitStart = 0;
-            while ($aUsers = $this->dbSelect("SELECT * FROM prefix_user  WHERE (user_profile_foto <> '' and user_profile_foto  IS NOT NULL) or (user_profile_avatar <> '' and user_profile_avatar  IS NOT NULL) LIMIT {$iLimitStart},{$iLimitCount}")) {
+            while ($aUsers = $this->dbSelect("SELECT * FROM prefix_user LIMIT {$iLimitStart},{$iLimitCount}")) {
                 $iPage++;
                 $iLimitStart = ($iPage - 1) * $iLimitCount;
 
@@ -644,11 +644,19 @@ class InstallStepUpdateVersion extends InstallStep
                     }
 
                     /**
+                     * Реферальный код
+                     */
+                    $sReferalCode = $aUser['user_referal_code'];
+                    if (!$sReferalCode) {
+                        $sReferalCode = md5($aUser['user_id'] . '_' . mt_rand());
+                    }
+
+                    /**
                      * Админы
                      */
-                    $isAdmin=0;
-                    if (in_array($aUser['user_id'],$aUserAdmin) or $aUser['user_admin']) {
-                        $isAdmin=1;
+                    $isAdmin = 0;
+                    if (in_array($aUser['user_id'], $aUserAdmin) or $aUser['user_admin']) {
+                        $isAdmin = 1;
                     }
 
                     /**
@@ -656,7 +664,7 @@ class InstallStepUpdateVersion extends InstallStep
                      */
                     $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
                     $sPhoto = mysqli_escape_string($this->rDbLink, $sPhoto);
-                    $this->dbQuery("UPDATE prefix_user SET user_admin = '{$isAdmin}' , user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+                    $this->dbQuery("UPDATE prefix_user SET user_admin = '{$isAdmin}' , user_referal_code = '{$sReferalCode}' , user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
 
                     /**
                      * Удаляем таблицы

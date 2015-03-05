@@ -241,6 +241,16 @@ class ModuleUser_EntityUser extends Entity
     }
 
     /**
+     * Возвращает реферальный код
+     *
+     * @return string|null
+     */
+    public function getReferalCode()
+    {
+        return $this->_getDataOne('user_referal_code');
+    }
+
+    /**
      * Возвращает имя
      *
      * @return string|null
@@ -731,6 +741,16 @@ class ModuleUser_EntityUser extends Entity
     public function setActivateKey($data)
     {
         $this->_aData['user_activate_key'] = $data;
+    }
+
+    /**
+     * Устанавливает реферальный код
+     *
+     * @param string $data
+     */
+    public function setReferalCode($data)
+    {
+        $this->_aData['user_referal_code'] = $data;
     }
 
     /**

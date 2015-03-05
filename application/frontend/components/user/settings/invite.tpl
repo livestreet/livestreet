@@ -2,16 +2,21 @@
  * Управление инвайтами
  *}
 
-<small class="note mb-20">
+<div class="note mb-20">
 	{lang name='user.settings.invites.note'}
-</small>
+</div>
 
 {hook run='settings_invite_begin'}
 
-<form action="" method="POST" enctype="multipart/form-data">
-	{hook run='form_settings_invite_begin'}
 
-	<p>
+{if Config::Get('general.reg.invite')}
+
+{else}
+
+{/if}
+
+<p>
+	{if Config::Get('general.reg.invite')}
 		{lang name='user.settings.invites.available'}:
 		<strong>
 			{if $oUserCurrent->isAdministrator()}
@@ -19,24 +24,36 @@
 			{else}
 				{$iCountInviteAvailable}
 			{/if}
-		</strong><br />
+		</strong>
+	{else}
+		{if $sReferalLink}
+			{lang name='user.settings.invites.referal_link'}:<br/>
+			<strong>{$sReferalLink|escape}</strong>
+		{/if}
 
-		{lang name='user.settings.invites.used'}: <strong>{$iCountInviteUsed}</strong>
-	</p>
+	{/if}
+	<br />
 
-    {* E-mail *}
-    {component 'field' template='text'
-             name  = 'invite_mail'
-             note  = {lang name='user.settings.invites.fields.email.note'}
-             label = {lang name='user.settings.invites.fields.email.label'}}
+	{lang name='user.settings.invites.used'}: <strong>{($iCountInviteUsed) ? $iCountInviteUsed : {lang name='user.settings.invites.used_empty'}}</strong>
+</p>
+
+<form action="" method="POST" enctype="multipart/form-data">
+	{hook run='form_settings_invite_begin'}
+
+	{* E-mail *}
+	{component 'field' template='text'
+	name  = 'invite_mail'
+	placeholder  = 'e-mail'
+	note  = {lang name='user.settings.invites.fields.email.note'}
+	label = {lang name='user.settings.invites.fields.email.label'}}
 
 	{hook run='form_settings_invite_end'}
 
-    {* Скрытые поля *}
-    {component 'field' template='hidden.security-key'}
+	{* Скрытые поля *}
+	{component 'field' template='hidden.security-key'}
 
-    {* Кнопки *}
-    {component 'button' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
+	{* Кнопки *}
+	{component 'button' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
 </form>
 
 {hook run='settings_invite_end'}

@@ -34,6 +34,14 @@ class ActionAuth extends Action
     public function Init()
     {
         /**
+         * Если включены инвайты то перенаправляем на страницу регистрации по инвайтам
+         */
+        if (!$this->User_IsAuthorization() and Config::Get('general.reg.invite') and in_array(Router::GetActionEvent(),
+                array('register', 'ajax-register')) and !$this->CheckInviteRegister()
+        ) {
+            return Router::Action('auth', 'invite');
+        }
+        /**
          * Устанавливаем дефолтный евент
          */
         $this->SetDefaultEvent('login');
@@ -56,6 +64,8 @@ class ActionAuth extends Action
         $this->AddEvent('register-confirm', 'EventRegisterConfirm');
         $this->AddEvent('activate', 'EventActivate');
         $this->AddEvent('reactivation', 'EventReactivation');
+        $this->AddEvent('invite', 'EventInvite');
+        $this->AddEventPreg('/^referal$/i', '/^[\w\-\_]{1,200}$/i', 'EventReferal');
 
         $this->AddEvent('ajax-login', 'EventAjaxLogin');
         $this->AddEvent('ajax-password-reset', 'EventAjaxPasswordReset');
@@ -147,7 +157,7 @@ class ActionAuth extends Action
         /**
          * Если уже авторизирован
          */
-        if ($this->User_GetUserCurrent()) {
+        if ($this->User_IsAuthorization()) {
             Router::Location(Router::GetPath('/'));
         }
         $this->Viewer_AddHtmlTitle($this->Lang_Get('auth.login.title'));
@@ -160,7 +170,9 @@ class ActionAuth extends Action
     protected function EventLogout()
     {
         $this->Security_ValidateSendForm();
-        $this->User_Logout();
+        if ($this->User_GetUserCurrent()) {
+            $this->User_Logout();
+        }
         Router::LocationAction('/');
     }
 
@@ -202,6 +214,9 @@ class ActionAuth extends Action
      */
     protected function EventPasswordReset()
     {
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
+        }
         $this->SetTemplateAction('reset');
         /**
          * Устанавливаем title страницы
@@ -354,6 +369,12 @@ class ActionAuth extends Action
                  */
                 $this->Stream_switchUserEventDefaultTypes($oUser->getId());
                 /**
+                 * Если юзер зарегистрировался по приглашению то обновляем инвайт
+                 */
+                if ($sCode = $this->GetInviteRegister()) {
+                    $this->Invite_UseCode($sCode, $oUser);
+                }
+                /**
                  * Если стоит регистрация с активацией то проводим её
                  */
                 if (Config::Get('general.reg.activation')) {
@@ -369,6 +390,7 @@ class ActionAuth extends Action
                      * Сразу авторизуем
                      */
                     $this->User_Authorization($oUser, false);
+                    $this->DropInviteRegister();
                     /**
                      * Определяем URL для редиректа после авторизации
                      */
@@ -397,7 +419,30 @@ class ActionAuth extends Action
      */
     protected function EventRegister()
     {
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
+        }
+    }
 
+    /**
+     * Обработка реферального кода
+     */
+    protected function EventReferal()
+    {
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
+        }
+        /**
+         * Смотрим наличие реферального кода и сохраняем его в сессию
+         */
+        if ($sCode = $this->GetParam(0)) {
+            if ($iType = $this->Invite_GetInviteTypeByCode($sCode)) {
+                if (!Config::Get('general.reg.invite') or $iType != ModuleInvite::INVITE_TYPE_REFERAL) {
+                    $this->Session_Set('invite_code', $sCode);
+                }
+            }
+        }
+        Router::LocationAction('auth/register');
     }
 
     /**
@@ -405,6 +450,9 @@ class ActionAuth extends Action
      */
     protected function EventActivate()
     {
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
+        }
         $bError = false;
         /**
          * Проверяет передан ли код активации
@@ -445,6 +493,7 @@ class ActionAuth extends Action
          */
         if ($this->User_Update($oUser)) {
             $this->User_Authorization($oUser, false);
+            $this->DropInviteRegister();
             return;
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
@@ -457,8 +506,8 @@ class ActionAuth extends Action
      */
     protected function EventReactivation()
     {
-        if ($this->User_GetUserCurrent()) {
-            Router::Location(Router::GetPath('/'));
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
         }
 
         $this->Viewer_AddHtmlTitle($this->Lang_Get('auth.reactivation.title'));
@@ -495,5 +544,55 @@ class ActionAuth extends Action
     protected function EventRegisterConfirm()
     {
         $this->SetTemplateAction('confirm');
+    }
+
+    protected function EventInvite()
+    {
+        if ($this->User_IsAuthorization()) {
+            Router::LocationAction('/');
+        }
+        $this->SetTemplateAction('invite');
+
+        if (isPost('submit_invite')) {
+            /**
+             * Проверяем валидность кода
+             */
+            if ($this->Invite_CheckCode(getRequestStr('invite_code'), ModuleInvite::INVITE_TYPE_CODE)) {
+                Router::Location($this->Invite_GetReferalLink(null, getRequestStr('invite_code')));
+            } else {
+                $this->Message_AddError($this->Lang_Get('auth.invite.alerts.error_code'), $this->Lang_Get('error'));
+            }
+        }
+    }
+
+    /**
+     * Пытается ли юзер зарегистрироваться с помощью кода приглашения
+     *
+     * @return bool
+     */
+    protected function CheckInviteRegister()
+    {
+        if ($this->GetInviteRegister()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Вожвращает код приглашения из сессии
+     *
+     * @return string
+     */
+    protected function GetInviteRegister()
+    {
+        return $this->Session_Get('invite_code');
+    }
+
+    /**
+     * Удаляет код приглашения из сессии
+     */
+    protected function DropInviteRegister()
+    {
+        $this->Session_Drop('invite_code');
     }
 }

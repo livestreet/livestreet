@@ -215,10 +215,10 @@ class ActionSettings extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
         $oViewer->Assign('image', getRequestStr('path'), true);
-        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
-        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
-        $oViewer->Assign('width', (int) getRequest('width'), true);
-        $oViewer->Assign('height', (int) getRequest('height'), true);
+        $oViewer->Assign('originalWidth', (int)getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int)getRequest('original_height'), true);
+        $oViewer->Assign('width', (int)getRequest('width'), true);
+        $oViewer->Assign('height', (int)getRequest('height'), true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.crop-photo"));
     }
@@ -233,10 +233,10 @@ class ActionSettings extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
         $oViewer->Assign('image', getRequestStr('path'), true);
-        $oViewer->Assign('originalWidth', (int) getRequest('original_width'), true);
-        $oViewer->Assign('originalHeight', (int) getRequest('original_height'), true);
-        $oViewer->Assign('width', (int) getRequest('width'), true);
-        $oViewer->Assign('height', (int) getRequest('height'), true);
+        $oViewer->Assign('originalWidth', (int)getRequest('original_width'), true);
+        $oViewer->Assign('originalHeight', (int)getRequest('original_height'), true);
+        $oViewer->Assign('width', (int)getRequest('width'), true);
+        $oViewer->Assign('height', (int)getRequest('height'), true);
         $oViewer->Assign('usePreview', true, true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.crop-avatar"));
@@ -367,16 +367,12 @@ class ActionSettings extends Action
      */
     protected function EventInvite()
     {
-        /**
-         * Только при активном режиме инвайтов
-         */
-        if (!Config::Get('general.reg.invite')) {
-            return parent::EventNotFound();
-        }
-
-        $this->sMenuItemSelect = 'invite';
-        $this->sMenuSubItemSelect = '';
+        $this->sMenuSubItemSelect = 'invite';
         $this->Viewer_AddHtmlTitle($this->Lang_Get('user.settings.nav.invites'));
+
+        $this->Viewer_Assign('iCountInviteAvailable', $this->Invite_GetCountInviteAvailable($this->oUserCurrent));
+        $this->Viewer_Assign('iCountInviteUsed', $this->Invite_GetCountInviteUsed($this->oUserCurrent->getId()));
+        $this->Viewer_Assign('sReferalLink', $this->Invite_GetReferalLink($this->oUserCurrent));
         /**
          * Если отправили форму
          */
@@ -389,32 +385,40 @@ class ActionSettings extends Action
              */
             if (!$this->ACL_CanSendInvite($this->oUserCurrent)) {
                 $this->Message_AddErrorSingle($this->Rbac_GetMsgLast());
-                $bError = true;
+                return;
             }
             /**
              * Емайл корректен?
              */
-            if (!func_check(getRequestStr('invite_mail'), 'mail')) {
-                $this->Message_AddError($this->Lang_Get('fields.email.notices.error'), $this->Lang_Get('error'));
-                $bError = true;
+            if (!$this->Validate_Validate('email', getRequestStr('invite_mail'))) {
+                $this->Message_AddError($this->Validate_GetErrorLast());
+                return;
             }
-            /**
-             * Запускаем выполнение хуков
-             */
-            $this->Hook_Run('settings_invate_send_before', array('oUser' => $this->oUserCurrent));
+
+            if (Config::Get('general.reg.invite')) {
+                if (!($oInvite = $this->Invite_GenerateInvite($this->oUserCurrent))) {
+                    return $this->EventErrorDebug();
+                }
+                $sRefCode = $oInvite->getCode();
+            } else {
+                if (!($sRefCode = $this->Invite_GetReferalCode($this->oUserCurrent))) {
+                    return $this->EventErrorDebug();
+                }
+            }
             /**
              * Если нет ошибок, то отправляем инвайт
              */
             if (!$bError) {
-                $oInvite = $this->User_GenerateInvite($this->oUserCurrent);
-                $this->Notify_SendInvite($this->oUserCurrent, getRequestStr('invite_mail'), $oInvite);
+                /**
+                 * Запускаем выполнение хуков
+                 */
+                $this->Hook_Run('settings_invite_send_before', array('oUser' => $this->oUserCurrent, 'sRefCode' => $sRefCode));
+
+                $this->Notify_SendInvite($this->oUserCurrent, getRequestStr('invite_mail'), $sRefCode);
                 $this->Message_AddNoticeSingle($this->Lang_Get('user.settings.invites.notices.success'));
-                $this->Hook_Run('settings_invate_send_after', array('oUser' => $this->oUserCurrent));
+                $this->Hook_Run('settings_invite_send_after', array('oUser' => $this->oUserCurrent, 'sRefCode' => $sRefCode));
             }
         }
-
-        $this->Viewer_Assign('iCountInviteAvailable', $this->User_GetCountInviteAvailable($this->oUserCurrent));
-        $this->Viewer_Assign('iCountInviteUsed', $this->User_GetCountInviteUsed($this->oUserCurrent->getId()));
     }
 
     /**

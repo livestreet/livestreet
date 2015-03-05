@@ -363,15 +363,19 @@ class ModuleACL extends Module
     public function CanSendInvite($oUser)
     {
         $that = $this; // fix for PHP < 5.4
-        return $this->Rbac_IsAllowUser($oUser, 'vote_user', array(
+        return $this->Rbac_IsAllowUser($oUser, 'create_invite', array(
             'callback' => function ($oUser, $aParams) use ($that) {
                 if (!$oUser) {
                     return false;
                 }
+                if (!Config::Get('general.reg.invite')) {
+                    // разрешаем приглашения всем, когда сайт открыт
+                    return true;
+                }
                 if ($oUser->isAdministrator()) {
                     return true;
                 }
-                if ($that->User_GetCountInviteAvailable($oUser) == 0) {
+                if ($that->Invite_GetCountInviteAvailable($oUser) == 0) {
                     return $that->Lang_Get('user.settings.invites.available_no');
                 }
                 return true;

@@ -463,6 +463,9 @@ class ModuleUser extends Module
      */
     public function Add(ModuleUser_EntityUser $oUser)
     {
+        if (is_null($oUser->getReferalCode())) {
+            $oUser->setReferalCode(md5((string)$oUser->getMail() . func_generator(32)));
+        }
         if ($sId = $this->oMapper->Add($oUser)) {
             $oUser->setId($sId);
             //чистим зависимые кеши
@@ -513,6 +516,18 @@ class ModuleUser extends Module
     public function GetUserByMail($sMail)
     {
         $id = $this->oMapper->GetUserByMail($sMail);
+        return $this->GetUserById($id);
+    }
+
+    /**
+     * Получить юзера по реферальному коду
+     *
+     * @param string $sCode Реферальный код
+     * @return ModuleUser_EntityUser|null
+     */
+    public function GetUserByReferalCode($sCode)
+    {
+        $id = $this->oMapper->GetUserByReferalCode($sCode);
         return $this->GetUserById($id);
     }
 
@@ -1121,135 +1136,6 @@ class ModuleUser extends Module
             $this->Cache_Set($data, $sKey, array("friend_change_user_{$sUserId}"), 60 * 60 * 24 * 2);
         }
         return $data;
-    }
-
-    /**
-     * Получает инвайт по его коду
-     *
-     * @param  string $sCode Код инвайта
-     * @param  int $iUsed Флаг испольщования инвайта
-     * @return ModuleUser_EntityInvite|null
-     */
-    public function GetInviteByCode($sCode, $iUsed = 0)
-    {
-        return $this->oMapper->GetInviteByCode($sCode, $iUsed);
-    }
-
-    /**
-     * Добавляет новый инвайт
-     *
-     * @param ModuleUser_EntityInvite $oInvite Объект инвайта
-     * @return ModuleUser_EntityInvite|bool
-     */
-    public function AddInvite(ModuleUser_EntityInvite $oInvite)
-    {
-        if ($sId = $this->oMapper->AddInvite($oInvite)) {
-            $oInvite->setId($sId);
-            return $oInvite;
-        }
-        return false;
-    }
-
-    /**
-     * Обновляет инвайт
-     *
-     * @param ModuleUser_EntityInvite $oInvite бъект инвайта
-     * @return bool
-     */
-    public function UpdateInvite(ModuleUser_EntityInvite $oInvite)
-    {
-        //чистим зависимые кеши
-        $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array("invate_new_to_{$oInvite->getUserToId()}", "invate_new_from_{$oInvite->getUserFromId()}"));
-        return $this->oMapper->UpdateInvite($oInvite);
-    }
-
-    /**
-     * Генерирует новый инвайт
-     *
-     * @param ModuleUser_EntityUser $oUser Объект пользователя
-     * @return ModuleUser_EntityInvite|bool
-     */
-    public function GenerateInvite($oUser)
-    {
-        $oInvite = Engine::GetEntity('User_Invite');
-        $oInvite->setCode(func_generator(32));
-        $oInvite->setDateAdd(date("Y-m-d H:i:s"));
-        $oInvite->setUserFromId($oUser->getId());
-        return $this->AddInvite($oInvite);
-    }
-
-    /**
-     * Получает число использованых приглашений юзером за определенную дату
-     *
-     * @param int $sUserIdFrom ID пользователя
-     * @param string $sDate Дата
-     * @return int
-     */
-    public function GetCountInviteUsedByDate($sUserIdFrom, $sDate)
-    {
-        return $this->oMapper->GetCountInviteUsedByDate($sUserIdFrom, $sDate);
-    }
-
-    /**
-     * Получает полное число использованных приглашений юзера
-     *
-     * @param int $sUserIdFrom ID пользователя
-     * @return int
-     */
-    public function GetCountInviteUsed($sUserIdFrom)
-    {
-        return $this->oMapper->GetCountInviteUsed($sUserIdFrom);
-    }
-
-    /**
-     * Получаем число доступных приглашений для юзера
-     *
-     * @param ModuleUser_EntityUser $oUserFrom Объект пользователя
-     * @return int
-     */
-    public function GetCountInviteAvailable(ModuleUser_EntityUser $oUserFrom)
-    {
-        $sDay = 7;
-        $iCountUsed = $this->GetCountInviteUsedByDate($oUserFrom->getId(),
-            date("Y-m-d 00:00:00", mktime(0, 0, 0, date("m"), date("d") - $sDay, date("Y"))));
-        $iCountAllAvailable = round($oUserFrom->getRating());
-        $iCountAllAvailable = $iCountAllAvailable < 0 ? 0 : $iCountAllAvailable;
-        $iCountAvailable = $iCountAllAvailable - $iCountUsed;
-        $iCountAvailable = $iCountAvailable < 0 ? 0 : $iCountAvailable;
-        return $iCountAvailable;
-    }
-
-    /**
-     * Получает список приглашенных юзеров
-     *
-     * @param int $sUserId ID пользователя
-     * @return array
-     */
-    public function GetUsersInvite($sUserId)
-    {
-        if (false === ($data = $this->Cache_Get("users_invite_{$sUserId}"))) {
-            $data = $this->oMapper->GetUsersInvite($sUserId);
-            $this->Cache_Set($data, "users_invite_{$sUserId}", array("invate_new_from_{$sUserId}"), 60 * 60 * 24 * 1);
-        }
-        $data = $this->GetUsersAdditionalData($data);
-        return $data;
-    }
-
-    /**
-     * Получает юзера который пригласил
-     *
-     * @param int $sUserIdTo ID пользователя
-     * @return ModuleUser_EntityUser|null
-     */
-    public function GetUserInviteFrom($sUserIdTo)
-    {
-        if (false === ($id = $this->Cache_Get("user_invite_from_{$sUserIdTo}"))) {
-            $id = $this->oMapper->GetUserInviteFrom($sUserIdTo);
-            $this->Cache_Set($id, "user_invite_from_{$sUserIdTo}", array("invate_new_to_{$sUserIdTo}"),
-                60 * 60 * 24 * 1);
-        }
-        return $this->GetUserById($id);
     }
 
     /**

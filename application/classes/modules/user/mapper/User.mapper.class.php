@@ -42,12 +42,13 @@ class ModuleUser_MapperUser extends Mapper
 			user_date_register,
 			user_ip_register,
 			user_activate,
-			user_activate_key
+			user_activate_key,
+			user_referal_code
 			)
-			VALUES(?,  ?,	?,	?,	?,	?,	?)
+			VALUES(?,  ?,	?,	?,	?,	?,	?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oUser->getLogin(), $oUser->getPassword(), $oUser->getMail(),
-            $oUser->getDateRegister(), $oUser->getIpRegister(), $oUser->getActivate(), $oUser->getActivateKey())
+            $oUser->getDateRegister(), $oUser->getIpRegister(), $oUser->getActivate(), $oUser->getActivateKey(), $oUser->getReferalCode())
         ) {
             return $iId;
         }
@@ -73,6 +74,7 @@ class ModuleUser_MapperUser extends Mapper
 				user_count_vote = ? ,
 				user_activate = ? ,
                 user_activate_key = ? ,
+                user_referal_code = ? ,
 				user_profile_name = ? ,
 				user_profile_sex = ? ,
 				user_profile_country = ? ,
@@ -100,6 +102,7 @@ class ModuleUser_MapperUser extends Mapper
             $oUser->getCountVote(),
             $oUser->getActivate(),
             $oUser->getActivateKey(),
+            $oUser->getReferalCode(),
             $oUser->getProfileName(),
             $oUser->getProfileSex(),
             $oUser->getProfileCountry(),
@@ -332,6 +335,25 @@ class ModuleUser_MapperUser extends Mapper
 				" . Config::Get('db.table.user') . " as u
 			WHERE u.user_mail = ? ";
         if ($aRow = $this->oDb->selectRow($sql, $sMail)) {
+            return $aRow['user_id'];
+        }
+        return null;
+    }
+
+    /**
+     * Получить юзера по реферальному коду
+     *
+     * @param string $sCode Код
+     * @return int|null
+     */
+    public function GetUserByReferalCode($sCode)
+    {
+        $sql = "SELECT
+				u.user_id
+			FROM
+				" . Config::Get('db.table.user') . " as u
+			WHERE u.user_referal_code = ? ";
+        if ($aRow = $this->oDb->selectRow($sql, $sCode)) {
             return $aRow['user_id'];
         }
         return null;
@@ -713,139 +735,6 @@ class ModuleUser_MapperUser extends Mapper
             }
         }
         return $aUsers;
-    }
-
-    /**
-     * Получает инвайт по его коду
-     *
-     * @param  string $sCode Код инвайта
-     * @param  int $iUsed Флаг испольщования инвайта
-     * @return ModuleUser_EntityInvite|null
-     */
-    public function GetInviteByCode($sCode, $iUsed = 0)
-    {
-        $sql = "SELECT * FROM " . Config::Get('db.table.invite') . " WHERE invite_code = ? and invite_used = ?d ";
-        if ($aRow = $this->oDb->selectRow($sql, $sCode, $iUsed)) {
-            return Engine::GetEntity('User_Invite', $aRow);
-        }
-        return null;
-    }
-
-    /**
-     * Добавляет новый инвайт
-     *
-     * @param ModuleUser_EntityInvite $oInvite Объект инвайта
-     * @return int|bool
-     */
-    public function AddInvite(ModuleUser_EntityInvite $oInvite)
-    {
-        $sql = "INSERT INTO " . Config::Get('db.table.invite') . "
-			(invite_code,
-			user_from_id,
-			invite_date_add
-			)
-			VALUES(?,  ?,	?)
-		";
-        if ($iId = $this->oDb->query($sql, $oInvite->getCode(), $oInvite->getUserFromId(), $oInvite->getDateAdd())) {
-            return $iId;
-        }
-        return false;
-    }
-
-    /**
-     * Обновляет инвайт
-     *
-     * @param ModuleUser_EntityInvite $oInvite бъект инвайта
-     * @return bool
-     */
-    public function UpdateInvite(ModuleUser_EntityInvite $oInvite)
-    {
-        $sql = "UPDATE " . Config::Get('db.table.invite') . "
-			SET
-				user_to_id = ? ,
-				invite_date_used = ? ,
-				invite_used =?
-			WHERE invite_id = ?
-		";
-        $res = $this->oDb->query($sql, $oInvite->getUserToId(), $oInvite->getDateUsed(), $oInvite->getUsed(),
-            $oInvite->getId());
-        return $this->IsSuccessful($res);
-    }
-
-    /**
-     * Получает число использованых приглашений юзером за определенную дату
-     *
-     * @param int $sUserIdFrom ID пользователя
-     * @param string $sDate Дата
-     * @return int
-     */
-    public function GetCountInviteUsedByDate($sUserIdFrom, $sDate)
-    {
-        $sql = "SELECT count(invite_id) as count FROM " . Config::Get('db.table.invite') . " WHERE user_from_id = ?d and invite_date_add >= ? ";
-        if ($aRow = $this->oDb->selectRow($sql, $sUserIdFrom, $sDate)) {
-            return $aRow['count'];
-        }
-        return 0;
-    }
-
-    /**
-     * Получает полное число использованных приглашений юзера
-     *
-     * @param int $sUserIdFrom ID пользователя
-     * @return int
-     */
-    public function GetCountInviteUsed($sUserIdFrom)
-    {
-        $sql = "SELECT count(invite_id) as count FROM " . Config::Get('db.table.invite') . " WHERE user_from_id = ?d";
-        if ($aRow = $this->oDb->selectRow($sql, $sUserIdFrom)) {
-            return $aRow['count'];
-        }
-        return 0;
-    }
-
-    /**
-     * Получает список приглашенных юзеров
-     *
-     * @param int $sUserId ID пользователя
-     * @return array
-     */
-    public function GetUsersInvite($sUserId)
-    {
-        $sql = "SELECT
-					i.user_to_id
-				FROM
-					" . Config::Get('db.table.invite') . " as i
-				WHERE
-					i.user_from_id = ?d	";
-        $aUsers = array();
-        if ($aRows = $this->oDb->select($sql, $sUserId)) {
-            foreach ($aRows as $aUser) {
-                $aUsers[] = $aUser['user_to_id'];
-            }
-        }
-        return $aUsers;
-    }
-
-    /**
-     * Получает юзера который пригласил
-     *
-     * @param int $sUserIdTo ID пользователя
-     * @return int|null
-     */
-    public function GetUserInviteFrom($sUserIdTo)
-    {
-        $sql = "SELECT
-					i.user_from_id
-				FROM
-					" . Config::Get('db.table.invite') . " as i
-				WHERE
-					i.user_to_id = ?d
-				LIMIT 0,1;
-					";
-        if ($aRow = $this->oDb->selectRow($sql, $sUserIdTo)) {
-            return $aRow['user_from_id'];
-        }
-        return null;
     }
 
     /**

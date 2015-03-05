@@ -115,28 +115,26 @@
  *}
 {$items = []}
 
-{if Config::Get('general.reg.invite')}
-	{* Кто пригласил пользователя *}
-	{if $smarty.local.invitedByUser}
-		{$items[] = [
-			'label'   => {lang name='user.profile.activity.invited_by'},
-			'content' => "<a href=\"{$invitedByUser->getUserWebPath()}\">{$invitedByUser->getDisplayName()}</a>"
-		]}
-	{/if}
+{* Кто пригласил пользователя *}
+{if $smarty.local.invitedByUser}
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.invited_by'},
+		'content' => "<a href=\"{$invitedByUser->getUserWebPath()}\">{$invitedByUser->getDisplayName()}</a>"
+	]}
+{/if}
 
-	{* Приглашенные пользователем *}
-	{if $smarty.local.usersInvited}
-		{$users = []}
+{* Приглашенные пользователем *}
+{if $smarty.local.usersInvited}
+	{$users = ''}
 
-		{foreach $smarty.local.usersInvited as $userInvited}
-			{$users = $users|cat:"<a href=\"{$userInvited->getUserWebPath()}\">{$userInvited->getDisplayName()}</a>&nbsp;"}
-		{/foreach}
+	{foreach $smarty.local.usersInvited as $userInvited}
+		{$users = $users|cat:"<a href=\"{$userInvited->getUserWebPath()}\">{$userInvited->getDisplayName()}</a>&nbsp;"}
+	{/foreach}
 
-		{$items[] = [
-			'label'   => {lang name='user.profile.activity.invited'},
-			'content' => $users
-		]}
-	{/if}
+	{$items[] = [
+		'label'   => {lang name='user.profile.activity.invited'},
+		'content' => $users
+	]}
 {/if}
 
 {* Блоги созданные пользователем *}

@@ -501,20 +501,15 @@ class ActionProfile extends Action
         $aUsersFriend = $this->User_GetUsersFriend($this->oUserProfile->getId(), 1,
             Config::Get('module.user.friend_on_profile'));
         /**
-         * Если активен режим инвайтов, то прогружаем дополнительную информацию
+         * Получаем список тех кого пригласил юзер
          */
-        if (Config::Get('general.reg.invite')) {
-            /**
-             * Получаем список тех кого пригласил юзер
-             */
-            $aUsersInvite = $this->User_GetUsersInvite($this->oUserProfile->getId());
-            $this->Viewer_Assign('usersInvited', $aUsersInvite);
-            /**
-             * Получаем того юзера, кто пригласил текущего
-             */
-            $oUserInviteFrom = $this->User_GetUserInviteFrom($this->oUserProfile->getId());
-            $this->Viewer_Assign('invitedByUser', $oUserInviteFrom);
-        }
+        $aUsersInvite = $this->Invite_GetUsersInvite($this->oUserProfile->getId());
+        $this->Viewer_Assign('usersInvited', $aUsersInvite);
+        /**
+         * Получаем того юзера, кто пригласил текущего
+         */
+        $oUserInviteFrom = $this->Invite_GetUserInviteFrom($this->oUserProfile->getId());
+        $this->Viewer_Assign('invitedByUser', $oUserInviteFrom);
         /**
          * Получаем список юзеров блога
          */

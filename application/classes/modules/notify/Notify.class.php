@@ -243,9 +243,9 @@ class ModuleNotify extends Module
      *
      * @param ModuleUser_EntityUser $oUserFrom Пароль пользователя, который отправляет инвайт
      * @param string $sMailTo Емайл на который отправляем инвайт
-     * @param ModuleUser_EntityInvite $oInvite Объект инвайта
+     * @param string $sRefCode Код приглашения
      */
-    public function SendInvite(ModuleUser_EntityUser $oUserFrom, $sMailTo, ModuleUser_EntityInvite $oInvite)
+    public function SendInvite(ModuleUser_EntityUser $oUserFrom, $sMailTo, $sRefCode)
     {
         $this->Send(
             $sMailTo,
@@ -254,7 +254,8 @@ class ModuleNotify extends Module
             array(
                 'sMailTo'   => $sMailTo,
                 'oUserFrom' => $oUserFrom,
-                'oInvite'   => $oInvite,
+                'sRefCode'   => $sRefCode,
+                'sRefLink'   => $this->Invite_GetReferalLink($oUserFrom, $sRefCode),
             )
         );
     }
