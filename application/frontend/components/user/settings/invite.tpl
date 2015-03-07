@@ -8,13 +8,6 @@
 
 {hook run='settings_invite_begin'}
 
-
-{if Config::Get('general.reg.invite')}
-
-{else}
-
-{/if}
-
 <p>
 	{if Config::Get('general.reg.invite')}
 		{lang name='user.settings.invites.available'}:
