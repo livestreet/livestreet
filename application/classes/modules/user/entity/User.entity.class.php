@@ -245,9 +245,9 @@ class ModuleUser_EntityUser extends Entity
      *
      * @return string|null
      */
-    public function getReferalCode()
+    public function getReferralCode()
     {
-        return $this->_getDataOne('user_referal_code');
+        return $this->_getDataOne('user_referral_code');
     }
 
     /**
@@ -748,9 +748,9 @@ class ModuleUser_EntityUser extends Entity
      *
      * @param string $data
      */
-    public function setReferalCode($data)
+    public function setReferralCode($data)
     {
-        $this->_aData['user_referal_code'] = $data;
+        $this->_aData['user_referral_code'] = $data;
     }
 
     /**

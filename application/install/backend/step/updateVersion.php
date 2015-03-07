@@ -646,9 +646,9 @@ class InstallStepUpdateVersion extends InstallStep
                     /**
                      * Реферальный код
                      */
-                    $sReferalCode = $aUser['user_referal_code'];
-                    if (!$sReferalCode) {
-                        $sReferalCode = md5($aUser['user_id'] . '_' . mt_rand());
+                    $sReferralCode = $aUser['user_referral_code'];
+                    if (!$sReferralCode) {
+                        $sReferralCode = md5($aUser['user_id'] . '_' . mt_rand());
                     }
 
                     /**
@@ -664,7 +664,7 @@ class InstallStepUpdateVersion extends InstallStep
                      */
                     $sAvatar = mysqli_escape_string($this->rDbLink, $sAvatar);
                     $sPhoto = mysqli_escape_string($this->rDbLink, $sPhoto);
-                    $this->dbQuery("UPDATE prefix_user SET user_admin = '{$isAdmin}' , user_referal_code = '{$sReferalCode}' , user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
+                    $this->dbQuery("UPDATE prefix_user SET user_admin = '{$isAdmin}' , user_referral_code = '{$sReferralCode}' , user_settings_timezone = " . ($sTzName ? "'{$sTzName}'" : 'null') . " , user_profile_avatar = '{$sAvatar}', user_profile_foto = '{$sPhoto}' WHERE user_id ='{$aUser['user_id']}'");
 
                     /**
                      * Удаляем таблицы

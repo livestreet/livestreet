@@ -372,7 +372,7 @@ class ActionSettings extends Action
 
         $this->Viewer_Assign('iCountInviteAvailable', $this->Invite_GetCountInviteAvailable($this->oUserCurrent));
         $this->Viewer_Assign('iCountInviteUsed', $this->Invite_GetCountInviteUsed($this->oUserCurrent->getId()));
-        $this->Viewer_Assign('sReferalLink', $this->Invite_GetReferalLink($this->oUserCurrent));
+        $this->Viewer_Assign('sReferralLink', $this->Invite_GetReferralLink($this->oUserCurrent));
         /**
          * Если отправили форму
          */
@@ -401,7 +401,7 @@ class ActionSettings extends Action
                 }
                 $sRefCode = $oInvite->getCode();
             } else {
-                if (!($sRefCode = $this->Invite_GetReferalCode($this->oUserCurrent))) {
+                if (!($sRefCode = $this->Invite_GetReferralCode($this->oUserCurrent))) {
                     return $this->EventErrorDebug();
                 }
             }

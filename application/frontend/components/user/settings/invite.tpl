@@ -19,9 +19,9 @@
 			{/if}
 		</strong>
 	{else}
-		{if $sReferalLink}
-			{lang name='user.settings.invites.referal_link'}:<br/>
-			<strong>{$sReferalLink|escape}</strong>
+		{if $sReferralLink}
+			{lang name='user.settings.invites.referral_link'}:<br/>
+			<strong>{$sReferralLink|escape}</strong>
 		{/if}
 
 	{/if}

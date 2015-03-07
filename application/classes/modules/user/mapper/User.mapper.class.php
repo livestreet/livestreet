@@ -43,12 +43,12 @@ class ModuleUser_MapperUser extends Mapper
 			user_ip_register,
 			user_activate,
 			user_activate_key,
-			user_referal_code
+			user_referral_code
 			)
 			VALUES(?,  ?,	?,	?,	?,	?,	?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oUser->getLogin(), $oUser->getPassword(), $oUser->getMail(),
-            $oUser->getDateRegister(), $oUser->getIpRegister(), $oUser->getActivate(), $oUser->getActivateKey(), $oUser->getReferalCode())
+            $oUser->getDateRegister(), $oUser->getIpRegister(), $oUser->getActivate(), $oUser->getActivateKey(), $oUser->getReferralCode())
         ) {
             return $iId;
         }
@@ -74,7 +74,7 @@ class ModuleUser_MapperUser extends Mapper
 				user_count_vote = ? ,
 				user_activate = ? ,
                 user_activate_key = ? ,
-                user_referal_code = ? ,
+                user_referral_code = ? ,
 				user_profile_name = ? ,
 				user_profile_sex = ? ,
 				user_profile_country = ? ,
@@ -102,7 +102,7 @@ class ModuleUser_MapperUser extends Mapper
             $oUser->getCountVote(),
             $oUser->getActivate(),
             $oUser->getActivateKey(),
-            $oUser->getReferalCode(),
+            $oUser->getReferralCode(),
             $oUser->getProfileName(),
             $oUser->getProfileSex(),
             $oUser->getProfileCountry(),
@@ -346,13 +346,13 @@ class ModuleUser_MapperUser extends Mapper
      * @param string $sCode Код
      * @return int|null
      */
-    public function GetUserByReferalCode($sCode)
+    public function GetUserByReferralCode($sCode)
     {
         $sql = "SELECT
 				u.user_id
 			FROM
 				" . Config::Get('db.table.user') . " as u
-			WHERE u.user_referal_code = ? ";
+			WHERE u.user_referral_code = ? ";
         if ($aRow = $this->oDb->selectRow($sql, $sCode)) {
             return $aRow['user_id'];
         }

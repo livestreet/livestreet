@@ -65,7 +65,7 @@ class ActionAuth extends Action
         $this->AddEvent('activate', 'EventActivate');
         $this->AddEvent('reactivation', 'EventReactivation');
         $this->AddEvent('invite', 'EventInvite');
-        $this->AddEventPreg('/^referal$/i', '/^[\w\-\_]{1,200}$/i', 'EventReferal');
+        $this->AddEventPreg('/^referral$/i', '/^[\w\-\_]{1,200}$/i', 'EventReferral');
 
         $this->AddEvent('ajax-login', 'EventAjaxLogin');
         $this->AddEvent('ajax-password-reset', 'EventAjaxPasswordReset');
@@ -427,7 +427,7 @@ class ActionAuth extends Action
     /**
      * Обработка реферального кода
      */
-    protected function EventReferal()
+    protected function EventReferral()
     {
         if ($this->User_IsAuthorization()) {
             Router::LocationAction('/');
@@ -437,7 +437,7 @@ class ActionAuth extends Action
          */
         if ($sCode = $this->GetParam(0)) {
             if ($iType = $this->Invite_GetInviteTypeByCode($sCode)) {
-                if (!Config::Get('general.reg.invite') or $iType != ModuleInvite::INVITE_TYPE_REFERAL) {
+                if (!Config::Get('general.reg.invite') or $iType != ModuleInvite::INVITE_TYPE_REFERRAL) {
                     $this->Session_Set('invite_code', $sCode);
                 }
             }
@@ -558,7 +558,7 @@ class ActionAuth extends Action
              * Проверяем валидность кода
              */
             if ($this->Invite_CheckCode(getRequestStr('invite_code'), ModuleInvite::INVITE_TYPE_CODE)) {
-                Router::Location($this->Invite_GetReferalLink(null, getRequestStr('invite_code')));
+                Router::Location($this->Invite_GetReferralLink(null, getRequestStr('invite_code')));
             } else {
                 $this->Message_AddError($this->Lang_Get('auth.invite.alerts.error_code'), $this->Lang_Get('error'));
             }

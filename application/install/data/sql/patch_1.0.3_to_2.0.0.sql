@@ -869,3 +869,6 @@ ALTER TABLE `prefix_invite_code`
 
 ALTER TABLE `prefix_invite_use`
  ADD PRIMARY KEY (`id`), ADD KEY `type` (`type`), ADD KEY `code_id` (`code_id`), ADD KEY `from_user_id` (`from_user_id`), ADD KEY `to_user_id` (`to_user_id`);
+
+-- 07.03.2015
+ALTER TABLE `prefix_user` CHANGE `user_referal_code` `user_referral_code` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

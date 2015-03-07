@@ -255,7 +255,7 @@ class ModuleNotify extends Module
                 'sMailTo'   => $sMailTo,
                 'oUserFrom' => $oUserFrom,
                 'sRefCode'   => $sRefCode,
-                'sRefLink'   => $this->Invite_GetReferalLink($oUserFrom, $sRefCode),
+                'sRefLink'   => $this->Invite_GetReferralLink($oUserFrom, $sRefCode),
             )
         );
     }

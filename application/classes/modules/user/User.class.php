@@ -463,8 +463,8 @@ class ModuleUser extends Module
      */
     public function Add(ModuleUser_EntityUser $oUser)
     {
-        if (is_null($oUser->getReferalCode())) {
-            $oUser->setReferalCode(md5((string)$oUser->getMail() . func_generator(32)));
+        if (is_null($oUser->getReferralCode())) {
+            $oUser->setReferralCode(md5((string)$oUser->getMail() . func_generator(32)));
         }
         if ($sId = $this->oMapper->Add($oUser)) {
             $oUser->setId($sId);
@@ -525,9 +525,9 @@ class ModuleUser extends Module
      * @param string $sCode Реферальный код
      * @return ModuleUser_EntityUser|null
      */
-    public function GetUserByReferalCode($sCode)
+    public function GetUserByReferralCode($sCode)
     {
-        $id = $this->oMapper->GetUserByReferalCode($sCode);
+        $id = $this->oMapper->GetUserByReferralCode($sCode);
         return $this->GetUserById($id);
     }
 

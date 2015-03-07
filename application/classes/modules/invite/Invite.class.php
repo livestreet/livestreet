@@ -30,7 +30,7 @@ class ModuleInvite extends ModuleORM
     /**
      * Тип реферального инвайта, когда пользователь приглашает по своему реферальному коду
      */
-    const INVITE_TYPE_REFERAL = 1;
+    const INVITE_TYPE_REFERRAL = 1;
     /**
      * Тип инвайта по сгенерированному коду, когда пользователь генерирует для приглашения отдельный код (доступен в закрытом режиме сайта)
      */
@@ -85,8 +85,8 @@ class ModuleInvite extends ModuleORM
 
             $oUse->setCodeId($oCode->getId());
             $oUse->setFromUserId($oCode->getUserId());
-        } elseif ($iType == self::INVITE_TYPE_REFERAL) {
-            $oUser = $this->User_GetUserByReferalCode($sCode);
+        } elseif ($iType == self::INVITE_TYPE_REFERRAL) {
+            $oUser = $this->User_GetUserByReferralCode($sCode);
             $oUse->setFromUserId($oUser->getId());
         } else {
             return false;
@@ -112,8 +112,8 @@ class ModuleInvite extends ModuleORM
                     return true;
                 }
             }
-        } elseif ($iType == self::INVITE_TYPE_REFERAL) {
-            if ($oUser = $this->User_GetUserByReferalCode($sCode)) {
+        } elseif ($iType == self::INVITE_TYPE_REFERRAL) {
+            if ($oUser = $this->User_GetUserByReferralCode($sCode)) {
                 return true;
             }
         }
@@ -134,8 +134,8 @@ class ModuleInvite extends ModuleORM
         if ($this->CheckCode($sCode, self::INVITE_TYPE_CODE)) {
             return self::INVITE_TYPE_CODE;
         }
-        if ($this->CheckCode($sCode, self::INVITE_TYPE_REFERAL)) {
-            return self::INVITE_TYPE_REFERAL;
+        if ($this->CheckCode($sCode, self::INVITE_TYPE_REFERRAL)) {
+            return self::INVITE_TYPE_REFERRAL;
         }
         return false;
     }
@@ -146,13 +146,13 @@ class ModuleInvite extends ModuleORM
      * @param ModuleUser_EntityUser $oUser
      * @return string|null
      */
-    public function GetReferalCode($oUser)
+    public function GetReferralCode($oUser)
     {
         if (is_scalar($oUser)) {
             $oUser = $this->User_GetUserById($oUser);
         }
         if (is_object($oUser)) {
-            return $oUser->getReferalCode();
+            return $oUser->getReferralCode();
         }
         return null;
     }
@@ -164,10 +164,10 @@ class ModuleInvite extends ModuleORM
      * @param string|null $sCode
      * @return null|string
      */
-    public function GetReferalLink($oUser, $sCode = null)
+    public function GetReferralLink($oUser, $sCode = null)
     {
-        if ($sCode or $sCode = $this->GetReferalCode($oUser)) {
-            return Router::GetPath('auth/referal') . urlencode($sCode) . '/';
+        if ($sCode or $sCode = $this->GetReferralCode($oUser)) {
+            return Router::GetPath('auth/referral') . urlencode($sCode) . '/';
         }
         return null;
     }
