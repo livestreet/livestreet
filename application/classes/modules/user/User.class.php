@@ -299,12 +299,15 @@ class ModuleUser extends Module
     /**
      * Алиас для корректной работы ORM
      *
-     * @param array $aUserId Список ID пользователей
+     * @param array $aFilter Фильтр, который содержит список id пользователей в параметре "id in"
      * @return array
      */
-    public function GetUserItemsByArrayId($aUserId)
+    public function GetUserItemsByFilter($aFilter)
     {
-        return $this->GetUsersByArrayId($aUserId);
+        if (isset($aFilter['id in'])) {
+            return $this->GetUsersByArrayId($aFilter['id in']);
+        }
+        return array();
     }
 
     /**

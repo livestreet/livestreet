@@ -1703,12 +1703,15 @@ class ModuleTopic extends Module
     /**
      * Алиас для корректной работы ORM
      *
-     * @param array $aTopocId Список ID топиков
+     * @param array $aFilter Фильтр, который содержит список id топиков в параметре "id in"
      * @return array
      */
-    public function GetTopicItemsByArrayId($aTopocId)
+    public function GetTopicItemsByFilter($aFilter)
     {
-        return $this->GetTopicsByArrayId($aTopocId);
+        if (isset($aFilter['id in'])) {
+            return $this->GetTopicsByArrayId($aFilter['id in']);
+        }
+        return array();
     }
 
     /**
