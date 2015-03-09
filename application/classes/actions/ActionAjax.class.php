@@ -1772,13 +1772,21 @@ class ActionAjax extends Action
         if (!($sValue = getRequest('value', null, 'post')) or !is_string($sValue)) {
             return;
         }
+        $bReturnExtended=getRequest('extended') ?: false;
         $aItems = array();
         /**
          * Формируем список пользователей
          */
         $aUsers = $this->User_GetUsersByLoginLike($sValue, 10);
         foreach ($aUsers as $oUser) {
-            $aItems[] = $oUser->getLogin();
+            if ($bReturnExtended) {
+                $aItems[] = array(
+                    'value' => $oUser->getId(),
+                    'label' => $oUser->getLogin(),
+                );
+            } else {
+                $aItems[] = $oUser->getLogin();
+            }
         }
         /**
          * Передаем результат в ajax ответ
