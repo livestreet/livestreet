@@ -20,10 +20,13 @@
 
         {* Написать в блог *}
         {if $oUserCurrent && ( ( $blog->getUserIsJoin() && $oUserCurrent->getRating() >= $blog->getLimitRatingTopic() ) || $blog->isAllowEdit() )}
-            {$actions[] = [
-                'url' => "{$LS->Topic_GetTopicType('topic')->getUrlForAdd()}?blog_id={$blog->getId()}",
-                'text' => {lang 'blog.actions.write'}
-            ]}
+            {$topicType=$LS->Topic_GetTopicTypeFirst()}
+            {if $topicType}
+                {$actions[] = [
+                    'url' => "{$topicType->getUrlForAdd()}?blog_id={$blog->getId()}",
+                    'text' => {lang 'blog.actions.write'}
+                ]}
+            {/if}
         {/if}
 
         {* Подписаться через RSS *}

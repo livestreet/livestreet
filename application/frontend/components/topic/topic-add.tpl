@@ -25,6 +25,7 @@
     {if ! $smarty.local.skipBlogs}
         {$blogsSelect = []}
         {$blogsSelectId = []}
+        {$blogsSelectedId=[]}
 
         {foreach $smarty.local.blogs as $blogType => $blogs}
             {$blogsSelectOptions = []}
@@ -45,6 +46,11 @@
 
         {if $topic}
             {json var=array_intersect($topic->getBlogsId(),$blogsSelectId) assign='chosenOrder'}
+            {$blogsSelectedId = $topic->getBlogsId()}
+        {else}
+            {if $_aRequest.blog_id}
+                {$blogsSelectedId[] = $_aRequest.blog_id}
+            {/if}
         {/if}
 
         {component 'field' template='select'
@@ -53,7 +59,7 @@
             placeholder   = 'Выберите блоги для публикации'
             inputClasses  = 'js-topic-add-blogs'
             isMultiple    = true
-            selectedValue = ( ( $topic ) ? $topic->getBlogsId() : [] )
+            selectedValue = $blogsSelectedId
             inputAttributes    = [ 'data-chosen-order' => {$chosenOrder} ]
             items         = $blogsSelect}
     {/if}

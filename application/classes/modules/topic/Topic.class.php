@@ -81,11 +81,22 @@ class ModuleTopic extends Module
      *
      * @param string $sType
      *
-     * @return null
+     * @return ModuleTopic_EntityTopicType|null
      */
     public function GetTopicType($sType)
     {
         return isset($this->aTopicTypes[$sType]) ? $this->aTopicTypes[$sType] : null;
+    }
+
+    /**
+     * Возвращает первый доступные тип топика
+     *
+     * @return ModuleTopic_EntityTopicType|null
+     */
+    public function GetTopicTypeFirst()
+    {
+        $oType = reset($this->aTopicTypes);
+        return $oType ?: null;
     }
 
     /**
