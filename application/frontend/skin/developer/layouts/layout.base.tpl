@@ -14,6 +14,7 @@
     {* Получаем блоки для вывода в сайдбаре *}
     {include 'blocks.tpl' group='right' assign=layoutSidebarBlocks}
     {$layoutSidebarBlocks = trim( $layoutSidebarBlocks )}
+    {$layoutSidebarBlocksShow = !!$layoutSidebarBlocks and !$layoutNoSidebar}
 {/block}
 
 {block 'layout_head_styles' append}
@@ -86,7 +87,7 @@
     {**
      * Основной контэйнер
      *}
-    <div id="container" class="grid-row grid-role-container {hook run='container_class'} {if ! $layoutSidebarBlocks}no-sidebar{/if}">
+    <div id="container" class="grid-row grid-role-container {hook run='container_class'} {if ! $layoutSidebarBlocksShow}no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
         <div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
             {**
@@ -141,9 +142,9 @@
 
             {**
              * Сайдбар
-             * Показываем сайдбар только если есть добавленные блоки
+             * Показываем сайдбар
              *}
-            {if $layoutSidebarBlocks}
+            {if $layoutSidebarBlocksShow}
                 <aside class="grid-col grid-col-4 grid-role-sidebar" role="complementary">
                     {$layoutSidebarBlocks}
                 </aside>
