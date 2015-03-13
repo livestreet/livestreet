@@ -141,10 +141,29 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	$( '.autocomplete-strict-users' ).lsAutocompleteStrict({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		},
+		params: {
+			extended: 1
+		}
+	});
+
 	$( '.autocomplete-users-sep' ).lsAutocomplete({
 		multiple: true,
 		urls: {
 			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
+
+	$( '.autocomplete-strict-users-sep' ).lsAutocompleteStrict({
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		},
+		params: {
+			extended: 1
 		}
 	});
 
