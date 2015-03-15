@@ -59,6 +59,6 @@ class HookStatisticsPerformance extends Hook
         /**
          * В ответ рендерим шаблон статистики
          */
-        return $this->Viewer_Fetch('component@perfomance.performance');
+        return $this->Viewer_Fetch('component@performance.performance');
     }
 }

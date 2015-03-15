@@ -1,5 +1,5 @@
 {
-    "name": "perfomance",
+    "name": "performance",
     "version": "1.0.0",
     "dependencies": {
         "alert": "*",
@@ -8,6 +8,6 @@
         "performance": "performance.tpl"
     },
     "styles": {
-        "perfomance": "css/perfomance.css"
+        "performance": "css/performance.css"
     }
 }
