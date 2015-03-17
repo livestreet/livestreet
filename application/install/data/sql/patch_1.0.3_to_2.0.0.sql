@@ -872,3 +872,6 @@ ALTER TABLE `prefix_invite_use`
 
 -- 07.03.2015
 ALTER TABLE `prefix_user` CHANGE `user_referal_code` `user_referral_code` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+-- 17.03.2015
+ALTER TABLE `prefix_topic` ADD `topic_slug` VARCHAR(500) NOT NULL DEFAULT '' AFTER `topic_title`, ADD INDEX (`topic_slug`) ;

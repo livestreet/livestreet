@@ -60,6 +60,12 @@ class ModuleTopic_EntityTopic extends Entity
             'label'      => $this->Lang_Get('topic.add.fields.title.label')
         );
         $this->aValidateRules[] = array(
+            'topic_slug_raw',
+            'regexp',
+            'allowEmpty' => true,
+            'pattern'    => '#^[a-z0-9\-]{1,500}$#i'
+        );
+        $this->aValidateRules[] = array(
             'topic_text_source',
             'string',
             'max'        => Config::Get('module.topic.max_length'),
@@ -79,6 +85,7 @@ class ModuleTopic_EntityTopic extends Entity
 
         $this->aValidateRules[] = array('blogs_id_raw', 'blogs');
         $this->aValidateRules[] = array('topic_text_source', 'topic_unique');
+        $this->aValidateRules[] = array('topic_slug_raw', 'slug_check');
     }
 
     /**
@@ -122,6 +129,49 @@ class ModuleTopic_EntityTopic extends Entity
             return true;
         }
         return $this->Lang_Get('topic.add.notices.error_type');
+    }
+
+    /**
+     * Проверка URL топика
+     *
+     * @param string $sValue Проверяемое значение
+     * @param array $aParams Параметры
+     * @return bool|string
+     */
+    public function ValidateSlugCheck($sValue, $aParams)
+    {
+        if (!$this->User_GetIsAdmin()) {
+            /**
+             * Простому пользователю разрешаем менять url только в течении X времени после создания топика
+             * Причем не прямую смену url, а через транлитерацию заголовка топика
+             */
+            if ($this->getId()) {
+                if (strtotime($this->getDateAdd()) < time() - 60 * 60 * 1) {
+                    /**
+                     * Не меняем url
+                     */
+                    return true;
+                }
+            }
+            /**
+             * Для нового топика всегда формируем url
+             */
+            $this->setSlugRaw('');
+        }
+
+        if ($this->getSlugRaw()) {
+            $this->setSlug($this->Topic_GetUniqueSlug($this->getSlugRaw(), $this->getId()));
+        } elseif ($this->getTitle()) {
+            if ($sUrl = $this->Topic_MakeSlug($this->getTitle())) {
+                /**
+                 * Получаем уникальный URL
+                 */
+                $this->setSlug($this->Topic_GetUniqueSlug($sUrl, $this->getId()));
+            } else {
+                return $this->Lang_Get('topic.add.notices.error_slug');
+            }
+        }
+        return true;
     }
 
     /**
@@ -293,6 +343,16 @@ class ModuleTopic_EntityTopic extends Entity
     public function getTitle()
     {
         return $this->_getDataOne('topic_title');
+    }
+
+    /**
+     * Возвращает url топика
+     *
+     * @return string|null
+     */
+    public function getSlug()
+    {
+        return $this->_getDataOne('topic_slug');
     }
 
     /**
@@ -613,15 +673,12 @@ class ModuleTopic_EntityTopic extends Entity
     /**
      * Возвращает полный URL до топика
      *
+     * @param bool $bAbsolute При false вернет относительный УРЛ
      * @return string
      */
-    public function getUrl()
+    public function getUrl($bAbsolute = true)
     {
-        if ($this->getBlog()->getType() == 'personal') {
-            return Router::GetPath('blog') . $this->getId() . '.html';
-        } else {
-            return Router::GetPath('blog') . $this->getBlog()->getUrl() . '/' . $this->getId() . '.html';
-        }
+        return $this->Topic_BuildUrlForTopic($this, $bAbsolute);
     }
 
     /**
@@ -961,6 +1018,16 @@ class ModuleTopic_EntityTopic extends Entity
     public function setTitle($data)
     {
         $this->_aData['topic_title'] = $data;
+    }
+
+    /**
+     * Устанавливает url топика
+     *
+     * @param string $data
+     */
+    public function setSlug($data)
+    {
+        $this->_aData['topic_slug'] = $data;
     }
 
     /**

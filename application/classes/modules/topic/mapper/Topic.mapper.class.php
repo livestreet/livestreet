@@ -44,6 +44,7 @@ class ModuleTopic_MapperTopic extends Mapper
 			user_id,
 			topic_type,
 			topic_title,			
+			topic_slug,
 			topic_tags,
 			topic_date_add,
 			topic_user_ip,
@@ -55,10 +56,10 @@ class ModuleTopic_MapperTopic extends Mapper
 			topic_forbid_comment,			
 			topic_text_hash			
 			)
-			VALUES(?d, ?d, ?d, ?d, ?d, ?d,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
+			VALUES(?d, ?d, ?d, ?d, ?d, ?d,	?,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
-            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getUserId(), $oTopic->getType(), $oTopic->getTitle(),
+            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getUserId(), $oTopic->getType(), $oTopic->getTitle(), $oTopic->getSlug(),
             $oTopic->getTags(), $oTopic->getDateAdd(), $oTopic->getUserIp(), $oTopic->getPublish(),
             $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getCutText(),
             $oTopic->getForbidComment(), $oTopic->getTextHash())
@@ -518,6 +519,7 @@ class ModuleTopic_MapperTopic extends Mapper
 				blog_id4= ?d,
 				blog_id5= ?d,
 				topic_title= ?,
+				topic_slug= ?,
 				topic_tags= ?,
 				topic_date_add = ?,
 				topic_date_edit = ?,
@@ -542,7 +544,7 @@ class ModuleTopic_MapperTopic extends Mapper
 				topic_id = ?d
 		";
         $res = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
-            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getTitle(), $oTopic->getTags(),
+            $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getTitle(), $oTopic->getSlug(), $oTopic->getTags(),
             $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getUserIp(),
             $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(),
             $oTopic->getRating(), $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
@@ -589,6 +591,9 @@ class ModuleTopic_MapperTopic extends Mapper
         $sWhere = '';
         if (isset($aFilter['topic_date_more'])) {
             $sWhere .= " AND t.topic_date_add >  " . $this->oDb->escape($aFilter['topic_date_more']);
+        }
+        if (isset($aFilter['topic_slug'])) {
+            $sWhere .= " AND t.topic_slug =  " . $this->oDb->escape($aFilter['topic_slug']);
         }
         if (isset($aFilter['topic_publish'])) {
             $sWhere .= " AND t.topic_publish =  " . (int)$aFilter['topic_publish'];

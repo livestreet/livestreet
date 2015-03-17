@@ -480,6 +480,24 @@ class ModuleTopic extends Module
     }
 
     /**
+     * Получить топик по url/slug
+     *
+     * @param string $sSlug url/slug топика
+     * @return ModuleTopic_EntityTopic|null
+     */
+    public function GetTopicBySlug($sSlug)
+    {
+        if (!is_scalar($sSlug)) {
+            return null;
+        }
+        $aTopics = $this->GetTopicsByFilter(array('topic_slug' => $sSlug), 1, 1);
+        if ($aTopics['collection']) {
+            return reset($aTopics['collection']);
+        }
+        return null;
+    }
+
+    /**
      * Получить список топиков по списку айдишников
      *
      * @param array $aTopicId Список ID топиков
@@ -1828,5 +1846,92 @@ class ModuleTopic extends Module
         $res = $this->oMapperTopic->UpdateTopicByType($sType, $sTypeNew);
         $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array("topic_update"));
         return $res;
+    }
+
+    /**
+     * Формирует и возвращает полный ЧПУ URL для топика
+     *
+     * @param ModuleTopic_EntityTopic $oTopic
+     * @param bool $bAbsolute При false вернет относительный УРЛ
+     * @return string
+     */
+    public function BuildUrlForTopic($oTopic, $bAbsolute = true)
+    {
+        $sUrlMask = Config::Get('module.topic.url');
+        $iDateCreate = strtotime($oTopic->getDateAdd());
+        $aReplace = array(
+            '%year%'   => date("Y", $iDateCreate),
+            '%month%'  => date("m", $iDateCreate),
+            '%day%'    => date("d", $iDateCreate),
+            '%hour%'   => date("H", $iDateCreate),
+            '%minute%' => date("i", $iDateCreate),
+            '%second%' => date("s", $iDateCreate),
+            '%login%'  => '',
+            '%blog%'   => '',
+            '%id%'     => $oTopic->getId(),
+            '%title%'  => $oTopic->getSlug(),
+            '%type%'  => $oTopic->getType(),
+        );
+
+        /**
+         * Получаем связанные данные только если в этом есть необходимость
+         */
+        if (strpos($sUrlMask, '%blog%') !== false) {
+            if (!($oBlog = $oTopic->GetBlog())) {
+                $oBlog = $this->Blog_GetBlogById($oTopic->getBlogId());
+            }
+            if ($oBlog) {
+                if ($oBlog->getType() == 'personal') {
+                    $sUrlMask = str_replace('%blog%', '%login%', $sUrlMask);
+                } else {
+                    $aReplace['%blog%'] = $oBlog->getUrl();
+                }
+            }
+        }
+
+        if (strpos($sUrlMask, '%login%') !== false) {
+            if (!($oUser = $oTopic->GetUser())) {
+                $oUser = $this->User_GetUserById($oTopic->getUserId());
+            }
+            if ($oUser) {
+                $aReplace['%login%'] = $oUser->getLogin();
+            }
+        }
+        $sUrl = strtr($sUrlMask, $aReplace);
+        return $bAbsolute ? Router::GetPathRootWeb() . '/' . $sUrl : $sUrl;
+    }
+
+    /**
+     * Формирует из строки url
+     *
+     * @param string $sText
+     * @return string
+     */
+    public function MakeSlug($sText)
+    {
+        return $this->Text_Transliteration($sText);
+    }
+
+    /**
+     * Возвращает URL с учетом уникалькости по всем топикам
+     *
+     * @param string$sSlug
+     * @param int|null $iSkipTopicId
+     * @return string
+     */
+    public function GetUniqueSlug($sSlug, $iSkipTopicId = null)
+    {
+        $iPostfix = 0;
+        do {
+            $oTopic = $this->GetTopicBySlug($sSlug . ($iPostfix ? '-' . $iPostfix : ''));
+            if ($oTopic and (is_null($iSkipTopicId) or $iSkipTopicId != $oTopic->getId())) {
+                $iPostfix++;
+                $bNeedNext = true;
+            } else {
+                $bNeedNext = false;
+            }
+        } while ($bNeedNext);
+
+        return $sSlug . ($iPostfix ? '-' . $iPostfix : '');
     }
 }

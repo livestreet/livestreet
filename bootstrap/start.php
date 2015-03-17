@@ -61,13 +61,53 @@ require_once($sPathToFramework . '/config/loader.php');
 /**
  * Определяем дополнительные параметры роутинга
  */
-$aRouterParams = array(/*
-	'callback_after_parse_url' => function() {
+$aRouterParams = array(
+    'callback_after_parse_url' => array(
+        function () {
+            /**
+             * Логика по ЧПУ топиков
+             * Если URL соответствует шаблону ЧПУ топика, перенаправляем обработку на экшен/евент /blog/_show_topic_url/
+             * Через свои параметры конфига передаем исходный URL и ключ из конфига 'module.security.hash', ключ нужен для проверки валидности запроса.
+             * Если ключ верный, то 100% это внутренняя обработка, а не произвольное внешнее обращение к URL
+             * Суть обработки _show_topic_url в том, чтобы определить ID топика и корректность его URL, если он некорректен, то произвести его корректировку через внешний редирект на правильный URL
+             * Если удалось определить топик и URL корректный, то происходит внутренний редирект на стандартный евент отображения топика по ID (/blog/12345.html)
+             */
 
-	}
-	*/
+            $sUrlRequest = '';
+            if (Router::GetAction()) {
+                $sUrlRequest .= Router::GetAction();
+            }
+            if (Router::GetActionEvent()) {
+                $sUrlRequest .= '/' . Router::GetActionEvent();
+            }
+            if (Router::GetParams()) {
+                $sUrlRequest .= '/' . join('/', Router::GetParams());
+            }
+            /**
+             * Функция для формирования регулярного выражения по маске URL топика
+             *
+             * @param string $sUrl
+             * @return string
+             */
+            $funcMakePreg = function ($sUrl) {
+                $sUrl = preg_quote(trim($sUrl, '/ '));
+                return strtr($sUrl, Config::Get('module.topic.url_preg'));
+            };
+            $sPreg = $funcMakePreg(Config::Get('module.topic.url'));
+            if (preg_match('@^' . $sPreg . '$@iu', $sUrlRequest)) {
+                Router::SetAction('blog');
+                Router::SetActionEvent('_show_topic_url');
+                Router::SetParams(array());
+                /**
+                 * Хак - через конфиг передаем нужные параметры в обработчик эвента
+                 * Модуль кеша здесь нельзя использовать, т.к. еще не произошло инициализации ядра
+                 */
+                Config::Set('module.topic._router_topic_original_url', $sUrlRequest);
+                Config::Set('module.topic._router_topic_security_hash', Config::Get('module.security.hash'));
+            }
+        }
+    )
 );
-
 
 
 /**

@@ -116,6 +116,7 @@ class ActionBlog extends Action
         'ajaxbloginfo',
         'ajaxblogjoin',
         'ajax',
+        '_show_topic_url',
     );
 
     /**
@@ -184,8 +185,8 @@ class ActionBlog extends Action
         $this->AddEventPreg('/^ajax$/i', '/^remove-avatar$/i', '/^$/i', 'EventAjaxRemoveAvatar');
         $this->AddEventPreg('/^ajax$/i', '/^modal-crop-avatar$/i', '/^$/i', 'EventAjaxModalCropAvatar');
 
+        $this->AddEventPreg('/^_show_topic_url$/i', '/^$/i', 'EventInternalShowTopicByUrl');
         $this->AddEventPreg('/^(\d+)\.html$/i', '/^$/i', array('EventShowTopic', 'topic'));
-        $this->AddEventPreg('/^[\w\-\_]+$/i', '/^(\d+)\.html$/i', array('EventShowTopic', 'topic'));
 
         $this->AddEventPreg('/^[\w\-\_]+$/i', '/^(page([1-9]\d{0,5}))?$/i', array('EventShowBlog', 'blog'));
         $this->AddEventPreg('/^[\w\-\_]+$/i', '/^bad$/i', '/^(page([1-9]\d{0,5}))?$/i', array('EventShowBlog', 'blog'));
@@ -714,23 +715,85 @@ class ActionBlog extends Action
         $this->SetTemplateAction('index');
     }
 
+
+    /**
+     * Обработка ЧПУ топика
+     */
+    protected function EventInternalShowTopicByUrl()
+    {
+        $sTopicUrl = Config::Get('module.topic._router_topic_original_url');
+        $sSecurityHash = Config::Get('module.topic._router_topic_security_hash');
+        /**
+         * Проверяем ключ
+         */
+        if ($sSecurityHash != Config::Get('module.security.hash')) {
+            return $this->EventErrorDebug();
+        }
+        /**
+         * Проверяем корректность URL топика
+         * Сначала нужно получить сам топик по ID или уникальному полю Slug (транслитерированный заголовок)
+         * Смотрим наличие ID или Slug в маске топика
+         */
+        $sUrlEscape = preg_quote(trim(Config::Get('module.topic.url'), '/ '));
+        $aMask = array_map(function ($sItem) {
+            return "({$sItem})";
+        }, Config::Get('module.topic.url_preg'));
+        $sPreg = strtr($sUrlEscape, $aMask);
+        if (preg_match('@^' . $sPreg . '$@iu', $sTopicUrl, $aMatch)) {
+            $aRuleRequire = array();
+            if (preg_match_all('#%(\w+)%#', $sUrlEscape, $aMatch2)) {
+                foreach ($aMatch2[1] as $k => $sFind) {
+                    if (in_array($sFind, array('id', 'title'))) {
+                        if (isset($aMatch[$k + 1])) {
+                            $aRuleRequire[$sFind] = $aMatch[$k + 1];
+                        }
+                    }
+                }
+            }
+            /**
+             * Не удалось найти обязательные поля - запускаем обработку дальше по цепочке
+             */
+            if (!$aRuleRequire) {
+                return Router::Action($sTopicUrl);
+            }
+
+            $oTopic = null;
+            /**
+             * Ищем топик
+             */
+            if (isset($aRuleRequire['id'])) {
+                $oTopic = $this->Topic_GetTopicById($aRuleRequire['id']);
+            } elseif (isset($aRuleRequire['title'])) {
+                $oTopic = $this->Topic_GetTopicBySlug($aRuleRequire['title']);
+            }
+            if (!$oTopic) {
+                return Router::Action($sTopicUrl);
+            }
+            /**
+             * Проверяем корректность URL топика
+             */
+            if ($oTopic->getUrl(false) != $sTopicUrl) {
+                Router::Location($oTopic->getUrl());
+            }
+            /**
+             * Направляем на стандартную обработку топика
+             */
+            return Router::Action('blog', "{$oTopic->getId()}.html");
+        }
+        /**
+         * Запускаем обработку дальше по цепочке
+         */
+        return Router::Action($sTopicUrl);
+    }
+
     /**
      * Показ топика
      *
      */
     protected function EventShowTopic()
     {
-        $sBlogUrl = '';
-        if ($this->GetParamEventMatch(0, 1)) {
-            // из коллективного блога
-            $sBlogUrl = $this->sCurrentEvent;
-            $iTopicId = $this->GetParamEventMatch(0, 1);
-            $this->sMenuItemSelect = 'blog';
-        } else {
-            // из персонального блога
-            $iTopicId = $this->GetEventMatch(1);
-            $this->sMenuItemSelect = 'log';
-        }
+        $iTopicId = $this->GetEventMatch(1);
+        $this->sMenuItemSelect = 'blog';
         $this->sMenuSubItemSelect = '';
         /**
          * Проверяем есть ли такой топик
@@ -743,24 +806,6 @@ class ActionBlog extends Action
          */
         if (!$this->ACL_IsAllowShowTopic($oTopic, $this->oUserCurrent)) {
             return parent::EventNotFound();
-        }
-        /**
-         * Если запросили топик из персонального блога то перенаправляем на страницу вывода коллективного топика
-         */
-        if ($sBlogUrl != '' and $oTopic->getBlog()->getType() == 'personal') {
-            Router::Location($oTopic->getUrl());
-        }
-        /**
-         * Если запросили не персональный топик то перенаправляем на страницу для вывода коллективного топика
-         */
-        if ($sBlogUrl == '' and $oTopic->getBlog()->getType() != 'personal') {
-            Router::Location($oTopic->getUrl());
-        }
-        /**
-         * Если номер топика правильный но УРЛ блога косяный то корректируем его и перенаправляем на нужный адрес
-         */
-        if ($sBlogUrl != '' and $oTopic->getBlog()->getUrl() != $sBlogUrl) {
-            Router::Location($oTopic->getUrl());
         }
         /**
          * Достаём комменты к топику

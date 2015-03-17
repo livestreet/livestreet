@@ -73,6 +73,15 @@
         entity      = 'ModuleTopic_EntityTopic'
         label       = $aLang.topic.add.fields.title.label}
 
+    {* URL топика *}
+    {if $oUserCurrent->isAdministrator()}
+        {component 'field' template='text'
+            name        = 'topic[topic_slug_raw]'
+            value       = {(( $topic ) ? $topic->getSlug() : '')|escape}
+            note        = {lang 'topic.add.fields.slug.note'}
+            label       = {lang 'topic.add.fields.slug.label'}}
+    {/if}
+
     {block 'add_topic_form_text_before'}{/block}
 
 
