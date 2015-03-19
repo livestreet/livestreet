@@ -722,11 +722,10 @@ class ActionBlog extends Action
     protected function EventInternalShowTopicByUrl()
     {
         $sTopicUrl = Config::Get('module.topic._router_topic_original_url');
-        $sSecurityHash = Config::Get('module.topic._router_topic_security_hash');
         /**
          * Проверяем ключ
          */
-        if ($sSecurityHash != Config::Get('module.security.hash')) {
+        if (is_null($sTopicUrl)) {
             return $this->EventErrorDebug();
         }
         /**

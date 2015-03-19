@@ -1870,7 +1870,7 @@ class ModuleTopic extends Module
             '%blog%'   => '',
             '%id%'     => $oTopic->getId(),
             '%title%'  => $oTopic->getSlug(),
-            '%type%'  => $oTopic->getType(),
+            '%type%'   => $oTopic->getType(),
         );
 
         /**
@@ -1915,7 +1915,7 @@ class ModuleTopic extends Module
     /**
      * Возвращает URL с учетом уникалькости по всем топикам
      *
-     * @param string$sSlug
+     * @param string $sSlug
      * @param int|null $iSkipTopicId
      * @return string
      */
@@ -1923,15 +1923,10 @@ class ModuleTopic extends Module
     {
         $iPostfix = 0;
         do {
-            $oTopic = $this->GetTopicBySlug($sSlug . ($iPostfix ? '-' . $iPostfix : ''));
-            if ($oTopic and (is_null($iSkipTopicId) or $iSkipTopicId != $oTopic->getId())) {
-                $iPostfix++;
-                $bNeedNext = true;
-            } else {
-                $bNeedNext = false;
-            }
-        } while ($bNeedNext);
+            $sUrl = $sSlug . ($iPostfix ? '-' . $iPostfix : '');
+            $iPostfix++;
+        } while ($oTopic = $this->GetTopicBySlug($sUrl) and (is_null($iSkipTopicId) or $iSkipTopicId != $oTopic->getId()));
 
-        return $sSlug . ($iPostfix ? '-' . $iPostfix : '');
+        return $sUrl;
     }
 }
