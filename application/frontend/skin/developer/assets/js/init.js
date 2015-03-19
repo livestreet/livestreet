@@ -20,6 +20,7 @@ jQuery(document).ready(function($){
 	});
 
 	ls.dev.init();
+	ls.notification.init();
 
 
 	/**
