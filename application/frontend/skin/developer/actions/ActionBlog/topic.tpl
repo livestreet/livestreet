@@ -29,7 +29,11 @@
         useSubscribe  = true
         isSubscribed  = $topic->getSubscribeNewComment() && $topic->getSubscribeNewComment()->getStatus()
         lastCommentId = $lastCommentId
-        pagination    = $pagingComments
+        pagination    = [
+            total   => +$pagingComments.iCountPage,
+            current => +$pagingComments.iCurrentPage,
+            url     => "{$pagingComments.sGetParams}{($pagingComments.sGetParams) ? '&' : '?'}cmtpage=__page__"
+        ]
         commentParams = [
             useVote       => true,
             useEdit       => true,

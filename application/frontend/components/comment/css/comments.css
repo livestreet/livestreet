@@ -51,6 +51,13 @@
 }
 
 /**
+ * Пагинация
+ */
+.comments-pagination {
+    margin-bottom: 30px;
+}
+
+/**
  * Вспомогательный блок-обертка
  */
 .comment-wrapper .comment-wrapper { padding-left: 25px; }

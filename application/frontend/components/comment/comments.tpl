@@ -34,14 +34,15 @@
     {$count        = $smarty.local.count}
     {$forbidAdd    = $smarty.local.forbidAdd}
     {$isSubscribed = $smarty.local.isSubscribed}
+    {$pagination   = $smarty.local.pagination}
 
     {if $forbidAdd}
         {$mods = "$mods forbid"}
     {/if}
 {/block}
 
-{if $oUserCurrent}
-    {add_block group='toolbar' name='component@comment.toolbar' target='.js-comment'}
+{if $oUserCurrent && ! $pagination['total']}
+    {add_block group='toolbar' name='component@comment.toolbar'}
 {/if}
 
 <div class="{$component} js-comments {cmods name=$component mods=$mods} {$smarty.local.classes}"
@@ -94,9 +95,9 @@
 
 
     {**
-     * TODO: Пагинация
+     * Пагинация
      *}
-    {*include 'components/pagination/pagination.tpl' pagination=$smarty.local.pagination*}
+    {component 'pagination' classes="{$component}-pagination" params=$pagination}
 
 
     {**

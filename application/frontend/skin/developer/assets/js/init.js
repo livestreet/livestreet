@@ -494,8 +494,9 @@ jQuery(document).ready(function($){
 	});
 
 	// Кнопка обновления комментариев
+	// TODO: Fix init
 	$('.js-comments-toolbar').lsCommentsToolbar({
-		comments: $('.js-topic-comments')
+		comments: $('.js-topic-comments, .js-comments-talk')
 	});
 
 

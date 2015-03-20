@@ -426,6 +426,7 @@ class ActionTalk extends Action
 
     /**
      * Чтение письма
+     * TODO: Пагинация для комментов не передается
      */
     protected function EventRead()
     {
@@ -581,7 +582,7 @@ class ActionTalk extends Action
          * Устанавливаем формат Ajax ответа
          */
         $this->Viewer_SetResponseAjax('json');
-        $idCommentLast = getRequestStr('idCommentLast');
+        $idCommentLast = getRequestStr('last_comment_id');
         /**
          * Проверям авторизован ли пользователь
          */
@@ -592,7 +593,7 @@ class ActionTalk extends Action
         /**
          * Проверяем разговор
          */
-        if (!($oTalk = $this->Talk_GetTalkById(getRequestStr('idTarget')))) {
+        if (!($oTalk = $this->Talk_GetTalkById(getRequestStr('target_id')))) {
             return $this->EventErrorDebug();
         }
         /**
@@ -625,13 +626,13 @@ class ActionTalk extends Action
             foreach ($aCmts as $aCmt) {
                 $aComments[] = array(
                     'html'     => $aCmt['html'],
-                    'idParent' => $aCmt['obj']->getPid(),
+                    'parent_id' => $aCmt['obj']->getPid(),
                     'id'       => $aCmt['obj']->getId(),
                 );
             }
         }
-        $this->Viewer_AssignAjax('aComments', $aComments);
-        $this->Viewer_AssignAjax('iMaxIdComment', $iMaxIdComment);
+        $this->Viewer_AssignAjax('comments', $aComments);
+        $this->Viewer_AssignAjax('last_comment_id', $iMaxIdComment);
     }
 
     /**
@@ -663,7 +664,7 @@ class ActionTalk extends Action
         /**
          * Проверяем разговор
          */
-        if (!($oTalk = $this->Talk_GetTalkById(getRequestStr('cmt_target_id')))) {
+        if (!($oTalk = $this->Talk_GetTalkById(getRequestStr('comment_target_id')))) {
             return $this->EventErrorDebug();
         }
         if (!($oTalkUser = $this->Talk_GetTalkUser($oTalk->getId(), $this->oUserCurrent->getId()))) {
