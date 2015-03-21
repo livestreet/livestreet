@@ -45,6 +45,15 @@ class InstallStepCheckRequirements extends InstallStep
                 'current' => InstallCore::getLang('no')
             );
         }
+        if (@extension_loaded('xdebug')) {
+            $iLevel = (int)@ini_get('xdebug.max_nesting_level');
+            if ($iLevel < 1000) {
+                $aRequirements[] = array(
+                    'name'    => 'xdebug',
+                    'current' => InstallCore::getLang('yes') . " ({$iLevel})"
+                );
+            }
+        }
         /**
          * Права на запись файлов
          */

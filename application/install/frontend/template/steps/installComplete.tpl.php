@@ -1,7 +1,5 @@
 <div class="complete">
-    <p>Приятного использования LiveStreet!<p>
-
-    <div class="alert alert--info">
-        Обязательно удалите каталог /application/install/
-    </div>
+    <p>
+        Теперь обязательно удалите каталог <b>/application/install/</b> и можете <a href="<?php echo InstallConfig::get('path.root.web'); ?>">перейти на сайт</a>.
+    </p>
 </div>

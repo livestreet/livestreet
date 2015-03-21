@@ -428,6 +428,31 @@ class InstallStepUpdateVersion extends InstallStep
                 }
             }
 
+
+            /**
+             * Конвертируем урлы топиков к ЧПУ формату
+             */
+            $iPage = 1;
+            $iLimitCount = 50;
+            $iLimitStart = 0;
+            while ($aTopics = $this->dbSelect("SELECT * FROM prefix_topic WHERE topic_slug = '' LIMIT {$iLimitStart},{$iLimitCount}")) {
+                $iPage++;
+                $iLimitStart = ($iPage - 1) * $iLimitCount;
+                /**
+                 * Топики
+                 */
+                foreach ($aTopics as $aTopic) {
+                    $sSlug = InstallCore::transliteration($aTopic['topic_title']);
+                    $sSlug = $this->GetUniqueTopicSlug($sSlug, $aTopic['topic_id']);
+                    $sSlug = mysqli_escape_string($this->rDbLink, $sSlug);
+                    /**
+                     * Меняем тип топика
+                     */
+                    $this->dbQuery("UPDATE prefix_topic SET topic_slug = '{$sSlug}' WHERE topic_id ='{$aTopic['topic_id']}'");
+                }
+            }
+
+
             /**
              * Конвертируем аватарки блогов
              */
@@ -817,5 +842,22 @@ class InstallStepUpdateVersion extends InstallStep
             }
             return false;
         }
+    }
+
+    protected function GetUniqueTopicSlug($sSlug, $iSkipTopicId = null)
+    {
+        $iPostfix = 0;
+        do {
+            $sUrl = $sSlug . ($iPostfix ? '-' . $iPostfix : '');
+            $iPostfix++;
+        } while (($aTopic = $this->getTopicBySlug($sUrl)) and (is_null($iSkipTopicId) or $iSkipTopicId != $aTopic['topic_id']));
+
+        return $sUrl;
+    }
+
+    protected function getTopicBySlug($sUrl)
+    {
+        $sUrl = mysqli_escape_string($this->rDbLink, $sUrl);
+        return $this->dbSelectOne("SELECT * FROM prefix_topic WHERE topic_slug = '{$sUrl}' ");
     }
 }

@@ -39,6 +39,10 @@ return array(
                     'title'    => 'Поддержка XML (SimpleXML)',
                     'solution' => 'Для корректной работы необходимо расширение SimpleXML. Обратитесь к хостингу.',
                 ),
+                'xdebug'                 => array(
+                    'title'    => 'Использование Xdebug',
+                    'solution' => 'Для корректной работы необходимо отключить Xdebug или повысить значение <b>xdebug.max_nesting_level</b> до 1000. Обратитесь к хостингу.',
+                ),
                 'dir_uploads'            => array(
                     'title'    => 'Каталог /uploads',
                     'solution' => 'Необходимо дать каталогу права на запись.',
