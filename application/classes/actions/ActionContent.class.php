@@ -300,7 +300,7 @@ class ActionContent extends Action
          * Проверяем разрешено ли постить топик по времени
          */
         if (!isPost('is_draft') and !$oTopic->getPublishDraft() and !$this->ACL_CanPostTopicTime($this->oUserCurrent)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.time_limit'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -430,12 +430,12 @@ class ActionContent extends Action
                 }
 
                 $this->Viewer_AssignAjax('sUrlRedirect', $sUrlRedirect);
-                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'));
+                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'));
             } else {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+                $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             }
         } else {
-            $this->Message_AddError($oTopic->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oTopic->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -572,12 +572,12 @@ class ActionContent extends Action
 
 
                 $this->Viewer_AssignAjax('sUrlRedirect', $oTopic->getUrl());
-                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'));
+                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'));
             } else {
-                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oTopic->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oTopic->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -592,14 +592,14 @@ class ActionContent extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
          * Допустимый тип топика?
          */
         if (!$this->Topic_IsAllowTopicType($sType = getRequestStr('topic_type'))) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_type'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_type'), $this->Lang_Get('common.error.error'));
             return;
         }
         $aTopicRequest = getRequest('topic');

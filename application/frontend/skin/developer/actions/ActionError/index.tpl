@@ -17,7 +17,7 @@
 {block 'layout_content'}
     <p>{$aMsgError[0].msg}</p>
     <p>
-        <a href="javascript:history.go(-1);">{$aLang.site_history_back}</a>, 
-        <a href="{router page='/'}">{$aLang.site_go_main}</a>
+        <a href="javascript:history.go(-1);">{$aLang.common.site_history_back}</a>,
+        <a href="{router page='/'}">{$aLang.common.site_go_main}</a>
     </p>
 {/block}

@@ -62,7 +62,7 @@ class ActionTalk extends Action
          * Проверяем авторизован ли юзер
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('not_access'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'));
             return Router::Action('error');
         }
         /**
@@ -419,7 +419,7 @@ class ActionTalk extends Action
             $this->Media_ReplaceTargetTmpById('talk', $oTalk->getId());
             Router::Location(Router::GetPath('talk') . 'read/' . $oTalk->getId() . '/');
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             return Router::Action('error');
         }
     }
@@ -505,14 +505,14 @@ class ActionTalk extends Action
          * Проверяем есть ли заголовок
          */
         if (!func_check(getRequestStr('talk_title'), 'text', 2, 200)) {
-            $this->Message_AddError($this->Lang_Get('talk.add.notices.title_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('talk.add.notices.title_error'), $this->Lang_Get('common.error.error'));
             $bOk = false;
         }
         /**
          * Проверяем есть ли содержание топика
          */
         if (!func_check(getRequestStr('talk_text'), 'text', 2, 3000)) {
-            $this->Message_AddError($this->Lang_Get('talk.add.notices.text_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('talk.add.notices.text_error'), $this->Lang_Get('common.error.error'));
             $bOk = false;
         }
         /**
@@ -541,25 +541,25 @@ class ActionTalk extends Action
                             $this->Lang_Get('talk.blacklist.notices.blocked',
                                 array('login' => htmlspecialchars($oUser->getLogin())))
                         ),
-                        $this->Lang_Get('error')
+                        $this->Lang_Get('common.error.error')
                     );
                     $bOk = false;
                     continue;
                 }
             } else {
                 $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_not_found') . ' «' . htmlspecialchars($sUser) . '»',
-                    $this->Lang_Get('error'));
+                    $this->Lang_Get('common.error.error'));
                 $bOk = false;
             }
             $aUsersNew[] = $sUser;
         }
         if (!count($aUsersNew)) {
-            $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error'), $this->Lang_Get('common.error.error'));
             $_REQUEST['talk_users'] = '';
             $bOk = false;
         } else {
             if (count($aUsersNew) > Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
-                $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'), $this->Lang_Get('common.error.error'));
                 $bOk = false;
             }
             $_REQUEST['talk_users'] = join(',', $aUsersNew);
@@ -587,7 +587,7 @@ class ActionTalk extends Action
          * Проверям авторизован ли пользователь
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -658,7 +658,7 @@ class ActionTalk extends Action
          * Проверям авторизован ли пользователь
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -685,7 +685,7 @@ class ActionTalk extends Action
          */
         $sText = getRequestStr('comment_text');
         if (!func_check($sText, 'text', 2, 3000)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('talk.message.notices.error_text'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('talk.message.notices.error_text'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -721,7 +721,7 @@ class ActionTalk extends Action
         if ($this->Comment_GetCommentUnique($oTalk->getId(), 'talk', $this->oUserCurrent->getId(), $sParentId,
             md5($sText))
         ) {
-            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.spam'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.spam'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -794,7 +794,7 @@ class ActionTalk extends Action
          * Если пользователь не авторизирован, возвращаем ошибку
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -818,7 +818,7 @@ class ActionTalk extends Action
             if (strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user_list_add.notices.error_self')
                 );
                 continue;
@@ -835,7 +835,7 @@ class ActionTalk extends Action
 
                         $aResult[] = array(
                             'bStateError'   => false,
-                            'sMsgTitle'     => $this->Lang_Get('attention'),
+                            'sMsgTitle'     => $this->Lang_Get('common.attention'),
                             'sMsg'          => $this->Lang_Get('common.success.add',
                                 array('login' => htmlspecialchars($sUser))),
                             'user_id'       => $oUser->getId(),
@@ -845,8 +845,8 @@ class ActionTalk extends Action
                     } else {
                         $aResult[] = array(
                             'bStateError' => true,
-                            'sMsgTitle'   => $this->Lang_Get('error'),
-                            'sMsg'        => $this->Lang_Get('system_error'),
+                            'sMsgTitle'   => $this->Lang_Get('common.error.error'),
+                            'sMsg'        => $this->Lang_Get('common.error.system.base'),
                             'user_login'  => htmlspecialchars($sUser)
                         );
                     }
@@ -856,7 +856,7 @@ class ActionTalk extends Action
                      */
                     $aResult[] = array(
                         'bStateError' => true,
-                        'sMsgTitle'   => $this->Lang_Get('error'),
+                        'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                         'sMsg'        => $this->Lang_Get('user_list_add.notices.error_already_added',
                             array('login' => htmlspecialchars($sUser))),
                         'user_login'  => htmlspecialchars($sUser)
@@ -866,7 +866,7 @@ class ActionTalk extends Action
             } else {
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
                     'user_login'  => htmlspecialchars($sUser)
@@ -895,8 +895,8 @@ class ActionTalk extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -906,7 +906,7 @@ class ActionTalk extends Action
         if (!$oUserTarget = $this->User_GetUserById($iUserId)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.notices.not_found_by_id', array('id' => htmlspecialchars($iUserId))),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -923,7 +923,7 @@ class ActionTalk extends Action
                     'talk.blacklist.notices.user_not_found',
                     array('login' => $oUserTarget->getLogin())
                 ),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -938,7 +938,7 @@ class ActionTalk extends Action
                 'common.success.remove',
                 array('login' => $oUserTarget->getLogin())
             ),
-            $this->Lang_Get('attention')
+            $this->Lang_Get('common.attention')
         );
     }
 
@@ -959,8 +959,8 @@ class ActionTalk extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -970,7 +970,7 @@ class ActionTalk extends Action
         if (!$oUserTarget = $this->User_GetUserById($iUserId)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.notices.not_found_by_id', array('id' => htmlspecialchars($iUserId))),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -982,7 +982,7 @@ class ActionTalk extends Action
         ) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('talk.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1001,7 +1001,7 @@ class ActionTalk extends Action
                     'talk.users.notices.user_not_found',
                     array('login' => $oUserTarget->getLogin())
                 ),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1016,7 +1016,7 @@ class ActionTalk extends Action
                 'common.success.remove',
                 array('login' => $oUserTarget->getLogin())
             ),
-            $this->Lang_Get('attention')
+            $this->Lang_Get('common.attention')
         );
     }
 
@@ -1043,8 +1043,8 @@ class ActionTalk extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1056,7 +1056,7 @@ class ActionTalk extends Action
         ) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('talk.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1072,7 +1072,7 @@ class ActionTalk extends Action
          * Ограничения на максимальное число участников разговора
          */
         if (count($aTalkUsers) >= Config::Get('module.talk.max_users') and !$this->oUserCurrent->isAdministrator()) {
-            $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1089,7 +1089,7 @@ class ActionTalk extends Action
             if (strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user_list_add.notices.error_self')
                 );
                 continue;
@@ -1124,7 +1124,7 @@ class ActionTalk extends Action
 
                                     $aResult[] = array(
                                         'bStateError'   => false,
-                                        'sMsgTitle'     => $this->Lang_Get('attention'),
+                                        'sMsgTitle'     => $this->Lang_Get('common.attention'),
                                         'sMsg'          => $this->Lang_Get('user_list_add.notices.success_add',
                                             array('login', htmlspecialchars($sUser))),
                                         'user_id'       => $oUser->getId(),
@@ -1135,8 +1135,8 @@ class ActionTalk extends Action
                                 } else {
                                     $aResult[] = array(
                                         'bStateError' => true,
-                                        'sMsgTitle'   => $this->Lang_Get('error'),
-                                        'sMsg'        => $this->Lang_Get('system_error')
+                                        'sMsgTitle'   => $this->Lang_Get('common.error.error'),
+                                        'sMsg'        => $this->Lang_Get('common.error.system.base')
                                     );
                                 }
                                 break;
@@ -1146,7 +1146,7 @@ class ActionTalk extends Action
                             case ModuleTalk::TALK_USER_ACTIVE:
                                 $aResult[] = array(
                                     'bStateError' => true,
-                                    'sMsgTitle'   => $this->Lang_Get('error'),
+                                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                                     'sMsg'        => $this->Lang_Get('user_list_add.notices.error_already_added',
                                         array('login' => htmlspecialchars($sUser)))
                                 );
@@ -1157,7 +1157,7 @@ class ActionTalk extends Action
                             case ModuleTalk::TALK_USER_DELETE_BY_SELF:
                                 $aResult[] = array(
                                     'bStateError' => true,
-                                    'sMsgTitle'   => $this->Lang_Get('error'),
+                                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                                     'sMsg'        => $this->Lang_Get('talk.users.notices.deleted',
                                         array('login' => htmlspecialchars($sUser)))
                                 );
@@ -1166,8 +1166,8 @@ class ActionTalk extends Action
                             default:
                                 $aResult[] = array(
                                     'bStateError' => true,
-                                    'sMsgTitle'   => $this->Lang_Get('error'),
-                                    'sMsg'        => $this->Lang_Get('system_error')
+                                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
+                                    'sMsg'        => $this->Lang_Get('common.error.system.base')
                                 );
                         }
                     } elseif (
@@ -1190,7 +1190,7 @@ class ActionTalk extends Action
 
                         $aResult[] = array(
                             'bStateError' => false,
-                            'sMsgTitle'   => $this->Lang_Get('attention'),
+                            'sMsgTitle'   => $this->Lang_Get('common.attention'),
                             'sMsg'        => $this->Lang_Get('user_list_add.notices.success_add',
                                 array('login', htmlspecialchars($sUser))),
                             'user_id'     => $oUser->getId(),
@@ -1200,8 +1200,8 @@ class ActionTalk extends Action
                     } else {
                         $aResult[] = array(
                             'bStateError' => true,
-                            'sMsgTitle'   => $this->Lang_Get('error'),
-                            'sMsg'        => $this->Lang_Get('system_error')
+                            'sMsgTitle'   => $this->Lang_Get('common.error.error'),
+                            'sMsg'        => $this->Lang_Get('common.error.system.base')
                         );
                     }
                 } else {
@@ -1210,7 +1210,7 @@ class ActionTalk extends Action
                      */
                     $aResult[] = array(
                         'bStateError' => true,
-                        'sMsgTitle'   => $this->Lang_Get('error'),
+                        'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                         'sMsg'        => $this->Lang_Get('talk.blacklist.notices.blocked',
                             array('login' => htmlspecialchars($sUser)))
                     );
@@ -1221,7 +1221,7 @@ class ActionTalk extends Action
                  */
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser)))
                 );
@@ -1244,7 +1244,7 @@ class ActionTalk extends Action
         $this->Viewer_SetResponseAjax('json');
 
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         $iCountTalkNew = $this->Talk_GetCountTalkNew($this->oUserCurrent->getId());

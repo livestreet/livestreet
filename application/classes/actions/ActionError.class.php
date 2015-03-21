@@ -97,7 +97,7 @@ class ActionError extends Action
         /**
          * Устанавливаем title страницы
          */
-        $this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
+        $this->Viewer_AddHtmlTitle($this->Lang_Get('common.error.error'));
         $this->SetTemplateAction('index');
     }
 }

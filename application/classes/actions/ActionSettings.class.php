@@ -62,7 +62,7 @@ class ActionSettings extends Action
          * Проверяем авторизован ли юзер
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'), $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
         /**
@@ -182,7 +182,7 @@ class ActionSettings extends Action
         $sFile = $this->Session_Get('sPhotoFileTmp');
         $sFilePreview = $this->Session_Get('sPhotoFilePreviewTmp');
         if (!$this->Image_IsExistsFile($sFile)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             return;
         }
 
@@ -201,7 +201,7 @@ class ActionSettings extends Action
             $this->Viewer_AssignAjax('upload_text', $this->Lang_Get('user.photo.actions.change_photo'));
             $this->Viewer_AssignAjax('photo', $oUser->getProfileFotoPath());
         } else {
-            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
+            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -311,7 +311,7 @@ class ActionSettings extends Action
             // Формируем массив с путями до аватаров
             $this->Viewer_AssignAjax('avatars', $oUser->GetProfileAvatarsPath());
         } else {
-            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('error'));
+            $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -350,7 +350,7 @@ class ActionSettings extends Action
                 $this->Message_AddNoticeSingle($this->Lang_Get('common.success.save'));
                 $this->Hook_Run('settings_tuning_save_after', array('oUser' => $this->oUserCurrent));
             } else {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+                $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             }
         } else {
             if (is_null($this->oUserCurrent->getSettingsTimezone())) {
@@ -444,11 +444,11 @@ class ActionSettings extends Action
             if (func_check(getRequestStr('mail'), 'mail')) {
                 if ($oUserMail = $this->User_GetUserByMail(getRequestStr('mail')) and $oUserMail->getId() != $this->oUserCurrent->getId()) {
                     $this->Message_AddError($this->Lang_Get('user.settings.account.fields.email.notices.error_used'),
-                        $this->Lang_Get('error'));
+                        $this->Lang_Get('common.error.error'));
                     $bError = true;
                 }
             } else {
-                $this->Message_AddError($this->Lang_Get('fields.email.notices.error'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('fields.email.notices.error'), $this->Lang_Get('common.error.error'));
                 $bError = true;
             }
             /**
@@ -462,17 +462,17 @@ class ActionSettings extends Action
                         } else {
                             $bError = true;
                             $this->Message_AddError($this->Lang_Get('user.settings.account.fields.password.notices.error'),
-                                $this->Lang_Get('error'));
+                                $this->Lang_Get('common.error.error'));
                         }
                     } else {
                         $bError = true;
                         $this->Message_AddError($this->Lang_Get('user.settings.account.fields.password_confirm.notices.error'),
-                            $this->Lang_Get('error'));
+                            $this->Lang_Get('common.error.error'));
                     }
                 } else {
                     $bError = true;
                     $this->Message_AddError($this->Lang_Get('user.settings.account.fields.password_new.notices.error'),
-                        $this->Lang_Get('error'));
+                        $this->Lang_Get('common.error.error'));
                 }
             }
             /**
@@ -505,7 +505,7 @@ class ActionSettings extends Action
 
                     $this->Hook_Run('settings_account_save_after', array('oUser' => $this->oUserCurrent));
                 } else {
-                    $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+                    $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
                 }
             }
         }
@@ -665,7 +665,7 @@ class ActionSettings extends Action
                     $this->Message_AddNoticeSingle($this->Lang_Get('common.success.save'));
                     $this->Hook_Run('settings_profile_save_after', array('oUser' => $this->oUserCurrent));
                 } else {
-                    $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+                    $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
                 }
             }
         }

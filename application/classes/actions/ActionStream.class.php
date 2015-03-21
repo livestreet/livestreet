@@ -123,14 +123,14 @@ class ActionStream extends Action
         }
 
         if (!getRequest('type')) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
         }
 
         /**
          * Активируем/деактивируем тип
          */
         $this->Stream_switchUserEventType($this->oUserCurrent->getId(), getRequestStr('type'));
-        $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('common.attention'));
     }
 
     /**
@@ -187,7 +187,7 @@ class ActionStream extends Action
         $iLastId = getRequestStr('last_id');
 
         if (!$iLastId) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -231,17 +231,17 @@ class ActionStream extends Action
          * Проверяем существование пользователя
          */
         if (!$this->User_getUserById(getRequestStr('id'))) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
         }
         if ($this->oUserCurrent->getId() == getRequestStr('id')) {
-            $this->Message_AddError($this->Lang_Get('user_list_add.notices.error_self'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('user_list_add.notices.error_self'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
          * Подписываем на пользователя
          */
         $this->Stream_subscribeUser($this->oUserCurrent->getId(), getRequestStr('id'));
-        $this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('stream_subscribes_updated'), $this->Lang_Get('common.attention'));
     }
 
     /**
@@ -266,7 +266,7 @@ class ActionStream extends Action
          * Если пользователь не авторизирован, возвращаем ошибку
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -290,7 +290,7 @@ class ActionStream extends Action
 
                 $aResult[] = array(
                     'bStateError'   => false,
-                    'sMsgTitle'     => $this->Lang_Get('attention'),
+                    'sMsgTitle'     => $this->Lang_Get('common.attention'),
                     'sMsg'          => $this->Lang_Get('common.success.add',
                         array('login' => htmlspecialchars($sUser))),
                     'user_id'       => $oUser->getId(),
@@ -300,7 +300,7 @@ class ActionStream extends Action
             } else {
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
                     'user_login'  => htmlspecialchars($sUser)
@@ -339,7 +339,7 @@ class ActionStream extends Action
          * Отписываем
          */
         $this->Stream_unsubscribeUser($this->oUserCurrent->getId(), $iUserId);
-        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('common.attention'));
     }
 
     /**

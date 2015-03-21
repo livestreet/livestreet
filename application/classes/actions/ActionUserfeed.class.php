@@ -106,7 +106,7 @@ class ActionUserfeed extends Action
          * Проверяем наличие ID блога или пользователя
          */
         if (!getRequest('id')) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
         }
         $sType = getRequestStr('type');
         $iType = null;
@@ -120,7 +120,7 @@ class ActionUserfeed extends Action
                  * Проверяем существование блога
                  */
                 if (!($oBlog=$this->Blog_GetBlogById(getRequestStr('id'))) or !$this->ACL_IsAllowShowBlog($oBlog,$this->oUserCurrent)) {
-                    $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                    $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                     return;
                 }
                 break;
@@ -130,24 +130,24 @@ class ActionUserfeed extends Action
                  * Проверяем существование пользователя
                  */
                 if (!$this->User_GetUserById(getRequestStr('id'))) {
-                    $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                    $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                     return;
                 }
                 if ($this->oUserCurrent->getId() == getRequestStr('id')) {
                     $this->Message_AddError($this->Lang_Get('user_list_add.notices.error_self'),
-                        $this->Lang_Get('error'));
+                        $this->Lang_Get('common.error.error'));
                     return;
                 }
                 break;
             default:
-                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                 return;
         }
         /**
          * Подписываем
          */
         $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), $iType, getRequestStr('id'));
-        $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('common.attention'));
     }
 
     /**
@@ -171,7 +171,7 @@ class ActionUserfeed extends Action
          * Если пользователь не авторизирован, возвращаем ошибку
          */
         if (!$this->User_IsAuthorization()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -197,7 +197,7 @@ class ActionUserfeed extends Action
 
                 $aResult[] = array(
                     'bStateError'   => false,
-                    'sMsgTitle'     => $this->Lang_Get('attention'),
+                    'sMsgTitle'     => $this->Lang_Get('common.attention'),
                     'sMsg'          => $this->Lang_Get('common.success.add',
                         array('login' => htmlspecialchars($sUser))),
                     'user_id'       => $oUser->getId(),
@@ -207,7 +207,7 @@ class ActionUserfeed extends Action
             } else {
                 $aResult[] = array(
                     'bStateError' => true,
-                    'sMsgTitle'   => $this->Lang_Get('error'),
+                    'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $this->Lang_Get('user.notices.not_found',
                         array('login' => htmlspecialchars($sUser))),
                     'user_login'  => htmlspecialchars($sUser)
@@ -246,18 +246,18 @@ class ActionUserfeed extends Action
                 $sId = getRequestStr('user_id');
                 break;
             default:
-                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                 return;
         }
         if (!$sId) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
          * Отписываем пользователя
          */
         $this->Userfeed_unsubscribeUser($this->oUserCurrent->getId(), $iType, $sId);
-        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('attention'));
+        $this->Message_AddNotice($this->Lang_Get('common.success.remove'), $this->Lang_Get('common.attention'));
     }
 
     /**

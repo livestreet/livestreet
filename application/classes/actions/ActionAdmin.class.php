@@ -125,7 +125,7 @@ class ActionAdmin extends Action
     {
         $this->Security_ValidateSendForm();
         if (!in_array($sAction, array('activate', 'deactivate', 'remove', 'apply_update'))) {
-            $this->Message_AddError($this->Lang_Get('admin.plugins.notices.unknown_action'), $this->Lang_Get('error'),
+            $this->Message_AddError($this->Lang_Get('admin.plugins.notices.unknown_action'), $this->Lang_Get('common.error.error'),
                 true);
             Router::Location(Router::GetPath('admin/plugins'));
         }
@@ -144,11 +144,11 @@ class ActionAdmin extends Action
             $bResult = true;
         }
         if ($bResult) {
-            $this->Message_AddNotice($this->Lang_Get('admin.plugins.notices.action_ok'), $this->Lang_Get('attention'),
+            $this->Message_AddNotice($this->Lang_Get('admin.plugins.notices.action_ok'), $this->Lang_Get('common.attention'),
                 true);
         } else {
             if (!($aMessages = $this->Message_GetErrorSession()) or !count($aMessages)) {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'), true);
+                $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'), true);
             }
         }
         /**

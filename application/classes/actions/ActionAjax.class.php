@@ -288,10 +288,10 @@ class ActionAjax extends Action
                 $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("component@poll.manage.item"));
                 return true;
             } else {
-                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oPoll->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oPoll->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -333,10 +333,10 @@ class ActionAjax extends Action
                 $this->Viewer_AssignAjax('iPollId', $oPoll->getId());
                 return true;
             } else {
-                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oPoll->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oPoll->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -374,7 +374,7 @@ class ActionAjax extends Action
         if ($oPoll->Delete()) {
             return true;
         } else {
-            $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -513,7 +513,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -539,8 +539,8 @@ class ActionAjax extends Action
                         ModuleMedia::TYPE_CHECK_ALLOW_ADD,
                         array('user' => $this->oUserCurrent))
                 ) {
-                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
-                        $this->Lang_Get('error'));
+                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
+                        $this->Lang_Get('common.error.error'));
                     return false;
                 }
             } else {
@@ -551,8 +551,8 @@ class ActionAjax extends Action
                 if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
                         array('user' => $this->oUserCurrent))
                 ) {
-                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
-                        $this->Lang_Get('error'));
+                    $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
+                        $this->Lang_Get('common.error.error'));
                     return false;
                 }
             }
@@ -568,8 +568,8 @@ class ActionAjax extends Action
                 );
                 $this->Viewer_AssignAjax('sText', $this->Media_BuildCodeForEditor($mResult, $aParams));
             } else {
-                $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'),
-                    $this->Lang_Get('error'));
+                $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('common.error.system.base'),
+                    $this->Lang_Get('common.error.error'));
             }
         } else {
             /**
@@ -590,7 +590,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         $aAllowData = array('title');
@@ -609,7 +609,7 @@ class ActionAjax extends Action
             $oMedia->setDataOne($sName, $sValue);
             $oMedia->Update();
         } else {
-            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
         }
     }
 
@@ -619,7 +619,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         $sId = getRequestStr('id');
@@ -631,7 +631,7 @@ class ActionAjax extends Action
         ) {
             $oMedia->Delete();
         } else {
-            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
         }
     }
 
@@ -641,7 +641,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         $sId = getRequestStr('id');
@@ -685,10 +685,10 @@ class ActionAjax extends Action
             if (true === $res2 = $this->Media_CreateFilePreview($oMedia, $oTarget)) {
                 $this->Viewer_AssignAjax('bUnsetOther', true);
             } else {
-                $this->Message_AddErrorSingle(is_string($res2) ? $res2 : $this->Lang_Get('system_error'));
+                $this->Message_AddErrorSingle(is_string($res2) ? $res2 : $this->Lang_Get('common.error.system.base'));
             }
         } else {
-            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
         }
     }
 
@@ -698,7 +698,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         $sId = getRequestStr('id');
@@ -738,7 +738,7 @@ class ActionAjax extends Action
              */
             $this->Media_RemoveFilePreview($oMedia, $oTarget);
         } else {
-            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
         }
     }
 
@@ -748,7 +748,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -765,7 +765,7 @@ class ActionAjax extends Action
              */
             if ($sId) {
                 if (!$this->Media_CheckTarget($sType, $sId, ModuleMedia::TYPE_CHECK_ALLOW_VIEW_LIST)) {
-                    $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+                    $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'), $this->Lang_Get('common.error.error'));
                     return;
                 }
                 $aMediaItems = $this->Media_GetMediaByTarget($sType, $sId);
@@ -801,7 +801,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -901,7 +901,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -922,8 +922,8 @@ class ActionAjax extends Action
             if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
                     array('user' => $this->oUserCurrent))
             ) {
-                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
-                    $this->Lang_Get('error'));
+                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
+                    $this->Lang_Get('common.error.error'));
                 return false;
             }
         } else {
@@ -934,8 +934,8 @@ class ActionAjax extends Action
             if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
                     array('user' => $this->oUserCurrent))
             ) {
-                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('system_error'),
-                    $this->Lang_Get('error'));
+                $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
+                    $this->Lang_Get('common.error.error'));
                 return false;
             }
         }
@@ -958,8 +958,8 @@ class ActionAjax extends Action
 
             $this->Viewer_AssignAjax('sTemplateFile', $sTemplateFile);
         } else {
-            $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('system_error'),
-                $this->Lang_Get('error'));
+            $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('common.error.system.base'),
+                $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -1112,7 +1112,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1168,7 +1168,7 @@ class ActionAjax extends Action
             $this->Hook_Run("vote_{$oTopicCommentVote->getTargetType()}_after",
                 array('oTarget' => $oComment, 'oVote' => $oTopicCommentVote, 'iValue' => $iValue));
 
-            $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('attention'));
+            $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('common.attention'));
             $this->Viewer_AssignAjax('iRating', $oComment->getRating());
             /**
              * Добавляем событие в ленту
@@ -1190,7 +1190,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1247,10 +1247,10 @@ class ActionAjax extends Action
             $this->Hook_Run("vote_{$oTopicVote->getTargetType()}_after",
                 array('oTarget' => $oTopic, 'oVote' => $oTopicVote, 'iValue' => $iValue));
             if ($iValue) {
-                $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('attention'));
+                $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success'), $this->Lang_Get('common.attention'));
             } else {
                 $this->Message_AddNoticeSingle($this->Lang_Get('vote.notices.success_abstain'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
             }
             $this->Viewer_AssignAjax('iRating', $oTopic->getRating());
             /**
@@ -1258,7 +1258,7 @@ class ActionAjax extends Action
              */
             $this->Stream_write($oTopicVote->getVoterId(), 'vote_topic', $oTopic->getId());
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return;
         }
     }
@@ -1273,7 +1273,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1324,7 +1324,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1351,7 +1351,7 @@ class ActionAjax extends Action
          */
         if (!$oTopic->getPublish()) {
             $this->Message_AddErrorSingle($this->Lang_Get('topic.add.notices.error_favourite_draft'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1370,7 +1370,7 @@ class ActionAjax extends Action
             $oTopic->setCountFavourite($oTopic->getCountFavourite() + 1);
             if ($this->Topic_AddFavouriteTopic($oFavouriteTopicNew) and $this->Topic_UpdateTopic($oTopic)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', true);
                 $this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
             } else {
@@ -1379,18 +1379,18 @@ class ActionAjax extends Action
         }
         if (!$oFavouriteTopic and !$iType) {
             $this->Message_AddErrorSingle($this->Lang_Get('favourite.notices.already_removed'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return;
         }
         if ($oFavouriteTopic and $iType) {
-            $this->Message_AddErrorSingle($this->Lang_Get('favourite.notices.already_added'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('favourite.notices.already_added'), $this->Lang_Get('common.error.error'));
             return;
         }
         if ($oFavouriteTopic and !$iType) {
             $oTopic->setCountFavourite($oTopic->getCountFavourite() - 1);
             if ($this->Topic_DeleteFavouriteTopic($oFavouriteTopic) and $this->Topic_UpdateTopic($oTopic)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', false);
                 $this->Viewer_AssignAjax('iCount', $oTopic->getCountFavourite());
             } else {
@@ -1409,7 +1409,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1448,7 +1448,7 @@ class ActionAjax extends Action
             $oComment->setCountFavourite($oComment->getCountFavourite() + 1);
             if ($this->Comment_AddFavouriteComment($oFavouriteCommentNew) and $this->Comment_UpdateComment($oComment)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', true);
                 $this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
             } else {
@@ -1465,7 +1465,7 @@ class ActionAjax extends Action
             $oComment->setCountFavourite($oComment->getCountFavourite() - 1);
             if ($this->Comment_DeleteFavouriteComment($oFavouriteComment) and $this->Comment_UpdateComment($oComment)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', false);
                 $this->Viewer_AssignAjax('iCount', $oComment->getCountFavourite());
             } else {
@@ -1484,7 +1484,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1521,7 +1521,7 @@ class ActionAjax extends Action
             );
             if ($this->Talk_AddFavouriteTalk($oFavouriteTalkNew)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.add_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', true);
             } else {
                 return $this->EventErrorDebug();
@@ -1541,7 +1541,7 @@ class ActionAjax extends Action
         if ($oFavouriteTalk and !$iType) {
             if ($this->Talk_DeleteFavouriteTalk($oFavouriteTalk)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('favourite.notices.remove_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bState', false);
             } else {
                 return $this->EventErrorDebug();
@@ -1564,7 +1564,7 @@ class ActionAjax extends Action
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.comments_empty'),
-                $this->Lang_Get('attention'));
+                $this->Lang_Get('common.attention'));
             return;
         }
     }
@@ -1583,7 +1583,7 @@ class ActionAjax extends Action
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
             $this->Message_AddErrorSingle($this->Lang_Get('activity.block_recent.topics_empty'),
-                $this->Lang_Get('attention'));
+                $this->Lang_Get('common.attention'));
             return;
         }
     }
@@ -1605,7 +1605,7 @@ class ActionAjax extends Action
             $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return;
         }
     }
@@ -1621,7 +1621,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1633,7 +1633,7 @@ class ActionAjax extends Action
             $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.blogs.self_empty'), $this->Lang_Get('attention'));
+            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.blogs.self_empty'), $this->Lang_Get('common.attention'));
             return;
         }
     }
@@ -1649,7 +1649,7 @@ class ActionAjax extends Action
          * Пользователь авторизован?
          */
         if (!$this->oUserCurrent) {
-            $this->Message_AddErrorSingle($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1661,7 +1661,7 @@ class ActionAjax extends Action
             $sTextResult = $oViewer->Fetch("component@blog.top");
             $this->Viewer_AssignAjax('sText', $sTextResult);
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.blogs.joined_empty'), $this->Lang_Get('attention'));
+            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.blogs.joined_empty'), $this->Lang_Get('common.attention'));
             return;
         }
     }
@@ -1707,7 +1707,7 @@ class ActionAjax extends Action
             }
             $this->Viewer_AssignAjax('aBlogs', $aResult);
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.navigator.empty'), $this->Lang_Get('attention'));
+            $this->Message_AddErrorSingle($this->Lang_Get('blog.blocks.navigator.empty'), $this->Lang_Get('common.attention'));
             return;
         }
     }
@@ -1804,7 +1804,7 @@ class ActionAjax extends Action
          * Есть права на удаление комментария?
          */
         if (!$this->ACL_CanDeleteComment($this->oUserCurrent)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -1820,7 +1820,7 @@ class ActionAjax extends Action
         $oComment->setDelete(($oComment->getDelete() + 1) % 2);
         $this->Hook_Run('comment_delete_before', array('oComment' => $oComment));
         if (!$this->Comment_UpdateCommentStatus($oComment)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return;
         }
         $this->Hook_Run('comment_delete_after', array('oComment' => $oComment));
@@ -1841,7 +1841,7 @@ class ActionAjax extends Action
         /**
          * Показываем сообщение и передаем переменные в ajax ответ
          */
-        $this->Message_AddNoticeSingle($sMsg, $this->Lang_Get('attention'));
+        $this->Message_AddNoticeSingle($sMsg, $this->Lang_Get('common.attention'));
         $this->Viewer_AssignAjax('state', $bState);
         $this->Viewer_AssignAjax('toggle_text', $sTextToggle);
     }
@@ -1860,7 +1860,7 @@ class ActionAjax extends Action
             return $this->EventErrorDebug();
         }
         if (!$oComment->isAllowEdit()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'), $this->Lang_Get('common.error.error'));
             return;
         }
         $sText = $oComment->getTextSource() ? $oComment->getTextSource() : $oComment->getText();
@@ -1881,7 +1881,7 @@ class ActionAjax extends Action
             return $this->EventErrorDebug();
         }
         if (!$oComment->isAllowEdit()) {
-            $this->Message_AddErrorSingle($this->Lang_Get('not_access'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.not_access'), $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -1891,7 +1891,7 @@ class ActionAjax extends Action
          */
         if (!$this->Validate_Validate('string', $sText, array('min' => 2, 'max' => 10000, 'allowEmpty' => false))) {
             $this->Message_AddErrorSingle($this->Lang_Get('topic.comments.notices.error_text'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return;
         }
 
@@ -1978,10 +1978,10 @@ class ActionAjax extends Action
                 // Добавляем событие в ленту
                 $this->Stream_Write($oWall->getUserId(), 'add_wall', $oWall->getId());
             } else {
-                $this->Message_AddError($this->Lang_Get('common.error.add'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.add'), $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oWall->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oWall->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 

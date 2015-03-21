@@ -104,7 +104,7 @@ class ActionSubscribe extends Action
             $sMail = $this->oUserCurrent->getMail();
         }
         if (!func_check($sMail, 'mail')) {
-            $this->Message_AddError($this->Lang_Get('field.email.notices.error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('field.email.notices.error'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -122,7 +122,7 @@ class ActionSubscribe extends Action
          * Есть ли доступ к подписке гостям?
          */
         if (!$this->oUserCurrent and !$this->Subscribe_IsAllowTargetForGuest($sTargetType)) {
-            $this->Message_AddError($this->Lang_Get('need_authorization'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -139,7 +139,7 @@ class ActionSubscribe extends Action
         ) {
             $oSubscribe->setStatus($iValue);
             $this->Subscribe_UpdateSubscribe($oSubscribe);
-            $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('attention'));
+            $this->Message_AddNotice($this->Lang_Get('common.success.save'), $this->Lang_Get('common.attention'));
             return;
         }
         return $this->EventErrorDebug();

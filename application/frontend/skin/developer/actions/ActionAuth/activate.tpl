@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    <a href="{router page='/'}">{$aLang.site_go_main}</a>
+    <a href="{router page='/'}">{$aLang.common.site_go_main}</a>
 {/block}

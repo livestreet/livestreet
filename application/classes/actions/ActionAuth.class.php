@@ -87,7 +87,7 @@ class ActionAuth extends Action
          * Логин и пароль являются строками?
          */
         if (!is_string(getRequest('login')) or !is_string(getRequest('password'))) {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             return;
         }
         /**
@@ -205,7 +205,7 @@ class ActionAuth extends Action
                 return;
             }
         }
-        $this->Message_AddError($this->Lang_Get('auth.notices.error_bad_email'), $this->Lang_Get('error'));
+        $this->Message_AddError($this->Lang_Get('auth.notices.error_bad_email'), $this->Lang_Get('common.error.error'));
     }
 
     /**
@@ -244,7 +244,7 @@ class ActionAuth extends Action
                 }
             }
             $this->Message_AddErrorSingle($this->Lang_Get('auth.reset.alerts.error_bad_code'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
     }
@@ -402,7 +402,7 @@ class ActionAuth extends Action
                     $this->Message_AddNoticeSingle($this->Lang_Get('auth.registration.notices.success'));
                 }
             } else {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+                $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
                 return;
             }
         } else {
@@ -472,7 +472,7 @@ class ActionAuth extends Action
          */
         if ($oUser and $oUser->getActivate()) {
             $this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.error_reactivate'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
         /**
@@ -480,7 +480,7 @@ class ActionAuth extends Action
          */
         if ($bError) {
             $this->Message_AddErrorSingle($this->Lang_Get('auth.registration.notices.error_code'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
         /**
@@ -496,7 +496,7 @@ class ActionAuth extends Action
             $this->DropInviteRegister();
             return;
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             return Router::Action('error');
         }
     }
@@ -560,7 +560,7 @@ class ActionAuth extends Action
             if ($this->Invite_CheckCode(getRequestStr('invite_code'), ModuleInvite::INVITE_TYPE_CODE)) {
                 Router::Location($this->Invite_GetReferralLink(null, getRequestStr('invite_code')));
             } else {
-                $this->Message_AddError($this->Lang_Get('auth.invite.alerts.error_code'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('auth.invite.alerts.error_code'), $this->Lang_Get('common.error.error'));
             }
         }
     }

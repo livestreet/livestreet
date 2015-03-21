@@ -186,7 +186,7 @@ class ActionProfile extends Action
              */
             $oComplaint->setText(htmlspecialchars($oComplaint->getText()));
             if ($this->User_AddComplaint($oComplaint)) {
-                $this->Message_AddNotice($this->Lang_Get('report.notices.success'), $this->Lang_Get('attention'));
+                $this->Message_AddNotice($this->Lang_Get('report.notices.success'), $this->Lang_Get('common.attention'));
                 /**
                  * Убиваем каптчу
                  */
@@ -199,10 +199,10 @@ class ActionProfile extends Action
                 }
                 return true;
             } else {
-                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oComplaint->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oComplaint->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -588,10 +588,10 @@ class ActionProfile extends Action
             if ($this->User_SaveNote($oNote)) {
                 $this->Viewer_AssignAjax('sText', $oNote->getText());
             } else {
-                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oNote->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oNote->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -692,7 +692,7 @@ class ActionProfile extends Action
          * либо из e-mail письма-уведомления
          */
         if (!$oUser = $this->User_GetUserById($sUserId)) {
-            $this->Message_AddError($this->Lang_Get('user.notices.not_found'), $this->Lang_Get('error'), true);
+            $this->Message_AddError($this->Lang_Get('user.notices.not_found'), $this->Lang_Get('common.error.error'), true);
             Router::Location(Router::GetPath('talk'));
             return;
         }
@@ -713,7 +713,7 @@ class ActionProfile extends Action
             $sMessage = ($oFriend)
                 ? $this->Lang_Get('user.friends.notices.offer_already_done')
                 : $this->Lang_Get('user.friends.notices.offer_not_found');
-            $this->Message_AddError($sMessage, $this->Lang_Get('error'), true);
+            $this->Message_AddError($sMessage, $this->Lang_Get('common.error.error'), true);
 
             Router::Location(Router::GetPath('talk'));
             return;
@@ -732,12 +732,12 @@ class ActionProfile extends Action
                 ? $this->Lang_Get('user.friends.notices.add_success')
                 : $this->Lang_Get('user.friends.rejected');
 
-            $this->Message_AddNoticeSingle($sMessage, $this->Lang_Get('attention'), true);
+            $this->Message_AddNoticeSingle($sMessage, $this->Lang_Get('common.attention'), true);
             $this->NoticeFriendOffer($oUser, $sAction);
         } else {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('system_error'),
-                $this->Lang_Get('error'),
+                $this->Lang_Get('common.error.system.base'),
+                $this->Lang_Get('common.error.error'),
                 true
             );
         }
@@ -759,8 +759,8 @@ class ActionProfile extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -777,7 +777,7 @@ class ActionProfile extends Action
         if (!$oUser = $this->User_GetUserById($sUserId)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -801,7 +801,7 @@ class ActionProfile extends Action
             $oFriend->setStatusByUserId(ModuleUser::USER_FRIEND_ACCEPT, $this->oUserCurrent->getId());
             if ($this->User_UpdateFriend($oFriend)) {
                 $this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.add_success'),
-                    $this->Lang_Get('attention'));
+                    $this->Lang_Get('common.attention'));
                 $this->NoticeFriendOffer($oUser, 'accept');
                 /**
                  * Добавляем событие в ленту
@@ -870,8 +870,8 @@ class ActionProfile extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -888,7 +888,7 @@ class ActionProfile extends Action
         if (!$oUser = $this->User_GetUserById($sUserId)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -911,7 +911,7 @@ class ActionProfile extends Action
         if ($oFriend->getFriendStatus() == ModuleUser::USER_FRIEND_OFFER + ModuleUser::USER_FRIEND_ACCEPT) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.friends.notices.already_exist'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -924,7 +924,7 @@ class ActionProfile extends Action
         ) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.friends.rejected'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -952,7 +952,7 @@ class ActionProfile extends Action
                     $this->Stream_write($oFriend->getUserFrom(), 'add_friend', $oFriend->getUserTo());
                     $this->Stream_write($oFriend->getUserTo(), 'add_friend', $oFriend->getUserFrom());
                     $this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.add_success'),
-                        $this->Lang_Get('attention'));
+                        $this->Lang_Get('common.attention'));
                 } else {
                     return $this->EventErrorDebug();
                 }
@@ -960,7 +960,7 @@ class ActionProfile extends Action
             } else {
                 $this->Message_AddErrorSingle(
                     $this->Lang_Get('user.friends.notices.rejected'),
-                    $this->Lang_Get('error')
+                    $this->Lang_Get('common.error.error')
                 );
                 return;
             }
@@ -1004,7 +1004,7 @@ class ActionProfile extends Action
          * Ограничения на добавления в друзья, т.к. приглашение отправляется в личку, то и ограничиваем по ней
          */
         if (!$this->ACL_CanSendTalkTime($this->oUserCurrent)) {
-            $this->Message_AddErrorSingle($this->Lang_Get('user.friends.notices.time_limit'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('user.friends.notices.time_limit'), $this->Lang_Get('common.error.error'));
             return false;
         }
         /**
@@ -1026,7 +1026,7 @@ class ActionProfile extends Action
             : !$this->User_AddFriend($oFriendNew);
 
         if (!$bStateError) {
-            $this->Message_AddNoticeSingle($this->Lang_Get('user.friends.sent'), $this->Lang_Get('attention'));
+            $this->Message_AddNoticeSingle($this->Lang_Get('user.friends.sent'), $this->Lang_Get('common.attention'));
 
             $sTitle = $this->Lang_Get(
                 'user.friends.messages.offer.title',
@@ -1067,7 +1067,7 @@ class ActionProfile extends Action
              */
             $this->Talk_DeleteTalkUserByArray($oTalk->getId(), $this->oUserCurrent->getId());
         } else {
-            $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -1086,8 +1086,8 @@ class ActionProfile extends Action
          */
         if (!$this->User_IsAuthorization()) {
             $this->Message_AddErrorSingle(
-                $this->Lang_Get('need_authorization'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.need_authorization'),
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1104,7 +1104,7 @@ class ActionProfile extends Action
         if (!$oUser = $this->User_GetUserById($sUserId)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.friends.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1122,7 +1122,7 @@ class ActionProfile extends Action
         if (!$oFriend || !in_array($oFriend->getFriendStatus(), $aAllowedFriendStatus)) {
             $this->Message_AddErrorSingle(
                 $this->Lang_Get('user.friends.notices.not_found'),
-                $this->Lang_Get('error')
+                $this->Lang_Get('common.error.error')
             );
             return;
         }
@@ -1131,7 +1131,7 @@ class ActionProfile extends Action
          */
         if ($this->User_DeleteFriend($oFriend)) {
             $this->Message_AddNoticeSingle($this->Lang_Get('user.friends.notices.remove_success'),
-                $this->Lang_Get('attention'));
+                $this->Lang_Get('common.attention'));
 
             /**
              * Отправляем пользователю сообщение об удалении дружеской связи

@@ -908,7 +908,7 @@ class ModuleProperty extends ModuleORM
                 $aProperty['validate_rule'], $aProperty['params'], $aProperty['additional']);
             if ($sResultMsg !== true and !is_object($sResultMsg)) {
                 if (is_string($sResultMsg)) {
-                    $this->Message_AddErrorSingle($sResultMsg, $this->Lang_Get('error'), true);
+                    $this->Message_AddErrorSingle($sResultMsg, $this->Lang_Get('common.error.error'), true);
                 }
                 /**
                  * Отменяем добавление типа
