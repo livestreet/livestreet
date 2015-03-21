@@ -59,8 +59,9 @@
 
         {* Дата рождения *}
         {component 'field' template='date'
-            name   = 'profile_birthday'
-            label  = {lang name='user.settings.profile.fields.birthday.label'}}
+            name         = 'profile_birthday'
+            inputClasses = 'js-field-date-default'
+            label        = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
         {* Местоположение *}

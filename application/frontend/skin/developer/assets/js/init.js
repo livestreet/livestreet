@@ -20,7 +20,6 @@ jQuery(document).ready(function($){
 	});
 
 	ls.dev.init();
-	ls.notification.init();
 
 
 	/**
@@ -30,6 +29,12 @@ jQuery(document).ready(function($){
 		// Эмуляция placeholder'ов в IE
 		$( 'input[type=text], textarea' ).placeholder();
 	}
+
+
+	/**
+     * Notification
+     */
+    ls.notification.init();
 
 
 	/**
@@ -68,13 +73,23 @@ jQuery(document).ready(function($){
 	 * Fields
 	 */
 	$('.js-field-geo-default').lsFieldGeo({
-		urls: {
-			regions: aRouter.ajax + 'geo/get/regions/',
-			cities: aRouter.ajax + 'geo/get/cities/'
-		}
-	});
+        urls: {
+            regions: aRouter.ajax + 'geo/get/regions/',
+            cities: aRouter.ajax + 'geo/get/cities/'
+        }
+    });
 
-	$('.js-date-picker').datepicker();
+    $('.js-field-date-default').livequery(function () {
+        $(this).lsFieldDate();
+    });
+
+    $('.js-field-datetime-default').livequery(function () {
+        $(this).lsFieldDatetime();
+    });
+
+    $('.js-field-time-default').livequery(function () {
+        $(this).lsFieldTime();
+    });
 
 	$('[data-type=captcha]').livequery(function () {
 		$(this).lsCaptcha();

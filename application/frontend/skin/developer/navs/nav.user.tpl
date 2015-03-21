@@ -2,7 +2,7 @@
  * Навигация на странице пользователя
  *}
 
-{component 'nav' name='user' activeItem=$sMenuProfileItemSelect mods='pills stacked' classes='user-nav' hookParams=[ 'oUserProfile' => $oUserProfile ] items=[
+{component 'nav' name='user' activeItem=$sMenuProfileItemSelect mods='stacked' classes='user-nav' hookParams=[ 'oUserProfile' => $oUserProfile ] items=[
 	[ 'name' => 'whois',      'text' => {lang name='user.profile.nav.info'},         'url' => "{$oUserProfile->getUserWebPath()}" ],
 	[ 'name' => 'wall',       'text' => {lang name='user.profile.nav.wall'},         'url' => "{$oUserProfile->getUserWebPath()}wall/", 'count' => $iCountWallUser ],
 	[ 'name' => 'created',    'text' => {lang name='user.profile.nav.publications'}, 'url' => "{$oUserProfile->getUserWebPath()}created/topics/", 'count' => $iCountCreated ],

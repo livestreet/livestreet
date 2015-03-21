@@ -49,35 +49,35 @@
  * @modifier user-nav
  * @template blocks/block.userNav.tpl
  */
-.nav.nav--pills.nav--stacked.user-nav {
+.nav.nav--stacked.user-nav {
     overflow: hidden;
     border: 1px solid #eee;
     border-radius: 5px;
 }
-.nav.nav--pills.nav--stacked.user-nav > li {
+.nav.nav--stacked.user-nav > li {
     margin-bottom: 0;
     background-color: transparent;
     border-bottom: 1px solid #f4f4f4;
 }
-.nav.nav--pills.nav--stacked.user-nav > li .badge {
-    top: 9px;
+.nav.nav--stacked.user-nav > li .badge {
     background: #aaa;
 }
-.nav.nav--pills.nav--stacked.user-nav > li a {
+.nav.nav--stacked.user-nav > li a {
+    padding: 0 13px;
+    line-height: 42px;
     display: block;
-    padding: 10px 15px;
     background: #fff;
     color: #555;
     cursor: pointer;
 }
-.nav.nav--pills.nav--stacked.user-nav > li a:hover {
+.nav.nav--stacked.user-nav > li a:hover {
     background: #fafafa;
     color: #333;
 }
-.nav.nav--pills.nav--stacked.user-nav > li.active a {
+.nav.nav--stacked.user-nav > li.active a {
     background: #2891D3;
     color: #fff;
 }
-.nav.nav--pills.nav--stacked.user-nav > li.active .badge {
+.nav.nav--stacked.user-nav > li.active .badge {
     background: #2379B0;
 }
