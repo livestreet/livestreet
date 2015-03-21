@@ -122,7 +122,7 @@ class ActionAuth extends Action
                     /**
                      * Убиваем каптчу
                      */
-                    unset($_SESSION['captcha_keystring_user_auth']);
+                    $this->Session_Drop('captcha_keystring_user_auth');
                     /**
                      * Авторизуем
                      */
@@ -363,7 +363,7 @@ class ActionAuth extends Action
                 /**
                  * Убиваем каптчу
                  */
-                unset($_SESSION['captcha_keystring_user_signup']);
+                $this->Session_Drop('captcha_keystring_user_signup');
                 /**
                  * Подписываем пользователя на дефолтные события в ленте активности
                  */

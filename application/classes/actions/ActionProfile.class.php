@@ -190,7 +190,7 @@ class ActionProfile extends Action
                 /**
                  * Убиваем каптчу
                  */
-                unset($_SESSION['captcha_keystring_complaint_user']);
+                $this->Session_Drop('captcha_keystring_complaint_user');
                 /**
                  * Отправляем уведомление админу
                  */
