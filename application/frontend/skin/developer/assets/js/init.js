@@ -183,6 +183,29 @@ jQuery(document).ready(function($){
 		}
 	});
 
+	$('.autocomplete-property-tags').each(function(k,v){
+		$(v).lsAutocomplete({
+			multiple: false,
+			urls: {
+				load: aRouter.ajax + 'property/tags/autocompleter/'
+			},
+			params: {
+				property_id: $(v).data('propertyId')
+			}
+		});
+	});
+
+	$('.autocomplete-property-tags-sep').each(function(k,v){
+		$(v).lsAutocomplete({
+			multiple: true,
+			urls: {
+				load: aRouter.ajax + 'property/tags/autocompleter/'
+			},
+			params: {
+				property_id: $(v).data('propertyId')
+			}
+		});
+	});
 
 	/**
 	 * Code highlight
