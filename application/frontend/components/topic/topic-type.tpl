@@ -9,12 +9,12 @@
 {$type = $topic->getType()}
 
 {if $LS->Topic_IsAllowTopicType( $type )}
-	{$template = $smarty.current_dir|cat:"/topic.type.{$type}.tpl"}
+	{$template = $LS->Component_GetTemplatePath('topic', "topic.type.{$type}" )}
 
 	{* Если для указанного типа существует шаблон, то подключаем его *}
 	{* Иначе подключаем дефолтный шаблон топика *}
-	{if ! $LS->Viewer_TemplateExists( $template )}
-		{$template = './topic.tpl'}
+	{if ! $template}
+		{$template = $LS->Component_GetTemplatePath('topic', 'topic')}
 	{/if}
 
 	{include "$template" topic=$topic isList=$smarty.local.isList isPreview=$smarty.local.isPreview}
