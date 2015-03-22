@@ -1314,14 +1314,14 @@ class ActionBlog extends Action
             if ($oCommentParent and $oCommentParent->getUserId() != $oTopic->getUserId() and $oCommentNew->getUserId() != $oCommentParent->getUserId()) {
                 $oUserAuthorComment = $oCommentParent->getUser();
                 $aExcludeMail[] = $oUserAuthorComment->getMail();
-                $this->Notify_SendCommentReplyToAuthorParentComment($oUserAuthorComment, $oTopic, $oCommentNew,
+                $this->Topic_SendNotifyCommentReplyToAuthorParentComment($oUserAuthorComment, $oTopic, $oCommentNew,
                     $this->oUserCurrent);
             }
             /**
              * Отправка уведомления автору топика
              */
             $this->Subscribe_Send('topic_new_comment', $oTopic->getId(),
-                Config::Get('module.notify.prefix') . '.comment_new.tpl', $this->Lang_Get('emails.comment_new.subject'),
+                'comment_new.tpl', $this->Lang_Get('emails.comment_new.subject'),
                 array(
                     'oTopic'       => $oTopic,
                     'oComment'     => $oCommentNew,
@@ -1717,7 +1717,7 @@ class ActionBlog extends Action
         /**
          * Отправляем пользователю заявку
          */
-        $this->Notify_SendBlogUserInvite(
+        $this->Blog_SendNotifyBlogUserInvite(
             $oUser, $this->oUserCurrent, $oBlog,
             Router::GetPath('talk') . 'read/' . $oTalk->getId() . '/'
         );

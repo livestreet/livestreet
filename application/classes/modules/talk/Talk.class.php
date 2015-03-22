@@ -118,7 +118,7 @@ class ModuleTalk extends Module
                         if ($iUserId != $iUserIdFrom) {
                             $oUserFrom = $this->User_GetUserById($iUserIdFrom);
                             $oUserToMail = $this->User_GetUserById($iUserId);
-                            $this->Notify_SendTalkNew($oUserToMail, $oUserFrom, $oTalk);
+                            $this->SendNotifyTalkNew($oUserToMail, $oUserFrom, $oTalk);
                         }
                     }
                 }
@@ -880,5 +880,72 @@ class ModuleTalk extends Module
          * Удаляем медиа данные
          */
         $this->Media_RemoveTarget('talk', $iTalkId, true);
+    }
+
+    /**
+     * Отправляет уведомление при новом личном сообщении
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя, которому отправляем сообщение
+     * @param ModuleUser_EntityUser $oUserFrom Объект пользователя, который отправляет сообщение
+     * @param ModuleTalk_EntityTalk $oTalk Объект сообщения
+     * @return bool
+     */
+    public function SendNotifyTalkNew(
+        ModuleUser_EntityUser $oUserTo,
+        ModuleUser_EntityUser $oUserFrom,
+        ModuleTalk_EntityTalk $oTalk
+    ) {
+        /**
+         * Проверяем можно ли юзеру рассылать уведомление
+         */
+        if (!$oUserTo->getSettingsNoticeNewTalk()) {
+            return false;
+        }
+        $this->Notify_Send(
+            $oUserTo,
+            'talk_new.tpl',
+            $this->Lang_Get('emails.talk_new.subject'),
+            array(
+                'oUserTo'   => $oUserTo,
+                'oUserFrom' => $oUserFrom,
+                'oTalk'     => $oTalk,
+            )
+        );
+        return true;
+    }
+
+    /**
+     * Отправляет уведомление о новом сообщение в личке
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя, которому отправляем уведомление
+     * @param ModuleUser_EntityUser $oUserFrom Объект пользователя, которыф написал комментарий
+     * @param ModuleTalk_EntityTalk $oTalk Объект сообщения
+     * @param ModuleComment_EntityComment $oTalkComment Объект комментария
+     * @return bool
+     */
+    public function SendNotifyTalkCommentNew(
+        ModuleUser_EntityUser $oUserTo,
+        ModuleUser_EntityUser $oUserFrom,
+        ModuleTalk_EntityTalk $oTalk,
+        ModuleComment_EntityComment $oTalkComment
+    ) {
+        /**
+         * Проверяем можно ли юзеру рассылать уведомление
+         */
+        if (!$oUserTo->getSettingsNoticeNewTalk()) {
+            return false;
+        }
+        $this->Notify_Send(
+            $oUserTo,
+            'talk_comment_new.tpl',
+            $this->Lang_Get('emails.talk_comment_new.subject'),
+            array(
+                'oUserTo'      => $oUserTo,
+                'oUserFrom'    => $oUserFrom,
+                'oTalk'        => $oTalk,
+                'oTalkComment' => $oTalkComment,
+            )
+        );
+        return true;
     }
 }

@@ -1641,7 +1641,7 @@ class ModuleTopic extends Module
                 if (in_array($oBlogUser->getUserId(), $aUserIdSend)) {
                     continue;
                 }
-                $this->Notify_SendTopicNewToSubscribeBlog($oBlogUser->getUser(), $oTopic, $oBlogUser->getBlog(),
+                $this->SendNotifyTopicNewToSubscribeBlog($oBlogUser->getUser(), $oTopic, $oBlogUser->getBlog(),
                     $oUserTopic);
                 $aUserIdSend[] = $oBlogUser->getUserId();
             }
@@ -1654,7 +1654,7 @@ class ModuleTopic extends Module
         $aBlogs = $this->Blog_GetBlogsAdditionalData($aBlogs);
         foreach ($aBlogs as $oBlog) {
             if ($oBlog->getOwnerId() != $oUserTopic->getId() and !in_array($oBlog->getOwnerId(), $aUserIdSend)) {
-                $this->Notify_SendTopicNewToSubscribeBlog($oBlog->getOwner(), $oTopic, $oBlog, $oUserTopic);
+                $this->SendNotifyTopicNewToSubscribeBlog($oBlog->getOwner(), $oTopic, $oBlog, $oUserTopic);
                 $aUserIdSend[] = $oBlog->getOwnerId();
             }
         }
@@ -1928,5 +1928,75 @@ class ModuleTopic extends Module
         } while ($oTopic = $this->GetTopicBySlug($sUrl) and (is_null($iSkipTopicId) or $iSkipTopicId != $oTopic->getId()));
 
         return $sUrl;
+    }
+
+    /**
+     * Отправляет юзеру уведомление об ответе на его комментарий
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя кому отправляем
+     * @param ModuleTopic_EntityTopic $oTopic Объект топика
+     * @param ModuleComment_EntityComment $oComment Объект комментария
+     * @param ModuleUser_EntityUser $oUserComment Объект пользователя, написавшего комментарий
+     * @return bool
+     */
+    public function SendNotifyCommentReplyToAuthorParentComment(
+        ModuleUser_EntityUser $oUserTo,
+        ModuleTopic_EntityTopic $oTopic,
+        ModuleComment_EntityComment $oComment,
+        ModuleUser_EntityUser $oUserComment
+    ) {
+        /**
+         * Проверяем можно ли юзеру рассылать уведомление
+         */
+        if (!$oUserTo->getSettingsNoticeReplyComment()) {
+            return false;
+        }
+        $this->Notify_Send(
+            $oUserTo,
+            'comment_reply.tpl',
+            $this->Lang_Get('emails.comment_reply.subject'),
+            array(
+                'oUserTo'      => $oUserTo,
+                'oTopic'       => $oTopic,
+                'oComment'     => $oComment,
+                'oUserComment' => $oUserComment,
+            )
+        );
+        return true;
+    }
+
+    /**
+     * Отправляет юзеру уведомление о новом топике в блоге, в котором он состоит
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя кому отправляем
+     * @param ModuleTopic_EntityTopic $oTopic Объект топика
+     * @param ModuleBlog_EntityBlog $oBlog Объект блога
+     * @param ModuleUser_EntityUser $oUserTopic Объект пользователя, написавшего топик
+     * @return bool
+     */
+    public function SendNotifyTopicNewToSubscribeBlog(
+        ModuleUser_EntityUser $oUserTo,
+        ModuleTopic_EntityTopic $oTopic,
+        ModuleBlog_EntityBlog $oBlog,
+        ModuleUser_EntityUser $oUserTopic
+    ) {
+        /**
+         * Проверяем можно ли юзеру рассылать уведомление
+         */
+        if (!$oUserTo->getSettingsNoticeNewTopic()) {
+            return false;
+        }
+        $this->Notify_Send(
+            $oUserTo,
+            'topic_new.tpl',
+            $this->Lang_Get('emails.topic_new.subject') . ' «' . htmlspecialchars($oBlog->getTitle()) . '»',
+            array(
+                'oUserTo'    => $oUserTo,
+                'oTopic'     => $oTopic,
+                'oBlog'      => $oBlog,
+                'oUserTopic' => $oUserTopic,
+            )
+        );
+        return true;
     }
 }

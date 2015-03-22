@@ -254,4 +254,26 @@ class ModuleInvite extends ModuleORM
         }
         return array();
     }
+
+    /**
+     * Отправляет инвайт
+     *
+     * @param ModuleUser_EntityUser $oUserFrom Пароль пользователя, который отправляет инвайт
+     * @param string $sMailTo Емайл на который отправляем инвайт
+     * @param string $sRefCode Код приглашения
+     */
+    public function SendNotifyInvite(ModuleUser_EntityUser $oUserFrom, $sMailTo, $sRefCode)
+    {
+        $this->Notify_Send(
+            $sMailTo,
+            'invite.tpl',
+            $this->Lang_Get('emails.invite.subject'),
+            array(
+                'sMailTo'   => $sMailTo,
+                'oUserFrom' => $oUserFrom,
+                'sRefCode'  => $sRefCode,
+                'sRefLink'  => $this->GetReferralLink($oUserFrom, $sRefCode),
+            )
+        );
+    }
 }

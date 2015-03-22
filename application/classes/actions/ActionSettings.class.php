@@ -414,7 +414,7 @@ class ActionSettings extends Action
                  */
                 $this->Hook_Run('settings_invite_send_before', array('oUser' => $this->oUserCurrent, 'sRefCode' => $sRefCode));
 
-                $this->Notify_SendInvite($this->oUserCurrent, getRequestStr('invite_mail'), $sRefCode);
+                $this->Invite_SendNotifyInvite($this->oUserCurrent, getRequestStr('invite_mail'), $sRefCode);
                 $this->Message_AddNoticeSingle($this->Lang_Get('user.settings.invites.notices.success'));
                 $this->Hook_Run('settings_invite_send_after', array('oUser' => $this->oUserCurrent, 'sRefCode' => $sRefCode));
             }

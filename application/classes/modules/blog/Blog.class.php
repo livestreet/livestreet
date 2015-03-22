@@ -1167,4 +1167,31 @@ class ModuleBlog extends Module
     {
         return $this->GetBlogsByArrayId($aBlogId);
     }
+
+    /**
+     * Отправляет пользователю сообщение о приглашение его в закрытый блог
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя, который отправляет приглашение
+     * @param ModuleUser_EntityUser $oUserFrom Объект пользователя, которого приглашаем
+     * @param ModuleBlog_EntityBlog $oBlog Объект блога
+     * @param $sPath
+     */
+    public function SendNotifyBlogUserInvite(
+        ModuleUser_EntityUser $oUserTo,
+        ModuleUser_EntityUser $oUserFrom,
+        ModuleBlog_EntityBlog $oBlog,
+        $sPath
+    ) {
+        $this->Notify_Send(
+            $oUserTo,
+            'blog_invite_new.tpl',
+            $this->Lang_Get('emails.blog_invite_new.subject'),
+            array(
+                'oUserTo'   => $oUserTo,
+                'oUserFrom' => $oUserFrom,
+                'oBlog'     => $oBlog,
+                'sPath'     => $sPath,
+            )
+        );
+    }
 }

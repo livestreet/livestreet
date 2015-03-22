@@ -195,7 +195,7 @@ class ActionProfile extends Action
                  * Отправляем уведомление админу
                  */
                 if (Config::Get('module.user.complaint_notify_by_mail')) {
-                    $this->Notify_SendUserComplaint($oComplaint);
+                    $this->User_SendNotifyUserComplaint($oComplaint);
                 }
                 return true;
             } else {
@@ -1058,7 +1058,7 @@ class ActionProfile extends Action
             /**
              * Отправляем пользователю заявку
              */
-            $this->Notify_SendUserFriendNew(
+            $this->User_SendNotifyUserFriendNew(
                 $oUser, $this->oUserCurrent, $sUserText,
                 Router::GetPath('talk') . 'read/' . $oTalk->getId() . '/'
             );
@@ -1196,7 +1196,7 @@ class ActionProfile extends Action
          */
         $oUser = $this->User_GetUserById($oChangemail->getUserId());
         $this->Notify_Send($oChangemail->getMailTo(),
-            Config::Get('module.notify.prefix') . '.user_changemail_to.tpl',
+            'user_changemail_to.tpl',
             $this->Lang_Get('emails.user_changemail.subject'),
             array(
                 'oUser'       => $oUser,

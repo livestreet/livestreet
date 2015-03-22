@@ -760,7 +760,7 @@ class ActionTalk extends Action
 
             foreach ($aUsersTalk as $oUserTalk) {
                 if ($oUserTalk->getId() != $oCommentNew->getUserId()) {
-                    $this->Notify_SendTalkCommentNew($oUserTalk, $this->oUserCurrent, $oTalk, $oCommentNew);
+                    $this->Talk_SendNotifyTalkCommentNew($oUserTalk, $this->oUserCurrent, $oTalk, $oCommentNew);
                 }
             }
             /**
@@ -1116,7 +1116,7 @@ class ActionTalk extends Action
                                     )
                                 )
                                 ) {
-                                    $this->Notify_SendTalkNew($oUser, $this->oUserCurrent, $oTalk);
+                                    $this->Talk_SendNotifyTalkNew($oUser, $this->oUserCurrent, $oTalk);
 
                                     $oViewer = $this->Viewer_GetLocalViewer();
                                     $oViewer->Assign('user', $oUser, true);
@@ -1182,7 +1182,7 @@ class ActionTalk extends Action
                         )
                     )
                     ) {
-                        $this->Notify_SendTalkNew($oUser, $this->oUserCurrent, $oTalk);
+                        $this->Talk_SendNotifyTalkNew($oUser, $this->oUserCurrent, $oTalk);
 
                         $oViewer = $this->Viewer_GetLocalViewer();
                         $oViewer->Assign('user', $oUser, true);

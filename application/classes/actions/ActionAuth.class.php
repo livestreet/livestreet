@@ -201,7 +201,7 @@ class ActionAuth extends Action
             $oReminder->setUserId($oUser->getId());
             if ($this->User_AddReminder($oReminder)) {
                 $this->Message_AddNotice($this->Lang_Get('auth.reset.notices.success_send_link'));
-                $this->Notify_SendReminderCode($oUser, $oReminder);
+                $this->User_SendNotifyReminderCode($oUser, $oReminder);
                 return;
             }
         }
@@ -237,7 +237,7 @@ class ActionAuth extends Action
                         $oReminder->setDateUsed(date("Y-m-d H:i:s"));
                         $oReminder->setIsUsed(1);
                         $this->User_UpdateReminder($oReminder);
-                        $this->Notify_SendReminderPassword($oUser, $sNewPassword);
+                        $this->User_SendNotifyReminderPassword($oUser, $sNewPassword);
                         $this->SetTemplateAction('reset_confirm');
                         return;
                     }
@@ -381,10 +381,10 @@ class ActionAuth extends Action
                     /**
                      * Отправляем на мыло письмо о подтверждении регистрации
                      */
-                    $this->Notify_SendRegistrationActivate($oUser, getRequestStr('password'));
+                    $this->User_SendNotifyRegistrationActivate($oUser, getRequestStr('password'));
                     $this->Viewer_AssignAjax('sUrlRedirect', Router::GetPath('auth/register-confirm'));
                 } else {
-                    $this->Notify_SendRegistration($oUser, getRequestStr('password'));
+                    $this->User_SendNotifyRegistration($oUser, getRequestStr('password'));
                     $oUser = $this->User_GetUserById($oUser->getId());
                     /**
                      * Сразу авторизуем
@@ -528,7 +528,7 @@ class ActionAuth extends Action
                 $oUser->setActivateKey(md5(func_generator() . time()));
                 if ($this->User_Update($oUser)) {
                     $this->Message_AddNotice($this->Lang_Get('auth.reactivation.notices.success'));
-                    $this->Notify_SendReactivationCode($oUser);
+                    $this->User_SendNotifyReactivationCode($oUser);
                     return;
                 }
             }

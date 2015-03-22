@@ -273,4 +273,51 @@ class ModuleWall extends Module
             $this->UpdatePidWall($oWallParent);
         }
     }
+
+    /**
+     * Уведомление при ответе на сообщение на стене
+     *
+     * @param ModuleWall_EntityWall $oWallParent Объект сообщения на стене, на которое отвечаем
+     * @param ModuleWall_EntityWall $oWall Объект нового сообщения на стене
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     */
+    public function SendNotifyWallReply(
+        ModuleWall_EntityWall $oWallParent,
+        ModuleWall_EntityWall $oWall,
+        ModuleUser_EntityUser $oUser
+    ) {
+        $this->Notify_Send(
+            $oWallParent->getUser(),
+            'wall.reply.tpl',
+            $this->Lang_Get('emails.wall_reply.subject'),
+            array(
+                'oWallParent' => $oWallParent,
+                'oUserTo'     => $oWallParent->getUser(),
+                'oWall'       => $oWall,
+                'oUser'       => $oUser,
+                'oUserWall'   => $oWall->getWallUser(), // кому принадлежит стена
+            )
+        );
+    }
+
+    /**
+     * Уведомление о новом сообщение на стене
+     *
+     * @param ModuleWall_EntityWall $oWall Объект нового сообщения на стене
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     */
+    public function SendNotifyWallNew(ModuleWall_EntityWall $oWall, ModuleUser_EntityUser $oUser)
+    {
+        $this->Notify_Send(
+            $oWall->getWallUser(),
+            'wall.new.tpl',
+            $this->Lang_Get('emails.wall_new.subject'),
+            array(
+                'oUserTo'   => $oWall->getWallUser(),
+                'oWall'     => $oWall,
+                'oUser'     => $oUser,
+                'oUserWall' => $oWall->getWallUser(), // кому принадлежит стена
+            )
+        );
+    }
 }

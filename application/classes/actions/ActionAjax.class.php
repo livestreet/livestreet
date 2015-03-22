@@ -1968,11 +1968,11 @@ class ActionAjax extends Action
 
                 // Отправляем уведомления
                 if ($oWall->getWallUserId() != $oWall->getUserId()) {
-                    $this->Notify_SendWallNew($oWall, $this->oUserCurrent);
+                    $this->Wall_SendNotifyWallNew($oWall, $this->oUserCurrent);
                 }
 
                 if ($oWallParent = $oWall->GetPidWall() and $oWallParent->getUserId() != $oWall->getUserId()) {
-                    $this->Notify_SendWallReply($oWallParent, $oWall, $this->oUserCurrent);
+                    $this->Wall_SendNotifyWallReply($oWallParent, $oWall, $this->oUserCurrent);
                 }
 
                 // Добавляем событие в ленту

@@ -1775,7 +1775,7 @@ class ModuleUser extends Module
                  * Отправляем уведомление на новый емайл
                  */
                 $this->Notify_Send($oChangemail->getMailTo(),
-                    Config::Get('module.notify.prefix') . '.user_changemail_to.tpl',
+                    'user_changemail_to.tpl',
                     $this->Lang_Get('emails.user_changemail.subject'),
                     array(
                         'oUser'       => $oUser,
@@ -1787,7 +1787,7 @@ class ModuleUser extends Module
                  * Отправляем уведомление на старый емайл
                  */
                 $this->Notify_Send($oUser,
-                    Config::Get('module.notify.prefix') . '.user_changemail_from.tpl',
+                    'user_changemail_from.tpl',
                     $this->Lang_Get('emails.user_changemail.subject'),
                     array(
                         'oUser'       => $oUser,
@@ -1797,5 +1797,148 @@ class ModuleUser extends Module
             return $oChangemail;
         }
         return false;
+    }
+
+    /**
+     * Отправляет уведомление с новым линком активации
+     *
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     */
+    public function SendNotifyReactivationCode(ModuleUser_EntityUser $oUser)
+    {
+        $this->Notify_Send(
+            $oUser,
+            'reactivation.tpl',
+            $this->Lang_Get('emails.reactivation.subject'),
+            array(
+                'oUser' => $oUser,
+            ), null, true
+        );
+    }
+
+    /**
+     * Отправляет уведомление при регистрации с активацией
+     *
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     * @param string $sPassword Пароль пользователя
+     */
+    public function SendNotifyRegistrationActivate(ModuleUser_EntityUser $oUser, $sPassword)
+    {
+        $this->Send(
+            $oUser,
+            'registration_activate.tpl',
+            $this->Lang_Get('emails.registration_activate.subject'),
+            array(
+                'oUser'     => $oUser,
+                'sPassword' => $sPassword,
+            ), null, true
+        );
+    }
+
+    /**
+     * Отправляет уведомление о регистрации
+     *
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     * @param string $sPassword Пароль пользователя
+     */
+    public function SendNotifyRegistration(ModuleUser_EntityUser $oUser, $sPassword)
+    {
+        $this->Notify_Send(
+            $oUser,
+            'registration.tpl',
+            $this->Lang_Get('emails.registration.subject'),
+            array(
+                'oUser'     => $oUser,
+                'sPassword' => $sPassword,
+            ), null, true
+        );
+    }
+
+    /**
+     * Отправляет пользователю сообщение о добавлении его в друзья
+     *
+     * @param ModuleUser_EntityUser $oUserTo Объект пользователя
+     * @param ModuleUser_EntityUser $oUserFrom Объект пользователя, которого добавляем в друзья
+     * @param string $sText Текст сообщения
+     * @param string $sPath URL для подтверждения дружбы
+     * @return bool
+     */
+    public function SendNotifyUserFriendNew(ModuleUser_EntityUser $oUserTo, ModuleUser_EntityUser $oUserFrom, $sText, $sPath)
+    {
+        /**
+         * Проверяем можно ли юзеру рассылать уведомление
+         */
+        if (!$oUserTo->getSettingsNoticeNewFriend()) {
+            return false;
+        }
+        $this->Notify_Send(
+            $oUserTo,
+            'user_friend_new.tpl',
+            $this->Lang_Get('emails.user_friend_new.subject'),
+            array(
+                'oUserTo'   => $oUserTo,
+                'oUserFrom' => $oUserFrom,
+                'sText'     => $sText,
+                'sPath'     => $sPath,
+            )
+        );
+        return true;
+    }
+
+    /**
+     * Уведомление при восстановлении пароля
+     *
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     * @param ModuleUser_EntityReminder $oReminder объект напоминания пароля
+     */
+    public function SendNotifyReminderCode(ModuleUser_EntityUser $oUser, ModuleUser_EntityReminder $oReminder)
+    {
+        $this->Notify_Send(
+            $oUser,
+            'reminder_code.tpl',
+            $this->Lang_Get('emails.reminder_code.subject'),
+            array(
+                'oUser'     => $oUser,
+                'oReminder' => $oReminder,
+            ), null, true
+        );
+    }
+
+    /**
+     * Уведомление с новым паролем после его восставновления
+     *
+     * @param ModuleUser_EntityUser $oUser Объект пользователя
+     * @param string $sNewPassword Новый пароль
+     */
+    public function SendNotifyReminderPassword(ModuleUser_EntityUser $oUser, $sNewPassword)
+    {
+        $this->Notify_Send(
+            $oUser,
+            'reminder_password.tpl',
+            $this->Lang_Get('emails.reminder_password.subject'),
+            array(
+                'oUser'        => $oUser,
+                'sNewPassword' => $sNewPassword,
+            ), null, true
+        );
+    }
+
+    /**
+     * Уведомление администрации о новой жалобе
+     *
+     * @param $oComplaint
+     */
+    public function SendNotifyUserComplaint($oComplaint)
+    {
+        $this->Notify_Send(
+            Config::Get('general.admin_mail'),
+            'user_complaint.tpl',
+            $this->Lang_Get('emails.user_complaint.subject'),
+            array(
+                'oUserTarget' => $oComplaint->getTargetUser(),
+                'oUserFrom'   => $oComplaint->getUser(),
+                'oComplaint'  => $oComplaint,
+            )
+        );
     }
 }
