@@ -10,6 +10,7 @@
     "templates": {
         "topic": "topic.tpl",
         "add": "topic-add.tpl",
+        "add-type": "topic-add-type.tpl",
         "list": "topic-list.tpl",
         "preview": "topic-preview.tpl",
         "type": "topic-type.tpl",

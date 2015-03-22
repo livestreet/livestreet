@@ -9,7 +9,7 @@
 {$type = $topic->getType()}
 
 {if $LS->Topic_IsAllowTopicType( $type )}
-	{$template = $LS->Component_GetTemplatePath('topic', "topic.type.{$type}" )}
+	{$template = $LS->Component_GetTemplatePath('topic', "topic-type-{$type}" )}
 
 	{* Если для указанного типа существует шаблон, то подключаем его *}
 	{* Иначе подключаем дефолтный шаблон топика *}
