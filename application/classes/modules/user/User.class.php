@@ -1824,7 +1824,7 @@ class ModuleUser extends Module
      */
     public function SendNotifyRegistrationActivate(ModuleUser_EntityUser $oUser, $sPassword)
     {
-        $this->Send(
+        $this->Notify_Send(
             $oUser,
             'registration_activate.tpl',
             $this->Lang_Get('emails.registration_activate.subject'),
