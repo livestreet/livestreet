@@ -1,0 +1,68 @@
+/**
+ * Юзербар
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.userbar {
+    background: #fff;
+}
+.userbar-inner {
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+/* Меню */
+.userbar-nav {
+    float: left;
+}
+
+/* Форма поиска */
+.userbar .search-form {
+    float: right;
+    width: 200px;
+    position: relative;
+    margin: 13px 5px 0 5px;
+    padding: 0;
+}
+
+/* Лого */
+.userbar-logo {
+    float: left;
+    font-size: 28px;
+    line-height: 54px;
+    margin: 0 25px 0 0;
+}
+
+/**
+ * Userbar
+ */
+.nav--userbar                   { float: left; }
+.nav--userbar > .nav-item > a       { color: #000; padding: 20px 15px; }
+.nav--userbar > .nav-item > a:hover { background: #fafafa; }
+
+/* Логин */
+.nav--userbar > .nav-item.nav-item--userbar-username > a       { position: relative; padding-left: 40px; padding-right: 25px; font-weight: bold; color: #333; }
+.nav--userbar > .nav-item.nav-item--userbar-username .avatar { position: absolute; top: 17px; left: 8px; border-radius: 100%; }
+
+/* Новые сообщения */
+.nav--userbar > .nav-item--has-counter > a       { background: #65CA34; color: #fff; font-weight: bold; }
+.nav--userbar > .nav-item--has-counter > a:hover { background: #5EBD30; }
+.nav--userbar > .nav-item > a > .badge                           { background: #47B113; }
+
+/* Dropdown support */
+.nav.nav--userbar .dropdown-toggle:after      { border-top-color: #000; }
+.nav.nav--userbar .dropdown-toggle.open       { background: #08c; color: #fff; }
+.nav.nav--userbar .dropdown-toggle.open:after { border-top-color: #fff; }
+
+
+/**
+ * Responsive styles
+ */
+@media (max-width: 360px)  {
+    .userbar-inner {
+        padding: 0;
+    }
+}
