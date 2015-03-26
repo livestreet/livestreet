@@ -13,6 +13,8 @@
             blog     = $topic->getBlog()
             date     = $comment->getDate()
             topicUrl = ( Config::Get('module.comment.use_nested') ) ? {router 'comments'} : "{$topic->getUrl()}#comment{$comment->getId()}"}
+    {foreachelse}
+        {component 'alert' mods='empty' text={lang 'common.empty'}}
     {/foreach}
 {/capture}
 

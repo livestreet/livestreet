@@ -11,6 +11,8 @@
             blog     = $topic->getBlog()
             date     = $topic->getDateAdd()
             topicUrl = $topic->getUrl()}
+    {foreachelse}
+        {component 'alert' mods='empty' text={lang 'common.empty'}}
     {/foreach}
 {/capture}
 

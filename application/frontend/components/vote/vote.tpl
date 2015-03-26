@@ -55,7 +55,7 @@
 {/if}
 
 {* Дополнительный мод-ор для иконок *}
-{$iconMod = ( in_array( 'small', explode(' ', $mods) ) ) ? 'icon-white' : ''}
+{$iconMod = ( in_array( 'small', explode(' ', $mods) ) ) ? 'white' : ''}
 
 
 <div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
@@ -78,18 +78,18 @@
         {* Воздержаться *}
         {if $smarty.local.useAbstain}
             <div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
-                {component 'icon' icon='eye-open' classes=$iconMod}
+                {component 'icon' icon='eye-open' mods=$iconMod}
             </div>
         {/if}
 
         {* Нравится *}
         <div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
-            {component 'icon' icon='plus' classes=$iconMod}
+            {component 'icon' icon='plus' mods=$iconMod}
         </div>
 
         {* Не нравится *}
         <div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
-            {component 'icon' icon='minus' classes=$iconMod}
+            {component 'icon' icon='minus' mods=$iconMod}
         </div>
     </div>
 </div>

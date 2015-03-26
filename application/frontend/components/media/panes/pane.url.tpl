@@ -8,13 +8,13 @@
 	<form method="post" action="" enctype="multipart/form-data" class="mb-20 js-media-url-form">
 		{* Типы файлов *}
 		{* TODO: Add hook *}
-		{component 'field' template='select'
+		{*component 'field' template='select'
 			name          = 'filetype'
 			label         = 'Type'
 			inputClasses  = 'width-300 js-media-url-type'
 			items         = [
 				[ 'value' => '1', 'text' => 'Image' ]
-			]}
+			]*}
 
 		{* Ссылка *}
 		{component 'field' template='text'
