@@ -255,6 +255,12 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
         return null;
     }
 
+    public function getCountDownloads()
+    {
+        $aStats=$this->oValue->getDataOne('stats');
+        return isset($aStats['count_download']) ? $aStats['count_download'] : 0;
+    }
+
     /**
      * Сохраняет(копирует) файл на сервер
      * Если переопределить данный метод, то можно сохранять файл, например, на Amazon S3

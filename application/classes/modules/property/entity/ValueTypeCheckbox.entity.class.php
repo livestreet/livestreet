@@ -30,7 +30,7 @@ class ModuleProperty_EntityValueTypeCheckbox extends ModuleProperty_EntityValueT
 
     public function getValueForDisplay()
     {
-        return (bool)$this->getValueObject()->getValueInt();
+        return $this->getValueObject()->getValueInt() ? 'да' : 'нет';
     }
 
     public function getValueForForm()

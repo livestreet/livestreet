@@ -1,6 +1,6 @@
 {* TODO: Добавить поля datetime и time *}
 
-{$template = ($property->getParam( 'use_time' )) ? 'datetime' : 'time'}
+{$template = ($property->getParam( 'use_time' )) ? 'datetime' : 'date'}
 
 {component 'field' template=$template
     name         = "property[{$property->getId()}][date]"

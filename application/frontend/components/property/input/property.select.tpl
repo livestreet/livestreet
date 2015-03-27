@@ -6,10 +6,13 @@
 {/foreach}
 
 {* Формируем значения для селекта *}
-{$items = [[
-    'value' => 0,
-    'text' => '&mdash;'
-]]}
+{$items = []}
+{if !$property->getValidateRuleOne('allowMany')}
+    {$items[] = [
+        'value' => 0,
+        'text' => '&mdash;'
+    ]}
+{/if}
 
 {foreach $property->getSelects() as $item}
     {$items[] = [
