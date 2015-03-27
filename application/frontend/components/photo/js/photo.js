@@ -24,7 +24,7 @@
                 crop_avatar: null,
                 save_photo: null,
                 save_avatar: null,
-                cancel_photo: null,
+                cancel_photo: null
             },
             use_avatar: true,
             crop_photo: {

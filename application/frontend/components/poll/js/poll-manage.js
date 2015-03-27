@@ -60,7 +60,7 @@
 					item_text:   '.js-poll-form-answer-item-text',
 					item_remove: '.js-poll-form-answer-item-remove',
 					submit:      '.js-poll-form-submit'
-				},
+				}
 			},
 			// Максимальное кол-во вариантов которое можно добавить в опрос
 			max: 20

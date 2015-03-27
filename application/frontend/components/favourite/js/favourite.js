@@ -20,7 +20,7 @@
             // Ссылки
             urls: {
                 // Добавить/удалить из избранного
-                toggle: null,
+                toggle: null
             },
 
             // Селекторы
@@ -36,11 +36,11 @@
                 // Добавлено в избранное
                 added: 'favourite--added',
                 // Кол-во добавивших в избранное больше нуля
-                has_counter: 'favourite--has-counter',
+                has_counter: 'favourite--has-counter'
             },
 
             // Параметры отправляемые при каждом аякс запросе
-            params: {},
+            params: {}
 
             // Коллбэки
 

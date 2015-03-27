@@ -41,7 +41,7 @@
 				item: '.js-topic',
 
 				// Пагинация
-				pagination: '.js-pagination-topics',
+				pagination: '.js-pagination-topics'
 			},
 
 			// Продолжительность прокрутки, мс

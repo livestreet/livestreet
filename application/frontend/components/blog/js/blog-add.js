@@ -19,7 +19,7 @@
             // Селекторы
             selectors: {
                 type: '.js-blog-add-type',
-                type_note: '.js-blog-add-field-type .js-field-note',
+                type_note: '.js-blog-add-field-type .js-field-note'
             }
         },
 

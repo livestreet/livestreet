@@ -25,7 +25,7 @@
                 vote: aRouter.ajax + 'vote/comment/',
                 favourite: aRouter.ajax + 'favourite/comment/',
                 // Показать/скрыть комментарий
-                toggle: aRouter.ajax + 'comment/delete/',
+                toggle: aRouter.ajax + 'comment/delete/'
             },
 
             // Селекторы

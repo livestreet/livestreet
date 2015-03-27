@@ -27,7 +27,7 @@
 			selectors: {
 				wrapper: '.js-wall-entry-container',
 				remove:  '.js-comment-remove',
-				reply:   '.js-comment-reply',
+				reply:   '.js-comment-reply'
 			},
 
 			params: {}
@@ -107,6 +107,6 @@
 			this.option( 'wall' ).lsWall( 'getCommentWrapperById', this.id ).fadeOut( 'slow', function () {
 				$( this ).remove();
 			});
-		},
+		}
 	});
 })(jQuery);

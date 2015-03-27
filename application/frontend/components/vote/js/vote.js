@@ -29,7 +29,7 @@
                 // Кнопки голосования
                 item:   '.js-vote-item',
                 // Рейтинг
-                rating: '.js-vote-rating',
+                rating: '.js-vote-rating'
             },
 
             // Классы
@@ -53,7 +53,7 @@
                 count_zero:     'vote--count-zero',
 
                 // Рейтинг скрыт
-                rating_hidden:  'vote--rating-hidden',
+                rating_hidden:  'vote--rating-hidden'
             },
             // Параметры отправляемые при каждом аякс запросе
             params: {},

@@ -21,7 +21,7 @@
             // Ссылки
             urls: {
                 modal: null,
-                add: null,
+                add: null
             },
 
             // Селекторы

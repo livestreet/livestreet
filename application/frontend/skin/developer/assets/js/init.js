@@ -339,7 +339,7 @@ jQuery(document).ready(function($){
 	$('.js-user-report').lsReport({
 		urls: {
 			modal: aRouter.profile + 'ajax-modal-complaint',
-			add: aRouter.profile + 'ajax-complaint-add',
+			add: aRouter.profile + 'ajax-complaint-add'
 		}
 	});
 
@@ -497,7 +497,7 @@ jQuery(document).ready(function($){
 		},
 		use_avatar: false,
 		crop_photo: {
-			minSize: [ 500, 500 ],
+			minSize: [ 100, 100 ],
 			aspectRatio: 1,
 			usePreview: true
 		}

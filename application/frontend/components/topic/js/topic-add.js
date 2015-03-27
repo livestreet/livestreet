@@ -58,7 +58,7 @@
                     preview: this.element.find( this.option( 'selectors.buttons.preview' ) ),
                     preview_hide: $( this.option( 'selectors.buttons.preview_hide' ) ),
                     draft: this.element.find( this.option( 'selectors.buttons.draft' ) ),
-                    submit: this.element.find( this.option( 'selectors.buttons.submit' ) ),
+                    submit: this.element.find( this.option( 'selectors.buttons.submit' ) )
                 }
             };
 
