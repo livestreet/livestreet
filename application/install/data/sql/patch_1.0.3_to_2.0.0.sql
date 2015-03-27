@@ -875,3 +875,7 @@ ALTER TABLE `prefix_user` CHANGE `user_referal_code` `user_referral_code` VARCHA
 
 -- 17.03.2015
 ALTER TABLE `prefix_topic` ADD `topic_slug` VARCHAR(500) NOT NULL DEFAULT '' AFTER `topic_title`, ADD INDEX (`topic_slug`) ;
+
+-- 27.03.2015
+ALTER TABLE `prefix_topic` ADD `topic_date_publish` DATETIME NOT NULL AFTER `topic_date_edit_content`, ADD INDEX (`topic_date_publish`) ;
+UPDATE `prefix_topic` SET `topic_date_publish` = `topic_date_add`;

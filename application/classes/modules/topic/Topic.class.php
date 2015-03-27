@@ -220,6 +220,9 @@ class ModuleTopic extends Module
      */
     public function AddTopic(ModuleTopic_EntityTopic $oTopic)
     {
+        if (!$oTopic->getDatePublish()) {
+            $oTopic->setDatePublish($oTopic->getDateAdd());
+        }
         if ($sId = $this->oMapperTopic->AddTopic($oTopic)) {
             $oTopic->setId($sId);
             if ($oTopic->getPublish() and $oTopic->getTags()) {
@@ -1858,7 +1861,7 @@ class ModuleTopic extends Module
     public function BuildUrlForTopic($oTopic, $bAbsolute = true)
     {
         $sUrlMask = Config::Get('module.topic.url');
-        $iDateCreate = strtotime($oTopic->getDateAdd());
+        $iDateCreate = strtotime($oTopic->getDatePublish());
         $aReplace = array(
             '%year%'   => date("Y", $iDateCreate),
             '%month%'  => date("m", $iDateCreate),

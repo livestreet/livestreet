@@ -146,7 +146,7 @@ class ModuleTopic_EntityTopic extends Entity
              * Причем не прямую смену url, а через транлитерацию заголовка топика
              */
             if ($this->getId()) {
-                if (strtotime($this->getDateAdd()) < time() - 60 * 60 * 1) {
+                if (strtotime($this->getDatePublish()) < time() - 60 * 60 * 1) {
                     /**
                      * Не меняем url
                      */
@@ -433,6 +433,16 @@ class ModuleTopic_EntityTopic extends Entity
     public function getDateEditContent()
     {
         return $this->_getDataOne('topic_date_edit_content');
+    }
+
+    /**
+     * Возвращает дату публикации топика
+     *
+     * @return string|null
+     */
+    public function getDatePublish()
+    {
+        return $this->_getDataOne('topic_date_publish');
     }
 
     /**
@@ -1108,6 +1118,16 @@ class ModuleTopic_EntityTopic extends Entity
     public function setDateEditContent($data)
     {
         $this->_aData['topic_date_edit_content'] = $data;
+    }
+
+    /**
+     * Устанавливает дату публикации топика
+     *
+     * @param string $data
+     */
+    public function setDatePublish($data)
+    {
+        $this->_aData['topic_date_publish'] = $data;
     }
 
     /**

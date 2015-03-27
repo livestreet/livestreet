@@ -331,7 +331,7 @@ class ActionContent extends Action
             $oTopic->setPublish(1);
             if ($oTopic->getPublishDraft() == 0) {
                 $oTopic->setPublishDraft(1);
-                $oTopic->setDateAdd(date("Y-m-d H:i:s"));
+                $oTopic->setDatePublish(date("Y-m-d H:i:s"));
                 $bSendNotify = true;
             }
         } else {
@@ -618,6 +618,7 @@ class ActionContent extends Action
         $oTopic->setTextSource(isset($aTopicRequest['topic_text_source']) ? $aTopicRequest['topic_text_source'] : '');
         $oTopic->setTags(isset($aTopicRequest['topic_tags']) ? $aTopicRequest['topic_tags'] : '');
         $oTopic->setDateAdd(date("Y-m-d H:i:s"));
+        $oTopic->setDatePublish(date("Y-m-d H:i:s"));
         $oTopic->setUserId($this->oUserCurrent->getId());
         $oTopic->setType($sType);
         $oTopic->setPublish(1);

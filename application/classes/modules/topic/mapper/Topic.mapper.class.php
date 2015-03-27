@@ -47,6 +47,7 @@ class ModuleTopic_MapperTopic extends Mapper
 			topic_slug,
 			topic_tags,
 			topic_date_add,
+			topic_date_publish,
 			topic_user_ip,
 			topic_publish,
 			topic_publish_draft,
@@ -56,11 +57,11 @@ class ModuleTopic_MapperTopic extends Mapper
 			topic_forbid_comment,			
 			topic_text_hash			
 			)
-			VALUES(?d, ?d, ?d, ?d, ?d, ?d,	?,	?,	?,	?,  ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
+			VALUES(?d, ?d, ?d, ?d, ?d, ?d,	?,	?,	?,	?,  ?, ?, ?, ?d, ?d, ?d, ?d, ?, ?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
             $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getUserId(), $oTopic->getType(), $oTopic->getTitle(), $oTopic->getSlug(),
-            $oTopic->getTags(), $oTopic->getDateAdd(), $oTopic->getUserIp(), $oTopic->getPublish(),
+            $oTopic->getTags(), $oTopic->getDateAdd(), $oTopic->getDatePublish(), $oTopic->getUserIp(), $oTopic->getPublish(),
             $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(), $oTopic->getCutText(),
             $oTopic->getForbidComment(), $oTopic->getTextHash())
         ) {
@@ -232,7 +233,7 @@ class ModuleTopic_MapperTopic extends Mapper
         $sWhere = $this->buildFilter($aFilter);
 
         if (!isset($aFilter['order'])) {
-            $aFilter['order'] = 't.topic_date_add desc';
+            $aFilter['order'] = 't.topic_date_publish desc';
         }
         if (!is_array($aFilter['order'])) {
             $aFilter['order'] = array($aFilter['order']);
@@ -380,7 +381,7 @@ class ModuleTopic_MapperTopic extends Mapper
 					WHERE 					
 						t.topic_publish = 1
 						AND
-						t.topic_date_add >= ?
+						t.topic_date_publish >= ?
 						AND
 						t.topic_rating >= 0
 						{ AND t.blog_id NOT IN(?a) } 																	
@@ -524,6 +525,7 @@ class ModuleTopic_MapperTopic extends Mapper
 				topic_date_add = ?,
 				topic_date_edit = ?,
 				topic_date_edit_content = ?,
+				topic_date_publish = ?,
 				topic_user_ip= ?,
 				topic_publish= ?d ,
 				topic_publish_draft= ?d ,
@@ -545,7 +547,7 @@ class ModuleTopic_MapperTopic extends Mapper
 		";
         $res = $this->oDb->query($sql, $oTopic->getBlogId(), $oTopic->getBlogId2(), $oTopic->getBlogId3(),
             $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getTitle(), $oTopic->getSlug(), $oTopic->getTags(),
-            $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getUserIp(),
+            $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getDatePublish(), $oTopic->getUserIp(),
             $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(),
             $oTopic->getRating(), $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
             $oTopic->getCountVoteAbstain(), $oTopic->getCountRead(), $oTopic->getCountComment(),
@@ -588,15 +590,16 @@ class ModuleTopic_MapperTopic extends Mapper
      */
     protected function buildFilter($aFilter)
     {
+        $sDateNow=date('Y-m-d H:i:s');
         $sWhere = '';
         if (isset($aFilter['topic_date_more'])) {
-            $sWhere .= " AND t.topic_date_add >  " . $this->oDb->escape($aFilter['topic_date_more']);
+            $sWhere .= " AND t.topic_date_publish >  " . $this->oDb->escape($aFilter['topic_date_more']);
         }
         if (isset($aFilter['topic_slug'])) {
             $sWhere .= " AND t.topic_slug =  " . $this->oDb->escape($aFilter['topic_slug']);
         }
         if (isset($aFilter['topic_publish'])) {
-            $sWhere .= " AND t.topic_publish =  " . (int)$aFilter['topic_publish'];
+            $sWhere .= " AND t.topic_publish =  " . (int)$aFilter['topic_publish'] . " AND t.topic_date_publish <= '{$sDateNow}' ";
         }
         if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
             $sPublishIndex = '';
@@ -610,7 +613,7 @@ class ModuleTopic_MapperTopic extends Mapper
             }
         }
         if (isset($aFilter['topic_new'])) {
-            $sWhere .= " AND t.topic_date_add >=  '" . $aFilter['topic_new'] . "'";
+            $sWhere .= " AND t.topic_date_publish >=  '" . $aFilter['topic_new'] . "'";
         }
         if (isset($aFilter['user_id'])) {
             $sWhere .= is_array($aFilter['user_id'])

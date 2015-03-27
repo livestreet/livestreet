@@ -111,7 +111,7 @@
 	{* Голосование *}
 	{if ! $isPreview}
 		<li class="{$component}-info-item {$component}-info-item--vote">
-			{$isExpired = strtotime($topic->getDateAdd()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
+			{$isExpired = strtotime($topic->getDatePublish()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
 
 			{component 'vote'
 					 target     = $topic

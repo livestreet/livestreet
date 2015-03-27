@@ -9,7 +9,7 @@
             user     = $topic->getUser()
             topic    = $topic
             blog     = $topic->getBlog()
-            date     = $topic->getDateAdd()
+            date     = $topic->getDatePublish()
             topicUrl = $topic->getUrl()}
     {foreachelse}
         {component 'alert' mods='empty' text={lang 'common.empty'}}

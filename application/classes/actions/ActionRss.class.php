@@ -87,7 +87,7 @@ class ActionRss extends Action
             $item['guid'] = $oTopic->getUrl();
             $item['link'] = $oTopic->getUrl();
             $item['description'] = $this->getTopicText($oTopic);
-            $item['pubDate'] = $oTopic->getDateAdd();
+            $item['pubDate'] = $oTopic->getDatePublish();
             $item['author'] = $oTopic->getUser()->getLogin();
             $item['category'] = htmlspecialchars($oTopic->getTags());
             $topics[] = $item;
@@ -129,7 +129,7 @@ class ActionRss extends Action
             $item['guid'] = $oTopic->getUrl();
             $item['link'] = $oTopic->getUrl();
             $item['description'] = $this->getTopicText($oTopic);
-            $item['pubDate'] = $oTopic->getDateAdd();
+            $item['pubDate'] = $oTopic->getDatePublish();
             $item['author'] = $oTopic->getUser()->getLogin();
             $item['category'] = htmlspecialchars($oTopic->getTags());
             $topics[] = $item;
@@ -271,7 +271,7 @@ class ActionRss extends Action
             $item['guid'] = $oTopic->getUrl();
             $item['link'] = $oTopic->getUrl();
             $item['description'] = $this->getTopicText($oTopic);
-            $item['pubDate'] = $oTopic->getDateAdd();
+            $item['pubDate'] = $oTopic->getDatePublish();
             $item['author'] = $oTopic->getUser()->getLogin();
             $item['category'] = htmlspecialchars($oTopic->getTags());
             $topics[] = $item;
@@ -318,7 +318,7 @@ class ActionRss extends Action
             $item['guid'] = $oTopic->getUrl();
             $item['link'] = $oTopic->getUrl();
             $item['description'] = $this->getTopicText($oTopic);
-            $item['pubDate'] = $oTopic->getDateAdd();
+            $item['pubDate'] = $oTopic->getDatePublish();
             $item['author'] = $oTopic->getUser()->getLogin();
             $item['category'] = htmlspecialchars($oTopic->getTags());
             $topics[] = $item;
@@ -373,7 +373,7 @@ class ActionRss extends Action
             $item['guid'] = $oTopic->getUrl();
             $item['link'] = $oTopic->getUrl();
             $item['description'] = $this->getTopicText($oTopic);
-            $item['pubDate'] = $oTopic->getDateAdd();
+            $item['pubDate'] = $oTopic->getDatePublish();
             $item['author'] = $oTopic->getUser()->getLogin();
             $item['category'] = htmlspecialchars($oTopic->getTags());
             $topics[] = $item;

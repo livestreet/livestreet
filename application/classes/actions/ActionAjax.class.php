@@ -1006,7 +1006,7 @@ class ActionAjax extends Action
             return $this->EventErrorDebug();
         }
 
-        if (!$oTopic->getVote() && ($this->oUserCurrent && $oTopic->getUserId() != $this->oUserCurrent->getId()) && (strtotime($oTopic->getDateAdd()) + Config::Get('acl.vote.topic.limit_time') > time())) {
+        if (!$oTopic->getVote() && ($this->oUserCurrent && $oTopic->getUserId() != $this->oUserCurrent->getId()) && (strtotime($oTopic->getDatePublish()) + Config::Get('acl.vote.topic.limit_time') > time())) {
             return $this->EventErrorDebug();
         }
 

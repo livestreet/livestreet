@@ -860,7 +860,7 @@ class ActionBlog extends Action
         $this->Viewer_SetOpenGraphProperty('og:description', $this->Viewer_GetHtmlDescription());
         $this->Viewer_SetOpenGraphProperty('og:url', $oTopic->getUrl());
         $this->Viewer_SetOpenGraphProperty('article:author', $oTopic->getUser()->getUserWebPath());
-        $this->Viewer_SetOpenGraphProperty('article:published_time', date('c', strtotime($oTopic->getDateAdd())));
+        $this->Viewer_SetOpenGraphProperty('article:published_time', date('c', strtotime($oTopic->getDatePublish())));
         if ($sImage = $oTopic->getPreviewImageWebPath(Config::Get('module.topic.default_preview_size'))) {
             $this->Viewer_SetOpenGraphProperty('og:image', $sImage);
         }

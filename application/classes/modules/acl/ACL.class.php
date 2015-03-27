@@ -340,7 +340,7 @@ class ModuleACL extends Module
                 /**
                  * Время голосования истекло?
                  */
-                if (strtotime($oTopic->getDateAdd()) <= time() - Config::Get('acl.vote.topic.limit_time')) {
+                if (strtotime($oTopic->getDatePublish()) <= time() - Config::Get('acl.vote.topic.limit_time')) {
                     return $that->Lang_Get('vote.notices.error_time');
                 }
                 /**
@@ -636,7 +636,8 @@ class ModuleACL extends Module
         /**
          * Проверяем права на просмотр топика
          */
-        if (!$oTopic->getPublish() and (!$oUser or ($oUser->getId() != $oTopic->getUserId() and !$oUser->isAdministrator()))) {
+        if ((!$oTopic->getPublish() or $oTopic->getDatePublish() > date('Y-m-d H:i:s'))
+            and (!$oUser or ($oUser->getId() != $oTopic->getUserId() and !$oUser->isAdministrator()))) {
             return false;
         }
         /**
