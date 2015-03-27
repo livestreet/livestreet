@@ -561,17 +561,7 @@ jQuery(document).ready(function($){
 	/**
 	 * Form validate
 	 */
-	$('.js-form-validate').parsley({
-		validators: {
-			rangetags: function (val, arrayRange) {
-				var tag_count = val.replace(/ /g, "").match(/[^\s,]+(,|)/gi);
-				return tag_count && tag_count.length >= arrayRange[0] && tag_count.length <= arrayRange[1];
-			}
-		},
-		messages: {
-			rangetags: ls.lang.get('validate.tags.count', { 'field': '', 'min': '%s', 'max': '%s' })
-		}
-	});
+	$('.js-form-validate').parsley();
 
 
 	/**
