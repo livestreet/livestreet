@@ -8,7 +8,7 @@
 
 {hook run='registration_begin'}
 
-<form action="{router page='auth/register'}" method="post" class="js-auth-registration-form">
+<form action="{router page='auth/register'}" method="post" class="js-form-validate js-auth-registration-form">
     {hook run='form_registration_begin'}
 
     {* Логин *}
