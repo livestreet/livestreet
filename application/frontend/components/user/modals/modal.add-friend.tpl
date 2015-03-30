@@ -7,7 +7,7 @@
     <form id="add_friend_form" class="js-user-friend-form">
         {component 'field' template='textarea'
             name     = 'add_friend_text'
-            rules    = [ 'required' => true, 'rangelength' => '[2,200]' ]
+            rules    = [ 'required' => true, 'length' => '[2,200]' ]
             rows     = 3
             noMargin = true
             label    = {lang name='user.friends.form.fields.text.label'}}

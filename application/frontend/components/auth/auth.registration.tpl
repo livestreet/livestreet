@@ -14,17 +14,17 @@
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'rangelength' => '[2,20]', 'remote' => "{router page='auth'}ajax-validate-fields", 'remote-method' => 'POST' ]
+        rules  = [ 'required' => true, 'length' => '[2,20]', 'remote' => "{router page='auth'}ajax-validate-fields" ]
         label  = $aLang.auth.labels.login}
 
     {* E-mail *}
-    {component 'field' template='email' rules=[ 'remote' => "{router page='auth'}ajax-validate-fields", 'remote-method' => 'POST' ]}
+    {component 'field' template='email' rules=[ 'remote' => "{router page='auth'}ajax-validate-fields" ]}
 
     {* Пароль *}
     {component 'field' template='text'
         name         = 'password'
         type         = 'password'
-        rules        = [ 'required' => true, 'rangelength' => '[5,20]' ]
+        rules        = [ 'required' => true, 'length' => '[5,20]' ]
         label        = $aLang.auth.labels.password
         inputClasses = 'js-input-password-reg'}
 
@@ -32,7 +32,7 @@
     {component 'field' template='text'
         name   = 'password_confirm'
         type   = 'password'
-        rules  = [ 'required' => true, 'rangelength' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
+        rules  = [ 'required' => true, 'length' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
         label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}

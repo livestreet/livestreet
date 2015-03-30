@@ -8,20 +8,20 @@
 
 {hook run='login_begin'}
 
-<form action="{router page='auth/login'}" method="post" class="js-auth-login-form">
+<form action="{router page='auth/login'}" method="post" class="js-form-validate js-auth-login-form">
     {hook run='form_login_begin'}
 
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'rangelength' => '[2,20]' ]
+        rules  = [ 'required' => true, 'length' => '[2,20]' ]
         label  = $aLang.auth.login.form.fields.login.label}
 
     {* Пароль *}
     {component 'field' template='text'
         name   = 'password'
         type   = 'password'
-        rules  = [ 'required' => true, 'rangelength' => '[2,20]' ]
+        rules  = [ 'required' => true, 'length' => '[2,20]' ]
         label  = $aLang.auth.labels.password}
 
     {* Каптча *}

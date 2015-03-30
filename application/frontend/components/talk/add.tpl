@@ -20,7 +20,7 @@
 	{* Заголовок *}
 	{component 'field' template='text'
 			 name    = 'talk_title'
-			 rules   = [ 'required' => true, 'rangelength' => '[2,200]' ]
+			 rules   = [ 'required' => true, 'length' => '[2,200]' ]
 			 label   = $aLang.talk.add.fields.title.label}
 
 	{* Текст сообщения *}
@@ -28,7 +28,7 @@
 			sSet             = 'light'
 			sMediaTargetType = 'talk'
 			name             = 'talk_text'
-			rules            = [ 'required' => true, 'rangelength' => '[2,3000]' ]
+			rules            = [ 'required' => true, 'length' => '[2,3000]' ]
 			label            = $aLang.talk.add.fields.text.label
 			inputClasses     = 'js-editor-default'}
 

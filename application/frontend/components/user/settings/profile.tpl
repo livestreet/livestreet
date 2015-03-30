@@ -38,7 +38,7 @@
         {* Имя *}
         {component 'field' template='text'
             name   = 'profile_name'
-            rules  = [ 'rangelength' => "[2,{Config::Get('module.user.name_max')}]" ]
+            rules  = [ 'length' => "[2,{Config::Get('module.user.name_max')}]" ]
             value  = $user->getProfileName()|escape
             label  = {lang name='user.settings.profile.fields.name.label'}}
 
@@ -78,7 +78,7 @@
         {* О себе *}
         {component 'field' template='textarea'
             name   = 'profile_about'
-            rules  = [ 'rangelength' => '[1,3000]' ]
+            rules  = [ 'length' => '[1,3000]' ]
             rows   = 5
             value  = $user->getProfileAbout()|escape
             label  = {lang name='user.settings.profile.fields.about.label'}}

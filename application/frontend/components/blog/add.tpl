@@ -12,7 +12,7 @@
     {* Название блога *}
     {component 'field' template='text'
         name  = 'blog_title'
-        rules = [ 'required' => true, 'rangelength' => "[2,200]" ]
+        rules = [ 'required' => true, 'length' => "[2,200]" ]
         note  = $aLang.blog.add.fields.title.note
         label = $aLang.blog.add.fields.title.label}
 
@@ -48,7 +48,7 @@
         set             = 'light'
         mediaTargetType = 'blog'
         name            = 'blog_description'
-        rules           = [ 'required' => true, 'rangelength' => '[10,3000]' ]
+        rules           = [ 'required' => true, 'length' => '[10,3000]' ]
         inputClasses    = 'js-editor-default'
         label           = $aLang.blog.add.fields.description.label}
 
