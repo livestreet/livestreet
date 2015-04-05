@@ -1,7 +1,6 @@
 #!/bin/sh
 
-ABSOLUTE_FILENAME=`readlink -e "$0"`
-DIRECTORY=`dirname "$ABSOLUTE_FILENAME"`
+DIRECTORY=$(cd "$(dirname "$0")"; pwd)
 
 if [ ! -e "$DIRECTORY/../../config/config.local.php" ]; then
     cp $DIRECTORY/../../config/config.local.php.dist $DIRECTORY/../../config/config.local.php

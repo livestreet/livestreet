@@ -11,12 +11,23 @@
                     </div>
 
                     <div>
-                        <?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.solution'); ?>
+                        <i><?php echo $this->lang('steps.checkRequirements.requirements.' . $requirement['name'] . '.solution'); ?></i>
                     </div>
                 </li>
             <?php } ?>
         </ul>
+
     </div>
+
+    <?php
+    $additionalSolution = $this->get('additionalSolution');
+    if ($additionalSolution) { ?>
+        <div class="alert alert--error">
+        <ul>
+            <li><?php echo($additionalSolution); ?></li>
+        </ul>
+        </div>
+    <?php } ?>
 
 <?php } else { ?>
 

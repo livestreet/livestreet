@@ -21,7 +21,7 @@
  * Ничего не изменяйте в этом файле!
  * Все изменения нужно вносить в файл config/config.local.php
  */
-define('LS_VERSION', '2.0.0.alfa');
+define('LS_VERSION', '2.0.0.alfa-2');
 
 /**
  * Основные настройки путей
@@ -535,11 +535,11 @@ $config['block']['rule_blog'] = array(
 $config['components'] = array(
     // Базовые компоненты
     'css-reset', 'css-helpers', 'typography', 'forms', 'grid', 'ls-vendor', 'ls-core', 'ls-component', 'lightbox', 'slider', 'details', 'alert', 'dropdown', 'button', 'block',
-    'nav', 'tooltip', 'tabs', 'modal', 'table', 'text', 'uploader', 'email', 'field', 'comment', 'pagination', 'editor', 'more', 'crop',
-    'performance', 'toolbar', 'media', 'actionbar', 'badge', 'property', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron',
+    'nav', 'tooltip', 'tabs', 'modal', 'table', 'text', 'uploader', 'email', 'field', 'pagination', 'editor', 'more', 'crop',
+    'performance', 'toolbar', 'actionbar', 'badge', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron', 'notification',
 
     // Компоненты LS CMS
-    'favourite', 'vote', 'photo', 'note', 'icons-contact', 'user-list-add', 'subscribe', 'content', 'notification', 'report',
+    'favourite', 'vote', 'media', 'property', 'photo', 'note', 'icons-contact', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
     'toolbar-scrollup', 'toolbar-scrollnav', 'tags-favourite', 'search-ajax', 'search', 'sort', 'search-form', 'info-list',
     'tags', 'userbar', 'modal-create', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk'
 );

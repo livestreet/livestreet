@@ -30,7 +30,7 @@
 /**
  * Формируем путь до фреймворка
  */
-$sPathToFramework = dirname(__DIR__) . '/framework/';
+$sPathToFramework = dirname(dirname(__FILE__)) . '/framework/';
 
 /**
  * Подключаем ядро

@@ -107,6 +107,6 @@ class ModuleUser_EntityComplaint extends Entity
 
     public function getTypeTitle()
     {
-        return $this->Lang_Get('report.type_list.' . $this->getType());
+        return $this->Lang_Get('user.report.types.' . $this->getType());
     }
 }
