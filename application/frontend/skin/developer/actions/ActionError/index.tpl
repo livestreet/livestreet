@@ -10,7 +10,7 @@
 
 {block 'layout_page_title'}
     {if $aMsgError[0].title}
-        {$aLang.error}: <span>{$aMsgError[0].title}</span>
+        {$aLang.common.error.error}: <span>{$aMsgError[0].title}</span>
     {/if}
 {/block}
 
