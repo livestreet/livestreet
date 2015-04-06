@@ -170,6 +170,11 @@ class ModuleTopic_EntityTopic extends Entity
             } else {
                 return $this->Lang_Get('topic.add.notices.error_slug');
             }
+        } else {
+            /**
+             * Заголовок топика пустой, генерируем случайный url
+             */
+            $this->setSlug($this->Topic_GetUniqueSlug(func_generator(5), $this->getId()));
         }
         return true;
     }
