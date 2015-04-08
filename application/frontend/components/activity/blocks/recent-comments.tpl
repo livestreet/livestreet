@@ -14,7 +14,7 @@
             date     = $comment->getDate()
             topicUrl = ( Config::Get('module.comment.use_nested') ) ? {router 'comments'} : "{$topic->getUrl()}#comment{$comment->getId()}"}
     {foreachelse}
-        {component 'alert' mods='empty' text={lang 'common.empty'}}
+        {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}
 {/capture}
 

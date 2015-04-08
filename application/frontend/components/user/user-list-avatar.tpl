@@ -22,7 +22,7 @@
 		{/foreach}
 	</ul>
 {else}
-	{component 'alert' text=$emptyText mods='empty'}
+	{component 'blankslate' text=$emptyText}
 {/if}
 
 {component 'pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/"}

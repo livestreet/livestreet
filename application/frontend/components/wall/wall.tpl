@@ -31,7 +31,7 @@
 
     {* Уведомление о пустом списке *}
     {if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
-        {component 'alert' text=$aLang.common.empty mods='empty' classes='mt-15 js-wall-alert-empty' attributes=[ 'id' => 'wall-empty' ] visible=!$loadedCount}
+        {component 'blankslate' text=$aLang.common.empty classes='mt-15 js-wall-alert-empty' attributes=[ 'id' => 'wall-empty' ] visible=!$loadedCount}
     {/if}
 
     {* Кнопка подгрузки записей *}

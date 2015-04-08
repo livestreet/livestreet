@@ -55,5 +55,5 @@
         {/section}
     {/if}
 {foreachelse}
-    {component 'alert' mods='empty' classes='js-comments-empty' text=$aLang.common.empty}
+    {component 'blankslate' classes='js-comments-empty' text=$aLang.common.empty}
 {/foreach}

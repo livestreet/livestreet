@@ -17,5 +17,5 @@
 
 	{component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}" classes='js-pagination-topics'}
 {else}
-	{component 'alert' text=$aLang.common.empty mods='empty'}
+	{component 'blankslate' text=$aLang.common.empty}
 {/if}

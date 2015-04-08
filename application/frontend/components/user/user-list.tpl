@@ -36,5 +36,5 @@
         {component 'pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/"}
     {/if}
 {else}
-    {component 'alert' text=$smarty.local.textEmpty|default:{lang name='user.notices.empty'} mods='empty'}
+    {component 'blankslate' text=$smarty.local.textEmpty|default:{lang name='user.notices.empty'}}
 {/if}

@@ -38,5 +38,5 @@
         {component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}"}
     {/if}
 {else}
-    {component 'alert' text=(($smarty.local.textEmpty) ? $smarty.local.textEmpty : $aLang.blog.alerts.empty) mods='empty'}
+    {component 'blankslate' text=(($smarty.local.textEmpty) ? $smarty.local.textEmpty : $aLang.blog.alerts.empty)}
 {/if}

@@ -27,6 +27,6 @@
             {hook run='search_result' type=$searchType}
         {/if}
     {elseif $_aRequest.q}
-        {component 'alert' text=$aLang.search.alerts.empty mods='empty'}
+        {component 'blankslate' text=$aLang.search.alerts.empty}
     {/if}
 {/block}

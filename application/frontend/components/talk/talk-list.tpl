@@ -125,7 +125,7 @@
         </table>
     </form>
 {else}
-    {component 'alert' text=$aLang.talk.notices.empty mods='empty'}
+    {component 'blankslate' text=$aLang.talk.notices.empty}
 {/if}
 
 {component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}"}

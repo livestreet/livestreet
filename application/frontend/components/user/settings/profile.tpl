@@ -107,7 +107,7 @@
             {foreach $contacts as $contact}
                 {call userfield field=$contact}
             {foreachelse}
-                {component 'alert' mods='empty' classes='js-user-fields-empty' text=$aLang.common.empty}
+                {component 'blankslate' classes='js-user-fields-empty' text=$aLang.common.empty}
             {/foreach}
         </div>
 

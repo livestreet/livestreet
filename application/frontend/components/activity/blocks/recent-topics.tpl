@@ -12,7 +12,7 @@
             date     = $topic->getDatePublish()
             topicUrl = $topic->getUrl()}
     {foreachelse}
-        {component 'alert' mods='empty' text={lang 'common.empty'}}
+        {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}
 {/capture}
 

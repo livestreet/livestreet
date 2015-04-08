@@ -21,9 +21,8 @@
 
 {* Уведомление о пустом списке *}
 {if ! $users || $smarty.local.hideableEmptyAlert}
-	{component 'alert'
+	{component 'blankslate'
 		text    = $aLang.common.empty
-		mods    = 'empty'
 		classes = 'js-user-list-small-empty'
 		visible = ! $users}
 {/if}

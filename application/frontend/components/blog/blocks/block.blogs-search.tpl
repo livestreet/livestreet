@@ -34,7 +34,7 @@
             mods       = 'stacked pills'
             items      = $items}
     {else}
-        {component 'alert' text=$aLang.blog.categories.empty mods='empty'}
+        {component 'blankslate' text=$aLang.blog.categories.empty}
     {/if}
 
     <br>
