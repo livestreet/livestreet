@@ -247,6 +247,14 @@
         },
 
         /**
+         * Сбрасывает текущий комментарий
+         */
+        resetCommentCurrent: function() {
+            if ( this._currentComment.length ) this._currentComment.lsComment( 'notCurrent' );
+            this._currentComment = $();
+        },
+
+        /**
          * Получает текущий комментарий
          *
          * @return {jQuery} Текущий комментарий
@@ -263,7 +271,10 @@
         setCommentCurrent: function( comment ) {
             if ( this.getCommentCurrent().is( comment ) ) return;
 
-            this.getCommentCurrent().lsComment( 'notCurrent' );
+            if ( this.getCommentCurrent().length ) {
+                this.getCommentCurrent().lsComment( 'notCurrent' );
+            }
+
             comment.lsComment( 'markAsCurrent' );
             this._currentComment = comment;
         },
@@ -326,12 +337,19 @@
         /**
          * Удаляет комментарий по его ID
          *
-         * @param  {Number} commentId ID комментария
+         * @param {Number} commentId ID комментария
          */
         removeCommentById: function( commentId ) {
+            var _this = this;
+
             this.elements.comment = this.getComments().filter(function () {
-                if ( $( this ).lsComment( 'getId' ) == commentId ) {
-                    $( this ).lsComment( 'destroy' );
+                var comment = $( this );
+
+                if ( comment.lsComment( 'getId' ) == commentId ) {
+                    if ( comment.lsComment( 'isCurrent' ) ) _this.resetCommentCurrent();
+
+                    comment.lsComment( 'destroy' );
+
                     return false;
                 }
 
