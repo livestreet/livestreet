@@ -104,8 +104,8 @@
 				params: {
 					security_ls_key: LIVESTREET_SECURITY_KEY
 				},
-				file_options: {
-					beforeactivate: function ( event, context ) {
+				list_options: {
+					fileactivate: function ( event, context ) {
 						_this.activateInfoBlock( context.element );
 					}
 				}
