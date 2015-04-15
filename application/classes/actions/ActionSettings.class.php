@@ -329,7 +329,7 @@ class ActionSettings extends Action
         /**
          * Если отправили форму с настройками - сохраняем
          */
-        if (isPost('submit_settings_tuning')) {
+        if (isPost()) {
             $this->Security_ValidateSendForm();
 
             if (in_array(getRequestStr('settings_general_timezone'), $aTimezoneList)) {
@@ -376,7 +376,7 @@ class ActionSettings extends Action
         /**
          * Если отправили форму
          */
-        if (isPost('submit_invite')) {
+        if (isPost()) {
             $this->Security_ValidateSendForm();
 
             $bError = false;
@@ -390,7 +390,7 @@ class ActionSettings extends Action
             /**
              * Емайл корректен?
              */
-            if (!$this->Validate_Validate('email', getRequestStr('invite_mail'))) {
+            if (!$this->Validate_Validate('email', getRequestStr('invite_mail'), array('allowEmpty' => false))) {
                 $this->Message_AddError($this->Validate_GetErrorLast());
                 return;
             }
@@ -434,7 +434,7 @@ class ActionSettings extends Action
         /**
          * Если нажали кнопку "Сохранить"
          */
-        if (isPost('submit_account_edit')) {
+        if (isPost()) {
             $this->Security_ValidateSendForm();
 
             $bError = false;
@@ -532,7 +532,7 @@ class ActionSettings extends Action
         /**
          * Если нажали кнопку "Сохранить"
          */
-        if (isPost('submit_profile_edit')) {
+        if (isPost()) {
             $this->Security_ValidateSendForm();
 
             $bError = false;

@@ -553,7 +553,7 @@ class ActionAuth extends Action
         }
         $this->SetTemplateAction('invite');
 
-        if (isPost('submit_invite')) {
+        if (isPost()) {
             /**
              * Проверяем валидность кода
              */

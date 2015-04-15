@@ -122,7 +122,7 @@
     {component 'field' template='hidden.security-key'}
 
     {* Кнопки *}
-    {component 'button' name='submit_profile_edit' mods='primary' text=$aLang.common.save}
+    {component 'button' mods='primary' text=$aLang.common.save}
 </form>
 
 {hook run='settings_profile_end'}

@@ -46,7 +46,7 @@
 	{component 'field' template='hidden.security-key'}
 
 	{* Кнопки *}
-	{component 'button' name='submit_invite' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
+	{component 'button' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
 </form>
 
 {hook run='settings_invite_end'}

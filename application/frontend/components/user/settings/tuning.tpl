@@ -67,7 +67,7 @@
 
 	{hook run='form_settings_tuning_end'}
 
-    {component 'button' name='submit_settings_tuning' text=$aLang.common.save mods='primary'}
+    {component 'button' text=$aLang.common.save mods='primary'}
 </form>
 
 {hook run='settings_tuning_end'}

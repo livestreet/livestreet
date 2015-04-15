@@ -391,7 +391,7 @@ class ActionTalk extends Action
         /**
          * Проверяем отправлена ли форма с данными
          */
-        if (!isPost('submit_talk_add')) {
+        if (!isPost()) {
             return false;
         }
         /**
