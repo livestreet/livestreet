@@ -498,7 +498,6 @@ jQuery(document).ready(function($){
 		use_avatar: false,
 		crop_photo: {
 			minSize: [ 100, 100 ],
-			aspectRatio: 1,
 			usePreview: true
 		}
 	});
