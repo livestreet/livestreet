@@ -14,14 +14,14 @@
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'length' => '[2,20]' ]
+        rules  = [ 'required' => true, 'minlength' => '3' ]
         label  = $aLang.auth.login.form.fields.login.label}
 
     {* Пароль *}
     {component 'field' template='text'
         name   = 'password'
         type   = 'password'
-        rules  = [ 'required' => true, 'length' => '[2,20]' ]
+        rules  = [ 'required' => true, 'minlength' => '2' ]
         label  = $aLang.auth.labels.password}
 
     {* Каптча *}

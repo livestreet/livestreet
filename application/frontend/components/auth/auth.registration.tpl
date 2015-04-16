@@ -14,7 +14,7 @@
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'length' => '[2,20]', 'remote' => "{router page='auth'}ajax-validate-fields" ]
+        rules  = [ 'required' => true, 'minlength' => '3', 'remote' => "{router page='auth'}ajax-validate-fields" ]
         label  = $aLang.auth.labels.login}
 
     {* E-mail *}
@@ -24,7 +24,7 @@
     {component 'field' template='text'
         name         = 'password'
         type         = 'password'
-        rules        = [ 'required' => true, 'length' => '[5,20]' ]
+        rules        = [ 'required' => true, 'minlength' => '5' ]
         label        = $aLang.auth.labels.password
         inputClasses = 'js-input-password-reg'}
 
@@ -32,7 +32,7 @@
     {component 'field' template='text'
         name   = 'password_confirm'
         type   = 'password'
-        rules  = [ 'required' => true, 'length' => '[5,20]', 'equalto' => '.js-input-password-reg' ]
+        rules  = [ 'required' => true, 'minlength' => '5', 'equalto' => '.js-input-password-reg' ]
         label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}
