@@ -2093,6 +2093,8 @@ class ActionAjax extends Action
 
         // Передаем переменные
         $this->Viewer_Assign('comments', $aWall['collection'], true);
+        $this->Viewer_Assign('oUserCurrent',
+            $this->oUserCurrent); // хак, т.к. к этому моменту текущий юзер не загружен в шаблон
 
         $this->Viewer_AssignAjax('html', $this->Viewer_Fetch('component@wall.comments'));
         $this->Viewer_AssignAjax('count_loaded', count($aWall['collection']));
