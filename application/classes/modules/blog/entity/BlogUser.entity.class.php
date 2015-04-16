@@ -68,6 +68,16 @@ class ModuleBlog_EntityBlogUser extends Entity
     }
 
     /**
+     * Возвращает статус бана пользователя
+     *
+     * @return bool
+     */
+    public function getIsBanned()
+    {
+        return ($this->getUserRole() == ModuleBlog::BLOG_USER_ROLE_BAN);
+    }
+
+    /**
      * Возвращает текущую роль пользователя в блоге
      *
      * @return int|null

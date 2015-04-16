@@ -27,8 +27,7 @@
     {$smarty.block.parent}
 
     {* Сообщение для забаненного пользователя *}
-    {* TODO: Вывод сообщения о бане *}
-    {if false}
+    {if $blogUserCurrent and $blogUserCurrent->getIsBanned()}
         {component 'alert' text=$aLang.blog.alerts.banned mods='error'}
     {/if}
 

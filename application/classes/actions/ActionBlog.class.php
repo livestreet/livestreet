@@ -1048,14 +1048,21 @@ class ActionBlog extends Action
         $aBlogAdministratorsResult = $this->Blog_GetBlogUsersByBlogId($oBlog->getId(),
             ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR);
         $aBlogAdministrators = $aBlogAdministratorsResult['collection'];
-        /**
-         * Для админов проекта получаем список блогов и передаем их во вьювер
-         */
-        if ($this->oUserCurrent and $this->oUserCurrent->isAdministrator()) {
-            $aBlogs = $this->Blog_GetBlogs();
-            unset($aBlogs[$oBlog->getId()]);
 
-            $this->Viewer_Assign('blogs', $aBlogs);
+        if ($this->oUserCurrent) {
+            /**
+             * Для админов проекта получаем список блогов и передаем их во вьювер
+             */
+            if ($this->oUserCurrent->isAdministrator()) {
+                $aBlogs = $this->Blog_GetBlogs();
+                unset($aBlogs[$oBlog->getId()]);
+
+                $this->Viewer_Assign('blogs', $aBlogs);
+            }
+            /**
+             * Текущая роль пользователя в блоге
+             */
+            $this->Viewer_Assign('blogUserCurrent', $this->Blog_GetBlogUserByBlogIdAndUserId($oBlog->getId(), $this->oUserCurrent->getId()));
         }
         /**
          * Вызов хуков
