@@ -151,7 +151,7 @@
 		 * Получает запись по ID
 		 */
 		getEntryById: function( id ) {
-			return this.element.find( this.option( 'selectors.entry.self' ) + '[data-id=' + id + ']' ).eq( 0 );
+			return this.element.find( this.option( 'selectors.entry' ) + '[data-id=' + id + ']' ).eq( 0 );
 		},
 
 		/**
