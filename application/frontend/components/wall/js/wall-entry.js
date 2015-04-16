@@ -25,7 +25,6 @@
 
 			// Селекторы
 			selectors: {
-				wrapper: '.js-wall-entry-container',
 				remove:  '.js-comment-remove',
 				reply:   '.js-comment-reply'
 			},

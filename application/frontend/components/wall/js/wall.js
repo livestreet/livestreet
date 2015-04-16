@@ -84,11 +84,6 @@
 					wall: _this.element,
 					urls: {
 						remove: _this.option( 'urls.remove' )
-					},
-					selectors: {
-						wrapper: _this.option( 'selectors.comment_wrapper' ),
-						remove:  _this.option( 'selectors.entry.remove' ),
-						reply:   _this.option( 'selectors.entry.reply' )
 					}
 				})
 			});
