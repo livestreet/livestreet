@@ -28,6 +28,6 @@
 
     {* Пользователь *}
     {block 'user_list_small_item_content'}
-        {component 'user' template='item' user=$user}
+        {component 'user' template='avatar' size='xxsmall' mods='inline' user=$user}
     {/block}
 </li>

@@ -8,10 +8,10 @@
         "button": "*",
         "field": "*",
         "photo": "*",
+        "avatar": "*",
         "alert": "*"
     },
     "templates": {
-        "list": "user-list.tpl",
         "actions": "actions.tpl",
         "header": "header.tpl",
         "friend-item": "friend-item.tpl",
@@ -19,10 +19,14 @@
         "info": "info.tpl",
         "search-form": "search-form.users.tpl",
         "stat": "stat.tpl",
-        "item": "user-item.tpl",
-        "list-avatar": "user-list-avatar.tpl",
-        "list-item": "user-list-item.tpl",
-        "list-loop": "user-list-loop.tpl",
+
+        "avatar": "avatar/user-avatar.tpl",
+        "avatar-list": "avatar/user-avatar-list.tpl",
+
+        "list": "list/user-list.tpl",
+        "list-item": "list/user-list-item.tpl",
+        "list-loop": "list/user-list-loop.tpl",
+
         "list-small-item": "user-list-small-item.tpl",
         "list-small": "user-list-small.tpl",
 
@@ -52,8 +56,6 @@
     "styles": {
         "blocks": "css/user-blocks.css",
         "header": "css/user-header.css",
-        "item": "css/user-item.css",
-        "list-avatar": "css/user-list-avatar.css",
         "list-small": "css/user-list-small.css",
         "user": "css/user.css"
     }

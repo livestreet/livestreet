@@ -16,4 +16,4 @@
     mods     = 'blog-users'
     title    = $smarty.capture.block_title
     titleUrl = "{$blog->getUrlFull()}users/"
-    content  = {component 'user' template='list-avatar' users=$blogUsers}}
+    content  = {component 'user' template='avatar-list' users=$blogUsers blankslateParams=[ 'mods' => 'no-background' ]}}

@@ -217,7 +217,7 @@
  *}
 {if $smarty.local.friends}
 	{capture 'user_info_friends'}
-		{component 'user' template='list-avatar' users=$smarty.local.friends}
+		{component 'user' template='avatar-list' users=$smarty.local.friends}
 	{/capture}
 
 	{component 'user' template='info-group'
