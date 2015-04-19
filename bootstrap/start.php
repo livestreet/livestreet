@@ -94,7 +94,7 @@ $aRouterParams = array(
             };
             $sPreg = $funcMakePreg(Config::Get('module.topic.url'));
             if (preg_match('@^' . $sPreg . '$@iu', $sUrlRequest)) {
-                Router::SetAction('blog');
+                Router::SetAction(Router::getInstance()->Rewrite('blog'));
                 Router::SetActionEvent('_show_topic_url');
                 Router::SetParams(array());
                 /**
