@@ -731,6 +731,7 @@ class ModuleMedia extends ModuleORM
                 $aMediaAllowIds = array();
                 $aTargetMediaGroup = $this->GetTargetItemsByFilter(array(
                     'media_id in'  => $aIdItems,
+                    '#with'        => 'media',
                     '#index-group' => 'media_id'
                 ));
                 $_this = $this;
@@ -740,9 +741,14 @@ class ModuleMedia extends ModuleORM
                      */
                     foreach ($aTargetMedia as $oTargetMedia) {
                         if ($this->Cache_Remember("media_check_target_{$oTargetMedia->getTargetType()}_{$oTargetMedia->getTargetId()}",
-                            function () use ($_this, $oTargetMedia) {
-                                return $_this->CheckTarget($oTargetMedia->getTargetType(), $oTargetMedia->getTargetId(),
-                                    self::TYPE_CHECK_ALLOW_ADD);
+                            function () use ($_this, $oTargetMedia, $iUserId) {
+                                if ($oTargetMedia->getTargetId()) {
+                                    return $_this->CheckTarget($oTargetMedia->getTargetType(), $oTargetMedia->getTargetId(), ModuleMedia::TYPE_CHECK_ALLOW_ADD);
+                                }
+                                if ($oMedia = $oTargetMedia->getMedia() and $oMedia->getUserId() == $iUserId) {
+                                    return true;
+                                }
+                                return false;
                             }, false, array(), 'life', true)
                         ) {
                             $aMediaAllowIds[] = $oTargetMedia->getMediaId();
