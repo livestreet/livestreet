@@ -236,6 +236,16 @@ class ModuleBlog_EntityBlog extends Entity
     }
 
     /**
+     * Возвращает путь до большого аватара блога
+     *
+     * @return string
+     */
+    public function getAvatarBig()
+    {
+        return $this->getAvatarPath(Config::Get('module.blog.avatar_size_big'));
+    }
+
+    /**
      * Формирует массив с путями до аватаров
      *
      * @return array Массив с путями до аватаров
@@ -245,7 +255,7 @@ class ModuleBlog_EntityBlog extends Entity
         $aAvatars = array();
 
         foreach (Config::Get('module.blog.avatar_size') as $sSize) {
-            $aAvatars[ $sSize ] = $this->getAvatarPath( $sSize );
+            $aAvatars[$sSize] = $this->getAvatarPath($sSize);
         }
 
         return $aAvatars;
