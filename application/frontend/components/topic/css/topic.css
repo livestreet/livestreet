@@ -48,10 +48,17 @@
 .article-info a:hover { text-decoration: underline; }
 
 /* Автор */
-.article-info-item.article-info-item--author       { padding: 2px; }
-.article-info-item .user-item-avatar-link:hover { text-decoration: none; }
-.article-info-item .user-item-avatar            { width: 30px; height: 30px; }
-.article-info-item .user-item-name              { color: #333; position: relative; top: 2px; /* TODO: Fix */; }
+.article-info-item.article-info-item--author {
+    padding: 0;
+}
+.article-info-item .avatar .avatar-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+.article-info-item .avatar .avatar-name-link {
+    color: #333;
+}
 
 /* Ссылка на комментарии */
 .article-info-item.article-info-item--comments a span { color: #777; }
