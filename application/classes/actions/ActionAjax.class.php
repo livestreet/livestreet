@@ -1876,7 +1876,7 @@ class ActionAjax extends Action
         /**
          * Комментарий существует?
          */
-        $idComment = getRequestStr('comment_id', null, 'post');
+        $idComment = getRequestStr('reply', null, 'post');
         if (!($oComment = $this->Comment_GetCommentById($idComment))) {
             return $this->EventErrorDebug();
         }

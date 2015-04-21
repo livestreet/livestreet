@@ -94,7 +94,7 @@
          * Добавляет комментарий
          */
         add: function( data ) {
-            this._load( 'add', data, 'onAdd' );
+            this._load( 'add', data, 'onAdd', { onComplete: this.unlock.bind( this ) });
         },
 
         /**
@@ -102,7 +102,7 @@
          */
         update: function( data ) {
             this.emptyText();
-            this._load( 'update', data, 'onUpdate' );
+            this._load( 'update', data, 'onUpdate', { onComplete: this.unlock.bind( this ) });
         },
 
         /**
@@ -110,7 +110,6 @@
          */
         onAdd: function( response ) {
             this.emptyText();
-            this.unlock();
             this.option( 'comments' ).lsComments( 'load', response.sCommentId, false );
         },
 
@@ -128,7 +127,6 @@
             comment.replaceWith( commentNew );
 
             this.hide();
-            this.unlock();
             this.emptyText();
 
             this.option( 'comments' ).lsComments( 'scrollToComment', commentNew );
