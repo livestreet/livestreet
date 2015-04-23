@@ -23,11 +23,7 @@
             },
 
             // Ajax параметры
-            params: {},
-
-            callbacks: {
-                beforeSubmit: null
-            }
+            params: {}
         },
 
         /**
@@ -41,7 +37,7 @@
 
             this.action = this.element.data( 'content-action' );
 
-            this.element.on( 'submit' + this.eventNamespace, this.onSubmit.bind( this ) );
+            this._on({ submit: 'onSubmit' });
         },
 
         /**
@@ -58,9 +54,11 @@
         submit: function( params ) {
             $.extend( this.option( 'params' ), params || {} );
 
-            this.option( 'callbacks' )['beforeSubmit'] && this.option( 'callbacks' )['beforeSubmit'].call(this);
+            this._trigger( 'beforesubmit', null, this );
 
             this._submit( this.action, this.element, function( response ) {
+                this._trigger( 'aftersubmit', null, this );
+
                 if ( response.sUrlRedirect ) {
                     window.location.href = response.sUrlRedirect;
                 }

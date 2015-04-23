@@ -68,11 +68,7 @@
                     add: this.option( 'urls.add' ),
                     edit: this.option( 'urls.edit' )
                 },
-                callbacks: {
-                    beforeSubmit: function() {
-                        _this.prepareParams(this);
-                    }
-                }
+                beforesubmit: this._prepareParams.bind( this )
             });
 
             // Выбор блогов
@@ -138,16 +134,11 @@
 
         /**
          * Дополнительная обработка параметров перед отправкой формы
-         * @param formContent
          */
-        prepareParams: function(formContent) {
-            /**
-             * Корректируем сортировку выбранных блогов
-             */
+        _prepareParams: function() {
+            // Корректируем сортировку выбранных блогов
             if (this.elements.blogs.length) {
-                $.extend(formContent.option('params'), {
-                    'topic[blogs_id_raw]': this.elements.blogs.getSelectionOrder()
-                });
+                this.element.lsContent( 'option', 'params.topic[blogs_id_raw]', this.elements.blogs.getSelectionOrder() );
             }
         }
     });
