@@ -32,9 +32,7 @@ class HookStatisticsPerformance extends Hook
      */
     public function RegisterHook()
     {
-        if ($this->User_GetIsAdmin()) {
-            $this->AddHook('template_body_end', 'Statistics', __CLASS__, -1000);
-        }
+        $this->AddHook('template_body_end', 'Statistics', __CLASS__, -1000);
     }
 
     /**
@@ -44,6 +42,9 @@ class HookStatisticsPerformance extends Hook
      */
     public function Statistics()
     {
+        if (!$this->User_GetIsAdmin()) {
+            return '';
+        }
         $oEngine = Engine::getInstance();
         /**
          * Подсчитываем время выполнения
