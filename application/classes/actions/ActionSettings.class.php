@@ -140,7 +140,9 @@ class ActionSettings extends Action
          * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
          */
         $sDir = Config::Get('path.uploads.images') . "/tmp/userphoto/{$oUser->getId()}";
-        if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
+        $aPhotoSizes = $this->Media_ParsedImageSize(Config::Get('module.user.profile_photo_size'));
+        $sSaveWidth = $aPhotoSizes['w'] > 1000 ? $aPhotoSizes['w'] : 1000;
+        if ($sFileOriginal = $oImage->resize($sSaveWidth, null)->saveSmart($sDir, 'original')) {
             if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
                 list($iOriginalWidth, $iOriginalHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
                 list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFilePreview));
