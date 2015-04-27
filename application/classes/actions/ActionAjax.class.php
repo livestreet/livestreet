@@ -793,6 +793,8 @@ class ActionAjax extends Action
         }
 
         $this->Viewer_AssignAjax('html', $sTemplate);
+        $this->Viewer_AssignAjax('count_loaded', count($aMediaItems));
+        $this->Viewer_AssignAjax('page', count($aMediaItems) > 0 ? $iPage + 1 : $iPage);
     }
 
     protected function EventMediaLoadPreviewItems()
@@ -1782,7 +1784,7 @@ class ActionAjax extends Action
             if ($bReturnExtended) {
                 $aItems[] = array(
                     'value' => $oUser->getId(),
-                    'label' => $oUser->getLogin(),
+                    'text' => $oUser->getLogin(),
                 );
             } else {
                 $aItems[] = $oUser->getLogin();

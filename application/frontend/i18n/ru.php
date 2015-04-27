@@ -1520,6 +1520,10 @@ return array(
         'actions' => array(
             'remove' => '___common.remove___'
         ),
+        'filter' => array(
+            'uploaded' => 'Загруженные',
+            'all' => 'Все'
+        ),
         'info'    => array(
             'empty' => 'Выберите файл',
             'types' => array(

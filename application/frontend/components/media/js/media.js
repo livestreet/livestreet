@@ -13,7 +13,7 @@
 (function($) {
 	"use strict";
 
-	$.widget( "livestreet.lsMedia", {
+	$.widget( "livestreet.lsMedia", $.livestreet.lsComponent, {
 		/**
 		 * Дефолтные опции
 		 */
@@ -35,18 +35,14 @@
 
 			// Селекторы
 			selectors: {
+				nav: '.js-media-nav',
 				uploader: '.js-media-uploader',
 				block: '.js-media-info-block',
-				insert: {
-					submit: '.js-media-insert-submit'
-				},
-				photoset: {
-					submit: '.js-media-photoset-submit'
-				},
+				insert_submit: '.js-media-insert-submit',
+				photoset_submit: '.js-media-photoset-submit',
 				url: {
 					form: '.js-media-url-form',
 					url: '.js-media-url-form-url',
-					type: '.js-media-url-type',
 					block_container: '.js-media-url-settings-blocks',
 					submit_upload: '.js-media-url-submit-upload',
 					submit_insert: '.js-media-url-submit-insert',
@@ -54,7 +50,9 @@
 				}
 			},
 
-			uploader_options: {}
+			uploader_options: {},
+
+			params: {}
 		},
 
 		/**
@@ -64,39 +62,24 @@
 		 * @private
 		 */
 		_create: function () {
-			var _this = this;
+			this._super();
 
+			// Получаем редактор
 			! this.option( 'editor' ).length && this.option( 'editor', $( '#' + this.element.data( 'media-editor') ) );
 
-			this.elements = {
-				tabs: this.element.find( '[data-tab-type=tab-list] > [data-tab-type=tab]' ),
-				uploader: this.element.find( this.option( 'selectors.uploader' ) ),
+			$.extend(this.elements, {
 				blocks: this.element.find( this.option( 'selectors.uploader' ) + ' ' + this.option( 'selectors.block' ) ),
-				insert: {
-					submit: this.element.find( this.option( 'selectors.insert.submit' ) )
-				},
-				photoset: {
-					submit: this.element.find( this.option( 'selectors.photoset.submit' ) )
-				},
 				url: {
 					form: this.element.find( this.option( 'selectors.url.form' ) ),
 					url: this.element.find( this.option( 'selectors.url.url' ) ),
-					type: this.element.find( this.option( 'selectors.url.type' ) ),
 					block_container: this.element.find( this.option( 'selectors.url.block_container' ) ),
 					submit_upload: this.element.find( this.option( 'selectors.url.submit_upload' ) ),
 					submit_insert: this.element.find( this.option( 'selectors.url.submit_insert' ) ),
 					image_preview: this.element.find( this.option( 'selectors.url.image_preview' ) )
 				}
-			};
+			});
 
 			this.elements.url.blocks = this.elements.url.block_container.find( this.option( 'selectors.block' ) );
-
-			// Иниц-ия модального окна
-			this.element.lsModal({
-				aftershow: function () {
-					_this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
-				}
-			});
 
 			// Иниц-ия загрузчика
 			this.elements.uploader.lsUploader( $.extend( {}, this.option( 'uploader_options' ), {
@@ -104,58 +87,102 @@
 				params: {
 					security_ls_key: LIVESTREET_SECURITY_KEY
 				},
-				list_options: {
-					fileactivate: function ( event, context ) {
-						_this.activateInfoBlock( context.element );
-					}
-				}
+				filebeforeactivate: this._onFileBeforeActivate.bind( this )
 			}));
 
+			this._list = this.elements.uploader.lsUploader( 'getElement', 'list' );
+			this._originalTargetType = this.elements.uploader.lsUploader( 'option', 'params.target_type' );
+
 			// Табы
-			this.elements.tabs.on( 'lstabactivate', function( event, tab ) {
-				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl', true );
+			this.elements.nav.lsTabs({
+				tabactivate: this._onTabActivate.bind( this )
+			});
 
-				// Перемещение галереи из одного таба в другой
-				if ( tab.element.hasClass( 'js-tab-show-gallery' ) ) {
-					this.elements.uploader.appendTo( this.element.find( '#' + tab.options.target + ' .js-media-pane-content' ) );
-					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'resetFilter' );
-					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'clearSelected' );
-				}
-			}.bind( this ));
-
-			this.elements.tabs.filter( '[data-media-name=photoset]' ).on( 'lstabactivate', function( event, tab ) {
-				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'option', 'multiselect_ctrl', false );
-				this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'filterFilesByType', [ '1' ] );
-			}.bind( this ));
+			// Иниц-ия модального окна
+			this.element.lsModal({
+				aftershow: this.reload.bind( this )
+			});
 
 			//
 			// INSERT
 			//
 
-			this.elements.insert.submit.on( 'click' + this.eventNamespace, function () {
-				var files = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getSelectedFiles' );
-
-				this.insertFiles( this.option( 'urls.insert' ), this.getSettings(), files );
-			}.bind( this ));
-
-			//
-			// PHOTOSET
-			//
-
-			this.elements.photoset.submit.on( 'click' + this.eventNamespace, function () {
-				var files = this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'getSelectedFiles' );
-
-				this.insertFiles( this.option( 'urls.photoset' ), this.getSettings(), files );
-			}.bind( this ));
+			this._on( this.elements.insert_submit, { click: '_onInsertSubmit' } );
+			this._on( this.elements.photoset_submit, { click: '_onPhotosetSubmit' } );
 
 			//
 			// INSERT FROM URL
 			//
 
-			this.elements.url.type.on( 'change' + this.eventNamespace, this.onUrlTypeChange.bind( this ) );
-			this.elements.url.url.on( 'keyup change' + this.eventNamespace, this.onUrlChange.bind( this ) );
-			this.elements.url.submit_upload.on( 'click' + this.eventNamespace, this.urlInsert.bind( this, true ) );
-			this.elements.url.submit_insert.on( 'click' + this.eventNamespace, this.urlInsert.bind( this, false ) );
+			this._on( this.elements.url.type, { click: 'onUrlTypeChange' } );
+			this._on( this.elements.url.url, { keyup: 'onUrlChange', change: 'onUrlChange' } );
+			this._on( this.elements.url.submit_upload, { click: this.urlInsert.bind( this, true ) } );
+			this._on( this.elements.url.submit_insert, { click: this.urlInsert.bind( this, false ) } );
+		},
+
+		/**
+		 * 
+		 */
+		_onInsertSubmit: function( event ) {
+			this.insertSelectedFiles( 'insert', this.getSettings() );
+		},
+
+		/**
+		 * 
+		 */
+		_onPhotosetSubmit: function( event ) {
+			this.insertSelectedFiles( 'photoset', this.getSettings() );
+		},
+
+		/**
+		 * 
+		 */
+		_onFileBeforeActivate: function( event, data ) {
+			this.activateInfoBlock( data.element );
+		},
+
+		/**
+		 * 
+		 */
+		_onTabActivate: function( event, data ) {
+			var type = data.element.data( 'media-name' );
+
+			this.moveUploader( data );
+
+			if ( type === 'photoset' ) {
+				this._list.lsUploaderFileList( 'option', 'multiselect_ctrl', false );
+				this.elements.uploader.lsUploader( 'filterFilesByType', [ '1' ] );
+			}
+		},
+
+		/**
+		 * Перемещение uploader'а из одного таба в другой
+		 */
+		moveUploader: function( tab ) {
+			this.resetUploader();
+
+			// Перемещение
+			if ( tab.element.hasClass( 'js-tab-show-gallery' ) ) {
+				this.elements.uploader
+					.lsUploader( 'resetFilter' )
+					.lsUploader( 'unselectAll' )
+					.appendTo( this.getPaneContent( tab ) );
+			}
+		},
+
+		/**
+		 * 
+		 */
+		resetUploader: function() {
+			this._list.lsUploaderFileList( 'option', 'params.target_type', this._originalTargetType );
+			this._list.lsUploaderFileList( 'option', 'multiselect_ctrl', true );
+		},
+
+		/**
+		 * 
+		 */
+		getPaneContent: function( tab ) {
+			return tab.getPane().find( '.js-media-pane-content' );
 		},
 
 		/**
@@ -183,6 +210,13 @@
 		},
 
 		/**
+		 * 
+		 */
+		insertSelectedFiles: function( url, params ) {
+			this.insertFiles( url, params, this.elements.uploader.lsUploader( 'getSelectedFiles' ) );
+		},
+
+		/**
 		 * Вставляет выделенные файлы в редактор
 		 */
 		insertFiles: function( url, params, files ) {
@@ -193,14 +227,10 @@
 				return $( file ).lsUploaderFile( 'getProperty', 'id' );
 			});
 
-			ls.ajax.load( url, $.extend( true, {}, { ids: ids }, params || {} ), function( response ) {
-				if ( response.bStateError ) {
-					ls.msg.error( response.sMsgTitle, response.sMsg );
-				} else {
-					this.option( 'editor' ).lsEditor( 'insert', response.sTextResult );
-					this.element.lsModal( 'hide' );
-				}
-			}.bind( this ));
+			this._load( url, $.extend( true, {}, { ids: ids }, params || {} ), function( response ) {
+				this.option( 'editor' ).lsEditor( 'insert', response.sTextResult );
+				this.element.lsModal( 'hide' );
+			});
 		},
 
 		/**
@@ -236,8 +266,22 @@
 		/**
 		 * 
 		 */
+		reload: function() {
+			this.elements.uploader.lsUploader( 'reload' );
+		},
+
+		/**
+		 * 
+		 */
+		getActiveTab: function() {
+			return this.elements.nav.lsTabs( 'getActiveTab' );
+		},
+
+		/**
+		 * 
+		 */
 		getActiveTabName: function() {
-			return this.elements.tabs.filter( '.active' ).eq( 0 ).data( 'media-name' );
+			return this.getActiveTab().data( 'media-name' );
 		},
 
 		//
@@ -261,18 +305,16 @@
 			var _this = this,
 				url = this.elements.url.url.val();
 
-			if ( this.elements.url.type.val() == 1 ) {
-				$('<img />', {
-					src: url,
-					style: 'max-width: 50%',
-					error: function () {
-						_this.elements.url.image_preview.hide().empty();
-					},
-					load: function () {
-						_this.elements.url.image_preview.show().html( $( this ) );
-					}
-				});
-			}
+			$('<img />', {
+				src: url,
+				style: 'max-width: 50%',
+				error: function () {
+					_this.elements.url.image_preview.hide().empty();
+				},
+				load: function () {
+					_this.elements.url.image_preview.show().html( $( this ) );
+				}
+			});
 		},
 
 		/**
@@ -288,15 +330,15 @@
 					this.elements.uploader.lsUploader( 'option', 'params' )
 				);
 
-			ls.ajax.load( this.option( 'urls.url_upload' ), params, function ( response ) {
+			this._load( 'url_upload', params, function ( response ) {
 				if ( response.bStateError ) {
 					ls.msg.error( response.sMsgTitle, response.sMsg );
 				} else {
 					this.option( 'editor' ).lsEditor( 'insert', response.sText );
 					this.element.lsModal( 'hide' );
-					this.elements.uploader.lsUploader( 'getElement', 'list' ).lsUploaderFileList( 'load' );
+					this.reload();
 				}
-			}.bind( this ), {
+			}, {
 				// TODO: Fix validation
 				validate: false,
 				submitButton: this.elements.url[ upload ? 'submit_upload' : 'submit_insert' ]
