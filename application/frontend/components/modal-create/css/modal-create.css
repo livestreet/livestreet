@@ -2,10 +2,10 @@
  * Создать
  */
 
-.modal.modal--create {
+.ls-modal.ls-modal--create {
     max-width: 525px;
 }
-.modal.modal--create .modal-content {
+.ls-modal.ls-modal--create .ls-modal-content {
     padding: 20px 10px 0;
 }
 

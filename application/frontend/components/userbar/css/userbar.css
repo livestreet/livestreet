@@ -39,23 +39,56 @@
 /**
  * Userbar
  */
-.nav--userbar                   { float: left; }
-.nav--userbar > .nav-item > a       { color: #000; padding: 20px 15px; }
-.nav--userbar > .nav-item > a:hover { background: #fafafa; }
+.ls-nav--userbar {
+    float: left;
+}
+.ls-nav--userbar > .ls-nav-item > a {
+    color: #000;
+    padding: 20px 15px;
+}
+.ls-nav--userbar > .ls-nav-item > a:hover {
+    background: #fafafa;
+}
 
 /* Логин */
-.nav--userbar > .nav-item.nav-item--userbar-username > a       { position: relative; padding-left: 40px; padding-right: 25px; font-weight: bold; color: #333; }
-.nav--userbar > .nav-item.nav-item--userbar-username .avatar { position: absolute; top: 17px; left: 8px; border-radius: 100%; }
+.ls-nav--userbar > .ls-nav-item.ls-nav-item--userbar-username > a {
+    position: relative;
+    padding-left: 40px;
+    padding-right: 25px;
+    font-weight: bold;
+    color: #333;
+}
+.ls-nav--userbar > .ls-nav-item.ls-nav-item--userbar-username .ls-avatar {
+    position: absolute;
+    top: 17px;
+    left: 8px;
+    border-radius: 100%;
+}
 
 /* Новые сообщения */
-.nav--userbar > .nav-item--has-counter > a       { background: #65CA34; color: #fff; font-weight: bold; }
-.nav--userbar > .nav-item--has-counter > a:hover { background: #5EBD30; }
-.nav--userbar > .nav-item > a > .badge                           { background: #47B113; }
+.ls-nav--userbar > .ls-nav-item--has-counter > a {
+    background: #65CA34;
+    color: #fff;
+    font-weight: bold;
+}
+.ls-nav--userbar > .ls-nav-item--has-counter > a:hover {
+    background: #5EBD30;
+}
+.ls-nav--userbar > .ls-nav-item > a > .ls-badge {
+    background: #47B113;
+}
 
 /* Dropdown support */
-.nav.nav--userbar .dropdown-toggle:after      { border-top-color: #000; }
-.nav.nav--userbar .dropdown-toggle.open       { background: #08c; color: #fff; }
-.nav.nav--userbar .dropdown-toggle.open:after { border-top-color: #fff; }
+.ls-nav.ls-nav--userbar .ls-dropdown-toggle:after {
+    border-top-color: #000;
+}
+.ls-nav.ls-nav--userbar .ls-dropdown-toggle.open {
+    background: #08c;
+    color: #fff;
+}
+.ls-nav.ls-nav--userbar .ls-dropdown-toggle.open:after {
+    border-top-color: #fff;
+}
 
 
 /**

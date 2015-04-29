@@ -4,7 +4,7 @@
  * @modifier user
  * @template blocks/block.userPhoto.tpl
  */
-.block--user-photo .block-content {
+.ls-block--user-photo .ls-block-content {
     padding: 0;
     position: relative;
 }
@@ -35,13 +35,13 @@
  * @modifier user-actions
  * @template blocks/block.userActions.tpl
  */
-.block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
-.block--user-actions ul li            { margin-bottom: 0; }
-.block--user-actions ul li span,
-.block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
-.block--user-actions ul li span:hover,
-.block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
-.block--user-actions ul li a.followed { color: #f00; }
+.ls-block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
+.ls-block--user-actions ul li            { margin-bottom: 0; }
+.ls-block--user-actions ul li span,
+.ls-block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
+.ls-block--user-actions ul li span:hover,
+.ls-block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
+.ls-block--user-actions ul li a.followed { color: #f00; }
 
 /**
  * Навигация по профилю пользователя
@@ -49,20 +49,20 @@
  * @modifier user-nav
  * @template blocks/block.userNav.tpl
  */
-.nav.nav--stacked.user-nav {
+.ls-nav.ls-nav--stacked.user-nav {
     overflow: hidden;
     border: 1px solid #eee;
     border-radius: 5px;
 }
-.nav.nav--stacked.user-nav > li {
+.ls-nav.ls-nav--stacked.user-nav > li {
     margin-bottom: 0;
     background-color: transparent;
     border-bottom: 1px solid #f4f4f4;
 }
-.nav.nav--stacked.user-nav > li .badge {
+.ls-nav.ls-nav--stacked.user-nav > li .ls-badge {
     background: #aaa;
 }
-.nav.nav--stacked.user-nav > li a {
+.ls-nav.ls-nav--stacked.user-nav > li a {
     padding: 0 13px;
     line-height: 42px;
     display: block;
@@ -70,14 +70,14 @@
     color: #555;
     cursor: pointer;
 }
-.nav.nav--stacked.user-nav > li a:hover {
+.ls-nav.ls-nav--stacked.user-nav > li a:hover {
     background: #fafafa;
     color: #333;
 }
-.nav.nav--stacked.user-nav > li.active a {
+.ls-nav.ls-nav--stacked.user-nav > li.active a {
     background: #2891D3;
     color: #fff;
 }
-.nav.nav--stacked.user-nav > li.active .badge {
+.ls-nav.ls-nav--stacked.user-nav > li.active .ls-badge {
     background: #2379B0;
 }

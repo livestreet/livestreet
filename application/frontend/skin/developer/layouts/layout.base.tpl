@@ -33,8 +33,8 @@
     {if {Config::Get('view.grid.type')} == 'fluid'}
         <style>
             .grid-role-userbar,
-            .grid-role-nav .nav--main,
-            .grid-role-header .jumbotron-inner,
+            .grid-role-nav .ls-nav--main,
+            .grid-role-header .ls-jumbotron-inner,
             .grid-role-container {
                 min-width: {Config::Get('view.grid.fluid_min_width')};
                 max-width: {Config::Get('view.grid.fluid_max_width')};
@@ -43,8 +43,8 @@
     {else}
         <style>
             .grid-role-userbar,
-            .grid-role-nav .nav--main,
-            .grid-role-header .jumbotron-inner,
+            .grid-role-nav .ls-nav--main,
+            .grid-role-header .ls-jumbotron-inner,
             .grid-role-container { width: {Config::Get('view.grid.fixed_width')}; }
         </style>
     {/if}

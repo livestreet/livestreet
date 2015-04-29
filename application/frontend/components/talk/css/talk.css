@@ -14,10 +14,10 @@
 /**
  * Message user list
  */
-.message-users .user-list-small-item.inactive             { opacity: .5; cursor: help; }
-.message-users .user-list-small-item.inactive .icon-minus { display: none; }
-.message-users .user-list-small-item .icon-plus           { display: none; }
-.message-users .user-list-small-item.inactive .icon-plus  { display: inline-block; }
+.message-users .user-list-small-item.inactive                { opacity: .5; cursor: help; }
+.message-users .user-list-small-item.inactive .ls-icon-minus { display: none; }
+.message-users .user-list-small-item .ls-icon-plus           { display: none; }
+.message-users .user-list-small-item.inactive .ls-icon-plus  { display: inline-block; }
 
 /**
  * Message list

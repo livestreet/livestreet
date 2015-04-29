@@ -35,7 +35,7 @@
         {/if}
 
         {* Список сообщений *}
-        <table class="table table-talk message-list">
+        <table class="ls-table table-talk message-list">
             <tbody>
                 {foreach $smarty.local.talks as $talk}
                     {* Создатель диалога *}

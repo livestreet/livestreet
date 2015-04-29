@@ -17,7 +17,7 @@
     background: #fff;
     padding: 40px !important;
 }
-.grid-role-nav .nav.nav--main {
+.grid-role-nav .ls-nav.ls-nav--main {
     margin: 0 auto;
 }
 .grid-role-footer {
@@ -32,7 +32,7 @@
 .grid-role-sidebar {
     padding-left: 10px !important;
 }
-.grid-role-sidebar .block {
+.grid-role-sidebar .ls-block {
     margin-bottom: 10px;
 }
 
@@ -71,6 +71,6 @@
 /**
  * Шапка сайта
  */
-.jumbotron {
+.ls-jumbotron {
     background-image: url(../images/header.jpg);
 }

@@ -51,12 +51,12 @@
 .article-info-item.article-info-item--author {
     padding: 0;
 }
-.article-info-item .avatar .avatar-image {
+.article-info-item .ls-avatar .ls-avatar-image {
     width: 36px;
     height: 36px;
     border-radius: 50%;
 }
-.article-info-item .avatar .avatar-name-link {
+.article-info-item .ls-avatar .ls-avatar-name-link {
     color: #333;
 }
 

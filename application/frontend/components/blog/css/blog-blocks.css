@@ -4,7 +4,7 @@
  * @modifier blog-add
  * @template blocks/block.blog-add.tpl
  */
-.block--blog-add .block-content {
+.ls-block--blog-add .ls-block-content {
     padding: 30px;
     text-align: center;
 }
@@ -14,10 +14,10 @@
  *
  * @template blocks/block.blogs.tpl
  */
-.block.blog-block-blogs .item-title {
+.ls-block.blog-block-blogs .item-title {
     font-size: 16px;
     margin-bottom: 7px;
 }
-.block.blog-block-blogs .item-image {
+.ls-block.blog-block-blogs .item-image {
     border-radius: 3px;
 }

@@ -7,7 +7,7 @@
 
 {if $smarty.local.users}
     <form method="post" enctype="multipart/form-data">
-        <table class="table">
+        <table class="ls-table">
             <thead>
                 <tr>
                     <th class="cell-name"></th>
@@ -24,7 +24,7 @@
 
                     <tr>
                         <td class="cell-name">
-                            {component 'user' template='item' user=$user}
+                            {component 'user' template='avatar' user=$user mods='inline' size='xxsmall'}
                         </td>
 
                         {if $user->getId() == $oUserCurrent->getId()}

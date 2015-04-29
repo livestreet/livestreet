@@ -4,7 +4,7 @@
  * @param array $plugins Список плагинов
  *}
 
-<table class="table admin-plugins">
+<table class="ls-table admin-plugins">
     <tbody>
         {foreach $smarty.local.plugins as $plugin}
             <tr {if $plugin.is_active}class="active"{/if}>

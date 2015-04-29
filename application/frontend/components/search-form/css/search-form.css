@@ -7,7 +7,7 @@
 .search-form .field             { margin-bottom: 0;}
 .search-form-input[type="text"] { padding-right: 30px; }
 
-.button--icon.search-form-submit {
+.ls-button--icon.search-form-submit {
 	border: none;
 	background: none;
 	position: absolute;

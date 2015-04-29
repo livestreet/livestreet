@@ -13,9 +13,9 @@
     cursor: pointer;
 }
 
-.icon-comment-update {
+.ls-icon-comment-update {
     background-image: url(../images/update.gif);
 }
-.toolbar-comments-update.active .icon-comment-update {
+.toolbar-comments-update.active .ls-icon-comment-update {
     background-position: -16px 0;
 }

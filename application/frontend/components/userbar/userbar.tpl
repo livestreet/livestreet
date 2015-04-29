@@ -16,7 +16,7 @@
                     [
                         'text'       => "<img src=\"{$oUserCurrent->getProfileAvatarPath(24)}\" alt=\"{$oUserCurrent->getDisplayName()}\" class=\"avatar\" /> {$oUserCurrent->getDisplayName()}",
                         'url'        => "{$oUserCurrent->getUserWebPath()}",
-                        'classes'    => 'nav-item--userbar-username',
+                        'classes'    => 'ls-nav-item--userbar-username',
                         'menu'       => [
                             [ 'name' => 'whois',      'text' => {lang name='user.profile.nav.info'},         'url' => "{$oUserCurrent->getUserWebPath()}" ],
                             [ 'name' => 'wall',       'text' => {lang name='user.profile.nav.wall'},         'url' => "{$oUserCurrent->getUserWebPath()}wall/", 'count' => $iUserCurrentCountWall ],
