@@ -58,7 +58,7 @@
     font-weight: bold;
     color: #333;
 }
-.ls-nav--userbar > .ls-nav-item.ls-nav-item--userbar-username .ls-avatar {
+.ls-nav--userbar > .ls-nav-item.ls-nav-item--userbar-username .avatar {
     position: absolute;
     top: 17px;
     left: 8px;
