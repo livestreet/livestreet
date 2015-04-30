@@ -23,7 +23,7 @@
 
 {if $user->getProfileAbout()}
 	{capture 'user_info_about'}
-		<div class="text">
+		<div class="ls-text">
 			{$user->getProfileAbout()}
 		</div>
 	{/capture}

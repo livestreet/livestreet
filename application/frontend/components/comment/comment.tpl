@@ -128,7 +128,7 @@
         </ul>
 
         {* Текст комментария *}
-        <div class="{$component}-content text">
+        <div class="{$component}-content ls-text">
             {$comment->getText()}
         </div>
 

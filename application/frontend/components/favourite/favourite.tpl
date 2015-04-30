@@ -40,7 +40,7 @@
 	 {cattr list=$smarty.local.attributes}>
 
 	{* Кнопка добавления/удаления из избранного *}
-	<div class="icon-heart {$component}-toggle js-{$component}-toggle"></div>
+	{component 'icon' icon='heart' classes="{$component}-toggle js-{$component}-toggle"}
 
 	{* Кол-во объектов в избранном *}
 	{if isset( $count )}

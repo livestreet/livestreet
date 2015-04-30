@@ -4,7 +4,7 @@
  * @template toolbar.comment.tpl
  */
 
-.toolbar-item--comments .toolbar-comments-count {
+.ls-toolbar-item--comments .ls-toolbar-comments-count {
     border-top: 1px solid #eee;
     padding: 10px 0;
     color: #333;
@@ -16,6 +16,6 @@
 .ls-icon-comment-update {
     background-image: url(../images/update.gif);
 }
-.toolbar-comments-update.active .ls-icon-comment-update {
+.ls-toolbar-comments-update.active .ls-icon-comment-update {
     background-position: -16px 0;
 }

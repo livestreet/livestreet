@@ -123,11 +123,11 @@
 .comment-scroll-to-child { display: none; }
 
 /* Текст комментария */
-.comment-content.text {
+.comment-content.ls-text {
     font-size: 13px;
     line-height: 1.7em;
 }
-.comment-content.text blockquote {
+.comment-content.ls-text blockquote {
     background: #fff;
     border-color: #ccc;
     padding: 5px 10px;

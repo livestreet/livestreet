@@ -5,8 +5,7 @@
 {extends 'Component@modal.modal'}
 
 {block 'modal_options' append}
-    {$mods = "$mods media"}
-    {$classes = "$classes js-modal-media"}
+    {$classes = "$classes ls-media js-modal-media"}
     {$title = {lang name='media.title'}}
     {$options = array_merge( $options|default:[], [ 'center' => 'false' ] )}
     {$showFooter = false}

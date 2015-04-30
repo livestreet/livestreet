@@ -2,6 +2,6 @@
  * Кнопка навигации по топикам
  */
 
-.toolbar-item--topic a.toolbar-topic-prev {
+.ls-toolbar-item--topic a.ls-toolbar-topic-prev {
     border-bottom: 1px solid #eee;
 }

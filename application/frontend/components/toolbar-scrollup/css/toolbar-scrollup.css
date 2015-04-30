@@ -4,6 +4,6 @@
  * TODO: Fix icons;
  */
 
-.toolbar-item--scrollup          { display: none; }
-.toolbar-item--scrollup i        { background-position: -288px -120px; }
-.toolbar-item--scrollup.active i { background-position: -313px -119px; }
+.ls-toolbar-item--scrollup          { display: none; }
+.ls-toolbar-item--scrollup i        { background-position: -288px -120px; }
+.ls-toolbar-item--scrollup.active i { background-position: -313px -119px; }

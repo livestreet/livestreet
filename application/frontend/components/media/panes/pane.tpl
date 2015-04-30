@@ -2,10 +2,10 @@
 	{$id = $smarty.local.id}
 {/block}
 
-<div class="media-pane-content js-media-pane-content">
+<div class="ls-media-pane-content js-media-pane-content">
 	{block 'media_pane_content'}{/block}
 </div>
 
-<div class="media-pane-footer">
+<div class="ls-media-pane-footer">
 	{block 'media_pane_footer'}{/block}
 </div>

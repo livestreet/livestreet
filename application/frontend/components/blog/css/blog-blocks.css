@@ -14,10 +14,10 @@
  *
  * @template blocks/block.blogs.tpl
  */
-.ls-block.blog-block-blogs .item-title {
+.ls-block.blog-block-blogs .ls-item-title {
     font-size: 16px;
     margin-bottom: 7px;
 }
-.ls-block.blog-block-blogs .item-image {
+.ls-block.blog-block-blogs .ls-item-image {
     border-radius: 3px;
 }

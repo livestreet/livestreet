@@ -109,7 +109,7 @@ ls.tags = (function ($) {
 					aTags = [];
 
 				$.each(result.aTags, function(k, v) {
-					aTags.push('<li class="tag-list-item tag-list-item-tag tag-list-item-tag-personal js-tag-list-item-tag-personal">, ' +
+					aTags.push('<li class="ls-tags-item ls-tags-item-tag ls-tags-item-tag-personal js-tag-list-item-tag-personal">, ' +
 								'<a rel="tag" href="' + v.url + '" class="">' + v.tag + '</a></li>');
 				});
 

@@ -41,7 +41,7 @@
     .grid-role-content { width: 100% !important; margin-bottom: 30px; padding: 15px !important; }
     .grid-role-sidebar { width: 100% !important; margin-bottom: 30px; padding: 0; }
 
-    .toolbar {
+    .ls-toolbar {
         display: none;
     }
 }

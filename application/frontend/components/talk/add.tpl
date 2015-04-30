@@ -33,7 +33,7 @@
 			inputClasses     = 'js-editor-default'}
 
 	{* Preview *}
-	<div class="text mb-20" id="text_preview" style="display: none;"></div>
+	<div class="ls-text mb-20" id="text_preview" style="display: none;"></div>
 
 	{hook run='form_add_talk_end'}
 

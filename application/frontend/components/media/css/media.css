@@ -2,47 +2,44 @@
  * Media
  */
 
-.ls-modal--media {
+.ls-modal.ls-media {
     max-width: 1130px;
     border: none;
-}
-
-.media {
     background: #222;
 }
 
 /* Nav */
-.media-nav .ls-tab-list {
+.ls-media-nav .ls-tab-list {
     width: 160px;
     padding-top: 15px;
 }
-.media-nav .ls-tab {
+.ls-media-nav .ls-tab {
     padding: 10px 15px;
     background: #222;
     color: #eee;
 }
-.media-nav .ls-tab:hover {
+.ls-media-nav .ls-tab:hover {
     background: #2a2a2a;
 }
-.media-nav .ls-tab.active {
+.ls-media-nav .ls-tab.active {
     background: #333;
 }
 
 /* Panes */
-.media-nav .ls-tabs-panes {
+.ls-media-nav .ls-tabs-panes {
     overflow: hidden;
     margin-left: 160px;
     background: #fff;
 }
 
 /* Content */
-.media-pane-content {
+.ls-media-pane-content {
     min-height: 300px;
     padding: 15px;
 }
 
 /* Footer */
-.media-pane-footer {
+.ls-media-pane-footer {
     padding: 15px;
     background: #fafafa;
     border-top: 1px solid #eee;

@@ -19,7 +19,7 @@
  *}
 {function activity_event_text text=''}
     {if trim($text)}
-        <div class="{$component}-text text">{$text}</div>
+        <div class="{$component}-text ls-text">{$text}</div>
     {/if}
 {/function}
 

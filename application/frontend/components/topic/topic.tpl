@@ -95,8 +95,8 @@
 
 	{* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
 	{if ! $isPreview}
-		<div class="tooltip" id="topic_share_{$topic->getId()}">
-			<div class="tooltip-content js-tooltip-content">
+		<div class="ls-tooltip" id="topic_share_{$topic->getId()}">
+			<div class="ls-tooltip-content js-ls-tooltip-content">
 				{hookb run="topic_share" topic=$topic isList=$isList}
 					<div class="yashare-auto-init" data-yashareTitle="{$topic->getTitle()|escape}" data-yashareLink="{$topic->getUrl()}" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>
 				{/hookb}
@@ -133,7 +133,12 @@
 
 		{* Поделиться *}
 		<li class="{$component}-info-item {$component}-info-item--share">
-			<a href="#" class="icon-share js-popover-default" title="{$aLang.topic.share}" data-tooltip-target="#topic_share_{$topic->getId()}"></a>
+			{component 'icon' icon='share'
+				classes="js-popover-default"
+				attributes=[
+					'title' => {lang 'topic.share'},
+					'data-tooltip-target' => "#topic_share_{$topic->getId()}"
+				]}
 		</li>
 	{/if}
 {/block}

@@ -42,7 +42,7 @@
     {* Информация о блоге *}
     <div class="{$component}-content">
         {* Описание *}
-        <div class="{$component}-description text">
+        <div class="{$component}-description ls-text">
             {$blog->getDescription()}
         </div>
 
