@@ -130,7 +130,7 @@ $config['module']['blog']['avatar_size'] = array(
     '48crop',
     '24crop'
 ); // Список размеров аватаров у блога
-$config['module']['blog']['avatar_size_big'] = '180crop'; // Размер большой аватарки блога, которая будет использоваться на странице блога
+$config['module']['blog']['avatar_size_big'] = '500crop'; // Размер большой аватарки блога, которая будет использоваться на странице блога
 $config['module']['blog']['category_allow'] = true;        // Разрешить использование категорий бля блогов
 $config['module']['blog']['category_only_admin'] = true;    // Задавать и менять категории для блога может только админ
 $config['module']['blog']['category_only_without_children'] = true;    // Для блога можно выбрать только конечную категорию, у которой нет других вложенных
