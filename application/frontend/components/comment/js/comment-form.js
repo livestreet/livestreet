@@ -37,7 +37,11 @@
 
             // Классы
             classes : {
-                locked: 'comment-form--locked'
+                locked: 'ls-comment-form--locked'
+            },
+
+            html: {
+                preview: '<div class="ls-comment-preview ls-text"></div>'
             },
 
             params: {}
@@ -240,7 +244,7 @@
 
             this.previewHide();
 
-            this._preview = $( '<div class="comment-preview text"></div>' );
+            this._preview = $( this.option( 'html.preview' ) );
 
             this.element.before( this._preview );
             ls.utils.textPreview( this.elements.text, this._preview, false);

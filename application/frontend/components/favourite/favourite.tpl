@@ -12,7 +12,7 @@
  *}
 
 {* Название компонента *}
-{$component = 'favourite'}
+{$component = 'ls-favourite'}
 
 {* Переменные *}
 {$mods = $smarty.local.mods}
@@ -40,11 +40,11 @@
 	 {cattr list=$smarty.local.attributes}>
 
 	{* Кнопка добавления/удаления из избранного *}
-	{component 'icon' icon='heart' classes="{$component}-toggle js-{$component}-toggle"}
+	{component 'icon' icon='heart' classes="{$component}-toggle js-favourite-toggle"}
 
 	{* Кол-во объектов в избранном *}
 	{if isset( $count )}
-		<span class="{$component}-count js-{$component}-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
+		<span class="{$component}-count js-favourite-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
 			{$count}
 		</span>
 	{/if}

@@ -28,7 +28,7 @@
 /**
  * Сообщения
  */
-.comment.comment--self.wall-comment { background: #fafafa; }
+.ls-comment.ls-comment--self.wall-comment { background: #fafafa; }
 
 .wall-comments { padding-left: 70px; }
 
@@ -36,15 +36,15 @@
 /**
  * Кнопка подгрузки комментариев
  */
-.more.wall-more-comments {
+.ls-more.wall-more-comments {
     border: none;
     margin: 0 0 2px;
     background-color: #f7f7f7;
     color: #777;
 }
-.more.wall-more-comments:hover {
+.ls-more.wall-more-comments:hover {
     background-color: #eee;
 }
-.more.wall-more-comments.more--locked {
+.ls-more.wall-more-comments.ls-more--locked {
     background-color: #f7f7f7;
 }

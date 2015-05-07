@@ -25,7 +25,7 @@
  * @param string   $mods
  *}
 
-{$component = 'comments'}
+{$component = 'ls-comments'}
 
 {block 'comment-list-options'}
     {$mods         = $smarty.local.mods}
@@ -70,20 +70,20 @@
     {* Подписка на комментарии *}
     {if $smarty.local.useSubscribe && $oUserCurrent}
         {$items[] = [ 'buttons' => [[
-            'classes' => "comments-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
+            'classes' => "{$component}-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
             'text'    => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
         ]]]}
     {/if}
 
     {* TODO: Добавить хук *}
 
-    {component 'actionbar' items=$items classes='comments-actions'}
+    {component 'actionbar' items=$items classes="{$component}-actions"}
 
 
     {**
      * Комментарии
      *}
-    <div class="comment-list js-comment-list">
+    <div class="ls-comment-list js-comment-list">
         {include './comment-tree.tpl'
             comments      = $smarty.local.comments
             forbidAdd     = $forbidAdd
@@ -112,7 +112,7 @@
     {else}
         {if $oUserCurrent}
             {* Кнопка открывающая форму *}
-            <h4 class="comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
+            <h4 class="ls-comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
                 <a href="#" class="link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
             </h4>
         {else}

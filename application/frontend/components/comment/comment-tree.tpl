@@ -35,7 +35,7 @@
     {$currentLevel = $commentLevel}
 
     {* Вспомогательный блок-обертка *}
-    <div class="comment-wrapper js-comment-wrapper" data-id="{$comment->getId()}">
+    <div class="ls-comment-wrapper js-comment-wrapper" data-id="{$comment->getId()}">
 
     {* Комментарий *}
     {block 'comment_tree_comment'}

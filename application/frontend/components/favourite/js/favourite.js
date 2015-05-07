@@ -34,9 +34,9 @@
             // Классы
             classes: {
                 // Добавлено в избранное
-                added: 'favourite--added',
+                added: 'ls-favourite--added',
                 // Кол-во добавивших в избранное больше нуля
-                has_counter: 'favourite--has-counter'
+                has_counter: 'ls-favourite--has-counter'
             },
 
             // Параметры отправляемые при каждом аякс запросе

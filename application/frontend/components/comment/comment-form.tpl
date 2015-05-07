@@ -11,7 +11,7 @@
  *}
 
 {* Название компонента *}
-{$component = 'comment-form'}
+{$component = 'ls-comment-form'}
 
 {* Переменные *}
 {$targetId = $smarty.local.targetId}

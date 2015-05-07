@@ -6,7 +6,7 @@
  * TODO: Добавить путь до комментария
  *}
 
-{$component = 'comment-list'}
+{$component = 'ls-comment-list'}
 
 <div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
     {include './comment-tree.tpl'

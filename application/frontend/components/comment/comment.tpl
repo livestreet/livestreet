@@ -16,7 +16,7 @@
  *}
 
 {* Название компонента *}
-{$component = 'comment'}
+{$component = 'ls-comment'}
 
 {* Переменные *}
 {$comment = $smarty.local.comment}
@@ -64,7 +64,7 @@
  * Комментарий
  * Атрибут id используется для ссылки на комментарий через хэш в урл (например #comment123)
  *}
-<section class   = "{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} open js-{$component}"
+<section class   = "{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} open js-comment"
          id      = "comment{$commentId}"
          data-id = "{$commentId}"
          data-parent-id = "{$comment->getPid()}"
@@ -113,7 +113,7 @@
                 <li>
                     {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
                     {component 'vote'
-                        classes  = "{$component}-vote js-{$component}-vote"
+                        classes  = "{$component}-vote js-comment-vote"
                         target   = $comment
                         isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
                 </li>
@@ -122,7 +122,7 @@
             {* Избранное *}
             {if $oUserCurrent && $smarty.local.useFavourite}
                 <li>
-                    {component 'favourite' classes='comment-favourite js-comment-favourite' target=$comment}
+                    {component 'favourite' classes="{$component}-favourite js-comment-favourite" target=$comment}
                 </li>
             {/if}
         </ul>
@@ -137,7 +137,7 @@
             <div class="{$component}-edit-info">
                 {$aLang.comments.comment.edit_info}:
 
-                <span class="{$component}-edit-info-time js-{$component}-edit-time">
+                <span class="{$component}-edit-info-time js-comment-edit-time">
                     {date_format date=$comment->getDateEdit() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
                 </span>
 
@@ -148,7 +148,7 @@
         {/if}
 
         {* Действия *}
-        <ul class="comment-actions clearfix">
+        <ul class="{$component}-actions clearfix">
             {* Ответить *}
             {if $oUserCurrent && ! $isDeleted && $smarty.local.showReply|default:true}
                 <li>
@@ -157,7 +157,7 @@
             {/if}
 
             {* Сворачивание *}
-            <li class="comment-fold js-comment-fold open" data-id="{$commentId}">
+            <li class="{$component}-fold js-comment-fold open" data-id="{$commentId}">
                 <a href="#" class="link-dotted">{$aLang.comments.folding.fold}</a>
             </li>
 

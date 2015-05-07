@@ -14,7 +14,7 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.comment {
+.ls-comment {
     min-height: 48px;
     padding: 15px 15px 15px 80px;
     margin-bottom: 2px;
@@ -22,38 +22,38 @@
     background: #fafafa;
 }
 
-.comment--self {
+.ls-comment--self {
     background: #c5f7ea;
 }
-.comment--new {
+.ls-comment--new {
     background: #fbfba8;
 }
-.comment--current {
+.ls-comment--current {
     background: #a5e7fa;
 }
-.comment--bad {
+.ls-comment--bad {
     opacity: 0.3;
     filter: alpha(opacity=30);
 }
-.comment--bad:hover {
+.ls-comment--bad:hover {
     opacity: 1;
     filter: alpha(opacity=100);
 }
 
-.comment.comment--deleted { background: #efd5d5; }
-.ls-user-role-not-admin .comment.comment--deleted {
+.ls-comment.ls-comment--deleted { background: #efd5d5; }
+.ls-user-role-not-admin .ls-comment.ls-comment--deleted {
     padding: 10px 15px;
     min-height: 0;
     background: #f7f7f7;
     color: #888;
 }
 
-.comment.comment-list-item { margin-bottom: 20px; }
-.comment.comment-list-item .vote .vote-up,
-.comment.comment-list-item .vote .vote-down { display: none; }
+.ls-comment.ls-comment-list-item { margin-bottom: 20px; }
+.ls-comment.ls-comment-list-item .vote .vote-up,
+.ls-comment.ls-comment-list-item .vote .vote-down { display: none; }
 
 /* Аватар */
-.comment-avatar {
+.ls-comment-avatar {
     position: absolute;
     top: 15px;
     left: 15px;
@@ -62,35 +62,35 @@
     border-radius: 50%;
     overflow: hidden;
 }
-.comment-avatar img {
+.ls-comment-avatar img {
     width: 50px;
     height: 50px;
 }
 
 /* Информация */
-.comment-info {
+.ls-comment-info {
     padding: 0 70px 0 0;
     margin-bottom: 15px;
     line-height: 1.3em;
     position: relative;
 }
-.comment-info li {
+.ls-comment-info li {
     float: left;
     margin-right: 10px;
 }
-.comment-info a {
+.ls-comment-info a {
     text-decoration: none;
 }
 
 /* Логин */
-.comment-info .comment-username {
+.ls-comment-info .ls-comment-username {
     float: none;
     font: 20px/1.3em "Open Sans", sans-serif;
     margin-bottom: 5px;
 }
 
 /* Избранное */
-.comment-favourite {
+.ls-comment-favourite {
     display: none;
     position: absolute;
     width: 50px;
@@ -99,35 +99,35 @@
     text-align: center;
 }
 
-.comment-favourite.favourite--added,
-.comment-favourite.favourite--has-counter,
-.comment:hover .comment-favourite { display: block; }
+.ls-comment-favourite.ls-favourite--added,
+.ls-comment-favourite.ls-favourite--has-counter,
+.ls-comment:hover .ls-comment-favourite { display: block; }
 
 /* Дата */
-.comment-date a       { color: #999; }
-.comment-date a:hover { color: #777; }
+.ls-comment-date a       { color: #999; }
+.ls-comment-date a:hover { color: #777; }
 
 /* Голосование */
-.comment-vote {
+.ls-comment-vote {
     position: absolute;
     top: 0;
     right: 0;
     margin: 0;
 }
 
-.comment-vote.vote--not-voted.vote--count-zero { display: none; }
-.comment:hover .comment-vote { display: block; }
+.ls-comment-vote.vote--not-voted.vote--count-zero { display: none; }
+.ls-comment:hover .ls-comment-vote { display: block; }
 
 /* Прокрутка к дочернему комментарию */
-.comment-scroll-to { cursor: pointer; }
-.comment-scroll-to-child { display: none; }
+.ls-comment-scroll-to { cursor: pointer; }
+.ls-comment-scroll-to-child { display: none; }
 
 /* Текст комментария */
-.comment-content.ls-text {
+.ls-comment-content.ls-text {
     font-size: 13px;
     line-height: 1.7em;
 }
-.comment-content.ls-text blockquote {
+.ls-comment-content.ls-text blockquote {
     background: #fff;
     border-color: #ccc;
     padding: 5px 10px;
@@ -135,21 +135,21 @@
 }
 
 /* Действия */
-.comment-actions li {
+.ls-comment-actions li {
     float: left;
     margin: 10px 10px 0 0;
 }
 
 /* Сворачивание */
-.comment-fold {
+.ls-comment-fold {
     display: none;
 }
-.comment--folded .comment-fold {
+.ls-comment--folded .ls-comment-fold {
     background: #CBCBF3;
 }
 
 /* Информация о редактировании */
-.comment-edit-info {
+.ls-comment-edit-info {
     margin-top: 10px;
     font-size: 11px;
     opacity: .5;

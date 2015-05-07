@@ -229,7 +229,7 @@
          * @param {Number} commentParentId (optional) ID родительского комментария
          */
         insert: function( comment, commentId, commentParentId ) {
-            var commentWrapper = $( '<div class="comment-wrapper js-comment-wrapper" data-id="' + commentId + '"></div>' ).append( comment );
+            var commentWrapper = $( '<div class="ls-comment-wrapper js-comment-wrapper" data-id="' + commentId + '"></div>' ).append( comment );
 
             if ( commentParentId ) {
                 // Получаем обертку родительского комментария
