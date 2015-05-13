@@ -4,7 +4,7 @@
  * @template forms/form.search.base.tpl
  */
 .search-form                    { padding: 15px; margin-bottom: 20px; background: #f7f7f7; position: relative; }
-.search-form .field             { margin-bottom: 0;}
+.search-form .ls-field             { margin-bottom: 0;}
 .search-form-input[type="text"] { padding-right: 30px; }
 
 .ls-button--icon.search-form-submit {

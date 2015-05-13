@@ -56,6 +56,6 @@
  * @template polls/poll.form.tpl
  */
 .poll-form-answer-item            { margin-bottom: 10px; padding-right: 25px; position: relative; }
-.poll-form-answer-item .field,
+.poll-form-answer-item .ls-field,
 .poll-form-answer-item:last-child { margin-bottom: 0; }
 .poll-form-answer-item-remove     { position: absolute; top: 7px; right: 0; cursor: pointer; }

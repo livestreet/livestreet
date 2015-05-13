@@ -12,7 +12,7 @@
 	<fieldset>
 		<legend>{lang name='user.settings.tuning.email_notices'}</legend>
 
-		<div class="field-checkbox-group">
+		<div class="ls-field-checkbox-group">
 			{component 'field' template='checkbox'
 					 name     = 'settings_notice_new_topic'
 					 checked  = $oUserCurrent->getSettingsNoticeNewTopic() != 0

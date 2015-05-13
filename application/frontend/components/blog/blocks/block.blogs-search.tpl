@@ -42,7 +42,7 @@
     {* Тип блога *}
     <h3>{lang 'blog.blocks.search.type.title'}</h3>
 
-    <div class="field-checkbox-group">
+    <div class="ls-field-checkbox-group">
         {component 'field' template='radio' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value=''      label='Любой' checked=true}
         {component 'field' template='radio' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value='open'  label='Открытый'}
         {component 'field' template='radio' inputClasses='js-search-ajax-blog-type' name='blog_search_type' value='close' label='Закрытый'}
@@ -52,7 +52,7 @@
     {if $oUserCurrent}
         <h3>{lang 'blog.blocks.search.relation.title'}</h3>
 
-        <div class="field-checkbox-group">
+        <div class="ls-field-checkbox-group">
             {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='all'  label='Все' checked=true}
             {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='my'   label='Мои'}
             {component 'field' template='radio' inputClasses='js-search-ajax-blog-relation' name='blog_search_relation' value='join' label='Читаю'}

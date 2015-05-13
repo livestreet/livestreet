@@ -14,7 +14,7 @@
         </p>
 
         {if $smarty.local.blogsJoined}
-            <div class="field-checkbox-group">
+            <div class="ls-field-checkbox-group">
                 {foreach $smarty.local.blogsJoined as $blog}
                     {component 'field' template='checkbox'
                         inputClasses    = 'js-feed-blogs-subscribe'

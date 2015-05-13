@@ -11,7 +11,7 @@
             {$aLang.activity.settings.note}
         </p>
 
-        <div class="field-checkbox-group">
+        <div class="ls-field-checkbox-group">
             {foreach $smarty.local.types as $type => $data}
                 {if ! (Config::Get('module.stream.disable_vote_events') && substr($type, 0, 4) == 'vote')}
                     {component 'field' template='checkbox'

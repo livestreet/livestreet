@@ -12,7 +12,7 @@
 
     {* Пол *}
     <p class="mb-10">Пол</p>
-    <div class="field-checkbox-group">
+    <div class="ls-field-checkbox-group">
         {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='' checked=true label='Любой'}
         {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='man' label='Мужской'}
         {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='woman' label='Женский'}

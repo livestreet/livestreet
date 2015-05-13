@@ -14,13 +14,13 @@
  * Форма добавления сообщения на стену
  */
 .wall-form          { margin-bottom: 2px; padding: 15px; background: #fafafa; }
-.wall-form .field   { margin-bottom: 0; }
+.wall-form .ls-field   { margin-bottom: 0; }
 .wall-form textarea { height: 30px; min-height: 30px; max-height: 30px; resize: none; }
 
 .wall-form-footer { display: none; }
 
 /* Open */
-.wall-form.open .field            { margin-bottom: 15px; }
+.wall-form.open .ls-field            { margin-bottom: 15px; }
 .wall-form.open textarea          { height: 90px; max-height: 300px; resize: vertical; }
 .wall-form.open .wall-form-footer { display: block; }
 
