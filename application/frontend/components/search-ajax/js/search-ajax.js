@@ -46,7 +46,7 @@
 
             // Иниц-ия фильтров
             $.each( this.option( 'filters' ), function ( index, value ) {
-                _this.addFilter( value );
+                _this._initFilter( value );
             });
 
             // Кнопка подгрузки
@@ -63,31 +63,24 @@
         },
 
         /**
-         * Добавление фильра
+         * Добавление фильтра
          */
         addFilter: function( filter ) {
+            this.option( 'filters' ).push( filter );
+            this._initFilter( filter );
+        },
+
+        /**
+         * Иниц-ия фильтра
+         */
+        _initFilter: function( filter ) {
             var _this = this,
-                element = $( filter.selector ),
-                activeClass = filter.activeClass || ls.options.classes.states.active;
+                element = $( filter.selector );
 
             switch ( filter.type ) {
                 // Текстовое поле
                 case 'text':
-                    var alphanumericFilter = $( filter.alphanumericFilterSelector );
-
                     element.on( 'keyup', function () {
-                        _this.setParam( filter.name, $( this ).val() );
-                        _this.setParam( 'isPrefix', 0 );
-
-                        if ( alphanumericFilter.length ) {
-                            alphanumericFilter
-                                .eq(0)
-                                .find( 'li' )
-                                .removeClass( ls.options.classes.states.active )
-                                .first()
-                                .addClass( ls.options.classes.states.active );
-                        }
-
                         ls.timer.run( _this, _this.update, null, null, 300 );
                     });
 
@@ -97,26 +90,17 @@
                 case 'select':
                     // TODO: multiselect
                     element.on( 'change', function () {
-                        var value, el = $( this );
-
-                        if ( filter.type == 'checkbox' ) {
-                            value = el.is( ':checked' ) ? 1 : 0;
-                        } else {
-                            value = el.val();
-                        }
-
-                        _this.setParam( filter.name, value );
                         _this.update();
                     });
 
                     break;
                 case 'list':
                 case 'sort':
-                case 'alphanumeric':
                     element.on( 'click', function ( event ) {
                         var el = $( this ),
                             els = el.closest( 'ul' ).find( 'li' ).not( el ),
-                            value = el.data( 'value' );
+                            value = el.data( 'value' ),
+                            activeClass = filter.activeClass || ls.options.classes.states.active;
 
                         els.removeClass( activeClass );
                         el.addClass( activeClass );
@@ -126,24 +110,62 @@
 
                             els.attr( 'data-order', 'asc' );
                             el.attr( 'data-order', el.attr( 'data-order' ) == 'asc' ? 'desc' : 'asc' );
-
-                            _this.setParam( 'order', order );
                         }
 
-                        if ( filter.type == 'alphanumeric' ) {
-                            var letter = el.data( 'letter' );
+                        _this.update();
+                        event.preventDefault();
+                    });
 
-                            _this.setParam( 'isPrefix', letter ? 1 : 0 );
-                            value = letter;
+                    break;
+                default:
+                    break;
+            }
+        },
 
-                            // Сбрасываем текстовый фильтр
-                            $( filter.textFilterSelector ).val( '' );
+        updateFilter: function( filter ) {
+            var _this = this,
+                element = $( filter.selector ),
+                activeClass = filter.activeClass || ls.options.classes.states.active;
+
+            switch ( filter.type ) {
+                // Текстовое поле
+                case 'text':
+                    element.each(function () {
+                        _this.setParam( filter.name, $(this).val() );
+                        _this.setParam( 'isPrefix', 0 );
+                    });
+
+                    break;
+                case 'radio':
+                case 'checkbox':
+                case 'select':
+                    element.each(function () {
+                        var value, el = $( this );
+
+                        // Пропускаем неотмеченные радио инпуты
+                        if ( filter.type == 'radio' && ! el.is( ':checked' ) ) return;
+
+                        if ( filter.type == 'checkbox' ) {
+                            value = el.is( ':checked' ) ? 1 : 0;
+                        } else {
+                            value = el.val();
                         }
 
                         _this.setParam( filter.name, value );
-                        _this.update();
+                    });
 
-                        event.preventDefault();
+                    break;
+                case 'list':
+                case 'sort':
+                    element.each(function () {
+                        var el = $( this ).closest( 'ul' ).find( 'li.' + activeClass ),
+                            value = el.data( 'value' );
+
+                        if ( filter.type == 'sort' ) {
+                            _this.setParam( 'order', el.attr( 'data-order' ) );
+                        }
+
+                        _this.setParam( filter.name, value );
                     });
 
                     break;
@@ -171,6 +193,10 @@
          * Обновление поиска
          */
         update: function() {
+            for (var i = 0; i < this.option( 'filters' ).length; i++) {
+                this.updateFilter( this.option( 'filters' )[i] );
+            };
+
             this._load( 'search', function ( response ) {
                 this.element.html( $.trim( response.html ) );
             });
