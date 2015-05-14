@@ -10,7 +10,7 @@
 {* Заголовок *}
 {capture 'title'}
     {if $blog->getType() == 'close'}
-        <i title="{$aLang.blog.private}" class="icon-lock"></i>
+        {component 'icon' icon='lock' attributes=[ title => {lang 'blog.private'} ]}
     {/if}
 
     <a href="{$blog->getUrlFull()}">{$blog->getTitle()|escape}</a>

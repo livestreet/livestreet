@@ -25,7 +25,7 @@
 {* Иконки в заголовке топика *}
 {block 'article_title' prepend}
 	{if $topic->getPublish() == 0}
-		<i class="icon-file" title="{$aLang.topic.is_draft}"></i>
+		{component 'icon' icon='file' attributes=[ title => {lang 'topic.is_draft'} ]}
 	{/if}
 {/block}
 

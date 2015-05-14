@@ -15,10 +15,10 @@
 	<ul class="user-list-small-item-actions">
 		{* Редактировать *}
 		{* Показывает модальное окно с формой редактирования опроса *}
-		<li class="icon-edit js-poll-manage-item-edit"
+		<li class="ls-icon-edit js-poll-manage-item-edit"
 			title="{$aLang.common.edit}" data-poll-id="{$oPoll->getId()}" data-poll-target-tmp="{$oPoll->getTargetTmp()}"></li>
 
 		{* Удалить *}
-		<li class="icon-remove js-poll-manage-item-remove" title="{$aLang.common.remove}" data-poll-id="{$oPoll->getId()}" data-poll-target-tmp="{$oPoll->getTargetTmp()}"></li>
+		<li class="ls-icon-edit js-poll-manage-item-remove" title="{$aLang.common.remove}" data-poll-id="{$oPoll->getId()}" data-poll-target-tmp="{$oPoll->getTargetTmp()}"></li>
 	</ul>
 </li>

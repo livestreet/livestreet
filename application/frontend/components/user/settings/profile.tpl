@@ -19,7 +19,7 @@
         </select>
 
         <input type="text" name="profile_user_field_value[]" value="{if $field}{$field->getValue()|escape}{/if}" class="width-200">
-        <div class="icon-remove js-user-field-item-remove" title="{$aLang.common.remove}"></div>
+        {component 'icon' icon='remove' classes='js-user-field-item-remove' attributes=[ title => {lang 'common.remove'} ]}
     </div>
 {/function}
 

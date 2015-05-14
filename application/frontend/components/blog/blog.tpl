@@ -31,7 +31,7 @@
         {* Заголовок *}
         <h2 class="page-header blog-title">
             {if $blog->getType() == 'close'}
-                <i title="{$aLang.blog.private}" class="icon icon-lock"></i>
+                {component 'icon' icon='lock' attributes=[ title => {lang 'blog.private'} ]}
             {/if}
 
             {$blog->getTitle()|escape}
