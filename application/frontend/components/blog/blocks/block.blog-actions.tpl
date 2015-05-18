@@ -39,7 +39,8 @@
         {* Удалить *}
         {if $oUserCurrent->isAdministrator()}
             {$actions[] = [
-                'attributes' => 'data-type="modal-toggle" data-modal-target="modal-blog-delete"',
+                'classes'    => 'js-modal-toggle-default',
+                'attributes' => [ 'data-lsmodaltoggle-modal' => 'modal-blog-delete' ],
                 'text'       => $aLang.common.remove
             ]}
         {else}

@@ -29,7 +29,7 @@
                             [ 'name' => 'admin',      'text' => {lang name='admin.title'},                   'url' => "{router page='admin'}", 'is_enabled' => $oUserCurrent && $oUserCurrent->isAdministrator() ]
                         ]
                     ],
-                    [ 'text' => $aLang.common.create, 'url' => "{router page='content'}add/topic", 'attributes' => [ 'data-modal-target' => 'modal-write' ] ],
+                    [ 'text' => $aLang.common.create, 'url' => "{router page='content'}add/topic", 'classes' => 'js-modal-toggle-default', 'attributes' => [ 'data-lsmodaltoggle-modal' => 'modal-write' ] ],
                     [ 'text' => $aLang.talk.title,   'url' => "{router page='talk'}", 'title' => $aLang.talk.new_messages, 'is_enabled' => $iUserCurrentCountTalkNew, 'count' => $iUserCurrentCountTalkNew ],
                     [ 'text' => $aLang.auth.logout,  'url' => "{router page='auth'}logout/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
                 ]}

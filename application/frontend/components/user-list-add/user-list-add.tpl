@@ -37,7 +37,7 @@
                 name         = 'add'
                 inputClasses = "autocomplete-users-sep {$uid}"
                 label        = $aLang.user_list_add.form.fields.add.label
-                note         = "<a href=\"#\" class=\"link-dotted\" data-type=\"modal-toggle\" data-modal-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$uid}\">Выбрать из списка друзей</a>"}
+                note         = "<a href=\"#\" class=\"link-dotted js-modal-toggle-default\" data-lsmodaltoggle-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$uid}\">Выбрать из списка друзей</a>"}
 
             {component 'button' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
         </form>

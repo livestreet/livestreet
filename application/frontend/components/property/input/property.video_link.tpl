@@ -9,5 +9,5 @@
 {include './modal.property-input-video.tpl' value=$value}
 
 <p class="mb-20">
-    <a href="#" class="link-dotted" data-modal-target="modal-property-type-video-{$value->getId()}">Смотреть</a>
+    <a href="#" class="link-dotted js-modal-toggle-default" data-lsmodaltoggle-modal="modal-property-type-video-{$value->getId()}">Смотреть</a>
 </p>

@@ -53,6 +53,7 @@ jQuery(document).ready(function($){
 	 * Modals
 	 */
 	$('.js-modal-default').lsModal();
+	$('.js-modal-toggle-default').lsModalToggle();
 
 
 	/**
@@ -281,8 +282,7 @@ jQuery(document).ready(function($){
 			{
 				type: 'text',
 				name: 'sText',
-				selector: '.js-search-text-main',
-				alphanumericFilterSelector: '.js-search-alphabet'
+				selector: '.js-search-text-main'
 			},
 			{
 				type: 'radio',
