@@ -1,7 +1,7 @@
 {$valueType = $property->getValue()->getValueTypeObject()}
 
-<div class="property">
-    <div class="property-list-item-label">
+<div class="ls-property">
+    <div class="ls-property-list-item-label">
         {$property->getTitle()}
     </div>
 

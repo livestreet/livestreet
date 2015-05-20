@@ -5,7 +5,7 @@
  *}
 
 {* Список ответов *}
-<ul class="poll-result js-poll-result">
+<ul class="ls-poll-result js-poll-result">
     {$answers = $oPoll->getAnswers()}
     {$count = count($answers)}
     {$answersCurrent=$oPoll->getVoteCurrent()->getAnswers()}
@@ -15,7 +15,7 @@
         {$percent = $oPoll->getAnswerPercent($answer)}
 
         {* Ответ *}
-        <li class="poll-result-item
+        <li class="ls-poll-result-item
                 {if $oPoll->getCountVoteAnswerMax() == $votes}poll-result-item--most{/if}
                 {if in_array( $answer->getId(), $answersCurrent )}poll-result-item--voted{/if}
                 js-poll-result-item"
@@ -23,15 +23,15 @@
             data-position = "{$count - $answer@index - 1}">
 
             {* Кол-во и процент проголосовавших *}
-            <div class="poll-result-item-count">
+            <div class="ls-poll-result-item-count">
                 <strong>{$percent}%</strong>
                 <span>({$votes})</span>
             </div>
 
             {* Визуальное отображения процента проголосовавших *}
-            <div class="poll-result-item-chart">
-                <div class="poll-result-item-label">{$answer->getTitle()}</div>
-                <div class="poll-result-item-bar" style="width: {$percent}%;"></div>
+            <div class="ls-poll-result-item-chart">
+                <div class="ls-poll-result-item-label">{$answer->getTitle()}</div>
+                <div class="ls-poll-result-item-bar" style="width: {$percent}%;"></div>
             </div>
         </li>
     {/foreach}
@@ -45,7 +45,7 @@
     attributes = [ 'title' => $aLang.poll.result.sort ]}
 
 {* Статистика голосования *}
-<span class="poll-result-total">
+<span class="ls-poll-result-total">
     {$aLang.poll.result.voted_total}: {$oPoll->getCountVote()} |
     {$aLang.poll.result.abstained_total}: {$oPoll->getCountAbstain()}
 </span>

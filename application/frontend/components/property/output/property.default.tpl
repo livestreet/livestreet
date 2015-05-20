@@ -1,9 +1,9 @@
-<div class="property">
-    <div class="property-list-item-label">
+<div class="ls-property">
+    <div class="ls-property-list-item-label">
         {$property->getTitle()}
     </div>
 
-    <strong class="property-list-item-content">
+    <strong class="ls-property-list-item-content">
         {$property->getValue()->getValueForDisplay()}
     </strong>
 </div>

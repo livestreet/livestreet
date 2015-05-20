@@ -12,7 +12,7 @@
  * TODO: Вынести текстовки в photo
  *}
 
-{$component = 'photo'}
+{$component = 'ls-photo'}
 
 {$hasPhoto = $smarty.local.hasPhoto}
 {$useAvatar = $smarty.local.useAvatar|default:true}

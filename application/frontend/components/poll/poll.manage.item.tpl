@@ -7,7 +7,7 @@
  * @scripts <common>/js/poll.js
  *}
 
-<li class="poll-manage-item js-poll-manage-item" data-poll-id="{$oPoll->getId()}" data-poll-target-tmp="{$oPoll->getTargetTmp()}">
+<li class="ls-poll-manage-item js-poll-manage-item" data-poll-id="{$oPoll->getId()}" data-poll-target-tmp="{$oPoll->getTargetTmp()}">
 	{* Заголовок *}
 	{$oPoll->getTitle()}
 

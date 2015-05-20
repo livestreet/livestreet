@@ -4,7 +4,7 @@
  * @param object $target
  *}
 
-{$component = 'vote-info'}
+{$component = 'ls-vote-info'}
 
 {$target = $smarty.local.target}
 

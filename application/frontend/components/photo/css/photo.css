@@ -8,7 +8,7 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.photo {
+.ls-photo {
     position: relative;
     min-width: 100%;
     min-height: 50px;
@@ -16,13 +16,13 @@
 }
 
 /* Изображение */
-.photo-image {
+.ls-photo-image {
     vertical-align: top;
     max-width: 100%;
 }
 
 /* Действия */
-.photo-actions {
+.ls-photo-actions {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -33,7 +33,7 @@
     -webkit-transition: opacity .3s;
     transition: opacity .3s;
 }
-.photo-actions li {
+.ls-photo-actions li {
     padding: 7px 15px;
     color: #bbb;
     font-size: 13px;
@@ -41,21 +41,21 @@
     -webkit-transition: color .2s;
     transition: color .2s;
 }
-.photo-actions li:hover {
+.ls-photo-actions li:hover {
     color: #eee;
 }
-.photo:hover .photo-actions {
+.ls-photo:hover .ls-photo-actions {
     opacity: 1;
 }
 
 /* @modifier nophoto */
-.photo--nophoto .photo-image {
+.ls-photo--nophoto .ls-photo-image {
     width: 100%;
 }
-.photo--nophoto .photo-actions {
+.ls-photo--nophoto .ls-photo-actions {
     opacity: 1;
 }
-.photo--nophoto .photo-actions-crop-avatar,
-.photo--nophoto .photo-actions-remove {
+.ls-photo--nophoto .ls-photo-actions-crop-avatar,
+.ls-photo--nophoto .ls-photo-actions-remove {
     display: none;
 }

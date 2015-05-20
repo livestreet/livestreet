@@ -62,7 +62,7 @@
 		</header>
 
 		<div class="fieldset-body">
-			<ul class="poll-form-answer-list js-poll-form-answer-list">
+			<ul class="ls-poll-form-answer-list js-poll-form-answer-list">
 				{if $oPoll}
 					{$aAnswers = $oPoll->getAnswers()}
 

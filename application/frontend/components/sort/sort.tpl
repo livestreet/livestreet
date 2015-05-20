@@ -2,9 +2,9 @@
  * 
  *}
 
-<div class="sort {$sSortClasses}">
+<div class="ls-sort {$sSortClasses}">
 	{if $bSortShowLabel|default:true}
-		<div class="sort-label">{if $sSortLabel}{$sSortLabel}{else}{$aLang.sort.label}{/if}</div>
+		<div class="ls-sort-label">{if $sSortLabel}{$sSortLabel}{else}{$aLang.sort.label}{/if}</div>
 	{/if}
 
 	<div class="dropdown dropdown-toggle js-dropdown-default" data-dropdown-target="js-dropdown-sort-{$sSortName}" data-dropdown-selectable="true">...</div>

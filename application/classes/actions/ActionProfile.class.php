@@ -576,7 +576,7 @@ class ActionProfile extends Action
          * Создаем заметку и проводим валидацию
          */
         $oNote = Engine::GetEntity('ModuleUser_EntityNote');
-        $oNote->setTargetUserId(getRequestStr('iUserId'));
+        $oNote->setTargetUserId(getRequestStr('user_id'));
         $oNote->setUserId($this->oUserCurrent->getId());
         $oNote->setText(getRequestStr('text'));
 
@@ -608,7 +608,7 @@ class ActionProfile extends Action
             return $this->EventErrorDebug();
         }
 
-        if (!($oUserTarget = $this->User_GetUserById(getRequestStr('iUserId')))) {
+        if (!($oUserTarget = $this->User_GetUserById(getRequestStr('user_id')))) {
             return $this->EventErrorDebug();
         }
         if (!($oNote = $this->User_GetUserNote($oUserTarget->getId(), $this->oUserCurrent->getId()))) {

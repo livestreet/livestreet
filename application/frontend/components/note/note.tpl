@@ -7,17 +7,17 @@
  *}
 
 {* Название компонента *}
-{$component = 'user-note'}
+{$component = 'ls-note'}
 
 {* Установка дефолтных значений *}
 {$note = $smarty.local.note}
 {$isEditable = $smarty.local.isEditable|default:true}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-user-id="{$smarty.local.targetId}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-user_id="{$smarty.local.targetId}" {cattr list=$smarty.local.attributes}>
 	{* Заметка *}
-	<div class="{$component}-body js-{$component}-body">
+	<div class="{$component}-body js-note-body">
 		{* Текст *}
-		<p class="{$component}-text js-{$component}-text" {if ! $note}style="display: none"{/if}>
+		<p class="{$component}-text js-note-text" {if ! $note}style="display: none"{/if}>
 			{if $note}
 				{$note->getText()}
 			{/if}
@@ -25,13 +25,13 @@
 
 		{* Действия *}
 		{if $isEditable}
-			<ul class="{$component}-actions js-{$component}-actions clearfix" {if ! $note}style="display: none;"{/if}>
-				<li><a href="#" class="js-{$component}-actions-edit">{$aLang.common.edit}</a></li>
-				<li><a href="#" class="js-{$component}-actions-remove">{$aLang.common.remove}</a></li>
+			<ul class="{$component}-actions js-note-actions clearfix" {if ! $note}style="display: none;"{/if}>
+				<li><a href="#" class="js-note-actions-edit">{$aLang.common.edit}</a></li>
+				<li><a href="#" class="js-note-actions-remove">{$aLang.common.remove}</a></li>
 			</ul>
 
 			{* Добавить *}
-			<ul class="{$component}-actions {$component}-actions--add clearfix js-{$component}-add" {if $note}style="display: none;"{/if}>
+			<ul class="{$component}-actions {$component}-actions--add clearfix js-note-add" {if $note}style="display: none;"{/if}>
 				<li><a href="#" class="">{$aLang.user_note.add}</a></li>
 			</ul>
 		{/if}
@@ -39,11 +39,11 @@
 
 	{* Форма редактирования *}
 	{if $isEditable}
-		<form class="{$component}-form js-{$component}-form" style="display: none;">
-			{component 'field' template='textarea' inputClasses="$component-form-text js-$component-form-text"}
+		<form class="{$component}-form js-note-form" style="display: none;">
+			{component 'field' template='textarea' inputClasses="$component-form-text js-note-form-text"}
 
 			{component 'button' mods='primary' text=$aLang.common.save}
-			{component 'button' type='button' classes="js-$component-form-cancel" text=$aLang.common.cancel}
+			{component 'button' type='button' classes="js-note-form-cancel" text=$aLang.common.cancel}
 		</form>
 	{/if}
 </div>

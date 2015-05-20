@@ -11,9 +11,9 @@
 {* Форма *}
 <form method="post" class="js-poll-vote-form">
 	{* Список ответов *}
-	<ul class="poll-answer-list">
+	<ul class="ls-poll-answer-list">
 		{foreach $poll->getAnswers() as $answer}
-			<li class="poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$answer->getId()}">
+			<li class="ls-poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$answer->getId()}">
 				{component 'field' template=$type
 					name    = 'answers[]'
 					value   = $answer->getId()

@@ -5,7 +5,7 @@
  * @scripts <common>/js/poll.js
  *}
 
-<li class="poll-form-answer-item js-poll-form-answer-item"
+<li class="ls-poll-form-answer-item js-poll-form-answer-item"
 	{if $bPollItemIsTemplate|default:false}data-is-template="true"{/if}
 	{if $bPollItemIsTemplate|default:false}style="display: none"{/if}>
 
@@ -26,7 +26,7 @@
 	{if $bPollIsAllowRemove|default:true}
 		{component 'icon'
 			icon='remove'
-			classes='poll-form-answer-item-remove js-poll-form-answer-item-remove'
+			classes='ls-poll-form-answer-item-remove js-poll-form-answer-item-remove'
 			attributes=[
 				title => {lang 'blog.private'},
 				style => "{if ! $smarty.local.showRemove|default:true}display: none{/if}"

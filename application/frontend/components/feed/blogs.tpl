@@ -6,7 +6,7 @@
  *}
 
 {if $oUserCurrent}
-    <div class="feed-blogs js-feed-blogs">
+    <div class="ls-feed-blogs js-feed-blogs">
         {$blogsSubscribed = $smarty.local.blogsSubscribed}
 
         <p class="text-help">

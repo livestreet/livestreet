@@ -24,16 +24,16 @@
 
 			// Селекторы
 			selectors: {
-				body:           '.js-user-note-body',
-				text:           '.js-user-note-text',
-				add:            '.js-user-note-add',
-				actions:        '.js-user-note-actions',
-				actions_edit:   '.js-user-note-actions-edit',
-				actions_remove: '.js-user-note-actions-remove',
+				body:           '.js-note-body',
+				text:           '.js-note-text',
+				add:            '.js-note-add',
+				actions:        '.js-note-actions',
+				actions_edit:   '.js-note-actions-edit',
+				actions_remove: '.js-note-actions-remove',
 
-				form:        '.js-user-note-form',
-				form_text:   '.js-user-note-form-text',
-				form_cancel: '.js-user-note-form-cancel'
+				form:        '.js-note-form',
+				form_text:   '.js-note-form-text',
+				form_cancel: '.js-note-form-cancel'
 			},
 
 			params: {}

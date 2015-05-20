@@ -6,10 +6,10 @@
  * @param boolean $showLabel
  *}
 
-{$component = 'sort'}
+{$component = 'ls-sort'}
 
 {$items = $smarty.local.items}
-{$classes = "{$smarty.local.classes} sort"}
+{$classes = "{$smarty.local.classes} {$component}"}
 
 {foreach $items as $item}
     {$items[ $item@key ][ 'attributes' ] = array_merge( $items[ $item@key ][ 'attributes' ]|default:[], [

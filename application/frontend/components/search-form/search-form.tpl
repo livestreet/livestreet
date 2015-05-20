@@ -7,7 +7,7 @@
  *}
 
 {* Название компонента *}
-{$component = 'search-form'}
+{$component = 'ls-search-form'}
 
 <form action="{$smarty.local.action}" method="{$smarty.local.method|default:'get'}" class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
 	{block 'search_form'}

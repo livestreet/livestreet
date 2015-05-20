@@ -5,7 +5,7 @@
  * @scripts <common>/js/poll.js
  *}
 
-<ul class="poll-manage-list js-poll-manage-list">
+<ul class="ls-poll-manage-list js-poll-manage-list">
 	{if $aPollItems}
 		{foreach $aPollItems as $oPoll}
 			{include './poll.manage.item.tpl' oPoll=$oPoll}

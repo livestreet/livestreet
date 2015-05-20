@@ -11,7 +11,7 @@
  *}
 
 {* Название компонента *}
-{$component = 'vote'}
+{$component = 'ls-vote'}
 
 {* Установка дефолтных значений *}
 {$showRating = $smarty.local.showRating|default:true}
@@ -67,7 +67,7 @@
     {* Основной блок *}
     <div class="{$component}-body">
         {* Рейтинг *}
-        <div class="{$component}-rating js-{$component}-rating">
+        <div class="{$component}-rating js-vote-rating">
             {if $showRating}
                 {$rating}
             {else}
@@ -77,18 +77,18 @@
 
         {* Воздержаться *}
         {if $smarty.local.useAbstain}
-            <div class="{$component}-item {$component}-item-abstain js-{$component}-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
+            <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
                 {component 'icon' icon='eye-open' mods=$iconMod}
             </div>
         {/if}
 
         {* Нравится *}
-        <div class="{$component}-item {$component}-item-up js-{$component}-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
+        <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
             {component 'icon' icon='plus' mods=$iconMod}
         </div>
 
         {* Не нравится *}
-        <div class="{$component}-item {$component}-item-down js-{$component}-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
+        <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
             {component 'icon' icon='minus' mods=$iconMod}
         </div>
     </div>

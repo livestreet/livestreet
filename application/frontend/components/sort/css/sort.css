@@ -8,17 +8,17 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.sort {
+.ls-sort {
     margin-bottom: 15px;
 }
-.sort--inline {
+.ls-sort--inline {
     display: inline;
     margin-right: 10px;
 }
 
-.sort li.active[data-order=asc] a:after {
+.ls-sort li.active[data-order=asc] a:after {
     content: "↑";
 }
-.sort li.active[data-order=desc] a:after {
+.ls-sort li.active[data-order=desc] a:after {
     content: "↓";
 }

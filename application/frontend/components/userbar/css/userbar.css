@@ -6,21 +6,21 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.userbar {
+.ls-userbar {
     background: #fff;
 }
-.userbar-inner {
+.ls-userbar-inner {
     margin: 0 auto;
     padding: 0 50px;
 }
 
 /* Меню */
-.userbar-nav {
+.ls-userbar-nav {
     float: left;
 }
 
 /* Форма поиска */
-.userbar .search-form {
+.ls-userbar .ls-search-form {
     float: right;
     width: 200px;
     position: relative;
@@ -29,7 +29,7 @@
 }
 
 /* Лого */
-.userbar-logo {
+.ls-userbar-logo {
     float: left;
     font-size: 28px;
     line-height: 54px;
@@ -95,7 +95,7 @@
  * Responsive styles
  */
 @media (max-width: 360px)  {
-    .userbar-inner {
+    .ls-userbar-inner {
         padding: 0;
     }
 }
