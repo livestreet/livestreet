@@ -335,4 +335,11 @@ class ModuleProperty_EntityProperty extends EntityORM
         }
         return $oValue->isEmpty();
     }
+
+    public function getValueTypeObject()
+    {
+        if ($oValue = $this->getValue()) {
+            return $oValue->getValueTypeObject();
+        }
+    }
 }
