@@ -11,7 +11,9 @@
             <ul class="{$component}-actions js-user-list-small-actions">
                 {block 'user_list_add_item_actions'}
                     {if $smarty.local.showRemove|default:true}
-                        <li class="ls-icon-remove js-user-list-add-user-remove" title="{$aLang.common.remove}" data-user-id="{$userId}"></li>
+                        <li class="js-user-list-add-user-remove" title="{$aLang.common.remove}" data-user-id="{$userId}">
+                            {component 'icon' icon='remove'}
+                        </li>
                     {/if}
                 {/block}
             </ul>

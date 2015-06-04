@@ -85,7 +85,7 @@
 
 {foreach $userfields as $field}
 	{$items[] = [
-		'label'   => "<i class=\"icon-contact icon-contact-{$field->getName()}\"></i> {$field->getTitle()|escape}",
+		'label'   => $field->getTitle()|escape,
 		'content' => $field->getValue(true, true)
 	]}
 {/foreach}
@@ -101,7 +101,7 @@
 
 {foreach $userfields as $field}
 	{$items[] = [
-		'label'   => "<i class=\"icon-contact icon-contact-{$field->getName()}\"></i> {$field->getTitle()|escape}",
+		'label'   => $field->getTitle()|escape,
 		'content' => $field->getValue(true, true)
 	]}
 {/foreach}

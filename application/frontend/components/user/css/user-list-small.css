@@ -10,5 +10,5 @@
 .user-list-small-item.selected   { background: #ffc; }
 
 .user-list-small-item-actions          { position: absolute; top: 50%; right: 13px; margin-top: -8px; }
-.user-list-small-item-actions li       { cursor: pointer; opacity: .7; }
+.user-list-small-item-actions li       { display: inline-block; cursor: pointer; opacity: .7; }
 .user-list-small-item-actions li:hover { opacity: 1; }

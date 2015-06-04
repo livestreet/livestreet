@@ -78,7 +78,7 @@
         {* Воздержаться *}
         {if $smarty.local.useAbstain}
             <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
-                {component 'icon' icon='eye-open' mods=$iconMod}
+                {component 'icon' icon='eye' mods=$iconMod}
             </div>
         {/if}
 
