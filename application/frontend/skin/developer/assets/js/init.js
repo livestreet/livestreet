@@ -137,76 +137,76 @@ jQuery(document).ready(function($){
 	/**
 	 * Autocomplete
 	 */
-	// $( '.autocomplete-tags' ).lsAutocomplete({
-	// 	multiple: false,
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/tag/'
-	// 	}
-	// });
+	$( '.autocomplete-tags' ).lsAutocomplete({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/tag/'
+		}
+	});
 
-	// $( '.autocomplete-tags-sep' ).lsAutocomplete({
-	// 	multiple: true,
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/tag/'
-	// 	}
-	// });
+	$( '.autocomplete-tags-sep' ).lsAutocomplete({
+		multiple: true,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/tag/'
+		}
+	});
 
-	// $( '.autocomplete-users' ).lsAutocomplete({
-	// 	multiple: false,
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/user/'
-	// 	}
-	// });
+	$( '.autocomplete-users' ).lsAutocomplete({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
 
-	// $( '.autocomplete-strict-users' ).lsAutocompleteStrict({
-	// 	multiple: false,
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/user/'
-	// 	},
-	// 	params: {
-	// 		extended: 1
-	// 	}
-	// });
+	$( '.autocomplete-strict-users' ).lsAutocompleteStrict({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		},
+		params: {
+			extended: 1
+		}
+	});
 
-	// $( '.autocomplete-users-sep' ).lsAutocomplete({
-	// 	multiple: true,
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/user/'
-	// 	}
-	// });
+	$( '.autocomplete-users-sep' ).lsAutocomplete({
+		multiple: true,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
 
-	// $( '.autocomplete-strict-users-sep' ).lsAutocompleteStrict({
-	// 	urls: {
-	// 		load: aRouter.ajax + 'autocompleter/user/'
-	// 	},
-	// 	params: {
-	// 		extended: 1
-	// 	}
-	// });
+	$( '.autocomplete-strict-users-sep' ).lsAutocompleteStrict({
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		},
+		params: {
+			extended: 1
+		}
+	});
 
-	// $('.autocomplete-property-tags').each(function(k,v){
-	// 	$(v).lsAutocomplete({
-	// 		multiple: false,
-	// 		urls: {
-	// 			load: aRouter.ajax + 'property/tags/autocompleter/'
-	// 		},
-	// 		params: {
-	// 			property_id: $(v).data('propertyId')
-	// 		}
-	// 	});
-	// });
+	$('.autocomplete-property-tags').each(function(k,v){
+		$(v).lsAutocomplete({
+			multiple: false,
+			urls: {
+				load: aRouter.ajax + 'property/tags/autocompleter/'
+			},
+			params: {
+				property_id: $(v).data('propertyId')
+			}
+		});
+	});
 
-	// $('.autocomplete-property-tags-sep').each(function(k,v){
-	// 	$(v).lsAutocomplete({
-	// 		multiple: true,
-	// 		urls: {
-	// 			load: aRouter.ajax + 'property/tags/autocompleter/'
-	// 		},
-	// 		params: {
-	// 			property_id: $(v).data('propertyId')
-	// 		}
-	// 	});
-	// });
+	$('.autocomplete-property-tags-sep').each(function(k,v){
+		$(v).lsAutocomplete({
+			multiple: true,
+			urls: {
+				load: aRouter.ajax + 'property/tags/autocompleter/'
+			},
+			params: {
+				property_id: $(v).data('propertyId')
+			}
+		});
+	});
 
 	/**
 	 * Code highlight
