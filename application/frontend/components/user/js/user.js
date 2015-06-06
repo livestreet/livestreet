@@ -84,7 +84,13 @@ ls.user = (function ($) {
 			});
 
 			// Мержим логины
-			oInput.val( $.richArray.unique($.merge(aLoginsOld, aLoginsAdd)).join(', ') );
+			var logins = $.merge(aLoginsOld, aLoginsAdd);
+
+			logins = $.grep(logins, function(value, key) {
+			    return $.inArray(value, logins) === key;
+			});
+
+			oInput.val( logins.join(', ') );
 
 			$('#modal-users-select').lsModal('hide');
 		});
