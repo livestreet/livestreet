@@ -231,6 +231,8 @@
         insert: function( comment, commentId, commentParentId ) {
             var commentWrapper = $( '<div class="ls-comment-wrapper js-comment-wrapper" data-id="' + commentId + '"></div>' ).append( comment );
 
+            this.elements.comment_list.show();
+
             if ( commentParentId ) {
                 // Получаем обертку родительского комментария
                 var wrapper = $( this.options.selectors.comment_wrapper + '[data-id=' + commentParentId + ']');

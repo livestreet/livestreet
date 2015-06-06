@@ -17,7 +17,7 @@
 {$currentLevel = -1}
 
 {* Максимальная вложенность *}
-{$maxLevel = $smarty.local.maxLevel|default:Config::Get('module.comment.max_tree')}
+{$maxLevel = $smarty.local.maxLevel}
 
 {* Построение дерева комментариев *}
 {foreach $smarty.local.comments as $comment}
@@ -54,6 +54,4 @@
             </div>
         {/section}
     {/if}
-{foreachelse}
-    {component 'blankslate' classes='js-comments-empty' text=$aLang.common.empty}
 {/foreach}

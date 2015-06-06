@@ -11,6 +11,7 @@
  * @param integer  $lastCommentId
  * @param array    $pagination
  * @param boolean  $isSubscribed
+ * @param integer  $maxLevel
  *
  * @param array    $commentParams
  * @param boolean  $useSubscribe
@@ -18,7 +19,8 @@
  * @param string   $forbidText
  * @param string   $authorText
  * @param string   $addCommentText
- * @param string   $titleLang
+ * @param string   $title
+ * @param string   $titleNoComments
  *
  * @param string   $classes
  * @param array    $attributes
@@ -35,6 +37,9 @@
     {$forbidAdd    = $smarty.local.forbidAdd}
     {$isSubscribed = $smarty.local.isSubscribed}
     {$pagination   = $smarty.local.pagination}
+
+    {* Максимальная вложенность *}
+    {$maxLevel = $smarty.local.maxLevel|default:Config::Get('module.comment.max_tree')}
 
     {if $forbidAdd}
         {$mods = "$mods forbid"}
@@ -55,7 +60,11 @@
      *}
     <header class="{$component}-header">
         <h3 class="comments-title js-comments-title">
-            {lang "{$smarty.local.titleLang|default:'comments.comments_declension'}" count=$count plural=true}
+            {if $count}
+                {lang "{$smarty.local.title|default:'comments.comments_declension'}" count=$count plural=true}
+            {else}
+                {lang "{$smarty.local.titleNoComments|default:'comments.no_comments'}"}
+            {/if}
         </h3>
     </header>
 
@@ -64,8 +73,16 @@
      * Экшнбар
      *}
 
+    {$items = []}
+
     {* Свернуть/развернуть все комментарии *}
-    {$items = [[ 'buttons' => [[ 'classes' => 'js-comments-fold-all-toggle', 'text' => $aLang.comments.folding.fold_all ]]]]}
+    {* Не показываем если древовидные комментарии отключены *}
+    {if $maxLevel > 0}
+        {$items[] = [ 'buttons' => [[
+            'classes' => 'js-comments-fold-all-toggle',
+            'text' => $aLang.comments.folding.fold_all
+        ]]]}
+    {/if}
 
     {* Подписка на комментарии *}
     {if $smarty.local.useSubscribe && $oUserCurrent}
@@ -76,17 +93,19 @@
     {/if}
 
     {* TODO: Добавить хук *}
-
-    {component 'actionbar' items=$items classes="{$component}-actions"}
+    {if $items}
+        {component 'actionbar' items=$items classes="{$component}-actions"}
+    {/if}
 
 
     {**
      * Комментарии
      *}
-    <div class="ls-comment-list js-comment-list">
+    <div class="ls-comment-list js-comment-list" {if ! $smarty.local.comments}style="display: none"{/if}>
         {include './comment-tree.tpl'
             comments      = $smarty.local.comments
             forbidAdd     = $forbidAdd
+            maxLevel      = $maxLevel
             authorid      = $smarty.local.authorid
             authorText    = $smarty.local.authorText
             dateReadLast  = $smarty.local.dateReadLast
