@@ -11,6 +11,10 @@
 
 .talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
 
+.ls-actionbar.talk-list-actionbar {
+    margin-bottom: 0;
+}
+
 /**
  * Message user list
  */

@@ -8,13 +8,13 @@
     mods = 'comments'
     buttons = [
         [
-            classes => 'toolbar-comments-update js-toolbar-comments-update',
-            attributes => [ 'title' => {lang 'comments.comment.count_new'} ],
-            icon => 'comment-update'
+            classes => 'ls-toolbar-comments-update js-toolbar-comments-update',
+            attributes => [ 'title' => {lang 'comments.update'} ],
+            icon => 'refresh'
         ],
         [
             classes => 'js-toolbar-comments-count',
-            attributes => [ 'title' => {lang 'comments.comment.count_new'} ],
+            attributes => [ 'title' => {lang 'comments.count_new'} ],
             text => '0'
         ]
     ]}

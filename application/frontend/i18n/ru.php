@@ -527,6 +527,7 @@ return array(
         'comments_declension' => '%%count%% комментарий;%%count%% комментария;%%count%% комментариев',
         'no_comments'         => 'Нет комментариев',
         'count_new'           => 'Число новых комментариев',
+        'update'              => 'Обновить комментарии',
         'title'               => 'Комментарии',
         'subscribe'           => 'Подписаться',
         'unsubscribe'         => 'Отписаться',

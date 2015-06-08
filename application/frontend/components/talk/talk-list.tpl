@@ -23,15 +23,17 @@
                     [ 'text' => $aLang.talk.actionbar.unread, 'filter' => ".message-unread" ]
                 ]}
 
-            {component 'actionbar' items=[
-                [ 'buttons' => [ 'html' => $select ] ],
-                [
-                    'buttons' => [
-                        [ 'icon' => 'ok', 'classes' => 'js-talk-form-action', 'attributes' => [ 'data-action' => 'mark_as_read', 'title' => $aLang.talk.actionbar.mark_as_read ], 'mods' => 'icon' ],
-                        [ 'icon' => 'trash', 'classes' => 'js-talk-form-action', 'attributes' => [ 'data-action' => 'remove' , 'title' => $aLang.common.remove ], 'mods' => 'icon' ]
+            {component 'actionbar'
+                classes='talk-list-actionbar'
+                items=[
+                    [ 'buttons' => [ 'html' => $select ] ],
+                    [
+                        'buttons' => [
+                            [ 'icon' => 'check', 'classes' => 'js-talk-form-action', 'attributes' => [ 'data-action' => 'mark_as_read', 'title' => $aLang.talk.actionbar.mark_as_read ], 'mods' => 'icon' ],
+                            [ 'icon' => 'trash', 'classes' => 'js-talk-form-action', 'attributes' => [ 'data-action' => 'remove' , 'title' => $aLang.common.remove ], 'mods' => 'icon' ]
+                        ]
                     ]
-                ]
-            ]}
+                ]}
         {/if}
 
         {* Список сообщений *}

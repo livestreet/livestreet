@@ -13,9 +13,13 @@
     cursor: pointer;
 }
 
-.ls-icon-comment-update {
-    background-image: url(../images/update.gif);
+.ls-toolbar-comments-update i {
+    -webkit-transition: -webkit-transform 1s;
+    transition: transform 1s;
 }
-.ls-toolbar-comments-update.active .ls-icon-comment-update {
-    background-position: -16px 0;
+
+.ls-toolbar-comments-update.active i {
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
