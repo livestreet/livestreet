@@ -30,6 +30,7 @@
         "talk": "js/talk.js"
     },
     "styles": {
-        "talk": "css/talk.css"
+        "talk": "css/talk.css",
+        "message-root": "css/message-root.css"
     }
 }

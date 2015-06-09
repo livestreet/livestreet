@@ -13,13 +13,19 @@
 
 {if ! $bNoComments}
     {* Участники личного сообщения *}
-    {include './participants/participants.tpl'
-        users         = $talk->getTalkUsers()
-        classes       = 'message-users js-message-users'
-        attributes    = [ 'data-param-target_id' => $talk->getId() ]
-        editable      = $talk->getUserId() == $oUserCurrent->getId() || $oUserCurrent->isAdministrator()
-        title         = $aLang.talk.users.title
-        excludeRemove = [ $oUserCurrent->getId() ]}
+    {capture 'talk_message_root_participants'}
+        {include './participants/participants.tpl'
+            users         = $talk->getTalkUsers()
+            classes       = 'message-users js-message-users'
+            attributes    = [ 'data-param-target_id' => $talk->getId() ]
+            editable      = $talk->getUserId() == $oUserCurrent->getId() || $oUserCurrent->isAdministrator()
+            excludeRemove = [ $oUserCurrent->getId() ]}
+    {/capture}
+
+    {component 'details'
+        classes = 'js-details-default ls-talk-participants-details'
+        title   = "{lang 'talk.users.title'} ({count($talk->getTalkUsers())})"
+        content = $smarty.capture.talk_message_root_participants}
 
     {* Вывод комментариев к сообщению *}
     {component 'comment' template='comments'

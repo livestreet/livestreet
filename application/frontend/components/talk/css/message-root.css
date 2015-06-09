@@ -1,0 +1,21 @@
+/**
+ * Первое сообщение в диалоге
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-talk-message-root,
+.ls-talk-message-root-info,
+.ls-talk-message-root-actionbar,
+.ls-talk-message-root-text {
+    margin-bottom: 15px;
+}
+
+.ls-talk-message-root-info-item {
+    display: inline-block;
+}
+.ls-talk-message-root-info-item--author {
+    margin-right: 15px;
+}

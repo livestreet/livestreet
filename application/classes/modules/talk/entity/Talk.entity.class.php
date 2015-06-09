@@ -193,6 +193,17 @@ class ModuleTalk_EntityTalk extends Entity
 
 
     /**
+     * Возвращает полный URL для удаления сообщения
+     *
+     * @return string
+     */
+    public function getUrlDelete()
+    {
+        return Router::GetPath('talk') . 'delete/' . $this->getId() . '/';
+    }
+
+
+    /**
      * Устанавливает ID сообщения
      *
      * @param int $data
