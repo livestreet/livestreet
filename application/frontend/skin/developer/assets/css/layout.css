@@ -10,43 +10,44 @@
 /**
  * Сетка
  */
-.grid-role-container {
+.layout-container {
+    margin: 0 auto;
     padding: 0 50px;
 }
-.grid-role-content {
+.layout-content {
     background: #fff;
     padding: 40px !important;
 }
-.grid-role-nav .ls-nav.ls-nav--main {
+.layout-nav .ls-nav.ls-nav--main {
     margin: 0 auto;
 }
-.grid-role-footer {
+.layout-footer {
     padding: 20px 0 50px;
     color: #777;
     position: relative;
 }
-.grid-role-container.no-sidebar .grid-role-content {
+.layout-container.no-sidebar .layout-content {
     width: 100%;
     margin-right: 0;
 }
-.grid-role-sidebar {
+.layout-sidebar {
     padding-left: 10px !important;
 }
-.grid-role-sidebar .ls-block {
+.layout-sidebar .ls-block {
     margin-bottom: 10px;
 }
 
 /* Responsive */
 @media (max-width: 999px)  {
-    .grid-role-content { width: 100% !important; margin-bottom: 30px; padding: 15px !important; }
-    .grid-role-sidebar { width: 100% !important; margin-bottom: 30px; padding: 0; }
+    .layout-content { width: 100% !important; margin-bottom: 30px; padding: 15px !important; }
+    .layout-sidebar { width: 100% !important; margin-bottom: 30px; padding: 0; }
 
     .ls-toolbar {
         display: none;
     }
 }
 @media (max-width: 480px)  {
-    .grid-role-container {
+    .layout-container {
         padding: 0;
     }
 }
@@ -54,14 +55,14 @@
 /**
  * Главное меню
  */
-.grid-role-nav {
+.layout-nav {
     padding: 0 50px;
     margin-bottom: 10px;
     background: #222;
 }
 
 @media (max-width: 480px)  {
-    .grid-role-nav {
+    .layout-nav {
         padding: 0;
         margin-bottom: 0;
     }

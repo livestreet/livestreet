@@ -32,20 +32,20 @@
      *}
     {if {Config::Get('view.grid.type')} == 'fluid'}
         <style>
-            .grid-role-userbar,
-            .grid-role-nav .ls-nav--main,
-            .grid-role-header .ls-jumbotron-inner,
-            .grid-role-container {
+            .layout-userbar,
+            .layout-nav .ls-nav--main,
+            .layout-header .ls-jumbotron-inner,
+            .layout-container {
                 min-width: {Config::Get('view.grid.fluid_min_width')};
                 max-width: {Config::Get('view.grid.fluid_max_width')};
             }
         </style>
     {else}
         <style>
-            .grid-role-userbar,
-            .grid-role-nav .ls-nav--main,
-            .grid-role-header .ls-jumbotron-inner,
-            .grid-role-container { width: {Config::Get('view.grid.fixed_width')}; }
+            .layout-userbar,
+            .layout-nav .ls-nav--main,
+            .layout-header .ls-jumbotron-inner,
+            .layout-container { width: {Config::Get('view.grid.fixed_width')}; }
         </style>
     {/if}
 {/block}
@@ -65,14 +65,14 @@
             title    = Config::Get('view.name')
             subtitle = Config::Get('view.description')
             titleUrl = {router page='/'}
-            classes  = 'grid-role-header'}
+            classes  = 'layout-header'}
     {/if}
 
 
     {**
      * Основная навигация
      *}
-    <nav class="grid-row grid-role-nav">
+    <nav class="ls-grid-row layout-nav">
         {include 'navs/nav.main.tpl'}
     </nav>
 
@@ -80,13 +80,13 @@
     {**
      * Основной контэйнер
      *}
-    <div id="container" class="grid-row grid-role-container {hook run='container_class'} {if ! $layoutSidebarBlocksShow}no-sidebar{/if}">
+    <div id="container" class="ls-grid-row layout-container {hook run='container_class'} {if ! $layoutSidebarBlocksShow}no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
-        <div class="grid-row grid-role-wrapper" class="{hook run='wrapper_class'}">
+        <div class="ls-grid-row layout-wrapper" class="{hook run='wrapper_class'}">
             {**
              * Контент
              *}
-            <div class="grid-col grid-col-8 grid-role-content"
+            <div class="ls-grid-col ls-grid-col-8 layout-content"
                  role="main"
                  {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
@@ -138,7 +138,7 @@
              * Показываем сайдбар
              *}
             {if $layoutSidebarBlocksShow}
-                <aside class="grid-col grid-col-4 grid-role-sidebar" role="complementary">
+                <aside class="ls-grid-col ls-grid-col-4 layout-sidebar" role="complementary">
                     {$layoutSidebarBlocks}
                 </aside>
             {/if}
@@ -146,7 +146,7 @@
 
 
         {* Подвал *}
-        <footer class="grid-row grid-role-footer">
+        <footer class="ls-grid-row layout-footer">
             {block 'layout_footer'}
                 {hook run='footer_begin'}
                 {hook run='copyright'}
