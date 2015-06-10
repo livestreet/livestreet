@@ -13,64 +13,107 @@
 /**
  * Основные стили
  */
-.topic            { overflow: hidden; zoom: 1; margin-bottom: 50px; }
-.topic:last-child { margin-bottom: 0; }
+.ls-topic {
+    overflow: hidden;
+    zoom: 1;
+    margin-bottom: 50px;
+}
+.ls-topic:last-child {
+    margin-bottom: 0;
+}
 
 
 /**
  * Шапка
  */
-.article-header                         { margin-bottom: 25px; }
-
-.article-header .article-title            { font: 400 32px/1.3em "Open Sans", sans-serif; margin: 0 0 15px; }
-.article-header .article-title a          { text-decoration: none; }
-.article-header .article-title a:visited  { color: #000; }
-.article-header .article-title i          { position: relative; top: 8px; cursor: help; }
-
-.article-header .article-info             { color: #777; margin-bottom: 15px; overflow: hidden; }
-.article-header .article-info-item        { float: left; margin-right: 15px; }
+.ls-topic-header {
+    margin-bottom: 25px;
+}
+.ls-topic-header .ls-topic-title {
+    font: 400 32px/1.3em "Open Sans", sans-serif;
+    margin: 0 0 15px;
+}
+.ls-topic-header .ls-topic-title a {
+    text-decoration: none;
+}
+.ls-topic-header .ls-topic-title a:visited {
+    color: #000;
+}
+.ls-topic-header .ls-topic-title i {
+    position: relative;
+    top: 8px;
+    cursor: help;
+}
+.ls-topic-header .ls-topic-info {
+    color: #777;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.ls-topic-header .ls-topic-info-item {
+    float: left;
+    margin-right: 15px;
+}
 
 
 /**
  * Содержимое топика
  */
-.article-content   { margin-bottom: 20px; }
-.article-text.ls-text { color: #333; font-size: 15px; line-height: 1.6em; }
-.article-cut       { margin-top: 10px; }
+.ls-topic-content {
+    margin-bottom: 20px;
+}
+.ls-topic-text.ls-text {
+    color: #333;
+    font-size: 15px;
+    line-height: 1.6em;
+}
+.ls-topic-cut {
+    margin-top: 10px;
+}
 
 
 /**
  * Подвал
  */
-.article-footer .article-info-item { float: left; padding: 8px; margin-right: 20px; }
-
-.article-info a       { text-decoration: none; }
-.article-info a:hover { text-decoration: underline; }
+.ls-topic-footer .ls-topic-info-item {
+    float: left;
+    padding: 8px;
+    margin-right: 20px;
+}
+.ls-topic-info a {
+    text-decoration: none;
+}
+.ls-topic-info a:hover {
+    text-decoration: underline;
+}
 
 /* Автор */
-.article-info-item.article-info-item--author {
+.ls-topic-info-item.ls-topic-info-item--author {
     padding: 0;
 }
-.article-info-item .ls-avatar .ls-avatar-image {
+.ls-topic-info-item .ls-avatar .ls-avatar-image {
     width: 36px;
     height: 36px;
     border-radius: 50%;
 }
-.article-info-item .ls-avatar .ls-avatar-name-link {
+.ls-topic-info-item .ls-avatar .ls-avatar-name-link {
     color: #333;
 }
 
 /* Ссылка на комментарии */
-.article-info-item.article-info-item--comments a span { color: #777; }
+.ls-topic-info-item.ls-topic-info-item--comments a span {
+    color: #777;
+}
 
 /* Голосование */
-.article-info-item.article-info-item--vote { padding: 0; }
+.ls-topic-info-item.ls-topic-info-item--vote {
+    padding: 0;
+}
 
 /**
- * 
+ * Responsive styles
  */
 @media (max-width: 480px)  {
-    .article-header .article-title {
+    .ls-topic-header .ls-topic-title {
         font-size: 24px;
     }
 }
@@ -78,13 +121,13 @@
 /**
  * Превью (изображение)
  */
-.topic-preview-image {
+.ls-topic-preview-image {
     padding: 10px;
     margin-bottom: 20px;
     text-align: center;
     background: #f7f7f7;
 }
-.topic-preview-image img {
+.ls-topic-preview-image img {
     max-width: 100%;
     vertical-align: top;
 }
@@ -92,8 +135,21 @@
 /**
  * Предпросмотр топика
  */
-.topic-preview        { margin-top: 30px; border: 1px solid #eee; display: none; }
-.topic-preview-header { padding: 20px 30px; background: #fafafa; }
-.topic-preview-title  { margin: 0; }
-.topic-preview-body   { padding: 30px; }
-.topic-preview-footer { padding: 0 30px 30px; }
+.ls-topic-preview {
+    margin-top: 30px;
+    border: 1px solid #eee;
+    display: none;
+}
+.ls-topic-preview-header {
+    padding: 20px 30px;
+    background: #fafafa;
+}
+.ls-topic-preview-title {
+    margin: 0;
+}
+.ls-topic-preview-body {
+    padding: 30px;
+}
+.ls-topic-preview-footer {
+    padding: 0 30px 30px;
+}
