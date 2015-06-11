@@ -55,6 +55,10 @@
     data-target-id="{$targetId}"
     data-comment-last-id="{$smarty.local.lastCommentId}"
     {cattr list=$smarty.local.attributes}>
+
+    {* @hook Начало блока с комментариями *}
+    {hook run='comments_begin' params=$smarty.local.params}
+
     {**
      * Заголовок
      *}
@@ -66,6 +70,9 @@
                 {lang "{$smarty.local.titleNoComments|default:'comments.no_comments'}"}
             {/if}
         </h3>
+
+        {* @hook Конец шапки *}
+        {hook run='comments_header_end' params=$smarty.local.params}
     </header>
 
 
@@ -92,11 +99,12 @@
         ]]]}
     {/if}
 
-    {* TODO: Добавить хук *}
     {if $items}
-        {component 'actionbar' items=$items classes="{$component}-actions"}
+        {component 'actionbar' name='comments_actionbar' items=$items classes="{$component}-actions"}
     {/if}
 
+    {* @hook Хук перед списоком комментариев *}
+    {hook run='comments_list_before' params=$smarty.local.params}
 
     {**
      * Комментарии
@@ -111,6 +119,9 @@
             dateReadLast  = $smarty.local.dateReadLast
             commentParams = $smarty.local.commentParams}
     </div>
+
+    {* @hook Хук после списока комментариев *}
+    {hook run='comments_list_after' params=$smarty.local.params}
 
 
     {**
@@ -143,4 +154,7 @@
     {if $oUserCurrent && ( ! $forbidAdd || ( $forbidAdd && $count ) )}
         {include './comment-form.tpl' classes='js-comment-form' targetType=$targetType targetId=$targetId}
     {/if}
+
+    {* @hook Конец блока с комментариями *}
+    {hook run='comments_end' params=$smarty.local.params}
 </div>

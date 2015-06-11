@@ -25,9 +25,9 @@
       data-target-id   = "{$targetId}"
       data-target-type = "{$targetType}"
       {cattr list=$smarty.local.attributes}>
-
     {block 'comment-form'}
-        {hook run='comment-form-begin'}
+        {* @hook Начало формы комментирования *}
+        {hook run='comment_form_begin' params=$smarty.local.params}
 
         {block 'comment-form-fields'}
             {* Скрытые поля *}
@@ -43,7 +43,8 @@
                 mediaTargetType = 'comment'}
         {/block}
 
-        {hook run='comment-form-end'}
+        {* @hook Хук расположенный после полей формы и перед кнопками управления формой *}
+        {hook run='comment_form_fields_after' params=$smarty.local.params}
 
         {**
          * Кнопки
@@ -58,5 +59,8 @@
 
         {* Кнопка превью текста *}
         {component 'button' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}
+
+        {* @hook Конец формы комментирования *}
+        {hook run='comment_form_end' params=$smarty.local.params}
     {/block}
 </form>
