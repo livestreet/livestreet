@@ -258,7 +258,7 @@ class ModuleGeo_MapperGeo extends Mapper
     }
 
     /**
-     * Возвращает список стран по фильтру
+     * Возвращает список регионов по фильтру
      *
      * @param array $aFilter Фильтр
      * @param array $aOrder Сортировка
@@ -322,7 +322,7 @@ class ModuleGeo_MapperGeo extends Mapper
     }
 
     /**
-     * Возвращает список стран по фильтру
+     * Возвращает список городов по фильтру
      *
      * @param array $aFilter Фильтр
      * @param array $aOrder Сортировка
