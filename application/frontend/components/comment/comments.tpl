@@ -103,7 +103,7 @@
         {component 'actionbar' name='comments_actionbar' items=$items classes="{$component}-actions"}
     {/if}
 
-    {* @hook Хук перед списоком комментариев *}
+    {* @hook Хук перед списком комментариев *}
     {hook run='comments_list_before' params=$smarty.local.params}
 
     {**
@@ -120,7 +120,7 @@
             commentParams = $smarty.local.commentParams}
     </div>
 
-    {* @hook Хук после списока комментариев *}
+    {* @hook Хук после списка комментариев *}
     {hook run='comments_list_after' params=$smarty.local.params}
 
 
