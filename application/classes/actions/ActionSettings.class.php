@@ -109,7 +109,7 @@ class ActionSettings extends Action
         /**
          * Устанавливаем формат Ajax ответа
          */
-        $this->Viewer_SetResponseAjax('jsonIframe', false);
+        $this->Viewer_SetResponseAjax('json');
         if (!isset($_FILES['photo']['tmp_name'])) {
             return $this->EventErrorDebug();
         }

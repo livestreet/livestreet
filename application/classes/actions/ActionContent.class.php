@@ -583,11 +583,7 @@ class ActionContent extends Action
 
     public function EventAjaxPreview()
     {
-        /**
-         * Т.к. используется обработка отправки формы, то устанавливаем тип ответа 'jsonIframe' (тот же JSON только обернутый в textarea)
-         * Это позволяет избежать ошибок в некоторых браузерах, например, Opera
-         */
-        $this->Viewer_SetResponseAjax('jsonIframe', false);
+        $this->Viewer_SetResponseAjax('json');
         /**
          * Пользователь авторизован?
          */
