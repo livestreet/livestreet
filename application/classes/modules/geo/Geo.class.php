@@ -37,12 +37,6 @@ class ModuleGeo extends Module
      */
     protected $oMapper;
     /**
-     * Объект текущего пользователя
-     *
-     * @var ModuleUser_EntityUser|null
-     */
-    protected $oUserCurrent;
-    /**
      * Список доступных типов объектов
      * На данный момент доступен параметр allow_multi=>1 - указывает на возможность создавать несколько связей для одного объекта
      *
@@ -69,7 +63,6 @@ class ModuleGeo extends Module
     public function Init()
     {
         $this->oMapper = Engine::GetMapper(__CLASS__);
-        $this->oUserCurrent = $this->User_GetUserCurrent();
     }
 
     /**
