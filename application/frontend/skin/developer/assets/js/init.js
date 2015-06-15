@@ -586,7 +586,7 @@ jQuery(document).ready(function($){
 	 * Toolbar
 	 */
 	$('.js-toolbar-default').lsToolbar({
-		target: '.grid-role-wrapper',
+		target: '.layout-wrapper',
 		offsetX: 10
 	});
 	$('.js-toolbar-scrollup').lsToolbarScrollUp();
