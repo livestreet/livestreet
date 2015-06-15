@@ -138,7 +138,13 @@
         _prepareParams: function() {
             // Корректируем сортировку выбранных блогов
             if (this.elements.blogs.length) {
-                this.element.lsContent( 'option', 'params.topic[blogs_id_raw]', this.elements.blogs.getSelectionOrder() );
+                var orders = this.elements.blogs.getSelectionOrder();
+                if (!orders || !orders.length) {
+                    orders = this.elements.blogs.val();
+                }
+                if (orders && orders.length) {
+                    this.element.lsContent('option', 'params.topic[blogs_id_raw]', orders);
+                }
             }
         }
     });
