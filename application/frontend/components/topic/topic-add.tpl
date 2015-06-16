@@ -68,7 +68,7 @@
     {* Заголовок топика *}
     {component 'field' template='text'
         name        = 'topic[topic_title]'
-        value       = {(( $topic ) ? $topic->getTitle() : '')|escape}
+        value       = {(( $topic ) ? $topic->getTitle() : '')}
         entityField = 'topic_title'
         entity      = 'ModuleTopic_EntityTopic'
         label       = $aLang.topic.add.fields.title.label}
@@ -77,7 +77,7 @@
     {if $oUserCurrent->isAdministrator()}
         {component 'field' template='text'
             name        = 'topic[topic_slug_raw]'
-            value       = {(( $topic ) ? $topic->getSlug() : '')|escape}
+            value       = {(( $topic ) ? $topic->getSlug() : '')}
             note        = {lang 'topic.add.fields.slug.note'}
             label       = {lang 'topic.add.fields.slug.label'}}
     {/if}
@@ -89,7 +89,7 @@
     {if $type->getParam('allow_text')}
         {component 'editor'
             name            = 'topic[topic_text_source]'
-            value           = (( $topic ) ? $topic->getTextSource() : '')|escape
+            value           = (( $topic ) ? $topic->getTextSource() : '')
             label           = $aLang.topic.add.fields.text.label
             entityField     = 'topic_text_source'
             entity          = 'ModuleTopic_EntityTopic'
@@ -105,7 +105,7 @@
     {if $type->getParam('allow_tags')}
         {component 'field' template='text'
             name    = 'topic[topic_tags]'
-            value     = {(( $topic ) ? $topic->getTags() : '')|escape}
+            value     = {(( $topic ) ? $topic->getTags() : '')}
             rules   = [ 'required' => !Config::Get('module.topic.allow_empty_tags'), 'rangetags' => '[1,15]' ]
             label   = {lang 'topic.add.fields.tags.label'}
             note    = {lang 'topic.add.fields.tags.note'}
