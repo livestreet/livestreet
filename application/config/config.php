@@ -549,7 +549,7 @@ $config['head']['default']['js'] = array(
     //"___path.skin.web___/components/ls-vendor/html5shiv.js" => array('browser' => 'lt IE 9'),
     //"___path.skin.web___/components/ls-vendor/jquery.placeholder.min.js" => array('browser' => 'lt IE 9'),
 
-    "//yandex.st/share/share.js" => array('merge' => false),
+    "//yastatic.net/share/share.js" => array('merge' => false),
     "https://www.google.com/recaptcha/api.js?onload=__do_nothing__&render=explicit" => array('merge' => false),
 );
 
