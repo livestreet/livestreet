@@ -106,7 +106,7 @@
         {component 'field' template='text'
             name    = 'topic[topic_tags]'
             value     = {(( $topic ) ? $topic->getTags() : '')|escape}
-            rules   = [ 'required' => true, 'rangetags' => '[1,15]' ]
+            rules   = [ 'required' => !Config::Get('module.topic.allow_empty_tags'), 'rangetags' => '[1,15]' ]
             label   = {lang 'topic.add.fields.tags.label'}
             note    = {lang 'topic.add.fields.tags.note'}
             inputClasses = 'width-full autocomplete-tags-sep'}
