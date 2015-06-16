@@ -14,7 +14,7 @@
 
         {* E-mail *}
         {component 'field' template='email'
-                 value = $user->getMail()|escape
+                 value = $user->getMail()
                  note  = {lang name='user.settings.account.fields.email.note'}}
 	</fieldset>
 

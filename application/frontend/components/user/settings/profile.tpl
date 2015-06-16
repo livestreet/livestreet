@@ -39,7 +39,7 @@
         {component 'field' template='text'
             name   = 'profile_name'
             rules  = [ 'length' => "[2,{Config::Get('module.user.name_max')}]" ]
-            value  = $user->getProfileName()|escape
+            value  = $user->getProfileName()
             label  = {lang name='user.settings.profile.fields.name.label'}}
 
 
@@ -80,7 +80,7 @@
             name   = 'profile_about'
             rules  = [ 'length' => '[1,3000]' ]
             rows   = 5
-            value  = $user->getProfileAbout()|escape
+            value  = $user->getProfileAbout()
             label  = {lang name='user.settings.profile.fields.about.label'}}
 
 
@@ -90,7 +90,7 @@
         {foreach $userfields as $field}
             {component 'field' template='text'
                 name   = "profile_user_field_`$field->getId()`"
-                value  = $field->getValue()|escape
+                value  = $field->getValue()
                 label  = $field->getTitle()|escape}
         {/foreach}
     </fieldset>
