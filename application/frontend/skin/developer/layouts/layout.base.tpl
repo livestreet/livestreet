@@ -12,7 +12,8 @@
     {$layoutShowSystemMessages = $layoutShowSystemMessages|default:true}
 
     {* Получаем блоки для вывода в сайдбаре *}
-    {include 'blocks.tpl' group='right' assign=layoutSidebarBlocks}
+    {show_blocks group='right' assign=layoutSidebarBlocks}
+
     {$layoutSidebarBlocks = trim( $layoutSidebarBlocks )}
     {$layoutSidebarBlocksShow = !!$layoutSidebarBlocks and !$layoutNoSidebar}
 {/block}
@@ -172,5 +173,5 @@
     {add_block group='toolbar' name='component@toolbar-scrollup.toolbar.scrollup' priority=-100}
 
     {* Подключение тулбара *}
-    {component 'toolbar' classes='js-toolbar-default' items={include 'blocks.tpl' group='toolbar'}}
+    {component 'toolbar' classes='js-toolbar-default' items={show_blocks group='toolbar'}}
 {/block}
