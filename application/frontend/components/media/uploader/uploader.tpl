@@ -10,8 +10,8 @@
 
 {block 'uploader_aside' append}
 	{* Основные настройки *}
-	{include './uploader-block.insert.image.tpl'}
+    {component 'media' template='uploader-block.insert.image'}
 
-	{* Опции фотосета *}
-	{include './uploader-block.photoset.tpl'}
+    {* Опции фотосета *}
+    {component 'media' template='uploader-block.photoset'}
 {/block}

@@ -5,7 +5,7 @@
 {extends 'Component@user-list-add.user-list-add'}
 
 {block 'user_list_add_list'}
-    {include './invite-list.tpl'
+    {component 'blog' template='invite-list'
         hideableEmptyAlert = true
         users              = $smarty.local.users
         showActions        = true

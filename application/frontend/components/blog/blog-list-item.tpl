@@ -26,7 +26,7 @@
     {* Действия *}
     <div class="blog-list-item-actions">
         {* Вступить/покинуть блог *}
-        {include './join.tpl' blog=$blog}
+        {component 'blog' template='join' blog=$blog}
     </div>
 
     {* Информация *}

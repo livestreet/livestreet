@@ -5,4 +5,4 @@
 {component 'block'
     mods     = 'activity-users'
     title    = {lang 'activity.users.title'}
-    content  = {include '../users.tpl' users=$users}}
+    content  = {component 'activity' template='users' users=$users}}

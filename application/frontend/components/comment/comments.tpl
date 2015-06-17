@@ -110,7 +110,7 @@
      * Комментарии
      *}
     <div class="ls-comment-list js-comment-list" {if ! $smarty.local.comments}style="display: none"{/if}>
-        {include './comment-tree.tpl'
+        {component 'comment' template='tree'
             comments      = $smarty.local.comments
             forbidAdd     = $forbidAdd
             maxLevel      = $maxLevel
@@ -152,7 +152,7 @@
 
     {* Форма добавления комментария *}
     {if $oUserCurrent && ( ! $forbidAdd || ( $forbidAdd && $count ) )}
-        {include './comment-form.tpl' classes='js-comment-form' targetType=$targetType targetId=$targetId}
+        {component 'comment' template='form' classes='js-comment-form' targetType=$targetType targetId=$targetId}
     {/if}
 
     {* @hook Конец блока с комментариями *}

@@ -5,4 +5,4 @@
 {component 'block'
     mods     = 'activity-settings'
     title    = {lang 'activity.settings.title'}
-    content  = {include '../settings.tpl' typesActive=$typesActive types=$types}}
+    content  = {component 'activity' template='settings' typesActive=$typesActive types=$types}}

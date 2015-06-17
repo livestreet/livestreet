@@ -11,7 +11,7 @@
     mods    = 'stacked'
     classes = 'profile-actions'
     items   = [
-        [ 'html' => {include './friend-item.tpl' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'} ],
+        [ 'html' => {component 'user' template='friend-item' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'} ],
         [ 'url' => "{router page='talk'}add/?talk_users={$user->getLogin()}", 'text' => {lang 'user.actions.send_message'} ],
         [
             'url' => "#",

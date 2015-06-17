@@ -1,1 +1,1 @@
-{include "./property.{$property->getType()}.tpl" property=$property}
+{component 'property' template="input.property.{$property->getType()}" property=$property}

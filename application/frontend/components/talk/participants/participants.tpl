@@ -5,7 +5,7 @@
 {extends 'Component@user-list-add.user-list-add'}
 
 {block 'user_list_add_list'}
-    {include './participants-list.tpl'
+    {component 'talk' template='participants-list'
         hideableEmptyAlert = true
         users              = $smarty.local.users
         showActions        = true

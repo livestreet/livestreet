@@ -19,7 +19,7 @@
 
     {* Список пользователей *}
     {capture 'user_list'}
-        {include './user-list-loop.tpl' users=$smarty.local.users}
+        {component 'user' template='list-item' users=$smarty.local.users}
     {/capture}
 
     {component 'item' template='group' classes='js-more-users-container' items=$smarty.capture.user_list}

@@ -18,7 +18,7 @@
     {if $events}
         {* Список *}
         <ul class="activity-event-list js-activity-event-list">
-            {include './event-list.tpl' events=$events}
+            {component 'activity' template='event-list' events=$events}
         </ul>
 
         {* Кнопка подгрузки *}

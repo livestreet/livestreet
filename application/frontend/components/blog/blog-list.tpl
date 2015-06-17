@@ -20,7 +20,7 @@
     {* Список блогов *}
     {capture 'blog_list'}
         {foreach $smarty.local.blogs as $blog}
-            {include './blog-list-item.tpl' blog=$blog}
+            {component 'blog' template='list-item' blog=$blog}
         {/foreach}
     {/capture}
 

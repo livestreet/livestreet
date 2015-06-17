@@ -2,8 +2,8 @@
  * 
  *}
 
-{extends 'Component@user-list-add.list'}
+{extends 'component@user-list-add.list'}
 
 {block 'user_list_add_item'}
-    {include './participants-item.tpl' user=$user showActions=true}
+    {component 'talk' template='participants-item' user=$user showActions=true}
 {/block}

@@ -7,7 +7,7 @@
     {foreach $smarty.local.comments as $comment}
         {$topic = $comment->getTarget()}
 
-        {include './recent-item.tpl'
+        {component 'activity' template='recent-item'
             user     = $comment->getUser()
             topic    = $topic
             blog     = $topic->getBlog()

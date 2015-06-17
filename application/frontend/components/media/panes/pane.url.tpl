@@ -27,7 +27,7 @@
 	<div class="mb-15 js-media-url-image-preview" style="display: none"></div>
 
 	<div class="js-media-url-settings-blocks">
-		{include '../uploader/uploader-block.insert.image.tpl' useSizes=false}
+		{component 'media' template='uploader-block.insert.image' useSizes=false}
 	</div>
 {/block}
 

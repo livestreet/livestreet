@@ -9,7 +9,7 @@
     {$postId = $post->getId()}
 
     {* Запись *}
-    {include './wall.entry.tpl' entry=$post showReply=!$comments classes='wall-post js-wall-post' type='post'}
+    {component 'wall' template='entry' entry=$post showReply=!$comments classes='wall-post js-wall-post' type='post'}
 
     {* Комментарии *}
     <div class="wall-comments js-wall-comment-wrapper" data-id="{$postId}">
@@ -28,13 +28,13 @@
         {* Комментарии *}
         <div class="js-wall-entry-container" data-id="{$postId}">
             {if $comments}
-                {include './wall.comments.tpl' comments=$comments}
+                {component 'wall' template='comments' comments=$comments}
             {/if}
         </div>
 
         {* Форма добавления комментария *}
         {if $oUserCurrent}
-            {include './wall.form.tpl' id=$postId display=$comments placeholder=$aLang.wall.form.fields.text.placeholder_reply}
+            {component 'wall' template='form' id=$postId display=$comments placeholder=$aLang.wall.form.fields.text.placeholder_reply}
         {/if}
     </div>
 {/foreach}

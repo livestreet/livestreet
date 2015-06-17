@@ -7,7 +7,7 @@
         "uploader": "*"
     },
     "templates": {
-        "media-content": "media-content.tpl",
+        "content": "media-content.tpl",
         "media": "media.tpl",
         "pane.insert": "panes/pane.insert.tpl",
         "pane.photoset": "panes/pane.photoset.tpl",

@@ -5,5 +5,5 @@
  *}
 
 {foreach $smarty.local.users as $user}
-	{include './user-list-item.tpl' user=$user}
+	{component 'user' template='list-loop' user=$user}
 {/foreach}

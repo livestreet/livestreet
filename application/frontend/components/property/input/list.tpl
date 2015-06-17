@@ -3,5 +3,5 @@
  *}
 
 {foreach $smarty.local.properties as $property}
-    {include './item.tpl' property=$property}
+    {component 'property' template='input.item' property=$property}
 {/foreach}

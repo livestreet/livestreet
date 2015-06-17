@@ -16,7 +16,7 @@
         "input.property.text": "input/property.text.tpl",
         "input.property.tags": "input/property.tags.tpl",
         "input.property.varchar": "input/property.varchar.tpl",
-        "input.property.video-link": "input/property.video_link.tpl",
+        "input.property.video_link": "input/property.video_link.tpl",
         "input.property.video-modal": "input/modal.property-input-video.tpl",
 
         "output.item": "output/item.tpl",

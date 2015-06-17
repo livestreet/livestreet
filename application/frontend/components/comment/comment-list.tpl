@@ -9,7 +9,7 @@
 {$component = 'ls-comment-list'}
 
 <div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
-    {include './comment-tree.tpl'
+    {component 'comment' template='tree'
         comments      = $smarty.local.comments
         forbidAdd     = true
         maxLevel      = 0

@@ -40,7 +40,7 @@
 			{if ! $smarty.local.exclude || ! in_array( $user->getId(), $smarty.local.exclude )}
 				{block 'user_list_small_item'}
 					{*include $itemTemplate|default:'./user-list-small-item.tpl' showRemove=! $excludeRemove || ! in_array( $user->getId(), $aUserListSmallExcludeRemove )*}
-					{include './user-list-small-item.tpl' user=$user selectable=$smarty.local.selectable}
+					{component 'user' template='list-small-item' user=$user selectable=$smarty.local.selectable}
 				{/block}
 			{/if}
 		{/foreach}

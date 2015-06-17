@@ -5,4 +5,4 @@
 {component 'block'
     mods     = 'feed-blogs'
     title    = {lang 'feed.blogs.title'}
-    content  = {include '../blogs.tpl' blogsJoined=$blogsJoined blogsSubscribed=$blogsSubscribed}}
+    content  = {component 'feed' template='blogs' blogsJoined=$blogsJoined blogsSubscribed=$blogsSubscribed}}

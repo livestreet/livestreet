@@ -5,7 +5,7 @@
 
 {capture 'items'}
     {foreach $smarty.local.topics as $topic}
-        {include './recent-item.tpl'
+        {component 'activity' template='recent-item'
             user     = $topic->getUser()
             topic    = $topic
             blog     = $topic->getBlog()

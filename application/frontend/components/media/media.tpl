@@ -9,5 +9,5 @@
     {$title = {lang name='media.title'}}
     {$options = array_merge( $options|default:[], [ 'center' => 'false' ] )}
     {$showFooter = false}
-    {$body = {include './media-content.tpl'}}
+    {$body = {component 'media' template='content'}}
 {/block}

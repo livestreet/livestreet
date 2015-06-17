@@ -6,7 +6,7 @@
     note    = $property->getDescription()
     label   = $property->getTitle()}
 
-{include './modal.property-input-video.tpl' value=$value}
+{component 'property' template='input.property.video-modal' value=$value}
 
 <p class="mb-20">
     <a href="#" class="link-dotted js-modal-toggle-default" data-lsmodaltoggle-modal="modal-property-type-video-{$value->getId()}">Смотреть</a>

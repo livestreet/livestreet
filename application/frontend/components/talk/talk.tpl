@@ -9,12 +9,12 @@
 {$talk = $smarty.local.talk}
 
 {* Первое сообщение *}
-{include './talk-message-root.tpl' talk=$talk}
+{component 'talk' template='message-root' talk=$talk}
 
 {if ! $bNoComments}
     {* Участники личного сообщения *}
     {capture 'talk_message_root_participants'}
-        {include './participants/participants.tpl'
+        {component 'talk' template='participants'
             users         = $talk->getTalkUsers()
             classes       = 'message-users js-message-users'
             attributes    = [ 'data-param-target_id' => $talk->getId() ]

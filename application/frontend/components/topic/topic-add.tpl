@@ -199,7 +199,7 @@
 
 
 {* Блок с превью текста *}
-{include './topic-preview.tpl'}
+{component 'topic' template='preview'}
 
 {block 'add_topic_end'}{/block}
 {hook run="add_topic_end"}

@@ -19,14 +19,14 @@
 <div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {cattr list=$smarty.local.attributes}>
     {* Форма добавления записи *}
     {if $oUserCurrent}
-        {include './wall.form.tpl'}
+        {component 'wall' template='form'}
     {else}
         {component 'alert' text=$aLang.wall.alerts.unregistered mods='info' classes='mt-15'}
     {/if}
 
     {* Список записей *}
     <div class="js-wall-entry-container" data-id="0">
-        {include './wall.posts.tpl' posts=$smarty.local.posts}
+        {component 'wall' template='posts' posts=$smarty.local.posts}
     </div>
 
     {* Уведомление о пустом списке *}

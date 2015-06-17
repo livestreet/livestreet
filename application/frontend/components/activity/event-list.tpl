@@ -26,5 +26,5 @@
     {/if}
 
     {* Событие *}
-    {include './event.tpl' event=$event}
+    {component 'activity' template='event' event=$event}
 {/foreach}

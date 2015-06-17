@@ -19,6 +19,7 @@
         "info": "info.tpl",
         "search-form": "search-form.users.tpl",
         "stat": "stat.tpl",
+        "nav": "nav.user.tpl",
 
         "avatar": "avatar/user-avatar.tpl",
         "avatar-list": "avatar/user-avatar-list.tpl",
