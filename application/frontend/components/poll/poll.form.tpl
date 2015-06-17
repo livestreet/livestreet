@@ -1,32 +1,27 @@
 {**
  * Форма добавления опроса
- *
- * @styles poll.css
- * @scripts <common>/js/poll.js
  *}
 
-<form action="" method="post" id="js-poll-form" data-action="{if $oPoll}update{else}add{/if}">
+<form action="" method="post" id="js-poll-form" data-action="{if $poll}update{else}add{/if}">
 	{* Заголовок *}
 	{component 'field' template='text'
 			 name  = 'poll[title]'
-			 value = {($oPoll) ? $oPoll->getTitle() : '' }
+			 value = {($poll) ? $poll->getTitle() : '' }
 			 label = $aLang.poll.form.fields.title
 			 inputAttributes= [ 'autofocus' => true ]}
 
-
 	{component 'field' template='checkbox'
 			name    = 'poll[is_guest_allow]'
-			checked = {($oPoll && $oPoll->getIsGuestAllow()) ? true : false }
+			checked = {($poll && $poll->getIsGuestAllow()) ? true : false }
 			label   = $aLang.poll.form.fields.is_guest_allow}
-
 
 	{component 'field' template='checkbox'
 			name    = 'poll[is_guest_check_ip]'
-			checked = {($oPoll && $oPoll->getIsGuestCheckIp()) ? true : false }
+			checked = {($poll && $poll->getIsGuestCheckIp()) ? true : false }
 			label   = $aLang.poll.form.fields.is_guest_check_ip}
 
 	{* Кол-во вариантов которые может выбрать пользователь *}
-	{if $oPoll && $oPoll->getCountVote()}
+	{if $poll && $poll->getCountVote()}
 		{$bDisableChangeType = true}
 	{/if}
 
@@ -36,7 +31,7 @@
 			 name  = 'poll[type]'
 			 value = 'one'
 			 label = $aLang.poll.form.fields.type.label_one
-			 checked = ! $oPoll or $oPoll->getCountAnswerMax() == 1
+			 checked = ! $poll or $poll->getCountAnswerMax() == 1
 			 isDisabled = $bDisableChangeType}
 
 	{component 'field' template='radio'
@@ -44,13 +39,13 @@
 			 name          = 'poll[type]'
 			 value         = 'many'
 			 label         = $aLang.poll.form.fields.type.label_many
-			 checked       = $oPoll && $oPoll->getCountAnswerMax() > 1
+			 checked       = $poll && $poll->getCountAnswerMax() > 1
 			 isDisabled    = $bDisableChangeType}
 
 	{component 'field' template='text'
 			 displayInline = true
 			 name          = 'poll[count_answer_max]'
-			 value         = ($oPoll) ? $oPoll->getCountAnswerMax() : 2
+			 value         = ($poll) ? $poll->getCountAnswerMax() : 2
 			 classes       = 'width-50'
 			 isDisabled    = $bDisableChangeType}
 
@@ -63,38 +58,38 @@
 
 		<div class="fieldset-body">
 			<ul class="ls-poll-form-answer-list js-poll-form-answer-list">
-				{if $oPoll}
-					{$aAnswers = $oPoll->getAnswers()}
+				{if $poll}
+					{$aAnswers = $poll->getAnswers()}
 
 					{foreach $aAnswers as $oAnswer}
-						{include './poll.form.item.tpl'
-								 oPollItem          = $oAnswer
-								 iPollItemIndex     = $oAnswer@index
-								 bPollIsAllowUpdate = $oPoll->isAllowUpdate()
-								 bPollIsAllowRemove = $oPoll->isAllowUpdate() && ! $oAnswer->getCountVote()}
+						{component 'poll' template='form-item'
+							item    = $oAnswer
+							index       = $oAnswer@index
+							allowUpdate = $poll->isAllowUpdate()
+							allowRemove = $poll->isAllowUpdate() && ! $oAnswer->getCountVote()}
 					{/foreach}
 				{else}
-					{include './poll.form.item.tpl' showRemove=false}
-					{include './poll.form.item.tpl' showRemove=false}
+					{component 'poll' template='form-item' showRemove=false}
+					{component 'poll' template='form-item' showRemove=false}
 				{/if}
 			</ul>
 		</div>
 
-		{if ! $oPoll or $oPoll->isAllowUpdate()}
+		{if ! $poll or $poll->isAllowUpdate()}
 			<footer class="fieldset-footer">
 				{component 'button'
-						 type       = 'button'
-						 text       = $aLang.common.add
-						 attributes = [ 'title' => '[Ctrl + Enter]' ]
-						 classes    = 'js-poll-form-answer-add'}
+					type       = 'button'
+					text       = $aLang.common.add
+					attributes = [ 'title' => '[Ctrl + Enter]' ]
+					classes    = 'js-poll-form-answer-add'}
 			</footer>
 		{/if}
 	</div>
 
 
 	{* Скрытые поля *}
-	{if $oPoll}
-		{component 'field' template='hidden' name='poll_id' value=$oPoll->getId()}
+	{if $poll}
+		{component 'field' template='hidden' name='poll_id' value=$poll->getId()}
 	{else}
 		{component 'field' template='hidden' name='target[type]' value=$sTargetType}
 		{component 'field' template='hidden' name='target[id]' value=$sTargetId}
@@ -104,4 +99,4 @@
 </form>
 
 {* Шаблон ответа для добавления с помощью js *}
-{include './poll.form.item.tpl' bPollItemIsTemplate=true}
+{component 'poll' template='form-item' isTemplate=true}

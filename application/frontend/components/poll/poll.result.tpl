@@ -1,22 +1,22 @@
 {**
  * Результат опроса
  *
- * @param ModulePoll_EntityPoll $oPoll Опрос
+ * @param ModulePoll_EntityPoll $poll Опрос
  *}
 
 {* Список ответов *}
 <ul class="ls-poll-result js-poll-result">
-    {$answers = $oPoll->getAnswers()}
+    {$answers = $poll->getAnswers()}
     {$count = count($answers)}
-    {$answersCurrent=$oPoll->getVoteCurrent()->getAnswers()}
+    {$answersCurrent=$poll->getVoteCurrent()->getAnswers()}
 
     {foreach $answers as $answer}
         {$votes = $answer->getCountVote()}
-        {$percent = $oPoll->getAnswerPercent($answer)}
+        {$percent = $poll->getAnswerPercent($answer)}
 
         {* Ответ *}
         <li class="ls-poll-result-item
-                {if $oPoll->getCountVoteAnswerMax() == $votes}poll-result-item--most{/if}
+                {if $poll->getCountVoteAnswerMax() == $votes}poll-result-item--most{/if}
                 {if in_array( $answer->getId(), $answersCurrent )}poll-result-item--voted{/if}
                 js-poll-result-item"
             data-count    = "{$votes}"
@@ -46,6 +46,6 @@
 
 {* Статистика голосования *}
 <span class="ls-poll-result-total">
-    {$aLang.poll.result.voted_total}: {$oPoll->getCountVote()} |
-    {$aLang.poll.result.abstained_total}: {$oPoll->getCountAbstain()}
+    {$aLang.poll.result.voted_total}: {$poll->getCountVote()} |
+    {$aLang.poll.result.abstained_total}: {$poll->getCountAbstain()}
 </span>

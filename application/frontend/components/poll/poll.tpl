@@ -8,8 +8,8 @@
 	<h3 class="ls-poll-title">{$poll->getTitle()}</h3>
 
 	{if ! $poll->getVoteCurrent()}
-		{include './poll.vote.tpl' poll=$poll}
+		{component 'poll' template='vote' poll=$poll}
 	{else}
-		{include './poll.result.tpl' oPoll=$poll}
+        {component 'poll' template='result' poll=$poll}
 	{/if}
 </div>

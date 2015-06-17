@@ -259,7 +259,7 @@ class ActionAjax extends Action
                 $this->Session_SetCookie($this->Poll_GetCookieVoteName($oPoll), $oVote->getGuestKey(), time() + 60 * 60 * 24 * 90);
             }
             $oViewer = $this->Viewer_GetLocalViewer();
-            $oViewer->Assign('oPoll', $oPoll);
+            $oViewer->Assign('poll', $oPoll);
             $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.result"));
         } else {
             return $this->EventErrorDebug();
@@ -284,8 +284,8 @@ class ActionAjax extends Action
         if ($oPoll->_Validate()) {
             if ($oPoll->Add()) {
                 $oViewer = $this->Viewer_GetLocalViewer();
-                $oViewer->Assign('oPoll', $oPoll);
-                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("component@poll.manage.item"));
+                $oViewer->Assign('poll', $oPoll);
+                $this->Viewer_AssignAjax('item', $oViewer->Fetch("component@poll.manage.item"));
                 return true;
             } else {
                 $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
@@ -328,9 +328,9 @@ class ActionAjax extends Action
         if ($oPoll->_Validate()) {
             if ($oPoll->Update()) {
                 $oViewer = $this->Viewer_GetLocalViewer();
-                $oViewer->Assign('oPoll', $oPoll);
-                $this->Viewer_AssignAjax('sPollItem', $oViewer->Fetch("component@poll.manage.item"));
-                $this->Viewer_AssignAjax('iPollId', $oPoll->getId());
+                $oViewer->Assign('poll', $oPoll);
+                $this->Viewer_AssignAjax('item', $oViewer->Fetch("component@poll.manage.item"));
+                $this->Viewer_AssignAjax('id', $oPoll->getId());
                 return true;
             } else {
                 $this->Message_AddError($this->Lang_Get('common.error.save'), $this->Lang_Get('common.error.error'));
@@ -439,7 +439,7 @@ class ActionAjax extends Action
         }
 
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('oPoll', $oPoll);
+        $oViewer->Assign('poll', $oPoll);
         $oViewer->Assign('sTargetTmp', getRequestStr('target_tmp'));
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@poll.modal.create"));
     }

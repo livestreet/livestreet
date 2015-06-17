@@ -3,9 +3,6 @@
  *
  * @param string $targetId
  * @param string $targetType
- *
- * @styles poll.css
- * @scripts <common>/js/poll.js
  *}
 
 <div class="fieldset ls-poll-manage js-poll-manage" data-type="{$smarty.local.targetType}" data-target-id="{$smarty.local.targetId}">

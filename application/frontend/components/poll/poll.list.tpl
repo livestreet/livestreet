@@ -5,5 +5,5 @@
  *}
 
 {foreach $polls as $poll}
-	{include './poll.tpl' poll=$poll}
+	{component 'poll' poll=$poll}
 {/foreach}
