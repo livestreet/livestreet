@@ -16,7 +16,8 @@
 {/if}
 
 <div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} clearfix" {cattr list=$smarty.local.attributes}>
-    {hook run='profile_top_begin' user=$user}
+    {* @hook Начало шапки с информацией о пользователе *}
+    {hook run='user_header_begin' user=$user}
 
     {* Пользователь *}
     <div class="{$component}-user clearfix">
@@ -40,10 +41,15 @@
     </div>
 
     {* Рейтинг *}
-    <div class="{$component}-rating">
-        <div class="{$component}-rating-label">Рейтинг</div>
-        <div class="{$component}-rating-value">{$user->getRating()}</div>
-    </div>
 
-    {hook run='profile_top_end' user=$user}
+    {* @hook Рейтинг пользователя *}
+    {hookb run='user_rating' user=$user}
+        <div class="{$component}-rating">
+            <div class="{$component}-rating-label">Рейтинг</div>
+            <div class="{$component}-rating-value">{$user->getRating()}</div>
+        </div>
+    {/hookb}
+
+    {* @hook Конец шапки с информацией о пользователе *}
+    {hook run='user_header_end' user=$user}
 </div>

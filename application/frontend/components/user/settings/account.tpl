@@ -7,7 +7,8 @@
 {hook run='settings_account_begin'}
 
 <form method="post" enctype="multipart/form-data" class="js-form-validate">
-	{hook run='form_settings_account_begin'}
+    {* @hook Начало формы с настройками аккаунта *}
+    {hook run='user_settings_account_begin'}
 
 	<fieldset>
 		<legend>{lang name='user.settings.account.account'}</legend>
@@ -48,8 +49,8 @@
                  label   = {lang name='user.settings.account.fields.password_confirm.label'}}
 	</fieldset>
 
-
-	{hook run='form_settings_account_end'}
+    {* @hook Конец формы с настройками аккаунта *}
+	{hook run='user_settings_account_end'}
 
     {* Скрытые поля *}
     {component 'field' template='hidden.security-key'}

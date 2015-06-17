@@ -6,7 +6,8 @@
 	{lang name='user.settings.invites.note'}
 </div>
 
-{hook run='settings_invite_begin'}
+{* @hook Начало формы с настройками инвайтов *}
+{hook run='user_settings_invite_begin'}
 
 <p>
 	{if Config::Get('general.reg.invite')}
@@ -49,4 +50,5 @@
 	{component 'button' mods='primary' text={lang name='user.settings.invites.fields.submit.text'}}
 </form>
 
-{hook run='settings_invite_end'}
+{* @hook Конец формы с настройками инвайтов *}
+{hook run='user_settings_invite_end'}

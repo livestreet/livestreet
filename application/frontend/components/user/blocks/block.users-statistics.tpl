@@ -4,6 +4,9 @@
 
 {capture 'user_block_stat'}
     <div class="user-stat">
+        {* @hook Начало блока с информацией о пользователях *}
+        {hook run='user_block_stat_begin'}
+
         {* Кол-во пользователей *}
         {component 'info-list' list=[
             [ 'label' => "{lang name='user.stats.all'}:",      'content' => $usersStat.count_all ],
@@ -17,6 +20,9 @@
             [ 'label' => "{lang name='user.stats.women'}:", 'content' => $usersStat.count_sex_woman ],
             [ 'label' => "{lang name='user.stats.none'}:", 'content' => $usersStat.count_sex_other ]
         ]}
+
+        {* @hook Конец блока с информацией о пользователях *}
+        {hook run='user_block_stat_end'}
     </div>
 {/capture}
 

@@ -15,12 +15,12 @@
 {$session = $user->getSession()}
 {$geoTarget = $user->getGeoTarget()}
 
+{* @hook Начало информации о пользователе *}
 {hook run='user_info_begin' user=$user}
 
 {**
  * О себе
  *}
-
 {if $user->getProfileAbout()}
 	{capture 'user_info_about'}
 		<div class="ls-text">
@@ -237,5 +237,5 @@
 
 {component 'user' template='info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
 
-
+{* @hook Конец информации о пользователе *}
 {hook run='user_info_end' user=$user}

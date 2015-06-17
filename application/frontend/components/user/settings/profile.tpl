@@ -4,7 +4,8 @@
 
 {$user = $smarty.local.user}
 
-{hook run='settings_profile_begin'}
+{* @hook Начало формы с настройками профиля *}
+{hook run='user_settings_profile_begin'}
 
 
 {* Шаблон пользовательского поля (userfield) *}
@@ -116,7 +117,8 @@
         {/if}
     </fieldset>
 
-    {hook run='form_settings_profile_end'}
+    {* @hook Конец формы с настройками профиля *}
+    {hook run='user_settings_profile_end'}
 
     {* Скрытые поля *}
     {component 'field' template='hidden.security-key'}

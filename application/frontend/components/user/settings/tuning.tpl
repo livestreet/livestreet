@@ -2,7 +2,8 @@
  * Настройка уведомлений
  *}
 
-{hook run='settings_tuning_begin'}
+{* @hook Начало формы с настройками уведомлений *}
+{hook run='user_settings_tuning_begin'}
 
 <form action="{router page='settings'}tuning/" method="POST" enctype="multipart/form-data">
 	{hook run='form_settings_tuning_begin'}
@@ -65,7 +66,8 @@
 				 selectedValue = $_aRequest.settings_general_timezone}
 	</fieldset>
 
-	{hook run='form_settings_tuning_end'}
+    {* @hook Конец формы с настройками уведомлений *}
+    {hook run='user_settings_tuning_end'}
 
     {component 'button' text=$aLang.common.save mods='primary'}
 </form>
