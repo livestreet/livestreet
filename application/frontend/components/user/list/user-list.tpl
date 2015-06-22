@@ -14,15 +14,15 @@
 
     {* Заголовок *}
     {if $smarty.local.searchCount}
-        <h3 class="h3">{lang name='user.search.result_title' count=$smarty.local.searchCount plural=true}</h3>
+        <h3 class="h3">
+            {lang name='user.search.result_title' count=$smarty.local.searchCount plural=true}
+        </h3>
     {/if}
 
     {* Список пользователей *}
-    {capture 'user_list'}
-        {component 'user' template='list-item' users=$smarty.local.users}
-    {/capture}
-
-    {component 'item' template='group' classes='js-more-users-container' items=$smarty.capture.user_list}
+    {component 'item' template='group'
+        classes = 'js-more-users-container'
+        items   = {component 'user' template='list-loop' users=$smarty.local.users}}
 
     {* Кнопка подгрузки *}
     {if $smarty.local.useMore}
