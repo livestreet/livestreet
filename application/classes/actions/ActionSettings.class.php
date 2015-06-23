@@ -572,13 +572,8 @@ class ActionSettings extends Action
             /**
              * Проверяем дату рождения
              */
-            if (func_check(getRequestStr('profile_birthday_day'), 'id', 1,
-                    2) and func_check(getRequestStr('profile_birthday_month'), 'id', 1,
-                    2) and func_check(getRequestStr('profile_birthday_year'), 'id', 4, 4)
-            ) {
-                $this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s",
-                    mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'),
-                        getRequestStr('profile_birthday_year'))));
+            if (preg_match('#^(\d{1,2})\.(\d{1,2})\.(\d{4})$#', getRequestStr('profile_birthday'), $aMatch)) {
+                $this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s", mktime(0, 0, 0, $aMatch[2], $aMatch[1], $aMatch[3])));
             } else {
                 $this->oUserCurrent->setProfileBirthday(null);
             }

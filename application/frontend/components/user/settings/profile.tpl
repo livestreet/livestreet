@@ -62,6 +62,7 @@
         {component 'field' template='date'
             name         = 'profile_birthday'
             inputClasses = 'js-field-date-default'
+            value        = {date_format date=$user->getProfileBirthday() format='j.n.Y'}
             label        = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
