@@ -1,21 +1,17 @@
 {**
  * Основной лэйаут
  *
+ * @param boolean $layoutShowSidebar        Показывать сайдбар или нет, сайдбар не будет выводится если он не содержит блоков
  * @param string  $layoutNavContent         Название навигации
  * @param string  $layoutNavContentPath     Кастомный путь до навигации контента
- * @param string  $layoutShowSystemMessages Кастомный путь до навигации контента
+ * @param string  $layoutShowSystemMessages Показывать системные уведомления или нет
  *}
 
 {extends 'Component@layout.layout'}
 
 {block 'layout_options' append}
+    {$layoutShowSidebar = $layoutShowSidebar|default:true}
     {$layoutShowSystemMessages = $layoutShowSystemMessages|default:true}
-
-    {* Получаем блоки для вывода в сайдбаре *}
-    {show_blocks group='right' assign=layoutSidebarBlocks}
-
-    {$layoutSidebarBlocks = trim( $layoutSidebarBlocks )}
-    {$layoutSidebarBlocksShow = !!$layoutSidebarBlocks and !$layoutNoSidebar}
 {/block}
 
 {block 'layout_head_styles' append}
@@ -23,6 +19,12 @@
 {/block}
 
 {block 'layout_head' append}
+    {* Получаем блоки для вывода в сайдбаре *}
+    {show_blocks group='right' assign=layoutSidebarBlocks}
+
+    {$layoutSidebarBlocks = trim( $layoutSidebarBlocks )}
+    {$layoutShowSidebar = !!$layoutSidebarBlocks && $layoutShowSidebar}
+
     <script>
         ls.lang.load({json var = $aLangJs});
         ls.registry.set({json var = $aVarsJs});
@@ -81,7 +83,7 @@
     {**
      * Основной контэйнер
      *}
-    <div id="container" class="ls-grid-row layout-container {hook run='container_class'} {if ! $layoutSidebarBlocksShow}no-sidebar{/if}">
+    <div id="container" class="ls-grid-row layout-container {hook run='container_class'} {if $layoutShowSidebar}layout-has-sidebar{else}layout-no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
         <div class="ls-grid-row layout-wrapper" class="{hook run='wrapper_class'}">
             {**
@@ -138,7 +140,7 @@
              * Сайдбар
              * Показываем сайдбар
              *}
-            {if $layoutSidebarBlocksShow}
+            {if $layoutShowSidebar}
                 <aside class="ls-grid-col ls-grid-col-4 layout-sidebar" role="complementary">
                     {$layoutSidebarBlocks}
                 </aside>

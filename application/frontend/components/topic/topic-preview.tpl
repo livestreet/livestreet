@@ -13,7 +13,7 @@
 
 	<div class="{$component}-body js-topic-preview-content"></div>
 
-	<footer class="topic-preview-footer">
+	<footer class="{$component}-footer">
         {component 'button' type='button' classes='js-topic-preview-text-hide-button' text=$aLang.common.cancel}
 	</footer>
 </div>
