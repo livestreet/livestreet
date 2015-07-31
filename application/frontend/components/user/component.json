@@ -52,6 +52,7 @@
         "fields": "js/user-fields.js",
         "follow": "js/user-follow.js",
         "friend": "js/user-friend.js",
+        "modal-list": "js/user-modal-list.js",
         "user": "js/user.js"
     },
     "styles": {

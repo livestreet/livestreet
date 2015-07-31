@@ -14,5 +14,8 @@
         "registration": "auth.registration.tpl",
         "reset": "auth.reset.tpl",
         "modal": "modal.auth.tpl"
+    },
+    "scripts": {
+        "auth": "js/auth.js"
     }
 }

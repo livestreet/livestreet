@@ -269,6 +269,12 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Auth
+	 */
+	ls.auth.init();
+
+
+	/**
 	 * User
 	 */
 	ls.user.init();

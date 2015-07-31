@@ -540,7 +540,7 @@ $config['components'] = array(
     'performance', 'toolbar', 'actionbar', 'badge', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron', 'notification', 'blankslate',
 
     // Компоненты LS CMS
-    'favourite', 'vote', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
+    'favourite', 'vote', 'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
     'toolbar-scrollup', 'toolbar-scrollnav', 'tags-favourite', 'search-ajax', 'search', 'sort', 'search-form', 'info-list',
     'tags', 'userbar', 'modal-create', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk'
 );
