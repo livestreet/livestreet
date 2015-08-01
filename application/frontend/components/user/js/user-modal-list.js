@@ -28,7 +28,7 @@ ls.userModalList = (function ($) {
                 }
             });
 
-            if ( typeof modal.options.add === "function" ) {
+            if ( $.isFunction(modal.options.add) ) {
                 modal.options.add(users);
             }
 

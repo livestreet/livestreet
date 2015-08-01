@@ -241,7 +241,8 @@ jQuery(document).ready(function($){
 			$('.js-activity-users').lsUserListAdd({
 				urls: {
 					add: aRouter.stream + 'ajaxadduser',
-					remove: aRouter.stream + 'ajaxremoveuser'
+					remove: aRouter.stream + 'ajaxremoveuser',
+					list: aRouter.ajax + 'modal-friend-list'
 				}
 			});
 		}
@@ -263,7 +264,8 @@ jQuery(document).ready(function($){
 	$('.js-feed-users').lsUserListAdd({
 		urls: {
 			add: aRouter.feed + 'ajaxadduser',
-			remove: aRouter.feed + 'unsubscribe'
+			remove: aRouter.feed + 'unsubscribe',
+			list: aRouter.ajax + 'modal-friend-list'
 		}
 	});
 
@@ -406,7 +408,8 @@ jQuery(document).ready(function($){
 	$('.js-user-list-add-blacklist').lsUserListAdd({
 		urls: {
 			add: aRouter['talk'] + 'ajaxaddtoblacklist/',
-			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/'
+			remove: aRouter['talk'] + 'ajaxdeletefromblacklist/',
+			list: aRouter.ajax + 'modal-friend-list'
 		}
 	});
 

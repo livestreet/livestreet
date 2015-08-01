@@ -18,7 +18,8 @@
         options: {
             urls: {
                 add: null,
-                remove: null
+                remove: null,
+                list: null
             },
             // Селекторы
             selectors: {
@@ -33,7 +34,9 @@
                 // Форма добавления
                 form: '.js-user-list-add-form',
                 // Форма добавления
-                form_text: '.js-user-list-add-form input[type=text]'
+                form_text: '.js-user-list-add-form input[type=text]',
+                // Выбор пользователей
+                choose: '.js-user-list-add-choose'
             },
             // Анимация при скрытии объекта
             hide: {
@@ -73,6 +76,41 @@
 
                 e.preventDefault();
             });
+
+            // Показывает модальное окно со списком пользователей
+            // и принимает от него список выбранных пользователей
+            this.elements.choose.on( 'click', function (e) {
+                ls.userModalList.show( this.option( 'urls.list' ), true, this.onModalListAdd.bind(this) );
+
+                e.preventDefault();
+            }.bind(this));
+        },
+
+        /**
+         * Коллбэк вызываемый при отправке формы в мод. окне
+         *
+         * @param {Array} users Список выбранных пользователей
+         */
+        onModalListAdd: function (users) {
+            // Получаем логины для добавления
+            var loginsNew = $.map(users, function(user) {
+                return user.login;
+            });
+
+            // Получаем логины которые уже прописаны
+            var loginsOld = $.map(this.elements.form_text.val().split(','), function(login) {
+                return $.trim(login) || null;
+            });
+
+            // Мержим логины
+            var logins = $.merge(loginsOld, loginsNew);
+
+            // Убираем дубликаты
+            logins = $.grep(logins, function(value, key) {
+                return $.inArray(value, logins) === key;
+            });
+
+            this.elements.form_text.val( logins.join(', ') );
         },
 
         /**

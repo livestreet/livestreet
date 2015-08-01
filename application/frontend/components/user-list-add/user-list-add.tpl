@@ -28,16 +28,21 @@
         <p class="{$component}-note">{$smarty.local.note}</p>
     {/if}
 
+    {* Ссылка показывающая мод. окно со списком пользователей *}
+    {capture 'user_list_add_choose'}
+        <a href="#" class="link-dotted js-{$component}-choose">
+            {lang 'user_list_add.choose'}
+        </a>
+    {/capture}
+
     {* Форма добавления *}
     {if $smarty.local.editable|default:true}
         <form class="{$component}-form js-{$component}-form">
-            {$uid = "js-$component-form-users-"|cat:rand(0, 10e10)}
-
             {component 'field' template='text'
                 name         = 'add'
-                inputClasses = "autocomplete-users-sep {$uid}"
+                inputClasses = "autocomplete-users-sep"
                 label        = $aLang.user_list_add.form.fields.add.label
-                note         = "<a href=\"#\" class=\"link-dotted js-modal-toggle-default\" data-lsmodaltoggle-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".{$uid}\">Выбрать из списка друзей</a>"}
+                note         = $smarty.capture.user_list_add_choose}
 
             {component 'button' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
         </form>

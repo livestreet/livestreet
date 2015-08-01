@@ -145,8 +145,7 @@ class ActionAjax extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
         // Получаем переменные
-        $bSelectable = getRequest('selectable');
-        $sTarget = getRequest('target');
+        $bSelectable = (bool) getRequest('selectable');
 
         // Получаем список друзей
         $aUsersFriend = $this->User_GetUsersFriend($this->oUserCurrent->getId());
@@ -156,7 +155,6 @@ class ActionAjax extends Action
         }
 
         $oViewer->Assign('selectable', $bSelectable, true);
-        $oViewer->Assign('target', $sTarget, true);
 
         $this->Viewer_AssignAjax('sText', $oViewer->Fetch("component@user.modal.user-list"));
     }
