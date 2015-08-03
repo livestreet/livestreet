@@ -26,7 +26,7 @@
             },
             // Классы
             classes : {
-                active: 'button--primary'
+                active: 'ls-button--primary'
             },
             // Ajax параметры
             params : {}

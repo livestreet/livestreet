@@ -44,11 +44,11 @@
 
             // Классы
             classes : {
-                folded:  'comment--folded',
-                current: 'comment--current',
-                new:     'comment--new',
-                deleted: 'comment--deleted',
-                self:    'comment--self'
+                folded:  'ls-comment--folded',
+                current: 'ls-comment--current',
+                new:     'ls-comment--new',
+                deleted: 'ls-comment--deleted',
+                self:    'ls-comment--self'
             },
             params: {}
         },

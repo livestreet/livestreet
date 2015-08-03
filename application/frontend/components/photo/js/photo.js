@@ -48,7 +48,7 @@
             },
             // Классы
             classes: {
-                nophoto: 'photo--nophoto'
+                nophoto: 'ls-photo--nophoto'
             },
             // Параметры передаваемые в аякс запросах
             params: {}
