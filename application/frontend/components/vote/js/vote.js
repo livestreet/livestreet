@@ -35,25 +35,25 @@
             // Классы
             classes : {
                 // Пользователь проголосовал
-                voted:          'vote--voted',
+                voted:          'ls-vote--voted',
                 // Не проголосовал
-                not_voted:      'vote--not-voted',
+                not_voted:      'ls-vote--not-voted',
                 // Понравилось
-                voted_up:       'vote--voted-up',
+                voted_up:       'ls-vote--voted-up',
                 // Не понравилось
-                voted_down:     'vote--voted-down',
+                voted_down:     'ls-vote--voted-down',
                 // Воздержался
-                voted_zero:     'vote--voted-zero',
+                voted_zero:     'ls-vote--voted-zero',
 
                 // Рейтинг больше нуля
-                count_positive: 'vote--count-positive',
+                count_positive: 'ls-vote--count-positive',
                 // Меньше нуля
-                count_negative: 'vote--count-negative',
+                count_negative: 'ls-vote--count-negative',
                 // Равен нулю
-                count_zero:     'vote--count-zero',
+                count_zero:     'ls-vote--count-zero',
 
                 // Рейтинг скрыт
-                rating_hidden:  'vote--rating-hidden'
+                rating_hidden:  'ls-vote--rating-hidden'
             },
             // Параметры отправляемые при каждом аякс запросе
             params: {},
