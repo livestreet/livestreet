@@ -29,6 +29,13 @@ ls.talk = (function ($) {
 		$('.js-talk-form-action').on('click', function (e) {
 			_this.formAction( $(this).data('action') );
 		});
+
+		// Выбор получателей в форме добавления
+        $('.js-talk-add-user-choose').lsUserFieldChoose({
+            urls: {
+                modal: aRouter.ajax + 'modal-friend-list'
+            }
+        });
 	};
 
 	/**

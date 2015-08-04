@@ -28,21 +28,14 @@
         <p class="{$component}-note">{$smarty.local.note}</p>
     {/if}
 
-    {* Ссылка показывающая мод. окно со списком пользователей *}
-    {capture 'user_list_add_choose'}
-        <a href="#" class="link-dotted js-{$component}-choose">
-            {lang 'user_list_add.choose'}
-        </a>
-    {/capture}
-
     {* Форма добавления *}
     {if $smarty.local.editable|default:true}
         <form class="{$component}-form js-{$component}-form">
-            {component 'field' template='text'
+            {component 'user' template='choose'
                 name         = 'add'
-                inputClasses = "autocomplete-users-sep"
+                classes      = "js-{$component}-choose"
                 label        = $aLang.user_list_add.form.fields.add.label
-                note         = $smarty.capture.user_list_add_choose}
+                lang_choose  = {lang 'user_list_add.choose'}}
 
             {component 'button' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
         </form>

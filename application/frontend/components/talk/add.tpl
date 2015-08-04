@@ -10,12 +10,12 @@
 	{component 'field' template='hidden.security-key'}
 
 	{* Получатели *}
-	{component 'field' template='text'
-			 name    = 'talk_users'
-			 rules   = [ 'required' => true, 'rangetags' => '[1,99]' ]
-			 label   = $aLang.talk.add.fields.users.label
-			 inputClasses = 'autocomplete-users-sep js-input-talk-users'
-			 note    = "<a href=\"#\" class=\"link-dotted js-modal-toggle-default\" data-lsmodaltoggle-url=\"{router page='ajax/modal-friend-list'}\" data-param-selectable=\"true\" data-param-target=\".js-input-talk-users\">{lang 'talk.add.choose_friends'}</a>"}
+	{component 'user' template='choose'
+	    name         = 'talk_users'
+		rules        = [ 'required' => true, 'rangetags' => '[1,99]' ]
+	    classes      = 'js-talk-add-user-choose'
+	    label        = {lang 'talk.add.fields.users.label'}
+	    lang_choose  = {lang 'talk.add.choose_friends'}}
 
 	{* Заголовок *}
 	{component 'field' template='text'

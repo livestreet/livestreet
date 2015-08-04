@@ -33,8 +33,6 @@
                 empty: '.js-user-list-small-empty',
                 // Форма добавления
                 form: '.js-user-list-add-form',
-                // Форма добавления
-                form_text: '.js-user-list-add-form input[type=text]',
                 // Выбор пользователей
                 choose: '.js-user-list-add-choose'
             },
@@ -67,7 +65,7 @@
 
             // Добавление пользователя в список
             this.elements.form.on('submit' + this.eventNamespace, function (e) {
-                var items = _this.getItems();
+                var items = _this.elements.choose.lsUserFieldChoose( 'getUsers' );
 
                 if ( items.length ) {
                     ls.utils.formLock( _this.elements.form );
@@ -77,50 +75,11 @@
                 e.preventDefault();
             });
 
-            // Показывает модальное окно со списком пользователей
-            // и принимает от него список выбранных пользователей
-            this.elements.choose.on( 'click', function (e) {
-                ls.userModalList.show( this.option( 'urls.list' ), true, this.onModalListAdd.bind(this) );
-
-                e.preventDefault();
-            }.bind(this));
-        },
-
-        /**
-         * Коллбэк вызываемый при отправке формы в мод. окне
-         *
-         * @param {Array} users Список выбранных пользователей
-         */
-        onModalListAdd: function (users) {
-            // Получаем логины для добавления
-            var loginsNew = $.map(users, function(user) {
-                return user.login;
-            });
-
-            // Получаем логины которые уже прописаны
-            var loginsOld = $.map(this.elements.form_text.val().split(','), function(login) {
-                return $.trim(login) || null;
-            });
-
-            // Мержим логины
-            var logins = $.merge(loginsOld, loginsNew);
-
-            // Убираем дубликаты
-            logins = $.grep(logins, function(value, key) {
-                return $.inArray(value, logins) === key;
-            });
-
-            this.elements.form_text.val( logins.join(', ') );
-        },
-
-        /**
-         * Получает объекты для добавления
-         *
-         * @return {Array} Массив с объектами
-         */
-        getItems: function () {
-            return $.map( this.elements.form_text.val().split( ',' ), function( item ) {
-                return $.trim( item ) || null;
+            // Выбор пользователей
+            this.elements.choose.lsUserFieldChoose({
+                urls: {
+                    modal: this.option( 'urls.list' )
+                }
             });
         },
 
@@ -161,7 +120,7 @@
             }
 
             ls.utils.formUnlock( this.elements.form );
-            this.elements.form_text.focus().val('');
+            this.elements.choose.lsUserFieldChoose( 'empty' );
 
             this._trigger( "afteradd", null, { context: this, response: response } );
         },

@@ -20,6 +20,7 @@
         "search-form": "search-form.users.tpl",
         "stat": "stat.tpl",
         "nav": "nav.user.tpl",
+        "choose": "user-field-choose.tpl",
 
         "avatar": "avatar/user-avatar.tpl",
         "avatar-list": "avatar/user-avatar-list.tpl",
@@ -52,6 +53,7 @@
         "fields": "js/user-fields.js",
         "follow": "js/user-follow.js",
         "friend": "js/user-friend.js",
+        "choose": "js/user-field-choose.js",
         "modal-list": "js/user-modal-list.js",
         "user": "js/user.js"
     },
