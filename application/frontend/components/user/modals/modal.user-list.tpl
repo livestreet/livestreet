@@ -34,6 +34,5 @@
     primaryButton  = ( $smarty.local.users && $smarty.local.selectable ) ? [
         'text'       => {lang 'common.add'},
         'classes'    => 'js-user-list-select-add',
-        'attributes' => [ 'data-target' => $smarty.local.target ],
         'form'       => 'form-complaint-user'
     ] : false}

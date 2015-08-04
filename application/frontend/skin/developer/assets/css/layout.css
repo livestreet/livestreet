@@ -26,7 +26,7 @@
     color: #777;
     position: relative;
 }
-.layout-container.no-sidebar .layout-content {
+.layout-container.layout-no-sidebar .layout-content {
     width: 100%;
     margin-right: 0;
 }
