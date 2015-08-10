@@ -19,7 +19,7 @@
             urls: {
                 add: null,
                 remove: null,
-                list: null
+                list: aRouter.ajax + 'modal-friend-list'
             },
             // Селекторы
             selectors: {

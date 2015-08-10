@@ -23,9 +23,11 @@
     </a>
 {/capture}
 
-{component 'field' template='text'
-    name         = $name
-    inputClasses = "js-{$component}-text autocomplete-users-sep"
-    label        = $label
-    note         = $smarty.capture.user_list_add_choose
-    params       = $smarty.local.params}
+{component 'field' template='select'
+    label         = $label
+    name          = $name
+    inputClasses  = 'js-user-field-choose-users'
+    isMultiple    = true
+    placeholder   = " "
+    note          = $smarty.capture.user_list_add_choose
+    params        = $smarty.local.params}

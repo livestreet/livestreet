@@ -282,7 +282,7 @@ class ActionStream extends Action
             /**
              * Если пользователь не найден или неактивен, возвращаем ошибку
              */
-            if ($oUser = $this->User_GetUserByLogin($sUser) and $oUser->getActivate() == 1) {
+            if ($oUser = $this->User_GetUserById($sUser) and $oUser->getActivate() == 1) {
                 $this->Stream_subscribeUser($this->oUserCurrent->getId(), $oUser->getId());
                 $oViewer = $this->Viewer_GetLocalViewer();
                 $oViewer->Assign('user', $oUser, true);

@@ -18,12 +18,13 @@
         options: {
             // Ссылки
             urls: {
-                modal: null
+                modal: null,
+                autocomplete: aRouter.ajax + 'autocompleter/user/'
             },
             // Селекторы
             selectors: {
-                // Текствое поле
-                text: '.js-user-field-choose-text',
+                // Список пользователей
+                users: '.js-user-field-choose-users',
                 // Выбор пользователей
                 button: '.js-user-field-choose-button'
             }
@@ -45,6 +46,27 @@
 
                 e.preventDefault();
             }.bind(this));
+
+            this.elements.users.ajaxChosen({
+                type: 'POST',
+                url: this.option( 'urls.autocomplete' ),
+                data: {
+                    security_ls_key: LIVESTREET_SECURITY_KEY,
+                    extended: true
+                },
+                dataType: 'json',
+                jsonTermKey: 'value'
+            }, function (data) {
+                var results = [];
+
+                $.each(data.aItems, function (i, val) {
+                    results.push({ value: val.value, text: val.text });
+                });
+
+                return results;
+            }, {
+                width: '100%'
+            });
         },
 
         /**
@@ -53,16 +75,14 @@
          * @return {Array} Массив с выбранными пользователями
          */
         getUsers: function () {
-            return $.map( this.elements.text.val().split( ',' ), function( item ) {
-                return $.trim( item ) || null;
-            });
+            return this.elements.users.val();
         },
 
         /**
          * Очищает поле со списком пользователей
          */
         empty: function () {
-            this.elements.text.val('');
+            this.elements.users.empty().trigger('chosen:updated');
         },
 
         /**
@@ -71,25 +91,19 @@
          * @param {Array} users Список выбранных пользователей
          */
         onModalListAdd: function (users) {
-            // Получаем логины для добавления
-            var loginsNew = $.map(users, function(user) {
-                return user.login;
-            });
+            var currentUsers = this.elements.users.val();
 
-            // Получаем логины которые уже прописаны
-            var loginsOld = $.map(this.elements.text.val().split(','), function(login) {
-                return $.trim(login) || null;
-            });
+            $.each(users, function (index, user) {
+                if ($.inArray(user.id, currentUsers) != -1) return;
 
-            // Мержим логины
-            var logins = $.merge(loginsOld, loginsNew);
+                $('<option />')
+                    .attr('value', user.id)
+                    .prop('selected', true)
+                    .html(user.login)
+                    .appendTo(this.elements.users);
+            }.bind(this));
 
-            // Убираем дубликаты
-            logins = $.grep(logins, function(value, key) {
-                return $.inArray(value, logins) === key;
-            });
-
-            this.elements.text.val( logins.join(', ') );
+            this.elements.users.trigger('chosen:updated');
         },
     });
 })(jQuery);
