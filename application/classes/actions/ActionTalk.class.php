@@ -518,21 +518,27 @@ class ActionTalk extends Action
         /**
          * Проверяем адресатов
          */
-        $sUsers = getRequest('talk_users');
-        $aUsers = explode(',', (string)$sUsers);
+        $aUsers = getRequest('talk_users');
         $aUsersNew = array();
         $aUserInBlacklist = $this->Talk_GetBlacklistByTargetId($this->oUserCurrent->getId());
 
         $this->aUsersId = array();
-        foreach ($aUsers as $sUser) {
-            $sUser = trim($sUser);
-            if ($sUser == '' or strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
+
+        if (!is_array($aUsers)) $aUsers = array();
+
+        foreach ($aUsers as $iUserId) {
+            $iUserId = (int) $iUserId;
+            if ($iUserId == 0 or $iUserId == $this->oUserCurrent->getId()) {
                 continue;
             }
-            if ($oUser = $this->User_GetUserByLogin($sUser) and $oUser->getActivate() == 1) {
+            if ($oUser = $this->User_GetUserById($iUserId) and $oUser->getActivate() == 1) {
                 // Проверяем, попал ли отправиль в блек лист
                 if (!in_array($oUser->getId(), $aUserInBlacklist)) {
                     $this->aUsersId[] = $oUser->getId();
+                    $aUsersNew[] = array(
+                        'value' => $oUser->getId(),
+                        'text' => $oUser->getLogin()
+                    );
                 } else {
                     $this->Message_AddError(
                         str_replace(
@@ -547,11 +553,10 @@ class ActionTalk extends Action
                     continue;
                 }
             } else {
-                $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_not_found') . ' «' . htmlspecialchars($sUser) . '»',
+                $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_not_found') . ' «' . $iUserId . '»',
                     $this->Lang_Get('common.error.error'));
                 $bOk = false;
             }
-            $aUsersNew[] = $sUser;
         }
         if (!count($aUsersNew)) {
             $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error'), $this->Lang_Get('common.error.error'));
@@ -562,7 +567,7 @@ class ActionTalk extends Action
                 $this->Message_AddError($this->Lang_Get('talk.add.notices.users_error_many'), $this->Lang_Get('common.error.error'));
                 $bOk = false;
             }
-            $_REQUEST['talk_users'] = join(',', $aUsersNew);
+            $_REQUEST['talk_users'] = $aUsersNew;
         }
         /**
          * Выполнение хуков
@@ -815,7 +820,7 @@ class ActionTalk extends Action
              * Если пользователь пытается добавить в блеклист самого себя,
              * возвращаем ошибку
              */
-            if (strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
+            if ($sUser == $this->oUserCurrent->getId()) {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
@@ -826,7 +831,7 @@ class ActionTalk extends Action
             /**
              * Если пользователь не найден или неактивен, возвращаем ошибку
              */
-            if ($oUser = $this->User_GetUserByLogin($sUser) and $oUser->getActivate() == 1) {
+            if ($oUser = $this->User_GetUserById($sUser) and $oUser->getActivate() == 1) {
                 if (!isset($aUserBlacklist[$oUser->getId()])) {
                     if ($this->Talk_AddUserToBlackList($oUser->getId(), $this->oUserCurrent->getId())) {
                         $oViewer = $this->Viewer_GetLocalViewer();
@@ -1086,7 +1091,7 @@ class ActionTalk extends Action
             /**
              * Попытка добавить себя
              */
-            if (strtolower($sUser) == strtolower($this->oUserCurrent->getLogin())) {
+            if ($sUser == $this->oUserCurrent->getId()) {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
@@ -1094,7 +1099,7 @@ class ActionTalk extends Action
                 );
                 continue;
             }
-            if (($oUser = $this->User_GetUserByLogin($sUser))
+            if (($oUser = $this->User_GetUserById($sUser))
                 && ($oUser->getActivate() == 1)
             ) {
                 if (!in_array($oUser->getId(), $aUserInBlacklist)) {

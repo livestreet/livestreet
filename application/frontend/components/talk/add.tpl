@@ -11,7 +11,7 @@
 
 	{* Получатели *}
 	{component 'user' template='choose'
-	    name         = 'talk_users'
+	    name         = 'talk_users[]'
 		rules        = [ 'required' => true, 'rangetags' => '[1,99]' ]
 	    classes      = 'js-talk-add-user-choose'
 	    label        = {lang 'talk.add.fields.users.label'}
