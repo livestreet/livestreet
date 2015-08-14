@@ -47,7 +47,7 @@
 
 			// Повторное приглашение пользователя в диалог
 			this.elements.list.on('click' + this.eventNamespace, this.options.selectors.item_activate, function (e) {
-				_this.add( [ $(this).data('user-login') ] );
+				_this.add( [ $(this).data('user-id') ] );
 				e.preventDefault();
 			});
 		},

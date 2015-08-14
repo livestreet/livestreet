@@ -7,16 +7,16 @@
 {block 'user_list_add_item_options' append}
     {if $userContainer && $userContainer->getUserActive() != $TALK_USER_ACTIVE}
         {$classes = "$classes inactive"}
-        {$attributes = [ 'title' => 'Пользователь не участвует в разговоре' ]}
+        {$attributes = [ 'title' => {lang 'talk.users.inactive'} ]}
     {/if}
 {/block}
 
 {block 'user_list_add_item_actions'}
     {if $smarty.local.editable|default:true}
-        <li class="js-message-users-user-inactivate" title="{$aLang.common.remove}" data-user-id="{$userId}">
+        <li class="js-message-users-user-inactivate ls-talk-participants-item-inactivate" title="{$aLang.common.remove}" data-user-id="{$userId}">
             {component 'icon' icon='minus'}
         </li>
-        <li class="js-message-users-user-activate" title="{$aLang.common.add}" data-user-id="{$userId}" data-user-login="{$user->getLogin()}">
+        <li class="js-message-users-user-activate ls-talk-participants-item-activate" title="{$aLang.common.add}" data-user-id="{$userId}" data-user-login="{$user->getLogin()}">
             {component 'icon' icon='plus'}
         </li>
     {/if}
