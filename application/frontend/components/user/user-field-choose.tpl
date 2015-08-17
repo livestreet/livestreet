@@ -12,12 +12,11 @@
     {assign var="$param" value=$smarty.local.$param}
 {/foreach}
 
-{* TODO: i18n *}
-{$label = $label|default:{lang 'user_list_add.form.fields.add.label'}}
-{$lang_choose = $lang_choose|default:{lang 'user_list_add.choose'}}
+{$label = $label|default:{lang 'user.choose.label'}}
+{$lang_choose = $lang_choose|default:{lang 'user.choose.choose'}}
 
 {* Ссылка показывающая мод. окно со списком пользователей *}
-{capture 'user_list_add_choose'}
+{capture 'user_field_choose'}
     <a href="#" class="link-dotted js-{$component}-button">
         {$lang_choose}
     </a>
@@ -29,5 +28,5 @@
     inputClasses  = 'js-user-field-choose-users'
     isMultiple    = true
     placeholder   = " "
-    note          = $smarty.capture.user_list_add_choose
+    note          = $smarty.capture.user_field_choose
     params        = $smarty.local.params}

@@ -32,12 +32,11 @@
     {if $smarty.local.editable|default:true}
         <form class="{$component}-form js-{$component}-form">
             {component 'user' template='choose'
-                name         = 'add'
-                classes      = "js-{$component}-choose"
-                label        = $aLang.user_list_add.form.fields.add.label
-                lang_choose  = {lang 'user_list_add.choose'}}
+                name    = 'add'
+                classes = "js-{$component}-choose"
+                label   = {lang 'user_list_add.form.fields.add.label'}}
 
-            {component 'button' text=$aLang.common.add mods='primary' classes="js-$component-form-submit"}
+            {component 'button' text={lang 'common.add'} mods='primary' classes="js-$component-form-submit"}
         </form>
     {/if}
 

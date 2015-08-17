@@ -566,15 +566,12 @@ return array(
      * Пополняемый список пользователей
      */
     'user_list_add'  => array(
-        'choose' => 'Выбрать из списка друзей',
-
         // Форма добавления
         'form'    => array(
             // Поля
             'fields' => array(
                 'add' => array(
-                    'label' => 'Список пользователей',
-                    'note'  => 'Введите один или несколько логинов'
+                    'label' => '___user.users___',
                 ),
             ),
         ),
@@ -1130,6 +1127,11 @@ return array(
             'follow'       => 'Подписаться',
             'unfollow'     => 'Отписаться',
             'report'       => '___report.report___',
+        ),
+        // Действия
+        'choose'           => array(
+            'label'  => '___user.users___',
+            'choose' => 'Выбрать из списка друзей',
         ),
         // Пол
         'gender'            => array(
