@@ -908,7 +908,7 @@ class ModuleMedia extends ModuleORM
             /**
              * Проверяем необходимость автоматического создания превью нужного размера - если разрешено настройками и файл НЕ существует
              */
-            if ($this->GetConfigParam('image.autoresize',
+            if ($sSize and $this->GetConfigParam('image.autoresize',
                     $oMedia->getTargetType()) and !$this->Image_IsExistsFile($this->GetImagePathBySize($oMedia->getFilePath(),
                     $sSize))
             ) {
