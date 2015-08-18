@@ -431,10 +431,28 @@ class ModuleMedia extends ModuleORM
         /**
          * Сохраняем оригинальную копию
          */
-        if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName)) {
-            $this->Fs_RemoveFileLocal($sFileTmp);
-            return $this->Image_GetLastError();
+        $sFileResult = null;
+        $mOriginalSize = $this->GetConfigParam('image.original', $sTargetType);
+        if ($mOriginalSize === true) {
+            if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName)) {
+                $this->Fs_RemoveFileLocal($sFileTmp);
+                return $this->Image_GetLastError();
+            }
+        } elseif (is_string($mOriginalSize)) {
+            /**
+             * Ресайзим оригинал
+             */
+            $aOriginalSize = $this->ParsedImageSize($mOriginalSize);
+            if ($aOriginalSize['crop']) {
+                $oImage->cropProportion($aOriginalSize['w'] / $aOriginalSize['h'], 'center');
+            }
+            if (!$sFileResult = $oImage->resize($aOriginalSize['w'], $aOriginalSize['h'], true)->saveSmart($sPath, $sFileName)
+            ) {
+                $this->Fs_RemoveFileLocal($sFileTmp);
+                return $this->Image_GetLastError();
+            }
         }
+
 
         $aSizes = $this->GetConfigParam('image.sizes', $sTargetType);
         /**
@@ -444,7 +462,15 @@ class ModuleMedia extends ModuleORM
         /**
          * Генерируем варианты с необходимыми размерами
          */
-        $this->GenerateImageBySizes($sFileTmp, $sPath, $sFileName, $aSizes, $aParams);
+        $sFileResultLast = $this->GenerateImageBySizes($sFileTmp, $sPath, $sFileName, $aSizes, $aParams);
+        if (!$sFileResult) {
+            /**
+             * Оригинала нет, поэтому получаем фейковый путь до основного файла (нужен для получения файлов других размеров)
+             */
+            $aPathInfoLast = pathinfo($sFileResultLast);
+            $aFileNamePart = explode('_', $aPathInfoLast['filename']);
+            $sFileResult = $aPathInfoLast['dirname'] . '/' . $aFileNamePart[0] . '.' . $aPathInfoLast['extension'];
+        }
         /**
          * Сохраняем медиа
          */
