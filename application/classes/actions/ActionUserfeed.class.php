@@ -179,15 +179,17 @@ class ActionUserfeed extends Action
         /**
          * Обрабатываем добавление по каждому из переданных логинов
          */
-        foreach ($aUsers as $sUser) {
-            $sUser = trim($sUser);
-            if ($sUser == '') {
+        foreach ($aUsers as $iUserId) {
+            $iUserId = (int) $iUserId;
+
+            if (!$iUserId) {
                 continue;
             }
+
             /**
              * Если пользователь не найден или неактивен, возвращаем ошибку
              */
-            if ($oUser = $this->User_GetUserById($sUser) and $oUser->getActivate() == 1) {
+            if ($oUser = $this->User_GetUserById($iUserId) and $oUser->getActivate() == 1) {
                 $this->Userfeed_subscribeUser($this->oUserCurrent->getId(), ModuleUserfeed::SUBSCRIBE_TYPE_USER,
                     $oUser->getId());
 
@@ -198,19 +200,16 @@ class ActionUserfeed extends Action
                 $aResult[] = array(
                     'bStateError'   => false,
                     'sMsgTitle'     => $this->Lang_Get('common.attention'),
-                    'sMsg'          => $this->Lang_Get('common.success.add',
-                        array('login' => htmlspecialchars($sUser))),
+                    'sMsg'          => $this->Lang_Get('common.success.add', array('login' => $oUser->getLogin())),
                     'user_id'       => $oUser->getId(),
-                    'user_login'    => htmlspecialchars($sUser),
+                    'user_login'    => $oUser->getLogin(),
                     'html'          => $oViewer->Fetch("component@user-list-add.item")
                 );
             } else {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
-                    'sMsg'        => $this->Lang_Get('user.notices.not_found',
-                        array('login' => htmlspecialchars($sUser))),
-                    'user_login'  => htmlspecialchars($sUser)
+                    'sMsg'        => $this->Lang_Get('user.notices.not_found_by_id', array('id' => $iUserId))
                 );
             }
         }

@@ -811,16 +811,18 @@ class ActionTalk extends Action
         /**
          * Обрабатываем добавление по каждому из переданных логинов
          */
-        foreach ($aUsers as $sUser) {
-            $sUser = trim($sUser);
-            if ($sUser == '') {
+        foreach ($aUsers as $iUserId) {
+            $iUserId = (int) $iUserId;
+
+            if (!$iUserId) {
                 continue;
             }
+
             /**
              * Если пользователь пытается добавить в блеклист самого себя,
              * возвращаем ошибку
              */
-            if ($sUser == $this->oUserCurrent->getId()) {
+            if ($iUserId == $this->oUserCurrent->getId()) {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
@@ -831,7 +833,7 @@ class ActionTalk extends Action
             /**
              * Если пользователь не найден или неактивен, возвращаем ошибку
              */
-            if ($oUser = $this->User_GetUserById($sUser) and $oUser->getActivate() == 1) {
+            if ($oUser = $this->User_GetUserById($iUserId) and $oUser->getActivate() == 1) {
                 if (!isset($aUserBlacklist[$oUser->getId()])) {
                     if ($this->Talk_AddUserToBlackList($oUser->getId(), $this->oUserCurrent->getId())) {
                         $oViewer = $this->Viewer_GetLocalViewer();
@@ -842,9 +844,9 @@ class ActionTalk extends Action
                             'bStateError'   => false,
                             'sMsgTitle'     => $this->Lang_Get('common.attention'),
                             'sMsg'          => $this->Lang_Get('common.success.add',
-                                array('login' => htmlspecialchars($sUser))),
+                                array('login' => $oUser->getLogin())),
                             'user_id'       => $oUser->getId(),
-                            'user_login'    => htmlspecialchars($sUser),
+                            'user_login'    => $oUser->getLogin(),
                             'html'         => $oViewer->Fetch("component@user-list-add.item")
                         );
                     } else {
@@ -852,7 +854,7 @@ class ActionTalk extends Action
                             'bStateError' => true,
                             'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                             'sMsg'        => $this->Lang_Get('common.error.system.base'),
-                            'user_login'  => htmlspecialchars($sUser)
+                            'user_login'  => $oUser->getLogin()
                         );
                     }
                 } else {
@@ -863,8 +865,8 @@ class ActionTalk extends Action
                         'bStateError' => true,
                         'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                         'sMsg'        => $this->Lang_Get('user_list_add.notices.error_already_added',
-                            array('login' => htmlspecialchars($sUser))),
-                        'user_login'  => htmlspecialchars($sUser)
+                            array('login' => $oUser->getLogin())),
+                        'user_login'  => $oUser->getLogin()
                     );
                     continue;
                 }
@@ -872,9 +874,8 @@ class ActionTalk extends Action
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
-                    'sMsg'        => $this->Lang_Get('user.notices.not_found',
-                        array('login' => htmlspecialchars($sUser))),
-                    'user_login'  => htmlspecialchars($sUser)
+                    'sMsg'        => $this->Lang_Get('user.notices.not_found_by_id',
+                        array('id' => $iUserId))
                 );
             }
         }
@@ -1083,15 +1084,17 @@ class ActionTalk extends Action
         /**
          * Обрабатываем добавление по каждому переданному логину пользователя
          */
-        foreach ($aUsers as $sUser) {
-            $sUser = trim($sUser);
-            if ($sUser == '') {
+        foreach ($aUsers as $iUserId) {
+            $iUserId = (int) $iUserId;
+
+            if (!$iUserId) {
                 continue;
             }
+
             /**
              * Попытка добавить себя
              */
-            if ($sUser == $this->oUserCurrent->getId()) {
+            if ($iUserId == $this->oUserCurrent->getId()) {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
@@ -1099,7 +1102,7 @@ class ActionTalk extends Action
                 );
                 continue;
             }
-            if (($oUser = $this->User_GetUserById($sUser))
+            if (($oUser = $this->User_GetUserById($iUserId))
                 && ($oUser->getActivate() == 1)
             ) {
                 if (!in_array($oUser->getId(), $aUserInBlacklist)) {
@@ -1131,7 +1134,7 @@ class ActionTalk extends Action
                                         'bStateError'   => false,
                                         'sMsgTitle'     => $this->Lang_Get('common.attention'),
                                         'sMsg'          => $this->Lang_Get('user_list_add.notices.success_add',
-                                            array('login', htmlspecialchars($sUser))),
+                                            array('login', $oUser->getLogin())),
                                         'user_id'       => $oUser->getId(),
                                         'user_login'    => $oUser->getLogin(),
                                         'html'         => $oViewer->Fetch("component@talk.participants-item")
@@ -1153,7 +1156,7 @@ class ActionTalk extends Action
                                     'bStateError' => true,
                                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                                     'sMsg'        => $this->Lang_Get('user_list_add.notices.error_already_added',
-                                        array('login' => htmlspecialchars($sUser)))
+                                        array('login' => $oUser->getLogin()))
                                 );
                                 break;
                             /**
@@ -1164,7 +1167,7 @@ class ActionTalk extends Action
                                     'bStateError' => true,
                                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                                     'sMsg'        => $this->Lang_Get('talk.users.notices.deleted',
-                                        array('login' => htmlspecialchars($sUser)))
+                                        array('login' => $oUser->getLogin()))
                                 );
                                 break;
 
@@ -1197,7 +1200,7 @@ class ActionTalk extends Action
                             'bStateError' => false,
                             'sMsgTitle'   => $this->Lang_Get('common.attention'),
                             'sMsg'        => $this->Lang_Get('user_list_add.notices.success_add',
-                                array('login', htmlspecialchars($sUser))),
+                                array('login', $oUser->getLogin())),
                             'user_id'     => $oUser->getId(),
                             'html'       => $oViewer->Fetch("component@talk.participants-item")
                         );
@@ -1217,7 +1220,7 @@ class ActionTalk extends Action
                         'bStateError' => true,
                         'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                         'sMsg'        => $this->Lang_Get('talk.blacklist.notices.blocked',
-                            array('login' => htmlspecialchars($sUser)))
+                            array('login' => $oUser->getLogin()))
                     );
                 }
             } else {
@@ -1227,8 +1230,8 @@ class ActionTalk extends Action
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
-                    'sMsg'        => $this->Lang_Get('user.notices.not_found',
-                        array('login' => htmlspecialchars($sUser)))
+                    'sMsg'        => $this->Lang_Get('user.notices.not_found_by_id',
+                        array('id' => $iUserId))
                 );
             }
         }

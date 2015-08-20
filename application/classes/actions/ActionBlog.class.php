@@ -1476,22 +1476,22 @@ class ActionBlog extends Action
         /**
          * Обрабатываем добавление по каждому из переданных логинов
          */
-        foreach ($aUsers as $sUser) {
-            $sUser = trim($sUser);
-            if ($sUser == '') {
+        foreach ($aUsers as $iUserId) {
+            $iUserId = (int) $iUserId;
+
+            if (!$iUserId) {
                 continue;
             }
+
             /**
              * Если пользователь не найден или неактивен,
              * возвращаем ошибку
              */
-            if (!$oUser = $this->User_GetUserByLogin($sUser) or $oUser->getActivate() != 1) {
+            if (!$oUser = $this->User_GetUserById($iUserId) or $oUser->getActivate() != 1) {
                 $aResult[] = array(
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
-                    'sMsg'        => $this->Lang_Get('user.notices.not_found',
-                        array('login' => htmlspecialchars($sUser))),
-                    'user_login'  => htmlspecialchars($sUser)
+                    'sMsg'        => $this->Lang_Get('user.notices.not_found_by_id', array('id' => $iUserId))
                 );
                 continue;
             }
@@ -1525,9 +1525,9 @@ class ActionBlog extends Action
                         'bStateError' => false,
                         'sMsgTitle'   => $this->Lang_Get('common.attention'),
                         'sMsg'        => $this->Lang_Get('blog.invite.notices.add',
-                            array('login' => htmlspecialchars($sUser))),
+                            array('login' => $oUser->getLogin())),
                         'user_id'     => $oUser->getId(),
-                        'user_login'  => htmlspecialchars($sUser),
+                        'user_login'  => $oUser->getLogin(),
                         'html'        => $oViewer->Fetch("component@blog.invite-item")
                     );
                     $this->SendBlogInvite($oBlog, $oUser);
@@ -1536,7 +1536,7 @@ class ActionBlog extends Action
                         'bStateError' => true,
                         'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                         'sMsg'        => $this->Lang_Get('common.error.system.base'),
-                        'user_login'  => htmlspecialchars($sUser)
+                        'user_login'  => $oUser->getLogin()
                     );
                 }
             } else {
@@ -1547,15 +1547,15 @@ class ActionBlog extends Action
                 switch (true) {
                     case ($oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_INVITE):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.already_invited',
-                            array('login' => htmlspecialchars($sUser)));
+                            array('login' => $oUser->getLogin()));
                         break;
                     case ($oBlogUser->getUserRole() > ModuleBlog::BLOG_USER_ROLE_GUEST):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.already_joined',
-                            array('login' => htmlspecialchars($sUser)));
+                            array('login' => $oUser->getLogin()));
                         break;
                     case ($oBlogUser->getUserRole() == ModuleBlog::BLOG_USER_ROLE_REJECT):
                         $sErrorMessage = $this->Lang_Get('blog.invite.notices.reject',
-                            array('login' => htmlspecialchars($sUser)));
+                            array('login' => $oUser->getLogin()));
                         break;
                     default:
                         $sErrorMessage = $this->Lang_Get('common.error.system.base');
@@ -1564,7 +1564,7 @@ class ActionBlog extends Action
                     'bStateError' => true,
                     'sMsgTitle'   => $this->Lang_Get('common.error.error'),
                     'sMsg'        => $sErrorMessage,
-                    'user_login'  => htmlspecialchars($sUser)
+                    'user_login'  => $oUser->getLogin()
                 );
                 continue;
             }
