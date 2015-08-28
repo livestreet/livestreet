@@ -196,6 +196,7 @@
                 : this.option( 'comments' ).lsComments( 'getElement', 'reply_root' );
 
             this.element.insertAfter( element ).show();
+            this.elements.text.lsEditor( 'onShow' );
             if ( focus ) this.elements.text.lsEditor( 'focus' );
         },
 
