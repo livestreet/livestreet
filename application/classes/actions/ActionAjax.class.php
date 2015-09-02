@@ -145,7 +145,7 @@ class ActionAjax extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
         // Получаем переменные
-        $bSelectable = (bool) getRequest('selectable');
+        $bSelectable = (bool)getRequest('selectable');
 
         // Получаем список друзей
         $aUsersFriend = $this->User_GetUsersFriend($this->oUserCurrent->getId());
@@ -547,7 +547,7 @@ class ActionAjax extends Action
                     return $this->EventErrorDebug();
                 }
                 if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
-                        array('user' => $this->oUserCurrent))
+                        array('user' => $this->oUserCurrent), $sTargetTmp)
                 ) {
                     $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
                         $this->Lang_Get('common.error.error'));
@@ -932,7 +932,7 @@ class ActionAjax extends Action
                 return $this->EventErrorDebug();
             }
             if (true !== $res = $this->Media_CheckTarget($sTargetType, null, ModuleMedia::TYPE_CHECK_ALLOW_ADD,
-                    array('user' => $this->oUserCurrent))
+                    array('user' => $this->oUserCurrent), $sTargetTmp)
             ) {
                 $this->Message_AddError(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'),
                     $this->Lang_Get('common.error.error'));
@@ -1772,7 +1772,7 @@ class ActionAjax extends Action
         if (!($sValue = getRequest('value', null, 'post')) or !is_string($sValue)) {
             return;
         }
-        $bReturnExtended=getRequest('extended') ?: false;
+        $bReturnExtended = getRequest('extended') ?: false;
         $aItems = array();
         /**
          * Формируем список пользователей
@@ -1782,7 +1782,7 @@ class ActionAjax extends Action
             if ($bReturnExtended) {
                 $aItems[] = array(
                     'value' => $oUser->getId(),
-                    'text' => $oUser->getLogin(),
+                    'text'  => $oUser->getLogin(),
                 );
             } else {
                 $aItems[] = $oUser->getLogin();

@@ -214,12 +214,31 @@ class ModuleMedia extends ModuleORM
      * @param int $iTargetId ID владельца
      * @param string $sAllowType
      * @param array $aParams
+     * @param string|null $sTargetTmp
      * @return bool
      */
-    public function CheckTarget($sTargetType, $iTargetId = null, $sAllowType = null, $aParams = array())
+    public function CheckTarget($sTargetType, $iTargetId = null, $sAllowType = null, $aParams = array(), $sTargetTmp = null)
     {
         if (!$this->IsAllowTargetType($sTargetType)) {
             return false;
+        }
+        /**
+         * Проверка на максимальное количество файлов
+         */
+        if ($sAllowType == self::TYPE_CHECK_ALLOW_ADD and ($iTargetId or $sTargetTmp)) {
+            $iCountAllow = $this->GetConfigParam('max_count_files', $sTargetType);
+            if (is_numeric($iCountAllow)) {
+                $aFilterCount = array('target_type' => $sTargetType);
+                if ($iTargetId) {
+                    $aFilterCount['target_id'] = $iTargetId;
+                } else {
+                    $aFilterCount['target_tmp'] = $sTargetTmp;
+                }
+                $iCount = $this->getCountFromTargetByFilter($aFilterCount);
+                if ($iCount >= $iCountAllow) {
+                    return $this->Lang_Get('media.error.max_count_files');
+                }
+            }
         }
         $sMethod = 'CheckTarget' . func_camelize($sTargetType);
         if (method_exists($this, $sMethod)) {
