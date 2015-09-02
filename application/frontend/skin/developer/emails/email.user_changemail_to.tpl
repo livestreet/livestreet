@@ -10,6 +10,6 @@
 		'user_name'  => $oUser->getDisplayName(),
 		'mail_old'   => $oChangemail->getMailFrom(),
 		'mail_new'   => $oChangemail->getMailTo(),
-		'change_url' => "{router page='profile'}changemail/confirm-to/{$oChangemail->getCodeFrom()}/"
+		'change_url' => "{router page='profile'}changemail/confirm-to/{$oChangemail->getCodeTo()}/"
 	]}
 {/block}
