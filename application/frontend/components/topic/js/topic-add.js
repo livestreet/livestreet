@@ -72,7 +72,7 @@
             });
 
             // Выбор блогов
-            this.elements.blogs.chosen({
+            this.elements.blogs.lsFieldAutocomplete({
                 max_selected_options: this.option( 'max_blog_count' ),
                 width: '100%'
             });

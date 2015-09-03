@@ -47,25 +47,13 @@
                 e.preventDefault();
             }.bind(this));
 
-            this.elements.users.ajaxChosen({
-                type: 'POST',
-                url: this.option( 'urls.autocomplete' ),
-                data: {
-                    security_ls_key: LIVESTREET_SECURITY_KEY,
-                    extended: true
+            this.elements.users.lsFieldAutocomplete({
+                urls: {
+                    load: this.option( 'urls.autocomplete' )
                 },
-                dataType: 'json',
-                jsonTermKey: 'value'
-            }, function (data) {
-                var results = [];
-
-                $.each(data.aItems, function (i, val) {
-                    results.push({ value: val.value, text: val.text });
-                });
-
-                return results;
-            }, {
-                width: '100%'
+                params: {
+                    extended: true
+                }
             });
         },
 
