@@ -188,6 +188,15 @@ class ActionContent extends Action
          */
         $aBlogs = array();
         $aBlogs['open'] = $this->Blog_GetBlogsByType('open');
+        /**
+         * Убираем из списка блоги в которые не доступен постинг
+         */
+        $aBlogsCurrent = $oTopic->getBlogIds();
+        foreach ($aBlogs['open'] as $k => $oBlogOpen) {
+            if (!$this->ACL_IsAllowBlog($oBlogOpen, $this->oUserCurrent) and !in_array($oBlogOpen->getId(), $aBlogsCurrent)) {
+                unset($aBlogs['open'][$k]);
+            }
+        }
         if ($this->oUserCurrent->isAdministrator()) {
             $aBlogs['close'] = $this->Blog_GetBlogsByType('close');
         } else {
@@ -256,6 +265,14 @@ class ActionContent extends Action
          */
         $aBlogs = array();
         $aBlogs['open'] = $this->Blog_GetBlogsByType('open');
+        /**
+         * Убираем из списка блоги в которые не доступен постинг
+         */
+        foreach ($aBlogs['open'] as $k => $oBlogOpen) {
+            if (!$this->ACL_IsAllowBlog($oBlogOpen, $this->oUserCurrent)) {
+                unset($aBlogs['open'][$k]);
+            }
+        }
         if ($this->oUserCurrent->isAdministrator()) {
             $aBlogs['close'] = $this->Blog_GetBlogsByType('close');
         } else {
