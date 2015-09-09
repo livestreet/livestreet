@@ -61,6 +61,14 @@
         note         = $aLang.blog.add.fields.rating.note
         label        = $aLang.blog.add.fields.rating.label}
 
+    {* Принудительный вывод топиков на главную (доступно только админам) *}
+    {if $oUserCurrent->isAdministrator()}
+        {component 'field' template='checkbox'
+            name    = 'blog_skip_index'
+            note    = $aLang.blog.add.fields.skip_index.note
+            label   = $aLang.blog.add.fields.skip_index.label}
+    {/if}
+
 
     {hook run='form_add_blog_end'}
 

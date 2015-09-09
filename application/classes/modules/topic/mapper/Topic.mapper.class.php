@@ -604,7 +604,7 @@ class ModuleTopic_MapperTopic extends Mapper
         if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
             $sPublishIndex = '';
             if (isset($aFilter['topic_rating']['publish_index']) and $aFilter['topic_rating']['publish_index'] == 1) {
-                $sPublishIndex = " or topic_publish_index = 1 ) and ( topic_skip_index = 0 ";
+                $sPublishIndex = " or topic_publish_index = 1 ) and ( topic_skip_index = 0 and b.blog_skip_index = 0 ";
             }
             if ($aFilter['topic_rating']['type'] == 'top') {
                 $sWhere .= " AND ( t.topic_rating >= " . (float)$aFilter['topic_rating']['value'] . " {$sPublishIndex} ) ";

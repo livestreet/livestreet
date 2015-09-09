@@ -177,6 +177,16 @@ class ModuleBlog_EntityBlog extends Entity
     }
 
     /**
+     * Возвращает флаг пропуска топиков на главной
+     *
+     * @return int|null
+     */
+    public function getSkipIndex()
+    {
+        return $this->_getDataOne('blog_skip_index');
+    }
+
+    /**
      * Возвращает полный серверный путь до аватара блога
      *
      * @return string|null
@@ -433,6 +443,16 @@ class ModuleBlog_EntityBlog extends Entity
     public function setUrl($data)
     {
         $this->_aData['blog_url'] = $data;
+    }
+
+    /**
+     * Устанавливает флаг пропуска топиков на главной
+     *
+     * @param string $data
+     */
+    public function setSkipIndex($data)
+    {
+        $this->_aData['blog_skip_index'] = $data;
     }
 
     /**

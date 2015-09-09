@@ -43,13 +43,14 @@ class ModuleBlog_MapperBlog extends Mapper
 			blog_date_add,
 			blog_limit_rating_topic,
 			blog_url,
+			blog_skip_index,
 			blog_avatar
 			)
-			VALUES(?d,  ?,	?,	?, ?, ?, ?, ?)
+			VALUES(?d,  ?,	?,	?, ?, ?, ?, ?, ?)
 		";
         if ($iId = $this->oDb->query($sql, $oBlog->getOwnerId(), $oBlog->getTitle(), $oBlog->getDescription(),
             $oBlog->getType(), $oBlog->getDateAdd(), $oBlog->getLimitRatingTopic(), $oBlog->getUrl(),
-            $oBlog->getAvatar())
+            $oBlog->getSkipIndex(), $oBlog->getAvatar())
         ) {
             return $iId;
         }
@@ -75,13 +76,14 @@ class ModuleBlog_MapperBlog extends Mapper
 				blog_count_topic= ?d,
 				blog_limit_rating_topic= ?f ,
 				blog_url= ?,
+				blog_skip_index= ?d,
 				blog_avatar= ?
 			WHERE
 				blog_id = ?d
 		";
         $res = $this->oDb->query($sql, $oBlog->getTitle(), $oBlog->getDescription(), $oBlog->getType(),
             $oBlog->getDateEdit(), $oBlog->getCountVote(), $oBlog->getCountUser(),
-            $oBlog->getCountTopic(), $oBlog->getLimitRatingTopic(), $oBlog->getUrl(), $oBlog->getAvatar(),
+            $oBlog->getCountTopic(), $oBlog->getLimitRatingTopic(), $oBlog->getUrl(), $oBlog->getSkipIndex(), $oBlog->getAvatar(),
             $oBlog->getId());
         return $this->IsSuccessful($res);
     }
@@ -137,7 +139,7 @@ class ModuleBlog_MapperBlog extends Mapper
     }
 
     /**
-     * Добавляет свзяь пользователя с блогом в БД
+     * Добавляет связь пользователя с блогом в БД
      *
      * @param ModuleBlog_EntityBlogUser $oBlogUser Объект отношения пользователя с блогом
      * @return bool

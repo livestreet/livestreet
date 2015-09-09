@@ -266,6 +266,11 @@ class ActionBlog extends Action
         $oBlog->setDateAdd(date("Y-m-d H:i:s"));
         $oBlog->setLimitRatingTopic(getRequestStr('blog_limit_rating_topic'));
         $oBlog->setUrl(getRequestStr('blog_url'));
+        if ($this->oUserCurrent->isAdministrator()) {
+            $oBlog->setSkipIndex(getRequest('blog_skip_index') ? 1 : 0);
+        } else {
+            $oBlog->setSkipIndex(0);
+        }
         $oBlog->setAvatar(null);
         /**
          * Создаём блог
@@ -380,6 +385,7 @@ class ActionBlog extends Action
             $oBlog->setLimitRatingTopic(getRequestStr('blog_limit_rating_topic'));
             if ($this->oUserCurrent->isAdministrator()) {
                 $oBlog->setUrl(getRequestStr('blog_url'));    // разрешаем смену URL блога только админу
+                $oBlog->setSkipIndex(getRequest('blog_skip_index') ? 1 : 0);
             }
             /**
              * Обновляем блог
@@ -405,6 +411,7 @@ class ActionBlog extends Action
              */
             $_REQUEST['blog_title'] = $oBlog->getTitle();
             $_REQUEST['blog_url'] = $oBlog->getUrl();
+            $_REQUEST['blog_skip_index'] = $oBlog->getSkipIndex();
             $_REQUEST['blog_type'] = $oBlog->getType();
             $_REQUEST['blog_description'] = $oBlog->getDescription();
             $_REQUEST['blog_limit_rating_topic'] = $oBlog->getLimitRatingTopic();
@@ -1477,7 +1484,7 @@ class ActionBlog extends Action
          * Обрабатываем добавление по каждому из переданных логинов
          */
         foreach ($aUsers as $iUserId) {
-            $iUserId = (int) $iUserId;
+            $iUserId = (int)$iUserId;
 
             if (!$iUserId) {
                 continue;

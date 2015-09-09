@@ -879,3 +879,6 @@ ALTER TABLE `prefix_topic` ADD `topic_slug` VARCHAR(500) NOT NULL DEFAULT '' AFT
 -- 27.03.2015
 ALTER TABLE `prefix_topic` ADD `topic_date_publish` DATETIME NOT NULL AFTER `topic_date_edit_content`, ADD INDEX (`topic_date_publish`) ;
 UPDATE `prefix_topic` SET `topic_date_publish` = `topic_date_add`;
+
+-- 09.09.2015
+ALTER TABLE `prefix_blog` ADD `blog_skip_index` TINYINT(1) NOT NULL DEFAULT '0' , ADD INDEX (`blog_skip_index`) ;
