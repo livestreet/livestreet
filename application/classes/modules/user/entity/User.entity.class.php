@@ -554,11 +554,11 @@ class ModuleUser_EntityUser extends Entity
     /**
      * Возвращает статус администратора сайта
      *
-     * @return bool|null
+     * @return bool
      */
     public function isAdministrator()
     {
-        return $this->getAdmin();
+        return (bool)$this->getAdmin();
     }
 
     /**

@@ -293,6 +293,12 @@ class ModuleACL extends Module
                     return $that->Lang_Get('vote.notices.error_already_voted');
                 }
                 /**
+                 * Разрешаем админу
+                 */
+                if ($oUser->isAdministrator()) {
+                    return true;
+                }
+                /**
                  * Ограничение по рейтингу
                  */
                 if ($oUser->getRating() < Config::Get('acl.vote.comment.rating')) {
@@ -336,6 +342,12 @@ class ModuleACL extends Module
                  */
                 if ($oTopicVote = $that->Vote_GetVote($oTopic->getId(), 'topic', $oUser->getId())) {
                     return $that->Lang_Get('vote.notices.error_already_voted');
+                }
+                /**
+                 * Разрешаем админу
+                 */
+                if ($oUser->isAdministrator()) {
+                    return true;
                 }
                 /**
                  * Время голосования истекло?
@@ -637,7 +649,8 @@ class ModuleACL extends Module
          * Проверяем права на просмотр топика
          */
         if ((!$oTopic->getPublish() or $oTopic->getDatePublish() > date('Y-m-d H:i:s'))
-            and (!$oUser or ($oUser->getId() != $oTopic->getUserId() and !$oUser->isAdministrator()))) {
+            and (!$oUser or ($oUser->getId() != $oTopic->getUserId() and !$oUser->isAdministrator()))
+        ) {
             return false;
         }
         /**
