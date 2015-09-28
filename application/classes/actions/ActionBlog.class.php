@@ -2093,8 +2093,8 @@ class ActionBlog extends Action
          * Храним две копии - мелкую для показа пользователю и крупную в качестве исходной для ресайза
          */
         $sDir = Config::Get('path.uploads.images') . "/tmp/blog/{$oBlog->getId()}";
-        if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original')) {
-            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
+        if ($sFileOriginal = $oImage->resize(1000, null)->saveSmart($sDir, 'original', array('skip_watermark' => true))) {
+            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview', array('skip_watermark' => true))) {
                 list($iOriginalWidth, $iOriginalHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
                 list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFilePreview));
                 /**

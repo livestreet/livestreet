@@ -449,11 +449,12 @@ class ModuleMedia extends ModuleORM
         $sFileName = func_generator(20);
         /**
          * Сохраняем оригинальную копию
+         * Оригинал храним без вотермарка
          */
         $sFileResult = null;
         $mOriginalSize = $this->GetConfigParam('image.original', $sTargetType);
         if ($mOriginalSize === true) {
-            if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName)) {
+            if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName, array('skip_watermark' => true))) {
                 $this->Fs_RemoveFileLocal($sFileTmp);
                 return $this->Image_GetLastError();
             }
@@ -465,7 +466,7 @@ class ModuleMedia extends ModuleORM
             if ($aOriginalSize['crop']) {
                 $oImage->cropProportion($aOriginalSize['w'] / $aOriginalSize['h'], 'center');
             }
-            if (!$sFileResult = $oImage->resize($aOriginalSize['w'], $aOriginalSize['h'], true)->saveSmart($sPath, $sFileName)
+            if (!$sFileResult = $oImage->resize($aOriginalSize['w'], $aOriginalSize['h'], true)->saveSmart($sPath, $sFileName, array('skip_watermark' => true))
             ) {
                 $this->Fs_RemoveFileLocal($sFileTmp);
                 return $this->Image_GetLastError();

@@ -142,8 +142,8 @@ class ActionSettings extends Action
         $sDir = Config::Get('path.uploads.images') . "/tmp/userphoto/{$oUser->getId()}";
         $aPhotoSizes = $this->Media_ParsedImageSize(Config::Get('module.user.profile_photo_size'));
         $sSaveWidth = $aPhotoSizes['w'] > 1000 ? $aPhotoSizes['w'] : 1000;
-        if ($sFileOriginal = $oImage->resize($sSaveWidth, null)->saveSmart($sDir, 'original')) {
-            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview')) {
+        if ($sFileOriginal = $oImage->resize($sSaveWidth, null)->saveSmart($sDir, 'original', array('skip_watermark' => true))) {
+            if ($sFilePreview = $oImage->resize(350, null)->saveSmart($sDir, 'preview', array('skip_watermark' => true))) {
                 list($iOriginalWidth, $iOriginalHeight) = @getimagesize($this->Fs_GetPathServer($sFileOriginal));
                 list($iWidth, $iHeight) = @getimagesize($this->Fs_GetPathServer($sFilePreview));
                 /**
