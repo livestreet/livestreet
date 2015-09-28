@@ -27,6 +27,7 @@
 	{component 'editor'
 			sSet             = 'light'
 			sMediaTargetType = 'talk'
+			id	             = 'talk_text'
 			name             = 'talk_text'
 			rules            = [ 'required' => true, 'length' => '[2,3000]' ]
 			label            = $aLang.talk.add.fields.text.label
@@ -43,7 +44,7 @@
 		name       = 'submit_preview'
 		type       = 'button'
 		text       = $aLang.common.preview_text
-		attributes = [ 'onclick' => "jQuery(\'#text_preview\').show(); ls.utils.textPreview($(\'#talk_text\'), $(\'#text_preview\'), false); return false;" ]}
+		attributes = [ 'onclick' => "jQuery('#text_preview').show(); ls.utils.textPreview($('#talk_text'), $('#text_preview'), false); return false;" ]}
 </form>
 
 {hook run='talk_add_end'}
