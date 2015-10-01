@@ -392,6 +392,13 @@ class ActionTalk extends Action
          * Проверяем отправлена ли форма с данными
          */
         if (!isPost()) {
+            $iUserId = (int) getRequest('talk_recepient_id');
+            $oUser = $this->User_GetUserById($iUserId);
+
+            if ($oUser) {
+                $this->Viewer_Assign('recepient', $oUser);
+            }
+
             return false;
         }
         /**

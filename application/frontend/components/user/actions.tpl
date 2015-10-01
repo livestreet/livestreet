@@ -12,7 +12,7 @@
     classes = 'profile-actions'
     items   = [
         [ 'html' => {component 'user' template='friend-item' friendship=$user->getUserFriend() userTarget=$oUserProfile classes='js-user-friend'} ],
-        [ 'url' => "{router page='talk'}add/?talk_users={$user->getLogin()}", 'text' => {lang 'user.actions.send_message'} ],
+        [ 'url' => "{router page='talk'}add/?talk_recepient_id={$user->getId()}", 'text' => {lang 'user.actions.send_message'} ],
         [
             'url' => "#",
             'classes' => "js-user-follow {if $user->isFollow()}active{/if}",

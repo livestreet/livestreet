@@ -11,7 +11,10 @@
 
 	{* Получатели *}
 	{component 'user' template='choose'
-	    name         = 'talk_users[]'
+		items        = ($recepient) ? [[ 'text' => $recepient->getLogin(), 'value' => $recepient->getId() ]] : null
+		selectedValue = ($recepient) ? $recepient->getId() : null
+		form = ($_aRequest['talk_recepient_id']) ? null : $_aRequest
+		name         = 'talk_users[]'
 		rules        = [ 'required' => true, 'rangetags' => '[1,99]' ]
 	    classes      = 'js-talk-add-user-choose'
 	    label        = {lang 'talk.add.fields.users.label'}
