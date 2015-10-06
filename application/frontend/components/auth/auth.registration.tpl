@@ -36,11 +36,13 @@
         label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}
-    {component 'field' template='captcha'
-        type        = Config::Get('sys.captcha.type')
-        name        = 'captcha'
-        captchaName = 'user_signup'
-        label       = $aLang.auth.labels.captcha}
+    {if Config::Get('module.user.captcha_use_registration')}
+        {component 'field' template='captcha'
+            type        = Config::Get('sys.captcha.type')
+            name        = 'captcha'
+            captchaName = 'user_signup'
+            label       = $aLang.auth.labels.captcha}
+    {/if}
 
     {hook run='form_registration_end'}
 
