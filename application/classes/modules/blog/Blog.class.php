@@ -374,6 +374,7 @@ class ModuleBlog extends Module
         $oBlog->setLimitRatingTopic(-1000);
         $oBlog->setUrl(null);
         $oBlog->setAvatar(null);
+        $oBlog->setSkipIndex(0);
         return $this->AddBlog($oBlog);
     }
 
