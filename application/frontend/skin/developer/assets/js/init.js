@@ -32,6 +32,13 @@ jQuery(document).ready(function($){
 
 
 	/**
+	 * Form validate
+	 * Валидатор нужно иниц-ть до иниц-ии аякс форм, чтобы избежать валидации аякс-полей после сабмита формы
+	 */
+	$('.js-form-validate').parsley();
+
+
+	/**
      * Notification
      */
     ls.notification.init();
@@ -545,12 +552,6 @@ jQuery(document).ready(function($){
 
 		return false;
 	});
-
-
-	/**
-	 * Form validate
-	 */
-	$('.js-form-validate').parsley();
 
 
 	/**
