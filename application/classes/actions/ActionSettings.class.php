@@ -544,12 +544,14 @@ class ActionSettings extends Action
             /**
              * Определяем гео-объект
              */
-            if (getRequest('geo_city')) {
-                $oGeoObject = $this->Geo_GetGeoObject('city', getRequestStr('geo_city'));
-            } elseif (getRequest('geo_region')) {
-                $oGeoObject = $this->Geo_GetGeoObject('region', getRequestStr('geo_region'));
-            } elseif (getRequest('geo_country')) {
-                $oGeoObject = $this->Geo_GetGeoObject('country', getRequestStr('geo_country'));
+            $aGeo = getRequest('geo');
+
+            if (isset($aGeo['city']) && $aGeo['city']) {
+                $oGeoObject = $this->Geo_GetGeoObject('city', (int) $aGeo['city']);
+            } elseif (isset($aGeo['region']) && $aGeo['region']) {
+                $oGeoObject = $this->Geo_GetGeoObject('region', (int) $aGeo['region']);
+            } elseif (isset($aGeo['country']) && $aGeo['country']) {
+                $oGeoObject = $this->Geo_GetGeoObject('country', (int) $aGeo['country']);
             } else {
                 $oGeoObject = null;
             }
