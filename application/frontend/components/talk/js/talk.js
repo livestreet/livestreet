@@ -26,9 +26,16 @@ ls.talk = (function ($) {
 			form_action: $('#talk-form-action')
 		}
 
-		$('.js-talk-form-action').on('click', function (e) {
+		$('.js-talk-form-action:not([data-action=remove])').on('click', function (e) {
 			_this.formAction( $(this).data('action') );
 		});
+
+		$('.js-talk-form-action[data-action=remove]').lsConfirm({
+			message: ls.lang.get('common.remove_confirm'),
+			onconfirm: function () {
+				_this.formAction( 'remove' );
+			}
+		})
 
 		// Выбор получателей в форме добавления
         $('.js-talk-add-user-choose').lsUserFieldChoose({
@@ -41,10 +48,10 @@ ls.talk = (function ($) {
 	/**
 	 * Установка экшена формы
 	 */
-	this.formAction = function(sName) {
+	this.formSetAction = function(action) {
 		if ( ! this.elements.form.find('input[type=checkbox]:checked').length ) return;
 
-		this.elements.form_action.val(sName);
+		this.elements.form_action.val(action);
 		this.elements.form.submit();
 	};
 

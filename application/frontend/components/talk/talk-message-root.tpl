@@ -42,7 +42,7 @@
             [ 'text' => {component 'favourite' classes="js-favourite-talk" target=$talk}, 'mods' => 'icon', 'classes' => 'js-talk-message-root-favourite' ]
         ]],
         [ 'buttons' => [
-            [ 'icon' => 'trash', 'url' => "{$talk->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => {lang 'common.remove'}, 'show' => $oUserCurrent->getId() == $talk->getUser()->getId() || $oUserCurrent->isAdministrator() ]
+            [ 'icon' => 'trash', 'url' => "{$talk->getUrlDelete()}?security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => {lang 'common.remove'}, 'show' => $oUserCurrent->getId() == $talk->getUser()->getId() || $oUserCurrent->isAdministrator(), 'classes' => 'js-confirm-remove-default' ]
         ]]
     ]}
 </div>

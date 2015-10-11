@@ -46,7 +46,7 @@
         {else}
             {$actions[] = [
                 'url'     => "{router page='blog'}delete/{$blog->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}",
-                'classes' => 'js-blog-remove',
+                'classes' => 'js-confirm-remove-default',
                 'text'    => $aLang.common.remove
             ]}
         {/if}

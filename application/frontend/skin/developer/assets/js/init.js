@@ -30,12 +30,19 @@ jQuery(document).ready(function($){
 		$( 'input[type=text], textarea' ).placeholder();
 	}
 
-
 	/**
 	 * Form validate
 	 * Валидатор нужно иниц-ть до иниц-ии аякс форм, чтобы избежать валидации аякс-полей после сабмита формы
 	 */
 	$('.js-form-validate').parsley();
+
+
+	/**
+	 * Подтверждение удаления
+	 */
+	$('.js-confirm-remove-default').lsConfirm({
+		message: ls.lang.get('common.remove_confirm')
+	});
 
 
 	/**
