@@ -54,7 +54,7 @@
 
                     // Отправка формы
                     form.on( 'submit', function ( event ) {
-                        ls.ajax.submit( _this.option( 'urls.add' ), form, function( response ) {
+                        _this._submit( 'add', form, function( response ) {
                             modal.hide();
                         });
 

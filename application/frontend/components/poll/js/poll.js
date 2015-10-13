@@ -83,7 +83,7 @@
 		 * Голосование
 		 */
 		vote: function( abstain ) {
-			ls.ajax.submit( this.option( 'urls.vote' ), this.elements.form, function( response ) {
+			this._submit( 'vote', this.elements.form, function( response ) {
 				this.element.html( $.trim( response.sText ) );
 				this.initResult();
 

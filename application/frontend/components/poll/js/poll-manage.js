@@ -219,7 +219,7 @@
 		add: function( form, list, modal ) {
 			this.answerIndex( list );
 
-			ls.ajax.submit( this.option( 'urls.add' ), form, function( response ) {
+			this._submit( 'add', form, function( response ) {
 				this.elements.list.append( response.item );
 				modal.hide();
 			}.bind(this), { submitButton: modal.element.find( 'button[type=submit]' ) });
@@ -235,7 +235,7 @@
 		update: function( form, list, modal ) {
 			this.answerIndex( list );
 
-			ls.ajax.submit( this.option( 'urls.update' ), form, function( response ) {
+			this._submit( 'update', form, function( response ) {
 				this.elements.list.find( this.option( 'selectors.item' ) + '[data-poll-id=' + response.id + ']' ).replaceWith( response.item );
 				modal.hide();
 			}.bind(this), { submitButton: modal.element.find( 'button[type=submit]' ) });

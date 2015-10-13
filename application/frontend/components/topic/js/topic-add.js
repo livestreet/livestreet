@@ -112,7 +112,7 @@
          * Превью текста
          */
         previewShow: function() {
-            ls.ajax.submit( this.option( 'urls.preview' ), this.element, function( response ) {
+            this._submit( 'preview', this.element, function( response ) {
                 if ( response.bStateError ) {
                     ls.msg.error( null, response.sMsg );
                 } else {
