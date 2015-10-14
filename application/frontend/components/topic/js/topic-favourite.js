@@ -18,7 +18,8 @@
         options: {
             urls: {
                 toggle: aRouter['ajax'] + 'favourite/topic/'
-            }
+            },
+            tags: null
         },
 
         /**
@@ -27,7 +28,7 @@
         onToggleSuccess: function ( response ) {
             this._super( response );
 
-            ls.tags[ ( response.bState ? 'show' : 'hide' ) + 'PersonalTags' ]( 'topic', this.options.params.iTargetId );
+            this.option( 'tags' ).lsTagsFavourite( 'setEditable', response.bState );
         }
     });
 })(jQuery);

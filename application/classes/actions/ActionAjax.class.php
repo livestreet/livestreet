@@ -1307,7 +1307,7 @@ class ActionAjax extends Action
             } else {
                 $oFavourite->setTags(join(',', $aTagsNew));
             }
-            $this->Viewer_AssignAjax('aTags', $aTagsReturn);
+            $this->Viewer_AssignAjax('tags', $aTagsReturn);
             $this->Favourite_UpdateFavourite($oFavourite);
             return;
         }

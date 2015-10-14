@@ -141,6 +141,7 @@
 
             {if ! $isPreview}
                 {component 'tags-favourite'
+                    classes       = 'js-tags-favourite'
                     tags          = $topic->getTagsArray()
                     tagsFavourite = ( $favourite ) ? $favourite->getTagsArray() : []
                     isEditable    = ! $favourite

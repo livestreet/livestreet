@@ -2,24 +2,31 @@
  * Список тегов
  *}
 
-{extends 'Component@tags.tags'}
+{extends 'component@tags.tags'}
+
+{block 'tags_options' append}
+	{$attributes = array_merge( $attributes|default:[], [
+		'data-param-target_id' => $smarty.local.targetId
+	])}
+{/block}
 
 {block 'tags_list' append}
 	{* Персональные теги *}
 	{if $oUserCurrent}
-		{strip}
-			{foreach $smarty.local.tagsFavourite as $tag}
-				<li class="{$component}-item {$component}-item-tag {$component}-item-tag-personal js-tag-list-item-tag-personal">
-					, <a href="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$tag|escape:'url'}/"
-					     rel="tag"
-					     class="">{$tag|escape}</a>
-				</li>
-			{/foreach}
+		{foreach $smarty.local.tagsFavourite as $tag}
+			{component 'tags' template='item'
+				text=$tag
+				url="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$tag|escape:'url'}/"
+				classes="js-tags-personal-tag"
+				mods="personal"}
+		{/foreach}
 
-			{* Кнопка "Изменить теги" *}
-			<li class="{$component}-item {$component}-item-edit js-favourite-tag-edit" data-type="{$smarty.local.targetType}" data-id="{$smarty.local.targetId}" {if $smarty.local.isEditable}style="display:none;"{/if}>
-				<a href="#" class="link-dotted">{lang 'favourite_tags.edit'}</a>
-			</li>
-		{/strip}
+		{* Кнопка "Изменить теги" *}
+		<li class="ls-tags-item ls-tags-personal-edit js-tags-personal-edit" {if $smarty.local.isEditable}style="display:none;"{/if}>
+			<a href="#" class="link-dotted">
+				{component 'icon' icon='edit'} 
+				{lang 'favourite_tags.edit'}
+			</a>
+		</li>
 	{/if}
 {/block}

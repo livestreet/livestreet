@@ -544,7 +544,6 @@ jQuery(document).ready(function($){
 	/**
 	 * Теги
 	 */
-	ls.tags.init();
 
 	// Облако тегов избранного
 	$('.js-tags-favourite-cloud').lsDetails();

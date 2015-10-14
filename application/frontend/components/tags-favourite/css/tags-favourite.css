@@ -1,2 +1,18 @@
-.ls-tags-item-tag.ls-tags-item-tag-personal a       { color: #3CA023; }
-.ls-tags-item-tag.ls-tags-item-tag-personal a:hover { color: #f00; }
+.ls-tags-item.ls-tags-item--personal a {
+    color: #3CA023;
+    border-color: #B0DEA4;
+    background-color: #F3F9F2;
+}
+.ls-tags-item.ls-tags-item--personal a:hover {
+    color: #2C8217;
+    border-color: #8ABD7D;
+    background-color: #E4F1E1;
+}
+.ls-tags-item.ls-tags-personal-edit a {
+    border-color: transparent;
+    background: none;
+}
+.ls-tags-item.ls-tags-personal-edit a:hover {
+    border-color: transparent;
+    background: none;
+}

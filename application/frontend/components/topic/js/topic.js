@@ -25,7 +25,8 @@
             // Селекторы
             selectors: {
                 vote: '.js-vote-topic',
-                favourite: '.js-favourite-topic'
+                favourite: '.js-favourite-topic',
+                tags: '.js-tags-favourite'
             }
         },
 
@@ -39,13 +40,25 @@
             this._super();
 
             // Избранное
-            this.elements.favourite.lsTopicFavourite();
+            this.elements.favourite.lsTopicFavourite({
+                tags: this.elements.tags
+            });
 
             // Голосование за топик
             this.elements.vote.lsVote({
                 urls: {
                     vote: this.option( 'urls.vote' ),
                     info: this.option( 'urls.voteInfo' )
+                }
+            });
+
+            // Теги
+            this.elements.tags.lsTagsFavourite({
+                urls: {
+                    save: aRouter['ajax'] + 'favourite/save-tags/'
+                },
+                params: {
+                    target_type: 'topic'
                 }
             });
         }

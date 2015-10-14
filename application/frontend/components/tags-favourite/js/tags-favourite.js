@@ -1,182 +1,196 @@
 /**
- * Теги
- * 
- * @module ls/tags
- * 
+ * Персональные теги
+ *
+ * @module ls/tags-favourite
+ *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-var ls = ls || {};
+(function($) {
+    "use strict";
 
-ls.tags = (function ($) {
-	"use strict";
+    $.widget( "livestreet.lsTagsFavourite", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                save: null
+            },
 
-	/**
-	 * ID текущего объекта
-	 * 
-	 * @private
-	 */
-	var _targetId = 0;
+            // Селекторы внешних элементов
+            extSelectors: {
+                // Общий блок для всех виджетов с формой редактирвоания
+                editBlock: '#favourite-form-tags',
+                // Форма редактирования
+                form: '#js-favourite-form',
+                // Кнопка отправки формы
+                formSubmitButton: '.js-tags-form-submit',
+                // Поле со списком тегов
+                formTags: '.js-tags-form-input-list'
+            },
 
-	/**
-	 * Тип текущего объекта
-	 * 
-	 * @private
-	 */
-	var _targetType = null;
+            // Селекторы
+            selectors: {
+                // Блок с персональными тегами
+                tags: '.js-tags-personal-tags',
+                // Персональный тег
+                tag: '.js-tags-personal-tag',
+                // Кнопка редактирвоания
+                edit: '.js-tags-personal-edit'
+            },
 
-	/**
-	 * Дефолтные опции
-	 * 
-	 * @private
-	 */
-	var _defaults = {
-		// Селекторы
-		selectors: {
-			form:             '#favourite-form-tags',
-			submitForm:       '#js-favourite-form',
-			submitButton:     '.js-tags-form-submit',
-			submitInputList:  '.js-tags-form-input-list',
-			tag:              '.js-tag-list-item-tag',
-			tagPersonal:      '.js-tag-list-item-tag-personal',
-			editPersonalTags: '.js-favourite-tag-edit'
-		},
-		// Роуты
-		routers: {
-			save: aRouter['ajax'] + 'favourite/save-tags/'
-		}
-	};
+            // Ajax параметры
+            params : {
+                target_type: null
+            },
 
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 */
-	this.init = function(options) {
-		var _this = this;
+            // HTML
+            html: {
+                // Персональный тег
+                tag: function ( tag ) {
+                    return '<li class="ls-tags-item ls-tags-item--personal js-tags-personal-tag">' +
+                        '<a rel="tag" href="' + tag.url + '">' + tag.tag + '</a></li>';
+                }
+            }
+        },
 
-		this.options = $.extend({}, _defaults, options);
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-		this.oForm = $(this.options.selectors.form);
-		this.oSubmitButton = $(this.options.selectors.submitButton);
-		this.oSubmitForm = $(this.options.selectors.submitForm);
-		this.oSubmitInputList = $(this.options.selectors.submitInputList);
-		this.oEditPersonalTags = $(this.options.selectors.editPersonalTags);
+            this.extElements = this._getElementsFromSelectors( this.options.extSelectors );
 
-		// Показываем форму редактирования персональных тегов
-		this.oEditPersonalTags.on('click', function (e) {
-			var oElement = $(this);
+            this._on( this.elements.edit, { click: '_onEditClick' });
+            this._on(  this.extElements.form, { submit: '_onFormSubmit' });
+        },
 
-			_this.setTarget(oElement.data('id'), oElement.data('type'));
-			_this.showForm();
+        /**
+         * Коллбэк вызываемый при клике по кнопке редактирования
+         */
+        _onEditClick: function( event ) {
+            this.editShow();
+            event.preventDefault();
+        },
 
-			e.preventDefault();
-		});
+        /**
+         * Коллбэк вызываемый при сабмите формы
+         *
+         * @param  {Object} event
+         */
+        _onFormSubmit: function( event ) {
+            // Для всех виджетов используется одна общая форма редактирования,
+            // поэтому убеждаемся что форма открыта именно для текущего виджета
+            if ( this.extElements.form.data( 'target_id' ) != this.option( 'params.target_id' ) ) return;
 
-		// Сабмит формы редактирования персональных тегов
-		this.oSubmitForm.on('submit', function (e) {
-			this.save();
-			e.preventDefault();
-		}.bind(this));
-	};
+            this._submit( 'save', this.extElements.form, '_onFormSubmitSuccess', {
+                submitButton: this.extElements.formSubmitButton
+            });
 
-	/**
-	 * Устанавливает id и тип текущего объекта
-	 * 
-	 * @param {Number} iId   ID объекта
-	 * @param {String} sType Тип объекта
-	 */
-	this.setTarget = function(iId, sType) {
-		_targetId = iId;
-		_targetType = sType;
-	};
+            event.preventDefault();
+        },
 
-	/**
-	 * Сохраняет персональные теги
-	 */
-	this.save = function() {
-		var _this = this;
+        /**
+         * Коллбэк вызываемый при успешной отправке формы
+         *
+         * @param  {Object} response
+         */
+        _onFormSubmitSuccess: function( response ) {
+            this.editHide();
+            this.setPersonalTags( response.tags );
+        },
 
-		ls.hook.marker('saveTagsBefore');
+        /**
+         * Получает персональные теги (jQuery элементы)
+         */
+        getPersonalTagsElements: function() {
+            return this.element.find( this.option( 'selectors.tag' ) );
+        },
 
-		ls.ajax.submit(this.options.routers.save, this.oSubmitForm, function(result) {
-			if (result.bStateError) {
-				ls.msg.error(null, result.sMsg);
-			} else {
-				var tagsContainer = $('.js-tags-' + _targetType + '-' + _targetId),
-					aTags = [];
+        /**
+         * Получает персональные теги
+         */
+        getPersonalTags: function() {
+            return this.getPersonalTagsElements().map(function ( index, tag ) {
+                return this.getTagInfo( $( tag ) );
+            }.bind( this ));
+        },
 
-				$.each(result.aTags, function(k, v) {
-					aTags.push('<li class="ls-tags-item ls-tags-item-tag ls-tags-item-tag-personal js-tag-list-item-tag-personal">, ' +
-								'<a rel="tag" href="' + v.url + '" class="">' + v.tag + '</a></li>');
-				});
+        /**
+         * Получает информацию о теге (урл и имя)
+         *
+         * @param  {jQuery} tagElement Тег
+         * @return {Object}            Тег
+         */
+        getTagInfo: function( tagElement ) {
+            tagElement = tagElement.find( 'a' );
 
-				this.hideForm();
+            return {
+                tag: $.trim( tagElement.text() ),
+                url: tagElement.attr( 'href' )
+            };
+        },
 
-				tagsContainer.find(this.options.selectors.tagPersonal).remove();
-				tagsContainer.find(this.options.selectors.editPersonalTags).before( aTags.join('') );
+        /**
+         * Устанавливает персональные теги
+         *
+         * @param {Array} tags Список персональных тегов
+         */
+        setPersonalTags: function( tags ) {
+            this.removePersonalTags();
+            this.elements.edit.before( $.map( tags, this.option( 'html.tag' ) ) );
+        },
 
-				ls.hook.run('ls_favourite_save_tags_after', [this.oSubmitForm, result], this);
-			}
-		}.bind(this), {
-			submitButton: _this.oSubmitButton,
-			params: {
-				target_id: _targetId,
-				target_type: _targetType
-			}
-		});
+        /**
+         * Удаляет персональные теги
+         */
+        removePersonalTags: function() {
+            this.getPersonalTagsElements().remove();
+        },
 
-		return false;
-	};
+        /**
+         * Отмечает виджет как (не)доступный для редактирования
+         *
+         * @param {Boolean} isEditable Доступен виджет для редактирования или нет
+         */
+        setEditable: function( isEditable ) {
+            if ( isEditable ) {
+                this.elements.edit.show();
+            } else {
+                this.removePersonalTags();
+                this.elements.edit.hide();
+            }
+        },
 
-	/**
-	 * Показывает форму редактирования тегов
-	 */
-	this.showForm = function() {
-		var aTags = [];
+        /**
+         * Показывает блок редактирования
+         */
+        editShow: function() {
+            this.extElements.form.data( 'target_id', this.option( 'params.target_id' ) );
+            this.extElements.formTags.val( this._tagsToString() );
+            this.extElements.editBlock.lsModal( 'show' );
+        },
 
-		$('.js-tags-' + _targetType + '-' + _targetId).find(this.options.selectors.tagPersonal + ' a').each(function(k, tag) {
-			aTags.push( $(tag).text() );
-		});
+        /**
+         * Скрывает блок редактирования
+         */
+        editHide: function() {
+            this.extElements.editBlock.lsModal( 'hide' );
+        },
 
-		this.oSubmitInputList.val( aTags.join(', ') );
-		this.oForm.lsModal('show');
-
-		return false;
-	};
-
-	/**
-	 * Скрывает форму редактирования тегов
-	 */
-	this.hideForm = function() {
-		this.oForm.lsModal('hide');
-	};
-
-	/**
-	 * Показывает персональные теги
-	 * 
-	 * @param {Number} iTargetId   ID объекта
-	 * @param {String} sTargetType Тип объекта
-	 */
-	this.showPersonalTags = function(sTargetType, iTargetId) {
-		$('.js-tags-' + sTargetType + '-' + iTargetId).find(this.options.selectors.editPersonalTags).show();
-	};
-
-	/**
-	 * Скрывает персональные теги
-	 * 
-	 * @param {Number} iTargetId   ID объекта
-	 * @param {String} sTargetType Тип объекта
-	 */
-	this.hidePersonalTags = function(sTargetType, iTargetId) {
-		var tagsContainer = $('.js-tags-' + sTargetType + '-' + iTargetId);
-
-		tagsContainer.find(this.options.selectors.tagPersonal).remove();
-		tagsContainer.find(this.options.selectors.editPersonalTags).hide();
-		this.hideForm();
-	};
-
-	return this;
-}).call(ls.tags || {}, jQuery);
+        /**
+         * Возвращает персональные теги в виде строки
+         */
+        _tagsToString: function() {
+            return $.map( this.getPersonalTags(), function( tag ) { return tag.tag; } ).join( ', ' );
+        },
+    });
+})(jQuery);
