@@ -17,5 +17,5 @@
 
 {component 'details'
     classes = 'js-tags-favourite-cloud'
-    title   = "{lang 'favourite_tags.title'} {if $activeTag}({$activeTag}){/if}"
+    title   = "{lang 'tags_personal.title'} {if $activeTag}({$activeTag}){/if}"
     content = $tags}

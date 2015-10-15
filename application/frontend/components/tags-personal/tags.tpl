@@ -13,7 +13,7 @@
 {block 'tags_list' append}
 	{* Персональные теги *}
 	{if $oUserCurrent}
-		{foreach $smarty.local.tagsFavourite as $tag}
+		{foreach $smarty.local.tagsPersonal as $tag}
 			{component 'tags' template='item'
 				text=$tag
 				url="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$tag|escape:'url'}/"
@@ -24,8 +24,8 @@
 		{* Кнопка "Изменить теги" *}
 		<li class="ls-tags-item ls-tags-personal-edit js-tags-personal-edit" {if $smarty.local.isEditable}style="display:none;"{/if}>
 			<a href="#" class="link-dotted">
-				{component 'icon' icon='edit'} 
-				{lang 'favourite_tags.edit'}
+				{component 'icon' icon='edit'}
+				{lang 'tags_personal.edit'}
 			</a>
 		</li>
 	{/if}

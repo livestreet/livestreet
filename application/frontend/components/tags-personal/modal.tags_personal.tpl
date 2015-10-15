@@ -13,7 +13,7 @@
 {/capture}
 
 {component 'modal'
-    title         = {lang 'favourite_tags.title'}
+    title         = {lang 'tags_personal.title'}
     content       = $smarty.capture.modal_content
     classes       = 'js-modal-default'
     mods          = 'favourite-tags'

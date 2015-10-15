@@ -163,7 +163,7 @@
 
     {* Подключение модальных окон *}
     {if $oUserCurrent}
-        {component 'tags-favourite' template='modal'}
+        {component 'tags-personal' template='modal'}
     {else}
         {component 'auth' template='modal'}
     {/if}

@@ -1,5 +1,5 @@
 {
-    "name": "tags-favourite",
+    "name": "tags-personal",
     "version": "1.0.0",
     "dependencies": {
         "ls-component": "*",
@@ -7,14 +7,14 @@
         "modal": "*"
     },
     "templates": {
-        "modal": "modal.favourite_tags.tpl",
+        "modal": "modal.tags_personal.tpl",
         "cloud": "tags-cloud.tpl",
-        "tags-favourite": "tags.tpl"
+        "tags-personal": "tags.tpl"
     },
     "scripts": {
-        "tags-favourite": "js/tags-favourite.js"
+        "tags-personal": "js/tags-personal.js"
     },
     "styles": {
-        "tags-favourite": "css/tags-favourite.css"
+        "tags-personal": "css/tags-personal.css"
     }
 }
