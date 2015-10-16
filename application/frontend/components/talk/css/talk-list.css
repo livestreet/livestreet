@@ -1,0 +1,86 @@
+/**
+ * Список личных сообщений
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/* Экшнбар */
+.ls-actionbar.talk-list-actionbar {
+    margin-bottom: 0;
+}
+
+/* Список */
+.talk-list.table td {
+    vertical-align: top;
+}
+.talk-list.table .cell-checkbox,
+.talk-list.table .cell-favourite {
+    width: 14px;
+}
+.talk-list.table .cell-info {
+    width: 150px;
+}
+
+/* Сообщение */
+.talk-list-item:first-child td {
+    border-top: 1px solid #f1f1f1;
+}
+.talk-list-item {
+    background: #fff;
+}
+.talk-list-item.talk-unread {
+    background: #f7f7f7;
+}
+.talk-list-item.selected {
+    background: #FFC;
+}
+
+/* Информация об отправителе */
+.talk-list-item-info {
+    width: 150px;
+    position: relative;
+    padding-left: 75px;
+    min-height: 64px;
+}
+.talk-list-item-info-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.talk-list-item-info-date {
+    display: block;
+    font-size: 11px;
+    color: #aaa;
+}
+
+.talk-list-item-extra {
+    position: relative;
+    padding-right: 50px;
+}
+.talk-list-item-title {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.talk-list-item-text {
+    color: #999;
+}
+.talk-list-item-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #f0f0f0;
+    color: #aaa;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+.talk-list-item.talk-unread .talk-list-item-count {
+    background: #2891D3;
+    color: #ADDBF8;
+}
+.talk-list-item.talk-unread .talk-list-item-count strong {
+    color: #fff;
+}

@@ -27,10 +27,11 @@
     },
     "scripts": {
         "users": "js/talk-users.js",
-        "talk": "js/talk.js"
+        "talk-list": "js/talk-list.js"
     },
     "styles": {
         "talk": "css/talk.css",
+        "talk-list": "css/talk-list.css",
         "message-root": "css/message-root.css"
     }
 }

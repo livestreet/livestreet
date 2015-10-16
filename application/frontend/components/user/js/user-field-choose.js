@@ -82,7 +82,7 @@
             var currentUsers = this.elements.users.val();
 
             $.each(users, function (index, user) {
-                if ($.inArray(user.id, currentUsers) != -1) return;
+                if ($.inArray(user.id + "", currentUsers) !== -1) return;
 
                 $('<option />')
                     .attr('value', user.id)

@@ -1,18 +1,15 @@
 /**
  * Личные сообщения
  *
- * @template actions/ActionTalk/message.tpl
- * @scripts <frontend>/common/js/talk.js
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.talk { background: #fafafa; padding: 20px; margin-bottom: 0; }
-
-.ls-actionbar.talk-list-actionbar {
-    margin-bottom: 0;
+.talk {
+	background: #fafafa;
+	padding: 20px;
+	margin-bottom: 0;
 }
 
 .ls-talk-participants-details {
@@ -20,7 +17,7 @@
 }
 
 /**
- * Message user list
+ * Список участников диалога
  */
 .message-users .user-list-small-item.inactive {
 	opacity: .5;
@@ -33,37 +30,3 @@
 .message-users .user-list-small-item.inactive .ls-talk-participants-item-activate {
 	display: inline-block;
 }
-
-/**
- * Message list
- */
-.table.message-list td { vertical-align: top; }
-.table.message-list .cell-checkbox,
-.table.message-list .cell-favourite { width: 14px; }
-.table.message-list .cell-info { width: 150px; }
-.table .message-list-item:first-child td { border-top: 1px solid #f1f1f1; }
-
-.message-list-item                { background: #fff; }
-.message-list-item.message-unread { background: #f7f7f7; }
-.message-list-item.selected       { background: #FFC; }
-
-.message-list-info        { width: 150px; position: relative; padding-left: 75px; min-height: 64px; }
-.message-list-info-avatar { position: absolute; top: 0; left: 0; }
-.message-list-info-date   { display: block; font-size: 11px; color: #aaa; }
-
-.message-list-item-extra { position: relative; padding-right: 50px; }
-.message-list-item-title { font-size: 15px; margin-bottom: 5px; }
-.message-list-item-text  { color: #999; }
-.message-list-item-count {
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: #f0f0f0;
-	color: #aaa;
-	padding: 3px 7px;
-	border-radius: 3px;
-	font-size: 11px;
-}
-
-.message-list-item.message-unread .message-list-item-count        { background: #2891D3; color: #ADDBF8; }
-.message-list-item.message-unread .message-list-item-count strong { color: #fff; }

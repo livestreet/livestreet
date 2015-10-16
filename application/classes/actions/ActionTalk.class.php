@@ -475,25 +475,22 @@ class ActionTalk extends Action
         $this->Viewer_Assign('talk', $oTalk);
         $this->Viewer_Assign('comments', $aComments);
         $this->Viewer_Assign('lastCommentId', $iMaxIdComment);
+
         /**
-         * Подсчитываем нужно ли отображать комментарии.
-         * Комментарии не отображаются, если у вестки только один читатель
-         * и ранее созданных комментариев нет.
+         * Кол-во активных участников диалога без учета текущего пользователя
          */
-        if (count($aComments) == 0) {
-            $iActiveSpeakers = 0;
-            foreach ((array)$oTalk->getTalkUsers() as $oTalkUser) {
-                if (($oTalkUser->getUserId() != $this->oUserCurrent->getId())
-                    && $oTalkUser->getUserActive() == ModuleTalk::TALK_USER_ACTIVE
-                ) {
-                    $iActiveSpeakers++;
-                    break;
-                }
-            }
-            if ($iActiveSpeakers == 0) {
-                $this->Viewer_Assign('bNoComments', true);
+        $iActiveSpeakers = 0;
+
+        foreach ((array)$oTalk->getTalkUsers() as $oTalkUser) {
+            if (($oTalkUser->getUserId() != $this->oUserCurrent->getId())
+                && $oTalkUser->getUserActive() == ModuleTalk::TALK_USER_ACTIVE
+            ) {
+                $iActiveSpeakers++;
+                break;
             }
         }
+
+        $this->Viewer_Assign('activeParticipantsCount', $iActiveSpeakers);
 
         $this->SetTemplateAction('talk');
     }

@@ -11,7 +11,7 @@
 {* Первое сообщение *}
 {component 'talk' template='message-root' talk=$talk}
 
-{if ! $bNoComments}
+{if $activeParticipantsCount && $comments}
     {* Участники личного сообщения *}
     {capture 'talk_message_root_participants'}
         {component 'talk' template='participants'
