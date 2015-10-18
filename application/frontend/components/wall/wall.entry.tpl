@@ -11,5 +11,6 @@
 {component 'comment'
     comment    = $entry
     showReply  = $smarty.local.showReply
+    useScroll  = false
     attributes = [ 'data-type' => $smarty.local.type, 'data-user-id' => $entry->getUser()->getId() ]
     classes    = "wall-comment js-wall-entry {$smarty.local.classes}"}

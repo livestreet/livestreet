@@ -64,4 +64,4 @@ ls.auth = (function ($) {
     };
 
     return this;
-}).call(ls.user || {}, jQuery);
+}).call(ls.auth || {}, jQuery);
