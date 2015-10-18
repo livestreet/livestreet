@@ -22,11 +22,13 @@
             },
             // Селекторы
             selectors: {
-                count: '.js-blog-users-count'
+                count: '.js-blog-users-count',
+                text: null
             },
             // Классы
             classes : {
-                active: 'ls-button--primary'
+                active: 'ls-button--primary',
+                loading: null
             },
             // Ajax параметры
             params : {}
@@ -39,21 +41,33 @@
          * @private
          */
         _create: function () {
+            this._super();
+
+            if ( ! this.elements.text.length ) this.elements.text = this.element;
+
             this.option( 'params.blog_id', this.element.data( 'blog-id' ) );
 
-            this._on({ click: 'toggle' });
+            this._on({ click: 'onClick' });
+        },
+
+        /**
+         * 
+         */
+        onClick: function( event ) {
+            this.toggle();
+            event.preventDefault();
         },
 
         /**
          * 
          */
         toggle: function() {
-            this.element.addClass( ls.options.classes.states.loading );
+            this.element.addClass( this.option( 'classes.loading' ) );
 
             this._load('toggle', function( response ) {
                 this.onToggle( response );
 
-                this.element.removeClass( ls.options.classes.states.loading );
+                this.element.removeClass( this.option( 'classes.loading' ) );
             }.bind( this ));
         },
 
@@ -61,9 +75,8 @@
          * 
          */
         onToggle: function( response ) {
-            this.element
-                .text( ls.lang.get( response.bState ? 'blog.join.leave' : 'blog.join.join' ) )
-                .toggleClass( this.option( 'classes.active' ) );
+            this.element.toggleClass( this.option( 'classes.active' ) );
+            this.elements.text.text( ls.lang.get( response.bState ? 'blog.join.leave' : 'blog.join.join' ) );
 
             $( this.option( 'selectors.count' ) + '[data-blog-id=' + this.option( 'params.blog_id' ) + ']' ).text( response.iCountUser );
         }

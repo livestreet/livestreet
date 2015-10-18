@@ -270,12 +270,6 @@ jQuery(document).ready(function($){
 	 */
 	ls.auth.init();
 
-
-	/**
-	 * User
-	 */
-	ls.user.init();
-
 	// Поиск
 	$( '.js-search-ajax-users' ).lsSearchAjax({
 		urls: {
@@ -448,13 +442,29 @@ jQuery(document).ready(function($){
 	// Приглашение пользователей в блог
 	$('.js-user-list-add-blog-invite').lsBlogInvites();
 
-	// Вступить/покинуть блог
+	// Вступить/покинуть блог (список блогов)
 	$( '.js-blog-join' ).livequery(function() {
 		$( this ).lsBlogJoin({
 			urls: {
 				toggle: aRouter.blog + 'ajaxblogjoin'
+			},
+			classes: {
+				loading: ls.options.classes.states.loading
 			}
 		});
+	});
+
+	// Вступить/покинуть блог (страница блога)
+	$( '.js-blog-profile-join' ).lsBlogJoin({
+		urls: {
+			toggle: aRouter.blog + 'ajaxblogjoin'
+		},
+		selectors: {
+			text: 'a'
+		},
+		classes: {
+			active: 'active'
+		}
 	});
 
 	// Поиск

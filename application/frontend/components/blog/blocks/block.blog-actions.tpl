@@ -9,8 +9,8 @@
     {* Вступить/покинуть *}
     {if $oUserCurrent && $oUserCurrent->getId() != $blog->getOwnerId() && $blog->getType() == 'open'}
         {$actions[] = [
-            'classes' => 'js-blog-join',
-            'attributes' => "data-blog-id=\"{$blog->getId()}\"",
+            'classes' => 'js-blog-profile-join',
+            'attributes' => [ 'data-blog-id' => $blog->getId() ],
             'text' => {($blog->getUserIsJoin()) ? {lang 'blog.actions.leave'} : {lang 'blog.actions.join'}}
         ]}
     {/if}
