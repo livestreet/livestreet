@@ -1,9 +1,15 @@
 /**
  * Кнопка прокрутки вверх
- *
- * TODO: Fix icons;
  */
 
-.ls-toolbar-item--scrollup          { display: none; }
-.ls-toolbar-item--scrollup i        { background-position: -288px -120px; }
-.ls-toolbar-item--scrollup.active i { background-position: -313px -119px; }
+.ls-toolbar-item--scrollup {
+    display: none;
+}
+.ls-toolbar-item--scrollup i {
+    -webkit-transition: transform .3s;
+    transition: transform .3s;
+}
+.ls-toolbar-item--scrollup.active i {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}

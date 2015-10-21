@@ -25,7 +25,7 @@
  * @package application.blocks
  * @since 1.0
  */
-class BlockTagsFavouriteTopic extends Block
+class BlockTagsPersonalTopic extends Block
 {
     /**
      * Запуск обработки
@@ -54,7 +54,7 @@ class BlockTagsFavouriteTopic extends Block
             $this->Viewer_Assign('user', $oUser, true);
             $this->Viewer_Assign('activeTag', $this->getParam('activeTag'), true);
 
-            $this->SetTemplate('component@tags-favourite.cloud');
+            $this->SetTemplate('component@tags-personal.cloud');
         }
     }
 }

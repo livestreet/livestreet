@@ -17,7 +17,7 @@
 
     {* Блок с тегами избранного *}
     {if $oUserCurrent && $oUserCurrent->getId() == $oUserProfile->getId()}
-        {insert name='block' block='tagsFavouriteTopic' params=[
+        {insert name='block' block='tagsPersonalTopic' params=[
             'user' => $oUserProfile,
             'activeTag' => $activeFavouriteTag
         ]}

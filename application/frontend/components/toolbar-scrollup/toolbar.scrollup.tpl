@@ -4,7 +4,7 @@
  *}
 
 {component 'toolbar' template='item'
-    classes='toolbar-item--scrollup js-toolbar-scrollup'
+    classes='ls-toolbar-item--scrollup js-toolbar-scrollup'
     attributes=[ 'style' => 'display: none' ]
     buttons=[[
         'icon' => 'chevron-up',
