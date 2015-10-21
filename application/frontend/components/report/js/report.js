@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsReport", {
+    $.widget( "livestreet.lsReport", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -37,6 +37,8 @@
          * @private
          */
         _create: function () {
+            this._super();
+
             this.option( 'params', $.extend( {}, this.option( 'params' ), ls.utils.getDataOptions( this.element, 'param' ) ) );
 
             this._on({ click: this.showModal });

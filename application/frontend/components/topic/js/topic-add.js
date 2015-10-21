@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsTopicAdd", {
+    $.widget( "livestreet.lsTopicAdd", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -47,6 +47,8 @@
          * @private
          */
         _create: function () {
+            this._super();
+
             var _this = this;
 
             this.elements = {
