@@ -94,8 +94,8 @@
     display: none;
     position: absolute;
     width: 50px;
-    top: 65px;
-    left: -65px;
+    top: 80px;
+    left: 15px;
     text-align: center;
 }
 
@@ -153,4 +153,13 @@
     margin-top: 10px;
     font-size: 11px;
     opacity: .5;
+}
+
+/* Путь до комментария */
+.ls-comment-path {
+    background: #fff;
+    color: #aaa;
+    border-radius: 3px;
+    padding: 3px 5px 2px;
+    margin-bottom: 10px;
 }

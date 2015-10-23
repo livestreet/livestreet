@@ -2,8 +2,6 @@
  * Список комментариев
  *
  * @param array comments Комментарии
- *
- * TODO: Добавить путь до комментария
  *}
 
 {$component = 'ls-comment-list'}
@@ -17,6 +15,7 @@
             useFavourite => true,
             useEdit      => false,
             useVote      => false,
-            useScroll    => false
+            useScroll    => false,
+            showPath     => true
         ]}
 </div>

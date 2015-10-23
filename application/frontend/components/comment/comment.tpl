@@ -72,12 +72,30 @@
     {* @hook Начало комментария *}
     {hook run='comment_comment_begin' params=$smarty.local.params}
 
+    {* Путь до комментария *}
+    {* TODO: Вынести в компонент topic, сделать универсальным *}
+    {if $smarty.local.showPath}
+        <div class="{$component}-path">
+            {$topic = $comment->getTarget()}
+            {$blog = $topic->getBlog()}
+
+            <a href="{$blog->getUrlFull()}" class="{$component}-path-blog">{$blog->getTitle()|escape}</a> &rarr;
+            <a href="{$topic->getUrl()}" class="{$component}-path-topic">{$topic->getTitle()|escape}</a>
+            <a href="{$topic->getUrl()}#comments" class="{$component}-path-comments">({$topic->getCountComment()})</a>
+        </div>
+    {/if}
+
     {* Показываем удаленные комментарии только администраторам *}
     {if ! $isDeleted || ( $oUserCurrent && $oUserCurrent->isAdministrator() )}
         {* Аватар пользователя *}
         <a href="{$user->getUserWebPath()}" class="{$component}-avatar">
             <img src="{$user->getProfileAvatarPath(64)}" alt="{$user->getDisplayName()}" />
         </a>
+
+        {* Избранное *}
+        {if $oUserCurrent && $smarty.local.useFavourite}
+            {component 'favourite' classes="{$component}-favourite js-comment-favourite" target=$comment}
+        {/if}
 
         {* Информация *}
         <ul class="{$component}-info clearfix">
@@ -121,13 +139,6 @@
                         classes  = "{$component}-vote js-comment-vote"
                         target   = $comment
                         isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
-                </li>
-            {/if}
-
-            {* Избранное *}
-            {if $oUserCurrent && $smarty.local.useFavourite}
-                <li>
-                    {component 'favourite' classes="{$component}-favourite js-comment-favourite" target=$comment}
                 </li>
             {/if}
 
