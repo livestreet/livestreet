@@ -515,15 +515,35 @@ class ModuleMedia extends ModuleORM
             /**
              * Создаем связь с владельцем
              */
-            $oTarget = Engine::GetEntity('ModuleMedia_EntityTarget');
-            $oTarget->setMediaId($oMedia->getId());
-            $oTarget->setTargetType($sTargetType);
-            $oTarget->setTargetId($sTargetId ? $sTargetId : null);
-            $oTarget->setTargetTmp($sTargetTmp ? $sTargetTmp : null);
-            if ($oTarget->Add()) {
+            if ($oTarget = $this->AttachMediaToTarget($oMedia, $sTargetType, $sTargetId, $sTargetTmp)) {
                 $oMedia->_setData(array('_relation_entity' => $oTarget));
                 return $oMedia;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Присоединяет медиа файл к объекту
+     *
+     * @param $oMedia
+     * @param $sTargetType
+     * @param $sTargetId
+     * @param $sTargetTmp
+     * @return bool|Entity
+     */
+    public function AttachMediaToTarget($oMedia, $sTargetType, $sTargetId, $sTargetTmp)
+    {
+        /**
+         * Создаем связь с владельцем
+         */
+        $oTarget = Engine::GetEntity('ModuleMedia_EntityTarget');
+        $oTarget->setMediaId($oMedia->getId());
+        $oTarget->setTargetType($sTargetType);
+        $oTarget->setTargetId($sTargetId ?: null);
+        $oTarget->setTargetTmp($sTargetTmp ?: null);
+        if ($oTarget->Add()) {
+            return $oTarget;
         }
         return false;
     }

@@ -648,8 +648,24 @@ class ActionAjax extends Action
         }
 
         $sTargetType = getRequestStr('target_type');
-        $sTargetId = getRequestStr('target_id');
-        $sTargetTmp = getRequestStr('target_tmp');
+        $sTargetId = getRequestStr('target_id') ?: null;
+        $sTargetTmp = getRequestStr('target_tmp') ?: null;
+
+        /**
+         * Доступ к файлу медиа
+         */
+        if (!$this->Media_GetAllowMediaItemsById(array($oMedia->getId()))) {
+            return $this->EventErrorDebug();
+        }
+
+        /**
+         * Проверяем доступ к этому объекту медиа
+         */
+        if (true !== $res = $this->Media_CheckTarget($sTargetType, $sTargetId,
+                ModuleMedia::TYPE_CHECK_ALLOW_PREVIEW, array('media' => $oMedia, 'user' => $this->oUserCurrent))
+        ) {
+            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
+        }
 
         /**
          * Получаем объект связи
@@ -661,32 +677,24 @@ class ActionAjax extends Action
             $aFilter['target_id'] = $sTargetId;
         }
         if (!$oTarget = $this->Media_GetTargetByFilter($aFilter)) {
-            return $this->EventErrorDebug();
+            /**
+             * Попытка добавить в качестве превью ранее загруженный файл для другого объекта
+             * Делаем новую связь медиа с текущим объектом
+             */
+            if (!($oTarget = $this->Media_AttachMediaToTarget($oMedia, $sTargetType, $sTargetId, $sTargetTmp))) {
+                return $this->EventErrorDebug();
+            }
         }
-        if ($oTarget->getIsPreview()) {
-            return $this->EventErrorDebug();
-        }
-
 
         /**
-         * Проверяем доступ к этому медиа
+         * Удаляем все текущие превью
          */
-        if (true === $res = $this->Media_CheckTarget($oTarget->getTargetType(), $oTarget->getTargetId(),
-                ModuleMedia::TYPE_CHECK_ALLOW_PREVIEW, array('media' => $oMedia, 'user' => $this->oUserCurrent))
-        ) {
-            /**
-             * Удаляем все текущие превью
-             */
-            $this->Media_RemoveAllPreviewByTarget($oTarget->getTargetType(), $oTarget->getTargetId(),
-                $oTarget->getTargetTmp());
+        $this->Media_RemoveAllPreviewByTarget($oTarget->getTargetType(), $oTarget->getTargetId(), $oTarget->getTargetTmp());
 
-            if (true === $res2 = $this->Media_CreateFilePreview($oMedia, $oTarget)) {
-                $this->Viewer_AssignAjax('bUnsetOther', true);
-            } else {
-                $this->Message_AddErrorSingle(is_string($res2) ? $res2 : $this->Lang_Get('common.error.system.base'));
-            }
+        if (true === $res2 = $this->Media_CreateFilePreview($oMedia, $oTarget)) {
+            $this->Viewer_AssignAjax('bUnsetOther', true);
         } else {
-            $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
+            $this->Message_AddErrorSingle(is_string($res2) ? $res2 : $this->Lang_Get('common.error.system.base'));
         }
     }
 
