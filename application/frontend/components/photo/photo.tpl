@@ -8,8 +8,6 @@
  * @param boolean $photoAltText
  * @param boolean $editable
  * @param boolean $useAvatar
- *
- * TODO: Вынести текстовки в photo
  *}
 
 {$component = 'ls-photo'}

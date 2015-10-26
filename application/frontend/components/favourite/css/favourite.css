@@ -1,9 +1,6 @@
 /**
  * Избранное
  *
- * @template components/favourite/favourite.tpl
- * @scripts <common>/js/favourite.js
- *
  * @license   GNU General Public License, version 2
  * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
@@ -19,9 +16,6 @@
 }
 .ls-favourite-toggle {
 	display: inline-block;
-	width: 14px;
-	height: 14px;
-	vertical-align: text-top;
 	opacity: .3;
 	filter: alpha(opacity=30);
 }

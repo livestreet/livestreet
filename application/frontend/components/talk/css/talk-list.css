@@ -12,14 +12,17 @@
 }
 
 /* Список */
-.talk-list.table td {
+.talk-list.ls-table td {
     vertical-align: top;
 }
-.talk-list.table .cell-checkbox,
-.talk-list.table .cell-favourite {
+.talk-list.ls-table .cell-checkbox,
+.talk-list.ls-table .cell-favourite {
     width: 14px;
+    line-height: 1em;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-.talk-list.table .cell-info {
+.talk-list.ls-table .cell-info {
     width: 150px;
 }
 
