@@ -9,103 +9,103 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsWallEntry", $.livestreet.lsComponent, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			wall: null,
+    $.widget( "livestreet.lsWallEntry", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            wall: null,
 
-			// Ссылки
-			urls: {
-				remove: null
-			},
+            // Ссылки
+            urls: {
+                remove: null
+            },
 
-			// Селекторы
-			selectors: {
-				remove:  '.js-comment-remove',
-				reply:   '.js-comment-reply'
-			},
+            // Селекторы
+            selectors: {
+                remove:  '.js-comment-remove',
+                reply:   '.js-comment-reply'
+            },
 
-			params: {}
-		},
+            params: {}
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			this._super();
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			// ID поста
-			this.id = this.element.data( 'id' );
+            // ID поста
+            this.id = this.element.data( 'id' );
 
-			// Тип записи (комментарий/пост)
-			this.type = this.element.data( 'type' );
+            // Тип записи (комментарий/пост)
+            this.type = this.element.data( 'type' );
 
-			// Форма добавления комментария к текущему посту
-			this.form = this.getType() === 'post' ? this.option( 'wall' ).lsWall( 'getFormById', this.id ) : null;
+            // Форма добавления комментария к текущему посту
+            this.form = this.getType() === 'post' ? this.option( 'wall' ).lsWall( 'getFormById', this.id ) : null;
 
-			//
-			// События
-			//
+            //
+            // События
+            //
 
-			// Удаление
-			this._on( this.elements.remove, {
-				click: function( event ) {
-					this.remove();
-					event.preventDefault();
-				}
-			});
+            // Удаление
+            this._on( this.elements.remove, {
+                click: function( event ) {
+                    this.remove();
+                    event.preventDefault();
+                }
+            });
 
-			// Показать/скрыть форму ответа
-			this._on( this.elements.reply, {
-				click: function( event ) {
-					this.formToggle();
-					event.preventDefault();
-				}
-			});
-		},
+            // Показать/скрыть форму ответа
+            this._on( this.elements.reply, {
+                click: function( event ) {
+                    this.formToggle();
+                    event.preventDefault();
+                }
+            });
+        },
 
-		/**
-		 * Показать/скрыть форму ответа
-		 */
-		formToggle: function() {
-			this.form.lsWallForm( 'toggle' );
-		},
+        /**
+         * Показать/скрыть форму ответа
+         */
+        formToggle: function() {
+            this.form.lsWallForm( 'toggle' );
+        },
 
-		/**
-		 * Возвращает тип записи (комментарий/пост)
-		 *
-		 * @return {String} Тип записи (комментарий/пост)
-		 */
-		getType: function() {
-			return this.type;
-		},
+        /**
+         * Возвращает тип записи (комментарий/пост)
+         *
+         * @return {String} Тип записи (комментарий/пост)
+         */
+        getType: function() {
+            return this.type;
+        },
 
-		/**
-		 * Удаление
-		 */
-		remove: function() {
-			this._load( 'remove', { user_id: this.option( 'wall' ).lsWall( 'getUserId' ), id: this.id }, 'onRemove' );
-		},
+        /**
+         * Удаление
+         */
+        remove: function() {
+            this._load( 'remove', { user_id: this.option( 'wall' ).lsWall( 'getUserId' ), id: this.id }, 'onRemove' );
+        },
 
-		/**
-		 * Коллбэк вызываемый после удаления
-		 */
-		onRemove: function( response ) {
-			this.element.fadeOut( 'slow', function() {
-				this.element.remove();
-				this.option( 'wall' ).lsWall( 'checkEmpty' );
-			}.bind(this));
+        /**
+         * Коллбэк вызываемый после удаления
+         */
+        onRemove: function( response ) {
+            this.element.fadeOut( 'slow', function() {
+                this.element.remove();
+                this.option( 'wall' ).lsWall( 'checkEmpty' );
+            }.bind(this));
 
-			this.option( 'wall' ).lsWall( 'getCommentWrapperById', this.id ).fadeOut( 'slow', function () {
-				$( this ).remove();
-			});
-		}
-	});
+            this.option( 'wall' ).lsWall( 'getCommentWrapperById', this.id ).fadeOut( 'slow', function () {
+                $( this ).remove();
+            });
+        }
+    });
 })(jQuery);

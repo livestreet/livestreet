@@ -12,7 +12,7 @@
 
 .ls-poll-title { font-size: 20px; margin-bottom: 20px; }
 
-.ls-poll-answer-list { margin-bottom: 20px; margin-left: 0; list-style-type: none;	}
+.ls-poll-answer-list { margin-bottom: 20px; margin-left: 0; list-style-type: none;    }
 
 .ls-poll-answer-list-item            { margin-bottom: 10px; }
 .ls-poll-answer-list-item:last-child { margin-bottom: 0; }

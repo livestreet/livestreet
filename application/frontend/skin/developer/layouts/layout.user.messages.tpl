@@ -5,9 +5,9 @@
 {extends './layout.user.tpl'}
 
 {block 'layout_options' append}
-	{$sNav = 'messages'}
+    {$sNav = 'messages'}
 {/block}
 
 {block 'layout_user_page_title'}
-	{$aLang.talk.title}
+    {$aLang.talk.title}
 {/block}

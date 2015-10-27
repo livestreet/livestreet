@@ -58,10 +58,10 @@
                                 </td>
                             {/if}
 
-    						{* Избранное *}
-    						<td class="cell-favourite">
-    							{component 'favourite' classes='js-favourite-talk' target=$talk}
-    						</td>
+                            {* Избранное *}
+                            <td class="cell-favourite">
+                                {component 'favourite' classes='js-favourite-talk' target=$talk}
+                            </td>
 
                             {* Основная информация о диалоге *}
                             <td class="cell-info">

@@ -10,20 +10,20 @@
     {* @hook Начало формы с настройками аккаунта *}
     {hook run='user_settings_account_begin'}
 
-	<fieldset>
-		<legend>{lang name='user.settings.account.account'}</legend>
+    <fieldset>
+        <legend>{lang name='user.settings.account.account'}</legend>
 
         {* E-mail *}
         {component 'field' template='email'
                  value = $user->getMail()
                  note  = {lang name='user.settings.account.fields.email.note'}}
-	</fieldset>
+    </fieldset>
 
 
-	<fieldset>
-		<legend>{lang name='user.settings.account.password'}</legend>
+    <fieldset>
+        <legend>{lang name='user.settings.account.password'}</legend>
 
-		<p class="text-info">{lang name='user.settings.account.password_note'}</p>
+        <p class="text-info">{lang name='user.settings.account.password_note'}</p>
 
         {* Текущий пароль *}
         {component 'field' template='text'
@@ -47,10 +47,10 @@
                  type    = 'password'
                  inputClasses = 'width-200'
                  label   = {lang name='user.settings.account.fields.password_confirm.label'}}
-	</fieldset>
+    </fieldset>
 
     {* @hook Конец формы с настройками аккаунта *}
-	{hook run='user_settings_account_end'}
+    {hook run='user_settings_account_end'}
 
     {* Скрытые поля *}
     {component 'field' template='hidden.security-key'}

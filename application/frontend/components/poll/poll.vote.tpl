@@ -10,29 +10,29 @@
 
 {* Форма *}
 <form method="post" class="js-poll-vote-form">
-	{* Список ответов *}
-	<ul class="ls-poll-answer-list">
-		{foreach $poll->getAnswers() as $answer}
-			<li class="ls-poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$answer->getId()}">
-				{component 'field' template=$type
-					name    = 'answers[]'
-					value   = $answer->getId()
-					label   = $answer->getTitle()
-					classes = 'js-poll-answer-$type'}
-			</li>
-		{/foreach}
-	</ul>
+    {* Список ответов *}
+    <ul class="ls-poll-answer-list">
+        {foreach $poll->getAnswers() as $answer}
+            <li class="ls-poll-answer-list-item js-poll-answer-list-item" data-answer-id="{$answer->getId()}">
+                {component 'field' template=$type
+                    name    = 'answers[]'
+                    value   = $answer->getId()
+                    label   = $answer->getTitle()
+                    classes = 'js-poll-answer-$type'}
+            </li>
+        {/foreach}
+    </ul>
 
-	{component 'field' template='hidden' name='id' value=$poll->getId()}
+    {component 'field' template='hidden' name='id' value=$poll->getId()}
 
-	{if $oUserCurrent or $poll->getIsGuestAllow()}
-		{* Проголосовать *}
-		{component 'button' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
+    {if $oUserCurrent or $poll->getIsGuestAllow()}
+        {* Проголосовать *}
+        {component 'button' text=$aLang.poll.vote type='button' mods='primary' classes='js-poll-vote'}
 
-		{* Воздержаться *}
-		{component 'button' text=$aLang.poll.abstain type='button' classes='js-poll-abstain'}
-	{else}
-		{* Предупрежение: голосовать могут только авторизованные пользователи *}
-		{component 'alert' mods='info' text=$aLang.poll.only_auth}
-	{/if}
+        {* Воздержаться *}
+        {component 'button' text=$aLang.poll.abstain type='button' classes='js-poll-abstain'}
+    {else}
+        {* Предупрежение: голосовать могут только авторизованные пользователи *}
+        {component 'alert' mods='info' text=$aLang.poll.only_auth}
+    {/if}
 </form>

@@ -26,17 +26,17 @@
         </a>
 
         <div class="{$component}-user-body">
-	        <h2 class="{$component}-user-login" itemprop="nickname">
-	            <a href="{$user->getUserWebPath()}">
-	                {$user->getLogin()}
-	            </a>
-	        </h2>
+            <h2 class="{$component}-user-login" itemprop="nickname">
+                <a href="{$user->getUserWebPath()}">
+                    {$user->getLogin()}
+                </a>
+            </h2>
 
-	        {if $user->getProfileName()}
-	            <p class="{$component}-user-name" itemprop="name">
-	                {$user->getProfileName()|escape}
-	            </p>
-	        {/if}
+            {if $user->getProfileName()}
+                <p class="{$component}-user-name" itemprop="name">
+                    {$user->getProfileName()|escape}
+                </p>
+            {/if}
         </div>
     </div>
 

@@ -9,7 +9,7 @@
 {/block}
 
 {block 'uploader_aside' append}
-	{* Основные настройки *}
+    {* Основные настройки *}
     {component 'media' template='uploader-block.insert.image'}
 
     {* Опции фотосета *}

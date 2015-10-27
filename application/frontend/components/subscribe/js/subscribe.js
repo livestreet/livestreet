@@ -12,21 +12,21 @@ var ls = ls || {};
 
 ls.subscribe = (function ($) {
 
-	/**
-	 * Подписка/отписка
-	 */
-	this.toggle = function(targetType, targetId, mail, value) {
-		var url = aRouter['subscribe']+'ajax-subscribe-toggle/';
-		var params = { target_type: targetType, target_id: targetId, mail: mail, value: value };
+    /**
+     * Подписка/отписка
+     */
+    this.toggle = function(targetType, targetId, mail, value) {
+        var url = aRouter['subscribe']+'ajax-subscribe-toggle/';
+        var params = { target_type: targetType, target_id: targetId, mail: mail, value: value };
 
-		ls.hook.marker('toggleBefore');
+        ls.hook.marker('toggleBefore');
 
-		ls.ajax.load( url, params, function( response ) {
-			ls.hook.run('ls_subscribe_toggle_after',[targetType, targetId, mail, value, response ]);
-		});
+        ls.ajax.load( url, params, function( response ) {
+            ls.hook.run('ls_subscribe_toggle_after',[targetType, targetId, mail, value, response ]);
+        });
 
-		return false;
-	}
+        return false;
+    }
 
-	return this;
+    return this;
 }).call(ls.subscribe || {}, jQuery);

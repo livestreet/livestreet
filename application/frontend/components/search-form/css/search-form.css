@@ -4,44 +4,44 @@
  * @template forms/form.search.base.tpl
  */
 .ls-search-form {
-	padding: 15px;
-	margin-bottom: 20px;
-	background: #f7f7f7;
-	position: relative;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #f7f7f7;
+    position: relative;
 }
 .ls-search-form .ls-field {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .ls-search-form-input[type="text"] {
-	padding-right: 30px;
+    padding-right: 30px;
 }
 
 .ls-button--icon.ls-search-form-submit {
-	border: none;
-	background: none;
-	position: absolute;
-	padding: 0;
-	height: auto;
-	top: 21px;
-	right: 22px;
-	cursor: pointer;
-	opacity: .7;
-	filter: alpha(opacity=70);
+    border: none;
+    background: none;
+    position: absolute;
+    padding: 0;
+    height: auto;
+    top: 21px;
+    right: 22px;
+    cursor: pointer;
+    opacity: .7;
+    filter: alpha(opacity=70);
 }
 .ls-search-form-submit:hover {
-	opacity: 1;
-	filter: alpha(opacity=100);
-	background-color: transparent;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    background-color: transparent;
 }
 
 /**
  * Light
  */
 .ls-search-form--light {
-	background: none;
-	padding: 0;
+    background: none;
+    padding: 0;
 }
 .ls-search-form--light .ls-search-form-submit {
-	top: 6px;
-	right: 7px;
+    top: 6px;
+    right: 7px;
 }

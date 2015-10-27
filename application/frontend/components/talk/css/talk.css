@@ -7,9 +7,9 @@
  */
 
 .talk {
-	background: #fafafa;
-	padding: 20px;
-	margin-bottom: 0;
+    background: #fafafa;
+    padding: 20px;
+    margin-bottom: 0;
 }
 
 .ls-talk-participants-details {
@@ -20,13 +20,13 @@
  * Список участников диалога
  */
 .message-users .user-list-small-item.inactive {
-	opacity: .5;
-	cursor: help;
+    opacity: .5;
+    cursor: help;
 }
 .message-users .user-list-small-item.inactive .ls-talk-participants-item-inactivate,
 .message-users .user-list-small-item .ls-talk-participants-item-activate {
-	display: none;
+    display: none;
 }
 .message-users .user-list-small-item.inactive .ls-talk-participants-item-activate {
-	display: inline-block;
+    display: inline-block;
 }

@@ -35,17 +35,17 @@
 
 
 <div class="{$component} {cmods name=$component mods=$mods} {if $isActive}active{/if} {$smarty.local.classes}"
-	 data-param-i-target-id="{$target->getId()}"
-	 title="{$aLang.$component[ ($isActive) ? 'remove' : 'add' ]}"
-	 {cattr list=$smarty.local.attributes}>
+     data-param-i-target-id="{$target->getId()}"
+     title="{$aLang.$component[ ($isActive) ? 'remove' : 'add' ]}"
+     {cattr list=$smarty.local.attributes}>
 
-	{* Кнопка добавления/удаления из избранного *}
-	{component 'icon' icon='heart' classes="{$component}-toggle js-favourite-toggle"}
+    {* Кнопка добавления/удаления из избранного *}
+    {component 'icon' icon='heart' classes="{$component}-toggle js-favourite-toggle"}
 
-	{* Кол-во объектов в избранном *}
-	{if isset( $count )}
-		<span class="{$component}-count js-favourite-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
-			{$count}
-		</span>
-	{/if}
+    {* Кол-во объектов в избранном *}
+    {if isset( $count )}
+        <span class="{$component}-count js-favourite-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
+            {$count}
+        </span>
+    {/if}
 </div>

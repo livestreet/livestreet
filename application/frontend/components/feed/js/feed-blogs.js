@@ -9,46 +9,46 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsFeedBlogs", $.livestreet.lsComponent, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			// Ссылки
-			urls: {
-				subscribe: null,
-				unsubscribe: null
-			},
+    $.widget( "livestreet.lsFeedBlogs", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                subscribe: null,
+                unsubscribe: null
+            },
 
-			// Селекторы
-			selectors: {
-				checkbox: '.js-feed-blogs-subscribe'
-			},
+            // Селекторы
+            selectors: {
+                checkbox: '.js-feed-blogs-subscribe'
+            },
 
-			params: {}
-		},
+            params: {}
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			this._super();
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			this._on( this.getElement( 'checkbox' ), { change: this.toggleSubscribe } );
-		},
+            this._on( this.getElement( 'checkbox' ), { change: this.toggleSubscribe } );
+        },
 
-		/**
-		 * Сохранение настроек
-		 */
-		toggleSubscribe: function( event ) {
-			var checkbox = $( event.target );
+        /**
+         * Сохранение настроек
+         */
+        toggleSubscribe: function( event ) {
+            var checkbox = $( event.target );
 
-			this._load( checkbox.is(':checked') ? 'subscribe' : 'unsubscribe', { type: 'blogs', id: checkbox.data( 'id' ) } );
-		}
-	});
+            this._load( checkbox.is(':checked') ? 'subscribe' : 'unsubscribe', { type: 'blogs', id: checkbox.data( 'id' ) } );
+        }
+    });
 })(jQuery);

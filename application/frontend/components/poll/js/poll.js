@@ -9,106 +9,106 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsPoll", $.livestreet.lsComponent, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			// Ссылки
-			urls: {
-				// Голосование за вариант
-				vote: aRouter.ajax + 'poll/vote/'
-			},
+    $.widget( "livestreet.lsPoll", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                // Голосование за вариант
+                vote: aRouter.ajax + 'poll/vote/'
+            },
 
-			// Селекторы
-			selectors: {
-				// Форма голосования
-				form: '.js-poll-vote-form',
+            // Селекторы
+            selectors: {
+                // Форма голосования
+                form: '.js-poll-vote-form',
 
-				// Кнопка проголосовать
-				vote: '.js-poll-vote',
+                // Кнопка проголосовать
+                vote: '.js-poll-vote',
 
-				// Кнопка воздержаться от голосования
-				abstain: '.js-poll-abstain',
+                // Кнопка воздержаться от голосования
+                abstain: '.js-poll-abstain',
 
-				// Результата опроса
-				result: '.js-poll-result',
+                // Результата опроса
+                result: '.js-poll-result',
 
-				// Вариант
-				item: '.js-poll-result-item',
+                // Вариант
+                item: '.js-poll-result-item',
 
-				// Кнопка сортировки вариантов
-				sort: '.js-poll-result-sort'
-			}
-		},
+                // Кнопка сортировки вариантов
+                sort: '.js-poll-result-sort'
+            }
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			this._super();
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			var _this = this;
+            var _this = this;
 
-			this.elements = {
-				form:    this.element.find( this.options.selectors.form ),
-				vote:    this.element.find( this.options.selectors.vote ),
-				abstain: this.element.find( this.options.selectors.abstain )
-			};
+            this.elements = {
+                form:    this.element.find( this.options.selectors.form ),
+                vote:    this.element.find( this.options.selectors.vote ),
+                abstain: this.element.find( this.options.selectors.abstain )
+            };
 
-			! this.elements.form.length && this.initResult();
+            ! this.elements.form.length && this.initResult();
 
-			//
-			// События
-			//
+            //
+            // События
+            //
 
-			this._on( this.elements.vote, { 'click': this.vote.bind( this, false ) } );
-			this._on( this.elements.abstain, { 'click': this.vote.bind( this, true ) } );
-			this.element.on( 'click' + this.eventNamespace, this.option( 'selectors.sort' ), this.sort.bind(this) );
-		},
+            this._on( this.elements.vote, { 'click': this.vote.bind( this, false ) } );
+            this._on( this.elements.abstain, { 'click': this.vote.bind( this, true ) } );
+            this.element.on( 'click' + this.eventNamespace, this.option( 'selectors.sort' ), this.sort.bind(this) );
+        },
 
-		/**
-		 * Иниц-ия результата
-		 */
-		initResult: function() {
-			this.elements.sort = this.element.find( this.options.selectors.sort );
-			this.elements.items = this.element.find( this.options.selectors.item );
-			this.elements.result = this.element.find( this.options.selectors.result );
-		},
+        /**
+         * Иниц-ия результата
+         */
+        initResult: function() {
+            this.elements.sort = this.element.find( this.options.selectors.sort );
+            this.elements.items = this.element.find( this.options.selectors.item );
+            this.elements.result = this.element.find( this.options.selectors.result );
+        },
 
-		/**
-		 * Голосование
-		 */
-		vote: function( abstain ) {
-			this._submit( 'vote', this.elements.form, function( response ) {
-				this.element.html( $.trim( response.sText ) );
-				this.initResult();
+        /**
+         * Голосование
+         */
+        vote: function( abstain ) {
+            this._submit( 'vote', this.elements.form, function( response ) {
+                this.element.html( $.trim( response.sText ) );
+                this.initResult();
 
-				this._off( this.elements.vote, 'click' );
-				this._off( this.elements.abstain, 'click' );
-			}.bind(this), {
-				submitButton: this.elements.vote,
-				params:       { abstain: abstain ? 1 : 0 }
-			});
-		},
+                this._off( this.elements.vote, 'click' );
+                this._off( this.elements.abstain, 'click' );
+            }.bind(this), {
+                submitButton: this.elements.vote,
+                params:       { abstain: abstain ? 1 : 0 }
+            });
+        },
 
-		/**
-		 * Сортировка результата
-		 */
-		sort: function() {
-			var type = this.elements.sort.hasClass( ls.options.classes.states.active ) ? 'position' : 'count';
+        /**
+         * Сортировка результата
+         */
+        sort: function() {
+            var type = this.elements.sort.hasClass( ls.options.classes.states.active ) ? 'position' : 'count';
 
-			this.elements.items.sort( function (a, b) {
-				return $(b).data(type) - $(a).data(type);
-			});
+            this.elements.items.sort( function (a, b) {
+                return $(b).data(type) - $(a).data(type);
+            });
 
-			this.elements.sort.toggleClass( ls.options.classes.states.active );
-			this.elements.result.html( this.elements.items );
-		}
-	});
+            this.elements.sort.toggleClass( ls.options.classes.states.active );
+            this.elements.result.html( this.elements.items );
+        }
+    });
 })(jQuery);

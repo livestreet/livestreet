@@ -10,10 +10,10 @@
 {$activeTag = $smarty.local.activeTag}
 
 {component 'tags' template='cloud'
-	tags   = $smarty.local.tags
-	url    = '{$user->getUserWebPath()}favourites/topics/tag/{$tag->getText()|escape:\'url\'}/'
-	active = $activeTag
-	assign = tags}
+    tags   = $smarty.local.tags
+    url    = '{$user->getUserWebPath()}favourites/topics/tag/{$tag->getText()|escape:\'url\'}/'
+    active = $activeTag
+    assign = tags}
 
 {component 'details'
     classes = 'js-tags-favourite-cloud'

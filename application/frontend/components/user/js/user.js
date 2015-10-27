@@ -11,11 +11,11 @@
 var ls = ls || {};
 
 ls.user = (function ($) {
-	"use strict";
+    "use strict";
 
-	this.init = function () {
-		return;
-	};
+    this.init = function () {
+        return;
+    };
 
-	return this;
+    return this;
 }).call(ls.user || {}, jQuery);

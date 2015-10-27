@@ -9,43 +9,43 @@
  */
 
 (function($) {
-	"use strict";
+    "use strict";
 
-	$.widget( "livestreet.lsActivitySettings", $.livestreet.lsComponent, {
-		/**
-		 * Дефолтные опции
-		 */
-		options: {
-			// Ссылки
-			urls: {
-				toggle_type: null
-			},
+    $.widget( "livestreet.lsActivitySettings", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Ссылки
+            urls: {
+                toggle_type: null
+            },
 
-			// Селекторы
-			selectors: {
-				type_checkbox: '.js-activity-settings-type-checkbox'
-			}
-		},
+            // Селекторы
+            selectors: {
+                type_checkbox: '.js-activity-settings-type-checkbox'
+            }
+        },
 
-		/**
-		 * Конструктор
-		 *
-		 * @constructor
-		 * @private
-		 */
-		_create: function () {
-			this._super();
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-			this._on( this.elements.type_checkbox, { change: 'toggleEventType' } );
-		},
+            this._on( this.elements.type_checkbox, { change: 'toggleEventType' } );
+        },
 
-		/**
-		 * Сохранение настроек
-		 */
-		toggleEventType: function( event ) {
-			this.option( 'params.type', $( event.target ).data( 'type' ) );
+        /**
+         * Сохранение настроек
+         */
+        toggleEventType: function( event ) {
+            this.option( 'params.type', $( event.target ).data( 'type' ) );
 
-			this._load( 'toggle_type', function( response ) {} );
-		}
-	});
+            this._load( 'toggle_type', function( response ) {} );
+        }
+    });
 })(jQuery);

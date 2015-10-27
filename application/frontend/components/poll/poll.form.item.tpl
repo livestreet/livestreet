@@ -20,30 +20,30 @@
 {$index = $index|default:0}
 
 <li class="{$component} js-poll-form-answer-item"
-	{if $isTemplate}data-is-template="true"{/if}
-	{if $isTemplate}style="display: none"{/if}>
+    {if $isTemplate}data-is-template="true"{/if}
+    {if $isTemplate}style="display: none"{/if}>
 
-	{* ID *}
-	{component 'field' template='hidden'
-		name    = "answers[{$index}][id]"
-		value   = "{if $item}{$item->getId()}{/if}"
-		classes = "js-poll-form-answer-item-id"}
+    {* ID *}
+    {component 'field' template='hidden'
+        name    = "answers[{$index}][id]"
+        value   = "{if $item}{$item->getId()}{/if}"
+        classes = "js-poll-form-answer-item-id"}
 
-	{* Текст *}
-	{component 'field' template='text'
-		name         = 'answers[]'
-		value        = ($item) ? $item->getTitle() : ''
-		isDisabled   = ! $allowUpdate
-		inputClasses = 'width-full js-poll-form-answer-item-text'}
+    {* Текст *}
+    {component 'field' template='text'
+        name         = 'answers[]'
+        value        = ($item) ? $item->getTitle() : ''
+        isDisabled   = ! $allowUpdate
+        inputClasses = 'width-full js-poll-form-answer-item-text'}
 
-	{* Кнопка удаления *}
-	{if $allowRemove}
-		{component 'icon'
-			icon='remove'
-			classes="{$component}-remove js-poll-form-answer-item-remove"
-			attributes=[
-				title => {lang 'blog.private'},
-				style => "{if ! $showRemove}display: none{/if}"
-			]}
-	{/if}
+    {* Кнопка удаления *}
+    {if $allowRemove}
+        {component 'icon'
+            icon='remove'
+            classes="{$component}-remove js-poll-form-answer-item-remove"
+            attributes=[
+                title => {lang 'blog.private'},
+                style => "{if ! $showRemove}display: none{/if}"
+            ]}
+    {/if}
 </li>
