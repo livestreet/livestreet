@@ -15,12 +15,12 @@
     {$mods = "{$mods} is-online"}
 {/if}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} clearfix" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} ls-clearfix" {cattr list=$smarty.local.attributes}>
     {* @hook Начало шапки с информацией о пользователе *}
     {hook run='user_header_begin' user=$user}
 
     {* Пользователь *}
-    <div class="{$component}-user clearfix">
+    <div class="{$component}-user ls-clearfix">
         <a href="{$user->getUserWebPath()}">
             <img src="{$user->getProfileAvatarPath(100)}" alt="{$user->getProfileName()}" class="{$component}-user-avatar js-user-profile-avatar" itemprop="photo">
         </a>

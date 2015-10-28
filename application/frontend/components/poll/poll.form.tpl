@@ -46,7 +46,7 @@
              displayInline = true
              name          = 'poll[count_answer_max]'
              value         = ($poll) ? $poll->getCountAnswerMax() : 2
-             classes       = 'width-50'
+             classes       = 'ls-width-50'
              isDisabled    = $bDisableChangeType}
 
 

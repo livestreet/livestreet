@@ -33,7 +33,7 @@
     {block 'topic_header'}
         <header class="{$component}-header">
             {* Заголовок *}
-            <h1 class="{$component}-title word-wrap">
+            <h1 class="{$component}-title ls-word-wrap">
                 {block 'topic_title'}
                     {if $topic->getPublish() == 0}
                         {component 'icon' icon='file' attributes=[ title => {lang 'topic.is_draft'} ]}
@@ -153,7 +153,7 @@
         <footer class="{$component}-footer">
             {* Информация *}
             {block 'topic_footer_info'}
-                <ul class="{$component}-info clearfix">
+                <ul class="{$component}-info ls-clearfix">
                     {block 'topic_footer_info_items'}
                         {* Голосование *}
                         {if ! $isPreview}

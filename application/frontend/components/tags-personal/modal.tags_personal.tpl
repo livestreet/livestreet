@@ -8,7 +8,7 @@
             name         = 'tags'
             noMargin     = true
             autofocus    = true
-            inputClasses = 'width-full autocomplete-tags-sep js-tags-form-input-list'}
+            inputClasses = 'ls-width-full autocomplete-tags-sep js-tags-form-input-list'}
     </form>
 {/capture}
 

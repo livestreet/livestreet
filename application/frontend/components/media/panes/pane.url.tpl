@@ -11,7 +11,7 @@
         {*component 'field' template='select'
             name          = 'filetype'
             label         = 'Type'
-            inputClasses  = 'width-300 js-media-url-type'
+            inputClasses  = 'ls-width-300 js-media-url-type'
             items         = [
                 [ 'value' => '1', 'text' => 'Image' ]
             ]*}

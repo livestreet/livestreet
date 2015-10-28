@@ -12,7 +12,7 @@
         </li>
     {/function}
 
-    <ul class="write-list clearfix">
+    <ul class="write-list ls-clearfix">
         {foreach $LS->Topic_GetTopicTypes() as $type}
             {modal_create_item item='topic' url=$type->getUrlForAdd() title=$type->getName()}
         {/foreach}

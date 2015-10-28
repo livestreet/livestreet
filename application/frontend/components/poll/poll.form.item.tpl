@@ -34,7 +34,7 @@
         name         = 'answers[]'
         value        = ($item) ? $item->getTitle() : ''
         isDisabled   = ! $allowUpdate
-        inputClasses = 'width-full js-poll-form-answer-item-text'}
+        inputClasses = 'ls-width-full js-poll-form-answer-item-text'}
 
     {* Кнопка удаления *}
     {if $allowRemove}

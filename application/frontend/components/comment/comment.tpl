@@ -98,7 +98,7 @@
         {/if}
 
         {* Информация *}
-        <ul class="{$component}-info clearfix">
+        <ul class="{$component}-info ls-clearfix">
             {* @hook Начало блока с информацией *}
             {hook run='comment_info_begin' params=$smarty.local.params}
 
@@ -175,26 +175,26 @@
         {/if}
 
         {* Действия *}
-        <ul class="{$component}-actions clearfix">
+        <ul class="{$component}-actions ls-clearfix">
             {* @hook Начало списка экшенов комментария *}
             {hook run='comment_actions_begin' params=$smarty.local.params}
 
             {* Ответить *}
             {if $oUserCurrent && ! $isDeleted && $smarty.local.showReply|default:true}
                 <li>
-                    <a href="#" class="link-dotted js-comment-reply" data-id="{$commentId}">{$aLang.comments.comment.reply}</a>
+                    <a href="#" class="ls-link-dotted js-comment-reply" data-id="{$commentId}">{$aLang.comments.comment.reply}</a>
                 </li>
             {/if}
 
             {* Сворачивание *}
             <li class="{$component}-fold js-comment-fold open" data-id="{$commentId}">
-                <a href="#" class="link-dotted">{$aLang.comments.folding.fold}</a>
+                <a href="#" class="ls-link-dotted">{$aLang.comments.folding.fold}</a>
             </li>
 
             {* Редактировать *}
             {if $smarty.local.useEdit && $oUserCurrent && $comment->IsAllowEdit()}
                 <li>
-                    <a href="#" class="link-dotted js-comment-update" data-id="{$commentId}">
+                    <a href="#" class="ls-link-dotted js-comment-update" data-id="{$commentId}">
                         {$aLang.common.edit}
 
                         {* Отображение времени отведенного для редактирования *}
@@ -209,7 +209,7 @@
             {* Удалить *}
             {if $oUserCurrent && $comment->IsAllowDelete()}
                 <li>
-                    <a href="#" class="link-dotted js-comment-remove" data-id="{$commentId}">
+                    <a href="#" class="ls-link-dotted js-comment-remove" data-id="{$commentId}">
                         {( $isDeleted ) ? $aLang.comments.comment.restore : $aLang.common.remove}
                     </a>
                 </li>

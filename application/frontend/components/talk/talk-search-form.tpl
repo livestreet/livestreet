@@ -9,14 +9,14 @@
                  name    = 'sender'
                  label   = $aLang.talk.search.fields.sender.label
                  note    = $aLang.talk.search.fields.sender.note
-                 inputClasses = 'width-full autocomplete-users'}
+                 inputClasses = 'ls-width-full autocomplete-users'}
 
         {* Получатель *}
         {component 'field' template='text'
                 name    = 'receiver'
                 label   = $aLang.talk.search.fields.receiver.label
                 note    = $aLang.talk.search.fields.receiver.note
-                inputClasses = 'width-full autocomplete-users'}
+                inputClasses = 'ls-width-full autocomplete-users'}
 
         {* Искать в заголовке *}
         {component 'field' template='text'
@@ -33,12 +33,12 @@
                 name         = 'start'
                 placeholder  = $aLang.talk.search.fields.start.placeholder
                 label        = $aLang.talk.search.fields.start.label
-                inputClasses = 'width-200 js-date-picker'}
+                inputClasses = 'ls-width-200 js-date-picker'}
 
         {component 'field' template='text'
                 name         = 'end'
                 placeholder  = $aLang.talk.search.fields.end.placeholder
-                inputClasses = 'width-200 js-date-picker'}
+                inputClasses = 'ls-width-200 js-date-picker'}
 
         {* Искать только в избранном *}
         {component 'field' template='checkbox' name='favourite' label=$aLang.talk.search.fields.favourite.label}

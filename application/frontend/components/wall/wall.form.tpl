@@ -10,7 +10,7 @@
     {* Текст *}
     {component 'field' template='textarea'
         placeholder  = "{$smarty.local.placeholder|default:$aLang.wall.form.fields.text.placeholder}"
-        inputClasses = 'width-full js-wall-form-text'}
+        inputClasses = 'ls-width-full js-wall-form-text'}
 
     {* Подвал формы *}
     <footer class="wall-form-footer">

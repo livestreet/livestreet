@@ -3,7 +3,7 @@
  *}
 
 <div class="ls-userbar">
-    <div class="ls-userbar-inner clearfix" style="min-width: {Config::Get('view.grid.fluid_min_width')}; max-width: {Config::Get('view.grid.fluid_max_width')};">
+    <div class="ls-userbar-inner ls-clearfix" style="min-width: {Config::Get('view.grid.fluid_min_width')}; max-width: {Config::Get('view.grid.fluid_max_width')};">
         {if ! Config::Get( 'view.layout_show_banner' )}
             <h1 class="ls-userbar-logo">
                 <a href="{router page='/'}">{Config::Get('view.name')}</a>

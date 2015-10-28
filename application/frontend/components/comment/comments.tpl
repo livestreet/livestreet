@@ -143,7 +143,7 @@
         {if $oUserCurrent}
             {* Кнопка открывающая форму *}
             <h4 class="ls-comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
-                <a href="#" class="link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
+                <a href="#" class="ls-link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
             </h4>
         {else}
             {component 'alert' mods='info' text=$aLang.comments.alerts.unregistered}

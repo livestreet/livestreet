@@ -23,7 +23,7 @@
 
         {* Кнопка "Изменить теги" *}
         <li class="ls-tags-item ls-tags-personal-edit js-tags-personal-edit" {if $smarty.local.isEditable}style="display:none;"{/if}>
-            <a href="#" class="link-dotted">
+            <a href="#" class="ls-link-dotted">
                 {component 'icon' icon='edit'}
                 {lang 'tags_personal.edit'}
             </a>

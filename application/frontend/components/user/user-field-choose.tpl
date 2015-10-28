@@ -17,7 +17,7 @@
 
 {* Ссылка показывающая мод. окно со списком пользователей *}
 {capture 'user_field_choose'}
-    <a href="#" class="link-dotted js-{$component}-button">
+    <a href="#" class="ls-link-dotted js-{$component}-button">
         {$lang_choose}
     </a>
 {/capture}

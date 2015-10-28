@@ -25,13 +25,13 @@
 
         {* Действия *}
         {if $isEditable}
-            <ul class="{$component}-actions js-note-actions clearfix" {if ! $note}style="display: none;"{/if}>
+            <ul class="{$component}-actions js-note-actions ls-clearfix" {if ! $note}style="display: none;"{/if}>
                 <li><a href="#" class="js-note-actions-edit">{$aLang.common.edit}</a></li>
                 <li><a href="#" class="js-note-actions-remove">{$aLang.common.remove}</a></li>
             </ul>
 
             {* Добавить *}
-            <ul class="{$component}-actions {$component}-actions--add clearfix js-note-add" {if $note}style="display: none;"{/if}>
+            <ul class="{$component}-actions {$component}-actions--add ls-clearfix js-note-add" {if $note}style="display: none;"{/if}>
                 <li><a href="#" class="">{$aLang.user_note.add}</a></li>
             </ul>
         {/if}

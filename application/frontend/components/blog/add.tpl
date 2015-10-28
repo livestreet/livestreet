@@ -36,7 +36,7 @@
         label         = $aLang.blog.add.fields.type.label
         note          = $aLang.blog.add.fields.type.note_open
         classes       = 'js-blog-add-field-type'
-        inputClasses  = 'width-200 js-blog-add-type'
+        inputClasses  = 'ls-width-200 js-blog-add-type'
         selectedValue = $_aRequest.blog_type
         items         = [
             [ 'value' => 'open', 'text' => $aLang.blog.add.fields.type.value_open ],
@@ -57,7 +57,7 @@
         name         = 'blog_limit_rating_topic'
         rules        = [ 'required' => true, 'type' => 'number' ]
         value        = '0'
-        inputClasses = 'width-100'
+        inputClasses = 'ls-width-100'
         note         = $aLang.blog.add.fields.rating.note
         label        = $aLang.blog.add.fields.rating.label}
 

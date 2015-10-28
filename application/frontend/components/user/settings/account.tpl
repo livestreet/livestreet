@@ -29,7 +29,7 @@
         {component 'field' template='text'
                  name    = 'password_now'
                  type    = 'password'
-                 inputClasses = 'width-200'
+                 inputClasses = 'ls-width-200'
                  label   = {lang name='user.settings.account.fields.password.label'}}
 
         {* Новый пароль *}
@@ -37,7 +37,7 @@
                  name    = 'password'
                  rules   = [ 'length' => '[5,20]' ]
                  type    = 'password'
-                 inputClasses = 'width-200 js-user-settings-password'
+                 inputClasses = 'ls-width-200 js-user-settings-password'
                  label   = {lang name='user.settings.account.fields.password_new.label'}}
 
         {* Повторить новый пароль *}
@@ -45,7 +45,7 @@
                  name    = 'password_confirm'
                  rules   = [ 'length' => '[5,20]', 'equalto' => '.js-user-settings-password' ]
                  type    = 'password'
-                 inputClasses = 'width-200'
+                 inputClasses = 'ls-width-200'
                  label   = {lang name='user.settings.account.fields.password_confirm.label'}}
     </fieldset>
 

@@ -83,7 +83,7 @@
                                                     <img src="{$user->getProfileAvatarPath(64)}" alt="{$user->getLogin()}" />
                                                 </a>
 
-                                                <a href="{$user->getUserWebPath()}" class="word-wrap">{$user->getDisplayName()}</a>
+                                                <a href="{$user->getUserWebPath()}" class="ls-word-wrap">{$user->getDisplayName()}</a>
                                             {/if}
                                         {/foreach}
                                     {/if}

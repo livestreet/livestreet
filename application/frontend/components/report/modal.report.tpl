@@ -11,14 +11,14 @@
         {component 'field' template='select'
             name    = 'type'
             label   = {lang 'report.form.fields.type.label'}
-            classes = 'width-full'
+            classes = 'ls-width-full'
             items   = $smarty.local.types}
 
         {component 'field' template='textarea'
             name    = 'text'
             rows    = 5
             label   = {lang 'report.form.fields.text.label'}
-            classes = 'width-full'}
+            classes = 'ls-width-full'}
 
         {* Каптча *}
         {if Config::Get('module.user.complaint_captcha')}
