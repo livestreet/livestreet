@@ -95,11 +95,9 @@ jQuery(document).ready(function($){
     });
 
     $('.js-field-date-default').livequery(function () {
-        $(this).lsFieldDate();
-    });
-
-    $('.js-field-datetime-default').livequery(function () {
-        $(this).lsFieldDatetime();
+        $(this).lsFieldDate({
+            language: LANGUAGE
+        });
     });
 
     $('.js-field-time-default').livequery(function () {
