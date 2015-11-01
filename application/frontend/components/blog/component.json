@@ -16,6 +16,7 @@
         "add": "add.tpl",
         "admin": "admin.tpl",
         "list-item": "blog-list-item.tpl",
+        "list-loop": "blog-list-loop.tpl",
         "list": "blog-list.tpl",
         "blog": "blog.tpl",
         "join": "join.tpl",

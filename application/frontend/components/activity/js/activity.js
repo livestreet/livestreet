@@ -47,6 +47,7 @@
                 urls: {
                     load: this.option( 'urls.more' ),
                 },
+                proxy: [ 'last_id' ],
                 target: this.elements.list,
                 beforeload: function (e, context) {
                     context._setParam( 'date_last', this.getDateLast() );

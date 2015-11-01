@@ -13,6 +13,7 @@
 {$component = 'activity'}
 
 {$events = $smarty.local.events}
+{$moreCount = $smarty.local.count - count($events)}
 
 <div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
     {if $events}
@@ -26,7 +27,7 @@
             {$last = end($events)}
 
             {component 'more'
-                count      = $smarty.local.count
+                count      = $moreCount
                 classes    = 'js-activity-more'
                 ajaxParams = [
                     'last_id' => $last->getId(),

@@ -148,17 +148,15 @@ class ActionBlogs extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
         $oViewer->Assign('blogs', $aResult['collection'], true);
         $oViewer->Assign('oUserCurrent', $this->User_GetUserCurrent());
-        $oViewer->Assign('textEmpty', $this->Lang_Get('search.alerts.empty'), true);
-        $oViewer->Assign('useMore', true, true);
-        $oViewer->Assign('hideMore', $bHideMore, true);
-        $oViewer->Assign('searchCount', $aResult['count'], true);
-        $this->Viewer_AssignAjax('html', $oViewer->Fetch("component@blog.list"));
+        $this->Viewer_AssignAjax('html', $oViewer->Fetch("component@blog.list-loop"));
         /**
          * Для подгрузки
          */
         $this->Viewer_AssignAjax('count_loaded', count($aResult['collection']));
         $this->Viewer_AssignAjax('next_page', count($aResult['collection']) > 0 ? $iPage + 1 : $iPage);
-        $this->Viewer_AssignAjax('hide', $bHideMore);
+        $this->Viewer_AssignAjax('searchCount', (int)$aResult['count']);
+        $this->Viewer_AssignAjax('hide', $bHideMore or !$aResult['count'] or !count($aResult['collection']));
+        $this->Viewer_AssignAjax('textEmpty', $this->Lang_Get('search.alerts.empty'));
     }
 
     /**

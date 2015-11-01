@@ -18,13 +18,7 @@
     {/if}
 
     {* Список блогов *}
-    {capture 'blog_list'}
-        {foreach $smarty.local.blogs as $blog}
-            {component 'blog' template='list-item' blog=$blog}
-        {/foreach}
-    {/capture}
-
-    {component 'item' template='group' classes='js-more-blogs-container' items=$smarty.capture.blog_list}
+    {component 'item' template='group' classes='js-more-blogs-container' items={component 'blog' template='list-loop' blogs=$smarty.local.blogs}}
 
     {* Кнопка подгрузки *}
     {if $smarty.local.useMore}
