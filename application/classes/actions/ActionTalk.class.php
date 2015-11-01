@@ -1133,6 +1133,7 @@ class ActionTalk extends Action
                                     $oViewer = $this->Viewer_GetLocalViewer();
                                     $oViewer->Assign('user', $oUser, true);
                                     $oViewer->Assign('showActions', true, true);
+                                    $oViewer->Assign('oUserCurrent', $this->oUserCurrent);
 
                                     $aResult[] = array(
                                         'bStateError'   => false,
