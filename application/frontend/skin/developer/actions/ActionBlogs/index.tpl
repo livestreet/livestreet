@@ -29,7 +29,10 @@
             [ name => 'blog_title',       text => $aLang.sort.by_title ]
         ]}
 
+    {* Список блогов *}
     <div class="js-search-ajax-blog">
+        <h3 class="h3 js-blog-list-search-title" style="display: none"></h3>
+
         {component 'blog' template='list' blogs=$blogs useMore=true}
     </div>
 {/block}

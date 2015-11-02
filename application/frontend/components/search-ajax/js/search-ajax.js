@@ -23,7 +23,18 @@
 
             // Селекторы
             selectors: {
-                more: '.js-more-search'
+                list: '.js-search-ajax-list',
+                more: '.js-search-ajax-more'
+            },
+
+            // Селекторы внешних элементов
+            extSelectors: {
+                title: null
+            },
+
+            // Локализация
+            i18n: {
+                title: null
             },
 
             // Фильтры
@@ -44,21 +55,21 @@
 
             var _this = this;
 
+            this.extElements = this._getElementsFromSelectors( this.options.extSelectors );
+
             // Иниц-ия фильтров
             $.each( this.option( 'filters' ), function ( index, value ) {
                 _this._initFilter( value );
             });
 
             // Кнопка подгрузки
-            this.elements.more.livequery(function () {
-                $( this ).lsMore({
-                    urls: {
-                        load: _this.option( 'urls.search' )
-                    },
-                    beforeload: function ( event, context ) {
-                        $.extend( context.option( 'params' ), _this.option( 'params' ) );
-                    }
-                });
+            this.elements.more.lsMore({
+                urls: {
+                    load: _this.option( 'urls.search' )
+                },
+                beforeload: function ( event, context ) {
+                    $.extend( context.option( 'params' ), _this.option( 'params' ) );
+                }
             });
         },
 
@@ -197,9 +208,28 @@
                 this.updateFilter( this.option( 'filters' )[i] );
             };
 
-            this._load( 'search', function ( response ) {
-                this.element.html( $.trim( response.html ) );
-            });
+            this._trigger( 'beforeupdate', null, this );
+
+            this._load( 'search', 'onUpdate' );
+        },
+
+        /**
+         * 
+         */
+        onUpdate: function ( response ) {
+            this.elements.more[ response.hide ? 'hide' : 'show' ]();
+
+            if ( response.searchCount ) {
+                this.elements.list.show().html( $.trim( response.html ) );
+            } else {
+                this.elements.list.hide();
+            }
+
+            if ( this.option( 'i18n.title' ) && this.extElements.title.length ) {
+                this.extElements.title.show().text( ls.lang.pluralize( response.searchCount, this.option( 'i18n.title' ) ) );
+            }
+
+            this._trigger( 'afterupdate', null, { context: this, response: response } );
         },
 
         /**

@@ -273,6 +273,16 @@ jQuery(document).ready(function($){
         urls: {
             search: aRouter.people + 'ajax-search/'
         },
+        i18n: {
+            title: ls.lang.get( 'user.search.result_title' )
+        },
+        extSelectors: {
+            title: '.js-user-list-search-title'
+        },
+        selectors: {
+            list: '.js-more-users-container',
+            more: '.js-more-search'
+        },
         filters : [
             {
                 type: 'text',
@@ -309,7 +319,10 @@ jQuery(document).ready(function($){
                 name: 'city',
                 selector: '.js-field-geo-city'
             }
-        ]
+        ],
+        afterupdate: function ( event, data ) {
+            data.context.getElement( 'more' ).lsMore( 'option', 'params.next_page', 2 );
+        }
     });
 
     // Добавление пользователя в свою активность
@@ -470,6 +483,16 @@ jQuery(document).ready(function($){
         urls: {
             search: aRouter.blogs + 'ajax-search/'
         },
+        i18n: {
+            title: ls.lang.get( 'blog.search.result_title' )
+        },
+        extSelectors: {
+            title: '.js-blog-list-search-title'
+        },
+        selectors: {
+            list: '.js-more-blogs-container',
+            more: '.js-more-search'
+        },
         filters : [
             {
                 type: 'text',
@@ -496,7 +519,10 @@ jQuery(document).ready(function($){
                 name: 'sort_by',
                 selector: '.js-search-sort-menu li'
             }
-        ]
+        ],
+        afterupdate: function ( event, data ) {
+            data.context.getElement( 'more' ).lsMore( 'option', 'params.next_page', 2 );
+        }
     });
 
     // Аватар блога

@@ -5,6 +5,7 @@
         "ls-component": "*",
         "user-list-add": "*",
         "search-form": "*",
+        "search-ajax": "*",
         "button": "*",
         "modal": "*",
         "block": "*",

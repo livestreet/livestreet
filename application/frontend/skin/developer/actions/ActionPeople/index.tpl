@@ -27,7 +27,10 @@
             [ name => 'user_date_register', text => $aLang.sort.by_date_registration ]
         ]}
 
+    {* Список пользователей *}
     <div class="js-search-ajax-users">
+        <h3 class="h3 js-user-list-search-title" style="display: none"></h3>
+
         {component 'user' template='list' users=$users useMore=true}
     </div>
 {/block}
