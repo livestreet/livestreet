@@ -115,7 +115,7 @@
 
                         {* Проверяем наличие вывода на случай если меню с одним пунктом автоматом скрывается *}
                         {if $_navContent|strip:''}
-                            <div class="nav-group">
+                            <div class="ls-nav-group">
                                 {$_navContent}
                             </div>
                         {/if}
