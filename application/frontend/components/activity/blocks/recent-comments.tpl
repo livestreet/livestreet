@@ -11,8 +11,7 @@
             user     = $comment->getUser()
             topic    = $topic
             blog     = $topic->getBlog()
-            date     = $comment->getDate()
-            topicUrl = ( Config::Get('module.comment.use_nested') ) ? {router 'comments'} : "{$topic->getUrl()}#comment{$comment->getId()}"}
+            date     = $comment->getDate()}
     {foreachelse}
         {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}

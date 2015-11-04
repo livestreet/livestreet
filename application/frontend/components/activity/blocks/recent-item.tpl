@@ -1,14 +1,16 @@
 {capture 'item_content'}
-    <a href="{$user->getUserWebPath()}" class="author">{$user->getDisplayName()}</a> &rarr;
-    <a href="{$blog->getUrlFull()}" class="blog-name">{$blog->getTitle()|escape}</a> &rarr;
-    <a href="{$smarty.local.topicUrl}">{$topic->getTitle()|escape}</a>
+    <a href="{$user->getUserWebPath()}" class="ls-activity-block-recent-user">{$user->getDisplayName()}</a> &rarr;
+    <a href="{$topic->getUrl()}">{$topic->getTitle()|escape}</a>
 
-    <p>
-        <time datetime="{date_format date=$smarty.local.date format='c'}">
+    <p class="ls-activity-block-recent-info">
+        <time datetime="{date_format date=$smarty.local.date format='c'}" class="ls-activity-block-recent-time">
             {date_format date=$smarty.local.date hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y"}
-        </time> |
+        </time>
 
-        {lang 'comments.comments_declension' count=$topic->getCountComment() plural=true}
+        <a href="{$topic->getUrl()}#comments" class="ls-activity-block-recent-comments">
+            {component 'icon' icon='comments'}
+            {lang 'comments.comments_declension' count=$topic->getCountComment() plural=true}
+        </a>
     </p>
 {/capture}
 

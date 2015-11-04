@@ -73,15 +73,12 @@
     {hook run='comment_comment_begin' params=$smarty.local.params}
 
     {* Путь до комментария *}
-    {* TODO: Вынести в компонент topic, сделать универсальным *}
     {if $smarty.local.showPath}
         <div class="{$component}-path">
-            {$topic = $comment->getTarget()}
-            {$blog = $topic->getBlog()}
+            {$target = $comment->getTarget()}
 
-            <a href="{$blog->getUrlFull()}" class="{$component}-path-blog">{$blog->getTitle()|escape}</a> &rarr;
-            <a href="{$topic->getUrl()}" class="{$component}-path-topic">{$topic->getTitle()|escape}</a>
-            <a href="{$topic->getUrl()}#comments" class="{$component}-path-comments">({$topic->getCountComment()})</a>
+            <a href="{$target->getUrl()}" class="{$component}-path-target">{$target->getTitle()|escape}</a>
+            <a href="{$target->getUrl()}#comments" class="{$component}-path-comments">({$target->getCountComment()})</a>
         </div>
     {/if}
 

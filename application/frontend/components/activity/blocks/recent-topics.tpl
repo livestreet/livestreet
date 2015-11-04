@@ -9,8 +9,7 @@
             user     = $topic->getUser()
             topic    = $topic
             blog     = $topic->getBlog()
-            date     = $topic->getDatePublish()
-            topicUrl = $topic->getUrl()}
+            date     = $topic->getDatePublish()}
     {foreachelse}
         {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}
