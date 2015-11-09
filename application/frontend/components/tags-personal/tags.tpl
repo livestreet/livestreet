@@ -15,8 +15,8 @@
     {if $oUserCurrent}
         {foreach $smarty.local.tagsPersonal as $tag}
             {component 'tags' template='item'
-                text=$tag
-                url="{$oUserCurrent->getUserWebPath()}favourites/topics/tag/{$tag|escape:'url'}/"
+                text=$tag->getText()
+                url=$tag->getUrl()
                 classes="js-tags-personal-tag"
                 mods="personal"}
         {/foreach}

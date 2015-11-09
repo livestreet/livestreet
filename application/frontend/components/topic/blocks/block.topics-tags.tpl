@@ -10,11 +10,11 @@
         'tabs' => [
             [
                 'text' => {lang 'tags.block_tags.nav.all'},
-                'content' => {component 'tags' template='cloud' tags=$smarty.local.tags url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/'}
+                'content' => {component 'tags' template='cloud' tags=$smarty.local.tags}
             ],
             [
                 'text' => {lang 'tags.block_tags.nav.favourite'},
-                'content' => {component 'tags' template='cloud' tags=$smarty.local.tagsUser url='{router page=\'tag\'}{$tag->getText()|escape:\'url\'}/'},
+                'content' => {component 'tags' template='cloud' tags=$smarty.local.tagsUser},
                 'is_enabled' => !! $oUserCurrent
             ]
         ]
