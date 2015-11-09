@@ -27,5 +27,22 @@
  */
 class ModuleFavourite_EntityTag extends Entity
 {
+    /**
+     * Возвращает URL страницы тега
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        $_this = $this;
+        $oUser = $this->Cache_Remember("favourite_tag_user_{$this->getUserId()}",
+            function () use ($_this) {
+                return $_this->User_GetUserById($_this->getUserId());
+            }, false, array(), 'life', true);
 
+        if ($oUser) {
+            return $oUser->getUserWebPath() . 'favourites/topics/tag/' . urlencode($this->getText()) . '/';
+        }
+        return null;
+    }
 }

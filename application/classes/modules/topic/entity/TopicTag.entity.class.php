@@ -97,6 +97,15 @@ class ModuleTopic_EntityTopicTag extends Entity
         return $this->_getDataOne('size');
     }
 
+    /**
+     * Возвращает URL страницы тегов
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return Router::GetPath('tag') . urlencode($this->getText()) . '/';
+    }
 
     /**
      * Устанавливает ID тега
