@@ -57,13 +57,7 @@ class ModuleACL extends Module
                 if (!$oUser) {
                     return false;
                 }
-                if ($oUser->isAdministrator()) {
-                    return true;
-                }
-                /**
-                 * Проверяем хватает ли рейтинга юзеру чтоб создать блог
-                 */
-                if ($oUser->getRating() < Config::Get('acl.create.blog.rating')) {
+                if (!$oUser->isAllowCreateBlog()) {
                     return $that->Lang_Get('blog.add.alerts.acl');
                 }
                 return true;

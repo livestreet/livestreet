@@ -633,6 +633,19 @@ class ModuleUser_EntityUser extends Entity
         return false;
     }
 
+    /**
+     * Проверка на возможность создания блога юзером
+     *
+     * @return bool
+     */
+    public function isAllowCreateBlog()
+    {
+        if ($this->isAdministrator() or $this->getRating() >= Config::Get('acl.create.blog.rating')) {
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * Устанавливает ID пользователя
