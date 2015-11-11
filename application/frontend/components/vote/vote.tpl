@@ -6,8 +6,6 @@
  * @param string  $attributes Атрибуты
  * @param boolean $showRating Показывать рейтинг или нет
  * @param boolean $isLocked   Блокировка голосования
- *
- * TODO: Добавить смарти блоки
  *}
 
 {* Название компонента *}
@@ -57,39 +55,37 @@
 {* Дополнительный мод-ор для иконок *}
 {$iconMod = ( in_array( 'small', explode(' ', $mods) ) ) ? 'white' : ''}
 
+{block 'vote_options'}{/block}
 
 <div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
-    {* Заголовок *}
-    {if $showLabel}
-        <h4 class="{$component}-heading">{$aLang.$component.rating}</h4>
-    {/if}
-
     {* Основной блок *}
     <div class="{$component}-body">
-        {* Рейтинг *}
-        <div class="{$component}-rating js-vote-rating">
-            {if $showRating}
-                {$rating}
-            {else}
-                ?
-            {/if}
-        </div>
-
-        {* Воздержаться *}
-        {if $smarty.local.useAbstain}
-            <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
-                {component 'icon' icon='eye' mods=$iconMod}
+        {block 'vote_body'}
+            {* Рейтинг *}
+            <div class="{$component}-rating js-vote-rating">
+                {if $showRating}
+                    {$rating}
+                {else}
+                    ?
+                {/if}
             </div>
-        {/if}
 
-        {* Нравится *}
-        <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
-            {component 'icon' icon='plus' mods=$iconMod}
-        </div>
+            {* Воздержаться *}
+            {if $smarty.local.useAbstain}
+                <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
+                    {component 'icon' icon='eye' mods=$iconMod}
+                </div>
+            {/if}
 
-        {* Не нравится *}
-        <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
-            {component 'icon' icon='minus' mods=$iconMod}
-        </div>
+            {* Нравится *}
+            <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1">
+                {component 'icon' icon='plus' mods=$iconMod}
+            </div>
+
+            {* Не нравится *}
+            <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1">
+                {component 'icon' icon='minus' mods=$iconMod}
+            </div>
+        {/block}
     </div>
 </div>

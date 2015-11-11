@@ -1,9 +1,5 @@
 {**
  * Форма поиска
- *
- * @styles components/search-form/search-form.css
- *
- * TODO: Fix submit icon position
  *}
 
 {* Название компонента *}
