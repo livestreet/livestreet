@@ -5,7 +5,7 @@
 {/block}
 
 {block 'media_pane_content'}
-    <form method="post" action="" enctype="multipart/form-data" class="mb-20 js-media-url-form">
+    <form method="post" action="" enctype="multipart/form-data" class="ls-mb-20 js-media-url-form">
         {* Типы файлов *}
         {* TODO: Add hook *}
         {*component 'field' template='select'
@@ -24,7 +24,7 @@
                  label   = {lang 'media.url.fields.url.label'}}
     </form>
 
-    <div class="mb-15 js-media-url-image-preview" style="display: none"></div>
+    <div class="ls-mb-15 js-media-url-image-preview" style="display: none"></div>
 
     <div class="js-media-url-settings-blocks">
         {component 'media' template='uploader-block.insert.image' useSizes=false}

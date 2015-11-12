@@ -183,7 +183,7 @@
     {component 'button'
         id      = {( $topic ) ? 'submit-edit-topic-publish' : 'submit-add-topic-publish' }
         mods    = 'primary'
-        classes = 'fl-r'
+        classes = 'ls-fl-r'
         text    = $aLang.topic.add.button[ ( !$topic or ( $topic && $topic->getPublish() == 0 ) ) ? 'publish' : 'update' ]}
 
     {* Превью *}

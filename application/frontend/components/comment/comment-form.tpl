@@ -55,7 +55,7 @@
 
         {* Кнопки редактирования *}
         {component 'button' name='submit_comment' text=$aLang.common.save mods='primary' classes='js-comment-form-update-submit hide'}
-        {component 'button' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel fl-r'}
+        {component 'button' name='submit_comment' type='button' text=$aLang.common.cancel classes='js-comment-form-update-cancel ls-fl-r'}
 
         {* Кнопка превью текста *}
         {component 'button' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}

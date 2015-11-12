@@ -49,7 +49,7 @@
 </form>
 
 {if $smarty.local.showExtra}
-    <div class="pt-20">
+    <div class="ls-pt-20">
         <a href="{router page='auth/register'}">{$aLang.auth.registration.title}</a><br />
         <a href="{router page='auth/password-reset'}">{$aLang.auth.reset.title}</a>
     </div>

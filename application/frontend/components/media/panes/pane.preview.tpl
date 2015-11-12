@@ -7,7 +7,7 @@
 {block 'media_pane_content'}
     {if $aTargetItems}
         {foreach $aTargetItems as $oTarget}
-            <p class="mb-20">
+            <p class="ls-mb-20">
                 <a href="#" class="button" onclick="ls.media.removePreviewFile({$oTarget->getMediaId()}); return false;">Удалить превью</a>
             </p>
 

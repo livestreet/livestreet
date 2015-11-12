@@ -11,7 +11,7 @@
         label        = 'Сейчас на сайте'}
 
     {* Пол *}
-    <p class="mb-10">Пол</p>
+    <p class="ls-mb-10">Пол</p>
     <div class="ls-field-checkbox-group">
         {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='' checked=true label='Любой'}
         {component 'field' template='radio' inputClasses='js-search-ajax-user-sex' name='sex' value='man' label='Мужской'}

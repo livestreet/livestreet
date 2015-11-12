@@ -25,7 +25,7 @@
         {$bDisableChangeType = true}
     {/if}
 
-    <p class="mb-10">{$aLang.poll.form.fields.type.label}:</p>
+    <p class="ls-mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
     {component 'field' template='radio'
              name  = 'poll[type]'

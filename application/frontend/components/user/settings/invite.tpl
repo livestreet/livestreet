@@ -2,7 +2,7 @@
  * Управление инвайтами
  *}
 
-<div class="note mb-20">
+<div class="note ls-mb-20">
     {lang name='user.settings.invites.note'}
 </div>
 

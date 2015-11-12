@@ -10,7 +10,7 @@
 
 {* Шаблон пользовательского поля (userfield) *}
 {function name=userfield}
-    <div class="mb-15 js-user-field-item" {if ! $field}id="user-field-template" style="display:none;"{/if}>
+    <div class="ls-mb-15 js-user-field-item" {if ! $field}id="user-field-template" style="display:none;"{/if}>
         <select name="profile_user_field_type[]">
             {foreach $aUserFieldsContact as $fieldAll}
                 <option value="{$fieldAll->getId()}" {if $field && $fieldAll->getId() == $field->getId()}selected{/if}>
@@ -105,7 +105,7 @@
         {$contacts = $user->getUserFieldValues( true, array('contact', 'social') )}
 
         {* Список пользовательских полей, шаблон определен в начале файла *}
-        <div class="js-user-field-list mb-15">
+        <div class="js-user-field-list ls-mb-15">
             {foreach $contacts as $contact}
                 {call userfield field=$contact}
             {foreachelse}

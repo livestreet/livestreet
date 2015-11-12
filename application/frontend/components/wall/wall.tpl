@@ -21,7 +21,7 @@
     {if $oUserCurrent}
         {component 'wall' template='form'}
     {else}
-        {component 'alert' text=$aLang.wall.alerts.unregistered mods='info' classes='mt-15'}
+        {component 'alert' text=$aLang.wall.alerts.unregistered mods='info' classes='ls-mt-15'}
     {/if}
 
     {* Список записей *}
@@ -31,7 +31,7 @@
 
     {* Уведомление о пустом списке *}
     {if $oUserCurrent || ( ! $oUserCurrent && ! $loadedCount )}
-        {component 'blankslate' text=$aLang.common.empty classes='mt-15 js-wall-alert-empty' attributes=[ 'id' => 'wall-empty' ] visible=!$loadedCount}
+        {component 'blankslate' text=$aLang.common.empty classes='ls-mt-15 js-wall-alert-empty' attributes=[ 'id' => 'wall-empty' ] visible=!$loadedCount}
     {/if}
 
     {* Кнопка подгрузки записей *}

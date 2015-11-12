@@ -8,6 +8,6 @@
 
 {component 'property' template='input.property.video-modal' value=$value}
 
-<p class="mb-20">
+<p class="ls-mb-20">
     <a href="#" class="ls-link-dotted js-modal-toggle-default" data-lsmodaltoggle-modal="modal-property-type-video-{$value->getId()}">Смотреть</a>
 </p>
