@@ -120,7 +120,9 @@ class HookMain extends Hook
             'user.settings.profile.notices.error_max_userfields',
             'user.search.result_title',
             'more.empty',
-            'validate.tags.count'
+            'validate.tags.count',
+            'uploader.attach.count',
+            'uploader.attach.empty'
         ));
     }
 }
