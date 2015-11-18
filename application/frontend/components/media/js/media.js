@@ -153,6 +153,13 @@
                 this._list.lsUploaderFileList( 'option', 'multiselect_ctrl', false );
                 this.elements.uploader.lsUploader( 'filterFilesByType', [ '1' ] );
             }
+
+            if ( type === 'url' ) {
+                var url = this.elements.url.url.val();
+
+                this.elements.url.submit_insert.prop( 'disabled', ! url );
+                this.elements.url.submit_upload.prop( 'disabled', ! url );
+            }
         },
 
         /**
@@ -304,6 +311,9 @@
         onUrlChange: function ( event ) {
             var _this = this,
                 url = this.elements.url.url.val();
+
+            this.elements.url.submit_insert.prop( 'disabled', ! url );
+            this.elements.url.submit_upload.prop( 'disabled', ! url );
 
             $('<img />', {
                 src: url,

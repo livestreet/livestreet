@@ -19,7 +19,6 @@
         {* Ссылка *}
         {component 'field' template='text'
                  name    = 'url'
-                 value   = 'http://'
                  inputClasses = 'js-media-url-form-url'
                  label   = {lang 'media.url.fields.url.label'}}
     </form>
