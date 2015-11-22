@@ -190,7 +190,7 @@
                         {if ! $isList && ! $isPreview}
                             {* Избранное *}
                             <li class="{$component}-info-item {$component}-info-item--favourite">
-                                {component 'favourite' classes="js-favourite-{$type}" target=$topic}
+                                {component 'favourite' classes="js-favourite-topic" target=$topic attributes=[ 'data-param-target_type' => $type ]}
                             </li>
 
                             {* Поделиться *}
