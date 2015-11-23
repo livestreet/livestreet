@@ -614,6 +614,29 @@ class ModuleTopic_EntityTopic extends Entity
     }
 
     /**
+     * Возвращает массив тегов в виде объектов
+     *
+     * @return array
+     */
+    public function getTagsObjects()
+    {
+        $aReturn = array();
+        if ($aTags = $this->getTagsArray()) {
+            foreach ($aTags as $sTag) {
+                if ($sTag) {
+                    $aReturn[] = Engine::GetEntity('ModuleTopic_EntityTopicTag', array(
+                        'topic_id'       => $this->getId(),
+                        'user_id'        => $this->getUserId(),
+                        'blog_id'        => $this->getBlogId(),
+                        'topic_tag_text' => $sTag,
+                    ));
+                }
+            }
+        }
+        return $aReturn;
+    }
+
+    /**
      * Возвращает количество новых комментариев в топике для текущего пользователя
      *
      * @return int|null

@@ -29,6 +29,7 @@ class ModuleFavourite_EntityTag extends Entity
 {
     /**
      * Возвращает URL страницы тега
+     * todo: на странице списка топиков получение пользователя может стать узким местом
      *
      * @return string
      */

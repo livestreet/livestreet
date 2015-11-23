@@ -506,6 +506,7 @@ class ModuleFavourite_MapperFavourite extends Mapper
     {
         $sql = "SELECT
 			text,
+			user_id,
 			count(text)	as count
 			FROM
 				" . Config::Get('db.table.favourite_tag') . "

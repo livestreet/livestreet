@@ -81,6 +81,29 @@ class ModuleFavourite_EntityFavourite extends Entity
     }
 
     /**
+     * Возвращает массив тегов в виде объектов
+     *
+     * @return array
+     */
+    public function getTagsObjects()
+    {
+        $aReturn = array();
+        if ($aTags = $this->getTagsArray()) {
+            foreach ($aTags as $sTag) {
+                if ($sTag) {
+                    $aReturn[] = Engine::GetEntity('ModuleFavourite_EntityTag', array(
+                        'target_type' => $this->getTargetType(),
+                        'target_id'   => $this->getTargetId(),
+                        'user_id'     => $this->getUserId(),
+                        'text'        => $sTag,
+                    ));
+                }
+            }
+        }
+        return $aReturn;
+    }
+
+    /**
      * Устанавливает ID владельца
      *
      * @param int $data

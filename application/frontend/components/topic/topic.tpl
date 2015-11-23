@@ -140,13 +140,13 @@
             {$favourite = $topic->getFavourite()}
 
             {if ! $isPreview}
-                {*component 'tags-personal'
+                {component 'tags-personal'
                     classes       = 'js-tags-favourite'
-                    tags          = $topic->getTags()
-                    tagsPersonal  = ( $favourite ) ? $favourite->getTags() : []
+                    tags          = $topic->getTagsObjects()
+                    tagsPersonal  = ( $favourite ) ? $favourite->getTagsObjects() : []
                     isEditable    = ! $favourite
                     targetType    = 'topic'
-                    targetId      = $topic->getId()*}
+                    targetId      = $topic->getId()}
             {/if}
         {/if}
 
