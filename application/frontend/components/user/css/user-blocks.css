@@ -63,8 +63,7 @@
     background: #aaa;
 }
 .ls-nav.ls-nav--stacked.user-nav > li a {
-    padding: 0 13px;
-    line-height: 42px;
+    padding: 11px 13px;
     display: block;
     background: #fff;
     color: #555;
