@@ -469,17 +469,19 @@ class ActionAjax extends Action
 
     /**
      * Ajax валидация каптчи
+     *
+     * @apiParam {String} name    Уникальное название каптчи
+     * @apiParam {String} captcha Значение каптчи для проверки
      */
     protected function EventCaptchaValidate()
     {
-        $sName = isset($_REQUEST['params']['name']) ? $_REQUEST['params']['name'] : '';
-        $sValue = isset($_REQUEST['fields'][0]['value']) ? $_REQUEST['fields'][0]['value'] : '';
-        $sField = isset($_REQUEST['fields'][0]['field']) ? $_REQUEST['fields'][0]['field'] : '';
+        $sName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+        $sValue = isset($_REQUEST['captcha']) ? $_REQUEST['captcha'] : '';
 
         $sCaptchaValidateType = func_camelize('captcha_' . Config::Get('sys.captcha.type'));
         if (!$this->Validate_Validate($sCaptchaValidateType, $sValue, array('name' => $sName))) {
             $aErrors = $this->Validate_GetErrors();
-            $this->Viewer_AssignAjax('aErrors', array(htmlspecialchars($sField) => array(reset($aErrors))));
+            $this->Viewer_AssignAjax('aErrors', array('captcha' => array(reset($aErrors))));
         }
     }
 
@@ -789,6 +791,7 @@ class ActionAjax extends Action
             ));
             $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, 20, Config::Get('pagination.pages.count'), null);
             $aMediaItems = $aResult['collection'];
+            $this->Viewer_AssignAjax('pagination', $aPaging);
         }
 
         $oViewer = $this->Viewer_GetLocalViewer();
@@ -797,7 +800,6 @@ class ActionAjax extends Action
             $oViewer->Assign('oMediaItem', $oMediaItem);
             $sTemplate .= $oViewer->Fetch('component@uploader.file');
         }
-
         $this->Viewer_AssignAjax('html', $sTemplate);
         $this->Viewer_AssignAjax('count_loaded', count($aMediaItems));
         $this->Viewer_AssignAjax('page', count($aMediaItems) > 0 ? $iPage + 1 : $iPage);

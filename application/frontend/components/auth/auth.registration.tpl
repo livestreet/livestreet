@@ -14,11 +14,11 @@
     {* Логин *}
     {component 'field' template='text'
         name   = 'login'
-        rules  = [ 'required' => true, 'minlength' => '3', 'remote' => "{router page='auth'}ajax-validate-fields" ]
+        rules  = [ 'required' => true, 'minlength' => '3', 'remote' => "{router page='auth'}ajax-validate-login" ]
         label  = $aLang.auth.labels.login}
 
     {* E-mail *}
-    {component 'field' template='email' rules=[ 'remote' => "{router page='auth'}ajax-validate-fields" ]}
+    {component 'field' template='email' rules=[ 'remote' => "{router page='auth'}ajax-validate-email" ]}
 
     {* Пароль *}
     {component 'field' template='text'

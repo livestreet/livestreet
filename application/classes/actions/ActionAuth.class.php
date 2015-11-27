@@ -70,6 +70,8 @@ class ActionAuth extends Action
         $this->AddEvent('ajax-login', 'EventAjaxLogin');
         $this->AddEvent('ajax-password-reset', 'EventAjaxPasswordReset');
         $this->AddEvent('ajax-validate-fields', 'EventAjaxValidateFields');
+        $this->AddEvent('ajax-validate-login', 'EventAjaxValidateLogin');
+        $this->AddEvent('ajax-validate-email', 'EventAjaxValidateEmail');
         $this->AddEvent('ajax-register', 'EventAjaxRegister');
         $this->AddEvent('ajax-reactivation', 'EventAjaxReactivation');
     }
@@ -251,11 +253,34 @@ class ActionAuth extends Action
         }
     }
 
-
     /**
      * Ajax валидация форму регистрации
      */
     protected function EventAjaxValidateFields()
+    {
+        $this->ValidateFields(getRequest('fields'));
+    }
+
+    /**
+     * Ajax валидация логина
+     */
+    protected function EventAjaxValidateLogin()
+    {
+        $this->ValidateFields(array(array('field' => 'login', 'value' => getRequest('login'))));
+    }
+
+    /**
+     * Ajax валидация емэйла
+     */
+    protected function EventAjaxValidateEmail()
+    {
+        $this->ValidateFields(array(array('field' => 'email', 'value' => getRequest('email'))));
+    }
+
+    /**
+     * Ajax валидация форму регистрации
+     */
+    protected function ValidateFields($aFields)
     {
         /**
          * Устанавливаем формат Ajax ответа
@@ -269,7 +294,6 @@ class ActionAuth extends Action
         /**
          * Пробегаем по переданным полям/значениям и валидируем их каждое в отдельности
          */
-        $aFields = getRequest('fields');
         if (is_array($aFields)) {
             foreach ($aFields as $aField) {
                 if (isset($aField['field']) and isset($aField['value'])) {
