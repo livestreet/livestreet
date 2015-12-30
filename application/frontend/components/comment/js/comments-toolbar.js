@@ -26,11 +26,15 @@
                 update: '.js-toolbar-comments-update',
 
                 // Счетчик новых комментариев
-                counter: '.js-toolbar-comments-count'
+                counter: '.js-toolbar-comments-count',
+
+                // Иконка
+                icon: '.ls-toolbar-comments-update .fa'
             },
 
             classes: {
-                active: 'active'
+                active: 'active',
+                'fa-spin': 'fa-spin'
             }
         },
 
@@ -80,10 +84,12 @@
          */
         update: function() {
             this._addClass( this.elements.update, 'active' );
+            this._addClass( this.elements.icon, 'fa-spin' );
 
             this.options.comments.lsComments( 'load', false, false, function () {
                 this.updateCounter();
                 this._removeClass( this.elements.update, 'active' );
+                this._removeClass( this.elements.icon, 'fa-spin' );
             }.bind( this ));
         },
 
