@@ -24,6 +24,9 @@
                 // Отписаться
                 unfollow: null
             },
+            selectors: {
+                item: '> a'
+            },
             classes: {
                 active: 'active'
             },
@@ -60,7 +63,8 @@
          * Коллбэк вызываемый при подписке
          */
         onFollow: function( response ) {
-            this._addClass( 'active' ).text( ls.lang.get('user.actions.unfollow') );
+            this.elements.item.text( ls.lang.get('user.actions.unfollow') );
+            this._addClass( 'active' );
         },
 
         /**
@@ -74,7 +78,8 @@
          * Коллбэк вызываемый при отписке
          */
         onUnfollow: function( response ) {
-            this._removeClass( 'active' ).text( ls.lang.get('user.actions.follow') );
+            this.elements.item.text( ls.lang.get('user.actions.follow') );
+            this._removeClass( 'active' );
         }
     });
 })(jQuery);
