@@ -9,10 +9,7 @@
  *}
 
 {$component = 'ls-poll-form-answer-item'}
-
-{foreach [ 'item', 'index', 'allowRemove', 'showRemove', 'isTemplate' ] as $param}
-    {assign var="$param" value=$smarty.local.$param}
-{/foreach}
+{component_define_params params=[ 'item', 'index', 'allowRemove', 'showRemove', 'isTemplate' ]}
 
 {$allowUpdate = $allowUpdate|default:true}
 {$allowRemove = $allowRemove|default:true}

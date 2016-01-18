@@ -5,12 +5,7 @@
  *}
 
 {$component = 'user-field-choose'}
-
-{* Генерируем копии локальных переменных, *}
-{* чтобы их можно было изменять в дочерних шаблонах *}
-{foreach [ 'name', 'label', 'lang_choose', 'mods', 'classes', 'attributes' ] as $param}
-    {assign var="$param" value=$smarty.local.$param}
-{/foreach}
+{component_define_params params=[ 'name', 'label', 'lang_choose', 'mods', 'classes', 'attributes' ]}
 
 {$label = $label|default:{lang 'user.choose.label'}}
 {$lang_choose = $lang_choose|default:{lang 'user.choose.choose'}}
