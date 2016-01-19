@@ -13,23 +13,22 @@
 
 {* Название компонента *}
 {$component = 'user-list-add'}
+{component_define_params params=[ 'title', 'note', 'editable', 'users', 'mods', 'classes', 'attributes' ]}
 
 {* Форма добавления *}
-<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
-     {cattr list=$smarty.local.attributes}>
-
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
     {* Заголовок *}
-    {if $smarty.local.title}
-        <h3 class="{$component}-title">{$smarty.local.title}</h3>
+    {if $title}
+        <h3 class="{$component}-title">{$title}</h3>
     {/if}
 
     {* Описание *}
-    {if $smarty.local.note}
-        <p class="{$component}-note">{$smarty.local.note}</p>
+    {if $note}
+        <p class="{$component}-note">{$note}</p>
     {/if}
 
     {* Форма добавления *}
-    {if $smarty.local.editable|default:true}
+    {if $editable|default:true}
         <form class="{$component}-form js-{$component}-form">
             {component 'user' template='choose'
                 name    = 'add'
@@ -45,9 +44,9 @@
     {block 'user_list_add_list'}
         {component 'user-list-add' template='list'
             hideableEmptyAlert = true
-            users              = $smarty.local.users
+            users              = $users
             showActions        = true
-            show               = !! $smarty.local.users
+            show               = !! $users
             classes            = "js-$component-users"
             itemClasses        = "js-$component-user"}
     {/block}

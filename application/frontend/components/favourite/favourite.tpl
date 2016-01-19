@@ -1,22 +1,13 @@
 {**
  * Добавление в избранное
  *
- * @param object  $target                  Объект сущности
- * @param string  $type                    Название сущности (blog, topic и т.д.)
- * @param string  $classes
- * @param string  $attributes
- * @param string  $isActive
- * @param boolean $hideZeroCounter (true)
- *
- * TODO: Текстовая версия
+ * @param object  $target          Объект который добавляется в избранное
+ * @param boolean $hideZeroCounter
  *}
 
 {* Название компонента *}
 {$component = 'ls-favourite'}
-
-{* Переменные *}
-{$mods = $smarty.local.mods}
-{$target = $smarty.local.target}
+{component_define_params params=[ 'target', 'hideZeroCounter', 'mods', 'classes', 'attributes' ]}
 
 {* True если объект находится в избранном *}
 {$isActive = $target && $target->getIsFavourite()}
@@ -34,17 +25,17 @@
 {/if}
 
 
-<div class="{$component} {cmods name=$component mods=$mods} {if $isActive}active{/if} {$smarty.local.classes}"
+<div class="{$component} {cmods name=$component mods=$mods} {if $isActive}active{/if} {$classes}"
      data-param-i-target-id="{$target->getId()}"
      title="{$aLang.favourite[ ($isActive) ? 'remove' : 'add' ]}"
-     {cattr list=$smarty.local.attributes}>
+     {cattr list=$attributes}>
 
     {* Кнопка добавления/удаления из избранного *}
     {component 'icon' icon='heart' classes="{$component}-toggle js-favourite-toggle"}
 
     {* Кол-во объектов в избранном *}
     {if isset( $count )}
-        <span class="{$component}-count js-favourite-count" {if ! $count && $smarty.local.hideZeroCounter|default:true}style="display: none;"{/if}>
+        <span class="{$component}-count js-favourite-count" {if ! $count && $hideZeroCounter|default:true}style="display: none;"{/if}>
             {$count}
         </span>
     {/if}

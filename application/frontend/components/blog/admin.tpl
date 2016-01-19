@@ -5,7 +5,9 @@
  * @param array  $pagination
  *}
 
-{if $smarty.local.users}
+{component_define_params params=[ 'users', 'pagination' ]}
+
+{if $users}
     <form method="post" enctype="multipart/form-data">
         <table class="ls-table">
             <thead>
@@ -19,7 +21,7 @@
             </thead>
 
             <tbody>
-                {foreach $smarty.local.users as $blogUser}
+                {foreach $users as $blogUser}
                     {$user = $blogUser->getUser()}
 
                     <tr>
@@ -47,7 +49,7 @@
         {component 'button' name='submit_blog_admin' text=$aLang.common.save mods='primary'}
     </form>
 
-    {component 'pagination' total=+$paging.iCountPage current=+$paging.iCurrentPage url="{$paging.sBaseUrl}/page__page__/{$paging.sGetParams}"}
+    {component 'pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/{$pagination.sGetParams}"}
 {else}
     {component 'blankslate' text=$aLang.blog.admin.alerts.empty}
 {/if}

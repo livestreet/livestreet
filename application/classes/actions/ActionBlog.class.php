@@ -524,7 +524,7 @@ class ActionBlog extends Action
          */
         $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, Config::Get('module.blog.users_per_page'),
             Config::Get('pagination.pages.count'), Router::GetPath('blog') . "admin/{$oBlog->getId()}");
-        $this->Viewer_Assign('paging', $aPaging);
+        $this->Viewer_Assign('pagination', $aPaging);
         /**
          * Устанавливаем title страницы
          */

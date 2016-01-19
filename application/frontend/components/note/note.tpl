@@ -8,12 +8,12 @@
 
 {* Название компонента *}
 {$component = 'ls-note'}
+{component_define_params params=[ 'note', 'isEditable', 'targetId', 'mods', 'classes', 'attributes' ]}
 
 {* Установка дефолтных значений *}
-{$note = $smarty.local.note}
-{$isEditable = $smarty.local.isEditable|default:true}
+{$isEditable = $isEditable|default:true}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-user_id="{$smarty.local.targetId}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" data-param-user_id="{$targetId}" {cattr list=$attributes}>
     {* Заметка *}
     <div class="{$component}-body js-note-body">
         {* Текст *}

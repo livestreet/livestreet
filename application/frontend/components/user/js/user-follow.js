@@ -48,7 +48,7 @@
          * Коллбэк вызываемый при клике на кнопку подписки
          */
         onClick: function( event ) {
-            this[ this.element.hasClass( ls.options.classes.states.active ) ? 'unfollow' : 'follow' ]();
+            this[ this._hasClass( 'active' ) ? 'unfollow' : 'follow' ]();
             event.preventDefault();
         },
 

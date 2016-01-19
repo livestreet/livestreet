@@ -4,6 +4,8 @@
  * @param array $types
  *}
 
+{component_define_params params=[ 'types' ]}
+
 {capture 'modal_content'}
     <form action="" method="post" id="form-complaint-user">
         {component 'field' template='hidden' name='target_id' value=$_aRequest.target_id}
@@ -12,7 +14,7 @@
             name    = 'type'
             label   = {lang 'report.form.fields.type.label'}
             classes = 'ls-width-full'
-            items   = $smarty.local.types}
+            items   = $types}
 
         {component 'field' template='textarea'
             name    = 'text'

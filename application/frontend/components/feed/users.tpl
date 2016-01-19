@@ -4,8 +4,10 @@
  * @param array $users
  *}
 
+{component_define_params params=[ 'users' ]}
+
 {component 'user-list-add'
-    users      = $smarty.local.users
+    users      = $users
     classes    = 'js-feed-users'
     attributes = [ 'data-param-type' => 'users' ]
     note       = $aLang.feed.users.note}

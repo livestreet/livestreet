@@ -4,7 +4,9 @@
  * @param array $posts Список постов
  *}
 
-{foreach $smarty.local.posts as $post}
+{component_define_params params=[ 'posts' ]}
+
+{foreach $posts as $post}
     {$comments = $post->getLastReplyWall()}
     {$postId = $post->getId()}
 

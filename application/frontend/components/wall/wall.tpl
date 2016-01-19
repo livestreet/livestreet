@@ -11,12 +11,13 @@
 
 {* Название компонента *}
 {$component = 'wall'}
+{component_define_params params=[ 'count', 'posts', 'lastId', 'mods', 'classes', 'attributes' ]}
 
-{$loadedCount = count($smarty.local.posts)}
-{$moreCount = $smarty.local.count - $loadedCount}
+{$loadedCount = count($posts)}
+{$moreCount = $count - $loadedCount}
 
 {* Стена *}
-<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-user-id="{$oUserProfile->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-user-id="{$oUserProfile->getId()}">
     {* Форма добавления записи *}
     {if $oUserCurrent}
         {component 'wall' template='form'}
@@ -26,7 +27,7 @@
 
     {* Список записей *}
     <div class="js-wall-entry-container" data-id="0">
-        {component 'wall' template='posts' posts=$smarty.local.posts}
+        {component 'wall' template='posts' posts=$posts}
     </div>
 
     {* Уведомление о пустом списке *}
@@ -41,7 +42,7 @@
             count      = $moreCount
             target     = '.js-wall-entry-container[data-id=0]'
             ajaxParams = [
-                'last_id' => $smarty.local.lastId
+                'last_id' => $lastId
             ]}
     {/if}
 </div>

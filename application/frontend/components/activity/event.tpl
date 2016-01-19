@@ -5,8 +5,8 @@
  *}
 
 {$component = 'activity-event'}
+{component_define_params params=[ 'event' ]}
 
-{$event  = $smarty.local.event}
 {$type   = $event->getEventType()}
 {$target = $event->getTarget()}
 {$user   = $event->getUser()}

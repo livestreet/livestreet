@@ -2,19 +2,15 @@
  * Блог
  *
  * @param object $blog       Блог
+ * @param object $blogs      Список блогов для переноса топиков (для модальника удаления)
  * @param string $mods       Модификаторы
  * @param string $attributes Дополнительные атрибуты основного блока
  * @param string $classes    Дополнительные классы
- *
- * TODO: Сделать универсальным
  *}
 
 {* Название компонента *}
 {$component = 'blog'}
-
-{* Переменные *}
-{$blog = $smarty.local.blog}
-{$blogs = $smarty.local.blogs}
+{component_define_params params=[ 'blog', 'blogs', 'mods', 'classes', 'attributes' ]}
 
 {* Подключаем модальное окно удаления блога если пользователь админ *}
 {if $oUserCurrent && $oUserCurrent->isAdministrator()}
@@ -24,9 +20,8 @@
 {* Является ли пользователь администратором или управляющим блога *}
 {$isBlogAdmin = $oUserCurrent && ($oUserCurrent->getId() == $blog->getOwnerId() || $oUserCurrent->isAdministrator() || $blog->getUserIsAdministrator())}
 
-
 {* Блог *}
-<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" data-id="{$blog->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-id="{$blog->getId()}">
     <header class="{$component}-header">
         {* Заголовок *}
         <h2 class="page-header blog-title">
@@ -37,7 +32,6 @@
             {$blog->getTitle()|escape}
         </h2>
     </header>
-
 
     {* Информация о блоге *}
     <div class="{$component}-content">

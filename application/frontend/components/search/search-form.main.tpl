@@ -2,4 +2,6 @@
  * Форма основного поиска (по топикам и комментариям)
  *}
 
-{component 'search-form' name='main' action="{router page='search'}{$smarty.local.searchType|default:'topics'}" mods=$smarty.local.mods classes=$smarty.local.classes}
+{component_define_params params=[ 'searchType', 'mods', 'classes', 'attributes' ]}
+
+{component 'search-form' name='main' action="{router page='search'}{$searchType|default:'topics'}" params=$params}

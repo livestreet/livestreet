@@ -11,26 +11,25 @@
  *}
 
 {$component = 'ls-photo'}
+{component_define_params params=[ 'url', 'photoPath', 'photoAltText', 'hasPhoto', 'useAvatar', 'targetId', 'editable', 'mods', 'classes', 'attributes' ]}
 
-{$hasPhoto = $smarty.local.hasPhoto}
-{$useAvatar = $smarty.local.useAvatar|default:true}
-{$mods = $smarty.local.mods}
+{$useAvatar = $useAvatar|default:true}
 
 {if ! $hasPhoto}
     {$mods = "$mods nophoto"}
 {/if}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}"
-    data-target-id="{$smarty.local.targetId}"
-    {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}"
+    data-target-id="{$targetId}"
+    {cattr list=$attributes}>
 
     {* Фото *}
-    <a href="{$smarty.local.url}">
-        <img src="{$smarty.local.photoPath}" alt="{$smarty.local.photoAltText}" class="{$component}-image js-photo-image" />
+    <a href="{$url}">
+        <img src="{$photoPath}" alt="{$photoAltText}" class="{$component}-image js-photo-image" />
     </a>
 
     {* Действия *}
-    {if $smarty.local.editable}
+    {if $editable}
         <ul class="{$component}-actions">
             {* Загрузить *}
             <li class="{$component}-actions-upload js-photo-actions-upload">

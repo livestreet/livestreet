@@ -4,7 +4,7 @@
  * @param object $blog
  *}
 
-{$blog = $smarty.local.blog}
+{component_define_params params=[ 'blog' ]}
 
 <form method="post" enctype="multipart/form-data" class="js-blog-add js-form-validate">
     {hook run='form_add_blog_begin'}

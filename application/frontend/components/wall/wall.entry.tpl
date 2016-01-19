@@ -6,11 +6,11 @@
  * @param string  $classes   Классы
  *}
 
-{$entry = $smarty.local.entry}
+{component_define_params params=[ 'entry', 'type', 'showReply', 'classes' ]}
 
 {component 'comment'
     comment    = $entry
-    showReply  = $smarty.local.showReply
+    showReply  = $showReply
     useScroll  = false
-    attributes = [ 'data-type' => $smarty.local.type, 'data-user-id' => $entry->getUser()->getId() ]
-    classes    = "wall-comment js-wall-entry {$smarty.local.classes}"}
+    attributes = [ 'data-type' => $type, 'data-user-id' => $entry->getUser()->getId() ]
+    classes    = "wall-comment js-wall-entry {$classes}"}

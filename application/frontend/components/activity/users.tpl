@@ -4,7 +4,9 @@
  * @param array $users
  *}
 
+{component_define_params params=[ 'users' ]}
+
 {component 'user-list-add'
-    users   = $smarty.local.users
+    users   = $users
     classes = 'js-activity-users'
     note    = $aLang.activity.users.note}

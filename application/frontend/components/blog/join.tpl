@@ -4,6 +4,8 @@
  * @param object $blog Блог
  *}
 
+{component_define_params params=[ 'blog' ]}
+
 {if $oUserCurrent && $oUserCurrent->getId() != $blog->getOwnerId() && $blog->getType() == 'open'}
     {component 'button'
         attributes = [ 'data-blog-id' => $blog->getId() ]

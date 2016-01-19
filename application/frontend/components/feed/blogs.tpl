@@ -1,21 +1,21 @@
 {**
  * Выбор блогов для чтения в ленте
  *
- * @param array $types
- * @param array $typesActive
+ * @param array $blogsSubscribed
+ * @param array $blogsJoined
  *}
+
+{component_define_params params=[ 'blogsSubscribed', 'blogsJoined' ]}
 
 {if $oUserCurrent}
     <div class="ls-feed-blogs js-feed-blogs">
-        {$blogsSubscribed = $smarty.local.blogsSubscribed}
-
         <p class="text-help">
             {$aLang.feed.blogs.note}
         </p>
 
-        {if $smarty.local.blogsJoined}
+        {if $blogsJoined}
             <div class="ls-field-checkbox-group">
-                {foreach $smarty.local.blogsJoined as $blog}
+                {foreach $blogsJoined as $blog}
                     {component 'field' template='checkbox'
                         inputClasses    = 'js-feed-blogs-subscribe'
                         inputAttributes = [ 'data-id' => $blog->getId() ]
@@ -24,7 +24,7 @@
                 {/foreach}
             </div>
         {else}
-            {component 'alert' text=$aLang.feed.blogs.empty mods='info'}
+            {component 'blankslate' text=$aLang.feed.blogs.empty}
         {/if}
     </div>
 {/if}

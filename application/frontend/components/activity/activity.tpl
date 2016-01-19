@@ -11,27 +11,28 @@
  *}
 
 {$component = 'activity'}
+{$jsprefix = 'js-activity'}
+{component_define_params params=[ 'events' 'count', 'targetId', 'mods', 'classes', 'attributes' ]}
 
-{$events = $smarty.local.events}
-{$moreCount = $smarty.local.count - count($events)}
+{$moreCount = $count - count($events)}
 
-<div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
     {if $events}
         {* Список *}
-        <ul class="activity-event-list js-activity-event-list">
+        <ul class="activity-event-list {$jsprefix}-event-list">
             {component 'activity' template='event-list' events=$events}
         </ul>
 
         {* Кнопка подгрузки *}
-        {if $smarty.local.count > Config::Get('module.stream.count_default')}
+        {if $count > Config::Get('module.stream.count_default')}
             {$last = end($events)}
 
             {component 'more'
                 count      = $moreCount
-                classes    = 'js-activity-more'
+                classes    = "{$jsprefix}-more"
                 ajaxParams = [
                     'last_id' => $last->getId(),
-                    'target_id' => $smarty.local.targetId
+                    'target_id' => $targetId
                 ]}
         {/if}
     {else}

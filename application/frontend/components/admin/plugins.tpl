@@ -4,9 +4,11 @@
  * @param array $plugins Список плагинов
  *}
 
+{component_define_params params=[ 'plugins' ]}
+
 <table class="ls-table admin-plugins">
     <tbody>
-        {foreach $smarty.local.plugins as $plugin}
+        {foreach $plugins as $plugin}
             <tr {if $plugin.is_active}class="active"{/if}>
                 {* Название и описание плагина *}
                 <td>

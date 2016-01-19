@@ -4,7 +4,9 @@
  * @param string $redirectUrl
  *}
 
-{$redirectUrl = $smarty.local.redirectUrl|default:$PATH_WEB_CURRENT}
+{component_define_params params=[ 'redirectUrl' ]}
+
+{$redirectUrl = $redirectUrl|default:$PATH_WEB_CURRENT}
 
 {hook run='registration_begin'}
 

@@ -5,8 +5,7 @@
  *}
 
 {$component = 'ls-vote-info'}
-
-{$target = $smarty.local.target}
+{component_define_params params=[ 'target' ]}
 
 <ul class="{$component}">
     <li>{component 'icon' icon='plus' mods='white'} {$target->getCountVoteUp()}</li>

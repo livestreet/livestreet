@@ -7,7 +7,7 @@
     "templates": {
         "ajax": "sort.ajax.tpl",
         "timespan": "sort.timespan.tpl",
-        "sort": "sort.tpl"
+        "sort": "sort.ajax.tpl"
     },
     "styles": {
         "sort": "css/sort.css"

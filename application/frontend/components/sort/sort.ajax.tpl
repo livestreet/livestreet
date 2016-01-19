@@ -2,14 +2,15 @@
  * Блок сортировки
  *
  * @param array   $items
+ * @param array   $text
  * @param string  $label
  * @param boolean $showLabel
  *}
 
 {$component = 'ls-sort'}
+{component_define_params params=[ 'items', 'text', 'label', 'mods', 'classes', 'attributes' ]}
 
-{$items = $smarty.local.items}
-{$classes = "{$smarty.local.classes} {$component}"}
+{$classes = "{$classes} {$component}"}
 
 {foreach $items as $item}
     {$items[ $item@key ][ 'attributes' ] = array_merge( $items[ $item@key ][ 'attributes' ]|default:[], [
@@ -19,10 +20,10 @@
     ])}
 {/foreach}
 
-{component 'button' template='group' classes=$classes params=$smarty.local.params buttons=[
-    [ 'text' => $smarty.local.label|default:$aLang.sort.label, 'isDisabled' => true ],
+{component 'button' template='group' classes=$classes params=$params buttons=[
+    [ 'text' => $label|default:$aLang.sort.label, 'isDisabled' => true ],
     {component 'dropdown'
-        text       = $smarty.local.text|default:'...'
+        text       = $text|default:'...'
         classes    = 'js-dropdown-default'
         attributes = [ 'data-lsdropdown-selectable' => 'true' ]
         menu       = $items}

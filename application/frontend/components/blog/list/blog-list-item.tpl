@@ -4,8 +4,8 @@
  * @param object $blog
  *}
 
-
-{$blog = $smarty.local.blog}
+{$component = 'blog-list-item'}
+{component_define_params params=[ 'blog' ]}
 
 {* Заголовок *}
 {capture 'title'}
@@ -24,7 +24,7 @@
 {* Описание *}
 {capture 'content'}
     {* Действия *}
-    <div class="blog-list-item-actions">
+    <div class="{$component}-actions">
         {* Вступить/покинуть блог *}
         {component 'blog' template='join' blog=$blog}
     </div>

@@ -3,12 +3,13 @@
  * Последние топики
  *}
 
+{component_define_params params=[ 'topics' ]}
+
 {capture 'items'}
-    {foreach $smarty.local.topics as $topic}
+    {foreach $topics as $topic}
         {component 'activity' template='recent-item'
             user     = $topic->getUser()
             topic    = $topic
-            blog     = $topic->getBlog()
             date     = $topic->getDatePublish()}
     {foreachelse}
         {component 'blankslate' text={lang 'common.empty'} mods='no-background'}

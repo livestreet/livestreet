@@ -2,7 +2,7 @@
  * Список пользователей
  *}
 
-{extends 'Component@user-list-add.list'}
+{extends 'component@user-list-add.list'}
 
 {block 'user_list_add_item'}
     {component 'blog' template='invite-item' user=$user showActions=true}

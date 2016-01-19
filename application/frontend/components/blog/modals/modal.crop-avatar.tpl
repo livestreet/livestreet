@@ -2,7 +2,7 @@
  * Кроп фотографии
  *}
 
-{extends 'Component@crop.crop'}
+{extends 'component@crop.crop'}
 
 {block 'modal_options' append}
     {$title = {lang 'user.photo.crop_avatar.title'}}

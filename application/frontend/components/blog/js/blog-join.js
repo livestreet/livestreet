@@ -1,5 +1,5 @@
 /**
- * Join blog
+ * Кнопка "Вступить в блог"
  *
  * @module ls/blog/join
  *

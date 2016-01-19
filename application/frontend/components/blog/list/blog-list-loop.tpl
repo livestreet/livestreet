@@ -4,6 +4,8 @@
  * @param array $blogs
  *}
 
-{foreach $smarty.local.blogs as $blog}
+{component_define_params params=[ 'blogs' ]}
+
+{foreach $blogs as $blog}
     {component 'blog' template='list-item' blog=$blog}
 {/foreach}

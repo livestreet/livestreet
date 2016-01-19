@@ -2,19 +2,17 @@
  * Голосование
  *
  * @param object  $target     Объект сущности
- * @param string  $classes    Дополнительные классы
- * @param string  $attributes Атрибуты
  * @param boolean $showRating Показывать рейтинг или нет
  * @param boolean $isLocked   Блокировка голосования
+ * @param boolean $useAbstain
  *}
 
 {* Название компонента *}
 {$component = 'ls-vote'}
+{component_define_params params=[ 'showRating', 'target', 'isLocked', 'useAbstain', 'mods', 'classes', 'attributes' ]}
 
 {* Установка дефолтных значений *}
-{$showRating = $smarty.local.showRating|default:true}
-{$target = $smarty.local.target}
-{$mods = $smarty.local.mods}
+{$showRating = $showRating|default:true}
 
 {* Рейтинг *}
 {$rating = $target->getRating()}
@@ -44,7 +42,7 @@
     {$mods = "$mods not-voted"}
 {/if}
 
-{if ! $oUserCurrent || $smarty.local.isLocked}
+{if ! $oUserCurrent || $isLocked}
     {$mods = "$mods locked"}
 {/if}
 
@@ -57,7 +55,7 @@
 
 {block 'vote_options'}{/block}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" data-param-i-target-id="{$target->getId()}" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-param-i-target-id="{$target->getId()}">
     {* Основной блок *}
     <div class="{$component}-body">
         {block 'vote_body'}
@@ -71,7 +69,7 @@
             </div>
 
             {* Воздержаться *}
-            {if $smarty.local.useAbstain}
+            {if $useAbstain}
                 <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0">
                     {component 'icon' icon='eye' mods=$iconMod}
                 </div>

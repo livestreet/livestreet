@@ -2,6 +2,8 @@
  * Выпадающее меню выбора временного периода (за 24 часа, за месяц и т.д.)
  *}
 
+{component_define_params params=[ 'periodSelectCurrent' ]}
+
 {if $periodSelectCurrent}
     {component 'dropdown'
         classes    = 'js-dropdown-default'
@@ -13,5 +15,5 @@
             [ 'name' => '30',  'url' => "{$periodSelectRoot}?period=30",  'text' => {lang 'blog.menu.top_period_30'} ],
             [ 'name' => 'all', 'url' => "{$periodSelectRoot}?period=all", 'text' => {lang 'blog.menu.top_period_all'} ]
         ]
-        params     = $smarty.local.params}
+        params     = $params}
 {/if}

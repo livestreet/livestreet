@@ -5,9 +5,9 @@
  * @param array  $blogs
  *}
 
-{capture 'modal_content'}
-    {$blog = $smarty.local.blog}
+{component_define_params params=[ 'blog', 'blogs' ]}
 
+{capture 'modal_content'}
     <form action="{router page='blog'}delete/{$blog->getId()}/" method="POST" id="js-blog-remove-form">
         {* Скрытые поля *}
         {component 'field' template='hidden.security-key'}
@@ -17,7 +17,7 @@
             [ 'value' => -1, 'text' => "-- {$aLang.blog.remove.remove_topics} --" ]
         ]}
 
-        {foreach $smarty.local.blogs as $blog}
+        {foreach $blogs as $blog}
             {$selectBlogs[] = [
                 'value' => $blog->getId(),
                 'text' => $blog->getTitle()|escape

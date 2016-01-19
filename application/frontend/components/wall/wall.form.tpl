@@ -6,10 +6,12 @@
  * @param string  $placeholder Плейсхолдер
  *}
 
-<form class="wall-form js-wall-form {$smarty.local.classes}" data-id="{$smarty.local.id|default:0}" {if ! $smarty.local.display|default:true}style="display: none"{/if}>
+{component_define_params params=[ 'classes', 'id', 'display', 'placeholder' ]}
+
+<form class="wall-form js-wall-form {$classes}" data-id="{$id|default:0}" {if ! $display|default:true}style="display: none"{/if}>
     {* Текст *}
     {component 'field' template='textarea'
-        placeholder  = "{$smarty.local.placeholder|default:$aLang.wall.form.fields.text.placeholder}"
+        placeholder  = "{$placeholder|default:$aLang.wall.form.fields.text.placeholder}"
         inputClasses = 'ls-width-full js-wall-form-text'}
 
     {* Подвал формы *}

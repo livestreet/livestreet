@@ -5,9 +5,9 @@
  * @param object $activeTag
  *}
 
-{$activeTag = $smarty.local.activeTag}
+{component_define_params params=[ 'activeTag', 'tags' ]}
 
 {component 'details'
     classes = 'js-tags-favourite-cloud'
     title   = "{lang 'tags_personal.title'} {if $activeTag}({$activeTag}){/if}"
-    content = {component 'tags' template='cloud' tags=$smarty.local.tags active=$activeTag}}
+    content = {component 'tags' template='cloud' tags=$tags active=$activeTag}}

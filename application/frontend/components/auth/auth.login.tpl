@@ -2,9 +2,12 @@
  * Форма входа
  *
  * @param string $redirectUrl
+ * @param boolean $showExtra
  *}
 
-{$redirectUrl = $smarty.local.redirectUrl|default:$PATH_WEB_CURRENT}
+{component_define_params params=[ 'redirectUrl', 'showExtra' ]}
+
+{$redirectUrl = $redirectUrl|default:$PATH_WEB_CURRENT}
 
 {hook run='login_begin'}
 
@@ -48,7 +51,7 @@
     {component 'button' name='submit_login' mods='primary' text=$aLang.auth.login.form.fields.submit.text}
 </form>
 
-{if $smarty.local.showExtra}
+{if $showExtra}
     <div class="ls-pt-20">
         <a href="{router page='auth/register'}">{$aLang.auth.registration.title}</a><br />
         <a href="{router page='auth/password-reset'}">{$aLang.auth.reset.title}</a>
