@@ -12,7 +12,7 @@
 
 {$component = 'activity'}
 {$jsprefix = 'js-activity'}
-{component_define_params params=[ 'events' 'count', 'targetId', 'mods', 'classes', 'attributes' ]}
+{component_define_params params=[ 'events', 'count', 'targetId', 'mods', 'classes', 'attributes' ]}
 
 {$moreCount = $count - count($events)}
 
