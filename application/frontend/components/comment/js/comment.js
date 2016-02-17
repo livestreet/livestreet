@@ -230,7 +230,8 @@
          * Сворачивает ветку комментариев
          */
         fold: function() {
-            this._addClass( 'folded' ).nextAll( this.options.selectors.wrapper ).hide();
+            this._addClass( 'folded' )
+            this.element.nextAll( this.options.selectors.wrapper ).hide();
             this.onFold();
         },
 
@@ -238,7 +239,8 @@
          * Разворачивает ветку комментариев
          */
         unfold: function() {
-            this._removeClass( 'folded' ).nextAll( this.options.selectors.wrapper ).show();
+            this._removeClass( 'folded' )
+            this.element.nextAll( this.options.selectors.wrapper ).show();
             this.onUnfold();
         },
 

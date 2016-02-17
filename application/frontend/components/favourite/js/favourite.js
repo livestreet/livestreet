@@ -78,7 +78,8 @@
             this._removeClass( 'added' );
 
             if ( response.bState ) {
-                this._addClass( 'added' ).attr( 'title', ls.lang.get( 'favourite.remove' ) );
+                this._addClass( 'added' )
+                this.element.attr( 'title', ls.lang.get( 'favourite.remove' ) );
             } else {
                 this.element.attr( 'title', ls.lang.get( 'favourite.add' ) );
             }
