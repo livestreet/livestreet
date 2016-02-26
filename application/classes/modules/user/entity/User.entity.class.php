@@ -110,10 +110,10 @@ class ModuleUser_EntityUser extends Entity
      */
     public function ValidateLoginExists($sValue, $aParams)
     {
-        if (!$this->User_GetUserByLogin($sValue)) {
-            return true;
+        if ($oUserOld = $this->User_GetUserByLogin($sValue) and $oUserOld->getId() != $this->getId()) {
+            return $this->Lang_Get('auth.registration.notices.error_login_used');
         }
-        return $this->Lang_Get('auth.registration.notices.error_login_used');
+        return true;
     }
 
     /**
@@ -125,10 +125,10 @@ class ModuleUser_EntityUser extends Entity
      */
     public function ValidateMailExists($sValue, $aParams)
     {
-        if (!$this->User_GetUserByMail($sValue)) {
-            return true;
+        if ($oUserOld = $this->User_GetUserByMail($sValue) and $oUserOld->getId() != $this->getId()) {
+            return $this->Lang_Get('auth.registration.notices.error_mail_used');
         }
-        return $this->Lang_Get('auth.registration.notices.error_mail_used');
+        return true;
     }
 
     /**
