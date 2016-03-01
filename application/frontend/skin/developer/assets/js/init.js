@@ -40,8 +40,10 @@ jQuery(document).ready(function($){
     /**
      * Подтверждение удаления
      */
-    $('.js-confirm-remove-default').lsConfirm({
-        message: ls.lang.get('common.remove_confirm')
+    $('.js-confirm-remove-default').livequery(function () {
+        $(this).lsConfirm({
+            message: ls.lang.get('common.remove_confirm')
+        });
     });
 
 

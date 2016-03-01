@@ -481,7 +481,7 @@ class ActionAjax extends Action
         $sCaptchaValidateType = func_camelize('captcha_' . Config::Get('sys.captcha.type'));
         if (!$this->Validate_Validate($sCaptchaValidateType, $sValue, array('name' => $sName))) {
             $aErrors = $this->Validate_GetErrors();
-            $this->Viewer_AssignAjax('aErrors', array('captcha' => array(reset($aErrors))));
+            $this->Viewer_AssignAjax('errors', array('captcha' => array(reset($aErrors))));
         }
     }
 

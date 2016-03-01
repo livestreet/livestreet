@@ -143,7 +143,7 @@ class ActionAuth extends Action
                 /**
                  * Получаем ошибки
                  */
-                $this->Viewer_AssignAjax('aErrors', $oUser->_getValidateErrors());
+                $this->Viewer_AssignAjax('errors', $oUser->_getValidateErrors());
                 $this->Message_AddErrorSingle(null);
                 return;
             }
@@ -274,7 +274,7 @@ class ActionAuth extends Action
      */
     protected function EventAjaxValidateEmail()
     {
-        $this->ValidateFields(array(array('field' => 'email', 'value' => getRequest('email'))));
+        $this->ValidateFields(array(array('field' => 'mail', 'value' => getRequest('mail'))));
     }
 
     /**
@@ -339,7 +339,7 @@ class ActionAuth extends Action
             /**
              * Получаем ошибки
              */
-            $this->Viewer_AssignAjax('aErrors', $oUser->_getValidateErrors());
+            $this->Viewer_AssignAjax('errors', $oUser->_getValidateErrors());
         }
     }
 
@@ -435,7 +435,7 @@ class ActionAuth extends Action
             /**
              * Получаем ошибки
              */
-            $this->Viewer_AssignAjax('aErrors', $oUser->_getValidateErrors());
+            $this->Viewer_AssignAjax('errors', $oUser->_getValidateErrors());
         }
     }
 

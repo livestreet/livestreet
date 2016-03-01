@@ -34,9 +34,7 @@
     </time>
 
     {* Логин *}
-    <a href="{$user->getUserWebPath()}" class="{$component}-username">
-        {$user->getDisplayName()}
-    </a>
+    <a href="{$user->getUserWebPath()}" class="{$component}-username">{$user->getDisplayName()}</a>
 
     {* Текст события *}
     {if $type == 'add_topic'}
