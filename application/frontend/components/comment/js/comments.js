@@ -58,7 +58,14 @@
             // Показать/скрыть форму по умолчанию
             show_form: false,
             // Ajax параметры
-            params: {}
+            params: {},
+            i18n: {
+                fold_all: '@comments.folding.fold_all',
+                unfold_all: '@comments.folding.unfold_all',
+                subscribe: '@comments.subscribe',
+                unsubscribe: '@comments.unsubscribe',
+                comments: '@comments.comments_declension'
+            }
         },
 
         /**
@@ -112,18 +119,7 @@
             }
 
             // Подписаться/отписаться от новых комментариев
-            this.elements.subscribe.on( 'click' + this.eventNamespace, function () {
-                var element = $(this),
-                    isActive = element.hasClass('active');
-
-                ls.subscribe.toggle( _this._targetType + '_new_comment', _this._targetId, '', ! isActive );
-
-                if ( isActive ) {
-                    element.removeClass('active').text( ls.lang.get('comments.subscribe') );
-                } else {
-                    element.addClass('active').text( ls.lang.get('comments.unsubscribe') );
-                }
-            });
+            this.elements.subscribe.on( 'click' + this.eventNamespace, this.subscribeToggle.bind(this));
         },
 
         /**
@@ -132,12 +128,12 @@
         subscribeToggle: function() {
             var isActive = this.elements.subscribe.hasClass('active');
 
-            ls.subscribe.toggle( _this._targetType + '_new_comment', _this._targetId, '', ! isActive );
+            ls.subscribe.toggle( this._targetType + '_new_comment', this._targetId, '', ! isActive );
 
             if ( isActive ) {
-                this.elements.subscribe.removeClass( 'active' ).text( ls.lang.get('comments.subscribe') );
+                this.elements.subscribe.removeClass( 'active' ).text( this._i18n('subscribe') );
             } else {
-                this.elements.subscribe.addClass( 'active' ).text( ls.lang.get('comments.unsubscribe') );
+                this.elements.subscribe.addClass( 'active' ).text( this._i18n('unsubscribe') );
             }
         },
 
@@ -153,7 +149,7 @@
          */
         foldAll: function() {
             this.getComments().lsComment( 'fold' );
-            this.elements.fold_all_toggle.addClass( 'active' ).text( ls.lang.get('comments.folding.unfold_all') );
+            this.elements.fold_all_toggle.addClass( 'active' ).text( this._i18n('unfold_all') );
         },
 
         /**
@@ -161,7 +157,7 @@
          */
         unfoldAll: function() {
             this.getComments().lsComment( 'unfold' );
-            this.elements.fold_all_toggle.removeClass( 'active' ).text( ls.lang.get('comments.folding.fold_all') );
+            this.elements.fold_all_toggle.removeClass( 'active' ).text( this._i18n('fold_all') );
         },
 
         /**
@@ -201,7 +197,7 @@
                     this.setLastCommentId( response.last_comment_id );
 
                     // Обновляем кол-во комментариев в заголовке
-                    this.elements.title.text( ls.i18n.pluralize(this.getComments().length, 'comments.comments_declension') );
+                    this.elements.title.text( this._i18n( 'comments', this.getComments().length ) );
                 }
 
                 // Разворачиваем все ветки если идет просто подгрузка комментариев

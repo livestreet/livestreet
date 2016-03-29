@@ -119,6 +119,8 @@ class HookMain extends Hook
             'user.friends.status.linked',
             'user.settings.profile.notices.error_max_userfields',
             'user.search.result_title',
+            'more.text',
+            'more.text_count',
             'more.empty',
             'validate.tags.count',
             'uploader.attach.count',

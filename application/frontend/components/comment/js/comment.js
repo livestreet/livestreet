@@ -50,7 +50,11 @@
                 deleted: 'ls-comment--deleted',
                 self:    'ls-comment--self'
             },
-            params: {}
+            params: {},
+            i18n: {
+                fold: '@comments.folding.fold',
+                unfold: '@comments.folding.unfold'
+            }
         },
 
         /**
@@ -248,14 +252,14 @@
          * Коллбэк вызываемый после сворачивания ветки комментариев
          */
         onFold: function() {
-            this.elements.fold.find('a').text(ls.lang.get('comments.folding.unfold'));
+            this.elements.fold.find('a').text(this._i18n('unfold'));
         },
 
         /**
          * Коллбэк вызываемый после разворачивания ветки комментариев
          */
         onUnfold: function() {
-            this.elements.fold.find('a').text(ls.lang.get('comments.folding.fold'));
+            this.elements.fold.find('a').text(this._i18n('fold'));
         },
 
         /**

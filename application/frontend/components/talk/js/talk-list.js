@@ -23,6 +23,9 @@
                 button: '.js-talk-form-button',
                 buttonMarkAsRead: '.js-talk-form-button[data-action=mark_as_read]',
                 buttonRemove: '.js-talk-form-button[data-action=remove]'
+            },
+            i18n: {
+                remove_confirm: '@common.remove_confirm'
             }
         },
 
@@ -47,7 +50,7 @@
             }.bind(this));
 
             this.elements.buttonRemove.lsConfirm({
-                message: ls.lang.get('common.remove_confirm'),
+                message: this._i18n('remove_confirm'),
                 onconfirm: function () {
                     this.setAction( 'remove' );
                 }.bind(this)

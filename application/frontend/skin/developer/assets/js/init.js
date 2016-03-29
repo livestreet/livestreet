@@ -278,12 +278,10 @@ jQuery(document).ready(function($){
         i18n: {
             title: ls.lang.get( 'user.search.result_title' )
         },
-        extSelectors: {
-            title: '.js-user-list-search-title'
-        },
         selectors: {
             list: '.js-more-users-container',
-            more: '.js-more-search'
+            more: '.js-more-search',
+            title: '@.js-user-list-search-title'
         },
         filters : [
             {
@@ -488,12 +486,10 @@ jQuery(document).ready(function($){
         i18n: {
             title: ls.lang.get( 'blog.search.result_title' )
         },
-        extSelectors: {
-            title: '.js-blog-list-search-title'
-        },
         selectors: {
             list: '.js-more-blogs-container',
-            more: '.js-more-search'
+            more: '.js-more-search',
+            title: '@.js-blog-list-search-title'
         },
         filters : [
             {

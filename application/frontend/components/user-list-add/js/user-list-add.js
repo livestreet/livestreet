@@ -43,7 +43,10 @@
                 direction: 'left'
             },
             // Ajax параметры
-            params: {}
+            params: {},
+            i18n: {
+                success_add: '@common.success.add'
+            }
         },
 
         /**
@@ -103,7 +106,7 @@
                 if ( item.bStateError ) {
                     ls.msg.error( null, item.sMsg );
                 } else {
-                    ls.msg.notice( null, ls.lang.get( 'common.success.add' ) );
+                    ls.msg.notice( null, this._i18n( 'success_add' ) );
 
                     this._trigger( "afteruseradd", null, { context: this, item: item, response: response } );
 

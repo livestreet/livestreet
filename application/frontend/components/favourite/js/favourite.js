@@ -40,12 +40,17 @@
             },
 
             // Параметры отправляемые при каждом аякс запросе
-            params: {}
+            params: {},
 
             // Коллбэки
 
             // После успешного изменения состояния
-            // aftertogglesuccess: null
+            // aftertogglesuccess: null,
+
+            i18n: {
+                remove: '@favourite.remove',
+                add: '@favourite.add'
+            }
         },
 
         /**
@@ -79,9 +84,9 @@
 
             if ( response.bState ) {
                 this._addClass( 'added' );
-                this.element.attr( 'title', ls.lang.get( 'favourite.remove' ) );
+                this.element.attr( 'title', this._i18n( 'remove' ) );
             } else {
-                this.element.attr( 'title', ls.lang.get( 'favourite.add' ) );
+                this.element.attr( 'title', this._i18n( 'add' ) );
             }
 
             // Обновляем счетчик

@@ -30,7 +30,11 @@
             classes: {
                 active: 'active'
             },
-            params: {}
+            params: {},
+            i18n: {
+                follow: '@user.actions.follow',
+                unfollow: '@user.actions.unfollow'
+            }
         },
 
         /**
@@ -63,7 +67,7 @@
          * Коллбэк вызываемый при подписке
          */
         onFollow: function( response ) {
-            this.elements.item.text( ls.lang.get('user.actions.unfollow') );
+            this.elements.item.text( this._i18n('unfollow') );
             this._addClass( 'active' );
         },
 
@@ -78,7 +82,7 @@
          * Коллбэк вызываемый при отписке
          */
         onUnfollow: function( response ) {
-            this.elements.item.text( ls.lang.get('user.actions.follow') );
+            this.elements.item.text( this._i18n('follow') );
             this._removeClass( 'active' );
         }
     });

@@ -31,7 +31,12 @@
                 loading: null
             },
             // Ajax параметры
-            params : {}
+            params : {},
+
+            i18n: {
+                join: '@blog.join.join',
+                leave: '@blog.join.leave'
+            }
         },
 
         /**
@@ -76,7 +81,7 @@
          */
         onToggle: function( response ) {
             this.element.toggleClass( this.option( 'classes.active' ) );
-            this.elements.text.text( ls.lang.get( response.bState ? 'blog.join.leave' : 'blog.join.join' ) );
+            this.elements.text.text( this._i18n( response.bState ? 'leave' : 'join' ) );
 
             $( this.option( 'selectors.count' ) + '[data-blog-id=' + this.option( 'params.blog_id' ) + ']' ).text( response.iCountUser );
         }

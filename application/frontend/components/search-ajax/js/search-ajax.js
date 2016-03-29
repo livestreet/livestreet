@@ -24,11 +24,7 @@
             // Селекторы
             selectors: {
                 list: '.js-search-ajax-list',
-                more: '.js-search-ajax-more'
-            },
-
-            // Селекторы внешних элементов
-            extSelectors: {
+                more: '.js-search-ajax-more',
                 title: null
             },
 
@@ -54,8 +50,6 @@
             this._super();
 
             var _this = this;
-
-            this.extElements = this._getElementsFromSelectors( this.options.extSelectors );
 
             // Иниц-ия фильтров
             $.each( this.option( 'filters' ), function ( index, value ) {
@@ -225,8 +219,8 @@
                 this.elements.list.hide();
             }
 
-            if ( this.option( 'i18n.title' ) && this.extElements.title.length ) {
-                this.extElements.title.show().text( ls.lang.pluralize( response.searchCount, this.option( 'i18n.title' ) ) );
+            if ( this.option( 'i18n.title' ) && this.elements.title.length ) {
+                this.elements.title.show().text( this._i18n( 'title', response.searchCount ) );
             }
 
             this._trigger( 'afterupdate', null, { context: this, response: response } );

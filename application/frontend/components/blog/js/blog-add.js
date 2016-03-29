@@ -20,6 +20,10 @@
             selectors: {
                 type: '.js-blog-add-type',
                 type_note: '.js-blog-add-field-type .js-field-note'
+            },
+            i18n: {
+                type_open: '@blog.add.fields.type.note_open',
+                type_closed: '@blog.add.fields.type.note_closed'
             }
         },
 
@@ -44,7 +48,7 @@
          * 
          */
         setTypeNote: function( type ) {
-            this.elements.type_note.text( ls.lang.get( 'blog.add.fields.type.note_' + type ) );
+            this.elements.type_note.text( this._i18n( 'type_' + type ) );
         }
     });
 })(jQuery);

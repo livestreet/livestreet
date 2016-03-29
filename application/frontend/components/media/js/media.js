@@ -38,12 +38,14 @@
                 nav: '.js-media-nav',
                 uploader: '.js-media-uploader',
                 block: '.js-media-info-block',
+                blocks: '.js-media-uploader .js-media-info-block',
                 insert_submit: '.js-media-insert-submit',
                 photoset_submit: '.js-media-photoset-submit',
                 url: {
                     form: '.js-media-url-form',
                     url: '.js-media-url-form-url',
                     block_container: '.js-media-url-settings-blocks',
+                    blocks: '.js-media-url-settings-blocks .js-media-info-block',
                     submit_upload: '.js-media-url-submit-upload',
                     submit_insert: '.js-media-url-submit-insert',
                     image_preview: '.js-media-url-image-preview'
@@ -66,20 +68,6 @@
 
             // Получаем редактор
             ! this.option( 'editor' ).length && this.option( 'editor', $( '#' + this.element.data( 'media-editor') ) );
-
-            $.extend(this.elements, {
-                blocks: this.element.find( this.option( 'selectors.uploader' ) + ' ' + this.option( 'selectors.block' ) ),
-                url: {
-                    form: this.element.find( this.option( 'selectors.url.form' ) ),
-                    url: this.element.find( this.option( 'selectors.url.url' ) ),
-                    block_container: this.element.find( this.option( 'selectors.url.block_container' ) ),
-                    submit_upload: this.element.find( this.option( 'selectors.url.submit_upload' ) ),
-                    submit_insert: this.element.find( this.option( 'selectors.url.submit_insert' ) ),
-                    image_preview: this.element.find( this.option( 'selectors.url.image_preview' ) )
-                }
-            });
-
-            this.elements.url.blocks = this.elements.url.block_container.find( this.option( 'selectors.block' ) );
 
             // Иниц-ия загрузчика
             this.elements.uploader.lsUploader( $.extend( {}, this.option( 'uploader_options' ), {

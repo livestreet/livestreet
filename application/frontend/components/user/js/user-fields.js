@@ -25,7 +25,11 @@
                 empty: '.js-user-fields-empty',
                 submit: '.js-user-fields-submit'
             },
-            max: 3
+            max: 3,
+            i18n: {
+                error_max_userfields: '@user.settings.profile.notices.error_max_userfields',
+                remove_confirm: '@common.remove_confirm'
+            }
         },
 
         /**
@@ -69,7 +73,7 @@
                 this.elements.list.append( template );
             } else {
                 template = null;
-                ls.msg.error( null, ls.lang.get( 'user.settings.profile.notices.error_max_userfields', { count: this.option( 'max' ) } ) );
+                ls.msg.error( null, this._i18n( 'error_max_userfields', { count: this.option( 'max' ) } ) );
             }
 
             this.elements.empty.hide();
@@ -79,7 +83,7 @@
          * Удаление контакта
          */
         remove: function( event ) {
-            if ( ! confirm( ls.lang.get( 'common.remove_confirm' ) ) ) return;
+            if ( ! confirm( this._i18n( 'remove_confirm' ) ) ) return;
 
             $( event.target )
                 .off()
@@ -96,7 +100,7 @@
          */
         change: function( event ) {
             if ( this.getCountByTypeId( $( event.target ).val() ) > this.option( 'max' ) ) {
-                ls.msg.error( null, ls.lang.get( 'user.settings.profile.notices.error_max_userfields', { count: this.option( 'max' ) } ) );
+                ls.msg.error( null, this._i18n( 'error_max_userfields', { count: this.option( 'max' ) } ) );
             }
         },
 
