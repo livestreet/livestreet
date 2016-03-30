@@ -30,5 +30,5 @@
 {component 'uploader' template='block'
     title      = {lang 'media.insert.settings.title'}
     content    = $smarty.capture.block_content
-    classes    = 'js-media-info-block'
+    classes    = 'js-media-info-block js-media-info-block-image-options'
     attributes = [ 'data-type' => 'insert', 'data-filetype' => '1' ]}

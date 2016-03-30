@@ -161,6 +161,7 @@
                 this.elements.uploader
                     .lsUploader( 'resetFilter' )
                     .lsUploader( 'unselectAll' )
+                    .lsUploader( 'setTargetTypeFilter', 'uploaded' )
                     .appendTo( this.getPaneContent( tab ) );
             }
         },
@@ -234,16 +235,15 @@
         activateInfoBlock: function( file ) {
             this.elements.blocks.hide();
 
-            var block = this.elements.blocks.filter( '[data-type=' + this.getActiveTabName() + ']' ).show();
-
             // Показываем блок настроек только для активного типа файла
             this.elements.blocks
-                .filter( '[data-filetype]' )
-                .filter( ':not([data-filetype=' + file.lsUploaderFile( 'getProperty', 'type' ) + '])' )
-                .hide();
+                .filter( '[data-type=' + this.getActiveTabName() + ']' )
+                .filter( '[data-filetype=' + file.lsUploaderFile( 'getProperty', 'type' ) + ']' )
+                .show();
 
             // Обновляем настройки
-            if ( file.lsUploaderFile( 'getProperty', 'type' ) == '1' ) {
+            if ( this.getActiveTabName() == 'insert' && file.lsUploaderFile( 'getProperty', 'type' ) == '1' ) {
+                var block = this.elements.blocks.find('.js-media-info-block-image-options');
                 var sizes = block.find( 'select[name=size]' );
 
                 sizes.find( 'option:not([value=original])' ).remove();

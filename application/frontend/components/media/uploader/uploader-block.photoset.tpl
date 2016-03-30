@@ -21,4 +21,4 @@
     title      = {lang 'media.photoset.settings.title'}
     content    = $smarty.capture.block_content
     classes    = 'js-media-info-block'
-    attributes = [ 'data-type' => 'photoset' ]}
+    attributes = [ 'data-type' => 'photoset', 'data-filetype' => '1' ]}
