@@ -86,7 +86,7 @@
         {$previewImage = $topic->getPreviewImageWebPath('900x300crop')}
 
         {if $previewImage}
-            <div class="topic-preview-image">
+            <div class="ls-topic-preview-image">
                 <img src="{$previewImage}" />
             </div>
         {/if}
