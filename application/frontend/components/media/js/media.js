@@ -243,7 +243,7 @@
 
             // Обновляем настройки
             if ( this.getActiveTabName() == 'insert' && file.lsUploaderFile( 'getProperty', 'type' ) == '1' ) {
-                var block = this.elements.blocks.find('.js-media-info-block-image-options');
+                var block = this.elements.blocks.filter('.js-media-info-block-image-options');
                 var sizes = block.find( 'select[name=size]' );
 
                 sizes.find( 'option:not([value=original])' ).remove();
