@@ -394,6 +394,13 @@ jQuery(document).ready(function($){
         }
     });
 
+    // Добавление в избранное на странице диалога
+    $('.js-talk-message-root-favourite').on('click', function (event) {
+        if (event.target == event.currentTarget) {
+            $(this).find('.js-favourite-talk').lsFavourite('toggle');
+        }
+    });
+
     // Комментарии
     $('.js-comments-talk').lsComments({
         urls: {
