@@ -5,17 +5,16 @@
  * @param boolean $isPreview
  *}
 
-{$topic = $smarty.local.topic}
+{component_define_params params=[ 'topic', 'isPreview', 'isList', 'mods', 'classes', 'attributes' ]}
+
 {$type = $topic->getType()}
 
-{if $LS->Topic_IsAllowTopicType( $type )}
-    {$template = $LS->Component_GetTemplatePath('topic', "topic-type-{$type}" )}
+{if $LS->Topic_IsAllowTopicType($type)}
+    {$template = $LS->Component_GetTemplatePath('topic', "topic-type-{$type}")}
 
-    {* Если для указанного типа существует шаблон, то подключаем его *}
-    {* Иначе подключаем дефолтный шаблон топика *}
-    {if ! $template}
-        {$template = $LS->Component_GetTemplatePath('topic', 'topic')}
+    {if $template}
+        {component "topic.topic-type-$type" params=$params}
+    {else}
+        {component 'topic' params=$params}
     {/if}
-
-    {include "$template" topic=$topic isList=$smarty.local.isList isPreview=$smarty.local.isPreview}
 {/if}

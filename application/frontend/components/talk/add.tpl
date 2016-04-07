@@ -11,11 +11,11 @@
 
     {* Получатели *}
     {component 'user' template='choose'
-        items        = ($recepient) ? [[ 'text' => $recepient->getLogin(), 'value' => $recepient->getId() ]] : null
-        selectedValue = ($recepient) ? $recepient->getId() : null
-        form = ($_aRequest['talk_recepient_id']) ? null : $_aRequest
+        items        = ($recepient) ? [[ 'text' => $recepient->getLogin(), 'value' => $recepient->getId() ]] : false
+        selectedValue = ($recepient) ? $recepient->getId() : false
+        form = ($_aRequest['talk_recepient_id']) ? false : $_aRequest
         name         = 'talk_users[]'
-        rules        = [ 'required' => true, 'rangetags' => '[1,99]' ]
+        rules        = [ 'required' => true ]
         classes      = 'js-talk-add-user-choose'
         label        = {lang 'talk.add.fields.users.label'}
         lang_choose  = {lang 'talk.add.choose_friends'}}
