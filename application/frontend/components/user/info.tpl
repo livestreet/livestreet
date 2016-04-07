@@ -11,7 +11,8 @@
  * @param array  usersFriend
  *}
 
-{$user = $smarty.local.user}
+{component_define_params params=[ 'blogsAdminister', 'blogsCreated', 'blogsJoined', 'blogsModerate', 'friends', 'invitedByUser', 'user', 'usersInvited', 'mods', 'classes', 'attributes' ]}
+
 {$session = $user->getSession()}
 {$geoTarget = $user->getGeoTarget()}
 
@@ -116,7 +117,7 @@
 {$items = []}
 
 {* Кто пригласил пользователя *}
-{if $smarty.local.invitedByUser}
+{if $invitedByUser}
     {$items[] = [
         'label'   => {lang name='user.profile.activity.invited_by'},
         'content' => "<a href=\"{$invitedByUser->getUserWebPath()}\">{$invitedByUser->getDisplayName()}</a>"
@@ -124,10 +125,10 @@
 {/if}
 
 {* Приглашенные пользователем *}
-{if $smarty.local.usersInvited}
+{if $usersInvited}
     {$users = ''}
 
-    {foreach $smarty.local.usersInvited as $userInvited}
+    {foreach $usersInvited as $userInvited}
         {$users = $users|cat:"<a href=\"{$userInvited->getUserWebPath()}\">{$userInvited->getDisplayName()}</a>&nbsp;"}
     {/foreach}
 
@@ -138,10 +139,10 @@
 {/if}
 
 {* Блоги созданные пользователем *}
-{if $smarty.local.blogsCreated}
+{if $blogsCreated}
     {$blogs = ''}
 
-    {foreach $smarty.local.blogsCreated as $blog}
+    {foreach $blogsCreated as $blog}
         {$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $blog@last}, {/if}"}
     {/foreach}
 
@@ -152,10 +153,10 @@
 {/if}
 
 {* Блоги администрируемые пользователем *}
-{if $smarty.local.blogsAdminister}
+{if $blogsAdminister}
     {$blogs = ''}
 
-    {foreach $smarty.local.blogsAdminister as $blogUser}
+    {foreach $blogsAdminister as $blogUser}
         {$blog = $blogUser->getBlog()}
         {$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $blogUser@last}, {/if}"}
     {/foreach}
@@ -167,10 +168,10 @@
 {/if}
 
 {* Блоги модерируемые пользователем *}
-{if $smarty.local.blogsModerate}
+{if $blogsModerate}
     {$blogs = ''}
 
-    {foreach $smarty.local.blogsModerate as $blogUser}
+    {foreach $blogsModerate as $blogUser}
         {$blog = $blogUser->getBlog()}
         {$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $blogUser@last}, {/if}"}
     {/foreach}
@@ -182,10 +183,10 @@
 {/if}
 
 {* Блоги в которые вступил пользователь *}
-{if $smarty.local.blogsJoined}
+{if $blogsJoined}
     {$blogs = ''}
 
-    {foreach $smarty.local.blogsJoined as $blogUser}
+    {foreach $blogsJoined as $blogUser}
         {$blog = $blogUser->getBlog()}
         {$blogs = $blogs|cat:"<a href=\"{$blog->getUrlFull()}\">{$blog->getTitle()|escape}</a>{if ! $blogUser@last}, {/if}"}
     {/foreach}
@@ -215,9 +216,9 @@
 {**
  * Друзья
  *}
-{if $smarty.local.friends}
+{if $friends}
     {capture 'user_info_friends'}
-        {component 'user' template='avatar-list' users=$smarty.local.friends}
+        {component 'user' template='avatar-list' users=$friends}
     {/capture}
 
     {component 'user' template='info-group'

@@ -5,8 +5,7 @@
  * @param array $paging
  *}
 
-{$topics = $smarty.local.topics}
-{$paging = $smarty.local.paging}
+{component_define_params params=[ 'topics', 'paging' ]}
 
 {if $topics}
     {add_block group='toolbar' name='component@toolbar-scrollnav.toolbar.scrollnav' show=count( $topics )}

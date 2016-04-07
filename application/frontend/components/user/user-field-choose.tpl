@@ -24,4 +24,4 @@
     isMultiple    = true
     placeholder   = " "
     note          = $smarty.capture.user_field_choose
-    params        = $smarty.local.params}
+    params        = $params}

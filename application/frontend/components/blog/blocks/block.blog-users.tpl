@@ -2,11 +2,13 @@
  * Список пользователей блога
  *}
 
+{component_define_params params=[ 'titleLang' ]}
+
 {capture 'block_title'}
     {$usersCount = count($blogUsers)}
 
     {if $usersCount}
-        {$usersCount} {lang "{$smarty.local.titleLang|default:'blog.readers_declension'}" count=$usersCount plural=true}
+        {$usersCount} {lang "{$titleLang|default:'blog.readers_declension'}" count=$usersCount plural=true}
     {else}
         {$aLang.blog.users.empty}
     {/if}

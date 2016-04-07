@@ -13,14 +13,13 @@
  * @param boolean  $forbidAdd
  *}
 
+{component_define_params params=[ 'authorId', 'authorText', 'commentParams', 'comments', 'dateReadLast', 'forbidAdd', 'maxLevel', 'showReply' ]}
+
 {* Текущая вложенность *}
 {$currentLevel = -1}
 
-{* Максимальная вложенность *}
-{$maxLevel = $smarty.local.maxLevel}
-
 {* Построение дерева комментариев *}
-{foreach $smarty.local.comments as $comment}
+{foreach $comments as $comment}
     {* Ограничиваем вложенность комментария максимальным значением *}
     {$commentLevel = ( $comment->getLevel() > $maxLevel ) ? $maxLevel : $comment->getLevel()}
 
@@ -41,11 +40,11 @@
     {block 'comment_tree_comment'}
         {component 'comment'
             comment      = $comment
-            dateReadLast = $smarty.local.dateReadLast
-            authorId     = $smarty.local.authorId
-            authorText   = $smarty.local.authorText
-            showReply    = ! $smarty.local.forbidAdd || $smarty.local.showReply
-            params       = $smarty.local.commentParams}
+            dateReadLast = $dateReadLast
+            authorId     = $authorId
+            authorText   = $authorText
+            showReply    = ! $forbidAdd || $showReply
+            params       = $commentParams}
     {/block}
 
     {* Закрываем блоки-обертки после последнего комментария *}

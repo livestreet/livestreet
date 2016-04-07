@@ -12,17 +12,15 @@
  *}
 
 {$component = 'user-list-small-item'}
+{component_define_params params=[ 'selectable', 'user', 'mods', 'classes', 'attributes' ]}
 
 {block 'user_list_small_item_options'}
-    {$classes = $smarty.local.classes}
-    {$attributes = $smarty.local.attributes}
-    {$user = $smarty.local.user}
     {$userId = $user->getId()}
 {/block}
 
 <li class="{$component} js-user-list-small-item {$classes}" data-user-id="{$userId}" {cattr list=$attributes}>
     {* Чекбокс *}
-    {if $smarty.local.selectable}
+    {if $selectable}
         <input type="checkbox" class="js-user-list-small-checkbox" data-user-id="{$userId}" data-user-login="{$user->getLogin()}" />
     {/if}
 

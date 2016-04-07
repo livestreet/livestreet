@@ -3,12 +3,13 @@
  *
  * @param array   $users
  * @param boolean $selectable
- * @param string  $target
  *}
+
+{component_define_params params=[ 'users', 'selectable' ]}
 
 {capture 'modal_content'}
     {* Экшнбар *}
-    {if $smarty.local.users && $smarty.local.selectable}
+    {if $users && $selectable}
         {component 'actionbar' template='item.select'
             classes = 'js-user-list-modal-actionbar'
             target  = '.js-user-list-select .js-user-list-small-item'
@@ -19,8 +20,8 @@
 
     {* Список *}
     {component 'user' template='list-small'
-        users      = $smarty.local.users
-        selectable = $smarty.local.selectable
+        users      = $users
+        selectable = $selectable
         showEmpty  = true
         classes    = 'js-user-list-select'}
 {/capture}
@@ -31,7 +32,7 @@
     classes       = 'js-modal-default'
     mods          = 'users-select'
     id            = 'modal-users-select'
-    primaryButton  = ( $smarty.local.users && $smarty.local.selectable ) ? [
+    primaryButton  = ( $users && $selectable ) ? [
         'text'       => {lang 'common.add'},
         'classes'    => 'js-user-list-select-add',
         'form'       => 'form-complaint-user'

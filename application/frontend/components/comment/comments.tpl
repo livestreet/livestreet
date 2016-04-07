@@ -28,18 +28,13 @@
  *}
 
 {$component = 'ls-comments'}
+{component_define_params params=[ 'addCommentText', 'authorid', 'authorText', 'commentParams', 'comments', 'count', 'dateReadLast', 'forbidAdd',
+    'forbidText', 'isSubscribed', 'lastCommentId', 'maxLevel', 'pagination', 'targetId', 'targetType', 'title', 'titleNoComments',
+    'useSubscribe', 'mods', 'classes', 'attributes' ]}
 
 {block 'comment-list-options'}
-    {$mods         = $smarty.local.mods}
-    {$targetId     = $smarty.local.targetId}
-    {$targetType   = $smarty.local.targetType}
-    {$count        = $smarty.local.count}
-    {$forbidAdd    = $smarty.local.forbidAdd}
-    {$isSubscribed = $smarty.local.isSubscribed}
-    {$pagination   = $smarty.local.pagination}
-
     {* Максимальная вложенность *}
-    {$maxLevel = $smarty.local.maxLevel|default:Config::Get('module.comment.max_tree')}
+    {$maxLevel = $maxLevel|default:Config::Get('module.comment.max_tree')}
 
     {if $forbidAdd}
         {$mods = "$mods forbid"}
@@ -50,14 +45,14 @@
     {add_block group='toolbar' name='component@comment.toolbar'}
 {/if}
 
-<div class="{$component} js-comments {cmods name=$component mods=$mods} {$smarty.local.classes}"
+<div class="{$component} js-comments {cmods name=$component mods=$mods} {$classes}"
     data-target-type="{$targetType}"
     data-target-id="{$targetId}"
-    data-comment-last-id="{$smarty.local.lastCommentId}"
-    {cattr list=$smarty.local.attributes}>
+    data-comment-last-id="{$lastCommentId}"
+    {cattr list=$attributes}>
 
     {* @hook Начало блока с комментариями *}
-    {hook run='comments_begin' params=$smarty.local.params}
+    {hook run='comments_begin' params=$params}
 
     {**
      * Заголовок
@@ -65,14 +60,14 @@
     <header class="{$component}-header">
         <h3 class="comments-title js-comments-title">
             {if $count}
-                {lang "{$smarty.local.title|default:'comments.comments_declension'}" count=$count plural=true}
+                {lang "{$title|default:'comments.comments_declension'}" count=$count plural=true}
             {else}
-                {lang "{$smarty.local.titleNoComments|default:'comments.no_comments'}"}
+                {lang "{$titleNoComments|default:'comments.no_comments'}"}
             {/if}
         </h3>
 
         {* @hook Конец шапки *}
-        {hook run='comments_header_end' params=$smarty.local.params}
+        {hook run='comments_header_end' params=$params}
     </header>
 
 
@@ -92,7 +87,7 @@
     {/if}
 
     {* Подписка на комментарии *}
-    {if $smarty.local.useSubscribe && $oUserCurrent}
+    {if $useSubscribe && $oUserCurrent}
         {$items[] = [ 'buttons' => [[
             'classes' => "{$component}-subscribe js-comments-subscribe {if $isSubscribed}active{/if}",
             'text'    => ( $isSubscribed ) ? $aLang.comments.unsubscribe : $aLang.comments.subscribe
@@ -104,24 +99,24 @@
     {/if}
 
     {* @hook Хук перед списком комментариев *}
-    {hook run='comments_list_before' params=$smarty.local.params}
+    {hook run='comments_list_before' params=$params}
 
     {**
      * Комментарии
      *}
-    <div class="ls-comment-list js-comment-list" {if ! $smarty.local.comments}style="display: none"{/if}>
+    <div class="ls-comment-list js-comment-list" {if ! $comments}style="display: none"{/if}>
         {component 'comment' template='tree'
-            comments      = $smarty.local.comments
+            comments      = $comments
             forbidAdd     = $forbidAdd
             maxLevel      = $maxLevel
-            authorid      = $smarty.local.authorid
-            authorText    = $smarty.local.authorText
-            dateReadLast  = $smarty.local.dateReadLast
-            commentParams = $smarty.local.commentParams}
+            authorid      = $authorid
+            authorText    = $authorText
+            dateReadLast  = $dateReadLast
+            commentParams = $commentParams}
     </div>
 
     {* @hook Хук после списка комментариев *}
-    {hook run='comments_list_after' params=$smarty.local.params}
+    {hook run='comments_list_after' params=$params}
 
 
     {**
@@ -136,14 +131,14 @@
 
     {* Проверяем запрещено комментирование или нет *}
     {if $forbidAdd}
-        {component 'alert' mods='info' text=$smarty.local.forbidText}
+        {component 'alert' mods='info' text=$forbidText}
 
     {* Если разрешено то показываем форму добавления комментария *}
     {else}
         {if $oUserCurrent}
             {* Кнопка открывающая форму *}
             <h4 class="ls-comment-reply-root js-comment-reply js-comment-reply-root" data-id="0">
-                <a href="#" class="ls-link-dotted">{$smarty.local.addCommentText|default:$aLang.comments.form.title}</a>
+                <a href="#" class="ls-link-dotted">{$addCommentText|default:$aLang.comments.form.title}</a>
             </h4>
         {else}
             {component 'alert' mods='info' text=$aLang.comments.alerts.unregistered}
@@ -156,5 +151,5 @@
     {/if}
 
     {* @hook Конец блока с комментариями *}
-    {hook run='comments_end' params=$smarty.local.params}
+    {hook run='comments_end' params=$params}
 </div>

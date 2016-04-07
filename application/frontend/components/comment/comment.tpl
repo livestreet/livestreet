@@ -17,11 +17,10 @@
 
 {* Название компонента *}
 {$component = 'ls-comment'}
+{component_define_params params=[ 'dateReadLast', 'showPath', 'showReply', 'authorId', 'comment', 'useFavourite', 'useScroll', 'useVote', 'useEdit', 'mods', 'classes', 'attributes' ]}
 
 {* Переменные *}
-{$comment = $smarty.local.comment}
-{$mods    = $smarty.local.mods}
-{$useEdit = $smarty.local.useEdit|default:true}
+{$useEdit = $useEdit|default:true}
 
 {$isDeleted = $comment->getDelete()}
 {$user      = $comment->getUser()}
@@ -37,12 +36,12 @@
  *}
 
 {* Комментарий с отрицательным рейтингом *}
-{if $smarty.local.useVote && $comment->isBad()}
+{if $useVote && $comment->isBad()}
     {$mods = "$mods bad"}
 {/if}
 
 {* Автор комментария является автором объекта к которому оставлен комментарий *}
-{if $smarty.local.authorId == $user->getId()}
+{if $authorId == $user->getId()}
     {$mods = "$mods author"}
 {/if}
 
@@ -55,7 +54,7 @@
     {$mods = "$mods self"}
 
 {* Непрочитанный комментарий *}
-{elseif $smarty.local.dateReadLast && strtotime($smarty.local.dateReadLast) <= strtotime($comment->getDate())}
+{elseif $dateReadLast && strtotime($dateReadLast) <= strtotime($comment->getDate())}
     {$mods = "$mods new"}
 {/if}
 
@@ -64,16 +63,16 @@
  * Комментарий
  * Атрибут id используется для ссылки на комментарий через хэш в урл (например #comment123)
  *}
-<section class   = "{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} open js-comment"
+<section class   = "{$component} {cmods name=$component mods=$mods} {$classes} open js-comment"
          id      = "comment{$commentId}"
          data-id = "{$commentId}"
          data-parent-id = "{$comment->getPid()}"
-         {cattr list=$smarty.local.attributes}>
+         {cattr list=$attributes}>
     {* @hook Начало комментария *}
-    {hook run='comment_comment_begin' params=$smarty.local.params}
+    {hook run='comment_comment_begin' params=$params}
 
     {* Путь до комментария *}
-    {if $smarty.local.showPath}
+    {if $showPath}
         <div class="{$component}-path">
             {$target = $comment->getTarget()}
 
@@ -90,14 +89,14 @@
         </a>
 
         {* Избранное *}
-        {if $oUserCurrent && $smarty.local.useFavourite}
+        {if $oUserCurrent && $useFavourite}
             {component 'favourite' classes="{$component}-favourite js-comment-favourite" target=$comment}
         {/if}
 
         {* Информация *}
         <ul class="{$component}-info ls-clearfix">
             {* @hook Начало блока с информацией *}
-            {hook run='comment_info_begin' params=$smarty.local.params}
+            {hook run='comment_info_begin' params=$params}
 
             {* Автор комментария *}
             <li class="{$component}-username">
@@ -117,7 +116,7 @@
             </li>
 
             {* Прокрутка к родительскому комментарию *}
-            {if $smarty.local.useScroll|default:true}
+            {if $useScroll|default:true}
                 {if $comment->getPid()}
                     <li class          = "{$component}-scroll-to {$component}-scroll-to-parent js-comment-scroll-to-parent"
                         title          = "{$aLang.comments.comment.scroll_to_parent}">↑</li>
@@ -129,7 +128,7 @@
             {/if}
 
             {* Голосование *}
-            {if $smarty.local.useVote}
+            {if $useVote}
                 <li>
                     {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
                     {component 'vote'
@@ -140,20 +139,20 @@
             {/if}
 
             {* @hook Конец блока с информацией *}
-            {hook run='comment_info_end' params=$smarty.local.params}
+            {hook run='comment_info_end' params=$params}
         </ul>
 
         {* Текст комментария *}
         <div class="{$component}-content">
             {* @hook Начало блока с содержимым комментария *}
-            {hook run='comment_content_begin' params=$smarty.local.params}
+            {hook run='comment_content_begin' params=$params}
 
             <div class="{$component}-text ls-text">
                 {$comment->getText()}
             </div>
 
             {* @hook Конец блока с содержимым комментария *}
-            {hook run='comment_content_end' params=$smarty.local.params}
+            {hook run='comment_content_end' params=$params}
         </div>
 
         {* Информация о редактировании *}
@@ -174,10 +173,10 @@
         {* Действия *}
         <ul class="{$component}-actions ls-clearfix">
             {* @hook Начало списка экшенов комментария *}
-            {hook run='comment_actions_begin' params=$smarty.local.params}
+            {hook run='comment_actions_begin' params=$params}
 
             {* Ответить *}
-            {if $oUserCurrent && ! $isDeleted && $smarty.local.showReply|default:true}
+            {if $oUserCurrent && ! $isDeleted && $showReply|default:true}
                 <li>
                     <a href="#" class="ls-link-dotted js-comment-reply" data-id="{$commentId}">{$aLang.comments.comment.reply}</a>
                 </li>
@@ -189,7 +188,7 @@
             </li>
 
             {* Редактировать *}
-            {if $smarty.local.useEdit && $oUserCurrent && $comment->IsAllowEdit()}
+            {if $useEdit && $oUserCurrent && $comment->IsAllowEdit()}
                 <li>
                     <a href="#" class="ls-link-dotted js-comment-update" data-id="{$commentId}">
                         {$aLang.common.edit}
@@ -213,12 +212,12 @@
             {/if}
 
             {* @hook Конец списка экшенов комментария *}
-            {hook run='comment_actions_end' params=$smarty.local.params}
+            {hook run='comment_actions_end' params=$params}
         </ul>
     {else}
         {$aLang.comments.comment.deleted}
     {/if}
 
     {* @hook Конец комментария *}
-    {hook run='comment_comment_end' params=$smarty.local.params}
+    {hook run='comment_comment_end' params=$params}
 </section>

@@ -3,9 +3,7 @@
  *}
 
 {$component = 'user-profile'}
-
-{$user = $smarty.local.user}
-{$mods = $smarty.local.mods}
+{component_define_params params=[ 'user', 'mods', 'classes', 'attributes' ]}
 
 {if $user->getProfileName()}
     {$mods = "{$mods} has-name"}
@@ -15,7 +13,7 @@
     {$mods = "{$mods} is-online"}
 {/if}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes} ls-clearfix" {cattr list=$smarty.local.attributes}>
+<div class="{$component} {cmods name=$component mods=$mods} {$classes} ls-clearfix" {cattr list=$attributes}>
     {* @hook Начало шапки с информацией о пользователе *}
     {hook run='user_header_begin' user=$user}
 

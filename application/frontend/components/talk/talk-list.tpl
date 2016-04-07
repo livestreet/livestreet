@@ -6,15 +6,17 @@
  * @param boolean $paging
  *}
 
+{component_define_params params=[ 'talks', 'selectable' ]}
+
 <div class="js-talk-list">
-    {if $smarty.local.talks}
+    {if $talks}
         <form action="{router page='talk'}" method="post" id="talk-form">
             {* Скрытые поля *}
             {component 'field' template='hidden.security-key'}
             {component 'field' template='hidden' name='form_action' id='talk-form-action'}
 
             {* Экшнбар *}
-            {if $smarty.local.selectable}
+            {if $selectable}
                 {component 'actionbar' template='item.select'
                     classes  = 'js-talk-actionbar-select'
                     target   = '.js-talk-list-item'
@@ -40,7 +42,7 @@
             {* Список сообщений *}
             <table class="ls-table talk-list">
                 <tbody>
-                    {foreach $smarty.local.talks as $talk}
+                    {foreach $talks as $talk}
                         {* Создатель диалога *}
                         {$author = $talk->getTalkUser()}
 
@@ -52,7 +54,7 @@
 
                         <tr class="talk-list-item {if $author->getCommentCountNew() or ! $author->getDateLast()}talk-unread{/if} js-talk-list-item" data-id="{$talk->getId()}">
                             {* Выделение *}
-                            {if $smarty.local.selectable}
+                            {if $selectable}
                                 <td class="cell-checkbox">
                                     <input type="checkbox" name="talk_select[{$talk->getId()}]" data-id="{$talk->getId()}" />
                                 </td>

@@ -5,11 +5,12 @@
  *}
 
 {$component = 'ls-comment-list'}
+{component_define_params params=[ 'comments', 'mods', 'classes', 'attributes' ]}
 
-{if $smarty.local.comments}
-    <div class="{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes}>
+{if $comments}
+    <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
         {component 'comment' template='tree'
-            comments      = $smarty.local.comments
+            comments      = $comments
             forbidAdd     = true
             maxLevel      = 0
             commentParams = [

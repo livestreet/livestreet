@@ -3,8 +3,10 @@
  * Кнопка обновления комментариев
  *}
 
+{component_define_params params=[ 'mods', 'classes', 'attributes' ]}
+
 {component 'toolbar' template='item'
-    classes = "{$smarty.local.classes} js-comments-toolbar"
+    classes = "{$classes} js-comments-toolbar"
     mods = 'comments'
     buttons = [
         [

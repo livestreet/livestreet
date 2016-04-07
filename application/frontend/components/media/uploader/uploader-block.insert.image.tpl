@@ -4,6 +4,8 @@
  * @param boolean $useSizes
  *}
 
+{component_define_params params=[ 'useSizes' ]}
+
 {capture 'block_content'}
     <form method="post" action="" enctype="multipart/form-data">
         {* Выравнивание *}
@@ -18,7 +20,7 @@
             ]}
 
         {* Размер *}
-        {if $smarty.local.useSizes|default:true}
+        {if $useSizes|default:true}
             {component 'field' template='select'
                 name          = 'size'
                 label         = {lang name='media.insert.settings.fields.size.label'}

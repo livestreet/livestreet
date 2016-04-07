@@ -1,4 +1,4 @@
-{$property = $smarty.local.property}
+{component_define_params params=[ 'property' ]}
 
 {if $property}
     {* Проверяем наличие кастомного шаблона item.[type].[target_type].tpl *}

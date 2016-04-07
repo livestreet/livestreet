@@ -7,6 +7,8 @@
  * @param array  $mods
  *}
 
+{component_define_params params=[ 'user', 'size' ]}
+
 {$sizes = [
     'large' => 200,
     'default' => 100,
@@ -16,11 +18,9 @@
     'text' => 18
 ]}
 
-{$user = $smarty.local.user}
-
 {component 'avatar'
-    image   = $user->getProfileAvatarPath( $sizes[ $smarty.local.size|default:'default' ] )
+    image   = $user->getProfileAvatarPath( $sizes[ $size|default:'default' ] )
     url     = $user->getUserWebPath()
     classes = 'user-item'
     name    = $user->getDisplayName()
-    params  = $smarty.local.params}
+    params  = $params}

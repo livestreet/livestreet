@@ -4,7 +4,7 @@
  * @param object $user
  *}
 
-{$user = $smarty.local.user}
+{component_define_params params=[ 'user' ]}
 
 {component 'nav'
     hook    = 'user_actions'

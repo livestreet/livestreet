@@ -8,10 +8,10 @@
  *}
 
 {$component = 'ls-topic'}
-{component_define_params params=[ 'topic', 'isPreview', 'isList', 'mods', 'classes', 'attributes' ]}
+{component_define_params params=[ 'type', 'topic', 'isPreview', 'isList', 'mods', 'classes', 'attributes' ]}
 
 {$user = $topic->getUser()}
-{$type = ($topic->getType()) ? $topic->getType() : $smarty.local.type}
+{$type = ($topic->getType()) ? $topic->getType() : $type}
 
 {if ! $isList}
     {$mods = "{$mods} single"}

@@ -5,11 +5,13 @@
 {extends 'Component@user-list-add.user-list-add'}
 
 {block 'user_list_add_list'}
+    {component_define_params params=[ 'users' ]}
+
     {component 'talk' template='participants-list'
         hideableEmptyAlert = true
-        users              = $smarty.local.users
+        users              = $users
         showActions        = true
-        show               = !! $smarty.local.users
+        show               = !! $users
         classes            = "js-$component-users"
         itemClasses        = "js-$component-user"}
 {/block}

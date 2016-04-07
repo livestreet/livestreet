@@ -12,22 +12,18 @@
 
 {* Название компонента *}
 {$component = 'ls-comment-form'}
-
-{* Переменные *}
-{$targetId = $smarty.local.targetId}
-{$targetType = $smarty.local.targetType}
-
+{component_define_params params=[ 'editorSet', 'targetId', 'targetType', 'mods', 'classes', 'attributes' ]}
 
 {* Форма *}
 <form method           = "post"
-      class            = "{$component} {cmods name=$component mods=$smarty.local.mods} {$smarty.local.classes}"
+      class            = "{$component} {cmods name=$component mods=$mods} {$classes}"
       enctype          = "multipart/form-data"
       data-target-id   = "{$targetId}"
       data-target-type = "{$targetType}"
-      {cattr list=$smarty.local.attributes}>
+      {cattr list=$attributes}>
     {block 'comment-form'}
         {* @hook Начало формы комментирования *}
-        {hook run='comment_form_begin' params=$smarty.local.params}
+        {hook run='comment_form_begin' params=$params}
 
         {block 'comment-form-fields'}
             {* Скрытые поля *}
@@ -36,7 +32,7 @@
 
             {* Текст комментария *}
             {component 'editor'
-                set             = $smarty.local.editorSet|default:'light'
+                set             = $editorSet|default:'light'
                 name            = 'comment_text'
                 inputClasses    = 'js-comment-form-text'
                 help            = false
@@ -44,7 +40,7 @@
         {/block}
 
         {* @hook Хук расположенный после полей формы и перед кнопками управления формой *}
-        {hook run='comment_form_fields_after' params=$smarty.local.params}
+        {hook run='comment_form_fields_after' params=$params}
 
         {**
          * Кнопки
@@ -61,6 +57,6 @@
         {component 'button' text=$aLang.common.preview_text type='button' classes='js-comment-form-preview'}
 
         {* @hook Конец формы комментирования *}
-        {hook run='comment_form_end' params=$smarty.local.params}
+        {hook run='comment_form_end' params=$params}
     {/block}
 </form>

@@ -2,7 +2,7 @@
  * Настройки аккаунта (емэйл, пароль)
  *}
 
-{$user = $smarty.local.user}
+{component_define_params params=[ 'user' ]}
 
 {hook run='settings_account_begin'}
 

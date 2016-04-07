@@ -7,12 +7,12 @@
  * @param array  $blogId
  *}
 
-{$topic = $smarty.local.topic}
-{$type = $smarty.local.type}
+{component_define_params params=[ 'topic', 'type', 'skipBlogs', 'blogs' ]}
 
 {block 'add_topic_options'}{/block}
 
 {hook run="add_topic_begin"}
+
 {block 'add_topic_header_after'}{/block}
 
 
@@ -22,12 +22,12 @@
 
 
     {* Выбор блога *}
-    {if ! $smarty.local.skipBlogs}
+    {if ! $skipBlogs}
         {$blogsSelect = []}
         {$blogsSelectId = []}
         {$blogsSelectedId=[]}
 
-        {foreach $smarty.local.blogs as $blogType => $blogs}
+        {foreach $blogs as $blogType => $blogs}
             {$blogsSelectOptions = []}
 
             {foreach $blogs as $blog}

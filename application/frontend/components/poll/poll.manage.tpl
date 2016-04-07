@@ -5,7 +5,9 @@
  * @param string $targetType
  *}
 
-<div class="fieldset ls-poll-manage js-poll-manage" data-type="{$smarty.local.targetType}" data-target-id="{$smarty.local.targetId}">
+{component_define_params params=[ 'targetId', 'targetType' ]}
+
+<div class="fieldset ls-poll-manage js-poll-manage" data-type="{$targetType}" data-target-id="{$targetId}">
     <header class="fieldset-header">
         <h3 class="fieldset-title">{$aLang.poll.polls}</h3>
     </header>
@@ -16,8 +18,8 @@
 
         {* Список добавленных опросов *}
         {insert name="block" block="pollFormItems" params=[
-            'target_type' => $smarty.local.targetType,
-            'target_id'   => $smarty.local.targetId
+            'target_type' => $targetType,
+            'target_id'   => $targetId
         ]}
     </div>
 </div>

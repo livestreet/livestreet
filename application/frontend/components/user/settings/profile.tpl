@@ -2,11 +2,10 @@
  * Настройки профиля
  *}
 
-{$user = $smarty.local.user}
+{component_define_params params=[ 'user' ]}
 
 {* @hook Начало формы с настройками профиля *}
 {hook run='user_settings_profile_begin'}
-
 
 {* Шаблон пользовательского поля (userfield) *}
 {function name=userfield}

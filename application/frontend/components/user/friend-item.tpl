@@ -3,14 +3,10 @@
  *}
 
 {$component = 'user-friend'}
+{component_define_params params=[ 'friendship', 'tag', 'userTarget', 'mods', 'classes', 'attributes' ]}
 
 {block 'user_friend_options'}
-    {$friendship = $smarty.local.friendship}
-    {$tag = $smarty.local.tag|default:'li'}
-    {$mods = $smarty.local.mods}
-    {$attributes = $smarty.local.attributes}
-    {$classes = $smarty.local.classes}
-    {$userTarget = $smarty.local.userTarget}
+    {$tag = $tag|default:'li'}
 
     {if $friendship}
         {$status        = $friendship->getFriendStatus()}
@@ -47,7 +43,7 @@
 {/block}
 
 
-<{$tag} class="{$component} {cmods name=$component mods=$mods} {$smarty.local.classes}" {cattr list=$smarty.local.attributes} data-status="{$status}" data-target="{$userTarget->getId()}">
+<{$tag} class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-status="{$status}" data-target="{$userTarget->getId()}">
     {block 'user_friend'}
         {if in_array( $status, [ 'sent', 'rejected' ] )}
             <span class="{$component}-text js-user-friend-text">{lang name="user.friends.status.{$status}"}</span>

@@ -8,19 +8,17 @@
  * @param boolean $selectable
  * @param array   $exclude
  * @param string  $itemTemplate
- * @param string  $classes
  *}
 
-{$users = $smarty.local.users}
-{$classes = $smarty.local.classes}
+{component_define_params params=[ 'exclude', 'hideableEmptyAlert', 'selectable', 'show', 'title', 'users', 'mods', 'classes', 'attributes' ]}
 
 {* Заголовок *}
-{if $smarty.local.title}
-    <h3 class="user-list-small-title">{$smarty.local.title}</h3>
+{if $title}
+    <h3 class="user-list-small-title">{$title}</h3>
 {/if}
 
 {* Уведомление о пустом списке *}
-{if ! $users || $smarty.local.hideableEmptyAlert}
+{if ! $users || $hideableEmptyAlert}
     {component 'blankslate'
         text    = $aLang.common.empty
         classes = 'js-user-list-small-empty'
@@ -28,8 +26,8 @@
 {/if}
 
 {* Список пользователей *}
-{if $users || ! $smarty.local.show|default:true}
-    <ul class="user-list-small js-user-list-small {$classes}" {if ! $smarty.local.show|default:true}style="display: none"{/if}>
+{if $users || ! $show|default:true}
+    <ul class="user-list-small js-user-list-small {$classes}" {if ! $show|default:true}style="display: none"{/if}>
         {foreach $users as $user}
             {$userContainer = $user}
 
@@ -37,10 +35,10 @@
                 {$user = $user->getUser()}
             {/if}
 
-            {if ! $smarty.local.exclude || ! in_array( $user->getId(), $smarty.local.exclude )}
+            {if ! $exclude || ! in_array( $user->getId(), $exclude )}
                 {block 'user_list_small_item'}
                     {*include $itemTemplate|default:'./user-list-small-item.tpl' showRemove=! $excludeRemove || ! in_array( $user->getId(), $aUserListSmallExcludeRemove )*}
-                    {component 'user' template='list-small-item' user=$user selectable=$smarty.local.selectable}
+                    {component 'user' template='list-small-item' user=$user selectable=$selectable}
                 {/block}
             {/if}
         {/foreach}

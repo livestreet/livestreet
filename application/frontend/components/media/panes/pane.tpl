@@ -1,5 +1,5 @@
 {block 'media_pane_options'}
-    {$id = $smarty.local.id}
+    {component_define_params params=[ 'id' ]}
 {/block}
 
 <div class="ls-media-pane-content js-media-pane-content">

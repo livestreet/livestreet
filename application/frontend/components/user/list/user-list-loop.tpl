@@ -4,6 +4,8 @@
  * @param array $users
  *}
 
-{foreach $smarty.local.users as $user}
+{component_define_params params=[ 'users' ]}
+
+{foreach $users as $user}
     {component 'user' template='list-item' user=$user}
 {/foreach}

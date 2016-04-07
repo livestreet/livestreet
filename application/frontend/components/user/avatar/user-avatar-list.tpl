@@ -6,6 +6,8 @@
  * @param array $emptyText
  *}
 
+{component_define_params params=[ 'size' ]}
+
 {$items = []}
 
 {foreach $users as $user}
@@ -15,6 +17,6 @@
     {$items[] = {component 'user' template='avatar' size=$smarty.local.size|default:'small' user=$user}}
 {/foreach}
 
-{component 'avatar' template='list' items=$items params=$smarty.local.params}
+{component 'avatar' template='list' items=$items params=$params}
 
 {component 'pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/"}
