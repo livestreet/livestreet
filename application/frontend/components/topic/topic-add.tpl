@@ -27,10 +27,10 @@
         {$blogsSelectId = []}
         {$blogsSelectedId=[]}
 
-        {foreach $blogs as $blogType => $blogs}
+        {foreach $blogs as $blogType => $blogItems}
             {$blogsSelectOptions = []}
 
-            {foreach $blogs as $blog}
+            {foreach $blogItems as $blog}
                 {$blogsSelectOptions[] = [
                     'text' => $blog->getTitle()|escape,
                     'value' => $blog->getId()

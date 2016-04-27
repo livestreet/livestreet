@@ -258,6 +258,6 @@
                     $(this).remove();
                 });
             }.bind(this));
-        },
+        }
     });
 })(jQuery);
