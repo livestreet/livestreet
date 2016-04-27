@@ -48,7 +48,7 @@ class BlockPollFormItems extends Block
         } else {
             $sTargetId = null;
             if (!$sTargetTmp or !$this->Poll_IsAllowTargetType($sTargetType)) {
-                return false;
+                return true; // показываем список, но пустой
             }
             $aFilter['target_tmp'] = $sTargetTmp;
         }

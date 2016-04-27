@@ -863,7 +863,7 @@ class ModuleTopic_EntityTopic extends Entity
      */
     public function getPolls()
     {
-        if (!$this->_getDataOne('polls')) {
+        if (is_null($this->_getDataOne('polls'))) {
             $this->_aData['polls'] = $this->Poll_GetPollItemsByTarget('topic', $this->getId());
         }
         return $this->_getDataOne('polls');

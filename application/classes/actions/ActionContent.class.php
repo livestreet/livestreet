@@ -624,6 +624,12 @@ class ActionContent extends Action
             return $this->EventErrorDebug();
         }
         /**
+         * Если права на редактирование
+         */
+        if ($iId and !$this->ACL_IsAllowEditTopic($oTopicOriginal, $this->oUserCurrent)) {
+            return parent::EventNotFound();
+        }
+        /**
          * Создаем объект топика для валидации данных
          */
         $oTopic = Engine::GetEntity('ModuleTopic_EntityTopic');
@@ -652,6 +658,20 @@ class ActionContent extends Action
             return false;
         }
         /**
+         * Аттачим опросы
+         */
+        if (!$oTopic->getId()) {
+            $aPolls = array();
+            if ($sPollTargetTmp = $this->Session_GetCookie('poll_target_tmp_topic')) {
+                $aPolls = $this->Poll_GetPollItemsByFilter(array(
+                    'target_type' => 'topic',
+                    'target_tmp'  => $sPollTargetTmp,
+                    '#order'      => array('id' => 'asc')
+                ));
+            }
+            $oTopic->setPolls($aPolls);
+        }
+        /**
          * Аттачим дополнительные поля к топику
          */
         $this->Property_AttachPropertiesForTarget($oTopic, $oTopic->getPropertiesObject());
@@ -666,8 +686,15 @@ class ActionContent extends Action
          * Рендерим шаблон для предпросмотра топика
          */
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('isPreview', true, true);
-        $oViewer->Assign('topic', $oTopic, true);
+        $aParams = array(
+            'isPreview' => true,
+            'topic'     => $oTopic,
+        );
+        foreach ($aParams as $sName => $mValue) {
+            $oViewer->Assign($sName, $mValue, true);
+        }
+        $oViewer->Assign('params', $aParams); // fix для корректной работы подключения внутренних шаблонов компонента
+
         $sTemplate = 'component@topic.type';
         $sTextResult = $oViewer->Fetch($sTemplate);
         /**
