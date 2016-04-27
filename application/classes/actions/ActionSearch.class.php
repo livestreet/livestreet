@@ -73,7 +73,7 @@ class ActionSearch extends Action
         /**
          * Получаем список слов для поиска
          */
-        $aWords = $this->Search_GetWordsForSearch(getRequestStr('q'));
+        $aWords = $this->Search_GetWordsForSearch(mb_strtolower(getRequestStr('q'),"utf-8"));
         if (!$aWords) {
             $this->Message_AddErrorSingle($this->Lang_Get('search.alerts.query_incorrect'));
             return;
@@ -127,7 +127,7 @@ class ActionSearch extends Action
         /**
          * Получаем список слов для поиска
          */
-        $aWords = $this->Search_GetWordsForSearch(getRequestStr('q'));
+        $aWords = $this->Search_GetWordsForSearch(mb_strtolower(getRequestStr('q'),"utf-8"));
         if (!$aWords) {
             $this->Message_AddErrorSingle($this->Lang_Get('search.alerts.query_incorrect'));
             return;
