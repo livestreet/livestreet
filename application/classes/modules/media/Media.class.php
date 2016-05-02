@@ -892,16 +892,32 @@ class ModuleMedia extends ModuleORM
      * @param string $sTargetType
      * @param string $sTargetId
      * @param null|string $sTargetTmp Если не задан, то берется их куки "media_target_tmp_{$sTargetType}"
+     * @param null|array $aMediaId Необязательный список конкретных media id
      */
-    public function ReplaceTargetTmpById($sTargetType, $sTargetId, $sTargetTmp = null)
+    public function ReplaceTargetTmpById($sTargetType, $sTargetId, $sTargetTmp = null, $aMediaId = null)
     {
         $sCookieKey = 'media_target_tmp_' . $sTargetType;
         if (is_null($sTargetTmp) and $this->Session_GetCookie($sCookieKey)) {
             $sTargetTmp = $this->Session_GetCookie($sCookieKey);
-            $this->Session_DropCookie($sCookieKey);
+            if (is_null($aMediaId)) {
+                $this->Session_DropCookie($sCookieKey);
+            }
         }
         if (is_string($sTargetTmp)) {
-            $aTargetItems = $this->Media_GetTargetItemsByTargetTmpAndTargetType($sTargetTmp, $sTargetType);
+            $aFilter = array(
+                'target_tmp'  => $sTargetTmp,
+                'target_type' => $sTargetType,
+            );
+            if (!is_null($aMediaId)) {
+                $aNeedId = array(-1);
+                foreach ($aMediaId as $sId) {
+                    if (is_numeric($sId)) {
+                        $aNeedId[] = $sId;
+                    }
+                }
+                $aFilter['media_id in'] = $aNeedId;
+            }
+            $aTargetItems = $this->Media_GetTargetItemsByFilter($aFilter);
             foreach ($aTargetItems as $oTarget) {
                 $oTarget->setTargetTmp(null);
                 $oTarget->setTargetId($sTargetId);
