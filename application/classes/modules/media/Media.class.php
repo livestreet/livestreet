@@ -443,6 +443,7 @@ class ModuleMedia extends ModuleORM
         $iHeight = $oImage->getHeight();
 
         $sPath = $this->GetSaveDir($sTargetType, $sTargetId);
+        $iFileSize = $this->Fs_GetFileSize($sFileTmp);
         /**
          * Уникальное имя файла
          */
@@ -471,6 +472,7 @@ class ModuleMedia extends ModuleORM
                 $this->Fs_RemoveFileLocal($sFileTmp);
                 return $this->Image_GetLastError();
             }
+            $iFileSize = $this->Fs_GetFileSize($sFileResult);
         }
 
 
@@ -500,7 +502,7 @@ class ModuleMedia extends ModuleORM
         $oMedia->setTargetType($sTargetType);
         $oMedia->setFilePath($sFileResult);
         $oMedia->setFileName($aPathInfo['filename']);
-        $oMedia->setFileSize(filesize($sFileTmp));
+        $oMedia->setFileSize($iFileSize);
         $oMedia->setWidth($iWidth);
         $oMedia->setHeight($iHeight);
         $oMedia->setDataOne('image_sizes', $aSizes);
