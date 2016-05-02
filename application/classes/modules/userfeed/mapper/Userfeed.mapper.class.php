@@ -139,7 +139,7 @@ class ModuleUserfeed_MapperUserfeed extends Mapper
 
 								        { OR t.user_id IN (?a) }
 								    )
-                            ORDER BY t.topic_id DESC	
+                            ORDER BY t.topic_date_publish DESC
                             LIMIT ?d, ?d ";
 
         $aTopics = array();
