@@ -782,12 +782,17 @@ class ActionAjax extends Action
             }
         } else {
             /**
-             * Получаем все медиа, созданные пользователем
+             * Получаем все медиа, созданные пользователем без учета временных
              */
             $aResult = $this->Media_GetMediaItemsByFilter(array(
-                'user_id' => $this->oUserCurrent->getId(),
-                '#page'   => array($iPage, 20),
-                '#order'  => array('id' => 'desc')
+                'user_id'       => $this->oUserCurrent->getId(),
+                'mt.target_tmp' => null,
+                '#page'         => array($iPage, 20),
+                '#join'         => array(
+                    'LEFT JOIN ' . Config::Get('db.table.media_target') . ' mt ON ( t.id = mt.media_id and mt.target_tmp IS NOT NULL ) ' => array(),
+                ),
+                '#group'        => 'id',
+                '#order'        => array('id' => 'desc')
             ));
             $aPaging = $this->Viewer_MakePaging($aResult['count'], $iPage, 20, Config::Get('pagination.pages.count'), null);
             $aMediaItems = $aResult['collection'];
