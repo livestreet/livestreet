@@ -122,6 +122,16 @@ class ModuleWall_EntityWall extends Entity
     }
 
     /**
+     * Проверка на разрешение редактировать
+     *
+     * @return mixed
+     */
+    public function isAllowEdit()
+    {
+        return false;
+    }
+
+    /**
      * Возвращает пользователя, которому принадлежит стена
      *
      * @return ModuleUser_EntityUser|null
