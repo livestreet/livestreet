@@ -28,14 +28,9 @@
             },
             use_avatar: true,
             crop_photo: {
-                minSize: [ 370, 370 ],
-                aspectRatio: 0,
-                usePreview: false
             },
             crop_avatar: {
-                minSize: [ 100, 100 ],
-                aspectRatio: 1,
-                usePreview: true
+                aspectRatio: 1
             },
             // Селекторы
             selectors: {
@@ -119,27 +114,43 @@
          * Показывает модальное кропа фото
          */
         cropPhoto: function( image ) {
-            ls.cropModal.show({
-                urls: {
-                    modal: this.option( 'urls.crop_photo' ),
-                    save: this.option( 'urls.save_photo' )
-                },
-                params: $.extend( {}, this.option( 'params' ), image, { usePreview: this.option( 'crop_photo.usePreview' ) } ),
-                crop_options: this.option( 'crop_photo' ),
-                aftersave: function( response, modal, image ) {
-                    this._removeClass( 'nophoto' );
-                    this.elements.image.attr( 'src', response.photo + '?' + Math.random() );
-                    this.elements.action_upload_label.text( response.upload_text );
+            ls.modal.load(
+                this.option('urls.crop_photo'),
+                $.extend({}, this.option('params'), image),
+                {
+                    aftershow: function (event, data) {
+                        this._initPhotoModal(data.element, image);
+                    }.bind(this),
+                    afterhide: function () {
+                        this._load('cancel_photo');
+                    }.bind(this)
+                }
+            );
+        },
 
-                    if ( this.option( 'use_avatar' ) ) {
-                        // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
-                        setTimeout( this.cropAvatar.bind( this ), 300 );
-                    }
-                }.bind( this ),
-                afterhide: function( event, modal ) {
-                    this._load( 'cancel_photo' );
-                }.bind( this )
-            });
+        /**
+         * Иниц-ия модального окна с кропом фото
+         */
+        _initPhotoModal: function (modal, image) {
+            modal.lsCropModal($.extend({
+                urls: {
+                    submit: this.option('urls.save_photo')
+                },
+                params: $.extend({}, this.option('params'), image),
+                cropOptions: this.option('crop_photo')
+            }));
+
+            // Сохранение
+            modal.on('lscropmodalsubmitted' + this.eventNamespace, function (event, data) {
+                this._removeClass( 'nophoto' );
+                this.elements.image.attr( 'src', data.response.photo + '?' + Math.random() );
+                this.elements.action_upload_label.text( data.response.upload_text );
+
+                if ( this.option( 'use_avatar' ) ) {
+                    // TODO: Временный хак (модальное не показывается сразу после закрытия предыдущего окна)
+                    setTimeout( this.cropAvatar.bind( this ), 300 );
+                }
+            }.bind(this));
         },
 
         /**
@@ -148,24 +159,39 @@
         cropAvatar: function() {
             var image = {
                 path: this.elements.image.attr( 'src' ),
-                // TODO: IE8 naturalWidth naturalHeight
                 original_width: this.elements.image[0].naturalWidth,
                 original_height: this.elements.image[0].naturalHeight,
                 width: this.elements.image[0].naturalWidth,
                 height: this.elements.image[0].naturalHeight
             };
 
-            ls.cropModal.show({
+            ls.modal.load(
+                this.option('urls.crop_avatar'),
+                $.extend({}, this.option('params'), image),
+                {
+                    aftershow: function (event, data) {
+                        this._initAvatarModal(data.element, image);
+                    }.bind(this)
+                }
+            );
+        },
+
+        /**
+         * Иниц-ия модального окна с кропом аватары
+         */
+        _initAvatarModal: function (modal, image) {
+            modal.lsCropModal($.extend({
                 urls: {
-                    modal: this.option( 'urls.crop_avatar' ),
-                    save: this.option( 'urls.save_avatar' )
+                    submit: this.option('urls.save_avatar')
                 },
-                params: $.extend( {}, this.option( 'params' ), image, { usePreview: this.option( 'crop_avatar.usePreview' ) } ),
-                crop_options: this.option( 'crop_avatar' ),
-                aftersave: function( response, modal, image ) {
-                    this._trigger( 'changeavatar', null, [ this, response.avatars ] );
-                }.bind( this )
-            });
-        }
+                params: $.extend({}, this.option('params'), image),
+                cropOptions: this.option('crop_avatar')
+            }));
+
+            // Сохранение
+            modal.on('lscropmodalsubmitted' + this.eventNamespace, function (event, data) {
+                this._trigger( 'changeavatar', null, [ this, data.response.avatars ] );
+            }.bind(this));
+        },
     });
 })(jQuery);
