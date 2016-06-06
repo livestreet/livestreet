@@ -83,7 +83,7 @@
      *}
     {block 'topic_body'}
         {* Превью *}
-        {$previewImage = $topic->getPreviewImageWebPath('900x300crop')}
+        {$previewImage = $topic->getPreviewImageWebPath(Config::Get('module.topic.default_preview_size'))}
 
         {if $previewImage}
             <div class="ls-topic-preview-image">
