@@ -204,7 +204,7 @@
         </footer>
 
         {* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
-        {if ! $isPreview}
+        {if ! $isList && ! $isPreview}
             <div class="ls-tooltip" id="topic_share_{$topic->getId()}">
                 <div class="ls-tooltip-content js-ls-tooltip-content">
                     {hookb run="topic_share" topic=$topic isList=$isList}
