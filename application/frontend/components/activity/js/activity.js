@@ -59,7 +59,7 @@
          * Получает дату последнего подгруженного события
          */
         getDateLast: function() {
-            return this.elements.list.find( this.option( 'selectors.event' ) ).last().find( 'time' ).attr( 'datetime' );
+            return this.elements.list.find( this.option( 'selectors.event' ) ).last().find( 'time' ).data( 'date' );
         }
     });
 })(jQuery);

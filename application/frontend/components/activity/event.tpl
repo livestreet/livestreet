@@ -28,6 +28,7 @@
 {capture 'event_content'}
     {* Дата *}
     <time datetime="{date_format date=$event->getDateAdded() format='c' notz=1}"
+          data-date="{date_format date=$event->getDateAdded() format='Y-m-d' notz=1}"
           class="{$component}-date"
           title="{date_format date=$event->getDateAdded()}">
         {date_format date=$event->getDateAdded() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"}
@@ -82,7 +83,7 @@
 
 {component 'item'
     element='li'
-    classes="{$component} {cmods name=$component mods=$type}"
+    classes="{$component} {cmods name=$component mods=$type} js-activity-event"
     mods='image-rounded'
     desc=$smarty.capture.event_content
     image=[
