@@ -37,9 +37,9 @@
  */
 .ls-block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
 .ls-block--user-actions ul li            { margin-bottom: 0; }
-.ls-block--user-actions ul li span,
+.ls-block--user-actions ul li > span,
 .ls-block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
-.ls-block--user-actions ul li span:hover,
+.ls-block--user-actions ul li > span:hover,
 .ls-block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
 .ls-block--user-actions ul li a.followed { color: #f00; }
 

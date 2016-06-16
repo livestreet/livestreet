@@ -12,6 +12,16 @@
 
         <nav class="ls-userbar-nav">
             {if $oUserCurrent}
+                {$createMenu = []}
+
+                {foreach $LS->Topic_GetTopicTypes() as $type}
+                    {$createMenu[] = [ 'name' => $type->getCode(), 'text' => $type->getName(), 'url' => $type->getUrlForAdd() ]}
+                {/foreach}
+
+                {$createMenu[] = [ 'name' => 'blog', 'text' => {lang 'modal_create.items.blog'}, 'url' => {router page='blog'} ]}
+                {$createMenu[] = [ 'name' => 'talk', 'text' => {lang 'modal_create.items.talk'}, 'url' => {router page='talk'} ]}
+                {$createMenu[] = [ 'name' => 'drafts', 'text' => {lang 'topic.drafts'}, 'url' => "{router page='content'}drafts/", count => $iUserCurrentCountTopicDraft ]}
+
                 {$items = [
                     [
                         'text'       => "<img src=\"{$oUserCurrent->getProfileAvatarPath(24)}\" alt=\"{$oUserCurrent->getDisplayName()}\" class=\"avatar\" /> {$oUserCurrent->getDisplayName()}",
@@ -29,7 +39,7 @@
                             [ 'name' => 'admin',      'text' => {lang name='admin.title'},                   'url' => "{router page='admin'}", 'is_enabled' => $oUserCurrent && $oUserCurrent->isAdministrator() ]
                         ]
                     ],
-                    [ 'text' => $aLang.common.create, 'url' => "{router page='content'}add/topic", 'classes' => 'js-modal-toggle-default', 'attributes' => [ 'data-lsmodaltoggle-modal' => 'modal-write' ] ],
+                    [ 'text' => $aLang.common.create, menu => [ items => $createMenu ] ],
                     [ 'text' => $aLang.talk.title,   'url' => "{router page='talk'}", 'title' => $aLang.talk.new_messages, 'is_enabled' => $iUserCurrentCountTalkNew, 'count' => $iUserCurrentCountTalkNew ],
                     [ 'text' => $aLang.auth.logout,  'url' => "{router page='auth'}logout/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
                 ]}
@@ -46,7 +56,3 @@
         {component 'search' template='main' mods='light'}
     </div>
 </div>
-
-{if $oUserCurrent}
-    {component 'modal-create'}
-{/if}

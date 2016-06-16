@@ -38,6 +38,18 @@ jQuery(document).ready(function($){
 
 
     /**
+     * Userbar
+     */
+    $('.ls-userbar .ls-nav--root > .ls-nav-item--has-children').lsDropdown({
+        selectors: {
+            toggle: '> .ls-nav-item-link',
+            text: '> .ls-nav-item-link > .ls-nav-item-text',
+            menu: '> .ls-nav--sub'
+        }
+    });
+
+
+    /**
      * Подтверждение удаления
      */
     $('.js-confirm-remove-default').livequery(function () {
