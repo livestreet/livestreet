@@ -6,11 +6,7 @@
  * @param array  $blogUsersInvited Список приглашенных пользователей, передается в случае если блог закрытый
  *}
 
-{extends 'layouts/layout.base.tpl'}
-
-{block 'layout_options' append}
-    {$sNav = 'blog.edit'}
-{/block}
+{extends 'layouts/layout.blog.edit.tpl'}
 
 {block 'layout_page_title'}
     {$aLang.blog.admin.title}: <a href="{$blogEdit->getUrlFull()}">{$blogEdit->getTitle()|escape}</a>

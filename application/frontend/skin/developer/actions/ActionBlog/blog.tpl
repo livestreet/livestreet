@@ -15,11 +15,7 @@
  * @param integer $countBlogAdministrators Кол-во администраторов
  *}
 
-{extends 'layouts/layout.base.tpl'}
-
-{block 'layout_options' append}
-    {$sNav = 'topics.sub'}
-{/block}
+{extends 'layouts/layout.topics.tpl'}
 
 {block 'layout_content_header'}
     {component 'blog' blog=$blog blogs=$blogs}
@@ -34,7 +30,5 @@
     {* Список топиков *}
     {if $isPrivateBlog}
         {component 'alert' text=$aLang.blog.alerts.private mods='error'}
-    {else}
-        {component 'topic' template='list' topics=$topics paging=$paging}
     {/if}
 {/block}

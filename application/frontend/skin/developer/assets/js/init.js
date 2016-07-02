@@ -50,6 +50,19 @@ jQuery(document).ready(function($){
 
 
     /**
+     * Навигация по контенту
+     */
+    $('.ls-nav--root.ls-nav--pills > .ls-nav-item--has-children').lsDropdown({
+        selectors: {
+            toggle: '> .ls-nav-item-link',
+            text: '> .ls-nav-item-link > .ls-nav-item-text',
+            menu: '> .ls-nav--sub'
+        },
+        selectable: true
+    });
+
+
+    /**
      * Подтверждение удаления
      */
     $('.js-confirm-remove-default').livequery(function () {

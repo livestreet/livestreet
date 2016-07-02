@@ -3,17 +3,9 @@
  *
  * @param array  $blogCategories Список категорий блогов
  * @param object $blogEdit       Блог, передается в случае если блог редактируется
- *
- * TODO: Вынести 'rangelength' в конфиг
  *}
 
-{extends 'layouts/layout.base.tpl'}
-
-{block 'layout_options' append}
-    {if $sEvent == 'edit'}
-        {$sNav = 'blog.edit'}
-    {/if}
-{/block}
+{extends 'layouts/layout.blog.edit.tpl'}
 
 {block 'layout_page_title'}
     {if $sEvent == 'add'}

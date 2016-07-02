@@ -14,10 +14,22 @@
     {$aLang.search.search}
 {/block}
 
-{block 'layout_content'}
-    {component 'search' template='main' searchType=$searchType}
-    {include 'navs/nav.search.tpl'}
+{block 'layout_content_header' prepend}
+    {component 'search.main' searchType=$searchType}
+{/block}
 
+{block 'layout_options' append}
+    {$layoutNav = [
+        name       => 'search',
+        activeItem => $searchType,
+        items => [
+            [ 'name' => 'topics', 'url' => "{router page='search/topics'}?q={$_aRequest.q}", 'text' => $aLang.search.result.topics, 'count' => $typeCounts.topics ],
+            [ 'name' => 'comments', 'url' => "{router page='search/comments'}?q={$_aRequest.q}", 'text' => $aLang.search.result.comments, 'count' => $typeCounts.comments ]
+        ]
+    ]}
+{/block}
+
+{block 'layout_content'}
     {if $resultItems}
         {if $searchType == 'topics'}
             {component 'topic' template='list' topics=$resultItems paging=$paging}

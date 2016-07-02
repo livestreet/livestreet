@@ -6,7 +6,6 @@
     },
     "templates": {
         "ajax": "sort.ajax.tpl",
-        "timespan": "sort.timespan.tpl",
         "sort": "sort.ajax.tpl"
     },
     "styles": {

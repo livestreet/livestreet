@@ -5,15 +5,7 @@
  * @param integer $activityEventsAllCount
  *}
 
-{extends 'layouts/layout.base.tpl'}
-
-{block 'layout_options' append}
-    {$sNav = 'activity'}
-{/block}
-
-{block 'layout_page_title'}
-    {$aLang.activity.title}
-{/block}
+{extends 'layouts/layout.activity.tpl'}
 
 {block 'layout_content'}
     {component 'activity' events=$activityEvents count=$activityEventsAllCount classes='js-activity--all'}

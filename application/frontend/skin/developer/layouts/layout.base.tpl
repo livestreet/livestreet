@@ -1,5 +1,5 @@
 {**
- * Основной лэйаут
+ * Основной лэйаут, который наследуют все остальные лэйауты
  *
  * @param boolean $layoutShowSidebar        Показывать сайдбар или нет, сайдбар не будет выводится если он не содержит блоков
  * @param string  $layoutNavContent         Название навигации
@@ -7,7 +7,7 @@
  * @param string  $layoutShowSystemMessages Показывать системные уведомления или нет
  *}
 
-{extends 'Component@layout.layout'}
+{extends 'component@layout.layout'}
 
 {block 'layout_options' append}
     {$layoutShowSidebar = $layoutShowSidebar|default:true}
@@ -78,7 +78,12 @@
      * Основная навигация
      *}
     <nav class="ls-grid-row layout-nav">
-        {include 'navs/nav.main.tpl'}
+        {component 'nav' hook='main' activeItem=$sMenuHeadItemSelect mods='main' items=[
+            [ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
+            [ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
+            [ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],
+            [ 'text' => $aLang.activity.title, 'url' => {router page='stream'}, 'name' => 'stream' ]
+        ]}
     </nav>
 
 
@@ -106,17 +111,26 @@
 
                 {block 'layout_content_header'}
                     {* Навигация *}
-                    {if $sNav}
-                        {if in_array($sNav, $aMenuContainers)}
-                            {$_navContent = $aMenuFetch.$sNav}
+                    {if $layoutNav}
+                        {$_layoutNavContent = ""}
+
+                        {if is_array($layoutNav)}
+                            {foreach $layoutNav as $layoutNavItem}
+                                {if is_array($layoutNavItem)}
+                                    {component 'nav' mods='pills' params=$layoutNavItem assign=_layoutNavItemContent}
+                                    {$_layoutNavContent = "$_layoutNavContent $_layoutNavItemContent"}
+                                {else}
+                                    {$_layoutNavContent = "$_layoutNavContent $layoutNavItem"}
+                                {/if}
+                            {/foreach}
                         {else}
-                            {include "{$sNavPath}navs/nav.$sNav.tpl" assign=_navContent}
+                            {$_layoutNavContent = $layoutNav}
                         {/if}
 
                         {* Проверяем наличие вывода на случай если меню с одним пунктом автоматом скрывается *}
-                        {if $_navContent|strip:''}
+                        {if $_layoutNavContent|strip:''}
                             <div class="ls-nav-group">
-                                {$_navContent}
+                                {$_layoutNavContent}
                             </div>
                         {/if}
                     {/if}
