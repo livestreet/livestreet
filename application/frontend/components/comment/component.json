@@ -14,6 +14,8 @@
         "tree": "comment-tree.tpl",
         "comments": "comments.tpl",
         "comment": "comment.tpl",
+        "actions-item": "comment-actions-item.tpl",
+        "info-item": "comment-info-item.tpl",
         "toolbar": "toolbar.comment.tpl"
     },
     "scripts": {

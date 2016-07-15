@@ -99,11 +99,10 @@
             {hook run='comment_info_begin' params=$params}
 
             {* Автор комментария *}
-            <li class="{$component}-username">
-                <a href="{$user->getUserWebPath()}">
-                    {$user->getDisplayName()}
-                </a>
-            </li>
+            {component 'comment.info-item'
+                classes="{$component}-username"
+                link=[ url => $user->getUserWebPath() ]
+                text=$user->getDisplayName()}
 
             {* Дата добавления комментария *}
             {* Так же является ссылкой на комментарий *}
@@ -118,13 +117,13 @@
             {* Прокрутка к родительскому комментарию *}
             {if $useScroll|default:true}
                 {if $comment->getPid()}
-                    <li class          = "{$component}-scroll-to {$component}-scroll-to-parent js-comment-scroll-to-parent"
-                        title          = "{$aLang.comments.comment.scroll_to_parent}">↑</li>
+                    <li class="{$component}-scroll-to {$component}-scroll-to-parent js-comment-scroll-to-parent"
+                        title="{$aLang.comments.comment.scroll_to_parent}">↑</li>
                 {/if}
 
                 {* Прокрутка к дочернему комментарию *}
-                <li class = "{$component}-scroll-to {$component}-scroll-to-child js-comment-scroll-to-child"
-                    title = "{$aLang.comments.comment.scroll_to_child}">↓</li>
+                <li class="{$component}-scroll-to {$component}-scroll-to-child js-comment-scroll-to-child"
+                    title="{$aLang.comments.comment.scroll_to_child}">↓</li>
             {/if}
 
             {* Голосование *}
@@ -204,11 +203,9 @@
 
             {* Удалить *}
             {if $oUserCurrent && $comment->IsAllowDelete()}
-                <li>
-                    <a href="#" class="ls-link-dotted js-comment-remove" data-id="{$commentId}">
-                        {( $isDeleted ) ? $aLang.comments.comment.restore : $aLang.common.remove}
-                    </a>
-                </li>
+                {component 'comment.actions-item'
+                    link=[ classes => 'js-comment-remove', attributes => [ 'data-id' => $commentId ] ]
+                    text=(( $isDeleted ) ? $aLang.comments.comment.restore : $aLang.common.remove)}
             {/if}
 
             {* @hook Конец списка экшенов комментария *}
