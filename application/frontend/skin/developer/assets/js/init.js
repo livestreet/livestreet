@@ -122,13 +122,13 @@ jQuery(document).ready(function($){
     });
 
     $('.js-field-date-default').livequery(function () {
-        $(this).lsFieldDate({
+        $(this).lsDate({
             language: LANGUAGE
         });
     });
 
     $('.js-field-time-default').livequery(function () {
-        $(this).lsFieldTime();
+        $(this).lsTime();
     });
 
     $('[data-type=captcha]').livequery(function () {
