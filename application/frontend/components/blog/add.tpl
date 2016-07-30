@@ -45,8 +45,8 @@
 
     {* Описание блога *}
     {component 'editor'
-        set             = 'light'
         mediaTargetType = 'blog'
+        mediaTargetId   = $_aRequest.blog_id
         name            = 'blog_description'
         rules           = [ 'required' => true, 'length' => '[10,3000]' ]
         inputClasses    = 'js-editor-default'
