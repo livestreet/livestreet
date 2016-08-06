@@ -544,7 +544,7 @@ $config['components'] = array(
     // Компоненты LS CMS
     'favourite', 'vote', 'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
     'toolbar-scrollup', 'toolbar-scrollnav', 'tags-personal', 'search-ajax', 'search', 'sort', 'search-form', 'info-list',
-    'tags', 'userbar', 'modal-create', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk'
+    'tags', 'userbar', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk'
 );
 
 $config['head']['default']['js'] = array(
