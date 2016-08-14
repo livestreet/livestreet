@@ -10,7 +10,7 @@ class InstallStepCheckRequirements extends InstallStep
          */
         $sAdditionalSolution = '';
         $aRequirements = array();
-        if (!version_compare(PHP_VERSION, '5.3.2', '>=')) {
+        if (!version_compare(PHP_VERSION, '5.4', '>=')) {
             $aRequirements[] = array(
                 'name'    => 'php_version',
                 'current' => PHP_VERSION
