@@ -12,7 +12,7 @@
         {/if}
 
         {$layoutNav[] = [
-            name       => 'topics_sub',
+            hook       => 'topics_sub',
             activeItem => $sMenuSubItemSelect,
             items => [
                 [ 'name' => 'good',      'url' => $sNavTopicsSubUrl,               'text' => {lang name='blog.menu.all_good'} ],
@@ -25,7 +25,7 @@
         {if $periodSelectCurrent}
             {* Фильтр по времени *}
             {$layoutNav[] = [
-                name       => 'topics_sub_timespan',
+                hook       => 'topics_sub_timespan',
                 activeItem => $periodSelectCurrent,
                 items => [
                     [

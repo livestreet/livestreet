@@ -7,7 +7,7 @@
 {block 'layout_options' prepend}
     {* Все / Лента *}
     {$layoutNav = [[
-        name       => 'topics',
+        hook       => 'topics',
         activeItem => $sMenuItemSelect,
         showSingle => false,
         items => [
