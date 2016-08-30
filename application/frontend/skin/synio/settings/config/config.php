@@ -51,7 +51,18 @@ $config['block']['rule_index_blog'] = array(
             'blogs'  => array('params' => array(), 'priority' => 1)
         )
     ),
-    'clear'  => false,
+    'clear'  => false
+);
+$config['block']['rule_profile'] = array(
+    'action' => array('profile', 'talk', 'settings'),
+    'blocks' => array(
+        'right' => array(
+            'component@user.block.photo'   => array('priority' => 100),
+            'component@user.block.nav'     => array('priority' => 50),
+            'component@user.block.note'    => array('priority' => 25),
+            'component@user.block.actions' => array('priority' => 1),
+        )
+    )
 );
 
 // Подключение скриптов шаблона

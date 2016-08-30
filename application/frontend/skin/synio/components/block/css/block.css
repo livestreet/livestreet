@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 .ls-block + .ls-block {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 .ls-block:last-child {
     margin-bottom: 0;

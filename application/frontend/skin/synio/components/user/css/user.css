@@ -27,6 +27,23 @@
     font-size: 18px;
 }
 
+/* О себе */
+.user-info-group.user-info-about {
+    padding: 17px 20px 20px 20px;
+    background: #fcfce9;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    color: #000;
+    position: relative;
+}
+.user-info-about .user-info-group-title {
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+.user-info-about-empty-text {
+    opacity: .3;
+}
+
 /* Список */
 .user-info-group-items .info-list-item-label   { width: 150px; }
 .user-info-group-items .info-list-item         { margin-bottom: 10px; }

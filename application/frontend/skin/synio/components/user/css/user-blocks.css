@@ -1,8 +1,5 @@
 /**
  * Фото пользователя
- *
- * @modifier user
- * @template blocks/block.userPhoto.tpl
  */
 .ls-block--user-photo .ls-block-content {
     padding: 0;
@@ -12,71 +9,99 @@
 /* Статус (онлайн/оффлайн) */
 .user-status {
     position: absolute;
-    top: 20px;
+    top: 10px;
     left: 0;
+    padding: 0 0 0 10px;
+    font-size: 11px;
+    line-height: 21px;
+    height: 22px;
     z-index: 1;
-    padding: 12px 15px;
-    font: 300 13px/1em 'Open Sans';
+}
+.user-status:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -22px;
+    width: 0;
+    height: 0;
+    border-width: 11px;
+    border-style: solid;
+    border-color: #333;
+    border-color: #333 transparent #333 #333;
 }
 .user-status--online {
-    background: #b7bc1c;
-    background: rgba(183, 188, 28, .8);
+    background: #8961e4;
     color: #fff;
 }
+.user-status--online:before {
+    border-color: #8961e4 transparent #8961e4 #8961e4;
+}
 .user-status--offline {
-    background: #333;
-    background: rgba(0, 0, 0, .6);
-    color: #fff;
+    background: #fff;
+    color: #333;
+    opacity: .5;
+}
+.user-status--offline:before {
+    border-color: #fff transparent #fff #fff;
 }
 
 /**
  * Блок управления на странице пользователя
- *
- * @modifier user-actions
- * @template blocks/block.userActions.tpl
  */
-.ls-block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
-.ls-block--user-actions ul li            { margin-bottom: 0; }
+.ls-block--user-actions ul {
+    overflow: hidden;
+    background: #fff;
+    font-size: 11px;
+}
+.ls-block--user-actions .ls-nav--stacked > .ls-nav-item,
+.ls-block--user-actions ul li {
+    margin-bottom: 5px;
+    padding: 0 0 0 15px;
+}
 .ls-block--user-actions ul li > span,
-.ls-block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
+.ls-block--user-actions ul li a {
+    display: block;
+    color: #727a90;
+    cursor: pointer;
+    text-decoration: underline;
+}
 .ls-block--user-actions ul li > span:hover,
-.ls-block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
-.ls-block--user-actions ul li a.followed { color: #f00; }
+.ls-block--user-actions ul li a:hover {
+    color: #f00;
+}
+.ls-block--user-actions ul li a.followed {
+    color: #f00;
+}
 
 /**
  * Навигация по профилю пользователя
- *
- * @modifier user-nav
- * @template blocks/block.userNav.tpl
  */
 .ls-nav.ls-nav--stacked.user-nav {
     overflow: hidden;
-    border: 1px solid #eee;
-    border-radius: 5px;
 }
-.ls-nav.ls-nav--stacked.user-nav > li {
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item {
     margin-bottom: 0;
-    background-color: transparent;
-    border-bottom: 1px solid #f4f4f4;
+    padding: 8px 10px 9px 15px;
+    font-size: 15px;
+    border-bottom: 1px dotted #dce1e6;
 }
-.ls-nav.ls-nav--stacked.user-nav > li .ls-badge {
-    background: #aaa;
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item:last-child {
+    border-bottom: none;
 }
-.ls-nav.ls-nav--stacked.user-nav > li a {
-    padding: 11px 13px;
-    display: block;
-    background: #fff;
-    color: #555;
-    cursor: pointer;
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item a {
+    color: #275ec2;
+    text-decoration: underline;
 }
-.ls-nav.ls-nav--stacked.user-nav > li a:hover {
-    background: #fafafa;
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item a:hover {
+    color: #f00;
+}
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item.active a {
     color: #333;
+    text-decoration: none;
 }
-.ls-nav.ls-nav--stacked.user-nav > li.active a {
-    background: #2891D3;
-    color: #fff;
-}
-.ls-nav.ls-nav--stacked.user-nav > li.active .ls-badge {
-    background: #2379B0;
+.ls-nav.ls-nav--stacked.user-nav > .ls-nav-item .ls-badge {
+    background: transparent;
+    color: #333;
+    font-weight: normal;
+    font-size: 13px;
 }
