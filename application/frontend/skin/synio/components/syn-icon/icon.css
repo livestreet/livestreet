@@ -1,0 +1,36 @@
+.syn-icon {
+    display: inline-block;
+}
+.syn-icon-close {
+    width: 15px;
+    height: 15px;
+    background-image: url(icons/close.png);
+}
+.syn-icon-close:hover {
+    background-image: url(icons/close-hover.png);
+}
+.syn-icon-submit {
+    width: 11px;
+    height: 11px;
+    background-image: url(icons/submit.png);
+}
+.syn-icon-fold {
+    width: 13px;
+    height: 13px;
+    background-image: url(icons/fold.png);
+}
+.syn-icon-unfold {
+    width: 13px;
+    height: 13px;
+    background-image: url(icons/unfold.png);
+}
+.syn-icon-rating {
+    width: 10px;
+    height: 11px;
+    background-image: url(icons/rating.png);
+}
+.syn-icon-message-new {
+    width: 11px;
+    height: 11px;
+    background-image: url(icons/message-new.png);
+}

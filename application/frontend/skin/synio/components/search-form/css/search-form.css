@@ -1,0 +1,47 @@
+/**
+ * Форма поиска
+ */
+.ls-search-form {
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #f8fbfe;
+    border-radius: 5px;
+    position: relative;
+}
+.ls-search-form .ls-field {
+    margin-bottom: 0;
+}
+.ls-search-form-input[type="text"] {
+    padding-right: 30px;
+}
+
+.ls-search-form-input-wrapper {
+    position: relative;
+}
+.ls-search-form-submit {
+    border: none;
+    background: none;
+    position: absolute;
+    padding: 0;
+    height: auto;
+    top: 7px;
+    right: 9px;
+    cursor: pointer;
+}
+.ls-search-form-submit:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    background-color: transparent;
+}
+
+/**
+ * Light
+ */
+.ls-search-form--light {
+    background: none;
+    padding: 0;
+}
+.ls-search-form--light .ls-search-form-submit {
+    top: 7px;
+    right: 9px;
+}

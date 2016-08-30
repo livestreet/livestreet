@@ -1,0 +1,82 @@
+/**
+ * Фото пользователя
+ *
+ * @modifier user
+ * @template blocks/block.userPhoto.tpl
+ */
+.ls-block--user-photo .ls-block-content {
+    padding: 0;
+    position: relative;
+}
+
+/* Статус (онлайн/оффлайн) */
+.user-status {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    z-index: 1;
+    padding: 12px 15px;
+    font: 300 13px/1em 'Open Sans';
+}
+.user-status--online {
+    background: #b7bc1c;
+    background: rgba(183, 188, 28, .8);
+    color: #fff;
+}
+.user-status--offline {
+    background: #333;
+    background: rgba(0, 0, 0, .6);
+    color: #fff;
+}
+
+/**
+ * Блок управления на странице пользователя
+ *
+ * @modifier user-actions
+ * @template blocks/block.userActions.tpl
+ */
+.ls-block--user-actions ul               { overflow: hidden; background: #fff; border: 1px solid #eee; border-radius: 5px; }
+.ls-block--user-actions ul li            { margin-bottom: 0; }
+.ls-block--user-actions ul li > span,
+.ls-block--user-actions ul li a          { display: block; padding: 10px 15px; color: #777; cursor: pointer; }
+.ls-block--user-actions ul li > span:hover,
+.ls-block--user-actions ul li a:hover    { background: #fafafa; color: #333; }
+.ls-block--user-actions ul li a.followed { color: #f00; }
+
+/**
+ * Навигация по профилю пользователя
+ *
+ * @modifier user-nav
+ * @template blocks/block.userNav.tpl
+ */
+.ls-nav.ls-nav--stacked.user-nav {
+    overflow: hidden;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.ls-nav.ls-nav--stacked.user-nav > li {
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #f4f4f4;
+}
+.ls-nav.ls-nav--stacked.user-nav > li .ls-badge {
+    background: #aaa;
+}
+.ls-nav.ls-nav--stacked.user-nav > li a {
+    padding: 11px 13px;
+    display: block;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+}
+.ls-nav.ls-nav--stacked.user-nav > li a:hover {
+    background: #fafafa;
+    color: #333;
+}
+.ls-nav.ls-nav--stacked.user-nav > li.active a {
+    background: #2891D3;
+    color: #fff;
+}
+.ls-nav.ls-nav--stacked.user-nav > li.active .ls-badge {
+    background: #2379B0;
+}

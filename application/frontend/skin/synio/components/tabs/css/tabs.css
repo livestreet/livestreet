@@ -1,0 +1,68 @@
+/**
+ * Tabs
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+.ls-tab-list {
+    padding: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ebf0f4;
+}
+
+/* Tab */
+.ls-tab {
+    list-style: none;
+    float: left;
+    margin-right: 2px;
+    cursor: pointer;
+    position: relative;
+    bottom: -1px;
+    font-size: 11px;
+}
+.ls-tab-inner {
+    display: block;
+    padding: 6px 12px 7px;
+    border: 1px solid transparent;
+    border-radius: 3px 3px 0 0;
+    border-bottom: none;
+    color: #628fa5;
+}
+.ls-tab.active .ls-tab-inner {
+    background: #fff;
+    border-color: #ebf0f4;
+    color: #727a90;
+}
+
+/* Content */
+.ls-tab-pane {
+    display: none;
+}
+.ls-tab-pane.ls-loading {
+    min-height: 150px;
+    background-position: 50% 45px;
+}
+.ls-tab-pane-content {
+    padding: 20px;
+}
+
+/**
+ * Align left
+ *
+ * @modifier align-left
+ */
+.ls-tabs--align-left .ls-tab-list {
+    float: left;
+    width: 150px;
+    padding-top: 15px;
+}
+.ls-tabs--align-left .ls-tab {
+    float: none;
+}
+.ls-tabs--align-left .ls-tabs-panes {
+    overflow: hidden;
+    margin-left: 160px;
+}

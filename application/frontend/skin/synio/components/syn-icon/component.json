@@ -1,0 +1,10 @@
+{
+    "name": "syn-icon",
+    "version": "1.0",
+    "styles": {
+        "icon": "icon.css"
+    },
+    "templates": {
+        "syn-icon": "icon.tpl"
+    }
+}

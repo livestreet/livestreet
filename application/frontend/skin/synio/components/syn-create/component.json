@@ -1,0 +1,10 @@
+{
+    "name": "syn-create",
+    "version": "1.0",
+    "styles": {
+        "create": "create.css"
+    },
+    "templates": {
+        "syn-create": "create.tpl"
+    }
+}

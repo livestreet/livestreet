@@ -1,0 +1,52 @@
+/**
+ * Справка по разметке редактора
+ */
+
+.editor-help header {
+    margin-bottom: 15px;
+}
+.editor-help header a {
+    font-size: 11px;
+    color: #000;
+    border-bottom: 1px dotted #000;
+}
+
+.editor-help-body {
+    display: none;
+    position: relative;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fefef1;
+    color: #363636;
+    margin-top: 13px;
+    font-size: 11px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 5px #e8e8c0 inset;
+            box-shadow: 0 0 5px #e8e8c0 inset;
+}
+.editor-help-body:before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-color: transparent transparent #F2F2DD transparent;
+    border-style: solid;
+}
+.editor-help-body h3 { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+.editor-help-body a {
+    color: #727a90;
+    border-bottom: 1px dotted #727a90;
+    font-weight: bold;
+}
+
+.editor-help-col             { float: left; width: 47%; margin-left: 6%; }
+.editor-help-col:first-child { margin-left: 0; }
+
+.editor-help-item            { margin-bottom: 20px; }
+.editor-help-item dd            { margin-left: 0; }
+.editor-help-item:last-child { margin-bottom: 0; }
+.editor-help-item h4         { font-family: monospace; font-weight: bold; margin-bottom: 3px; }

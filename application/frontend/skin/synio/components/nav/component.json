@@ -1,0 +1,15 @@
+{
+    "name": "nav",
+    "version": "1.0.0",
+    "dependencies": {
+        "css-reset": "*"
+    },
+    "templates": {
+        "nav": "nav.tpl",
+        "item": "nav-item.tpl"
+    },
+    "styles": {
+        "nav": "css/nav.css",
+        "layout-nav": "css/layout-nav.css"
+    }
+}

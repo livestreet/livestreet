@@ -1,0 +1,123 @@
+/**
+ * Шапка профиля
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.user-profile {
+    position: relative;
+    padding: 30px;
+    margin: -40px -40px 30px -40px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-profile-user {
+    padding-right: 100px;
+}
+
+/* Аватар */
+.user-profile-user-avatar {
+    float: left;
+    width: 70px;
+    height: 70px;
+    margin: 0 18px 0 0;
+    border-radius: 100px;
+}
+.user-profile--is-online .user-profile-user-avatar {
+    background: #b7bc1c;
+}
+
+/* Логин и имя */
+.user-profile-user-body {
+    float: left;
+    padding-top: 18px;
+}
+.user-profile--has-name .user-profile-user-body {
+    padding-top: 7px;
+}
+.user-profile-user-login {
+    margin-bottom: 1px;
+    font-size: 27px;
+    line-height: 1.3em;
+}
+.user-profile-user-login,
+.user-profile-user-login a {
+    color: #eee;
+    color: rgba(0, 0, 0, .9);
+}
+.user-profile-user-login a:hover {
+    color: #fff;
+    color: rgba(0, 0, 0, 1);
+}
+.user-profile-user-name {
+    color: #aaa;
+    color: rgba(0, 0, 0, .5);
+}
+.user-profile-user-login,
+.user-profile-user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Рейтинг */
+.user-profile-rating {
+    position: absolute;
+    top: 46px;
+    right: 40px;
+    text-transform: uppercase;
+    font-size: 11px;
+    text-align: right;
+    color: rgba(0, 0, 0, .8);
+}
+.user-profile-rating-label {
+    color: rgba(0, 0, 0, .4);
+}
+.user-profile-rating-value {
+    font: 300 24px/1em "Open Sans", sans-serif;
+}
+
+
+
+/**
+ * Responsive
+ */
+@media (max-width: 999px)  {
+    .user-profile {
+        margin: -15px -15px 15px -15px;
+    }
+}
+@media (max-width: 480px)  {
+    .user-profile {
+        text-align: center;
+        margin: -15px -15px 15px -15px;
+    }
+    .user-profile-user,
+    .user-profile-user-avatar,
+    .user-profile-user-body {
+        float: none;
+    }
+    .user-profile-user-body {
+        margin-bottom: 15px;
+    }
+    .user-profile-user {
+        padding-right: 0;
+    }
+    .user-profile-user-avatar {
+        width: 100px;
+        height: 100px;
+        margin-right: 0;
+    }
+    .user-profile-rating {
+        position: static;
+        text-align: inherit;
+    }
+    .user-profile-rating-value,
+    .user-profile-rating-label {
+        font-size: inherit;
+        display: inline;
+    }
+}

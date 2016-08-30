@@ -1,0 +1,84 @@
+.layout-nav {
+    
+}
+.layout-nav-right {
+    float: right;
+}
+.layout-nav-create {
+    float: left;
+    margin-left: 35px;
+}
+
+
+.layout-nav-top {
+    font-size: 11px;
+    border-radius: 20px;
+    border: 1px solid #fff;
+    float: left;
+    position: relative;
+}
+.layout-nav-top .ls-nav-item {
+    position: relative;
+    height: 23px;
+    padding: 1px 1px 1px 0;
+    box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset;
+}
+.layout-nav-top .ls-nav-item a {
+    background: #fbfbfc;
+    background: -moz-linear-gradient(top, #fbfbfc 0%, #f0f2f5 100%);
+    background: -webkit-linear-gradient(top, #fbfbfc 0%, #f0f2f5 100%);
+    background: linear-gradient(top, #fbfbfc 0%, #f0f2f5 100%);
+    height: 23px;
+    line-height: 22px;
+    color: #434343;
+    padding: 0 13px;
+    float: left;
+    text-decoration: none;
+    box-shadow: 1px 0 0 #fff inset, 0 1px 0 #fff inset;
+}
+.layout-nav-top .ls-nav-item:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.layout-nav-top .ls-nav-item:first-child a {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 15px;
+    box-shadow: 1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset;
+}
+.layout-nav-top .ls-nav-item:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 1px 0 #dfe3e8 inset, 0 -1px 0 #dfe3e8 inset;
+    padding-right: 0;
+}
+.layout-nav-top .ls-nav-item:last-child a {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-right: 15px;
+    box-shadow: -1px 0 0 #dfe3e8 inset, 0 1px 0 #fff inset;
+}
+.layout-nav-top .ls-nav-item:hover {
+    box-shadow: -1px 0 0 #27ace8 inset, 0 1px 0 #27ace8 inset, 0 -1px 0 #27ace8 inset;
+}
+.layout-nav-top .ls-nav-item:hover a {
+    color: #fff;
+    box-shadow: 1px 0 0 #27ace8 inset, 0 -1px 0 #55d0ff inset;
+    background: #4ec4ff;
+    background: -moz-linear-gradient(top, #4ec4ff 0%, #22b3fe 100%);
+    background: -webkit-linear-gradient(top, #4ec4ff 0%, #22b3fe 100%);
+    background: linear-gradient(top, #4ec4ff 0%, #22b3fe 100%);
+}
+.layout-nav-top .ls-nav-item.active {
+    background: #edf8fd;
+    border: none;
+    -webkit-box-shadow: 0 2px 3px #b4d5e2 inset;
+    box-shadow: 0 2px 3px #b4d5e2 inset;
+}
+.layout-nav-top .ls-nav-item.active a {
+    background: none;
+    color: #628fa5;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}

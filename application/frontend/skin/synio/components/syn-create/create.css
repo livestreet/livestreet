@@ -1,0 +1,47 @@
+.ls-modal.syn-create-modal {
+    max-width: 620px;
+    background: #e0eff9;
+}
+.ls-modal.syn-create-modal .ls-modal-body {
+    padding-top: 0;
+}
+
+.syn-create-items {
+    font-size: 19px;
+    font-family: 'PT Sans', sans-serif;
+    overflow: hidden;
+}
+
+.syn-create-item {
+    float: left;
+    width: 115px;
+    text-align: center;
+    margin: 0 10px 20px;
+    display: block;
+}
+.syn-create-item-image {
+    width: 115px;
+    height: 115px;
+    background-repeat: no-repeat;
+}
+.syn-create-item-text {
+    color: #727a90;
+    text-decoration: underline;
+}
+
+.syn-create-item:focus .syn-create-item-text,
+.syn-create-item:hover .syn-create-item-text {
+    color: #275ec2;
+}
+
+.syn-create-item .syn-create-item-image { background-image: url(images/topic.png); }
+.syn-create-item:hover .syn-create-item-image { background-image: url(images/topic-hover.png); }
+
+.syn-create-item--blog .syn-create-item-image { background-image: url(images/blog.png); }
+.syn-create-item--blog:hover .syn-create-item-image { background-image: url(images/blog-hover.png); }
+
+.syn-create-item--message .syn-create-item-image { background-image: url(images/message.png); }
+.syn-create-item--message:hover .syn-create-item-image { background-image: url(images/message-hover.png); }
+
+.syn-create-item--draft .syn-create-item-image { background-image: url(images/draft.png); }
+.syn-create-item--draft:hover .syn-create-item-image { background-image: url(images/draft-hover.png); }

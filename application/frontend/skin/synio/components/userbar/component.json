@@ -1,0 +1,19 @@
+{
+    "name": "userbar",
+    "version": "1.0.0",
+    "dependencies": {
+        "nav": "*",
+        "search-form": "*"
+    },
+    "templates": {
+        "userbar": "userbar.tpl",
+        "usernav": "usernav.tpl"
+    },
+    "styles": {
+        "userbar": "css/userbar.css",
+        "usernav": "css/usernav.css"
+    },
+    "scripts": {
+        "userbar": "js/userbar.js"
+    }
+}

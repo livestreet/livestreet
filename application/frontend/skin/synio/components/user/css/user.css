@@ -1,0 +1,33 @@
+/**
+ * Профиль пользователя
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Заголовок */
+.profile-page-header {
+    color: #333;
+    font-size: 27px;
+    line-height: 1em;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+/* Блок с информацией */
+.user-info-group {
+    margin-bottom: 50px;
+}
+.user-info-group:last-child {
+    margin-bottom: 0;
+}
+.user-info-group-title {
+    font-size: 18px;
+}
+
+/* Список */
+.user-info-group-items .info-list-item-label   { width: 150px; }
+.user-info-group-items .info-list-item         { margin-bottom: 10px; }
+.user-info-group-items .info-list-item-content { font-weight: normal; }

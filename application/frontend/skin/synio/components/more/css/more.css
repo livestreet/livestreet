@@ -1,0 +1,54 @@
+/**
+ * Подгрузка контента
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-more {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding: 12px;
+    margin-top: 50px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #B39DDB;
+    border-radius: 5px;
+    color: #258fa7;
+    cursor: pointer;
+
+    background: #eefbfc;
+    background-image: -moz-linear-gradient(top,  #eefbfc 0%, #d3edf8 100%);
+    background-image: -webkit-linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+    background-image: linear-gradient(top,  #eefbfc 0%,#d3edf8 100%);
+}
+.ls-more:focus,
+.ls-more:hover {
+    background: #eefbfc;
+    color: #258fa7;
+}
+.ls-more:focus {
+    outline: none;
+}
+
+.ls-more-loader {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.ls-more.ls-more--loading .ls-more-loader {
+    display: block;
+}
+.ls-more.ls-more--loading .ls-more-text {
+    visibility: hidden;
+}
+.ls-more:hover.ls-more--locked,
+.ls-more.ls-more--locked {
+    background: #D1C4E9;
+    cursor: not-allowed;
+}

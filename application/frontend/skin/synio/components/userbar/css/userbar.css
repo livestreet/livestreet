@@ -1,0 +1,108 @@
+/**
+ * Юзербар
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-userbar {
+    height: 51px;
+    background: #090909;
+}
+.ls-userbar-inner {
+    position: relative;
+    margin: 0 auto;
+}
+
+/* Лого */
+.ls-userbar-logo {
+    float: left;
+    font-size: 28px;
+    line-height: 50px;
+    margin: 0 30px 0 18px;
+    font-family: 'PT Sans';
+}
+.ls-userbar-logo a {
+    color: #fff;
+}
+.ls-userbar-logo a:hover {
+    color: #eee;
+}
+
+/* Меню */
+.ls-userbar-nav {
+    float: left;
+    line-height: 50px;
+}
+.ls-userbar-nav .ls-nav-item {
+    float: left;
+    margin-right: 22px;
+}
+.ls-userbar-nav .ls-nav-item-link {
+    display: block;
+    line-height: 50px;
+    color: #cfcfcf;
+    text-decoration: none;
+}
+.ls-userbar-nav .ls-nav-item.active .ls-nav-item-link,
+.ls-userbar-nav .ls-nav-item-link:active {
+    color: #aed6e9;
+}
+.ls-userbar-nav .ls-nav-item-link:hover {
+    color: #aaa;
+}
+
+/* Меню авторизации */
+.ls-userbar-auth-nav {
+    font-size: 11px;
+    float: right;
+    margin-right: 17px;
+}
+.ls-userbar-auth-nav .ls-nav-item {
+    margin-left: 23px;
+}
+.ls-userbar-auth-nav .ls-nav-item-link {
+    display: block;
+    line-height: 50px;
+    color: #cfcfcf;
+    text-decoration: none;
+}
+.ls-userbar-auth-nav .ls-nav-item-link:hover {
+    color: #aaa;
+}
+
+/* Рейтинг */
+.ls-userbar-notifications {
+    position: absolute;
+    top: 17px;
+    right: 220px;
+    font-size: 11px;
+}
+
+.ls-userbar-notifications-item:not(:last-child) {
+    margin-right: 15px;
+}
+.ls-userbar-notifications-item .syn-icon {
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+}
+
+.ls-userbar-rating {
+    color: #93d3f2;
+    cursor: help;
+}
+.ls-userbar-messages,
+.ls-userbar-messages:hover {
+    color: #3fd54d;
+}
+
+/**
+ * Responsive styles
+ */
+@media (max-width: 360px)  {
+    .ls-userbar-inner {
+        padding: 0;
+    }
+}

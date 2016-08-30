@@ -1,0 +1,132 @@
+/* Меню пользователя */
+.ls-userbar-user-nav {
+    width: 200px;
+    height: 51px;
+    box-sizing: border-box;
+    position: relative;
+    float: right;
+    padding-right: 45px;
+    padding-left: 54px;
+    background: -webkit-linear-gradient(top, #353535 0%, #020202 100%);
+    background: -moz-linear-gradient(top, #353535 0%, #020202 100%);
+    background: linear-gradient(top, #353535 0%, #020202 100%);
+    line-height: 50px;
+}
+
+/*  */
+.ls-userbar-user-nav-avatar {
+    position: absolute;
+    top: 11px;
+    left: 13px;
+    width: 30px;
+    height: 30px;
+}
+
+/*  */
+.ls-userbar-user-nav-username {
+    overflow: hidden;
+    display: block;
+    max-width: 95px;
+    color: #cfcfcf;
+    font-size: 11px;
+    text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.ls-userbar-user-nav-username:hover {
+    color: #eee;
+}
+
+/* Кнопка показывающая меню */
+.ls-userbar-user-nav-toggle {
+    height: 51px;
+    width: 36px;
+    border-left: 1px solid #272727;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    transition: background .2s;
+}
+.ls-userbar-user-nav-toggle:after {
+    content: "";
+    position: absolute;
+    top: 23px;
+    left: 14px;
+    height: 0;
+    width: 0;
+    border: 4px solid transparent;
+    border-top-color: #949aa1;
+    transition: border-color .2s;
+}
+
+/* Меню */
+.ls-userbar-user-nav-menu {
+    display: none;
+    position: absolute;
+    z-index: 900;
+    width: 200px;
+    display: none;
+    background: #1d1d1d;
+    border-top: 1px solid #000;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, .5);
+    z-index: 30;
+}
+
+/* Пункт меню */
+.ls-userbar-user-nav-menu .ls-nav-item {
+    float: none;
+    display: block;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #393939;
+    position: relative;
+}
+.ls-userbar-user-nav-menu .ls-nav-item:last-child {
+    border-bottom: none;
+}
+
+/* Ссылка пункта меню */
+.ls-userbar-user-nav-menu .ls-nav-item-link {
+    display: block;
+    height: 50px;
+    padding: 0 30px 0 20px;
+    line-height: 50px;
+    color: #fff;
+    text-decoration: none;
+    transition: background .1s;
+}
+.ls-userbar-user-nav-menu .ls-nav-item-link:hover {
+    background: #093357;
+    color: #fff;
+}
+.ls-userbar-user-nav-menu .ls-nav-item:last-child .ls-nav-item-link {
+    border-radius: 0 0 10px 10px;
+}
+
+/* Счетчик */
+.ls-userbar-user-nav-menu .ls-nav-item .ls-badge {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -6px;
+    padding: 0;
+    background-color: transparent;
+    color: #93d3f2;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 11px;
+}
+
+/* Активное состояние */
+.ls-userbar-user-nav.active {
+    background: #1d1d1d;
+}
+.ls-userbar-user-nav.active .ls-userbar-user-nav-toggle,
+.ls-userbar-user-nav .ls-userbar-user-nav-toggle:hover {
+    background: #093357;
+}
+.ls-userbar-user-nav.active .ls-userbar-user-nav-toggle:after,
+.ls-userbar-user-nav .ls-userbar-user-nav-toggle:hover:after {
+    border-top-color: #fff;
+}

@@ -1,0 +1,69 @@
+/**
+ * Блок со списком комментариев
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/**
+ * @modifier forbid Комментирование запрещено
+ */
+.ls-comments--forbid .ls-comment-form {
+    display: none;
+}
+
+/**
+ * Блок с комментариями
+ */
+.ls-comment-list {
+    margin-bottom: 30px;
+}
+
+/**
+ * Хидер
+ */
+.ls-comments-header {
+    margin-bottom: 20px;
+}
+
+/* Заголовок */
+.ls-comments-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+/* Действия */
+.ls-comments-actions {
+    padding: 0;
+    background-color: transparent;
+}
+
+/**
+ * Кнопка "Комментировать"
+ */
+.ls-comment-reply-root {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.ls-comment-reply-root + .ls-comment-form {
+    margin-top: 15px;
+}
+
+/**
+ * Пагинация
+ */
+.ls-comments-pagination {
+    margin-bottom: 30px;
+}
+
+/**
+ * Вспомогательный блок-обертка
+ */
+.ls-comment-wrapper .ls-comment-wrapper { padding-left: 40px; }
+.ls-comment-wrapper .ls-comment-form,
+.ls-comment-wrapper .ls-comment-preview { margin-left: 40px; }
+
+.ls-comment-wrapper .ls-comment-form {
+    margin-bottom: 20px;
+}

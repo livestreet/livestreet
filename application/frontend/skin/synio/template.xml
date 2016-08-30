@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+    <name>
+        <lang name="default">Synio</lang>
+    </name>
+    <author>
+        <lang name="default">LiveStreet Developers Team</lang>
+    </author>
+    <homepage>http://livestreet.ru</homepage>
+    <version>2.0</version>
+    <requires>
+        <livestreet>2.0</livestreet>
+        <plugins>
+        </plugins>
+    </requires>
+    <description>
+        <lang name="ru">Synio</lang>
+        <lang name="default">Synio</lang>
+    </description>
+    <themes>
+        <item>
+            <value>default</value>
+            <description>
+                <lang name="ru">по-умолчанию</lang>
+                <lang name="default">default</lang>
+            </description>
+        </item>
+    </themes>
+</skin>

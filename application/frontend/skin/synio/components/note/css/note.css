@@ -1,0 +1,53 @@
+/**
+ * Заметка
+ */
+
+.ls-note {
+    border: 2px solid #ffe25d;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.ls-note:last-child {
+    margin-bottom: 0;
+}
+
+.ls-note-text {
+    margin-bottom: 10px;
+}
+
+/* Действия */
+.ls-note-actions {
+    font-size: 11px;
+}
+.ls-note-actions li {
+    float: left;
+    margin-right: 15px;
+}
+.ls-note-actions li a {
+    color: #275ec2;
+    border-bottom: 1px dotted;
+}
+.ls-note-actions li a:hover {
+    color: #f00;
+}
+.ls-note-actions li a:focus {
+    outline: dotted 1px;
+}
+
+.ls-note-actions--add {
+    margin: 0;
+}
+.ls-note-actions--add li {
+    margin: 0;
+    float: none;
+    text-align: center;
+}
+
+/* Форма добавления/редактирования */
+.ls-note-form .ls-field {
+    margin-bottom: 15px;
+}
+.ls-note-form-text {
+    height: 5em;
+}

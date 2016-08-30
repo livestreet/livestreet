@@ -1,0 +1,134 @@
+/**
+ * Сетка
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/* Основной блок */
+.layout-container {
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+/* Навигация */
+.layout-nav {
+    min-height: 26px;
+    margin: 0 auto 32px;
+    overflow: hidden;
+    padding: 15px 17px 15px;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0,0,0,.15);
+    border-radius: 0 0 10px 10px;
+    position: relative;
+
+    background: #fdfdfd;
+    background: -moz-linear-gradient(top, #fdfdfd 0%, #f6f8f9 100%);
+    background: -webkit-linear-gradient(top, #fdfdfd 0%,#f6f8f9 100%);
+    background: linear-gradient(top, #fdfdfd 0%,#f6f8f9 100%);
+}
+.layout-nav-main .ls-nav-item {
+    margin-right: 10px;
+}
+
+/* Враппер для контента и сайдбара */
+.layout-wrapper {
+    margin-bottom: 60px;
+    position: relative;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .05);
+    border-radius: 10px;
+    background: #fff;
+}
+
+/* Вертикальная линия разделяющая контент и сайдбар */
+.layout-wrapper:before {
+    content: "";
+    width: 1px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 30%;
+    background: #f1f3f5;
+}
+
+/* Контент */
+.layout-content {
+    float: left;
+    width: 70%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Отображение контента без сайдбара */
+.layout-container.layout-no-sidebar .layout-content {
+    width: 100%;
+    margin-right: 0;
+}
+.layout-container.layout-no-sidebar .layout-wrapper:before {
+    display: none;
+}
+
+/* Сайдбар */
+.layout-sidebar {
+    float: left;
+    width: 30%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Подвал */
+.layout-footer {
+    padding: 0 0 50px 30px;
+    color: #000;
+    font-size: 11px;
+}
+
+.layout-footer a {
+    color: #000;
+    text-decoration: underline;
+}
+.layout-footer a:hover {
+    color: #777;
+}
+
+.layout-footer-copyright {
+    float: right;
+    width: 255px;
+}
+
+.layout-footer-design-by {
+    overflow: hidden;
+    line-height: 15px;
+    margin-top: 30px;
+}
+.layout-footer-design-by img {
+    float: left;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.layout-footer-design-by div {
+    font-size: 10px;
+    color: #8b9191;
+    margin-top: 1px;
+}
+
+.layout-footer-links {
+    float: left;
+    width: 138px;
+    padding-right: 20px;
+}
+.layout-footer-links-title {
+    margin-bottom: 11px;
+    color: #000;
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: bold;
+}
+.layout-footer-links-nav .ls-nav-item {
+    margin-bottom: 3px;
+}
+.layout-footer-links-nav a {
+    color: #4c4c4c;
+}

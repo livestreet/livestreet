@@ -1,0 +1,18 @@
+{
+    "name": "search",
+    "version": "1.0.0",
+    "dependencies": {
+        "search-form": "*"
+    },
+    "templates": {
+        "main": "search-form.main.tpl",
+        "hideable": "hideable/search-hideable.tpl"
+    },
+    "styles": {
+        "search": "css/search.css",
+        "search-hideable": "hideable/search-hideable.css"
+    },
+    "scripts": {
+        "search-hideable": "hideable/search-hideable.js"
+    }
+}

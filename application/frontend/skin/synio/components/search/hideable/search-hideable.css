@@ -1,0 +1,46 @@
+.ls-search-hideable {
+    min-width: 290px;
+    float: left;
+    text-align: right;
+}
+
+.ls-search-hideable-toggle {
+    margin-top: 3px;
+}
+.ls-search-hideable-toggle-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 11px;
+    height: 12px;
+    background: url(search.png) no-repeat;
+}
+.ls-search-hideable-toggle-text {
+    font-size: 11px;
+    border-bottom: 1px dotted #000;
+    color: #878e96;
+    border-color: #878e96;
+}
+.ls-search-hideable-toggle-text:hover {
+    color: #f00;
+    border-color: #f00;
+}
+
+.ls-search-hideable-search.ls-search-form {
+    display: none;
+    margin-bottom: 0;
+}
+.ls-search-hideable-search .ls-search-form-input {
+    padding: 1px 7px;
+    height: 25px;
+}
+.ls-search-hideable-search .ls-search-form-submit {
+    top: 6px;
+}
+
+/* Open */
+.ls-search-hideable.open .ls-search-hideable-toggle {
+    display: none;
+}
+.ls-search-hideable.open .ls-search-hideable-search {
+    display: block;
+}

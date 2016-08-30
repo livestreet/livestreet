@@ -1,0 +1,47 @@
+/**
+ * Активность
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/**
+ * Список событий
+ */
+.activity-event-list {
+    margin: 0 0 20px;
+}
+
+/* Дата-заголовок */
+.activity-date {
+    font: 400 18px/1.3em 'Open Sans', sans-serif;
+    padding: 10px 0;
+    border-bottom: 1px solid #E7E7E7;
+}
+.activity-event + .activity-date {
+    margin-top: 30px;
+}
+
+/**
+ * Событие
+ */
+.activity-event {
+    padding: 15px;
+}
+.activity-event + .activity-event {
+    border-top: 1px solid #f2f2f2;
+}
+.activity-event-date {
+    display: block;
+    color: #999;
+    margin-bottom: 4px;
+}
+.activity-event-text {
+    padding: 10px 15px;
+    margin-top: 10px;
+    color: #777;
+    background: #fafafa;
+    font-size: 13px;
+}

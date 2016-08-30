@@ -1,0 +1,61 @@
+/**
+ * Пагинация
+ */
+
+.ls-pagination {
+    overflow: hidden;
+    color: #aaa;
+    font-size: 12px;
+    line-height: 1em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Список */
+.ls-pagination-list {
+    display: inline-block;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-right: 50px;
+}
+.ls-pagination-list:last-child {
+    margin-left: 0;
+}
+
+/* Элемент пагинации */
+.ls-pagination-item {
+    float: left;
+    margin-right: 5px;
+}
+.ls-pagination-item-inner {
+    display: block;
+    padding: 4px 6px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.ls-pagination-item-link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.ls-pagination-item-link:hover {
+    background: #fafafa;
+}
+
+/* Текущая страница */
+.ls-pagination-item.active .ls-pagination-item-inner {
+    color: #333;
+    border-color: #eee;
+    cursor: default;
+}
+
+/**
+ * @modifier small
+ */
+.ls-pagination--small {
+    font-size: 11px;
+}
+.ls-pagination--small .ls-pagination-item-inner {
+    padding: 3px 5px;
+}

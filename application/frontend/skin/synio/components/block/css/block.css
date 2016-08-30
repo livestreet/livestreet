@@ -1,0 +1,95 @@
+/**
+ * Блок
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-block {
+    overflow: hidden;
+}
+.ls-block + .ls-block {
+    margin-top: 50px;
+}
+.ls-block:last-child {
+    margin-bottom: 0;
+}
+.ls-block .text-help {
+    font-size: 11px;
+    line-height: 14px;
+}
+.ls-block .ls-text {
+    font-size: 13px;
+    line-height: 18px;
+}
+.ls-block .max-height-200 {
+    overflow: auto;
+    max-height: 200px;
+    position: relative;
+}
+
+/* Шапка */
+.ls-block-header {
+    padding: 0 0 15px;
+    position: relative;
+}
+.ls-block-header .ls-block-title {
+    margin-bottom: 0;
+    font-size: 22px;
+    line-height: 1em;
+    font-weight: normal;
+    color: #333;
+}
+
+/* Навигация */
+.ls-block .ls-tab-list {
+    padding: 15px 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Контент */
+.ls-block-content {
+}
+
+/* Подвал */
+.ls-block-footer {
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+    font-size: 11px;
+    color: #b9c2c2;
+}
+.ls-block-footer a {
+    color: #727a90;
+    text-decoration: underline;
+}
+.ls-block-footer .ls-search-form {
+    padding: 0;
+    margin: 5px 0;
+}
+
+/**
+ * Поддержка списков
+ */
+.ls-block .ls-item-group {
+    border: none;
+}
+.ls-block .ls-block-content + .ls-item-group {
+    border-top: 1px solid #eee;
+}
+
+/**
+ * @modifier nopadding Блок без отступов у контента
+ */
+.ls-block--nopadding .ls-block-content {
+    padding: 0;
+}
+
+/**
+ * @modifier transparent Блок без фона
+ */
+.ls-block--transparent {
+    background-color: transparent;
+    border-color: transparent;
+}

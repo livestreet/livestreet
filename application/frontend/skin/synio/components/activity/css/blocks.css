@@ -1,0 +1,26 @@
+/**
+ * Последняя активность
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-activity-block-recent-user {
+    font-weight: bold;
+    color: #333;
+}
+
+.ls-activity-block-recent-info {
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
+}
+
+.ls-activity-block-recent-comments {
+    margin-left: 10px;
+    color: #666;
+}
+.ls-activity-block-recent-comments:hover {
+    color: #444;
+}

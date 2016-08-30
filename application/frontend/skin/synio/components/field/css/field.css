@@ -1,0 +1,234 @@
+/**
+ * Field
+ */
+
+.ls-field            { margin-bottom: 25px; }
+.ls-field:last-child { margin-bottom: 0; }
+
+/* Лэйбл */
+.ls-field-label       { display: block; margin-bottom: 3px; }
+.ls-field-label:after { content: ":"; }
+
+/* Заметка */
+.ls-field-note {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    line-height: 16px;
+    color: #aaa;
+}
+
+.ls-field-input { width: 100%; }
+select[multiple].ls-field-input { max-width: 300px; }
+
+
+/**
+ * Horizontal
+ */
+.ls-field--horizontal .ls-field-label {
+    float: left;
+    width: 135px;
+    padding-top: 5px;
+}
+.ls-field--horizontal .ls-field-holder, .ls-field--horizontal .ls-field-note {
+    padding-left: 150px;
+    min-width: 200px;
+}
+
+/**
+ * Inline
+ */
+.ls-field--inline { display: inline-block; }
+
+/**
+ * Checkbox
+ */
+.ls-field--checkbox {
+    position: relative;
+}
+.ls-field--checkbox .ls-field-note, .ls-field--checkbox .ls-field-label {
+    padding-left: 20px;
+}
+.ls-field--checkbox .ls-field-label.ls-field-label:after {
+    content: "";
+}
+.ls-field--checkbox .ls-field-holder {
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+.ls-field--checkbox .ls-field-input {
+    width: auto;
+}
+
+/**
+ * Date
+ */
+.ls-field--date {
+    width: 150px;
+}
+
+
+/**
+ * File
+ */
+.ls-field--file .ls-field-input { width: auto; }
+.ls-field-file-info {
+    display: block;
+    border-radius: 5px;
+    background: #eef4fb;
+    padding: 15px;
+    margin-top: 10px;
+}
+.ls-field-file-info p {
+    margin-bottom: 7px;
+}
+
+
+/**
+ * Upload area
+ */
+.ls-field-upload-area {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+    border: 3px dashed #eee;
+    color: #555;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.ls-field-upload-area input[type=file] {
+    position: absolute;
+    top: -999px;
+    left: -999px;
+}
+
+/**
+ * Captcha
+ */
+.ls-field--captcha-image {
+    width: 80px;
+    height: 60px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-color: #eee;
+}
+
+/**
+ * Geo
+ */
+.ls-field--geo select {
+    width: 100%;
+    max-width: 250px;
+    display: block;
+    margin-top: 10px;
+}
+.ls-field--geo select:first-child {
+    margin-top: 0;
+}
+
+
+/**
+ * Group
+ */
+.ls-field-checkbox-group { margin-bottom: 25px; }
+.ls-field-checkbox-group .ls-field { margin-bottom: 12px; }
+.ls-field-checkbox-group:last-child,
+.ls-field-checkbox-group .ls-field:last-child { margin-bottom: 0; }
+
+
+/**
+ * Image Ajax
+ */
+.ls-field-image-ajax img {
+    max-width: 100%;
+}
+.ls-field-image-ajax-image {
+    margin-bottom: 15px;
+}
+.ls-field-image-ajax-image.ls-loading {
+    min-height: 100px;
+    margin-bottom: 15px;
+    background-color: #fafafa;
+}
+
+
+/**
+ * Select
+ */
+.chosen-container,
+.chosen-container-multi .chosen-choices {
+    width: 100%;
+    box-sizing: border-box;
+}
+.chosen-container-multi .chosen-choices {
+    padding: 0 3px;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset;
+            box-shadow: 0 2px 4px rgba(0,0,0,.07) inset;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    padding-left: 2px;
+    color: #afafaf;
+}
+.chosen-container-active .chosen-choices {
+    border-color: #4d90fe;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+            box-shadow: 0 2px 4px rgba(0,0,0,.07) inset, 0 0 3px #4d90fe;
+    outline: none;
+}
+.chosen-container .chosen-results li.highlighted {
+    background: #3875d7;
+    color: #fff;
+}
+.chosen-container-multi .chosen-choices li.search-choice {
+    padding: 4px 21px 4px 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 2px;
+    color: #555;
+    background: #eee;
+    border: none;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top: 5px;
+    opacity: .4;
+}
+
+/**
+ * Validation
+ */
+.ls-field-input.parsley-error {
+    border-color: #F79F98;
+    background-color: #FFDFDD;
+    box-shadow: 0 0 3px #FABFBB;
+}
+.parsley-errors-list {
+    display: none;
+    padding: 10px 13px;
+    margin-top: 10px;
+    background: #f44336;
+    color: #ffcdd2;
+    color: rgba(255,255,255,.7);
+    list-style: outside none none;
+}
+.parsley-errors-list.filled {
+    display: block;
+}
+
+/**
+ * Date
+ */
+.pika-label {
+    padding: 5px 3px 2px;
+    border-bottom: 1px dashed #777;
+}
+.pika-label:first-child {
+    margin-right: 5px;
+}
