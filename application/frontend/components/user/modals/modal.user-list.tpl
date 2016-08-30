@@ -13,9 +13,9 @@
         {component 'actionbar' template='item.select'
             classes = 'js-user-list-modal-actionbar'
             target  = '.js-user-list-select .js-user-list-small-item'
-            assign  = users}
+            assign  = usersHtml}
 
-        {component 'actionbar' items=[[ 'buttons' => [ 'html' => $users ] ]]}
+        {component 'actionbar' items=[[ 'buttons' => [ 'html' => $usersHtml ] ]]}
     {/if}
 
     {* Список *}

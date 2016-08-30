@@ -28,7 +28,7 @@
  *}
 
 {$component = 'ls-comments'}
-{component_define_params params=[ 'addCommentText', 'authorid', 'authorText', 'commentParams', 'comments', 'count', 'dateReadLast', 'forbidAdd',
+{component_define_params params=[ 'addCommentText', 'authorId', 'authorText', 'commentParams', 'comments', 'count', 'dateReadLast', 'forbidAdd',
     'forbidText', 'isSubscribed', 'lastCommentId', 'maxLevel', 'pagination', 'targetId', 'targetType', 'title', 'titleNoComments',
     'useSubscribe', 'mods', 'classes', 'attributes' ]}
 
@@ -109,7 +109,7 @@
             comments      = $comments
             forbidAdd     = $forbidAdd
             maxLevel      = $maxLevel
-            authorid      = $authorid
+            authorId      = $authorId
             authorText    = $authorText
             dateReadLast  = $dateReadLast
             commentParams = $commentParams}

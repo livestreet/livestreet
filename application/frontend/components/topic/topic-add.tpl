@@ -7,19 +7,11 @@
  * @param array  $blogId
  *}
 
-{component_define_params params=[ 'topic', 'type', 'skipBlogs', 'blogs' ]}
+{component_define_params params=[ 'topic', 'type', 'skipBlogs', 'blogs', 'classes' ]}
 
-{block 'add_topic_options'}{/block}
-
-{hook run="add_topic_begin"}
-
-{block 'add_topic_header_after'}{/block}
-
-
-<form action="" method="POST" enctype="multipart/form-data" id="topic-add-form" class="js-form-validate" data-content-action="{( $topic ) ? 'edit' : 'add'}">
+<form action="" method="POST" enctype="multipart/form-data" id="topic-add-form" class="{$classes} js-form-validate" data-content-action="{( $topic ) ? 'edit' : 'add'}">
     {hook run="form_add_topic_begin"}
     {block 'add_topic_form_begin'}{/block}
-
 
     {* Выбор блога *}
     {if ! $skipBlogs}
@@ -200,6 +192,3 @@
 
 {* Блок с превью текста *}
 {component 'topic' template='preview'}
-
-{block 'add_topic_end'}{/block}
-{hook run="add_topic_end"}

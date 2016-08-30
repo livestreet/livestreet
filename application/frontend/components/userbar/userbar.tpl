@@ -41,7 +41,7 @@
                             ]
                         ]
                     ],
-                    [ 'text' => $aLang.common.create, menu => [ items => $createMenu ] ],
+                    [ 'text' => $aLang.common.create, menu => [ hook => 'create', items => $createMenu ] ],
                     [ 'text' => $aLang.talk.title,   'url' => "{router page='talk'}", 'title' => $aLang.talk.new_messages, 'is_enabled' => $iUserCurrentCountTalkNew, 'count' => $iUserCurrentCountTalkNew ],
                     [ 'text' => $aLang.auth.logout,  'url' => "{router page='auth'}logout/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
                 ]}
@@ -52,7 +52,7 @@
                 ]}
             {/if}
 
-            {component 'nav' name='userbar' activeItem=$sMenuHeadItemSelect mods='userbar' items=$items}
+            {component 'nav' hook='userbar_nav' hookParams=[ user => $oUserCurrent ] activeItem=$sMenuHeadItemSelect mods='userbar' items=$items}
         </nav>
 
         {component 'search' template='main' mods='light'}

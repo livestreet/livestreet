@@ -12,7 +12,7 @@
 
 {block 'layout_content'}
     {component 'nav'
-        name  = 'admin'
+        hook  = 'admin'
         mods  = 'stacked pills'
         items = [
             [ 'name' => 'user', 'url' => "{router page='admin/plugins'}?plugin=admin&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}", 'text' => {lang 'admin.install_plugin_admin'}, is_enabled => $availableAdminPlugin ],

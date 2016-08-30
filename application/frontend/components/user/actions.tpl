@@ -8,6 +8,7 @@
 
 {component 'nav'
     hook    = 'user_actions'
+    hookParams = [ user => $user ]
     mods    = 'stacked'
     classes = 'profile-actions'
     items   = [

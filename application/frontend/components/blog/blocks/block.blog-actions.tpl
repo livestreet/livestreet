@@ -52,7 +52,7 @@
         {/if}
     {/if}
 
-    {component 'nav' items=$actions mods='stacked' classes='profile-actions'}
+    {component 'nav' hook='blog_actions' items=$actions mods='stacked' classes='profile-actions'}
 {/capture}
 
 {component 'block'

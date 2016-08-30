@@ -56,6 +56,8 @@
 {/block}
 
 {block 'layout_body'}
+    {hook run='layout_body_begin'}
+
     {**
      * Юзербар
      *}
@@ -90,9 +92,9 @@
     {**
      * Основной контэйнер
      *}
-    <div id="container" class="ls-grid-row layout-container {hook run='container_class'} {if $layoutShowSidebar}layout-has-sidebar{else}layout-no-sidebar{/if}">
+    <div id="container" class="ls-grid-row layout-container {hook run='layout_container_class' action=$sAction} {if $layoutShowSidebar}layout-has-sidebar{else}layout-no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
-        <div class="ls-grid-row layout-wrapper" class="{hook run='wrapper_class'}">
+        <div class="ls-grid-row layout-wrapper" class="{hook run='layout_wrapper_class' action=$sAction}">
             {**
              * Контент
              *}
@@ -100,7 +102,7 @@
                  role="main"
                  {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-                {hook run='content_begin'}
+                {hook run='layout_content_header_begin' action=$sAction}
 
                 {* Основной заголовок страницы *}
                 {block 'layout_page_title' hide}
@@ -147,9 +149,11 @@
                     {/if}
                 {/block}
 
+                {hook run='layout_content_begin' action=$sAction}
+
                 {block 'layout_content'}{/block}
 
-                {hook run='content_end'}
+                {hook run='layout_content_end' action=$sAction}
             </div>
 
             {**
@@ -167,9 +171,9 @@
         {* Подвал *}
         <footer class="ls-grid-row layout-footer">
             {block 'layout_footer'}
-                {hook run='footer_begin'}
+                {hook run='layout_footer_begin'}
                 {hook run='copyright'}
-                {hook run='footer_end'}
+                {hook run='layout_footer_end'}
             {/block}
         </footer>
     </div> {* /container *}
@@ -192,4 +196,6 @@
 
     {* Подключение тулбара *}
     {component 'toolbar' classes='js-toolbar-default' items={show_blocks group='toolbar'}}
+
+    {hook run='layout_body_end'}
 {/block}

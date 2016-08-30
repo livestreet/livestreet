@@ -37,7 +37,6 @@
 
             {if ! $exclude || ! in_array( $user->getId(), $exclude )}
                 {block 'user_list_small_item'}
-                    {*include $itemTemplate|default:'./user-list-small-item.tpl' showRemove=! $excludeRemove || ! in_array( $user->getId(), $aUserListSmallExcludeRemove )*}
                     {component 'user' template='list-small-item' user=$user selectable=$selectable}
                 {/block}
             {/if}

@@ -1797,7 +1797,7 @@ class ActionAjax extends Action
             if ($bReturnExtended) {
                 $aItems[] = array(
                     'value' => $oUser->getId(),
-                    'text'  => $oUser->getLogin(),
+                    'label'  => $oUser->getLogin(),
                 );
             } else {
                 $aItems[] = $oUser->getLogin();
