@@ -47,7 +47,8 @@ p:last-child {
  * Заголовки
  */
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+.h1, .h2, .h3, .h4, .h5, .h6,
+.ls-heading {
     margin: 0 0 15px;
     font-family: "PT Sans", sans-serif;
     font-weight: 300;
@@ -68,6 +69,14 @@ h3 small, .h3 small,
 h4 small, .h4 small,
 h5 small, .h5 small,
 h6 small, .h6 small { font-size: 65%; color: #aaa; }
+
+.ls-heading a {
+    color: #275ec2;
+    text-decoration: underline;
+}
+.ls-heading a:hover {
+    color: #f00;
+}
 
 /* Заголовок страницы */
 .page-header {

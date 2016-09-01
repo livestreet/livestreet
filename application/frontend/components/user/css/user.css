@@ -26,6 +26,6 @@
 }
 
 /* Список */
-.user-info-group-items .info-list-item-label   { width: 150px; }
-.user-info-group-items .info-list-item         { margin-bottom: 10px; }
-.user-info-group-items .info-list-item-content { font-weight: normal; }
+.user-info-group-items .ls-info-list-item-label   { width: 150px; }
+.user-info-group-items .ls-info-list-item         { margin-bottom: 10px; }
+.user-info-group-items .ls-info-list-item-content { font-weight: normal; }

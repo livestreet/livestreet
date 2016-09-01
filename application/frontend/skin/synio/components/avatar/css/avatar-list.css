@@ -1,0 +1,14 @@
+/**
+ * Список аватаров
+ *
+ * @module ls/avatar/name
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-avatar-list .ls-avatar {
+    float: left;
+    margin: 0 10px 10px 0;
+}

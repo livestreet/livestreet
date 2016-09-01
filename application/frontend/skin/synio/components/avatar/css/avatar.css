@@ -1,0 +1,89 @@
+/**
+ * Аватар
+ *
+ * @module ls/avatar
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-avatar {
+    display: inline-block;
+}
+
+.ls-avatar-image {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.ls-avatar-image-link {
+    display: block;
+    text-decoration: none;
+}
+
+.ls-avatar-name {
+    font-size: 11px;
+}
+.ls-avatar-name-link {
+    color: #275ec2;
+}
+.ls-avatar-name-link:hover {
+    color: #f00;
+}
+
+.ls-avatar--size-small .ls-avatar-image {
+    width: 64px;
+    height: 64px;
+}
+
+.ls-avatar--size-xsmall .ls-avatar-image {
+    width: 48px;
+    height: 48px;
+}
+
+.ls-avatar--size-xxsmall .ls-avatar-image {
+    width: 24px;
+    height: 24px;
+}
+
+.ls-avatar--size-text .ls-avatar-image {
+    width: 18px;
+    height: 18px;
+}
+
+/**
+ * @modifier has-name
+ */
+.ls-avatar--has-name {
+    max-width: 64px;
+    text-align: center;
+}
+
+.ls-avatar--has-name .ls-avatar-image {
+    margin: 0 auto 2px;
+}
+
+.ls-avatar--has-name .ls-avatar-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/**
+ * @modifier inline
+ */
+.ls-avatar--has-name.ls-avatar--inline {
+    max-width: none;
+}
+
+.ls-avatar--has-name.ls-avatar--inline .ls-avatar-image,
+.ls-avatar--has-name.ls-avatar--inline .ls-avatar-image-link,
+.ls-avatar--has-name.ls-avatar--inline .ls-avatar-name {
+    display: inline-block;
+    vertical-align: middle;
+}
+.ls-avatar--has-name.ls-avatar--inline .ls-avatar-image {
+    margin: 0 2px 0 0;
+}

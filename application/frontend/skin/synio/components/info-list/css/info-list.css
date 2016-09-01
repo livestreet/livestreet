@@ -1,0 +1,57 @@
+/**
+ * Список с информацией
+ */
+.ls-info-list {
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 0;
+}
+.ls-info-list:last-child {
+    margin-bottom: 0;
+}
+
+.ls-info-list-item {
+    position: relative;
+    margin-bottom: 5px;
+    overflow: hidden;
+    display: table;
+    width: 100%;
+}
+.ls-info-list-item:last-child {
+    margin-bottom: 0;
+}
+.ls-info-list-item:after {
+    content: "";
+    border-bottom: 1px dotted #d1d8dc;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.2em;
+    z-index: 1;
+}
+.ls-info-list-item > * {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.ls-info-list-item-label {
+    width: 130px;
+    position: relative;
+    z-index: 10;
+}
+
+.ls-info-list-item-content {
+    font-weight: normal;
+    background: #fff;
+    position: relative;
+    z-index: 10;
+    margin-left: 150px;
+    padding-left: 2px;
+}
+.ls-info-list-item-content a {
+    text-decoration: underline;
+}
+.ls-info-list-item-label-text  {
+    background: #fff;
+    padding-right: 2px;
+}

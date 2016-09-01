@@ -1,0 +1,73 @@
+/**
+ * Стена
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/**
+ * Форма добавления сообщения на стену
+ */
+.wall > .wall-form {
+    margin-bottom: 15px;
+}
+.wall-form {
+    margin-bottom: 10px;
+    padding: 15px;
+    background: #f8fbfe;
+    border-radius: 5px;
+}
+.wall-form .ls-field {
+    margin-bottom: 0;
+}
+.wall-form textarea {
+    height: 30px;
+    padding-top: 6px;
+    padding-left: 8px;
+    min-height: 30px;
+    max-height: 30px;
+    resize: none;
+}
+.wall-form-footer {
+    display: none;
+}
+
+/* Open */
+.wall-form.open .ls-field {
+    margin-bottom: 15px;
+}
+.wall-form.open textarea {
+    height: 90px;
+    max-height: 300px;
+    resize: vertical;
+}
+.wall-form.open .wall-form-footer {
+    display: block;
+}
+
+/**
+ * Сообщения
+ */
+.wall-comments {
+    padding-left: 70px;
+}
+
+.wall-comments .wall-comment {
+    margin-bottom: 10px;
+}
+.wall-comments .wall-comment:first-child {
+    margin-top: 10px;
+}
+
+
+/**
+ * Кнопка подгрузки комментариев
+ */
+.ls-more.wall-more-comments {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 11px;
+    padding: 8px;
+}

@@ -14,7 +14,7 @@
 {if $html || $items}
     <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
         {if $title}
-            <h3 class="{$component}-title">
+            <h3 class="{$component}-title ls-heading">
                 {if $url}
                     <a href="{$url}">{$title}</a>
                 {else}

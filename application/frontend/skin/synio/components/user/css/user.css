@@ -6,7 +6,6 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-
 /* Заголовок */
 .profile-page-header {
     color: #333;
@@ -16,19 +15,8 @@
     margin-bottom: 20px;
 }
 
-/* Блок с информацией */
-.user-info-group {
-    margin-bottom: 50px;
-}
-.user-info-group:last-child {
-    margin-bottom: 0;
-}
-.user-info-group-title {
-    font-size: 18px;
-}
-
 /* О себе */
-.user-info-group.user-info-about {
+.user-info-about {
     padding: 17px 20px 20px 20px;
     background: #fcfce9;
     border-radius: 5px;
@@ -36,15 +24,52 @@
     color: #000;
     position: relative;
 }
-.user-info-about .user-info-group-title {
+.user-info-about-title {
     font-size: 19px;
     margin-bottom: 10px;
 }
 .user-info-about-empty-text {
-    opacity: .3;
+    opacity: .4;
 }
 
-/* Список */
-.user-info-group-items .info-list-item-label   { width: 150px; }
-.user-info-group-items .info-list-item         { margin-bottom: 10px; }
-.user-info-group-items .info-list-item-content { font-weight: normal; }
+/* Блок с информацией */
+.user-info-group-wrapper {
+    margin-bottom: 50px;
+}
+.user-info-group-col {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+}
+.user-info-group-col:first-child {
+    padding-right: 20px;
+}
+.user-info-group-col:last-child {
+    padding-left: 20px;
+}
+
+.user-info-group {
+    margin-bottom: 50px;
+}
+.user-info-group:last-child {
+    margin-bottom: 0;
+}
+
+.user-info-group-title {
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: normal;
+}
+.user-info-group-count {
+    color: #949aa1;
+}
+
+.user-info-group-items .ls-info-list-item-label {
+    width: 150px;
+}
+.user-info-group-items .ls-info-list-item {
+    margin-bottom: 10px;
+}
+.user-info-group-items .ls-info-list-item-content {
+    font-weight: normal;
+}
