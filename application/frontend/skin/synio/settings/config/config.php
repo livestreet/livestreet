@@ -12,10 +12,10 @@ $config['view']['grid']['type'] = 'fluid';
 
 // Настройки резины
 $config['view']['grid']['fluid_min_width'] = '320px';
-$config['view']['grid']['fluid_max_width'] = '1200px';
+$config['view']['grid']['fluid_max_width'] = '1100px';
 
 // Настройки фиксированная ширина
-$config['view']['grid']['fixed_width'] = '1000px';
+$config['view']['grid']['fixed_width'] = '1100px';
 
 // Показывать баннер с лого и описанием или нет
 $config['view']['layout_show_banner'] = true;

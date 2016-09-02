@@ -1,14 +1,38 @@
 /**
  * Список пользователей
  */
-.user-list-small                 { margin-bottom: 15px; max-height: 440px; overflow: auto; }
-.user-list-small:last-child      { margin-bottom: 0; }
-
-.user-list-small-item            { background: #fafafa; padding: 10px 55px 10px 10px; margin-bottom: 1px; position: relative; }
-.user-list-small-item:last-child { margin-bottom: 0; }
-.user-list-small-item input      { vertical-align: middle; }
-.user-list-small-item.selected   { background: #ffc; }
-
-.user-list-small-item-actions          { position: absolute; top: 50%; right: 13px; margin-top: -8px; }
-.user-list-small-item-actions li       { display: inline-block; cursor: pointer; opacity: .7; }
-.user-list-small-item-actions li:hover { opacity: 1; }
+.user-list-small {
+    margin-bottom: 15px;
+    max-height: 440px;
+    overflow: auto;
+}
+.user-list-small:last-child {
+    margin-bottom: 0;
+}
+.user-list-small-item {
+    background: #f8fbfe;
+    padding: 10px 55px 10px 10px;
+    margin-bottom: 1px;
+    position: relative;
+}
+.user-list-small-item:last-child {
+    margin-bottom: 0;
+}
+.user-list-small-item input {
+    vertical-align: middle;
+}
+.user-list-small-item.selected {
+    background: #fcfce9;
+}
+.user-list-small-item-actions {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    margin-top: -12px;
+}
+.user-list-small-item-actions li {
+    display: inline-block;
+    cursor: pointer;
+}
+.user-list-small-item-actions li:hover {
+}

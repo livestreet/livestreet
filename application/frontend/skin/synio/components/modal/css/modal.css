@@ -34,6 +34,10 @@
     cursor: pointer;
 }
 
+/* Actionbar */
+.ls-modal .ls-actionbar {
+    background: #eef6ff;
+}
 
 /* Header */
 .ls-modal-header {

@@ -8,12 +8,16 @@
 
 .ls-block {
     overflow: hidden;
+    border-bottom: 1px dotted #dce1e6;
+    padding-bottom: 25px;
 }
 .ls-block + .ls-block {
     margin-top: 25px;
 }
 .ls-block:last-child {
     margin-bottom: 0;
+    padding-bottom: 0;
+    border: none;
 }
 .ls-block .text-help {
     font-size: 11px;

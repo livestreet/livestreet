@@ -1,0 +1,14 @@
+/**
+ * Экшнбар
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-actionbar {
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #f8fbfe;
+    border-radius: 5px;
+}

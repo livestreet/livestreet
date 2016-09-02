@@ -34,3 +34,12 @@
     height: 11px;
     background-image: url(icons/message-new.png);
 }
+.syn-icon-trash {
+    width: 24px;
+    height: 24px;
+    background-image: url(icons/trash.png);
+    transition: background .2s;
+}
+.syn-icon-trash:hover {
+    background-image: url(icons/trash-hover.png);
+}

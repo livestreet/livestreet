@@ -49,15 +49,15 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 30%;
+    right: 25%;
     background: #f1f3f5;
 }
 
 /* Контент */
 .layout-content {
     float: left;
-    width: 70%;
-    padding: 20px;
+    width: 75%;
+    padding: 25px;
     box-sizing: border-box;
 }
 
@@ -73,7 +73,7 @@
 /* Сайдбар */
 .layout-sidebar {
     float: left;
-    width: 30%;
+    width: 25%;
     padding: 20px;
     box-sizing: border-box;
 }

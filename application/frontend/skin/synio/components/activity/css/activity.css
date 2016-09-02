@@ -16,9 +16,12 @@
 
 /* Дата-заголовок */
 .activity-date {
-    font: 400 18px/1.3em 'Open Sans', sans-serif;
-    padding: 10px 0;
-    border-bottom: 1px solid #E7E7E7;
+    color: #999;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
+    margin-top: 50px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
 }
 .activity-event + .activity-date {
     margin-top: 30px;
@@ -28,20 +31,48 @@
  * Событие
  */
 .activity-event {
-    padding: 15px;
+    padding: 15px 0;
 }
 .activity-event + .activity-event {
-    border-top: 1px solid #f2f2f2;
+    border-top: 1px solid #e7ebed;
+}
+.activity-event-info {
+    margin-top: -3px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: #b9c2c2;
+}
+.activity-event-info a {
+    color: #275ec2;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.activity-event-info a:hover {
+    color: #f00;
 }
 .activity-event-date {
-    display: block;
-    color: #999;
-    margin-bottom: 4px;
+    color: #818189;
 }
 .activity-event-text {
-    padding: 10px 15px;
-    margin-top: 10px;
-    color: #777;
-    background: #fafafa;
-    font-size: 13px;
+    position: relative;
+    padding: 5px 10px 6px;
+    background: #fefef1;
+    color: #363636;
+    margin-top: 13px;
+    font-size: 11px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 2px 4px #e8e8c0 inset;
+    box-shadow: 0 2px 4px #e8e8c0 inset;
+}
+.activity-event-text:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-color: transparent transparent #e8e8c0 transparent;
+    border-style: solid;
 }

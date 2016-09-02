@@ -77,7 +77,10 @@
 .ls-avatar--has-name.ls-avatar--inline {
     max-width: none;
 }
-
+.ls-avatar--has-name.ls-avatar--inline .ls-avatar-name-link {
+    text-decoration: underline;
+    color: #4a4a4a;
+}
 .ls-avatar--has-name.ls-avatar--inline .ls-avatar-image,
 .ls-avatar--has-name.ls-avatar--inline .ls-avatar-image-link,
 .ls-avatar--has-name.ls-avatar--inline .ls-avatar-name {

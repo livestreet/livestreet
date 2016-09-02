@@ -11,5 +11,10 @@ return [
         'block_recent' => [
             'all' => 'Вся активность'
         ]
+    ],
+    'user' => [
+        'search' => [
+            'title' => 'Поиск'
+        ]
     ]
 ];

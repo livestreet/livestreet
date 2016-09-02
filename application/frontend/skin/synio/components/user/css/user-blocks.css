@@ -1,9 +1,18 @@
 /**
  * Фото пользователя
  */
+.ls-block--user-photo {
+    border: none;
+    padding-bottom: 0;
+}
 .ls-block--user-photo .ls-block-content {
     padding: 0;
     position: relative;
+}
+
+/* Статистика */
+.user-stat .ls-info-list-item-label {
+    width: 170px;
 }
 
 /* Статус (онлайн/оффлайн) */
@@ -90,7 +99,6 @@
 }
 .ls-nav.ls-nav--stacked.user-nav > .ls-nav-item a {
     color: #275ec2;
-    text-decoration: underline;
 }
 .ls-nav.ls-nav--stacked.user-nav > .ls-nav-item a:hover {
     color: #f00;

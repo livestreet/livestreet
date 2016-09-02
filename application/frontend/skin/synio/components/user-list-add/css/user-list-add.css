@@ -1,0 +1,37 @@
+/**
+ * Список пользователей
+ */
+
+.user-list-add {
+    margin-bottom: 15px;
+}
+.user-list-add:last-child {
+    margin-bottom: 0;
+}
+.user-list-add-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+.user-list-add-form {
+    padding: 15px;
+    margin-bottom: 5px;
+    background: #f1f7fd;
+    background: -webkit-linear-gradient(top, #fbfdff 0%,#f1f7fd 100%);
+    background: -moz-linear-gradient(top, #fbfdff 0%,#f1f7fd 100%);
+    background: linear-gradient(top, #fbfdff 0%,#f1f7fd 100%);
+    border-radius: 5px;
+}
+.user-list-add-note {
+    margin-bottom: 20px;
+    color: #aaa;
+    font-size: 11px;
+    line-height: 14px;
+}
+.user-list-add .ls-blankslate {
+    margin-bottom: 0;
+    padding: 10px;
+    background: #fdfdfd;
+    color: #555;
+    border-radius: 5px;
+    font-size: 11px;
+}
