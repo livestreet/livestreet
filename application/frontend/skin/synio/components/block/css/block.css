@@ -32,6 +32,9 @@
     max-height: 200px;
     position: relative;
 }
+.ls-block h3 {
+    font-size: 16px;
+}
 
 /* Шапка */
 .ls-block-header {
@@ -96,4 +99,13 @@
 .ls-block--transparent {
     background-color: transparent;
     border-color: transparent;
+}
+
+.ls-block .ls-blankslate {
+    margin-bottom: 0;
+    padding: 10px;
+    background: #eafff8;
+    color: #555;
+    border-radius: 5px;
+    font-size: 11px;
 }

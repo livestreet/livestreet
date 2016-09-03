@@ -1,0 +1,46 @@
+.ls-item-group .blog-list-item {
+    padding-right: 70px;
+}
+.blog-list-item .ls-item-title {
+    margin-top: -3px;
+    line-height: 24px;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.blog-list-item .ls-item-title a {
+    text-decoration: underline;
+    color: #275ec2;
+}
+.blog-list-item .ls-item-title a:hover {
+    color: #f00;
+}
+.blog-list-item .ls-item-title .syn-icon {
+    vertical-align: middle;
+    margin-right: 3px;
+    position: relative;
+    top: -1px;
+    cursor: help;
+}
+
+.blog-list-item-category {
+    font-size: 11px;
+    margin-top: -5px;
+    margin-bottom: 7px;
+}
+.blog-list-item-category .fa {
+    color: #65aed2;
+}
+
+.blog-list-item-users {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 11px;
+    color: #5396b7;
+    cursor: help;
+}
+.blog-list-item-users .syn-icon {
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+}

@@ -9,6 +9,10 @@
 .user-list-small:last-child {
     margin-bottom: 0;
 }
+.user-list-small-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
 .user-list-small-item {
     background: #f8fbfe;
     padding: 10px 55px 10px 10px;

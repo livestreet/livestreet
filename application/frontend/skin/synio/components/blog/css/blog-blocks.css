@@ -1,0 +1,28 @@
+/**
+ * Блок с кнопкой "Создать блог"
+ */
+.ls-block--blog-add .ls-block-content {
+    padding: 20px;
+    text-align: center;
+}
+
+/**
+ * Список блогов
+ */
+.ls-block.blog-block-blogs .ls-item {
+    padding: 10px 0;
+    font-size: 11px;
+}
+.ls-block.blog-block-blogs .ls-item-title {
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+.ls-block.blog-block-blogs .ls-item-image {
+    width: 36px;
+    height: 36px;
+}
+
+.ls-block.ls-block--blog-photo {
+    border: none;
+    padding-bottom: 0;
+}

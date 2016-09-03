@@ -1,0 +1,18 @@
+/**
+ * Группированный список
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-item-group {
+
+}
+.ls-item-group .ls-item {
+    padding: 13px 15px 13px 0;
+    border-top: 1px solid #f1f3f5;
+}
+.ls-item-group .ls-item:last-child {
+    border-bottom: none;
+}

@@ -1,0 +1,75 @@
+/**
+ * Item
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+.ls-item {
+    position: relative;
+    padding: 13px 15px 13px 0;
+    border: none;
+}
+.ls-item:hover {
+    background: #f5fdff;
+}
+.ls-item:hover .ls-info-list-item-content,
+.ls-item:hover .ls-info-list-item-label-text {
+    background: #f8fbfe;
+}
+
+/*  */
+.ls-item > * {
+    vertical-align: top;
+    display: table-cell;
+    padding-right: 15px;
+}
+.ls-item > *:last-child {
+    padding-right: 0;
+}
+
+/* Делаем так, чтобы блок body занимал максимальное */
+/* пространство по ширине */
+.ls-item-body {
+    width: 100%;
+}
+
+.ls-item-image {
+    vertical-align: top;
+}
+.ls-item-title {
+    font-size: 24px;
+    line-height: 1.1em;
+    margin-bottom: 15px;
+}
+.ls-item-description {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+.ls-item-description:last-child {
+    margin-bottom: 0;
+}
+.ls-item-actions {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    width: 150px;
+    text-align: right;
+}
+
+/**
+ * @modifier has-image
+ */
+.ls-item--has-image {
+    
+}
+
+/**
+ * @modifier image-rounded
+ */
+.ls-item--image-rounded .ls-item-image {
+    border-radius: 50%;
+}

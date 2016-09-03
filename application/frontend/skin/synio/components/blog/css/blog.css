@@ -1,0 +1,42 @@
+/**
+ * Блог
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.blog {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: #f8fbfe;
+    border-radius: 5px;
+}
+
+/* Хидер */
+.blog-header {
+    position: relative;
+    padding: 0 0 15px 0;
+}
+
+.blog-title {
+    margin-bottom: 7px;
+}
+.blog-title .syn-icon {
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+    cursor: help;
+}
+
+/* Контент */
+.blog-description {
+    margin-bottom: 30px;
+}
+.blog-content .ls-info-list-item-content,
+.blog-content .ls-info-list-item-label-text {
+    background: #f8fbfe;
+}
+.blog-content .ls-info-list-item-label {
+    width: 200px;
+}

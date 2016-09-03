@@ -25,7 +25,11 @@
             <header class="{$component}-header">
                 {block 'block_header_inner'}
                     <h3 class="{$component}-title">
-                        {$title}
+                        {if $titleUrl}
+                            <a href="{$titleUrl}">{$title}</a>
+                        {else}
+                            {$title}
+                        {/if}
                     </h3>
                 {/block}
             </header>

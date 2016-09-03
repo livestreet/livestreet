@@ -43,3 +43,13 @@
 .syn-icon-trash:hover {
     background-image: url(icons/trash-hover.png);
 }
+.syn-icon-lock {
+    width: 21px;
+    height: 21px;
+    background-image: url(icons/lock.png);
+}
+.syn-icon-user {
+    width: 12px;
+    height: 12px;
+    background-image: url(icons/user.png);
+}

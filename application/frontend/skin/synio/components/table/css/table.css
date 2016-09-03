@@ -1,0 +1,80 @@
+/**
+ * Таблицы
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+caption {
+    text-align: left;
+}
+th {
+    text-align: left;
+}
+
+
+.ls-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+.ls-table:last-child {
+    margin-bottom: 0;
+}
+.ls-table td, .ls-table th {
+    padding: 15px;
+    vertical-align: top;
+    line-height: 18px;
+    border-top: 1px solid #f1f3f5;
+}
+.ls-table td {
+    vertical-align: middle;
+}
+.ls-table tr:hover td {
+    background: #f5fdff;
+}
+.ls-table th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #c3d4dc;
+    font-weight: normal;
+    padding: 10px;
+}
+.ls-table caption + thead th,
+.ls-table colgroup + thead th,
+.ls-table thead:first-child tr:first-child th,
+.ls-table thead:first-child tr:first-child td {
+    border-top: 0;
+}
+
+.ls-table tr.active td {
+    background: #F6F6FA;
+}
+.ls-table .ls-table-sort-asc:after {
+    content: "▲";
+}
+.ls-table .ls-table-sort-desc:after {
+    content: "▼";
+}
+
+/**
+ * Condensed
+ */
+.ls-table--condensed td,
+.ls-table--condensed th {
+    padding: 7px;
+}
+
+/**
+ * Striped
+ */
+.ls-table--striped tbody tr:nth-child(odd) td {
+    background: #fafafa;
+}
+
+/**
+ * Hover
+ */
+.ls-table--hover tbody tr:hover td {
+    background: #f5fdff;
+}

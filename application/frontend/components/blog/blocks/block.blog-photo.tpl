@@ -14,5 +14,5 @@
     assign       = blockContent}
 
 {component 'block'
-    mods     = 'nopadding transparent blog-actions'
+    mods     = 'nopadding transparent blog-photo'
     content = $blockContent}
