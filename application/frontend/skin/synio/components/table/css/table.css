@@ -31,9 +31,6 @@ th {
 .ls-table td {
     vertical-align: middle;
 }
-.ls-table tr:hover td {
-    background: #f5fdff;
-}
 .ls-table th {
     vertical-align: bottom;
     border-bottom: 1px solid #c3d4dc;

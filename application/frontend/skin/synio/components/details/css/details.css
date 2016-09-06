@@ -1,0 +1,70 @@
+/**
+ * Details
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-details {
+    margin-bottom: 10px;
+}
+.ls-details:last-child {
+    margin-bottom: 0;
+}
+
+/* Заголовок */
+.ls-details-title {
+    position: relative;
+    padding: 10px 15px 10px 32px;
+    margin-bottom: 0;
+    font-size: 16px;
+    border-radius: 5px;
+}
+.ls-details-title:hover {
+    background: #f8fbfe;
+    cursor: pointer;
+}
+.ls-details.is-open > .ls-details-title {
+    background: #eff6fd;
+    border-radius: 5px 5px 0 0;
+}
+.ls-details-title-text {
+    border-bottom: 1px dashed;
+    color: #275ec2;
+}
+
+/* Стрелка */
+.ls-details-title:before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: 15px;
+    height: 0;
+    width: 0;
+    margin-top: -1px;
+    border: 4px solid transparent;
+    border-left-color: #275ec2;
+}
+.ls-details.is-open > .ls-details-title:before {
+    top: 19px;
+    left: 13px;
+    border-left-color: transparent;
+    border-top-color: #275ec2;
+}
+
+/* Основной контейнер */
+.ls-details-body {
+    display: none;
+}
+.ls-details.is-open > .ls-details-body {
+    display: block;
+}
+
+/* Содержимое */
+.ls-details-content {
+    padding: 20px 20px;
+    border: 1px solid #eff6fd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}

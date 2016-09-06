@@ -1,0 +1,32 @@
+/**
+ * Первое сообщение в диалоге
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-talk-message-root-info,
+.ls-talk-message-root-actionbar,
+.ls-talk-message-root-text {
+    margin-bottom: 15px;
+}
+
+.ls-talk-message-root {
+    margin-bottom: 50px;
+}
+
+.ls-talk-message-root-info {
+    border-top: 1px solid #eff6fd;
+    padding-top: 5px;
+    font-size: 11px;
+    color: #7b848d;
+}
+.ls-talk-message-root-info-item {
+    float: left;
+    padding-top: 5px;
+    margin-right: 15px;
+}
+.ls-talk-message-root-info-item--author {
+    padding-top: 3px;
+}

@@ -1,0 +1,47 @@
+/**
+ * Личные сообщения
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.talk {
+    background: #fafafa;
+    padding: 20px;
+    margin-bottom: 0;
+}
+
+.ls-talk-participants-details {
+    margin-bottom: 0;
+}
+.ls-talk-participants-details > .ls-details-title {
+    background: #f8fbfe;
+    border-radius: 0;
+}
+.ls-talk-participants-details .ls-details-content {
+    padding: 20px 20px;
+    border: 1px solid #eff6fd;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 0;
+}
+.ls-talk-participants-details.is-open > .ls-details-title {
+    background: #eff6fd;
+    border-radius: 0;
+}
+
+/**
+ * Список участников диалога
+ */
+.message-users .user-list-small-item.inactive {
+    opacity: .5;
+    cursor: help;
+}
+.message-users .user-list-small-item.inactive .ls-talk-participants-item-inactivate,
+.message-users .user-list-small-item .ls-talk-participants-item-activate {
+    display: none;
+}
+.message-users .user-list-small-item.inactive .ls-talk-participants-item-activate {
+    display: inline-block;
+}

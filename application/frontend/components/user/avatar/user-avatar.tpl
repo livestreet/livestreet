@@ -15,7 +15,7 @@
     'small' => 64,
     'xsmall' => 48,
     'xxsmall' => 24,
-    'text' => 18
+    'text' => 24
 ]}
 
 {component 'avatar'
