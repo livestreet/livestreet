@@ -6,14 +6,153 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
+.ls-vote--default {
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 50px;
+    display: inline-block;
+    font-size: 11px;
+    line-height: 22px;
+    border: 1px solid transparent;
+}
+.ls-vote--default.ls-vote--not-voted:not(.ls-vote--locked) {
+    border-color: #dfe3e8;
+}
+.ls-vote--default .ls-vote-rating {
+    display: none;
+}
+.ls-vote--default.ls-vote--locked .ls-vote-rating,
+.ls-vote--default.ls-vote--voted .ls-vote-rating {
+    display: block;
+}
+.ls-vote--default .ls-vote-rating,
+.ls-vote--default .ls-vote-item {
+    float: left;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+}
+
+.ls-vote--default .ls-vote-item {
+    padding: 0 5px;
+    background: #fbfbfc;
+    background: -moz-linear-gradient(top,  #fbfbfc 0%, #f0f2f5 100%);
+    background: -webkit-linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
+    background: linear-gradient(top,  #fbfbfc 0%,#f0f2f5 100%);
+}
+
+.ls-vote--default .ls-vote-rating {
+    width: auto;
+    padding: 0 0 0 10px;
+}
+
+/* Icon */
+.ls-vote--default .ls-vote-item:before {
+    content: "";
+    width: 16px;
+    height: 14px;
+    margin-top: 4px;
+    display: inline-block;
+    background-repeat: no-repeat;
+}
+.ls-vote--default .ls-vote-item-up:before      { background-image: url(../images/vote-default-up.png); }
+.ls-vote--default .ls-vote-item-down:before    { background-image: url(../images/vote-default-down.png); }
+.ls-vote--default .ls-vote-item-abstain:before { background-image: url(../images/vote-default-abstain.png); }
+
+/* Hover */
+.ls-vote--default .ls-vote-item-abstain:hover:before {
+    background-image: url(../images/vote-default-abstain-hover.png);
+}
+.ls-vote--default .ls-vote-item-abstain:hover {
+    background: #4ec4ff;
+    background: -moz-linear-gradient(top,  #4ec4ff 0%, #22b3fe 100%);
+    background: -webkit-linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+    background: linear-gradient(top,  #4ec4ff 0%,#22b3fe 100%);
+}
+
+.ls-vote--default .ls-vote-item-up:hover:before {
+    background-image: url(../images/vote-default-up-positive.png);
+}
+.ls-vote--default .ls-vote-item-up:hover {
+    background: #e4fae2;
+    background: -moz-linear-gradient(top,  #e4fae2 0%, #b0e3ac 100%);
+    background: -webkit-linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+    background: linear-gradient(top,  #e4fae2 0%,#b0e3ac 100%);
+}
+
+.ls-vote--default .ls-vote-item-down:hover:before {
+    background-image: url(../images/vote-default-down-negative.png);
+}
+.ls-vote--default .ls-vote-item-down:hover {
+    background: #ffc8c8;
+    background: -moz-linear-gradient(top,  #ffc8c8 0%, #ff8181 100%);
+    background: -webkit-linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+    background: linear-gradient(top,  #ffc8c8 0%,#ff8181 100%);
+}
+
+/* Locked */
+.ls-vote--default.ls-vote--locked .ls-vote-item {
+    display: none;
+}
+.ls-vote--default.ls-vote--locked:not(.ls-vote--voted) .ls-vote-rating {
+    padding-right: 10px;
+}
+
+/* Voted */
+.ls-vote--default.ls-vote--locked,
+.ls-vote--default.ls-vote--voted {
+    box-shadow: 0 2px 3px rgba(0,0,0,.2) inset;
+}
+.ls-vote--default.ls-vote--voted .ls-vote-item {
+    background: none;
+    display: none;
+}
+
+/* Positive */
+.ls-vote--default.ls-vote--locked.ls-vote--count-positive,
+.ls-vote--default.ls-vote--voted.ls-vote--count-positive { background: #def7dc; }
+.ls-vote--default.ls-vote--count-positive .ls-vote-rating { color: #5fa459; }
+
+/* Negative */
+.ls-vote--default.ls-vote--locked.ls-vote--count-negative,
+.ls-vote--default.ls-vote--voted.ls-vote--count-negative { background: #ff8a8a; }
+.ls-vote--default.ls-vote--count-negative .ls-vote-rating { color: #da4242; }
+
+/* Zero */
+.ls-vote--default.ls-vote--locked.ls-vote--count-zero,
+.ls-vote--default.ls-vote--voted.ls-vote--count-zero { background: #edf8fd; }
+.ls-vote--default.ls-vote--count-zero .ls-vote-rating { color: #628fa5; }
+
+/* Up */
+.ls-vote--default.ls-vote--voted.ls-vote--voted-up .ls-vote-item-up { display: block; }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-up.ls-vote--count-positive .ls-vote-item-up:before { background-image: url(../images/vote-default-up-positive.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-up.ls-vote--count-negative .ls-vote-item-up:before { background-image: url(../images/vote-default-up-negative.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-up.ls-vote--count-zero     .ls-vote-item-up:before { background-image: url(../images/vote-default-up.png); }
+
+/* Down */
+.ls-vote--default.ls-vote--voted.ls-vote--voted-down .ls-vote-item-down { display: block; }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-down.ls-vote--count-positive .ls-vote-item-down:before { background-image: url(../images/vote-default-down-positive.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-down.ls-vote--count-negative .ls-vote-item-down:before { background-image: url(../images/vote-default-down-negative.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-down.ls-vote--count-zero     .ls-vote-item-down:before { background-image: url(../images/vote-default-down.png); }
+
+/* Abstain */
+.ls-vote--default.ls-vote--voted.ls-vote--voted-abstain .ls-vote-item-abstain { display: block; }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-abstain.ls-vote--count-positive .ls-vote-item-abstain:before { background-image: url(../images/vote-default-abstain-positive.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-abstain.ls-vote--count-negative .ls-vote-item-abstain:before { background-image: url(../images/vote-default-abstain-negative.png); }
+.ls-vote--default.ls-vote--voted.ls-vote--voted-abstain.ls-vote--count-zero     .ls-vote-item-abstain:before { background-image: url(../images/vote-default-abstain.png); }
+
+/**
+ * Small
+ */
+
 /* Body */
-.ls-vote-body {
+.ls-vote--small .ls-vote-body {
     position: relative;
     padding-right: 55px;
 }
 
 /* Vote Item */
-.ls-vote-item {
+.ls-vote--small .ls-vote-item {
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -23,92 +162,66 @@
     transition: background .2s;
 }
 
-.ls-vote-item-up {
+.ls-vote--small .ls-vote-item-up {
     right: 0;
     background-image: url(../images/vote-small-up.png);
 }
-.ls-vote-item-down {
+.ls-vote--small .ls-vote-item-down {
     right: 25px;
     background-image: url(../images/vote-small-down.png);
 }
-.ls-vote-item-up:hover   { background-image: url(../images/vote-small-up-hover.png); }
-.ls-vote-item-down:hover { background-image: url(../images/vote-small-down-hover.png); }
+.ls-vote--small .ls-vote-item-up:hover   { background-image: url(../images/vote-small-up-hover.png); }
+.ls-vote--small .ls-vote-item-down:hover { background-image: url(../images/vote-small-down-hover.png); }
 
 /* Rating */
-.ls-vote-rating { font-weight: bold; color: #aaa; font-size: 11px; }
+.ls-vote--small .ls-vote-rating { font-weight: bold; color: #aaa; font-size: 11px; }
 
-.ls-vote--count-positive .ls-vote-rating { color: #51983c; }
-.ls-vote--count-negative .ls-vote-rating { color: #da4242; }
+.ls-vote--small.ls-vote--count-positive .ls-vote-rating { color: #51983c; }
+.ls-vote--small.ls-vote--count-negative .ls-vote-rating { color: #da4242; }
 
 /* Voted */
-.ls-vote--voted .ls-vote-body { padding-right: 30px; }
+.ls-vote--small.ls-vote--voted .ls-vote-body { padding-right: 30px; }
 
-.ls-vote--voted .ls-vote-item {
+.ls-vote--small.ls-vote--voted .ls-vote-item {
     right: 0;
 }
-.ls-vote--voted .ls-vote-item:hover {
+.ls-vote--small.ls-vote--voted .ls-vote-item:hover {
     cursor: default;
 }
-.ls-vote--voted .ls-vote-item-up   { background-image: url(../images/vote-small-up-active.png); }
-.ls-vote--voted .ls-vote-item-down { background-image: url(../images/vote-small-down-active.png); }
+.ls-vote--small.ls-vote--voted .ls-vote-item-up   { background-image: url(../images/vote-small-up-active.png); }
+.ls-vote--small.ls-vote--voted .ls-vote-item-down { background-image: url(../images/vote-small-down-active.png); }
 
-.ls-vote--voted.ls-vote--voted-zero .ls-vote-item-down,
-.ls-vote--voted.ls-vote--voted-zero .ls-vote-item-up,
+.ls-vote--small.ls-vote--voted.ls-vote--voted-zero .ls-vote-item-down,
+.ls-vote--small.ls-vote--voted.ls-vote--voted-zero .ls-vote-item-up,
 
-.ls-vote--voted.ls-vote--voted-up .ls-vote-item-down,
-.ls-vote--voted.ls-vote--voted-up .ls-vote-item-abstain,
+.ls-vote--small.ls-vote--voted.ls-vote--voted-up .ls-vote-item-down,
+.ls-vote--small.ls-vote--voted.ls-vote--voted-up .ls-vote-item-abstain,
 
-.ls-vote--voted.ls-vote--voted-down .ls-vote-item-up,
-.ls-vote--voted.ls-vote--voted-down .ls-vote-item-abstain { display: none; }
+.ls-vote--small.ls-vote--voted.ls-vote--voted-down .ls-vote-item-up,
+.ls-vote--small.ls-vote--voted.ls-vote--voted-down .ls-vote-item-abstain { display: none; }
 
 /* Locked */
-.ls-vote--locked .ls-vote-body {
+.ls-vote--small.ls-vote--locked .ls-vote-body {
     padding-right: 0;
 }
-.ls-vote--locked .ls-vote-item {
+.ls-vote--small.ls-vote--locked .ls-vote-item {
     display: none;
 }
 
-
 /**
- * Large (User, Blog)
+ * Info
  */
-.ls-vote--large .ls-vote-heading {
-    text-transform: uppercase;
-    text-align: right;
-    font-size: 11px;
+.ls-vote-info-item:not(:last-child) {
     margin-bottom: 5px;
-    font-family: Arial;
-    color: #aaa;
 }
-.ls-vote--large .ls-vote-rating     { font: 300 30px/1em 'Open Sans'; text-align: right; }
-.ls-vote--large .ls-vote-item-up,
-.ls-vote--large .ls-vote-item-down  { top: 7px; }
-.ls-vote--large.ls-vote--count-positive .ls-vote-rating { color: #333; }
-
-
-/**
- * Small (Topic)
- */
-.ls-vote--small { border-radius: 3px; overflow: hidden; position: relative; }
-
-/* Body */
-.ls-vote--small .ls-vote-body { padding: 0; }
-
-/* Кнопки голосования */
-.ls-vote--small .ls-vote-item { opacity: 1; filter: alpha(opacity=100); position: static; }
-
-.ls-vote--small .ls-vote-item,
-.ls-vote--small .ls-vote-rating { float: left; background: #ac90df; padding: 8px 13px; }
-.ls-vote--small .ls-vote-item i { opacity: 1; }
-.ls-vote--small .ls-vote-item:hover { opacity: .9; filter: alpha(opacity=90); }
-
-/* Рейтинг */
-.ls-vote--small .ls-vote-rating { color: #fff; display: none; }
-.ls-vote--small.ls-vote--voted .ls-vote-rating { display: block; }
-
-.ls-vote--small.ls-vote--count-negative .ls-vote-item,
-.ls-vote--small.ls-vote--count-negative .ls-vote-rating { background: #da3a3a; }
-
-/* Заблокированное */
-.ls-vote--small.ls-vote--locked .ls-vote-rating { display: block; }
+.ls-vote-info-item:before {
+    display: inline-block;
+    content: "";
+    width: 16px;
+    height: 14px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.ls-vote-info-item--up:before { background-image: url(../images/info-up.png); }
+.ls-vote-info-item--down:before { background-image: url(../images/info-down.png); }
+.ls-vote-info-item--abstain:before { background-image: url(../images/info-abstain.png); }

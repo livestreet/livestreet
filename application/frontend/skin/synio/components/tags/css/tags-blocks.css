@@ -1,0 +1,9 @@
+/**
+ * Теги
+ *
+ * @modifier tags
+ */
+
+.ls-block--tags .ls-tab-pane {
+    padding: 20px;
+}

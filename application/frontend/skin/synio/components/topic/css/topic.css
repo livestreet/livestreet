@@ -26,29 +26,39 @@
 .ls-topic-header {
     margin-bottom: 25px;
 }
-.ls-topic-header .ls-topic-title {
-    font: 400 32px/1.3em "Open Sans", sans-serif;
-    margin: 0 0 15px;
+
+.ls-topic-title {
+    font-size: 27px;
+    line-height: 1.1em;
+    font-weight: normal;
+    margin: 0 0 10px;
 }
-.ls-topic-header .ls-topic-title a {
-    text-decoration: none;
+.ls-topic-title:last-child {
+    margin-bottom: 0;
 }
-.ls-topic-header .ls-topic-title a:visited {
-    color: #000;
+.ls-topic-title a {
+    text-decoration: underline;
+    color: #275ec2;
 }
-.ls-topic-header .ls-topic-title i {
+.ls-topic-title a:hover {
+    color: #f00;
+}
+.ls-topic-title i {
     position: relative;
     top: 8px;
     cursor: help;
 }
-.ls-topic-header .ls-topic-info {
-    color: #777;
-    margin-bottom: 15px;
-    overflow: hidden;
+
+.ls-topic-blogs {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
 }
-.ls-topic-header .ls-topic-info-item {
-    float: left;
-    margin-right: 15px;
+.ls-topic-blogs a {
+    color: #000;
+    text-decoration: underline;
+}
+.ls-topic-blogs a:hover {
+    color: #666;
 }
 
 
@@ -69,9 +79,16 @@
 /**
  * Подвал
  */
+.ls-topic-footer {
+    border-top: 1px solid #e7ebed;
+    padding-top: 11px;
+    font-size: 11px;
+    color: #7b848d;
+}
 .ls-topic-footer .ls-topic-info-item {
     float: left;
-    padding: 8px;
+    height: 22px;
+    line-height: 22px;
     margin-right: 20px;
 }
 .ls-topic-info a {
@@ -82,35 +99,50 @@
 }
 
 /* Автор */
-.ls-topic-info-item.ls-topic-info-item--author {
-    padding: 0;
-}
-.ls-topic-info-item .ls-avatar .ls-avatar-image {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-}
-.ls-topic-info-item .ls-avatar .ls-avatar-name-link {
-    color: #333;
+.ls-topic-info-item.ls-topic-info-item--author .ls-avatar {
+    position: relative;
+    top: -2px;
 }
 
 /* Ссылка на комментарии */
-.ls-topic-info-item.ls-topic-info-item--comments a span {
-    color: #777;
+.ls-topic-info-item.ls-topic-info-item--comments a {
+    text-decoration: none;
+}
+
+.ls-topic-info-item--comments-count:before {
+    margin-right: 7px;
+    display: inline-block;
+    content: "";
+    width: 11px;
+    height: 11px;
+    background: url(../images/comments.png) no-repeat;
+    position: relative;
+    top: 2px;
+}
+.ls-topic-info-item--comments-count {
+    text-decoration: underline;
+}
+.ls-topic-info-item--comments:hover .ls-topic-info-item--comments-count {
+    
+}
+
+.ls-topic-info-item--comments--has-new .ls-topic-info-item--comments-count {
+    color: #000;
+}
+.ls-topic-info-item--comments--has-new .ls-topic-info-item--comments-count:before {
+    background-image: url(../images/comments-active.png);
+}
+
+.ls-topic-info-item--comments-new {
+    color: #27a736;
+    text-decoration: none;
 }
 
 /* Голосование */
 .ls-topic-info-item.ls-topic-info-item--vote {
+    margin: 0;
     padding: 0;
-}
-
-/**
- * Responsive styles
- */
-@media (max-width: 480px)  {
-    .ls-topic-header .ls-topic-title {
-        font-size: 24px;
-    }
+    float: right;
 }
 
 /**

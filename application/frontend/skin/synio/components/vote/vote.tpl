@@ -11,11 +11,17 @@
 {$component = 'ls-vote'}
 {component_define_params params=[ 'showRating', 'target', 'isLocked', 'useAbstain', 'mods', 'classes', 'attributes' ]}
 
+{* Параметры для тестирования *}
+{component_define_params params=[ 'isVoted', 'targetId', 'rating', 'direction' ]}
+
 {* Установка дефолтных значений *}
 {$showRating = $showRating|default:true}
 
 {* Рейтинг *}
-{$rating = $target->getRating()}
+{$rating = $rating|default:$target->getRating()}
+{$_direction = $direction|default:$target->getDirection()}
+{$_id = $targetId|default:$target->getId()}
+{$_isVoted = $isVoted|default:$target->getVote()}
 
 {* Получаем модификаторы *}
 {if $showRating}
@@ -28,15 +34,15 @@
     {/if}
 {/if}
 
-{if $vote = $target->getVote()}
+{if $_isVoted}
     {$mods = "$mods voted"}
 
-    {if $vote->getDirection() > 0}
+    {if $_direction > 0}
         {$mods = "$mods voted-up"}
-    {elseif $vote->getDirection() < 0}
+    {elseif $_direction < 0}
         {$mods = "$mods voted-down"}
     {else}
-        {$mods = "$mods voted-zero"}
+        {$mods = "$mods voted-abstain"}
     {/if}
 {else}
     {$mods = "$mods not-voted"}
@@ -50,12 +56,13 @@
     {$mods = "$mods rating-hidden"}
 {/if}
 
-{* Дополнительный мод-ор для иконок *}
-{$iconMod = ( in_array( 'small', explode(' ', $mods) ) ) ? 'white' : ''}
+{if ! in_array( 'small', explode(' ', $mods) )}
+    {$mods = "$mods default"}
+{/if}
 
 {block 'vote_options'}{/block}
 
-<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-param-i-target-id="{$target->getId()}">
+<div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes} data-param-i-target-id="{$_id}">
     {* Основной блок *}
     <div class="{$component}-body">
         {block 'vote_body'}
@@ -68,16 +75,16 @@
                 {/if}
             </div>
 
+            {* Нравится *}
+            <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $_isVoted}title="{$aLang.$component.up}"{/if} data-vote-value="1"></div>
+
             {* Воздержаться *}
             {if $useAbstain}
-                <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"></div>
+                <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $_isVoted}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"></div>
             {/if}
 
-            {* Нравится *}
-            <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $vote}title="{$aLang.$component.up}"{/if} data-vote-value="1"></div>
-
             {* Не нравится *}
-            <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1"></div>
+            <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $_isVoted}title="{$aLang.$component.down}"{/if} data-vote-value="-1"></div>
         {/block}
     </div>
 </div>

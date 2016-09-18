@@ -43,7 +43,7 @@
                 // Не понравилось
                 voted_down:     'ls-vote--voted-down',
                 // Воздержался
-                voted_zero:     'ls-vote--voted-zero',
+                voted_zero:     'ls-vote--voted-abstain',
 
                 // Рейтинг больше нуля
                 count_positive: 'ls-vote--count-positive',

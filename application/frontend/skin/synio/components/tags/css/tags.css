@@ -1,0 +1,64 @@
+/**
+ * Заголовок
+ */
+.ls-tags-item.ls-tags-title {
+    float: none;
+}
+
+/**
+ * Список тегов
+ */
+.ls-tags {
+    padding-left: 20px;
+    position: relative;
+    margin: 0 0 10px;
+    color: #888;
+    font-size: 11px;
+}
+.ls-tags:before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 15px;
+    height: 7px;
+    background: url(../images/tags.png) no-repeat;
+}
+.ls-tags-item {
+    color: #4c4c4c;
+    text-decoration: underline;
+}
+.ls-tags-item:hover {
+    text-decoration: none;
+}
+
+/**
+ * Облако тегов
+ */
+.ls-tag-cloud {
+    width: 100%;
+    text-align: center;
+}
+.ls-tag-cloud-item {
+    display: inline;
+    margin-right: 5px;
+    line-height: 22px;
+}
+.ls-tag-cloud-item a {
+    color: #727a90;
+    text-decoration: underline;
+}
+.ls-tag-cloud-item.active a {
+    color: #3CA023;
+}
+
+.ls-tag-size-1  { font-size: 12px; }
+.ls-tag-size-2  { font-size: 12px; }
+.ls-tag-size-3  { font-size: 14px; }
+.ls-tag-size-4  { font-size: 14px; }
+.ls-tag-size-5  { font-size: 18px; }
+.ls-tag-size-6  { font-size: 18px; }
+.ls-tag-size-7  { font-size: 20px; }
+.ls-tag-size-8  { font-size: 20px; }
+.ls-tag-size-9  { font-size: 22px; }
+.ls-tag-size-10 { font-size: 22px; }

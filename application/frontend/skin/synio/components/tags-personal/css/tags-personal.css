@@ -1,0 +1,16 @@
+.ls-tags-item.ls-tags-item--personal {
+    color: #139643;
+}
+.ls-tags-personal .ls-tags-item:last-child,
+.ls-tags-item.ls-tags-item--last {
+    margin-right: 20px;
+}
+.ls-tags-item.ls-tags-personal-edit {
+    text-decoration: none;
+    color: #7b848d;
+    border-bottom: 1px dotted #7b848d;
+}
+.ls-tags-item.ls-tags-personal-edit:hover {
+    color: #333;
+    border-color: #333;
+}
