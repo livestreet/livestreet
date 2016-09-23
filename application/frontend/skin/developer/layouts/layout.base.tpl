@@ -94,7 +94,7 @@
      *}
     <div id="container" class="ls-grid-row layout-container {hook run='layout_container_class' action=$sAction} {if $layoutShowSidebar}layout-has-sidebar{else}layout-no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
-        <div class="ls-grid-row layout-wrapper" class="{hook run='layout_wrapper_class' action=$sAction}">
+        <div class="ls-grid-row layout-wrapper {hook run='layout_wrapper_class' action=$sAction}">
             {**
              * Контент
              *}
