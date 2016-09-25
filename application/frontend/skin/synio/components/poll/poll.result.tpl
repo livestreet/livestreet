@@ -37,15 +37,13 @@
     {/foreach}
 </ul>
 
-{* Кнопка сортировки *}
-{component 'button'
-    mods       = 'icon'
-    classes    = 'js-poll-result-sort'
-    icon       = 'align-left'
-    attributes = [ 'title' => $aLang.poll.result.sort ]}
+<div class="ls-poll-footer">
+    {* Кнопка сортировки *}
+    <div class="ls-poll-sort js-poll-result-sort" title="{lang 'poll.result.sort'}"></div>
 
-{* Статистика голосования *}
-<span class="ls-poll-result-total">
-    {$aLang.poll.result.voted_total}: {$poll->getCountVote()} |
-    {$aLang.poll.result.abstained_total}: {$poll->getCountAbstain()}
-</span>
+    {* Статистика голосования *}
+    <div class="ls-poll-result-total">
+        {$aLang.poll.result.voted_total} — {$poll->getCountVote()} <br>
+        {$aLang.poll.result.abstained_total} — {$poll->getCountAbstain()}
+    </div>
+</div>

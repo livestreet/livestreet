@@ -36,6 +36,9 @@
                 // Результата опроса
                 result: '.js-poll-result',
 
+                // Результата опроса
+                resultContainer: '.js-poll-result-container',
+
                 // Вариант
                 item: '.js-poll-result-item',
 
@@ -52,14 +55,6 @@
          */
         _create: function () {
             this._super();
-
-            var _this = this;
-
-            this.elements = {
-                form:    this.element.find( this.options.selectors.form ),
-                vote:    this.element.find( this.options.selectors.vote ),
-                abstain: this.element.find( this.options.selectors.abstain )
-            };
 
             ! this.elements.form.length && this.initResult();
 
@@ -86,7 +81,7 @@
          */
         vote: function( abstain ) {
             this._submit( 'vote', this.elements.form, function( response ) {
-                this.element.html( $.trim( response.sText ) );
+                this.elements.resultContainer.html( $.trim( response.sText ) );
                 this.initResult();
 
                 this._off( this.elements.vote, 'click' );

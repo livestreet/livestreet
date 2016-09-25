@@ -86,7 +86,7 @@
      *}
     <div id="container" class="layout-container {hook run='layout_container_class' action=$sAction} {if $layoutShowSidebar}layout-has-sidebar{else}layout-no-sidebar{/if}">
         {* Вспомогательный контейнер-обертка *}
-        <div class="layout-wrapper ls-clearfix" class="{hook run='layout_wrapper_class' action=$sAction}">
+        <div class="layout-wrapper ls-clearfix {hook run='layout_wrapper_class' action=$sAction}">
             {**
              * Контент
              *}

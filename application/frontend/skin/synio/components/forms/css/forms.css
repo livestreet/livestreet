@@ -64,8 +64,11 @@ select[multiple] {
  */
 .fieldset {
     margin-bottom: 25px;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #eef4fb;
+}
+.fieldset:last-child {
+    margin-bottom: 0;
 }
 .fieldset-header {
     padding: 15px;
@@ -112,7 +115,7 @@ select[multiple] {
  * Form panel
  */
 .syn-form-panel {
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 20px 20px;
     background: #f8fbfe;
 }

@@ -3,6 +3,16 @@
  *}
 
 <form action="" method="post" id="js-poll-form" data-action="{if $poll}update{else}add{/if}">
+    {* Скрытые поля *}
+    {if $poll}
+        {component 'field' template='hidden' name='poll_id' value=$poll->getId()}
+    {else}
+        {component 'field' template='hidden' name='target[type]' value=$sTargetType}
+        {component 'field' template='hidden' name='target[id]' value=$sTargetId}
+    {/if}
+
+    {component 'field' template='hidden' name='target[tmp]' value=$sTargetTmp}
+
     {* Заголовок *}
     {component 'field' template='text'
              name  = 'poll[title]'
@@ -10,15 +20,17 @@
              label = $aLang.poll.form.fields.title
              inputAttributes= [ 'autofocus' => true ]}
 
-    {component 'field' template='checkbox'
-            name    = 'poll[is_guest_allow]'
-            checked = {($poll && $poll->getIsGuestAllow()) ? true : false }
-            label   = $aLang.poll.form.fields.is_guest_allow}
+    <div class="ls-field-checkbox-group">
+        {component 'field' template='checkbox'
+                name    = 'poll[is_guest_allow]'
+                checked = {($poll && $poll->getIsGuestAllow()) ? true : false }
+                label   = $aLang.poll.form.fields.is_guest_allow}
 
-    {component 'field' template='checkbox'
-            name    = 'poll[is_guest_check_ip]'
-            checked = {($poll && $poll->getIsGuestCheckIp()) ? true : false }
-            label   = $aLang.poll.form.fields.is_guest_check_ip}
+        {component 'field' template='checkbox'
+                name    = 'poll[is_guest_check_ip]'
+                checked = {($poll && $poll->getIsGuestCheckIp()) ? true : false }
+                label   = $aLang.poll.form.fields.is_guest_check_ip}
+    </div>
 
     {* Кол-во вариантов которые может выбрать пользователь *}
     {if $poll && $poll->getCountVote()}
@@ -27,20 +39,22 @@
 
     <p class="ls-mb-10">{$aLang.poll.form.fields.type.label}:</p>
 
-    {component 'field' template='radio'
-             name  = 'poll[type]'
-             value = 'one'
-             label = $aLang.poll.form.fields.type.label_one
-             checked = ! $poll or $poll->getCountAnswerMax() == 1
-             isDisabled = $bDisableChangeType}
+    <div class="ls-field-checkbox-group">
+        {component 'field' template='radio'
+                 name  = 'poll[type]'
+                 value = 'one'
+                 label = $aLang.poll.form.fields.type.label_one
+                 checked = ! $poll or $poll->getCountAnswerMax() == 1
+                 isDisabled = $bDisableChangeType}
 
-    {component 'field' template='radio'
-             displayInline = true
-             name          = 'poll[type]'
-             value         = 'many'
-             label         = $aLang.poll.form.fields.type.label_many
-             checked       = $poll && $poll->getCountAnswerMax() > 1
-             isDisabled    = $bDisableChangeType}
+        {component 'field' template='radio'
+                 displayInline = true
+                 name          = 'poll[type]'
+                 value         = 'many'
+                 label         = $aLang.poll.form.fields.type.label_many
+                 checked       = $poll && $poll->getCountAnswerMax() > 1
+                 isDisabled    = $bDisableChangeType}
+    </div>
 
     {component 'field' template='text'
              displayInline = true
@@ -51,7 +65,7 @@
 
 
     {* Варианты ответов *}
-    <div class="fieldset m-0">
+    <div class="fieldset">
         <header class="fieldset-header">
             <h3 class="fieldset-title">{$aLang.poll.form.answers_title}</h3>
         </header>
@@ -85,17 +99,6 @@
             </footer>
         {/if}
     </div>
-
-
-    {* Скрытые поля *}
-    {if $poll}
-        {component 'field' template='hidden' name='poll_id' value=$poll->getId()}
-    {else}
-        {component 'field' template='hidden' name='target[type]' value=$sTargetType}
-        {component 'field' template='hidden' name='target[id]' value=$sTargetId}
-    {/if}
-
-    {component 'field' template='hidden' name='target[tmp]' value=$sTargetTmp}
 </form>
 
 {* Шаблон ответа для добавления с помощью js *}

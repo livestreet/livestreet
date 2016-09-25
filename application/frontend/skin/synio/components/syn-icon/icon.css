@@ -43,6 +43,15 @@
 .syn-icon-trash:hover {
     background-image: url(icons/trash-hover.png);
 }
+.syn-icon-edit {
+    width: 24px;
+    height: 24px;
+    background-image: url(icons/edit.png);
+    transition: background .2s;
+}
+.syn-icon-edit:hover {
+    background-image: url(icons/edit-hover.png);
+}
 .syn-icon-lock {
     width: 21px;
     height: 21px;

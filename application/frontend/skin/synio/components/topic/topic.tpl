@@ -174,19 +174,14 @@
                         </li>
 
                         {if ! $isPreview}
-                            {* Избранное *}
-                            <li class="{$component}-info-item {$component}-info-item--favourite">
-                                {component 'favourite' classes="js-favourite-topic" target=$topic attributes=[ 'data-param-target_type' => $type ]}
-                            </li>
-
                             {* Поделиться *}
                             <li class="{$component}-info-item {$component}-info-item--share">
-                                {component 'icon' icon='share'
-                                    classes="js-popover-default"
-                                    attributes=[
-                                        'title' => {lang 'topic.share'},
-                                        'data-tooltip-target' => "#topic_share_{$topic->getId()}"
-                                    ]}
+                                <i class="{$component}-share js-popover-default" title="{lang 'topic.share'}" data-tooltip-target="#topic_share_{$topic->getId()}"></i>
+                            </li>
+
+                            {* Избранное *}
+                            <li class="{$component}-info-item {$component}-info-item--favourite">
+                                {component 'favourite' classes="js-favourite-topic {$component}-favourite" target=$topic attributes=[ 'data-param-target_type' => $type ]}
                             </li>
                         {/if}
 
@@ -211,7 +206,7 @@
         </footer>
 
         {* Всплывающий блок появляющийся при нажатии на кнопку Поделиться *}
-        {if ! $isList && ! $isPreview}
+        {if ! $isPreview}
             <div class="ls-tooltip" id="topic_share_{$topic->getId()}">
                 <div class="ls-tooltip-content js-ls-tooltip-content">
                     {hookb run="topic_share" topic=$topic isList=$isList}

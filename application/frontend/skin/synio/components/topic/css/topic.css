@@ -75,6 +75,11 @@
     margin-top: 10px;
 }
 
+/* Опросы */
+.ls-topic .ls-poll {
+    margin-bottom: 20px;
+}
+
 
 /**
  * Подвал
@@ -96,6 +101,19 @@
 }
 .ls-topic-info a:hover {
     text-decoration: underline;
+}
+.ls-topic-share {
+    position: relative;
+    top: 2px;
+    width: 11px;
+    height: 11px;
+    display: inline-block;
+    background: url(../images/share.png) no-repeat;
+    cursor: pointer;
+}
+.ls-topic-favourite {
+    position: relative;
+    top: 1px;
 }
 
 /* Автор */

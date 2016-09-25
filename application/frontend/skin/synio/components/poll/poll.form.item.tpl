@@ -35,8 +35,8 @@
 
     {* Кнопка удаления *}
     {if $allowRemove}
-        {component 'icon'
-            icon='remove'
+        {component 'syn-icon'
+            icon='trash'
             classes="{$component}-remove js-poll-form-answer-item-remove"
             attributes=[
                 style => "{if ! $showRemove}display: none{/if}"

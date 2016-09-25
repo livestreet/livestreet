@@ -1,0 +1,60 @@
+/**
+ * Media
+ */
+
+.ls-modal--media {
+    max-width: 1130px;
+}
+.ls-modal--media .ls-modal-body {
+    padding: 0;
+}
+.ls-modal--media .ls-modal-header {
+    margin-bottom: 25px;
+}
+
+.ls-media {
+    background: #f8fbfe;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 0 10px;
+}
+
+/* Nav */
+.ls-media-nav .ls-tab-list {
+    width: 160px;
+    padding: 0;
+    border: none;
+}
+.ls-media-nav .ls-tab {
+    position: static;
+    margin: 0;
+}
+.ls-media-nav .ls-tab .ls-tab-inner {
+    border: none;
+    border-radius: 0;
+}
+.ls-media-nav .ls-tab:hover {
+}
+.ls-media-nav .ls-tab.active .ls-tab-inner {
+    background: #eef4fb;
+}
+
+/* Panes */
+.ls-media-nav .ls-tabs-panes {
+    overflow: hidden;
+    margin-left: 160px;
+    border-left: 1px solid #eee;
+    background: #fbfcfc;
+}
+
+/* Content */
+.ls-media-pane-content {
+    min-height: 300px;
+    padding: 15px;
+}
+
+/* Footer */
+.ls-media-pane-footer {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}

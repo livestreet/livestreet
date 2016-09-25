@@ -64,7 +64,6 @@
 
 
 /* User */
-/* TODO: Fix icon */
 .ls-user {
     font-weight: bold;
     display: inline-block;
@@ -73,7 +72,11 @@
     text-decoration: none;
 }
 .ls-user:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
     margin-right: 3px;
-    font-family: FontAwesome;
-    content: "\f007";
+    width: 12px;
+    height: 12px;
+    background-image: url(../../syn-icon/icons/user.png);
 }

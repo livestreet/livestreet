@@ -1,0 +1,154 @@
+/**
+ * Опросы
+ *
+ * @template polls/*.tpl
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-poll {
+    padding: 15px 15px;
+    border: 1px dashed #ddd;
+    border-radius: 5px;
+}
+
+.ls-poll-title {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'PT Sans';
+}
+
+.ls-poll-answer-list { margin-bottom: 20px; margin-left: 0; list-style-type: none;    }
+
+.ls-poll-answer-list-item            { margin-bottom: 10px; }
+.ls-poll-answer-list-item:last-child { margin-bottom: 0; }
+.ls-poll-answer-list-item label      { display: inline; }
+
+
+/**
+ * Результат опроса
+ *
+ * @template polls/poll.result.tpl
+ */
+.ls-poll-result {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.ls-poll-result-item {
+    margin-bottom: 20px;
+    overflow: hidden;
+    zoom: 1;
+}
+.ls-poll-result-item-count {
+    float: left;
+    width: 70px;
+    padding-right: 15px;
+}
+.ls-poll-result-item-count strong {
+    display: block;
+}
+.ls-poll-result-item-count span {
+    font-size: 11px;
+    color: #aaa;
+}
+.ls-poll-result-item-chart {
+    padding-left: 80px;
+}
+.ls-poll-result-item-bar {
+    height: 7px;
+    margin-top: 5px;
+    background: #eae9e9;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.ls-poll-result-item--most .ls-poll-result-item-bar {
+    background: #239ae3;
+    background: -webkit-linear-gradient(to bottom, #23d7fc 0%, #239ae3 60%, #36cef6 100%);
+    background: -moz-linear-gradient(to bottom, #23d7fc 0%, #239ae3 60%, #36cef6 100%);
+    background: linear-gradient(to bottom, #23d7fc 0%, #239ae3 60%, #36cef6 100%);
+}
+.ls-poll-result-item--voted .ls-poll-result-item-count strong {
+    background: linear-gradient(to right, rgba(254,255,163,1) 0%,rgba(255,255,255,1) 100%);
+}
+.ls-poll-result-total {
+    color: #818189;
+    font-size: 11px;
+    position: relative;
+    line-height: 16px;
+    padding-left: 80px;
+}
+.ls-poll-sort {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    z-index: 10;
+    width: 19px;
+    height: 19px;
+    background: url(../images/sort.png) no-repeat;
+    cursor: pointer;
+}
+.ls-poll-sort.active {
+    background-image: url(../images/sort-active.png);
+}
+.ls-poll-footer {
+    position: relative;
+}
+
+
+/**
+ * Управление опросами
+ *
+ * @template polls/poll.form.tpl
+ */
+.ls-poll-manage .fieldset-body {
+    padding-bottom: 0;
+}
+.ls-poll-manage-add {
+    margin-bottom: 15px;
+}
+.ls-poll-manage-list {
+    overflow: hidden;
+}
+.ls-poll-manage-item {
+    padding: 10px 70px 10px 15px;
+    background: rgba(255, 255, 255, 0.5);
+    margin-bottom: 1px;
+    position: relative;
+}
+.ls-poll-manage-item:last-child {
+    margin-bottom: 15px;
+}
+.ls-poll-manage-item-actions {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+.ls-poll-manage-item-actions li {
+    float: left;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+
+/**
+ * Форма добавления
+ *
+ * @template polls/poll.form.tpl
+ */
+.ls-poll-form-answer-item {
+    margin-bottom: 10px;
+    padding-right: 30px;
+    position: relative;
+}
+.ls-poll-form-answer-item .ls-field, .ls-poll-form-answer-item:last-child {
+    margin-bottom: 0;
+}
+.ls-poll-form-answer-item-remove {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+/**
+ * Info
+ */
+.ls-block.ls-uploader-block.ls-uploader-info {
+    padding: 0;
+}
+.ls-uploader-info-actions {
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+}
+.ls-uploader-info-list-item {
+    background: #fafafa;
+    padding: 10px 20px;
+    line-height: 1em;
+    border-bottom: 1px solid #fff;
+}
+.ls-uploader-info-list-item-label {
+    color: #aaa;
+}
+.ls-uploader-info-list-item:nth-child(even) {
+    background: #F5F5F5;
+}
+.ls-uploader-info-list-item:last-child {
+    border: none;
+}
+.ls-uploader-info-fields {
+    border-top: 1px solid #eee;
+    padding: 20px 20px;
+}
+.ls-uploader-info-base {
+    padding: 20px 20px 20px 135px;
+    position: relative;
+    min-height: 100px;
+    border-bottom: 1px solid #eee;
+}
+.ls-uploader-info-base-image {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.ls-uploader-info-property-name {
+    display: block;
+    margin-bottom: 5px;
+}
+.ls-uploader-info-property-date,
+.ls-uploader-info-property-size {
+    color: #aaa;
+    font-size: 11px;
+}

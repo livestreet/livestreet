@@ -1,0 +1,85 @@
+/**
+ * Загрузка и управление файлами
+ */
+
+
+/**
+ * Обертка
+ */
+.ls-uploader-wrapper {
+    min-height: 150px;
+}
+
+
+/**
+ * Содержимое
+ */
+.ls-uploader-content {
+    margin-right: 320px;
+}
+
+
+/**
+ * Фильтр
+ */
+.ls-actionbar.ls-uploader-filter {
+    background: transparent;
+    padding: 0;
+    overflow: hidden;
+}
+.ls-actionbar.ls-uploader-filter:after {
+    clear: none;
+}
+
+
+/**
+ * Сайдбар
+ */
+.ls-uploader-aside {
+    width: 300px;
+    float: right;
+}
+.ls-uploader-aside-empty {
+    display: none;
+}
+
+.ls-uploader-aside.is-empty .ls-uploader-aside-empty { display: block; }
+.ls-uploader-aside.is-empty .ls-uploader-aside-blocks { display: none; }
+
+/* Responsive */
+@media (max-width: 999px)  {
+    .ls-uploader-aside {
+        width: auto;
+        float: none;
+    }
+}
+
+/**
+ * Block
+ */
+.ls-block.ls-uploader-block {
+    border: 1px solid #eee;
+    padding: 10px 15px 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+.ls-block.ls-uploader-block:first-child {
+    margin-top: 0;
+}
+
+/**
+ * Modal
+ */
+.ls-modal--uploader {
+    max-width: 850px;
+}
+
+
+/**
+ * Пагинация
+ */
+.ls-uploader .ls-pagination {
+    display: none;
+    padding-top: 5px;
+}

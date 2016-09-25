@@ -1,0 +1,17 @@
+.ls-property-list {
+    margin-bottom: 20px;
+}
+.ls-property-list-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+.ls-property-list-item-label {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'PT Sans';
+}
+.ls-property {
+    padding: 15px 15px;
+    border: 1px dashed #ddd;
+    border-radius: 5px;
+}
