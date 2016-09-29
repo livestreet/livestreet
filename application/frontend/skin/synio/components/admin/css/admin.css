@@ -1,0 +1,46 @@
+/**
+ * Админка
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+/**
+ * Управление плагинами
+ *
+ * @template plugins.tpl
+ */
+.admin-plugins h3 {
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    margin-bottom: 7px;
+}
+.admin-plugins p {
+    margin-bottom: 15px;
+}
+.admin-plugins td {
+    vertical-align: top;
+}
+.admin-plugins-actions li {
+    margin-bottom: 5px;
+    text-align: right;
+}
+.admin-plugins-actions li:last-child {
+    margin-bottom: 0;
+}
+
+.ls-toolbar-item--admin .ls-toolbar-icon {
+    display: block;
+    width: 19px;
+    height: 18px;
+    background: url(../images/cog.png) no-repeat;
+    transition: background .2s;
+}
+.ls-toolbar-item--admin .ls-toolbar-icon:hover {
+    background-image: url(../images/cog-hover.png);
+}
+.ls-toolbar-item--admin .ls-toolbar-icon:active {
+    background-image: url(../images/cog-active.png);
+}

@@ -4,7 +4,6 @@
  *}
 
 {component 'toolbar.item'
-    icon='chevron-up'
+    html='<i class="ls-toolbar-icon"></i>'
     classes='js-toolbar-scrollup'
-    mods='scrollup'
-    attributes=[ 'title' => {lang 'toolbar.scrollup.title'} ]}
+    mods='scrollup'}

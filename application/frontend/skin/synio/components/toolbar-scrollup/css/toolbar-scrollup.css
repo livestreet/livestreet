@@ -1,0 +1,29 @@
+/**
+ * Кнопка прокрутки вверх
+ */
+
+.ls-toolbar-item.ls-toolbar-item--scrollup {
+    display: none;
+    padding: 8px;
+    width: 25px;
+}
+
+.ls-toolbar-item--scrollup.active .ls-toolbar-icon {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.ls-toolbar-item--scrollup .ls-toolbar-icon {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: url(../images/scroll.png) no-repeat;
+    transition: background .2s;
+    cursor: pointer;
+}
+.ls-toolbar-item--scrollup .ls-toolbar-icon:hover {
+    background-image: url(../images/scroll-hover.png);
+}
+.ls-toolbar-item--scrollup .ls-toolbar-icon:active {
+    background-image: url(../images/scroll-active.png);
+}

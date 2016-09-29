@@ -1,0 +1,36 @@
+/**
+ * Кнопка навигации по топикам
+ */
+
+.ls-toolbar-item--topic a.ls-toolbar-topic-prev {
+    border-bottom: 1px solid #eee;
+}
+
+.ls-toolbar-item--topic i {
+    display: block;
+    width: 19px;
+    height: 32px;
+    transition: background .2s;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.ls-toolbar-item--topic .ls-toolbar-icon-prev {
+    background-image: url(../images/prev.png);
+}
+.ls-toolbar-item--topic .ls-toolbar-icon-prev:hover {
+    background-image: url(../images/prev-hover.png);
+}
+.ls-toolbar-item--topic .ls-toolbar-icon-prev:active {
+    background-image: url(../images/prev-active.png);
+}
+
+.ls-toolbar-item--topic .ls-toolbar-icon-next {
+    background-image: url(../images/next.png);
+}
+.ls-toolbar-item--topic .ls-toolbar-icon-next:hover {
+    background-image: url(../images/next-hover.png);
+}
+.ls-toolbar-item--topic .ls-toolbar-icon-next:active {
+    background-image: url(../images/next-active.png);
+}
