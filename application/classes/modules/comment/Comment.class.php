@@ -398,10 +398,10 @@ class ModuleComment extends Module
         if (false === ($data = $this->Cache_Get("comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}"))) {
             $data = $this->oMapper->GetCommentsRatingByDate($sDate, $sTargetType, $iLimit, array(), $aCloseBlogs);
             $this->Cache_Set($data, "comment_rating_{$sDate}_{$sTargetType}_{$iLimit}_{$s}", array(
-                    "comment_new_{$sTargetType}",
-                    "comment_update_status_{$sTargetType}",
-                    "comment_update_rating_{$sTargetType}"
-                ), 60 * 60 * 24 * 2);
+                "comment_new_{$sTargetType}",
+                "comment_update_status_{$sTargetType}",
+                "comment_update_rating_{$sTargetType}"
+            ), 60 * 60 * 24 * 2);
         }
         $data = $this->GetCommentsAdditionalData($data);
         return $data;
@@ -414,9 +414,10 @@ class ModuleComment extends Module
      * @param  string $sTargetType Тип владельца комментария
      * @param  int $iPage Номер страницы
      * @param  int $iPerPage Количество элементов на страницу
+     * @param  array|null $aAllowData Список доп данных, котрые нужно подгружать с комментариями
      * @return array('comments'=>array,'iMaxIdComment'=>int)
      */
-    public function GetCommentsByTargetId($sId, $sTargetType, $iPage = 1, $iPerPage = 0)
+    public function GetCommentsByTargetId($sId, $sTargetType, $iPage = 1, $iPerPage = 0, $aAllowData = null)
     {
         if (Config::Get('module.comment.use_nested')) {
             return $this->GetCommentsTreeByTargetId($sId, $sTargetType, $iPage, $iPerPage);
@@ -434,7 +435,7 @@ class ModuleComment extends Module
             return array('comments' => array(), 'iMaxIdComment' => 0);
         }
         $aComments = $aCommentsRec;
-        $aComments['comments'] = $this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']));
+        $aComments['comments'] = $this->GetCommentsAdditionalData(array_keys($aCommentsRec['comments']), $aAllowData);
         foreach ($aComments['comments'] as $oComment) {
             $oComment->setLevel($aCommentsRec['comments'][$oComment->getId()]);
         }
@@ -556,11 +557,11 @@ class ModuleComment extends Module
             }
             //чистим зависимые кеши
             $this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(
-                    "comment_new",
-                    "comment_new_{$oComment->getTargetType()}",
-                    "comment_new_user_{$oComment->getUserId()}_{$oComment->getTargetType()}",
-                    "comment_new_{$oComment->getTargetType()}_{$oComment->getTargetId()}"
-                ));
+                "comment_new",
+                "comment_new_{$oComment->getTargetType()}",
+                "comment_new_user_{$oComment->getUserId()}_{$oComment->getTargetType()}",
+                "comment_new_{$oComment->getTargetType()}_{$oComment->getTargetId()}"
+            ));
             $oComment->setId($sId);
             return $oComment;
         }

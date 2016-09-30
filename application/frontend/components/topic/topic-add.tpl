@@ -95,10 +95,12 @@
 
     {* Теги *}
     {if $type->getParam('allow_tags')}
+        {$tagsCountMin=Config::Get('module.topic.tags_count_min')}
+        {$tagsCountMax=Config::Get('module.topic.tags_count_max')}
         {component 'field' template='text'
             name    = 'topic[topic_tags]'
             value     = {(( $topic ) ? $topic->getTags() : '')}
-            rules   = [ 'required' => !Config::Get('module.topic.allow_empty_tags'), 'rangetags' => '[1,15]' ]
+            rules   = [ 'required' => !Config::Get('module.topic.tags_allow_empty'), 'rangetags' => "[{$tagsCountMin},{$tagsCountMax}]" ]
             label   = {lang 'topic.add.fields.tags.label'}
             note    = {lang 'topic.add.fields.tags.note'}
             inputClasses = 'ls-width-full autocomplete-tags-sep'}

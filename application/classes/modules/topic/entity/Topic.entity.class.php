@@ -77,10 +77,11 @@ class ModuleTopic_EntityTopic extends Entity
         $this->aValidateRules[] = array(
             'topic_tags',
             'tags',
-            'countMax'   => 15,
+            'countMax'   => Config::Get('module.topic.tags_count_max'),
+            'countMin'   => Config::Get('module.topic.tags_count_min'),
             'condition'  => 'isNeedValidateTags',
             'label'      => $this->Lang_Get('topic.add.fields.tags.label'),
-            'allowEmpty' => Config::Get('module.topic.allow_empty_tags')
+            'allowEmpty' => Config::Get('module.topic.tags_allow_empty')
         );
 
         $this->aValidateRules[] = array('blogs_id_raw', 'blogs');
