@@ -143,10 +143,7 @@
             }
 
             if ( type === 'url' ) {
-                var url = this.elements.url.url.val();
-
-                this.elements.url.submit_insert.prop( 'disabled', ! url );
-                this.elements.url.submit_upload.prop( 'disabled', ! url );
+                this.disableUrlButtons( ! this.elements.url.url.val());
             }
         },
 
@@ -300,8 +297,7 @@
             var _this = this,
                 url = this.elements.url.url.val();
 
-            this.elements.url.submit_insert.prop( 'disabled', ! url );
-            this.elements.url.submit_upload.prop( 'disabled', ! url );
+            this.disableUrlButtons( ! url);
 
             $('<img />', {
                 src: url,
@@ -318,6 +314,14 @@
         /**
          * 
          */
+        disableUrlButtons: function ( disable ) {
+            this.elements.url.submit_insert.prop( 'disabled', disable );
+            this.elements.url.submit_upload.prop( 'disabled', disable );
+        },
+
+        /**
+         * 
+         */
         urlInsert: function ( upload ) {
             var upload = upload || false,
                 params = $.extend(
@@ -328,18 +332,19 @@
                     this.elements.uploader.lsUploader( 'option', 'params' )
                 );
 
+            this.disableUrlButtons(true);
+
             this._load( 'url_upload', params, function ( response ) {
-                if ( response.bStateError ) {
-                    ls.msg.error( response.sMsgTitle, response.sMsg );
-                } else {
-                    this.option( 'editor' ).lsEditor( 'insert', response.sText );
-                    this.element.lsModal( 'hide' );
-                    this.reload();
-                }
+                this.option( 'editor' ).lsEditor( 'insert', response.sText );
+                this.element.lsModal( 'hide' );
+                this.reload();
             }, {
                 // TODO: Fix validation
                 validate: false,
-                submitButton: this.elements.url[ upload ? 'submit_upload' : 'submit_insert' ]
+                submitButton: this.elements.url[ upload ? 'submit_upload' : 'submit_insert' ],
+                onComplete: function () {
+                    this.disableUrlButtons(false);
+                }.bind(this)
             });
         }
     });
