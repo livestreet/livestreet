@@ -63,6 +63,7 @@
     border-radius: 5px;
     margin-top: 15px;
     margin-bottom: 0;
+    background: #fff;
 }
 .ls-block.ls-uploader-block:first-child {
     margin-top: 0;

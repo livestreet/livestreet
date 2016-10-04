@@ -53,9 +53,7 @@
             {/if}
 
             {* Текст *}
-            <span class="{$component}-text">
-                {$text}
-            </span>
+            <span class="{$component}-text">{$text}</span>
 
             {* Счетчик *}
             {if isset($count) && ( $showZeroCounter || ( ! $showZeroCounter && $count > 0 ) )}

@@ -50,3 +50,7 @@
 .editor-help-item dd            { margin-left: 0; }
 .editor-help-item:last-child { margin-bottom: 0; }
 .editor-help-item h4         { font-family: monospace; font-weight: bold; margin-bottom: 3px; }
+
+.ls-field .markItUpEditor {
+    border-radius: 0 0 3px 3px;
+}

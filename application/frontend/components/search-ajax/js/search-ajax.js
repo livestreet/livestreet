@@ -219,7 +219,7 @@
                 this.elements.list.hide();
             }
 
-            if ( this.option( 'i18n.title' ) && this.elements.title.length && response.searchCount) {
+            if ( this.option( 'i18n.title' ) && this.elements.title.length) {
                 this.elements.title.show().text( this._i18n( 'title', response.searchCount ) );
             }
 
