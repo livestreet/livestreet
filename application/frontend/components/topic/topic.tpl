@@ -27,8 +27,10 @@
      *}
     {block 'topic_header'}
         <header class="{$component}-header">
+            {$_headingTag = Config::Get('view.seo.topic_heading')}
+
             {* Заголовок *}
-            <h1 class="{$component}-title ls-word-wrap">
+            <{$_headingTag} class="{$component}-title ls-word-wrap">
                 {block 'topic_title'}
                     {if $topic->getPublish() == 0}
                         {component 'icon' icon='file' attributes=[ title => {lang 'topic.is_draft'} ]}
@@ -40,7 +42,7 @@
                         {$topic->getTitle()|escape}
                     {/if}
                 {/block}
-            </h1>
+            </{$_headingTag}>
 
             {* Информация *}
             <ul class="{$component}-info">

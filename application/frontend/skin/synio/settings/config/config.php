@@ -72,8 +72,15 @@ $config['head']['template']['js'] = array(
 
 // Подключение стилей шаблона
 $config['head']['template']['css'] = array(
-	"___path.skin.assets.web___/css/layout.css",
-	"___path.skin.assets.web___/css/print.css"
+    "___path.skin.assets.web___/css/layout.css",
+    "___path.skin.assets.web___/css/print.css"
 );
+
+/**
+ * SEO
+ */
+
+// Тег используемый для заголовков топиков
+$config['view']['seo']['topic_heading'] = 'h2';
 
 return $config;
