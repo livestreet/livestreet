@@ -18,6 +18,10 @@
 
 {$show = $show|default:true}
 
+{if $tabs}
+    {$mods = "$mods has-tabs"}
+{/if}
+
 {if $show}
     <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
         {* Шапка *}

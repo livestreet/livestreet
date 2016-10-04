@@ -10,8 +10,9 @@
  * Список блогов
  */
 .ls-block.blog-block-blogs .ls-item {
-    padding: 10px 0;
+    padding: 5px 0;
     font-size: 11px;
+    border: none;
 }
 .ls-block.blog-block-blogs .ls-item-title {
     font-size: 14px;

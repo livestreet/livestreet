@@ -33,21 +33,41 @@
     color: #f00;
 }
 
+.ls-avatar--size-default {
+    width: 100px;
+}
+.ls-avatar--size-default .ls-avatar-image {
+    width: 100px;
+    height: 100px;
+}
+
+.ls-avatar--size-small {
+    width: 64px;
+}
 .ls-avatar--size-small .ls-avatar-image {
     width: 64px;
     height: 64px;
 }
 
+.ls-avatar--size-xsmall {
+    width: 48px;
+}
 .ls-avatar--size-xsmall .ls-avatar-image {
     width: 48px;
     height: 48px;
 }
 
+.ls-avatar--size-xxsmall {
+    width: 48px;
+}
 .ls-avatar--size-xxsmall .ls-avatar-image {
     width: 24px;
     height: 24px;
 }
 
+.ls-avatar--size-text {
+    width: 18px;
+}
 .ls-avatar--size-text .ls-avatar-image {
     width: 18px;
     height: 18px;
@@ -57,7 +77,6 @@
  * @modifier has-name
  */
 .ls-avatar--has-name {
-    max-width: 64px;
     text-align: center;
 }
 
@@ -75,7 +94,7 @@
  * @modifier inline
  */
 .ls-avatar--has-name.ls-avatar--inline {
-    max-width: none;
+    width: auto;
 }
 .ls-avatar--has-name.ls-avatar--inline .ls-avatar-name-link {
     text-decoration: underline;

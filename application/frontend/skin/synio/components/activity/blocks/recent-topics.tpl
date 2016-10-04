@@ -5,7 +5,7 @@
 
 {component_define_params params=[ 'topics' ]}
 
-{capture 'items'}
+<div class="ls-activity-block-recent-items">
     {foreach $topics as $topic}
         {component 'activity' template='recent-item'
             user     = $topic->getUser()
@@ -14,6 +14,4 @@
     {foreachelse}
         {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}
-{/capture}
-
-{component 'item' template='group' items=$smarty.capture.items}
+</div>

@@ -1,26 +1,18 @@
 {component_define_params params=[ 'user', 'topic', 'date' ]}
 
-{capture 'item_content'}
-    <a href="{$user->getUserWebPath()}" class="ls-activity-block-recent-user">{$user->getDisplayName()}</a> &rarr;
-    <a href="{$topic->getUrl()}">{$topic->getTitle()|escape}</a>
+<div class="ls-activity-block-recent-item">
+    <a href="{$user->getUserWebPath()}" class="ls-activity-block-recent-user">{$user->getDisplayName()}</a>
 
-    <p class="ls-activity-block-recent-info">
-        <time datetime="{date_format date=$date format='c'}" class="ls-activity-block-recent-time">
-            {date_format date=$date hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y"}
-        </time>
+    <time datetime="{date_format date=$date format='c'}" class="ls-activity-block-recent-date">
+        {date_format date=$date hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y"}
+    </time>
+
+    <div>
+        <a href="{$topic->getUrl()}" class="ls-activity-block-recent-title">{$topic->getTitle()|escape}</a>
 
         <a href="{$topic->getUrl()}#comments" class="ls-activity-block-recent-comments">
-            {component 'icon' icon='comments'}
-            {lang 'comments.comments_declension' count=$topic->getCountComment() plural=true}
+            <i class="ls-activity-block-recent-comments-icon"></i>
+            {$topic->getCountComment()}
         </a>
-    </p>
-{/capture}
-
-{component 'item'
-    element = 'li'
-    mods = 'image-rounded'
-    desc = $smarty.capture.item_content
-    image=[
-        'path' => $user->getProfileAvatarPath(48),
-        'url' => $user->getUserWebPath()
-    ]}
+    </div>
+</div>

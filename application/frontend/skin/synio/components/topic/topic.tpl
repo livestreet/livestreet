@@ -30,7 +30,7 @@
         <h1 class="{$component}-title ls-word-wrap">
             {block 'topic_title'}
                 {if $topic->getPublish() == 0}
-                    {component 'icon' icon='file' attributes=[ title => {lang 'topic.is_draft'} ]}
+                    {component 'syn-icon' icon='draft' attributes=[ title => {lang 'topic.is_draft'} ]}
                 {/if}
 
                 {if $isList}

@@ -82,3 +82,10 @@
     box-shadow: none;
     border: none;
 }
+
+.layout-nav-top .ls-badge {
+    background: none;
+    padding: 0;
+    font-weight: normal;
+    color: #b1c4ce;
+}

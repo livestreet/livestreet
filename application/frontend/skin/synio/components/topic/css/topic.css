@@ -43,10 +43,9 @@
 .ls-topic-title a:hover {
     color: #f00;
 }
-.ls-topic-title i {
+.ls-topic-title .syn-icon {
     position: relative;
-    top: 8px;
-    cursor: help;
+    top: 4px;
 }
 
 .ls-topic-blogs {

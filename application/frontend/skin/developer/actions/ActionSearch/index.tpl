@@ -19,14 +19,14 @@
 {/block}
 
 {block 'layout_options' append}
-    {$layoutNav = [
+    {$layoutNav = [[
         name       => 'search',
         activeItem => $searchType,
         items => [
             [ 'name' => 'topics', 'url' => "{router page='search/topics'}?q={$_aRequest.q}", 'text' => $aLang.search.result.topics, 'count' => $typeCounts.topics ],
             [ 'name' => 'comments', 'url' => "{router page='search/comments'}?q={$_aRequest.q}", 'text' => $aLang.search.result.comments, 'count' => $typeCounts.comments ]
         ]
-    ]}
+    ]]}
 {/block}
 
 {block 'layout_content'}

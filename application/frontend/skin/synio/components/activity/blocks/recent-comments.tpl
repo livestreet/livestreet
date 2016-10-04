@@ -5,7 +5,7 @@
 
 {component_define_params params=[ 'comments' ]}
 
-{capture 'items'}
+<div class="ls-activity-block-recent-items">
     {foreach $comments as $comment}
         {$topic = $comment->getTarget()}
 
@@ -16,6 +16,4 @@
     {foreachelse}
         {component 'blankslate' text={lang 'common.empty'} mods='no-background'}
     {/foreach}
-{/capture}
-
-{component 'item' template='group' items=$smarty.capture.items}
+</div>

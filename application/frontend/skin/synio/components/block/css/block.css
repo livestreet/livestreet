@@ -8,11 +8,9 @@
 
 .ls-block {
     overflow: hidden;
-    border-bottom: 1px dotted #dce1e6;
-    padding-bottom: 25px;
 }
 .ls-block + .ls-block {
-    margin-top: 25px;
+    margin-top: 40px;
 }
 .ls-block:last-child {
     margin-bottom: 0;
@@ -38,7 +36,7 @@
 
 /* Шапка */
 .ls-block-header {
-    padding: 0 0 15px;
+    padding: 0 0 30px;
     position: relative;
 }
 .ls-block-header .ls-block-title {
@@ -49,12 +47,70 @@
     color: #333;
 }
 
-/* Навигация */
-.ls-block .ls-tab-list {
-    padding: 15px 0;
-    margin-bottom: 0;
-    border-bottom: 1px solid #eee;
+/* Separator */
+.ls-block .ls-tab-list:before,
+.ls-block-header:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -18px;
+    width: 242px;
+    height: 9px;
+    background: url(../images/block-sep.png) no-repeat;
 }
+.ls-block-header:before {
+    bottom: 13px;
+}
+
+.ls-block--has-tabs .ls-block-header {
+    padding-bottom: 15px;
+}
+.ls-block--has-tabs .ls-block-header:before {
+    display: none;
+}
+.ls-block--has-tabs .ls-block .ls-tab-list:before {
+    display: block;
+}
+
+/* Навигация */
+.ls-block .ls-tabs:not(:last-child) {
+    margin-bottom: 10px;
+}
+.ls-block .ls-tab-list {
+    margin-bottom: 20px;
+    border: none;
+    font-size: 11px;
+    position: relative;
+}
+.ls-block .ls-tab-list .ls-tab {
+    margin-right: 10px;
+}
+.ls-block .ls-tab-list .ls-tab .ls-tab-inner {
+    border: 1px solid transparent;
+    line-height: 13px;
+    border-radius: 5px;
+    padding: 3px 6px 4px;
+    display: block;
+    color: #727a90;
+    text-decoration: none;
+}
+
+/* Hover */
+.ls-block .ls-tab-list .ls-tab .ls-tab-inner:hover,
+.ls-block .ls-tab-list .ls-tab:hover .ls-tab-inner {
+    color: #333;
+}
+
+/* Active */
+.ls-block .ls-tab-list .ls-tab.active .ls-tab-inner {
+    color: #628fa5;
+    border-color: #ebf0f4;
+    text-decoration: none;
+}
+.ls-block .ls-tab-list .ls-tab.active .ls-tab-inner:hover {
+    color: #333;
+}
+
 
 /* Контент */
 .ls-block-content {
@@ -62,8 +118,6 @@
 
 /* Подвал */
 .ls-block-footer {
-    border-top: 1px solid #eee;
-    padding: 15px 0;
     font-size: 11px;
     color: #b9c2c2;
 }

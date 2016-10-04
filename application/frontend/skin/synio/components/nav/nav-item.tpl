@@ -45,11 +45,6 @@
 
         {* Ссылка *}
         <a href="{$url}" class="{$component}-link" {$target}>
-            {* Счетчик *}
-            {if isset($count) && ( $showZeroCounter || ( ! $showZeroCounter && $count > 0 ) )}
-                {component 'badge' value=$count classes="{$component}-badge"}
-            {/if}
-
             {* Иконка *}
             {if is_array($icon)}
                 {component 'icon' attributes=[ 'aria-hidden' => 'true' ] params=$icon}
@@ -61,6 +56,11 @@
             <span class="{$component}-text">
                 {$text}
             </span>
+
+            {* Счетчик *}
+            {if isset($count) && ( $showZeroCounter || ( ! $showZeroCounter && $count > 0 ) )}
+                {component 'badge' value=$count classes="{$component}-badge"}
+            {/if}
 
             {* Стрелка *}
             {if $menu}
