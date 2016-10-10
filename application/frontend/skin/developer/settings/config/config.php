@@ -36,6 +36,7 @@ $config['head']['template']['css'] = array(
  */
 
 // Тег используемый для заголовков топиков
-$config['view']['seo']['topic_heading'] = 'h2';
+$config['view']['seo']['topic_heading'] = 'h1';
+$config['view']['seo']['topic_heading_list'] = 'h2';
 
 return $config;

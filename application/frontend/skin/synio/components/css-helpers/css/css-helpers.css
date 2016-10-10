@@ -1,0 +1,145 @@
+/**
+ * Helpers
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Margins */
+.ls-mt-10 { margin-top: 10px !important; }
+.ls-mt-15 { margin-top: 15px !important; }
+.ls-mt-20 { margin-top: 20px !important; }
+.ls-mt-30 { margin-top: 30px !important; }
+
+.ls-mb-10 { margin-bottom: 10px !important; }
+.ls-mb-15 { margin-bottom: 15px !important; }
+.ls-mb-20 { margin-bottom: 20px !important; }
+.ls-mb-30 { margin-bottom: 30px !important; }
+
+.ls-m-0 { margin: 0 !important; }
+
+
+/* Paddings */
+.ls-pt-10 { padding-top: 10px !important; }
+.ls-pt-15 { padding-top: 15px !important; }
+.ls-pt-20 { padding-top: 20px !important; }
+.ls-pt-30 { padding-top: 30px !important; }
+
+.ls-pb-10 { padding-bottom: 10px !important; }
+.ls-pb-15 { padding-bottom: 15px !important; }
+.ls-pb-20 { padding-bottom: 20px !important; }
+.ls-pb-30 { padding-bottom: 30px !important; }
+
+.ls-p-0 { padding: 0 !important; }
+
+
+/* Text Align */
+.ls-ta-c { text-align: center !important; }
+.ls-ta-r { text-align: right !important; }
+
+
+/* Floats */
+.ls-fl-r, .ls-float-right, .ls-pull-right { float: right !important; }
+.ls-fl-l, .ls-float-left, .ls-pull-left  { float: left !important; }
+
+
+/* Misc */
+.ls-va-m { vertical-align: middle !important; }
+
+
+/* Clearfix */
+.ls-clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+/* Word Wrap */
+.ls-word-wrap {
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
+/* Width */
+[class^="ls-width-"],
+[class*=" ls-width-"] { box-sizing: border-box; }
+
+.ls-width-full { width: 100% !important; }
+.ls-width-50   { width: 50px !important; }
+.ls-width-100  { width: 100px !important; }
+.ls-width-150  { width: 150px !important; }
+.ls-width-200  { width: 200px !important; }
+.ls-width-250  { width: 250px !important; }
+.ls-width-300  { width: 300px !important; }
+.ls-width-350  { width: 350px !important; }
+.ls-width-400  { width: 400px !important; }
+.ls-width-450  { width: 450px !important; }
+.ls-width-500  { width: 500px !important; }
+.ls-width-550  { width: 550px !important; }
+.ls-width-600  { width: 600px !important; }
+.ls-width-650  { width: 650px !important; }
+
+
+/* Loader */
+/* TODO: Change gif */
+.ls-loading {
+    background-image: url(../images/loader.gif) !important;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.ls-link-dashed { text-decoration: none; border-bottom: 1px dashed; }
+.ls-link-dotted { text-decoration: none; border-bottom: 1px dotted; }
+
+/* Images */
+.ls-img-responsive {
+    min-width: 100%;
+    height: auto;
+}
+.ls-img-rounded { border-radius: 5px; }
+.ls-img-circle { border-radius: 50%; }
+.ls-img-thumbnail {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+    padding: 4px;
+    line-height: 1.4;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+/* Visibility */
+.ls-show {
+    display: block !important;
+}
+.ls-hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+.ls-invisible {
+    visibility: hidden;
+}
+
+/* Caret */
+.ls-caret {
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border: 4px solid transparent;
+    border-top-color: #333;
+}
+.ls-caret.ls-caret--right {
+    border-top-color: transparent !important;
+    border-left-color: #333;
+}

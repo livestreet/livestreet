@@ -458,6 +458,10 @@ jQuery(document).ready(function($){
     /**
      * Editor
      */
+
+    // Стили контента TinyMCE
+    $.livestreet.lsEditorVisual.prototype.options.sets.common.content_css = PATH_SKIN + '/components/editor/css/tinymce-content.css';
+
     $( '.js-editor-default' ).lsEditor();
 
 

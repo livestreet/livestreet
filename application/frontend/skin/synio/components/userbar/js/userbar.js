@@ -46,13 +46,6 @@
                     collision: "flipfit flip"
                 },
             });
-        },
-
-        /**
-         * Method
-         */
-        method: function () {
-            return;
         }
     });
 })(jQuery);

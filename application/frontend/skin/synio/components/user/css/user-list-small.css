@@ -40,3 +40,23 @@
 }
 .user-list-small-item-actions li:hover {
 }
+
+.user-list-small-item .ls-avatar {
+    width: 100%;
+    padding-left: 35px;
+    position: relative;
+    min-height: 24px;
+    box-sizing: border-box;
+}
+.user-list-small-item .ls-avatar-image-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+.user-list-small-item .ls-avatar--inline .ls-avatar-name {
+    padding-top: 2px;
+    display: block;
+    text-overflow: ellipsis;
+    text-align: left;
+}

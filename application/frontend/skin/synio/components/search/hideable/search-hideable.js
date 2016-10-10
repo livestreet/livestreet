@@ -14,7 +14,8 @@
         options: {
             // Селекторы
             selectors: {
-                toggle: '.js-search-hideable-toggle'
+                toggle: '.js-search-hideable-toggle',
+                input: 'input[type=text]'
             },
 
             // Классы
@@ -61,6 +62,7 @@
          */
         show: function () {
             this._addClass('open');
+            this.elements.input.focus();
         },
 
         /**

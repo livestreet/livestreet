@@ -60,7 +60,7 @@
          * Подписаться
          */
         follow: function() {
-            this._load( 'follow', { users: [ this.element.data('login') ] }, 'onFollow' );
+            this._load( 'follow', { users: [ this.element.data('id') ] }, 'onFollow' );
         },
 
         /**

@@ -1,21 +1,12 @@
-/**
- * Типография
- * Стили частично позаимствованы у бутстрапа
- *
- * @module ls/typography
- *
- * @license   GNU General Public License, version 2
- * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
- * @author    Denis Shakhov <denis.shakhov@gmail.com>
- */
+@import url(//fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic);
 
 /**
  * Основные стили
  */
 body {
-    font-size: 12px;
+    font-size: 13px;
+    line-height: 1.6em;
     font-family: Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 18px;
     color: #000;
     background-color: #fbfcfc;
 }
@@ -70,25 +61,6 @@ h4 small, .h4 small,
 h5 small, .h5 small,
 h6 small, .h6 small { font-size: 65%; color: #aaa; }
 
-.ls-heading a {
-    color: #275ec2;
-    text-decoration: underline;
-}
-.ls-heading a:hover {
-    color: #f00;
-}
-
-/* Заголовок страницы */
-.page-header {
-    color: #333;
-    font-size: 30px;
-    line-height: 1em;
-    margin-bottom: 20px;
-}
-.page-header span {
-    color: #aaa;
-}
-
 
 /**
  * Выделенный текст
@@ -97,33 +69,6 @@ mark {
     padding: 2px 3px;
     background: #fcf8e3;
 }
-
-/**
- * Позиционирвоние текста
- */
-.text-left    { text-align: left; }
-.text-right   { text-align: right; }
-.text-center  { text-align: center; }
-.text-justify { text-align: justify; }
-.text-nowrap  { white-space: nowrap; }
-
-/**
- * 
- */
-.text-lowercase  { text-transform: lowercase; }
-.text-uppercase  { text-transform: uppercase; }
-.text-capitalize { text-transform: capitalize; }
-
-/**
- * 
- */
-.text-muted   { color: #777; }
-.text-primary { color: #337ab7; }
-.text-success { color: #3c763d; }
-.text-info    { color: #31708f; }
-.text-warning { color: #8a6d3b; }
-.text-danger  { color: #a94442; }
-.text-help    { color: #aaa; }
 
 /**
  * 
@@ -174,14 +119,6 @@ ul, ol {
 }
 ul ol, ol ul, ul ul, ol ol {
     margin-bottom: 0;
-}
-
-.list-inline {
-    padding-left: 0;
-}
-.list-inline li {
-    display: inline-block;
-    margin-right: 15px;
 }
 
 /**
@@ -244,4 +181,58 @@ kbd kbd {
     font-size: 100%;
     font-weight: bold;
     box-shadow: none;
+}
+
+/* Links */
+a { text-decoration: underline; }
+
+/* Code */
+pre {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+
+/* Headers */
+h4 { font-size: 24px; margin-bottom: 7px; font-weight: bold; }
+h5 { font-size: 20px; margin-bottom: 7px; font-weight: bold; }
+h6 { font-size: 18px; margin-bottom: 7px; font-weight: bold; }
+
+
+/* Images */
+img[align="right"] { margin: 4px 0 5px 25px; }
+img[align="left"]  { margin: 4px 25px 10px 0; }
+img.image-center   { display: block; margin: 0 auto; }
+
+
+/* Responsive */
+object,
+iframe,
+img {
+    max-width: 100%;
+    border: none;
+}
+
+
+/* Lists */
+ul,
+ol { padding: 0 0 0 40px; }
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+dd { margin: 0 0 0 40px; }
+
+
+/* Tables */
+table    { border: 1px solid #e1e1e1; clear: both; }
+table td,
+table th { padding: 5px 10px; border: 1px solid #e1e1e1; }
+
+
+/* User */
+.ls-user {
+    font-weight: bold;
+    display: inline-block;
+}
+a.ls-user {
+    text-decoration: none;
 }

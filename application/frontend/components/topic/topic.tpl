@@ -27,7 +27,7 @@
      *}
     {block 'topic_header'}
         <header class="{$component}-header">
-            {$_headingTag = Config::Get('view.seo.topic_heading')}
+            {$_headingTag = ($isList) ? Config::Get('view.seo.topic_heading_list') : Config::Get('view.seo.topic_heading')}
 
             {* Заголовок *}
             <{$_headingTag} class="{$component}-title ls-word-wrap">

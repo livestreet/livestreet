@@ -1,5 +1,6 @@
 <table class="ls-table">
     <tbody>
+        {foreach [ true, false ] as $showRating}
         {foreach [ true, false ] as $locked}
             {foreach [ true, false ] as $isVoted}
                 {foreach [ 0, 1, -1 ] as $direction}
@@ -29,12 +30,13 @@
                             </td>
 
                             <td>
-                                {component 'vote' targetId=1 useAbstain=true isVoted=$isVoted rating=$rating direction=$direction isLocked=$locked}
+                                {component 'vote' targetId=1 showRating=$showRating useAbstain=true isVoted=$isVoted rating=$rating direction=$direction isLocked=$locked}
                             </td>
                         </tr>
                     {/foreach}
                 {/foreach}
             {/foreach}
+        {/foreach}
         {/foreach}
     </tbody>
 </table>

@@ -28,7 +28,7 @@
 /**
  * Stacked
  */
-.ls-nav--stacked > .ls-nav-item {
+.ls-nav--stacked .ls-nav-item {
     float: none;
     margin: 0;
 }
@@ -103,7 +103,7 @@
     color: #628fa5;
     border-color: #ebf0f4;
 }
-.ls-nav--pills > .ls-nav-item.active .ls-nav-item-text {
+.ls-nav--pills > .ls-nav-item.active > .ls-nav-item-link > .ls-nav-item-text {
     text-decoration: none;
 }
 .ls-nav--pills > .ls-nav-item.active > .ls-nav-item-link:hover {
@@ -118,7 +118,6 @@
     margin-bottom: 0;
 }
 .ls-nav.ls-nav--pills.ls-nav--stacked > .ls-nav-item {
-    float: none;
     margin-bottom: 3px;
     margin-right: 0;
 }
@@ -136,59 +135,67 @@
     line-height: inherit;
 }
 
-
-/**
- * Вложенная навигация (уровень вложенности > 1)
- */
-.ls-nav--sub {
+/* Caret */
+.ls-nav--pills .ls-nav-item-link > .ls-nav-item-caret {
     position: absolute;
-    display: none;
-    min-width: 150px;
-    z-index: 100;
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+    width: 5px;
+    height: 9px;
+    background: url(../images/caret.png) no-repeat;
+    top: 50%;
+    right: 9px;
+    margin-top: -4px;
+    border: none;
 }
-.ls-nav.ls-nav--sub > .ls-nav-item > .ls-nav-item-link {
-    padding: 5px 12px;
-    line-height: 20px;
-}
-.ls-nav--sub > .ls-nav-item:hover {
-    background: #2196F3;
-    color: #fff;
-}
-.ls-nav--sub > .ls-nav-item:hover > .ls-nav-item-link {
-    color: #fff;
-}
-.ls-nav--sub > .ls-nav-item.active {
-    background: #2196F3;
-    color: #fff;
-}
-.ls-nav--sub > .ls-nav-item.active > .ls-nav-item-link {
-    color: #fff;
-}
-.ls-nav-separator {
-    height: 0;
-    border-top: 1px solid #eee;
-    margin: 5px 0;
-}
-
 
 /**
- * Sub
+ * Вложенная навигация
  */
-.ls-nav--sub .ls-nav--sub {
-    left: 100%;
-    top: 0;
+.ls-nav--pills .ls-nav--sub {
+    min-width: 150px;
+    display: none;
+    position: absolute;
+    z-index: 900;
+    padding: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    background: #fff;
+    border: 3px solid #edf8fd;
+    font-size: 13px;
 }
-.ls-nav > .ls-nav-item--has-children {
+.ls-nav--pills .ls-nav--sub .ls-nav--sub {
+    left: 100%;
+    top: -18px;
+}
+
+.ls-nav--pills .ls-nav--sub > .ls-nav-item:not(:last-child) {
+    margin-bottom: 7px;
+}
+.ls-nav--pills .ls-nav--sub .ls-nav-item-link {
+    padding: 0 15px;
+}
+.ls-nav--pills .ls-nav--sub .ls-nav-item-text {
+    text-decoration: underline;
+}
+.ls-nav--pills .ls-nav--sub > .ls-nav-item.active,
+.ls-nav--pills .ls-nav--sub > .ls-nav-item.active > .ls-nav-item-link {
+    color: #aaa;
+}
+.ls-nav--pills > .ls-nav-item--has-children {
     position: relative;
 }
-.ls-nav:not(.ls-nav--sub) > .ls-nav-item > .ls-nav--sub {
+
+.ls-nav--pills:not(.ls-nav--sub) > .ls-nav-item > .ls-nav--sub {
     top: 100%;
     left: 0;
 }
-.ls-nav .ls-nav-item:hover > .ls-nav--sub {
+.ls-nav--pills .ls-nav--sub > .ls-nav-item:hover > .ls-nav--sub {
     display: block;
+}
+
+.ls-nav-separator {
+    height: 0;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
 }
 
 

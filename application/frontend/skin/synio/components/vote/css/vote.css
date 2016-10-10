@@ -108,6 +108,11 @@
     display: none;
 }
 
+/* Zero */
+.ls-vote--default.ls-vote--locked,
+.ls-vote--default.ls-vote--voted { background: #edf8fd; }
+.ls-vote--default .ls-vote-rating { color: #628fa5; }
+
 /* Positive */
 .ls-vote--default.ls-vote--locked.ls-vote--count-positive,
 .ls-vote--default.ls-vote--voted.ls-vote--count-positive { background: #def7dc; }
