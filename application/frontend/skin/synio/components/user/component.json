@@ -1,5 +1,6 @@
 {
     "styles": {
-        "user-list": "css/user-list.css"
+        "user-list": "css/user-list.css",
+        "settings": "css/settings.css"
     }
 }

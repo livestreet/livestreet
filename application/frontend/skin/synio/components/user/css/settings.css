@@ -1,0 +1,12 @@
+.user-field-item {
+    margin-bottom: 10px;
+}
+.user-field-item:last-child {
+    margin-bottom: 10px;
+}
+.user-field-item > * {
+    vertical-align: middle;
+}
+.user-field-item i {
+    cursor: pointer;
+}

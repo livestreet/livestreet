@@ -3,6 +3,7 @@
 }
 .layout-nav-right {
     float: right;
+    margin: 1px 0 1px;
 }
 .layout-nav-create {
     float: left;
@@ -83,9 +84,12 @@
     border: none;
 }
 
-.layout-nav-top .ls-badge {
+.ls-nav-item .ls-badge {
     background: none;
     padding: 0;
     font-weight: normal;
     color: #b1c4ce;
+}
+.ls-nav-item:hover .ls-badge {
+    color: #fff;
 }

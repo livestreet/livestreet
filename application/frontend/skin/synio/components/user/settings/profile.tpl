@@ -9,7 +9,7 @@
 
 {* Шаблон пользовательского поля (userfield) *}
 {function name=userfield}
-    <div class="ls-mb-15 js-user-field-item" {if ! $field}id="user-field-template" style="display:none;"{/if}>
+    <div class="user-field-item js-user-field-item" {if ! $field}id="user-field-template" style="display:none;"{/if}>
         <select name="profile_user_field_type[]">
             {foreach $aUserFieldsContact as $fieldAll}
                 <option value="{$fieldAll->getId()}" {if $field && $fieldAll->getId() == $field->getId()}selected{/if}>
@@ -19,7 +19,7 @@
         </select>
 
         <input type="text" name="profile_user_field_value[]" value="{if $field}{$field->getValue()|escape}{/if}" class="ls-width-200">
-        {component 'icon' icon='remove' classes='js-user-field-item-remove' attributes=[ title => {lang 'common.remove'} ]}
+        {component 'syn-icon' icon='trash' classes='js-user-field-item-remove' attributes=[ title => {lang 'common.remove'} ]}
     </div>
 {/function}
 
@@ -97,24 +97,28 @@
 
 
     {* Контакты *}
-    <fieldset class="js-user-fields">
-        <legend>{lang name='user.settings.profile.contact'}</legend>
+    <div class="fieldset js-user-fields">
+        <header class="fieldset-header">
+            <h3 class="fieldset-title">{lang name='user.settings.profile.contact'}</h3>
+        </header>
 
-        {$contacts = $user->getUserFieldValues( true, array('contact', 'social') )}
+        <div class="fieldset-body">
+            {$contacts = $user->getUserFieldValues( true, array('contact', 'social') )}
 
-        {* Список пользовательских полей, шаблон определен в начале файла *}
-        <div class="js-user-field-list ls-mb-15">
-            {foreach $contacts as $contact}
-                {call userfield field=$contact}
-            {foreachelse}
-                {component 'blankslate' classes='js-user-fields-empty' text=$aLang.common.empty}
-            {/foreach}
+            {* Список пользовательских полей, шаблон определен в начале файла *}
+            <div class="js-user-field-list ls-mb-15">
+                {foreach $contacts as $contact}
+                    {call userfield field=$contact}
+                {foreachelse}
+                    {component 'blankslate' classes='js-user-fields-empty' text=$aLang.common.empty}
+                {/foreach}
+            </div>
+
+            {if $aUserFieldsContact}
+                {component 'button' type='button' classes='js-user-fields-submit' text=$aLang.common.add}
+            {/if}
         </div>
-
-        {if $aUserFieldsContact}
-            {component 'button' type='button' classes='js-user-fields-submit' text=$aLang.common.add}
-        {/if}
-    </fieldset>
+    </div>
 
     {* @hook Конец формы с настройками профиля *}
     {hook run='user_settings_profile_end'}

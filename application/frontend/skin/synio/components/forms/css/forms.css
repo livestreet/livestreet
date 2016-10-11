@@ -65,16 +65,16 @@ select[multiple] {
 .fieldset {
     margin-bottom: 25px;
     border-radius: 5px;
-    background-color: #eef4fb;
+    background-color: #f1f7fd;
 }
 .fieldset:last-child {
     margin-bottom: 0;
 }
 .fieldset-header {
-    padding: 15px;
+    padding: 20px;
 }
 .fieldset-body, .fieldset-footer {
-    padding: 0 15px 15px;
+    padding: 0 20px 20px;
 }
 .fieldset-title {
     font-size: 20px;
@@ -84,7 +84,7 @@ select[multiple] {
 .fieldset-help {
     color: #aaa;
     font-size: 13px;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 /**
@@ -118,4 +118,9 @@ select[multiple] {
     border-radius: 5px;
     padding: 20px 20px;
     background: #f8fbfe;
+}
+.syn-form-panel .fieldset {
+    border-radius: 0;
+    margin-left: -20px;
+    margin-right: -20px;
 }

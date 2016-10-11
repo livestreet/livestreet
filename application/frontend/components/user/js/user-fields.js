@@ -11,7 +11,7 @@
 (function($) {
     "use strict";
 
-    $.widget( "livestreet.lsUserFields", {
+    $.widget( "livestreet.lsUserFields", $.livestreet.lsComponent, {
         /**
          * Дефолтные опции
          */
@@ -39,7 +39,7 @@
          * @private
          */
         _create: function () {
-            var _this = this;
+            this._super();
 
             this.elements = {
                 template: $( this.option( 'selectors.template' ) ),
