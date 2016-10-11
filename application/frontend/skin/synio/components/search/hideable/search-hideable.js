@@ -70,6 +70,7 @@
          */
         hide: function () {
             this._removeClass('open');
+            this.elements.input.val('');
         },
 
         /**

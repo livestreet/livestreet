@@ -46,6 +46,10 @@
         _create: function () {
             this._super();
             this._on({ click: 'onClick' });
+
+            if ( ! this.elements.item.length) {
+                this.elements.item = this.element;
+            }
         },
 
         /**

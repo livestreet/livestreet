@@ -30,6 +30,7 @@
     margin-bottom: 0;
 }
 .ls-search-hideable-search .ls-search-form-input {
+    width: 200px;
     padding: 1px 7px;
     height: 25px;
 }
@@ -42,5 +43,5 @@
     display: none;
 }
 .ls-search-hideable.open .ls-search-hideable-search {
-    display: block;
+    display: inline-block;
 }
