@@ -963,3 +963,7 @@ ALTER TABLE `prefix_wall` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREM
 ALTER TABLE `prefix_wall` CHANGE `pid` `pid` INT(11) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_invite_code` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_invite_use` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- 12.10.2016
+ALTER TABLE `prefix_session` CHANGE `session_date_create` `session_date_create` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `prefix_reminder` CHANGE `reminder_date_used` `reminder_date_used` DATETIME NULL DEFAULT NULL;
