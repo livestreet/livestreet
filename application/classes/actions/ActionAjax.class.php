@@ -1797,10 +1797,10 @@ class ActionAjax extends Action
             if ($bReturnExtended) {
                 $aItems[] = array(
                     'value' => $oUser->getId(),
-                    'label'  => $oUser->getLogin(),
+                    'label'  => $oUser->getDisplayName(),
                 );
             } else {
-                $aItems[] = $oUser->getLogin();
+                $aItems[] = $oUser->getDisplayName();
             }
         }
         /**
