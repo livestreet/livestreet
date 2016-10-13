@@ -117,7 +117,7 @@ class ActionPeople extends Action
             }
         }
         if ($sTitle) {
-            $aFilter['login'] = $sTitle;
+            $aFilter['name'] = $sTitle;
         }
         /**
          * Пол
@@ -162,6 +162,7 @@ class ActionPeople extends Action
         $this->Viewer_AssignAjax('next_page', count($aResult['collection']) > 0 ? $iPage + 1 : $iPage);
         $this->Viewer_AssignAjax('hide', $bHideMore or !$aResult['count'] or !count($aResult['collection']));
         $this->Viewer_AssignAjax('searchCount', (int)$aResult['count']);
+        $this->Viewer_AssignAjax('count_left', (int)($aResult['count'] - ($iPage - 1) * Config::Get('module.user.per_page') - count($aResult['collection'])));
         $this->Viewer_AssignAjax('textEmpty', $this->Lang_Get('search.alerts.empty'));
     }
 

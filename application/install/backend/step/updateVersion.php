@@ -474,7 +474,7 @@ class InstallStepUpdateVersion extends InstallStep
                          */
                         $sMask = pathinfo($sFileSource,
                                 PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($sFileSource,
-                                PATHINFO_FILENAME) . '_*';
+                                PATHINFO_FILENAME) . '_[0-9]*';
                         $aFilesForRemove = array();
                         if ($aPaths = glob($sMask)) {
                             foreach ($aPaths as $sPath) {
@@ -578,7 +578,7 @@ class InstallStepUpdateVersion extends InstallStep
                          */
                         $sMask = pathinfo($sFileSource,
                                 PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR . pathinfo($sFileSource,
-                                PATHINFO_FILENAME) . '_*';
+                                PATHINFO_FILENAME) . '_[0-9]*';
                         $aFilesForRemove = array();
                         if ($aPaths = glob($sMask)) {
                             foreach ($aPaths as $sPath) {

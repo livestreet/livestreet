@@ -1303,6 +1303,7 @@ class ModuleUser_MapperUser extends Mapper
 					{ AND u.user_profile_sex = ? }
 					{ AND u.user_login LIKE ? }
 					{ AND u.user_profile_name LIKE ? }
+					{ AND ( u.user_profile_name LIKE ? OR u.user_login LIKE ? ) }
 				ORDER by {$sOrder}
 				LIMIT ?d, ?d ;
 					";
@@ -1321,6 +1322,8 @@ class ModuleUser_MapperUser extends Mapper
             isset($aFilter['profile_sex']) ? $aFilter['profile_sex'] : DBSIMPLE_SKIP,
             isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
             isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
+            isset($aFilter['name']) ? $aFilter['name'] : DBSIMPLE_SKIP,
+            isset($aFilter['name']) ? $aFilter['name'] : DBSIMPLE_SKIP,
             ($iCurrPage - 1) * $iPerPage, $iPerPage
         )
         ) {
