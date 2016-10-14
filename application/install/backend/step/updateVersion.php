@@ -74,9 +74,10 @@ class InstallStepUpdateVersion extends InstallStep
          */
         $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_1.0.3_to_2.0.0.sql';
         list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile), array(
-            'engine'      => InstallConfig::get('db.tables.engine'),
-            'prefix'      => InstallConfig::get('db.table.prefix'),
-            'check_table' => 'cron_task'
+            'engine'         => InstallConfig::get('db.tables.engine'),
+            'prefix'         => InstallConfig::get('db.table.prefix'),
+            'check_table'    => 'cron_task',
+            'skip_fk_errors' => true
         )));
         if ($bResult) {
             /**

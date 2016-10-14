@@ -226,7 +226,9 @@ abstract class InstallStep
                 $bResult = mysqli_query($oDb, $sQuery);
                 if (!$bResult) {
                     $sError = mysqli_error($oDb);
-                    if (isset($aParams['skip_fk_errors']) and $aParams['skip_fk_errors'] and stripos($sError, '_fk') !== false and stripos($sError, 'DROP') !== false) {
+                    if (isset($aParams['skip_fk_errors']) and $aParams['skip_fk_errors'] and
+                        (mysqli_errno($oDb) == 152 or (stripos($sError, '_fk') !== false and stripos($sError, 'DROP') !== false))
+                    ) {
                         // пропускаем ошибки связанные с внешними ключами
                     } else {
                         $aErrors[] = mysqli_error($oDb);
