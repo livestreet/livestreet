@@ -89,7 +89,8 @@ class InstallStepUpdateVersion extends InstallStep
                     array(
                         'engine'            => InstallConfig::get('db.tables.engine'),
                         'prefix'            => InstallConfig::get('db.table.prefix'),
-                        'check_table_field' => array('prefix_page', 'id')
+                        'check_table_field' => array('prefix_page', 'id'),
+                        'skip_fk_errors'    => true
                     )));
                 if (!$bResult) {
                     return $this->addError(join('<br/>', $aErrors));
