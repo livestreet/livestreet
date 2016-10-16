@@ -5,7 +5,9 @@
         "crop": "*"
     },
     "templates": {
-        "photo": "photo.tpl"
+        "photo": "photo.tpl",
+        "modal-photo": "modal-photo.tpl",
+        "modal-avatar": "modal-avatar.tpl"
     },
     "scripts": {
         "photo": "js/photo.js"

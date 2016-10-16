@@ -40,9 +40,9 @@
     {* Каптча *}
     {if Config::Get('module.user.captcha_use_registration')}
         {component 'field' template='captcha'
-            type        = Config::Get('sys.captcha.type')
-            name        = 'captcha'
+            captchaType = Config::Get('sys.captcha.type')
             captchaName = 'user_signup'
+            name        = 'captcha'
             label       = $aLang.auth.labels.captcha}
     {/if}
 

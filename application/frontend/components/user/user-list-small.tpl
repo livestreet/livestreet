@@ -10,6 +10,7 @@
  * @param string  $itemTemplate
  *}
 
+{$component = 'user-list-small'}
 {component_define_params params=[ 'exclude', 'hideableEmptyAlert', 'selectable', 'show', 'title', 'users', 'mods', 'classes', 'attributes' ]}
 
 {* Заголовок *}
@@ -25,9 +26,13 @@
         visible = ! $users}
 {/if}
 
+{if $selectable}
+    {$mods = "$mods selectable"}
+{/if}
+
 {* Список пользователей *}
 {if $users || ! $show|default:true}
-    <ul class="user-list-small js-user-list-small {$classes}" {if ! $show|default:true}style="display: none"{/if}>
+    <ul class="{$component} js-user-list-small {$classes} {cmods name=$component mods=$mods}" {cattr list=$attributes} {if ! $show|default:true}style="display: none"{/if}>
         {foreach $users as $user}
             {$userContainer = $user}
 

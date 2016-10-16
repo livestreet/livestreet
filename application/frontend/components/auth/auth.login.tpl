@@ -30,10 +30,10 @@
     {* Каптча *}
     {if Config::Get('general.login.captcha')}
         {component 'field' template='captcha'
-            type   = Config::Get('sys.captcha.type')
-            name   = 'captcha'
-            captchaName   = 'user_auth'
-            label  = $aLang.auth.labels.captcha}
+            captchaType = Config::Get('sys.captcha.type')
+            captchaName = 'user_auth'
+            name        = 'captcha'
+            label       = $aLang.auth.labels.captcha}
     {/if}
 
     {* Запомнить *}
