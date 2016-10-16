@@ -437,13 +437,16 @@ class InstallStepUpdateVersion extends InstallStep
             $iPage = 1;
             $iLimitCount = 50;
             $iLimitStart = 0;
-            while ($aTopics = $this->dbSelect("SELECT * FROM prefix_topic WHERE topic_slug = '' LIMIT {$iLimitStart},{$iLimitCount}")) {
+            while ($aTopics = $this->dbSelect("SELECT * FROM prefix_topic ORDER BY topic_id asc LIMIT {$iLimitStart},{$iLimitCount}")) {
                 $iPage++;
                 $iLimitStart = ($iPage - 1) * $iLimitCount;
                 /**
                  * Топики
                  */
                 foreach ($aTopics as $aTopic) {
+                    if ($aTopic['topic_slug']) {
+                        continue;
+                    }
                     $sSlug = InstallCore::transliteration($aTopic['topic_title']);
                     $sSlug = $this->GetUniqueTopicSlug($sSlug, $aTopic['topic_id']);
                     $sSlug = mysqli_escape_string($this->rDbLink, $sSlug);
