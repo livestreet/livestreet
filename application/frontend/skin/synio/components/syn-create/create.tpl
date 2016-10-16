@@ -7,8 +7,8 @@
 
 {capture 'syn_create'}
     {$_menu = [
-        [ 'name' => 'blog', 'text' => {lang 'modal_create.items.blog'}, 'url' => {router page='blog'} ],
-        [ 'name' => 'message', 'text' => {lang 'modal_create.items.talk'}, 'url' => "{router page='talk'}add" ]
+        [ 'name' => 'blog', 'text' => {lang 'modal_create.items.blog'}, 'url' => {router page='blog/add'} ],
+        [ 'name' => 'message', 'text' => {lang 'modal_create.items.talk'}, 'url' => "{router page='talk/add'}" ]
     ]}
 
     <div class="syn-create-items ls-clearfix">
