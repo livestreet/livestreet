@@ -377,8 +377,8 @@ jQuery(document).ready(function($){
             cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo'
         },
         changeavatar: function ( event, _this, avatars ) {
-            $( '.js-user-profile-avatar, .js-wall-entry[data-user-id=' + _this.option( 'params.user_id' ) + '] .comment-avatar img' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
-            $( '.nav-item--userbar-username img' ).attr( 'src', avatars[ '24crop' ] + '?' + Math.random() );
+            $( '.js-user-profile-avatar, .js-wall-entry[data-user-id=' + _this.option( 'params.target_id' ) + '] .ls-comment-avatar img' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
+            $( '.ls-userbar-user-nav-avatar' ).attr( 'src', avatars[ '48crop' ] + '?' + Math.random() );
         }
     });
 

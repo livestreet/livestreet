@@ -60,3 +60,14 @@
     text-overflow: ellipsis;
     text-align: left;
 }
+
+/* Selectable */
+.user-list-small--selectable .user-list-small-item {
+    position: relative;
+    padding-left: 30px;
+}
+.user-list-small--selectable .user-list-small-item input[type="checkbox"] {
+    position: absolute;
+    top: 16px;
+    left: 10px;
+}

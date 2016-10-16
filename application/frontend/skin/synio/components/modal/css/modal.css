@@ -55,9 +55,49 @@
 
 /* Табы */
 .ls-modal .ls-tabs.ls-modal-tabs .ls-tab-list {
-    padding: 15px;
+    padding: 20px 30px 0;
+}
+
+/* Навигация */
+.ls-modal .ls-tabs:not(:last-child) {
+    margin-bottom: 10px;
+}
+.ls-modal .ls-tab-list {
     margin-bottom: 0;
-    border-bottom: 1px solid #eee;
+    border: none;
+    font-size: 11px;
+    position: relative;
+}
+.ls-modal .ls-tab-pane-content {
+    padding: 30px;
+}
+.ls-modal .ls-tab-list .ls-tab {
+    margin-right: 10px;
+}
+.ls-modal .ls-tab-list .ls-tab .ls-tab-inner {
+    border: 1px solid transparent;
+    line-height: 13px;
+    border-radius: 5px;
+    padding: 3px 6px 4px;
+    display: block;
+    color: #727a90;
+    text-decoration: none;
+}
+
+/* Hover */
+.ls-modal .ls-tab-list .ls-tab .ls-tab-inner:hover,
+.ls-modal .ls-tab-list .ls-tab:hover .ls-tab-inner {
+    color: #333;
+}
+
+/* Active */
+.ls-modal .ls-tab-list .ls-tab.active .ls-tab-inner {
+    color: #628fa5;
+    border-color: #ebf0f4;
+    text-decoration: none;
+}
+.ls-modal .ls-tab-list .ls-tab.active .ls-tab-inner:hover {
+    color: #333;
 }
 
 

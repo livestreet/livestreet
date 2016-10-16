@@ -10,13 +10,8 @@
 /**
  * Основные стили
  */
-.ls-topic {
-    overflow: hidden;
-    zoom: 1;
+.ls-topic:not(:last-child) {
     margin-bottom: 50px;
-}
-.ls-topic:last-child {
-    margin-bottom: 0;
 }
 
 
@@ -160,6 +155,8 @@
     margin: 0;
     padding: 0;
     float: right;
+    position: relative;
+    top: -1px;
 }
 
 /**

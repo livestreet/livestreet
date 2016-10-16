@@ -1,25 +1,28 @@
 /**
  * Кнопка обновления комментариев
- *
- * @template toolbar.comment.tpl
  */
 
-.ls-toolbar-item--comments .ls-toolbar-comments-count {
-    border-top: 1px solid #eee;
-    padding: 10px 0;
-    color: #333;
-    text-align: center;
-    font-size: 11px;
+.ls-toolbar-item.ls-toolbar-item--comments {
+    padding: 8px;
+    width: 25px;
+}
+.comments-toolbar-update {
+    display: block;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
+    background: url(../images/update.gif) no-repeat;
 }
-
-.ls-toolbar-comments-update i {
-    -webkit-transition: -webkit-transform 1s;
-    transition: transform 1s;
+.comments-toolbar-update.active {
+    background-position: -25px 0;
 }
-
-.ls-toolbar-comments-update.active i {
-    -ms-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+.comments-toolbar-count {
+    display: block;
+    padding: 5px 0 3px;
+    font-size: 11px;
+    color: #51983c;
+    text-align: center;
+    text-decoration: none;
+    width: 25px;
+    cursor: pointer;
 }
