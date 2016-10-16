@@ -36,7 +36,7 @@
 
     {* Содержимое *}
     {block 'modal_body'}
-        {if ! $tabs}
+        {if ! $tabs && ! $body}
             <div class="{$component}-body">
                 {block 'modal_content'}{$content}{/block}
             </div>
