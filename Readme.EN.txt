@@ -1,4 +1,4 @@
-LiveStreet 2.0.0.dev
+LiveStreet 2.0.0.beta
 
 Free social engine.
 

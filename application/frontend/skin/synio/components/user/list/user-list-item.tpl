@@ -36,7 +36,7 @@
     <div class="{$component}-status {if $isOnline}{$component}-status--online{/if}">
         {if $isOnline}
             {$aLang.user.status.online}
-        {else}
+        {elseif $session}
             {$date = {date_format date=$session->getDateLast() hours_back="12" minutes_back="60" day_back="8" now="60*5" day="day H:i" format="j F в G:i"}|lower}
 
             {if $user->getProfileSex() != 'woman'}
