@@ -55,7 +55,7 @@ select[multiple].ls-field-input { max-width: 300px; }
 .ls-field--checkbox .ls-field-holder {
     position: absolute;
     top: 2px;
-    left: 0;
+    left: 1px;
 }
 .ls-field--checkbox .ls-field-input {
     width: auto;
