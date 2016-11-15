@@ -9,10 +9,17 @@
 /**
  * Список блогов
  */
+.ls-block.blog-block-blogs .ls-item-group {
+    padding-top: 5px;
+}
 .ls-block.blog-block-blogs .ls-item {
-    padding: 5px 0;
+    padding: 0;
+    margin-bottom: 15px;
     font-size: 11px;
     border: none;
+}
+.ls-block.blog-block-blogs .ls-item:last-child {
+    margin-bottom: 0;
 }
 .ls-block.blog-block-blogs .ls-item-title {
     font-size: 14px;
