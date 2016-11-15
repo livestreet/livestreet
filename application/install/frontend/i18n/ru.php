@@ -18,7 +18,7 @@ return array(
             'requirements'      => array(
                 'php_version'            => array(
                     'title'    => 'Версия PHP',
-                    'solution' => 'Минимально допустимая версия PHP 5.3.2. Обратитесь к хостингу для обновления версии.',
+                    'solution' => 'Минимально допустимая версия PHP 5.5. Обратитесь к хостингу для обновления версии.',
                 ),
                 'safe_mode'              => array(
                     'title'    => 'SAFE MODE',
