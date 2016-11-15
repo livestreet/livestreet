@@ -65,7 +65,11 @@
             this.setModeAdd();
 
             // Иниц-ия редактора
-            this.elements.text.lsEditor();
+            this.elements.text.lsEditor({
+                submitted: function () {
+                    this.element.submit();
+                }.bind(this)
+            });
 
             //
             // СОБЫТИЯ
