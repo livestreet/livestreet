@@ -591,7 +591,7 @@ jQuery(document).ready(function($){
         show_form: ls.registry.get('comment_show_form'),
         loaded: function () {
             if (activityBlockRecent.length) {
-                $('.js-activity-block-recent').lsBlock('getElement', 'tabs').lsTabs('getActiveTab').lsTab('activate');
+                activityBlockRecent.lsBlock('getElement', 'tabs').lsTabs('getActiveTab').lsTab('activate');
             }
         }
     });
