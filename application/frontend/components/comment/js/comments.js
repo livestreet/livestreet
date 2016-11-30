@@ -215,6 +215,8 @@
 
                 if ( $.isFunction( callback ) ) callback.call( this );
             });
+
+            this._trigger('loaded');
         },
 
         /**

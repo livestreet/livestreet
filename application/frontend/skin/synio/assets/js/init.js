@@ -581,12 +581,19 @@ jQuery(document).ready(function($){
     });
 
     // Комментарии
+    var activityBlockRecent = $('.js-activity-block-recent');
+
     $('.js-topic-comments, .js-topic-comments-list').lsComments({
         urls: {
             add:  aRouter['blog'] + 'ajaxaddcomment/',
             load: aRouter['blog'] + 'ajaxresponsecomment/'
         },
-        show_form: ls.registry.get('comment_show_form')
+        show_form: ls.registry.get('comment_show_form'),
+        loaded: function () {
+            if (activityBlockRecent.length) {
+                $('.js-activity-block-recent').lsBlock('getElement', 'tabs').lsTabs('getActiveTab').lsTab('activate');
+            }
+        }
     });
 
     // Кнопка обновления комментариев
