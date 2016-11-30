@@ -76,8 +76,7 @@
             </div>
 
             {* Первый уровень навигации *}
-            {* Отображаем его вверху только если уровней навигации > 1 *}
-            {if count($layoutNav) > 1}
+            {if count($layoutNav)}
                 {component 'nav' hook='main_nav' classes='layout-nav-top' params=$layoutNav[0]}
             {/if}
         </div>
@@ -114,7 +113,7 @@
                         {if is_array($layoutNav)}
                             {foreach $layoutNav as $layoutNavItem}
                                 {* Пропускаем первый уровень навигации который отображается выше *}
-                                {if $layoutNavItem@index === 0 && count($layoutNav) > 1}{continue}{/if}
+                                {if $layoutNavItem@index === 0}{continue}{/if}
 
                                 {if is_array($layoutNavItem)}
                                     {component 'nav' mods='pills' params=$layoutNavItem assign=_layoutNavItemContent}
