@@ -16,6 +16,7 @@
 
 {block 'layout_head_styles' append}
     <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link rel="search" type="application/opensearchdescription+xml" href="{router page='search'}opensearch/" title="{Config::Get('view.name')}" />
 {/block}
 
 {block 'layout_head' append}
