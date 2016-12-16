@@ -54,27 +54,27 @@
 
 
 /* Табы */
-.ls-modal .ls-tabs.ls-modal-tabs .ls-tab-list {
+.ls-modal > .ls-tabs.ls-modal-tabs .ls-tab-list {
     padding: 20px 30px 0;
 }
 
 /* Навигация */
-.ls-modal .ls-tabs:not(:last-child) {
+.ls-modal > .ls-tabs:not(:last-child) {
     margin-bottom: 10px;
 }
-.ls-modal .ls-tab-list {
+.ls-modal > .ls-tabs .ls-tab-list {
     margin-bottom: 0;
     border: none;
     font-size: 11px;
     position: relative;
 }
-.ls-modal .ls-tab-pane-content {
+.ls-modal > .ls-tabs .ls-tab-pane-content {
     padding: 30px;
 }
-.ls-modal .ls-tab-list .ls-tab {
+.ls-modal > .ls-tabs .ls-tab-list .ls-tab {
     margin-right: 10px;
 }
-.ls-modal .ls-tab-list .ls-tab .ls-tab-inner {
+.ls-modal > .ls-tabs .ls-tab-list .ls-tab .ls-tab-inner {
     border: 1px solid transparent;
     line-height: 13px;
     border-radius: 5px;
