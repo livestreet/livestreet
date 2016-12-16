@@ -56,7 +56,7 @@
     {component 'field' template='text'
         name         = 'blog_limit_rating_topic'
         rules        = [ 'required' => true, 'type' => 'number' ]
-        value        = '0'
+        value        = ($_aRequest) ? $_aRequest.blog_limit_rating_topic : '0'
         inputClasses = 'ls-width-100'
         note         = $aLang.blog.add.fields.rating.note
         label        = $aLang.blog.add.fields.rating.label}
