@@ -1,0 +1,47 @@
+/**
+ * Media
+ */
+
+.ls-modal.ls-media {
+    max-width: 1130px;
+    border: none;
+    background: #222;
+}
+
+/* Nav */
+.ls-media-nav .ls-tab-list {
+    width: 160px;
+    padding-top: 15px;
+}
+.ls-media-nav .ls-tab {
+    padding: 10px 15px;
+    background: #222;
+    color: #eee;
+}
+.ls-media-nav .ls-tab:hover {
+    background: #2a2a2a;
+}
+.ls-media-nav .ls-tab.active {
+    background: #333;
+}
+
+/* Panes */
+.ls-media-nav .ls-tabs-panes {
+    overflow: hidden;
+    margin-left: 160px;
+    background: #fff;
+}
+
+/* Content */
+.ls-media-pane-content {
+    min-height: 300px;
+    padding: 15px;
+}
+
+/* Footer */
+.ls-media-pane-footer {
+    padding: 15px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
