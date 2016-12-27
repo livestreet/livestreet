@@ -43,7 +43,7 @@
     {* @hook Рейтинг пользователя *}
     {hookb run='user_rating' user=$user}
         <div class="{$component}-rating">
-            <div class="{$component}-rating-label">Рейтинг</div>
+            <div class="{$component}-rating-label">{lang 'vote.rating'}</div>
             <div class="{$component}-rating-value">{$user->getRating()}</div>
         </div>
     {/hookb}

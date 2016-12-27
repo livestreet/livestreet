@@ -10,12 +10,12 @@
         {if $oUserCurrent || ! $property->getParam('access_only_auth')}
             <a href="{router page="property/download"}{$value->getValueVarchar()}/">{$value->getValueForDisplay()}</a>
             {if $valueType->getCountDownloads()}
-                <br/>Загрузок: {$valueType->getCountDownloads()}
+                <br/>{lang 'property.file.downloads'}: {$valueType->getCountDownloads()}
             {/if}
         {else}
-            Для доступа к файлу <a href="#" class="js-modal-toggle-login">необходимо авторизоваться</a>
+            {lang 'property.file.forbidden'}
         {/if}
     {else}
-        файла нет
+        {lang 'property.file.empty'}
     {/if}
 </div>

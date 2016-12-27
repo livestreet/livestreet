@@ -134,7 +134,19 @@ return array(
          */
         'search'               => array(
             'placeholder'  => 'Поиск по названию',
-            'result_title' => 'Найден %%count%% блог;Найдено %%count%% блога;Найдено %%count%% блогов'
+            'result_title' => 'Найден %%count%% блог;Найдено %%count%% блога;Найдено %%count%% блогов',
+            'form' => array(
+                'type' => array(
+                    'any' => 'Любой',
+                    'public' => 'Открытый',
+                    'private' => 'Закрытый'
+                ),
+                'relation' => array(
+                    'all' => 'Все',
+                    'my' => 'Мои',
+                    'joined' => 'Читаю'
+                )
+            )
         ),
         /**
          * Приглашения
@@ -1223,7 +1235,15 @@ return array(
         'search'            => array(
             'title'        => 'Поиск по пользователям',
             'placeholder'  => 'Поиск по логину',
-            'result_title' => 'Найден %%count%% пользователь;Найдено %%count%% пользователя;Найдено %%count%% пользователей'
+            'result_title' => 'Найден %%count%% пользователь;Найдено %%count%% пользователя;Найдено %%count%% пользователей',
+            'form' => array(
+                'is_online' => 'Сейчас на сайте',
+                'gender' => array(
+                    'any' => 'Любой',
+                    'male' => 'Мужской',
+                    'female' => 'Женский'
+                )
+            )
         ),
         // Публикации
         'publications'      => array(
@@ -1459,7 +1479,16 @@ return array(
      */
     'property'       => array(
         'video' => array(
-            'preview' => 'Предпросмотр видео'
+            'preview' => 'Предпросмотр видео',
+            'watch' => 'Смотреть'
+        ),
+        'image' => array(
+            'empty' => 'Изображения нет'
+        ),
+        'file' => array(
+            'forbidden' => 'Для доступа к файлу необходимо авторизоваться',
+            'downloads' => 'Загрузок',
+            'empty' => 'Файла нет'
         )
     ),
     /**

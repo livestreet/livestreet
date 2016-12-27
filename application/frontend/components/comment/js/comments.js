@@ -176,13 +176,13 @@
 
             this._load( 'load', params, function( response ) {
                 var commentsLoaded = response.comments,
-                    сountLoaded = commentsLoaded.length;
+                    countLoaded = commentsLoaded.length;
 
                 // Убираем подсветку у новых комментариев
                 if ( flush ) this.getCommentsNew().lsComment( 'notNew' );
 
                 // Скрываем сообщение о пустом списке
-                if ( ~ this.getComments().length && сountLoaded ) this.elements.empty.hide();
+                if ( ~ this.getComments().length && countLoaded ) this.elements.empty.hide();
 
                 // Вставляем новые комментарии
                 $.each( commentsLoaded, function( index, item ) {
@@ -193,7 +193,7 @@
                 }.bind( this ));
 
                 // Обновляем данные
-                if ( сountLoaded && response.last_comment_id ) {
+                if ( countLoaded && response.last_comment_id ) {
                     this.setLastCommentId( response.last_comment_id );
 
                     // Обновляем кол-во комментариев в заголовке
@@ -203,7 +203,7 @@
                 // Разворачиваем все ветки если идет просто подгрузка комментариев
                 // или если при добавления комментария текущим пользователем
                 // помимо этого комментария подгружаются еще и ранее добавленные комментарии
-                if ( this.options.folding && ( ( ! commentSelfId && сountLoaded ) || ( commentSelfId && сountLoaded - 1 > 0 ) ) ) {
+                if ( this.options.folding && ( ( ! commentSelfId && countLoaded ) || ( commentSelfId && countLoaded - 1 > 0 ) ) ) {
                     this.unfoldAll();
                 }
 

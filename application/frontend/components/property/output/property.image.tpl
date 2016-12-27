@@ -10,6 +10,6 @@
             <img src="{$valueType->getImageWebPath( $valueType->getImageSizeFirst() )}" >
         </a>
     {else}
-        изображения нет
+        {lang 'property.image.empty'}
     {/if}
 </div>
