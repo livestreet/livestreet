@@ -195,10 +195,3 @@
 
     {hook run='layout_body_end'}
 {/block}
-
-{block 'layout_body_end' append}
-    <script>
-        ls.lang.load({json var = $aLangJs});
-        ls.registry.set({json var = $aVarsJs});
-    </script>
-{/block}
