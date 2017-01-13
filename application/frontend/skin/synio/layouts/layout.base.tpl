@@ -28,11 +28,6 @@
         {$layoutShowSidebar = !!$layoutSidebarBlocks}
     {/if}
 
-    <script>
-        ls.lang.load({json var = $aLangJs});
-        ls.registry.set({json var = $aVarsJs});
-    </script>
-
     {**
      * Тип сетки сайта
      *}
@@ -236,4 +231,11 @@
     {component 'toolbar' classes='js-toolbar-default' items={show_blocks group='toolbar'}}
 
     {hook run='layout_body_end'}
+{/block}
+
+{block 'layout_body_end' append}
+    <script>
+        ls.lang.load({json var = $aLangJs});
+        ls.registry.set({json var = $aVarsJs});
+    </script>
 {/block}
