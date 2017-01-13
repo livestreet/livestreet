@@ -75,10 +75,13 @@ class ModuleProperty_MapperProperty extends Mapper
         return $aResult;
     }
 
-    public function GetPropertiesValueByTargetArray($sTargetType, $aTargetId)
+    public function GetPropertiesValueByTargetArray($aTargetType, $aTargetId)
     {
         if (!is_array($aTargetId)) {
             $aTargetId = array($aTargetId);
+        }
+        if (!is_array($aTargetType)) {
+            $aTargetType = array($aTargetType);
         }
         if (!$aTargetId) {
             return array();
@@ -96,12 +99,12 @@ class ModuleProperty_MapperProperty extends Mapper
                 FROM " . Config::Get('db.table.property') . " AS p
                 	 LEFT JOIN " . Config::Get('db.table.property_value') . " as v on ( v.property_id=p.id and v.target_id IN ( ?a ) )
                 WHERE
-                	p.target_type = ?
+                	p.target_type IN ( ?a )
                 ORDER BY
                     p.sort desc ";
 
         $aResult = array();
-        if ($aRows = $this->oDb->select($sql, $aTargetId, $sTargetType)) {
+        if ($aRows = $this->oDb->select($sql, $aTargetId, $aTargetType)) {
             return $aRows;
         }
         return $aResult;

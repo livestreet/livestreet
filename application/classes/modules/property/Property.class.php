@@ -179,11 +179,11 @@ class ModuleProperty extends ModuleORM
          * Получаем список значений
          */
         $aValues = $this->Property_GetValueItemsByFilter(array(
-                'target_id'      => $iTargetId,
-                'target_type'    => $sTargetType,
-                'property_id in' => $aPropertyIds,
-                '#index-from'    => 'property_id'
-            ));
+            'target_id'      => $iTargetId,
+            'target_type'    => $sTargetType,
+            'property_id in' => $aPropertyIds,
+            '#index-from'    => 'property_id'
+        ));
         /**
          * Аттачим значения к свойствам
          */
@@ -192,11 +192,11 @@ class ModuleProperty extends ModuleORM
                 $oProperty->setValue($aValues[$oProperty->getId()]);
             } else {
                 $oProperty->setValue(Engine::GetEntity('ModuleProperty_EntityValue', array(
-                            'property_id'   => $oProperty->getId(),
-                            'property_type' => $oProperty->getType(),
-                            'target_type'   => $sTargetType,
-                            'target_id'     => $iTargetId
-                        )));
+                    'property_id'   => $oProperty->getId(),
+                    'property_type' => $oProperty->getType(),
+                    'target_type'   => $sTargetType,
+                    'target_id'     => $iTargetId
+                )));
             }
             $oProperty->getValue()->setProperty($oProperty);
         }
@@ -282,7 +282,7 @@ class ModuleProperty extends ModuleORM
                 $oValueType->setValue($oValueType->getValueForValidate());
                 $aPropertiesResult[$oProperty->getId()] = $oProperty;
             } else {
-                return 'Поле "'.$oProperty->getTitle().'": '.($sRes ? $sRes : 'неверное значение');
+                return 'Поле "' . $oProperty->getTitle() . '": ' . ($sRes ? $sRes : 'неверное значение');
             }
         }
         $oTarget->setPropertiesObject($aPropertiesResult);
@@ -445,13 +445,16 @@ class ModuleProperty extends ModuleORM
          */
         if (isset($aFilter['#properties']) and $aFilter['#properties']) {
             $aEntitiesId = array();
+            $aTargetTypes = array();
             foreach ($aEntitiesWork as $oEntity) {
                 $aEntitiesId[] = $oEntity->getId();
+                $aTargetTypes[] = $oEntity->getPropertyTargetType();
             }
+            $aTargetTypes = array_unique($aTargetTypes);
             /**
              * Получаем все свойства со значениями для всех объектов
              */
-            $aResult = $this->oMapper->GetPropertiesValueByTargetArray($sTargetType, $aEntitiesId);
+            $aResult = $this->oMapper->GetPropertiesValueByTargetArray($aTargetTypes, $aEntitiesId);
             if ($aResult) {
                 /**
                  * Формируем список свойств и значений
@@ -490,11 +493,11 @@ class ModuleProperty extends ModuleORM
                             $oValue = $aValues[$sKey];
                         } else {
                             $oValue = Engine::GetEntity('ModuleProperty_EntityValue', array(
-                                    'property_type' => $oProperty->getType(),
-                                    'property_id'   => $oProperty->getId(),
-                                    'target_type'   => $oProperty->getTargetType(),
-                                    'target_id'     => $oEntity->getId()
-                                ));
+                                'property_type' => $oProperty->getType(),
+                                'property_id'   => $oProperty->getId(),
+                                'target_type'   => $oProperty->getTargetType(),
+                                'target_id'     => $oEntity->getId()
+                            ));
                         }
                         $oPropertyNew->setValue($oValue);
                         $oValue->setProperty($oPropertyNew);
@@ -560,9 +563,9 @@ class ModuleProperty extends ModuleORM
         if ($aPropFields) {
             $sTargetType = $oEntitySample->property->getPropertyTargetType();
             $aProperties = $this->Property_GetPropertyItemsByFilter(array(
-                    'code in'     => array_keys($aPropFields),
-                    'target_type' => $sTargetType
-                ));
+                'code in'     => array_keys($aPropFields),
+                'target_type' => $sTargetType
+            ));
             $iPropNum = 0;
             foreach ($aProperties as $oProperty) {
                 /**
@@ -578,10 +581,10 @@ class ModuleProperty extends ModuleORM
                     $sFieldValue = "value_float";
                     $sConditionFull = $sCondition . ($bIsArray ? ' (?a) ' : ' ?f ');
                 } elseif (in_array($oProperty->getType(), array(
-                        ModuleProperty::PROPERTY_TYPE_VARCHAR,
-                        ModuleProperty::PROPERTY_TYPE_TAGS,
-                        ModuleProperty::PROPERTY_TYPE_VIDEO_LINK
-                    ))) {
+                    ModuleProperty::PROPERTY_TYPE_VARCHAR,
+                    ModuleProperty::PROPERTY_TYPE_TAGS,
+                    ModuleProperty::PROPERTY_TYPE_VIDEO_LINK
+                ))) {
                     $sFieldValue = "value_varchar";
                     $sConditionFull = $sCondition . ($bIsArray ? ' (?a) ' : ' ? ');
                 } elseif ($oProperty->getType() == ModuleProperty::PROPERTY_TYPE_TEXT) {
@@ -821,9 +824,9 @@ class ModuleProperty extends ModuleORM
          * Получаем набор свойств
          */
         $aProperties = $this->Property_GetPropertyItemsByFilter(array(
-                'target_type' => $sTargetType,
-                '#order'      => array('sort' => 'desc')
-            ));
+            'target_type' => $sTargetType,
+            '#order'      => array('sort' => 'desc')
+        ));
         $this->Property_AttachValueForProperties($aProperties, $sTargetType, $iTargetId);
         return $aProperties;
     }
