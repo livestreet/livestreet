@@ -565,11 +565,6 @@ if ( $config['view']['rtl'] ) {
     //$config['head']['default']['css'][] = "___path.skin.web___/components/alert/css/alert-rtl.css";
 }
 
-// Подключение темы
-if ( $config['view']['theme'] ) {
-    $config['head']['default']['css'][] = "___path.skin.web___/themes/___view.theme___/style.css";
-}
-
 /**
  * Установка локали
  */

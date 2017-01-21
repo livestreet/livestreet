@@ -31,6 +31,11 @@ $config['head']['template']['css'] = array(
 	"___path.skin.assets.web___/css/print.css"
 );
 
+// Подключение темы
+if (Config::Get('view.theme')) {
+	$config['head']['default']['css'][] = "___path.skin.web___/themes/___view.theme___/style.css";
+}
+
 /**
  * SEO
  */

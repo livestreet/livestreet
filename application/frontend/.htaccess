@@ -1,0 +1,5 @@
+Options -Indexes
+<Files ~ "(\.tpl)|(\.php)$">
+    Order allow,deny
+    Deny from all
+</Files>
