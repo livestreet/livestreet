@@ -33,7 +33,7 @@ $config['head']['template']['css'] = array(
 
 // Подключение темы
 if (Config::Get('view.theme')) {
-	$config['head']['default']['css'][] = "___path.skin.web___/themes/___view.theme___/style.css";
+	$config['head']['template']['css'][] = "___path.skin.web___/themes/___view.theme___/style.css";
 }
 
 /**
