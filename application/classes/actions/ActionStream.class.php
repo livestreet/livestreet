@@ -142,7 +142,7 @@ class ActionStream extends Action
             return parent::EventNotFound();
         }
 
-        $_this=$this;
+        $_this = $this;
         $this->GetMore(function ($lastId) use ($_this) {
             return $_this->Stream_Read(null, $lastId);
         });
@@ -153,7 +153,7 @@ class ActionStream extends Action
      */
     protected function EventGetMoreAll()
     {
-        $_this=$this;
+        $_this = $this;
         $this->GetMore(function ($lastId) use ($_this) {
             return $_this->Stream_ReadAll(null, $lastId);
         });
@@ -164,7 +164,7 @@ class ActionStream extends Action
      */
     protected function EventGetMoreUser()
     {
-        $_this=$this;
+        $_this = $this;
         $this->GetMore(function ($lastId) use ($_this) {
             if (!($oUser = $_this->User_GetUserById(getRequestStr('target_id')))) {
                 return false;
@@ -201,7 +201,9 @@ class ActionStream extends Action
         $oViewer = $this->Viewer_GetLocalViewer();
 
         $oViewer->Assign('events', $aEvents, true);
-        $oViewer->Assign('dateLast', getRequestStr('date_last'), true);
+        if (preg_match('#^\d{4}\-\d{1,2}\-\d{1,2}$#', getRequestStr('date_last'))) {
+            $oViewer->Assign('dateLast', getRequestStr('date_last'), true);
+        }
 
         if (count($aEvents)) {
             $this->Viewer_AssignAjax('last_id', end($aEvents)->getId(), true);
@@ -275,7 +277,7 @@ class ActionStream extends Action
          * Обрабатываем добавление по каждому из переданных логинов
          */
         foreach ($aUsers as $iUserId) {
-            $iUserId = (int) $iUserId;
+            $iUserId = (int)$iUserId;
 
             if (!$iUserId) {
                 continue;
@@ -291,12 +293,12 @@ class ActionStream extends Action
                 $oViewer->Assign('showActions', true, true);
 
                 $aResult[] = array(
-                    'bStateError'   => false,
-                    'sMsgTitle'     => $this->Lang_Get('common.attention'),
-                    'sMsg'          => $this->Lang_Get('common.success.add', array('login' => $oUser->getLogin())),
-                    'user_id'       => $oUser->getId(),
-                    'user_login'    => $oUser->getLogin(),
-                    'html'          => $oViewer->Fetch("component@user-list-add.item")
+                    'bStateError' => false,
+                    'sMsgTitle'   => $this->Lang_Get('common.attention'),
+                    'sMsg'        => $this->Lang_Get('common.success.add', array('login' => $oUser->getLogin())),
+                    'user_id'     => $oUser->getId(),
+                    'user_login'  => $oUser->getLogin(),
+                    'html'        => $oViewer->Fetch("component@user-list-add.item")
                 );
             } else {
                 $aResult[] = array(
@@ -317,7 +319,7 @@ class ActionStream extends Action
      */
     protected function EventAjaxRemoveUser()
     {
-        $iUserId = (int) getRequestStr('user_id');
+        $iUserId = (int)getRequestStr('user_id');
         /**
          * Устанавливаем формат Ajax ответа
          */
