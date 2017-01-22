@@ -3,7 +3,7 @@
         {$property->getTitle()}
     </div>
 
-    <strong class="ls-property-list-item-content">
+    <div class="ls-property-list-item-content">
         {$property->getValue()->getValueForDisplay()}
-    </strong>
+    </div>
 </div>
