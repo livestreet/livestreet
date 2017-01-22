@@ -29,7 +29,7 @@
                 counter: '.js-toolbar-comments-count',
 
                 // Иконка
-                icon: '.ls-toolbar-comments-update .fa'
+                icon: '.js-toolbar-comments-update .fa'
             },
 
             classes: {
@@ -99,14 +99,14 @@
         showCounter: function() {
             if ( this.elements.counter.is( ':visible' ) ) return;
 
-            this.element.append( this.elements.counter.show() );
+            this.elements.counter.show();
         },
 
         /**
          * Скрывает счетчик
          */
         hideCounter: function() {
-            this.elements.counter.hide().detach();
+            this.elements.counter.hide();
         },
 
         /**

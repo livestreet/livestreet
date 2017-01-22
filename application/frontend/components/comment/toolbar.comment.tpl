@@ -3,20 +3,14 @@
  * Кнопка обновления комментариев
  *}
 
-{component_define_params params=[ 'mods', 'classes', 'attributes' ]}
+{capture toolbar_comments}
+    <div class="ls-comments-toolbar-update js-toolbar-comments-update" title="{lang 'comments.update'}">
+        {component 'icon' icon='refresh'}
+    </div>
+    <div class="ls-comments-toolbar-count js-toolbar-comments-count" title="{lang 'comments.count_new'}">0</div>
+{/capture}
 
-{component 'toolbar' template='item'
-    classes = "{$classes} js-comments-toolbar"
-    mods = 'comments'
-    buttons = [
-        [
-            classes => 'ls-toolbar-comments-update js-toolbar-comments-update',
-            attributes => [ 'title' => {lang 'comments.update'} ],
-            icon => 'refresh'
-        ],
-        [
-            classes => 'js-toolbar-comments-count',
-            attributes => [ 'title' => {lang 'comments.count_new'} ],
-            text => '0'
-        ]
-    ]}
+{component 'toolbar.item'
+    html=$smarty.capture.toolbar_comments
+    classes='js-comments-toolbar'
+    mods='comments'}
