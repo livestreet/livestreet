@@ -7,6 +7,9 @@
  */
 
 /* Основной блок */
+.layout {
+    min-width: 960px;
+}
 .layout-container {
     margin: 0 auto;
     padding: 0 50px;
