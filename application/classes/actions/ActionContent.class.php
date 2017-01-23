@@ -447,7 +447,7 @@ class ActionContent extends Action
                 }
 
                 $this->Viewer_AssignAjax('sUrlRedirect', $sUrlRedirect);
-                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'));
+                $this->Message_AddNotice($this->Lang_Get('topic.add.notices.update_complete'), $this->Lang_Get('common.attention'));
             } else {
                 $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'));
             }
@@ -589,9 +589,9 @@ class ActionContent extends Action
 
 
                 $this->Viewer_AssignAjax('sUrlRedirect', $oTopic->getUrl());
-                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'));
+                $this->Message_AddNotice($this->Lang_Get('topic.add.notices.create_complete'), $this->Lang_Get('common.attention'));
             } else {
-                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
+                $this->Message_AddError($this->Lang_Get('common.error.error'));
             }
         } else {
             $this->Message_AddError($oTopic->_getValidateError(), $this->Lang_Get('common.error.error'));

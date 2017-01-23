@@ -110,7 +110,7 @@ class ModuleRbac_EntityRole extends EntityORM
     {
         if ($oObject = $this->Rbac_GetRoleByCode($this->getCode())) {
             if ($this->getId() != $oObject->getId()) {
-                return 'Код должен быть уникальным';
+                return $this->Lang_Get('rbac.notices.validate_role_code');
             }
         }
         return true;
@@ -128,10 +128,10 @@ class ModuleRbac_EntityRole extends EntityORM
         if ($this->getPid()) {
             if ($oRole = $this->Rbac_GetRoleById($this->getPid())) {
                 if ($oRole->getId() == $this->getId()) {
-                    return 'Попытка вложить роль в саму себя';
+                    return $this->Lang_Get('rbac.notices.validate_role_recursive');
                 }
             } else {
-                return 'Неверная роль';
+                return $this->Lang_Get('rbac.notices.validate_role_wrong');
             }
         } else {
             $this->setPid(null);

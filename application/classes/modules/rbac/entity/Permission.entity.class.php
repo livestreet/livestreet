@@ -67,7 +67,7 @@ class ModuleRbac_EntityPermission extends EntityORM
             if ($oObject = $this->Rbac_GetGroupById($this->getGroupId())) {
                 $this->setGroupId($oObject->getId());
             } else {
-                return 'Неверная группа';
+                return $this->Lang_Get('rbac.notices.validate_group_wrong');
             }
         } else {
             $this->setGroupId(null);
@@ -85,7 +85,7 @@ class ModuleRbac_EntityPermission extends EntityORM
         $sPlugin = $this->getPlugin() ? $this->getPlugin() : '';
         if ($oObject = $this->Rbac_GetPermissionByCodeAndPlugin($this->getCode(), $sPlugin)) {
             if ($this->getId() != $oObject->getId()) {
-                return 'Код должен быть уникальным';
+                return $this->Lang_Get('rbac.notices.validate_permission_code');
             }
         }
         return true;

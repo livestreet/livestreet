@@ -44,10 +44,10 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
         $oProperty = $oValue->getProperty();
         $iPropertyId = $oProperty->getId();
 
-        $bNeedRemove=false;
+        $bNeedRemove = false;
         $mValue = $this->getValueForValidate();
         if (isset($mValue['remove']) and $mValue['remove']) {
-            $bNeedRemove=true;
+            $bNeedRemove = true;
             $this->setValueForValidate(array('remove' => true));
         }
 
@@ -62,14 +62,14 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
             } elseif ($aFilePrev = $oValue->getDataOne('file') and isset($aFilePrev['path']) and !$bNeedRemove) {
                 return true;
             } else {
-                return 'Необходимо выбрать файл';
+                return $this->Lang_Get('property.notices.validate_value_file_empty');
             }
         }
         /**
          * Проверяем на ошибки
          */
         if ($sFileError and $sFileError != UPLOAD_ERR_NO_FILE) {
-            return "При загрузке файла возникла ошибка - {$sFileError}";
+            return $this->Lang_Get('property.notices.validate_value_file_upload') . " - {$sFileError}";
         }
         /**
          * На корректность загрузки
@@ -81,7 +81,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
          * На ограничение по размеру файла
          */
         if ($iSizeKb = $oProperty->getValidateRuleOne('size_max') and $iSizeKb * 1024 < $sFileSize) {
-            return "Превышен размер файла, максимальный {$iSizeKb}Kb";
+            return $this->Lang_Get('property.notices.validate_value_file_size_max', array('size' => $iSizeKb));
         }
         /**
          * На допустимые типы файлов
@@ -91,7 +91,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
             return false;
         }
         if ($aTypes = $oProperty->getParam('types') and !in_array($aPath['extension'], $aTypes)) {
-            return 'Неверный тип файла, допустимы ' . join(', ', $aTypes);
+            return $this->Lang_Get('property.notices.validate_value_file_type', array('types' => join(', ', $aTypes)));
         }
         /**
          * Пробрасываем данные по файлу
@@ -257,7 +257,7 @@ class ModuleProperty_EntityValueTypeFile extends ModuleProperty_EntityValueType
 
     public function getCountDownloads()
     {
-        $aStats=$this->oValue->getDataOne('stats');
+        $aStats = $this->oValue->getDataOne('stats');
         return isset($aStats['count_download']) ? $aStats['count_download'] : 0;
     }
 

@@ -34,7 +34,7 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
          * Показываем превью, в качестве изображения берем первый ресайз из списка размеров
          */
         if ($aFile = $this->oValue->getDataOne('file') and isset($aFile['path'])) {
-            return '<a href="'.$this->getImageWebPath().'" class="js-lbx"><img src="' . $this->getImageWebPath($this->getImageSizeFirst()) . '" /></a>';
+            return '<a href="' . $this->getImageWebPath() . '" class="js-lbx"><img src="' . $this->getImageWebPath($this->getImageSizeFirst()) . '" /></a>';
         }
         return $this->getFileFullName();
     }
@@ -73,19 +73,19 @@ class ModuleProperty_EntityValueTypeImage extends ModuleProperty_EntityValueType
         $aValue = $this->getValueForValidate();
         if (isset($aValue['tmp_name'])) {
             if (!$aImageInfo = (@getimagesize($aValue['tmp_name']))) {
-                return 'Файл не является изображением';
+                return $this->Lang_Get('property.notices.validate_value_image_wrong');
             }
             /**
              * Проверяем на максимальную ширину
              */
             if ($iWMax = $oProperty->getValidateRuleOne('width_max') and $iWMax < $aImageInfo[0]) {
-                return 'Максимальная допустимая ширина изображения ' . $iWMax . 'px';
+                return $this->Lang_Get('property.notices.validate_value_image_width_max', array('size' => $iWMax));
             }
             /**
              * Проверяем на максимальную высоту
              */
             if ($iHMax = $oProperty->getValidateRuleOne('height_max') and $iHMax < $aImageInfo[1]) {
-                return 'Максимальная допустимая высота изображения ' . $iHMax . 'px';
+                return $this->Lang_Get('property.notices.validate_value_image_height_max', array('size' => $iHMax));
             }
         }
 

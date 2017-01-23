@@ -55,7 +55,7 @@ class ModuleRbac_EntityGroup extends EntityORM
     {
         if ($oObject = $this->Rbac_GetGroupByCode($this->getCode())) {
             if ($this->getId() != $oObject->getId()) {
-                return 'Код должен быть уникальным';
+                return $this->Lang_Get('rbac.notices.validate_group_code');
             }
         }
         return true;

@@ -24,7 +24,7 @@ return array(
     /**
      * Голосование
      */
-    'vote'           => array(
+    'vote'          => array(
         'up'      => 'Нравится',
         'down'    => 'Не нравится',
         'abstain' => 'Воздержаться от голосования и посмотреть рейтинг',
@@ -44,7 +44,7 @@ return array(
     /**
      * Избранное
      */
-    'favourite'      => array(
+    'favourite'     => array(
         'favourite' => 'Избранное',
         'add'       => 'Добавить в избранное',
         'remove'    => 'Удалить из избранного',
@@ -59,7 +59,7 @@ return array(
     /**
      * Поиск
      */
-    'search'         => array(
+    'search'        => array(
         'search' => 'Поиск',
         'find'   => 'Найти',
         'result' => array(
@@ -75,7 +75,7 @@ return array(
     /**
      * Сортировка
      */
-    'sort'           => array(
+    'sort'          => array(
         'label'                => 'Сортировать',
         'by_login'             => 'по логину',
         'by_name'              => 'по имени',
@@ -87,7 +87,7 @@ return array(
     /**
      * Заметка пользователя
      */
-    'user_note'      => array(
+    'user_note'     => array(
         'add'     => 'Написать заметку',
         // Всплывающие сообщения
         'notices' => array(
@@ -97,7 +97,7 @@ return array(
     /**
      * Блог
      */
-    'blog'           => array(
+    'blog'          => array(
         'blog'                 => 'Блог',
         'blogs'                => 'Блоги',
         'readers_declension'   => 'читатель;читателя;читателей',
@@ -135,15 +135,15 @@ return array(
         'search'               => array(
             'placeholder'  => 'Поиск по названию',
             'result_title' => 'Найден %%count%% блог;Найдено %%count%% блога;Найдено %%count%% блогов',
-            'form' => array(
-                'type' => array(
-                    'any' => 'Любой',
-                    'public' => 'Открытый',
+            'form'         => array(
+                'type'     => array(
+                    'any'     => 'Любой',
+                    'public'  => 'Открытый',
                     'private' => 'Закрытый'
                 ),
                 'relation' => array(
-                    'all' => 'Все',
-                    'my' => 'Мои',
+                    'all'    => 'Все',
+                    'my'     => 'Мои',
                     'joined' => 'Читаю'
                 )
             )
@@ -223,7 +223,7 @@ return array(
                     'label' => 'Аватар',
                     'error' => 'Не удалось загрузить аватар',
                 ),
-                'skip_index'      => array(
+                'skip_index'  => array(
                     'label' => 'Не выводить топики на главную',
                     'note'  => 'Все топики из этого блога не смогут попадать на главную страницу',
                 ),
@@ -381,7 +381,7 @@ return array(
     /**
      * Личные сообщения
      */
-    'talk'           => array(
+    'talk'          => array(
         'title'        => 'Сообщения',
         'participants' => '%%count%% участник;%%count%% участника;%%count%% участников',
         'new_messages' => 'У вас есть новые сообщения',
@@ -485,7 +485,7 @@ return array(
             'title'    => 'Участники разговора',
             'inactive' => 'Пользователь не участвует в разговоре',
             // Сообщения
-            'notices'        => array(
+            'notices'  => array(
                 'user_not_found' => 'Пользователь <b>%%login%%</b> не участвует в разговоре',
                 'deleted'        => 'Участник <b>%%login%%</b> удалил этот разговор',
             )
@@ -501,7 +501,7 @@ return array(
     /**
      * Опросы
      */
-    'poll'           => array(
+    'poll'          => array(
         'polls'     => 'Опросы',
         'vote'      => 'Голосовать',
         'abstain'   => 'Воздержаться',
@@ -533,13 +533,22 @@ return array(
         ),
         // Всплывающие сообщения
         'notices'   => array(
-            'error_answers_max' => 'Максимально возможное число вариантов ответа %%count%%',
+            'error_answers_max'       => 'Максимально возможное число вариантов ответа %%count%%',
+            'error_not_allow_vote'    => 'В этом опросе уже нельзя голосовать',
+            'error_not_allow_remove'  => 'Этот опрос уже нельзя удалить',
+            'error_already_vote'      => 'Вы уже голосовали',
+            'error_no_answers'        => 'Необходимо выбрать вариант',
+            'error_answers_max_wrong' => 'Максимальное количество вариантов ответа должно быть больше одного',
+            'error_answers_count'     => 'Необходимо заполнить больше одного варианта ответов',
+            'error_answer_remove'     => 'Нельзя удалить вариант ответа, за который уже голосовали',
+            'error_target_type'       => 'Неверный тип объекта',
+            'error_target_tmp'        => 'Временный идентификатор уже занят',
         ),
     ),
     /**
      * Комментарии
      */
-    'comments'       => array(
+    'comments'      => array(
         'comments_declension' => '%%count%% комментарий;%%count%% комментария;%%count%% комментариев',
         'no_comments'         => 'Нет комментариев',
         'count_new'           => 'Число новых комментариев',
@@ -581,7 +590,7 @@ return array(
     /**
      * Пополняемый список пользователей
      */
-    'user_list_add'  => array(
+    'user_list_add' => array(
         // Форма добавления
         'form'    => array(
             // Поля
@@ -601,7 +610,7 @@ return array(
     /**
      * Мэйлы
      */
-    'emails'         => array(
+    'emails'        => array(
         'common'                => array(
             'comment_text' => 'Текст комментария',
             'regards'      => 'С уважением, администрация сайта',
@@ -789,7 +798,7 @@ return array(
     /**
      * Стена
      */
-    'wall'           => array(
+    'wall'          => array(
         'title'   => 'Стена',
         // Форма
         'form'    => array(
@@ -814,7 +823,7 @@ return array(
     /**
      * Авторизация
      */
-    'auth'           => array(
+    'auth'          => array(
         'authorization' => 'Авторизация',
         'logout'        => 'Выйти',
         // Вход
@@ -947,7 +956,7 @@ return array(
     /**
      * Активность
      */
-    'activity'       => array(
+    'activity'      => array(
         'title'        => 'Активность',
         // Навигация
         'nav'          => array(
@@ -1017,7 +1026,7 @@ return array(
     /**
      * Лента
      */
-    'feed'           => array(
+    'feed'          => array(
         'title' => 'Лента',
         // Блоги
         'blogs' => array(
@@ -1034,7 +1043,7 @@ return array(
     /**
      * Топик
      */
-    'topic'          => array(
+    'topic'         => array(
         'topics'       => 'Топики',
         'topic_plural' => 'топик;топика;топиков',
         'drafts'       => 'Черновики',
@@ -1047,6 +1056,16 @@ return array(
         'nav'          => array(
             'drafts'    => 'Черновики', // TODO: Remove duplication
             'published' => 'Опубликованные'
+        ),
+        'content_type' => array(
+            'states'  => array(
+                'active'     => 'активен',
+                'not_active' => 'не активен',
+                'wrong'      => 'неизвестный статус',
+            ),
+            'notices' => array(
+                'error_code' => 'Тип с таким кодом уже существует',
+            ),
         ),
         // Форма добавления
         'add'          => array(
@@ -1106,6 +1125,8 @@ return array(
                 'error_favourite_draft'  => 'Топик из черновиков нельзя добавить в избранное',
                 'time_limit'             => 'Вам нельзя создавать топики слишком часто',
                 'rating_limit'           => 'Вам не хватает рейтинга для создания топика',
+                'update_complete'        => 'Обновление прошло успешно',
+                'create_complete'        => 'Добавление прошло успешно',
             )
         ),
         // Комментарии
@@ -1131,7 +1152,7 @@ return array(
      * Пользователь
      * !user
      */
-    'user'           => array(
+    'user'          => array(
         'user'              => 'Пользователь',
         'users'             => 'Пользователи',
         'rating'            => '___vote.rating___',
@@ -1145,7 +1166,7 @@ return array(
             'report'       => '___report.report___',
         ),
         // Действия
-        'choose'           => array(
+        'choose'            => array(
             'label'  => '___user.users___',
             'choose' => 'Выбрать из списка друзей',
         ),
@@ -1236,11 +1257,11 @@ return array(
             'title'        => 'Поиск по пользователям',
             'placeholder'  => 'Поиск по логину',
             'result_title' => 'Найден %%count%% пользователь;Найдено %%count%% пользователя;Найдено %%count%% пользователей',
-            'form' => array(
+            'form'         => array(
                 'is_online' => 'Сейчас на сайте',
-                'gender' => array(
-                    'any' => 'Любой',
-                    'male' => 'Мужской',
+                'gender'    => array(
+                    'any'    => 'Любой',
+                    'male'   => 'Мужской',
                     'female' => 'Женский'
                 )
             )
@@ -1455,7 +1476,7 @@ return array(
     /**
      * Поля
      */
-    'field'          => array(
+    'field'         => array(
         'email'       => array(
             'label'   => 'E-mail',
             'notices' => array(
@@ -1475,26 +1496,60 @@ return array(
         ),
     ),
     /**
+     * Категории
+     */
+    'category'      => array(
+        'notices' => array(
+            'validate_require'   => 'Необходимо выбрать категорию',
+            'validate_count'     => 'Количество категорий должно быть от %%min%% до %%max%%',
+            'validate_children'  => 'Для выбора доступны только конечные категории',
+            'validate_recursion' => 'Попытка вложить категорию в саму себя',
+            'validate_parent'    => 'Неверная родительская категория',
+            'validate_wrong'     => 'Неверная категория',
+        ),
+    ),
+    /**
      * Кастомные поля
      */
-    'property'       => array(
-        'video' => array(
+    'property'      => array(
+        'video'   => array(
             'preview' => 'Предпросмотр видео',
-            'watch' => 'Смотреть'
+            'watch'   => 'Смотреть'
         ),
-        'image' => array(
+        'image'   => array(
             'empty' => 'Изображения нет'
         ),
-        'file' => array(
+        'file'    => array(
             'forbidden' => 'Для доступа к файлу необходимо авторизоваться',
             'downloads' => 'Загрузок',
-            'empty' => 'Файла нет'
-        )
+            'empty'     => 'Файла нет'
+        ),
+        'notices' => array(
+            'validate_type'                   => 'Неверный тип поля',
+            'validate_code'                   => 'Код поля должен быть уникальным',
+            'validate_value_date_future'      => 'дата не может быть в будущем',
+            'validate_value_date_past'        => 'дата не может быть в прошлом',
+            'validate_value_file_empty'       => 'Необходимо выбрать файл',
+            'validate_value_file_upload'      => 'При загрузке файла возникла ошибка',
+            'validate_value_file_size_max'    => 'Превышен размер файла, максимальный %%size%% Kb',
+            'validate_value_file_type'        => 'Неверный тип файла, допустимы %%types%%',
+            'validate_value_image_wrong'      => 'Файл не является изображением',
+            'validate_value_image_width_max'  => 'Максимальная допустимая ширина изображения %%size%%px',
+            'validate_value_image_height_max' => 'Максимальная допустимая высота изображения %%size%%px',
+            'validate_value_select_max'       => 'Максимально можно выбрать только %%count%% элемента',
+            'validate_value_select_min'       => 'Минимально можно выбрать только %%count%% элемента',
+            'validate_value_select_wrong'     => 'Проверьте корректность выбранных элементов',
+            'validate_value_select_only_one'  => 'Можно выбрать только один элемент',
+            'validate_value_video_wrong'      => 'Необходимо указать корректную ссылку на видео: YouTube, Vimeo',
+            'validate_value_wrong'            => 'Поле "%%field%%": ',
+            'validate_value_wrong_base'       => 'неверное значение',
+            'create_error'                    => 'Возникла ошибка при добавлении поля',
+        ),
     ),
     /**
      * Админка
      */
-    'admin'          => array(
+    'admin'         => array(
         'title'                => 'Админка',
         'items'                => array(
             'plugins' => '___admin.plugins.title___',
@@ -1532,7 +1587,7 @@ return array(
     /**
      * Жалобы
      */
-    'report'         => array(
+    'report'        => array(
         'report'  => 'Пожаловаться',
         'form'    => array(
             'title'  => '___report.report___',
@@ -1555,13 +1610,13 @@ return array(
     /**
      * Загрузкчик файлов
      */
-    'uploader'       => array(
+    'uploader'      => array(
         'actions' => array(
             'remove' => '___common.remove___'
         ),
-        'filter' => array(
+        'filter'  => array(
             'uploaded' => 'Загруженные',
-            'all' => 'Все'
+            'all'      => 'Все'
         ),
         'info'    => array(
             'empty' => 'Выберите файл',
@@ -1572,24 +1627,25 @@ return array(
                 )
             )
         ),
-        'attach' => array(
-            'title' => 'Прикрепить файлы',
+        'attach'  => array(
+            'title'  => 'Прикрепить файлы',
             'upload' => 'Загрузить',
-            'count' => '%%count%% файл загружен;%%count%% файла загружено;%%count%% файлов загружено',
-            'empty' => 'Нет загруженных файлов'
+            'count'  => '%%count%% файл загружен;%%count%% файла загружено;%%count%% файлов загружено',
+            'empty'  => 'Нет загруженных файлов'
         )
     ),
     /**
      * Загрузка изображений
      */
-    'media'          => array(
+    'media'         => array(
         'title'       => 'Загрузка медиа-файлов',
         'error'       => array(
-            'upload'         => 'Не удалось загрузить файл',
-            'not_image'      => 'Файл не является изображением',
-            'too_large'      => 'Превышен максимальный размер файла: %%size%%Кб',
-            'incorrect_type' => 'Неверный тип файла',
-            'max_count_files' => 'Превышено максимальное число файлов',
+            'upload'            => 'Не удалось загрузить файл',
+            'not_image'         => 'Файл не является изображением',
+            'too_large'         => 'Превышен максимальный размер файла: %%size%%Кб',
+            'incorrect_type'    => 'Неверный тип файла',
+            'max_count_files'   => 'Превышено максимальное число файлов',
+            'need_choose_items' => 'Необходимо выбрать элементы',
         ),
         'nav'         => array(
             'insert'   => 'Вставить',
@@ -1646,7 +1702,7 @@ return array(
     /**
      * Теги
      */
-    'tags'           => array(
+    'tags'          => array(
         'tags'       => 'Теги',
         'tag'        => 'Тег',
         'search'     => array(
@@ -1673,7 +1729,7 @@ return array(
     /**
      * Toolbar
      */
-    'toolbar'        => array(
+    'toolbar'       => array(
         'scrollup'  => array(
             'title' => 'Вверх',
         ),
@@ -1685,7 +1741,7 @@ return array(
     /**
      * Создание
      */
-    'modal_create'   => array(
+    'modal_create'  => array(
         'title' => 'Создать',
         'items' => array(
             'blog' => 'Блог',
@@ -1695,13 +1751,13 @@ return array(
     /**
      * Обрезка изображения
      */
-    'crop'           => array(
+    'crop'          => array(
         'title' => 'Обрезка изображения'
     ),
     /**
      * Экшнбар
      */
-    'actionbar'      => array(
+    'actionbar'     => array(
         'select' => array(
             'title' => 'Выбрать',
             'menu'  => array(
@@ -1714,7 +1770,7 @@ return array(
     /**
      * Управление правами (RBAC)
      */
-    'rbac'           => array(
+    'rbac'          => array(
         'permission' => array(
             'create_blog'              => array(
                 'title' => 'Создание блога',
@@ -1764,6 +1820,15 @@ return array(
                 'title' => 'Голосование за топик',
                 'error' => 'У вас нет прав на голосования за топики',
             ),
+        ),
+        'notices'    => array(
+            'validate_group_code'      => 'Код должен быть уникальным',
+            'validate_group_wrong'     => 'Неверная группа',
+            'validate_permission_code' => 'Код должен быть уникальным',
+            'validate_role_code'       => 'Код должен быть уникальным',
+            'validate_role_recursive'  => 'Попытка вложить роль в саму себя',
+            'validate_role_wrong'      => 'Неверная роль',
+            'error_not_allow'          => 'У вас нет прав на "%%permission%%"',
         ),
     ),
 );

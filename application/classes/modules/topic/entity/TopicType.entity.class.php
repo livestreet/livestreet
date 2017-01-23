@@ -68,7 +68,7 @@ class ModuleTopic_EntityTopicType extends Entity
     {
         if ($oType = $this->Topic_GetTopicTypeByCode($this->getCode())) {
             if ($oType->getId() != $this->getId()) {
-                return 'Тип с таким кодом уже существует';
+                return $this->Lang_Get('topic.content_type.notices.error_code');
             }
         }
         return true;
@@ -114,12 +114,12 @@ class ModuleTopic_EntityTopicType extends Entity
     public function getStateText()
     {
         if ($this->getState() == ModuleTopic::TOPIC_TYPE_STATE_ACTIVE) {
-            return 'активен';
+            return $this->Lang_Get('topic.content_type.states.active');
         }
         if ($this->getState() == ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE) {
-            return 'не активен';
+            return $this->Lang_Get('topic.content_type.states.not_active');
         }
-        return 'неизвестный статус';
+        return $this->Lang_Get('topic.content_type.states.wrong');
     }
 
     public function getUrlForAdd()

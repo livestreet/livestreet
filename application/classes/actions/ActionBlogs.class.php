@@ -133,7 +133,7 @@ class ActionBlogs extends Action
             if (getRequestStr('relation') == 'my') {
                 $aFilter['user_owner_id'] = $this->oUserCurrent->getId();
             } elseif (getRequestStr('relation') == 'join') {
-                $aFilter['roles']=array(ModuleBlog::BLOG_USER_ROLE_USER,ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR,ModuleBlog::BLOG_USER_ROLE_MODERATOR);
+                $aFilter['roles'] = array(ModuleBlog::BLOG_USER_ROLE_USER, ModuleBlog::BLOG_USER_ROLE_ADMINISTRATOR, ModuleBlog::BLOG_USER_ROLE_MODERATOR);
             }
         }
         /**

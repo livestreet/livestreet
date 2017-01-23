@@ -45,7 +45,7 @@ class ModuleProperty_EntityValueTypeVideoLink extends ModuleProperty_EntityValue
              * Теперь проверяем на принадлежность к разным видео-хостингам
              */
             if ($this->getValueForValidate() and !$this->checkVideo($this->getValueForValidate())) {
-                return 'Необходимо указать корректную ссылку на видео: YouTube, Vimeo';
+                return $this->Lang_Get('property.notices.validate_value_video_wrong');
             }
             return true;
         } else {

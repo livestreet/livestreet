@@ -135,7 +135,7 @@ class ModulePoll_EntityPoll extends EntityORM
             return true;
         } else {
             if ($iCount < 2) {
-                return 'Максимальное количество вариантов ответа должно быть больше одного';
+                return $this->Lang_Get('poll.notices.error_answers_max_wrong');
             }
         }
         return true;
@@ -148,11 +148,8 @@ class ModulePoll_EntityPoll extends EntityORM
         }
 
         $aAnswersRaw = $this->getAnswersRaw();
-        if (!is_array($aAnswersRaw)) {
-            return 'Необходимо заполнить варианты ответов';
-        }
-        if (count($aAnswersRaw) < 2) {
-            return 'Необходимо заполнить больше одного варианта ответов';
+        if (!is_array($aAnswersRaw) or count($aAnswersRaw) < 2) {
+            return $this->Lang_Get('poll.notices.error_answers_count');
         }
         /**
          * Здесь может быть два варианта - создание опроса или редактирование, при редактирование могут передаваться ID ответов
@@ -186,7 +183,7 @@ class ModulePoll_EntityPoll extends EntityORM
 
         foreach ($aAnswersOld as $oAnswer) {
             if ($oAnswer->getCountVote()) {
-                return 'Нельзя удалить вариант ответа, за который уже голосовали';
+                return $this->Lang_Get('poll.notices.error_answer_remove');
             }
         }
 
@@ -205,15 +202,15 @@ class ModulePoll_EntityPoll extends EntityORM
         if ($sTargetId) {
             $sTargetTmp = null;
             if (!$this->Poll_CheckTarget($sTargetType, $sTargetId)) {
-                return 'Неверный тип объекта';
+                return $this->Lang_Get('poll.notices.error_target_type');
             }
         } else {
             $sTargetId = null;
             if (!$sTargetTmp or !$this->Poll_IsAllowTargetType($sTargetType)) {
-                return 'Неверный тип объекта';
+                return $this->Lang_Get('poll.notices.error_target_type');
             }
             if ($this->Poll_GetPollByFilter(array('target_tmp' => $sTargetTmp, 'target_type <>' => $sTargetType))) {
-                return 'Временный идентификатор уже занят';
+                return $this->Lang_Get('poll.notices.error_target_tmp');
             }
         }
 

@@ -282,7 +282,8 @@ class ModuleProperty extends ModuleORM
                 $oValueType->setValue($oValueType->getValueForValidate());
                 $aPropertiesResult[$oProperty->getId()] = $oProperty;
             } else {
-                return 'Поле "' . $oProperty->getTitle() . '": ' . ($sRes ? $sRes : 'неверное значение');
+                return $this->Lang_Get('property.notices.validate_value_wrong',
+                    array('field' => $oProperty->getTitle())) . ($sRes ? $sRes : $this->Lang_Get('property.notices.validate_value_wrong_base'));
             }
         }
         $oTarget->setPropertiesObject($aPropertiesResult);
@@ -871,7 +872,7 @@ class ModuleProperty extends ModuleORM
             if ($oProperty->Add()) {
                 return $oProperty;
             } else {
-                return 'Возникла ошибка при добавлении поля';
+                return $this->Lang_Get('property.notices.create_error');
             }
         } else {
             return $oProperty->_getValidateError();

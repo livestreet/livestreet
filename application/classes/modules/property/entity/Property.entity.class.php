@@ -68,14 +68,14 @@ class ModuleProperty_EntityProperty extends EntityORM
         if ($this->Property_IsAllowPropertyType($this->getType())) {
             return true;
         }
-        return 'Неверный тип поля';
+        return $this->Lang_Get('property.notices.validate_type');
     }
 
     public function ValidateCheckCode()
     {
         if ($oProperty = $this->Property_GetPropertyByTargetTypeAndCode($this->getTargetType(), $this->getCode())) {
             if ($this->getId() != $oProperty->getId()) {
-                return 'Код поля должен быть уникальным';
+                return $this->Lang_Get('property.notices.validate_code');
             }
         }
         return true;

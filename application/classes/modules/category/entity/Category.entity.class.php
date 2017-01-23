@@ -59,14 +59,14 @@ class ModuleCategory_EntityCategory extends EntityORM
         if ($this->getPid()) {
             if ($oCategory = $this->Category_GetCategoryById($this->getPid())) {
                 if ($oCategory->getId() == $this->getId()) {
-                    return 'Попытка вложить категорию в саму себя';
+                    return $this->Lang_Get('category.notices.validate_recursion');
                 }
                 if ($oCategory->getTypeId() != $this->getTypeId()) {
-                    return 'Неверная родительская категория';
+                    return $this->Lang_Get('category.notices.validate_parent');
                 }
                 $this->setUrlFull($oCategory->getUrlFull() . '/' . $this->getUrl());
             } else {
-                return 'Неверная категория';
+                return $this->Lang_Get('category.notices.validate_wrong');
             }
         } else {
             $this->setPid(null);

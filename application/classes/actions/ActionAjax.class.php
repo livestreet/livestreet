@@ -84,8 +84,6 @@ class ActionAjax extends Action
         $this->AddEventPreg('/^geo$/i', '/^get/', '/^regions$/', 'EventGeoGetRegions');
         $this->AddEventPreg('/^geo$/i', '/^get/', '/^cities$/', 'EventGeoGetCities');
 
-        $this->AddEventPreg('/^infobox$/i', '/^info$/', '/^blog$/', 'EventInfoboxInfoBlog');
-
         $this->AddEventPreg('/^media$/i', '/^upload$/', '/^$/', 'EventMediaUpload');
         $this->AddEventPreg('/^media$/i', '/^upload-link$/', '/^$/', 'EventMediaUploadLink');
         $this->AddEventPreg('/^media$/i', '/^generate-target-tmp$/', '/^$/', 'EventMediaGenerateTargetTmp');
@@ -192,14 +190,14 @@ class ActionAjax extends Action
          * Истекло время голосования?
          */
         if (!$oPoll->isAllowVote()) {
-            $this->Message_AddErrorSingle('В этом опросе уже нельзя голосовать');
+            $this->Message_AddErrorSingle($this->Lang_Get('poll.notices.error_not_allow_vote'));
             return;
         }
         /**
          * Пользователь уже голосовал?
          */
         if ($this->Poll_CheckUserAlreadyVote($oPoll, $this->oUserCurrent)) {
-            $this->Message_AddErrorSingle('Вы уже голосовали');
+            $this->Message_AddErrorSingle($this->Lang_Get('poll.notices.error_already_vote'));
             return;
         }
 
@@ -210,7 +208,7 @@ class ActionAjax extends Action
              * Проверяем варианты ответов
              */
             if (!$aAnswer = (array)getRequest('answers')) {
-                $this->Message_AddErrorSingle('Необходимо выбрать вариант');
+                $this->Message_AddErrorSingle($this->Lang_Get('poll.notices.error_no_answers'));
                 return;
             }
 
@@ -234,7 +232,7 @@ class ActionAjax extends Action
              * Ограничение на максимальное число ответов
              */
             if (count($aAnswerIds) > $oPoll->getCountAnswerMax()) {
-                $this->Message_AddErrorSingle('Максимум можно выбрать вариантов: ' . $oPoll->getCountAnswerMax());
+                $this->Message_AddErrorSingle($this->Lang_Get('poll.notices.error_answers_max', array('count' => $oPoll->getCountAnswerMax())));
                 return;
             }
         }
@@ -362,7 +360,7 @@ class ActionAjax extends Action
         }
 
         if (!$oPoll->isAllowRemove()) {
-            $this->Message_AddError('Этот опрос уже нельзя удалить');
+            $this->Message_AddError($this->Lang_Get('poll.notices.error_not_allow_remove'));
             return;
         }
 
@@ -847,7 +845,7 @@ class ActionAjax extends Action
         }
 
         if (!($aMediaItems = $this->Media_GetAllowMediaItemsById($aIds))) {
-            $this->Message_AddError('Необходимо выбрать элементы');
+            $this->Message_AddError($this->Lang_Get('media.error.need_choose_items'));
             return false;
         }
 
@@ -874,7 +872,7 @@ class ActionAjax extends Action
     {
         $aMediaItems = $this->Media_GetAllowMediaItemsById(getRequest('ids'));
         if (!$aMediaItems) {
-            $this->Message_AddError('Необходимо выбрать элементы');
+            $this->Message_AddError($this->Lang_Get('media.error.need_choose_items'));
             return false;
         }
 
@@ -976,40 +974,6 @@ class ActionAjax extends Action
             $this->Message_AddError(is_string($mResult) ? $mResult : $this->Lang_Get('common.error.system.base'),
                 $this->Lang_Get('common.error.error'));
         }
-    }
-
-    /**
-     * Вывод информации о блоге
-     */
-    protected function EventInfoboxInfoBlog()
-    {
-        /**
-         * Если блог существует и он не персональный
-         */
-        if (!is_string(getRequest('iBlogId'))) {
-            return $this->EventErrorDebug();
-        }
-        if (!($oBlog = $this->Blog_GetBlogById(getRequest('iBlogId'))) or $oBlog->getType() == 'personal') {
-            return $this->EventErrorDebug();
-        }
-        /**
-         * Получаем локальный вьюер для рендеринга шаблона
-         */
-        $oViewer = $this->Viewer_GetLocalViewer();
-
-        $oViewer->Assign('oBlog', $oBlog);
-        if ($oBlog->getType() != 'close' or $oBlog->getUserIsJoin()) {
-            /**
-             * Получаем последний топик
-             */
-            $aResult = $this->Topic_GetTopicsByFilter(array('blog_id' => $oBlog->getId(), 'topic_publish' => 1), 1, 1);
-            $oViewer->Assign('oTopicLast', reset($aResult['collection']));
-        }
-        $oViewer->Assign('oUserCurrent', $this->oUserCurrent);
-        /**
-         * Устанавливаем переменные для ajax ответа
-         */
-        $this->Viewer_AssignAjax('sText', $oViewer->Fetch("actions/ActionBlogs/popover.blog.info.tpl"));
     }
 
     /**
@@ -1797,7 +1761,7 @@ class ActionAjax extends Action
             if ($bReturnExtended) {
                 $aItems[] = array(
                     'value' => $oUser->getId(),
-                    'label'  => $oUser->getDisplayName(),
+                    'label' => $oUser->getDisplayName(),
                 );
             } else {
                 $aItems[] = $oUser->getDisplayName();

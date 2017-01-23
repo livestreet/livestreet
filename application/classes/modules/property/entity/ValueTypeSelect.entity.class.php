@@ -63,10 +63,10 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
         if (is_array($iValue)) {
             if ($oProperty->getValidateRuleOne('allowMany')) {
                 if ($oProperty->getValidateRuleOne('max') and count($iValue) > $oProperty->getValidateRuleOne('max')) {
-                    return 'Максимально можно выбрать только ' . $oProperty->getValidateRuleOne('max') . ' элемента';
+                    return $this->Lang_Get('property.notices.validate_value_select_max', array('count' => $oProperty->getValidateRuleOne('max')));
                 }
                 if ($oProperty->getValidateRuleOne('min') and count($iValue) < $oProperty->getValidateRuleOne('min')) {
-                    return 'Минимально можно выбрать только ' . $oProperty->getValidateRuleOne('min') . ' элемента';
+                    return $this->Lang_Get('property.notices.validate_value_select_min', array('count' => $oProperty->getValidateRuleOne('min')));
                 }
                 /**
                  * Для безопасности
@@ -76,19 +76,19 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
                     $aValues[] = (int)$iV;
                 }
                 if (count($aValues) == count($this->Property_GetSelectItemsByFilter(array(
-                                'property_id' => $oProperty->getId(),
-                                'id in'       => $aValues
-                            )))
+                        'property_id' => $oProperty->getId(),
+                        'id in'       => $aValues
+                    )))
                 ) {
                     $this->setValueForValidate($aValues);
                     return true;
                 } else {
-                    return 'Проверьте корректность выбранных элементов';
+                    return $this->Lang_Get('property.notices.validate_value_select_wrong');
                 }
             } elseif (count($iValue) == 1) {
                 $iValue = (int)reset($iValue);
             } else {
-                return 'Можно выбрать только один элемент';
+                return $this->Lang_Get('property.notices.validate_value_select_only_one');
             }
         }
         /**
@@ -113,9 +113,9 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
         if ($mValue) {
             if (is_array($mValue)) {
                 $aSelectItems = $this->Property_GetSelectItemsByFilter(array(
-                        'property_id' => $oProperty->getId(),
-                        'id in'       => $mValue
-                    ));
+                    'property_id' => $oProperty->getId(),
+                    'id in'       => $mValue
+                ));
                 foreach ($aSelectItems as $oSelect) {
                     $aValues[$oSelect->getId()] = $oSelect->getValue();
                 }
@@ -168,9 +168,9 @@ class ModuleProperty_EntityValueTypeSelect extends ModuleProperty_EntityValueTyp
          * Удаляем значения select'а из дополнительной таблицы
          */
         if ($aSelects = $this->Property_GetValueSelectItemsByFilter(array(
-                'property_id' => $oValue->getPropertyId(),
-                'target_id'   => $oValue->getTargetId()
-            ))
+            'property_id' => $oValue->getPropertyId(),
+            'target_id'   => $oValue->getTargetId()
+        ))
         ) {
             foreach ($aSelects as $oSelect) {
                 $oSelect->Delete();

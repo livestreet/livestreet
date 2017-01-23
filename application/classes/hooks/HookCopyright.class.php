@@ -45,6 +45,6 @@ class HookCopyright extends Hook
         /**
          * Выводим везде, кроме страницы списка блогов и списка всех комментов
          */
-        return '&copy; Powered by <a href="http://livestreetcms.org">LiveStreet CMS</a>';
+        return '&copy; Powered by <a href="https://catalog.livestreetcms.com">LiveStreet CMS</a>';
     }
 }

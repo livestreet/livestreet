@@ -94,7 +94,7 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
                  */
                 if ($oProperty->getValidateRuleOne('disallowFuture')) {
                     if ($sTimeFull > time()) {
-                        return "{$oProperty->getTitle()}: дата не может быть в будущем";
+                        return "{$oProperty->getTitle()}: " . $this->Lang_Get('property.notices.validate_value_date_future');
                     }
                 }
                 /**
@@ -103,7 +103,7 @@ class ModuleProperty_EntityValueTypeDate extends ModuleProperty_EntityValueType
                 if ($oValueObject->_isNew() or strtotime($oValueObject->getValueDate()) != $sTimeFull) {
                     if ($oProperty->getValidateRuleOne('disallowPast')) {
                         if ($sTimeFull < time()) {
-                            return "{$oProperty->getTitle()}: дата не может быть в прошлом";
+                            return "{$oProperty->getTitle()}: " . $this->Lang_Get('property.notices.validate_value_date_past');
                         }
                     }
                 }

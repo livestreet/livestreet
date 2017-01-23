@@ -215,7 +215,7 @@ class ModuleRbac extends ModuleORM
         /**
          * Дефолтное сообщение об ошибке
          */
-        $sMsg = 'У вас нет прав на "' . $sPermissionCode . '"';
+        $sMsg = $this->Lang_Get('rbac.notices.error_not_allow', array('permission' => $sPermissionCode));
         /**
          * Проверяем результат кастомной обработки
          */
@@ -235,7 +235,7 @@ class ModuleRbac extends ModuleORM
                 if ($aPerm['msg_error']) {
                     $sMsg = $this->Lang_Get($aPerm['msg_error']);
                 } else {
-                    $sMsg = 'У вас нет прав на "' . ($aPerm['title'] ? $aPerm['title'] : $aPerm['code']) . '"';
+                    $sMsg = $this->Lang_Get('rbac.notices.error_not_allow', array('permission' => $aPerm['title'] ? $aPerm['title'] : $aPerm['code']));
                 }
             }
         }

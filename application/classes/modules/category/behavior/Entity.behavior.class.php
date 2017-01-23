@@ -160,18 +160,19 @@ class ModuleCategory_BehaviorEntity extends Behavior
         }
 
         if ($this->getParam('validate_require') and !$aCategories) {
-            return 'Необходимо выбрать категорию';
+            return $this->Lang_Get('category.notices.validate_require');
         }
         if (!$this->getParam('multiple') and count($aCategories) > 1) {
             $aCategories = array_slice($aCategories, 0, 1);
         }
         if ($this->getParam('multiple') and $aCategories and (count($aCategories) < $this->getParam('validate_min') or count($aCategories) > $this->getParam('validate_max'))) {
-            return 'Количество категорий должно быть от ' . $this->getParam('validate_min') . ' до ' . $this->getParam('validate_max');
+            return $this->Lang_Get('category.notices.validate_count',
+                array('min' => $this->getParam('validate_min'), 'max' => $this->getParam('validate_max')));
         }
         if ($this->getParam('validate_only_without_children')) {
             foreach ($aCategories as $oCategory) {
                 if ($oCategory->getChildren()) {
-                    return 'Для выбора доступны только конечные категории';
+                    return $this->Lang_Get('category.notices.validate_children');
                 }
             }
         }
