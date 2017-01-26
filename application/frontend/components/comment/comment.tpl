@@ -176,29 +176,32 @@
 
             {* Ответить *}
             {if $oUserCurrent && ! $isDeleted && $showReply|default:true}
-                <li>
-                    <a href="#" class="ls-link-dotted js-comment-reply" data-id="{$commentId}">{$aLang.comments.comment.reply}</a>
-                </li>
+                {component 'comment.actions-item'
+                    link=[ classes => 'js-comment-reply', attributes => [ 'data-id' => $commentId ] ]
+                    text=$aLang.comments.comment.reply}
             {/if}
 
             {* Сворачивание *}
-            <li class="{$component}-fold js-comment-fold open" data-id="{$commentId}">
-                <a href="#" class="ls-link-dotted">{$aLang.comments.folding.fold}</a>
-            </li>
+            {component 'comment.actions-item'
+                classes="{$component}-fold open"
+                link=[ classes => 'js-comment-fold', attributes => [ 'data-id' => $commentId ] ]
+                text=$aLang.comments.folding.fold}
 
             {* Редактировать *}
             {if $useEdit && $oUserCurrent && $comment->IsAllowEdit()}
-                <li>
-                    <a href="#" class="ls-link-dotted js-comment-update" data-id="{$commentId}">
-                        {$aLang.common.edit}
+                {capture assign="ls_comment_edit_text"}
+                    {$aLang.common.edit}
 
-                        {* Отображение времени отведенного для редактирования *}
-                        {* Используется плагин jquery.timers *}
-                        {if $comment->getEditTimeRemaining()}
-                            (<span class="js-comment-update-timer" data-seconds="{$comment->getEditTimeRemaining()}">...</span>)
-                        {/if}
-                    </a>
-                </li>
+                    {* Отображение времени отведенного для редактирования *}
+                    {* Используется плагин jquery.timers *}
+                    {if $comment->getEditTimeRemaining()}
+                        (<span class="js-comment-update-timer" data-seconds="{$comment->getEditTimeRemaining()}">...</span>)
+                    {/if}
+                {/capture}
+
+                {component 'comment.actions-item'
+                    link=[ classes => 'js-comment-update', attributes => [ 'data-id' => $commentId ] ]
+                    text=$ls_comment_edit_text}
             {/if}
 
             {* Удалить *}
