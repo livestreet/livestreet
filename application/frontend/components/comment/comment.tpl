@@ -183,9 +183,8 @@
 
             {* Сворачивание *}
             {component 'comment.actions-item'
-                classes="{$component}-fold js-comment-fold open"
-                attributes=[ 'data-id' => $commentId ]
-                link=[ ]
+                classes="{$component}-fold open"
+                link=[ classes => 'js-comment-fold', attributes => [ 'data-id' => $commentId ] ]
                 text=$aLang.comments.folding.fold}
 
             {* Редактировать *}

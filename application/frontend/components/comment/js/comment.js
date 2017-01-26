@@ -88,7 +88,7 @@
 
             // Сворчивание
             if ( this.options.folding ) {
-                if ( this.hasChildren() ) this.elements.fold.show();
+                if ( this.hasChildren() ) this.elements.fold.parent().show();
 
                 this.elements.fold.on( 'click' + this.eventNamespace, this.foldToggle.bind( this ) );
             }
@@ -252,14 +252,14 @@
          * Коллбэк вызываемый после сворачивания ветки комментариев
          */
         onFold: function() {
-            this.elements.fold.find('a').text(this._i18n('unfold'));
+            this.elements.fold.text(this._i18n('unfold'));
         },
 
         /**
          * Коллбэк вызываемый после разворачивания ветки комментариев
          */
         onUnfold: function() {
-            this.elements.fold.find('a').text(this._i18n('fold'));
+            this.elements.fold.text(this._i18n('fold'));
         },
 
         /**
