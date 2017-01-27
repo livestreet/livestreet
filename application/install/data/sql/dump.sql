@@ -296,6 +296,7 @@ CREATE TABLE IF NOT EXISTS `prefix_notify_task` (
   `user_mail` varchar(50) DEFAULT NULL,
   `notify_subject` varchar(200) DEFAULT NULL,
   `notify_text` text,
+  `notify_text_alt` text DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
   `notify_task_status` tinyint(2) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

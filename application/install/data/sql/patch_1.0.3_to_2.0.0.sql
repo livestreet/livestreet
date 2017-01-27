@@ -967,3 +967,6 @@ ALTER TABLE `prefix_invite_use` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_
 -- 12.10.2016
 ALTER TABLE `prefix_session` CHANGE `session_date_create` `session_date_create` DATETIME NULL DEFAULT NULL;
 ALTER TABLE `prefix_reminder` CHANGE `reminder_date_used` `reminder_date_used` DATETIME NULL DEFAULT NULL;
+
+-- 27.01.2017
+ALTER TABLE `prefix_notify_task` ADD `notify_text_alt` TEXT NULL DEFAULT NULL AFTER `notify_text`;
