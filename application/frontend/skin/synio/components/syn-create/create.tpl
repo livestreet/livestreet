@@ -1,6 +1,6 @@
 {function syn_create item=null}
     <a href="{$item.url}" class="syn-create-item syn-create-item--{$item.name}">
-        <div class="syn-create-item-image"></div>
+        <div class="syn-create-item-image {$item.css_icon}"></div>
         <div class="syn-create-item-text">{$item.text}</div>
     </a>
 {/function}
@@ -17,7 +17,7 @@
         {/if}
 
         {foreach $LS->Topic_GetTopicTypes() as $type}
-            {syn_create item=[ 'name' => $type->getCode(), 'text' => $type->getName(), 'url' => $type->getUrlForAdd() ]}
+            {syn_create item=[ 'name' => $type->getCode(), 'css_icon' => $type->getParam('css_icon', 'fa fa-file-text-o'), 'text' => $type->getName(), 'url' => $type->getUrlForAdd() ]}
         {/foreach}
 
         {foreach $_menu as $item}

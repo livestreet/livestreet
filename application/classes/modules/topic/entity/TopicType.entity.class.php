@@ -47,6 +47,7 @@ class ModuleTopic_EntityTopicType extends Entity
         $aParamsResult['allow_preview'] = (isset($aParams['allow_preview']) and $aParams['allow_preview']) ? true : false;
         $aParamsResult['allow_text'] = (isset($aParams['allow_text']) and $aParams['allow_text']) ? true : false;
         $aParamsResult['allow_tags'] = (isset($aParams['allow_tags']) and $aParams['allow_tags']) ? true : false;
+        $aParamsResult['css_icon'] = (isset($aParams['css_icon']) and is_string($aParams['css_icon']) and $aParams['css_icon']) ? htmlspecialchars($aParams['css_icon']) : null;
 
         $this->setParams($aParamsResult);
         return true;
@@ -102,13 +103,14 @@ class ModuleTopic_EntityTopicType extends Entity
      * Возвращает конкретный параметр типа
      *
      * @param string $sName
+     * @param mixed $mDefault
      *
      * @return null
      */
-    public function getParam($sName)
+    public function getParam($sName, $mDefault = null)
     {
         $aParams = $this->getParamsArray();
-        return isset($aParams[$sName]) ? $aParams[$sName] : null;
+        return isset($aParams[$sName]) ? $aParams[$sName] : $mDefault;
     }
 
     public function getStateText()
