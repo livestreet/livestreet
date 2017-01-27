@@ -547,11 +547,11 @@ class ActionSettings extends Action
             $aGeo = getRequest('geo');
 
             if (isset($aGeo['city']) && $aGeo['city']) {
-                $oGeoObject = $this->Geo_GetGeoObject('city', (int) $aGeo['city']);
+                $oGeoObject = $this->Geo_GetGeoObject('city', (int)$aGeo['city']);
             } elseif (isset($aGeo['region']) && $aGeo['region']) {
-                $oGeoObject = $this->Geo_GetGeoObject('region', (int) $aGeo['region']);
+                $oGeoObject = $this->Geo_GetGeoObject('region', (int)$aGeo['region']);
             } elseif (isset($aGeo['country']) && $aGeo['country']) {
-                $oGeoObject = $this->Geo_GetGeoObject('country', (int) $aGeo['country']);
+                $oGeoObject = $this->Geo_GetGeoObject('country', (int)$aGeo['country']);
             } else {
                 $oGeoObject = null;
             }
@@ -574,10 +574,14 @@ class ActionSettings extends Action
             /**
              * Проверяем дату рождения
              */
-            if (preg_match('#^(\d{1,2})\.(\d{1,2})\.(\d{4})$#', getRequestStr('profile_birthday'), $aMatch)) {
-                $this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s", mktime(0, 0, 0, $aMatch[2], $aMatch[1], $aMatch[3])));
-            } else {
-                $this->oUserCurrent->setProfileBirthday(null);
+            $this->oUserCurrent->setProfileBirthday(null);
+            if ($this->Validate_Validate('date', getRequestStr('profile_birthday'),
+                array('format' => 'dd.MM.yyyy', 'allowEmpty' => false))
+            ) {
+                $iBirthdayTime = strtotime(getRequestStr('profile_birthday'));
+                if ($iBirthdayTime < time() and $iBirthdayTime > strtotime('-100 year')) {
+                    $this->oUserCurrent->setProfileBirthday(date("Y-m-d H:i:s", $iBirthdayTime));
+                }
             }
             /**
              * Проверяем информацию о себе
