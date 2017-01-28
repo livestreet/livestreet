@@ -6,7 +6,7 @@
 
 {block 'layout_options' append}
     {$layoutNav = [[
-        name       => 'settings',
+        hook       => 'settings',
         activeItem => $sMenuSubItemSelect,
         items => [
             [ 'url' => "{router page='settings'}profile/", 'text' => {lang name='user.settings.nav.profile'}, 'name' => 'profile' ],

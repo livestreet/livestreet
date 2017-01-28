@@ -73,7 +73,7 @@
 
             {* Первый уровень навигации *}
             {if count($layoutNav)}
-                {component 'nav' hook='main_nav' classes='layout-nav-top' params=$layoutNav[0]}
+                {component 'nav' classes='layout-nav-top' params=$layoutNav[0]}
             {/if}
         </div>
     </nav>
