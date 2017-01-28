@@ -113,8 +113,7 @@ class ActionAuth extends Action
                 /**
                  * Сверяем хеши паролей и проверяем активен ли юзер
                  */
-
-                if ($oUser->getPassword() == func_encrypt(getRequest('password'))) {
+                if ($this->User_VerifyAccessAuth($oUser) and $oUser->verifyPassword(getRequest('password'))) {
                     if (!$oUser->getActivate()) {
                         $this->Message_AddErrorSingle($this->Lang_Get('auth.login.notices.error_not_activated',
                             array('reactivation_path' => Router::GetPath('auth/reactivation'))));
@@ -236,7 +235,7 @@ class ActionAuth extends Action
             if ($oReminder = $this->User_GetReminderByCode($this->GetParam(0))) {
                 if (!$oReminder->getIsUsed() and strtotime($oReminder->getDateExpire()) > time() and $oUser = $this->User_GetUserById($oReminder->getUserId())) {
                     $sNewPassword = func_generator(7);
-                    $oUser->setPassword(func_encrypt($sNewPassword));
+                    $oUser->setPassword($this->User_MakeHashPassword($sNewPassword));
                     if ($this->User_Update($oUser)) {
                         $oReminder->setDateUsed(date("Y-m-d H:i:s"));
                         $oReminder->setIsUsed(1);
@@ -383,7 +382,7 @@ class ActionAuth extends Action
          */
         if ($oUser->_Validate()) {
             $this->Hook_Run('registration_validate_after', array('oUser' => $oUser));
-            $oUser->setPassword(func_encrypt($oUser->getPassword()));
+            $oUser->setPassword($this->User_MakeHashPassword($oUser->getPassword()));
             if ($this->User_Add($oUser)) {
                 $this->Hook_Run('registration_after', array('oUser' => $oUser));
                 /**

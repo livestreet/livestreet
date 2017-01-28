@@ -646,6 +646,17 @@ class ModuleUser_EntityUser extends Entity
         return false;
     }
 
+    /**
+     * Проверка пароля
+     *
+     * @param $sPassword
+     * @return string
+     */
+    public function verifyPassword($sPassword)
+    {
+        return $this->User_VerifyPassword($sPassword, $this->getPassword());
+    }
+
 
     /**
      * Устанавливает ID пользователя

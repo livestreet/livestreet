@@ -1951,4 +1951,38 @@ class ModuleUser extends Module
             )
         );
     }
+
+    /**
+     * Генерация хеша пароля
+     *
+     * @param $sPassword
+     * @return string
+     */
+    public function MakeHashPassword($sPassword)
+    {
+        return func_encrypt($sPassword);
+    }
+
+    /**
+     * Проверка пароля
+     *
+     * @param $sPassword
+     * @param $sHash
+     * @return string
+     */
+    public function VerifyPassword($sPassword, $sHash)
+    {
+        return $this->MakeHashPassword($sPassword) == $sHash;
+    }
+
+    /**
+     * Проверка доступа к авторизации
+     *
+     * @param $oUser
+     * @return bool
+     */
+    public function VerifyAccessAuth($oUser)
+    {
+        return true;
+    }
 }

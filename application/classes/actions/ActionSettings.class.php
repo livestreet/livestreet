@@ -459,8 +459,8 @@ class ActionSettings extends Action
             if (getRequestStr('password', '') != '') {
                 if (func_check(getRequestStr('password'), 'password', 5)) {
                     if (getRequestStr('password') == getRequestStr('password_confirm')) {
-                        if (func_encrypt(getRequestStr('password_now')) == $this->oUserCurrent->getPassword()) {
-                            $this->oUserCurrent->setPassword(func_encrypt(getRequestStr('password')));
+                        if ($this->oUserCurrent->verifyPassword(getRequestStr('password_now'))) {
+                            $this->oUserCurrent->setPassword($this->User_MakeHashPassword(getRequestStr('password')));
                         } else {
                             $bError = true;
                             $this->Message_AddError($this->Lang_Get('user.settings.account.fields.password.notices.error'),
