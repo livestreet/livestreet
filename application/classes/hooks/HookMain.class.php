@@ -61,7 +61,7 @@ class HookMain extends Hook
         /**
          * Запуск обработки сборщика
          */
-        //$this->Ls_SenderRun();
+        $this->Ls_SenderRun();
     }
 
     /**
