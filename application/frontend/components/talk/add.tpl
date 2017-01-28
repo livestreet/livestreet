@@ -29,7 +29,7 @@
     {* Текст сообщения *}
     {component 'editor'
             sSet             = 'light'
-            sMediaTargetType = 'talk'
+            mediaTargetType = 'talk'
             id                 = 'talk_text'
             name             = 'talk_text'
             rules            = [ 'required' => true, 'length' => '[2,3000]' ]

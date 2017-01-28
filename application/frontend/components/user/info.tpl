@@ -60,11 +60,11 @@
     {capture 'info_private_geo'}
         <span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
             {if $geoTarget->getCountryId()}
-                <a href="{router page='people'}country/{$geoTarget->getCountryId()}/" itemprop="country-name">{$user->getProfileCountry()|escape}</a>{if $geoTarget->getCityId()},{/if}
+                <span itemprop="country-name">{$user->getProfileCountry()|escape}</span>{if $geoTarget->getCityId()},{/if}
             {/if}
 
             {if $geoTarget->getCityId()}
-                <a href="{router page='people'}city/{$geoTarget->getCityId()}/" itemprop="locality">{$user->getProfileCity()|escape}</a>
+                <span itemprop="locality">{$user->getProfileCity()|escape}</span>
             {/if}
         </span>
     {/capture}
