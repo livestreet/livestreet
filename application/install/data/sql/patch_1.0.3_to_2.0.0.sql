@@ -970,3 +970,6 @@ ALTER TABLE `prefix_reminder` CHANGE `reminder_date_used` `reminder_date_used` D
 
 -- 27.01.2017
 ALTER TABLE `prefix_notify_task` ADD `notify_text_alt` TEXT NULL DEFAULT NULL AFTER `notify_text`;
+
+-- 28.01.2017
+ALTER TABLE `prefix_user` CHANGE `user_mail` `user_mail` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

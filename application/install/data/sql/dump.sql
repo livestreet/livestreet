@@ -878,7 +878,7 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `user_id` int(11) unsigned NOT NULL,
   `user_login` varchar(30) NOT NULL,
   `user_password` varchar(50) NOT NULL,
-  `user_mail` varchar(50) NOT NULL,
+  `user_mail` varchar(50) DEFAULT NULL,
   `user_admin` tinyint(1) NOT NULL DEFAULT '0',
   `user_skill` float(9,3) unsigned NOT NULL DEFAULT '0.000',
   `user_date_register` datetime NOT NULL,
