@@ -28,13 +28,14 @@
  *}
 
 {$component = 'ls-comments'}
-{component_define_params params=[ 'addCommentText', 'authorId', 'authorText', 'commentParams', 'comments', 'count', 'dateReadLast', 'forbidAdd',
+{component_define_params params=[ 'hookPrefix', 'hookPrefixComment', 'addCommentText', 'authorId', 'authorText', 'commentParams', 'comments', 'count', 'dateReadLast', 'forbidAdd',
     'forbidText', 'isSubscribed', 'lastCommentId', 'maxLevel', 'pagination', 'targetId', 'targetType', 'title', 'titleNoComments',
     'useSubscribe', 'mods', 'classes', 'attributes' ]}
 
 {block 'comment-list-options'}
     {* Максимальная вложенность *}
     {$maxLevel = $maxLevel|default:Config::Get('module.comment.max_tree')}
+    {$hookPrefix = $hookPrefix|default:'comments'}
 
     {if $forbidAdd}
         {$mods = "$mods forbid"}
@@ -52,7 +53,7 @@
     {cattr list=$attributes}>
 
     {* @hook Начало блока с комментариями *}
-    {hook run='comments_begin' params=$params}
+    {hook run="{$hookPrefix}_begin" params=$params}
 
     {**
      * Заголовок
@@ -67,7 +68,7 @@
         </h3>
 
         {* @hook Конец шапки *}
-        {hook run='comments_header_end' params=$params}
+        {hook run="{$hookPrefix}_header_end" params=$params}
     </header>
 
 
@@ -99,7 +100,7 @@
     {/if}
 
     {* @hook Хук перед списком комментариев *}
-    {hook run='comments_list_before' params=$params}
+    {hook run="{$hookPrefix}_list_before" params=$params}
 
     {**
      * Комментарии
@@ -108,15 +109,17 @@
         {component 'comment' template='tree'
             comments      = $comments
             forbidAdd     = $forbidAdd
+            forbidAdd     = $forbidAdd
             maxLevel      = $maxLevel
             authorId      = $authorId
             authorText    = $authorText
             dateReadLast  = $dateReadLast
-            commentParams = $commentParams}
+            commentParams = $commentParams
+            hookPrefixComment = $hookPrefixComment}
     </div>
 
     {* @hook Хук после списка комментариев *}
-    {hook run='comments_list_after' params=$params}
+    {hook run="{$hookPrefix}_list_after" params=$params}
 
 
     {**
@@ -151,5 +154,5 @@
     {/if}
 
     {* @hook Конец блока с комментариями *}
-    {hook run='comments_end' params=$params}
+    {hook run="{$hookPrefix}_end" params=$params}
 </div>

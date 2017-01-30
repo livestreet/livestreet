@@ -5,11 +5,12 @@
  *}
 
 {$component = 'ls-comment-list'}
-{component_define_params params=[ 'comments', 'mods', 'classes', 'attributes' ]}
+{component_define_params params=[ 'hookPrefixComment', 'comments', 'mods', 'classes', 'attributes' ]}
 
 {if $comments}
     <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
         {component 'comment' template='tree'
+            hookPrefixComment = $hookPrefixComment
             comments      = $comments
             forbidAdd     = true
             maxLevel      = 0

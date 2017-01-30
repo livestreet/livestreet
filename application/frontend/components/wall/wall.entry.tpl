@@ -9,6 +9,7 @@
 {component_define_params params=[ 'entry', 'type', 'showReply', 'classes' ]}
 
 {component 'comment'
+    hookPrefix = 'wall_entry'
     comment    = $entry
     showReply  = $showReply
     useScroll  = false

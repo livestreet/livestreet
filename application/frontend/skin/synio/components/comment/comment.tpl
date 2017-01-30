@@ -17,11 +17,11 @@
 
 {* Название компонента *}
 {$component = 'ls-comment'}
-{component_define_params params=[ 'dateReadLast', 'showPath', 'showReply', 'authorId', 'comment', 'useFavourite', 'useScroll', 'useVote', 'useEdit', 'mods', 'classes', 'attributes' ]}
+{component_define_params params=[ 'hookPrefix', 'dateReadLast', 'showPath', 'showReply', 'authorId', 'comment', 'useFavourite', 'useScroll', 'useVote', 'useEdit', 'mods', 'classes', 'attributes' ]}
 
 {* Переменные *}
 {$useEdit = $useEdit|default:true}
-
+{$hookPrefix = $hookPrefix|default:'comment'}
 {$isDeleted = $comment->getDelete()}
 {$user      = $comment->getUser()}
 {$commentId = $comment->getId()}
@@ -69,7 +69,7 @@
          data-parent-id = "{$comment->getPid()}"
          {cattr list=$attributes}>
     {* @hook Начало комментария *}
-    {hook run='comment_comment_begin' params=$params}
+    {hook run="{$hookPrefix}_comment_begin" params=$params}
 
     {* Сворачивание *}
     <div class="{$component}-fold js-comment-fold" data-id="{$commentId}">
@@ -97,23 +97,23 @@
         {* Информация *}
         <ul class="{$component}-info ls-clearfix">
             {* @hook Начало блока с информацией *}
-            {hook run='comment_info_begin' params=$params}
+            {hook run="{$hookPrefix}_info_begin" params=$params}
 
             {* @hook Конец блока с информацией *}
-            {hook run='comment_info_end' params=$params}
+            {hook run="{$hookPrefix}_info_end" params=$params}
         </ul>
 
         {* Текст комментария *}
         <div class="{$component}-content">
             {* @hook Начало блока с содержимым комментария *}
-            {hook run='comment_content_begin' params=$params}
+            {hook run="{$hookPrefix}_content_begin" params=$params}
 
             <div class="{$component}-text ls-text">
                 {$comment->getText()}
             </div>
 
             {* @hook Конец блока с содержимым комментария *}
-            {hook run='comment_content_end' params=$params}
+            {hook run="{$hookPrefix}_content_end" params=$params}
         </div>
 
         {* Информация о редактировании *}
@@ -134,7 +134,7 @@
         {* Действия *}
         <ul class="{$component}-actions ls-clearfix">
             {* @hook Начало списка экшенов комментария *}
-            {hook run='comment_actions_begin' params=$params}
+            {hook run="{$hookPrefix}_actions_begin" params=$params}
 
             {* Автор комментария *}
             {component 'comment.info-item'
@@ -207,7 +207,7 @@
             {/if}
 
             {* @hook Конец списка экшенов комментария *}
-            {hook run='comment_actions_end' params=$params}
+            {hook run="{$hookPrefix}_actions_end" params=$params}
         </ul>
 
         {* Голосование *}
@@ -224,5 +224,5 @@
     {/if}
 
     {* @hook Конец комментария *}
-    {hook run='comment_comment_end' params=$params}
+    {hook run="{$hookPrefix}_comment_end" params=$params}
 </section>

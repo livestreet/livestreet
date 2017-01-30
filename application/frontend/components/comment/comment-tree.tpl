@@ -13,7 +13,7 @@
  * @param boolean  $forbidAdd
  *}
 
-{component_define_params params=[ 'authorId', 'authorText', 'commentParams', 'comments', 'dateReadLast', 'forbidAdd', 'maxLevel', 'showReply' ]}
+{component_define_params params=[ 'hookPrefixComment', 'authorId', 'authorText', 'commentParams', 'comments', 'dateReadLast', 'forbidAdd', 'maxLevel', 'showReply' ]}
 
 {* Текущая вложенность *}
 {$currentLevel = -1}
@@ -39,6 +39,7 @@
     {* Комментарий *}
     {block 'comment_tree_comment'}
         {component 'comment'
+            hookPrefix   = $hookPrefixComment
             comment      = $comment
             dateReadLast = $dateReadLast
             authorId     = $authorId
