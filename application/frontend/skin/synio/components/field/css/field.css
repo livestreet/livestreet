@@ -38,17 +38,7 @@ select[multiple].ls-field-input { max-width: 300px; }
 /**
  * Inline
  */
-.ls-field--inline {
-    vertical-align: top;
-    display: inline-block;
-}
-
-/**
- * Hide label
- */
-.ls-field--hide-label .ls-field-label {
-    visibility: hidden;
-}
+.ls-field--inline { display: inline-block; }
 
 /**
  * Checkbox
