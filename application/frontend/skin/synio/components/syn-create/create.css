@@ -18,11 +18,16 @@
     text-align: center;
     margin: 0 10px 20px;
     display: block;
+    color: #bad7ea;
+}
+.syn-create-item:hover {
+    color: #608ada;
 }
 .syn-create-item-image {
     width: 115px;
     height: 115px;
     background-repeat: no-repeat;
+    font-size: 88px;
 }
 .syn-create-item-text {
     color: #727a90;
@@ -33,15 +38,3 @@
 .syn-create-item:hover .syn-create-item-text {
     color: #275ec2;
 }
-
-.syn-create-item .syn-create-item-image { background-image: url(images/topic.png); }
-.syn-create-item:hover .syn-create-item-image { background-image: url(images/topic-hover.png); }
-
-.syn-create-item--blog .syn-create-item-image { background-image: url(images/blog.png); }
-.syn-create-item--blog:hover .syn-create-item-image { background-image: url(images/blog-hover.png); }
-
-.syn-create-item--message .syn-create-item-image { background-image: url(images/message.png); }
-.syn-create-item--message:hover .syn-create-item-image { background-image: url(images/message-hover.png); }
-
-.syn-create-item--draft .syn-create-item-image { background-image: url(images/draft.png); }
-.syn-create-item--draft:hover .syn-create-item-image { background-image: url(images/draft-hover.png); }

@@ -7,13 +7,13 @@
 
 {capture 'syn_create'}
     {$_menu = [
-        [ 'name' => 'blog', 'text' => {lang 'modal_create.items.blog'}, 'url' => {router page='blog/add'} ],
-        [ 'name' => 'message', 'text' => {lang 'modal_create.items.talk'}, 'url' => "{router page='talk/add'}" ]
+        [ 'name' => 'blog', 'text' => {lang 'modal_create.items.blog'}, 'url' => {router page='blog/add'},  css_icon => 'fa fa-folder-o' ],
+        [ 'name' => 'message', 'text' => {lang 'modal_create.items.talk'}, 'url' => "{router page='talk/add'}",  css_icon => 'fa fa-envelope-o' ]
     ]}
 
     <div class="syn-create-items ls-clearfix">
         {if $iUserCurrentCountTopicDraft}
-            {syn_create item=[ 'name' => 'draft', 'text' => {lang 'synio.drafts' count=$iUserCurrentCountTopicDraft plural=true}, 'url' => "{router page='content'}drafts/" ]}
+            {syn_create item=[ 'name' => 'draft', 'text' => {lang 'synio.drafts' count=$iUserCurrentCountTopicDraft plural=true}, 'url' => "{router page='content'}drafts/",  css_icon => 'fa fa-file-o' ]}
         {/if}
 
         {foreach $LS->Topic_GetTopicTypes() as $type}
