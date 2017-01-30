@@ -163,7 +163,9 @@ CREATE TABLE IF NOT EXISTS `prefix_cron_task` (
   `count_run` int(11) NOT NULL DEFAULT '0',
   `period_run` int(11) NOT NULL,
   `date_create` datetime NOT NULL,
-  `date_run_last` datetime DEFAULT NULL
+  `date_run_last` datetime DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
+  `time_end` time DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
@@ -1144,6 +1146,8 @@ ALTER TABLE `prefix_cron_task`
   ADD KEY `count_run` (`count_run`),
   ADD KEY `state` (`state`),
   ADD KEY `plugin` (`plugin`),
+  ADD KEY `time_start` (`time_start`),
+  ADD KEY `time_end` (`time_end`),
   ADD KEY `method` (`method`(255)),
   ADD KEY `period_run` (`period_run`);
 
