@@ -241,7 +241,7 @@ class ModuleBlog_EntityBlog extends Entity
         if ($sPath = $this->getAvatar()) {
             return $this->Media_GetImageWebPath($sPath, $iSize);
         } else {
-            return $this->Media_GetImagePathBySize(Config::Get('path.skin.assets.web') . '/images/avatars/avatar_blog.png', $iSize);
+            return $this->Media_GetImagePathBySize(Router::GetFixPathWeb(Config::Get('path.skin.assets.web')) . '/images/avatars/avatar_blog.png', $iSize);
         }
     }
 

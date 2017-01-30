@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Установка LiveStreet <?php echo VERSION; ?></title>
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="./frontend/template/assets/css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="./frontend/template/assets/css/helpers.css"/>
     <link rel="stylesheet" type="text/css" href="./frontend/template/assets/css/button.css"/>
