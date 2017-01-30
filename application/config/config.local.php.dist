@@ -16,4 +16,18 @@ $config['db']['params']['type']   = 'mysqli';
 $config['db']['params']['dbname'] = 'social';
 $config['db']['table']['prefix'] = 'prefix_';
 
+/**
+ * Настройки кеширования
+ */
+$config['sys']['cache']['use'] = false;               // использовать кеширование или нет
+$config['sys']['cache']['type'] = 'file';             // тип кеширования: file, xcache и memory. memory использует мемкеш, xcache - использует XCache
+
+/**
+ * Параметры обработки css/js-файлов
+ */
+$config['module']['asset']['force_https'] = true; // При использовании https принудительно заменять http на https у путях до css/js
+$config['module']['asset']['css']['merge'] = true; // указывает на необходимость слияния css файлов
+$config['module']['asset']['js']['merge'] = true; // указывает на необходимость слияния js файлов
+
+
 return $config;
