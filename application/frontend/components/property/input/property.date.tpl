@@ -2,7 +2,8 @@
 {if $property->getParam('use_time')}
     {$_mods='inline'}
 {/if}
-{component 'field.date' mods = $_mods
+{component 'field.date'
+    mods = $_mods
     name         = "property[{$property->getId()}][date]"
     inputAttributes=[ "data-lsdate-format" => 'DD.MM.YYYY' ]
     inputClasses = "js-field-date-default"
@@ -11,8 +12,10 @@
     label        = $property->getTitle()}
 
 {if $property->getParam('use_time')}
-    {component 'field.time' mods = $_mods
+    {component 'field.time'
+        mods = "{$_mods} hide-label"
         name         = "property[{$property->getId()}][time]"
+        label  = ' '
         inputAttributes=[ "data-lstime-time-format" => 'H:i' ]
         inputClasses = "js-field-time-default"
         value        = $property->getValue()->getValueTypeObject()->getValueTimeForForm()}
