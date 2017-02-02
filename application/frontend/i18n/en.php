@@ -1072,7 +1072,8 @@ return array(
             // Поля
             'fields'  => array(
                 'blog'            => array(
-                    'label'           => 'Select the blog',
+                    'label'           => 'Select the blogs',
+                    'placeholder'     => 'Select the blogs',
                     'note'            => 'You have to join the blog in order to submit new posts in it.',
                     'option_personal' => 'My personal blog',
                 ),
