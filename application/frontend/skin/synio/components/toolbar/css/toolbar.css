@@ -8,7 +8,7 @@
 
 .ls-toolbar {
     position: fixed;
-    z-index: 100;
+    z-index: 29;
     display: inline-block;
 }
 .ls-toolbar-item {
