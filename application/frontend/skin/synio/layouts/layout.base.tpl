@@ -45,6 +45,8 @@
             .layout-container { width: {Config::Get('view.grid.fixed_width')}; }
         </style>
     {/if}
+
+    <meta name="viewport" content="">
 {/block}
 
 {block 'layout_body'}
