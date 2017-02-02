@@ -11,9 +11,9 @@
 
     {* Получатели *}
     {component 'user' template='choose'
-        items        = ($recepient) ? [[ 'text' => $recepient->getLogin(), 'value' => $recepient->getId() ]] : false
+        items         = ($recepient) ? [[ 'text' => $recepient->getLogin(), 'value' => $recepient->getId() ]] : false
         selectedValue = ($recepient) ? $recepient->getId() : false
-        form = ($_aRequest['talk_recepient_id']) ? false : $_aRequest
+        form          = ($recepient) ? false : $_aRequest
         name         = 'talk_users[]'
         rules        = [ 'required' => true ]
         classes      = 'js-talk-add-user-choose'
