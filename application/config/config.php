@@ -331,6 +331,12 @@ $config['module']['validate']['recaptcha']= array(
     'secret_key' => '', // Секретный ключ
     'use_ip' => false, // Использовать при валидации IP адрес клиента
 );
+/**
+ *  Модель Component
+ */
+$config['module']['component']['cache_tree'] = true; // кешировать или нет построение дерева компонентов
+$config['module']['component']['cache_data'] = true; // кешировать или нет данные компонентов
+
 
 // Какие модули должны быть загружены на старте
 $config['module']['autoLoad'] = array('Hook', 'Cache', 'Logger', 'Security', 'Session', 'Lang', 'Message', 'User');
