@@ -1406,7 +1406,7 @@ class ModuleUser extends Module
         $charset = Config::Get('module.user.login.charset');
         $min = Config::Get('module.user.login.min_size');
         $max = Config::Get('module.user.login.max_size');
-        if (preg_match('/^[' . $charset . ']{' . $min . ',' . $max . '}$/i', $sLogin)) {
+        if (preg_match('/^[' . $charset . ']{' . $min . ',' . $max . '}$/ui', $sLogin)) {
             return true;
         }
         return false;
