@@ -17,7 +17,7 @@
     </a>
 {/capture}
 
-{component 'field' template='select'
+{component 'field.autocomplete'
     label         = $label
     name          = $name
     inputClasses  = 'js-user-field-choose-users'

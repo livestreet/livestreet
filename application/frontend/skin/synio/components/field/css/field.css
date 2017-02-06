@@ -21,6 +21,9 @@
 .ls-field-input { width: 100%; }
 select[multiple].ls-field-input { max-width: 300px; }
 
+.ls-field--autocomplete select {
+    display: none;
+}
 
 /**
  * Horizontal
