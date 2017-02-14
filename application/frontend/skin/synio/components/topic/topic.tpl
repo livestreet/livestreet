@@ -55,9 +55,9 @@
         {/if}
 
         {if $_blogs}
-            <ul class="{$component}-blogs">
+            <ul class="{$component}-blogs ls-clearfix">
                 {foreach $_blogs as $blog}
-                    <a href="{$blog.url}">{$blog.title}</a>{if ! $blog@last}, {/if}
+                    <li class="{$component}-blogs-item"><a href="{$blog.url}">{$blog.title}</a>{if ! $blog@last}, {/if}</li>
                 {/foreach}
             </ul>
         {/if}

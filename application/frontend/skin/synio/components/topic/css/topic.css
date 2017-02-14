@@ -47,6 +47,10 @@
     font-family: 'PT Sans', sans-serif;
     font-size: 18px;
 }
+.ls-topic-blogs .ls-topic-blogs-item {
+    float: left;
+    margin-right: 5px;
+}
 .ls-topic-blogs a {
     color: #000;
     text-decoration: underline;
