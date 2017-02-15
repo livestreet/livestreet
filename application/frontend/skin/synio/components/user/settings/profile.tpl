@@ -61,7 +61,7 @@
         mods         = 'horizontal'
         name         = 'profile_birthday'
         inputClasses = 'js-field-date-default'
-        value        = ($user->getProfileBirthday()) ? {date_format date=$user->getProfileBirthday() format='d.m.Y'} : ''
+        value        = ($user->getProfileBirthday()) ? {date_format date=$user->getProfileBirthday() format='d.m.Y' notz=true} : ''
         label        = {lang name='user.settings.profile.fields.birthday.label'}}
 
 
