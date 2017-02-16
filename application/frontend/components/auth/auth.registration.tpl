@@ -34,7 +34,7 @@
     {component 'field' template='text'
         name   = 'password_confirm'
         type   = 'password'
-        rules  = [ 'required' => true, 'minlength' => '5', 'equalto' => '.js-input-password-reg' ]
+        rules  = [ 'required' => true, 'minlength' => '5', 'equalto' => '.js-input-password-reg', 'equalto-message' => {lang 'auth.registration.notices.error_password_equal'} ]
         label  = $aLang.auth.registration.form.fields.password_confirm.label}
 
     {* Каптча *}

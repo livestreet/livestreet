@@ -24,7 +24,7 @@ return array(
     /**
      * Голосование
      */
-    'vote'           => array(
+    'vote'          => array(
         'up'      => 'Like',
         'down'    => 'Dislike',
         'abstain' => 'Skip voting, check the rating',
@@ -44,7 +44,7 @@ return array(
     /**
      * Избранное
      */
-    'favourite'      => array(
+    'favourite'     => array(
         'favourite' => 'Favourite',
         'add'       => 'Add to favourite',
         'remove'    => 'Delete from favourite',
@@ -59,7 +59,7 @@ return array(
     /**
      * Поиск
      */
-    'search'         => array(
+    'search'        => array(
         'search' => 'Search',
         'find'   => 'Find',
         'result' => array(
@@ -75,7 +75,7 @@ return array(
     /**
      * Сортировка
      */
-    'sort'           => array(
+    'sort'          => array(
         'label'                => 'Sort',
         'by_login'             => 'by login',
         'by_name'              => 'by name',
@@ -87,7 +87,7 @@ return array(
     /**
      * Заметка пользователя
      */
-    'user_note'      => array(
+    'user_note'     => array(
         'add'     => 'Add note',
         // Всплывающие сообщения
         'notices' => array(
@@ -97,7 +97,7 @@ return array(
     /**
      * Блог
      */
-    'blog'           => array(
+    'blog'          => array(
         'blog'                 => 'Blog',
         'blogs'                => 'Blogs',
         'readers_declension'   => 'reader;reader;readers',
@@ -223,7 +223,7 @@ return array(
                     'label' => 'Avatar',
                     'error' => 'Was not able to load an avatar',
                 ),
-                'skip_index'      => array(
+                'skip_index'  => array(
                     'label' => 'Do not post topics on a main page',
                     'note'  => 'No topics from this blog will be allowed on a main page',
                 ),
@@ -381,7 +381,7 @@ return array(
     /**
      * Личные сообщения
      */
-    'talk'           => array(
+    'talk'          => array(
         'title'        => 'Messages',
         'participants' => '%%count%% user;%%count%% users;%%count%% users',
         'new_messages' => 'You have new messages',
@@ -485,7 +485,7 @@ return array(
             'title'    => 'Conference user list',
             'inactive' => 'User is inactive',
             // Сообщения
-            'notices'        => array(
+            'notices'  => array(
                 'user_not_found' => 'User <b>%%login%%</b> is inactive',
                 'deleted'        => 'User <b>%%login%%</b> has deleted this conversation',
             )
@@ -501,7 +501,7 @@ return array(
     /**
      * Опросы
      */
-    'poll'           => array(
+    'poll'          => array(
         'polls'     => 'Polls',
         'vote'      => 'Vote',
         'abstain'   => 'Skip',
@@ -548,7 +548,7 @@ return array(
     /**
      * Комментарии
      */
-    'comments'       => array(
+    'comments'      => array(
         'comments_declension' => '%%count%% comment;%%count%% comments;%%count%% comments',
         'no_comments'         => 'No comments',
         'count_new'           => 'New comments',
@@ -590,7 +590,7 @@ return array(
     /**
      * Пополняемый список пользователей
      */
-    'user_list_add'  => array(
+    'user_list_add' => array(
         // Форма добавления
         'form'    => array(
             // Поля
@@ -610,7 +610,7 @@ return array(
     /**
      * Мэйлы
      */
-    'emails'         => array(
+    'emails'        => array(
         'common'                => array(
             'comment_text' => 'Comment body',
             'regards'      => 'Sincerely, site admins',
@@ -794,7 +794,7 @@ return array(
     /**
      * Стена
      */
-    'wall'           => array(
+    'wall'          => array(
         'title'   => 'Wall',
         // Форма
         'form'    => array(
@@ -819,7 +819,7 @@ return array(
     /**
      * Авторизация
      */
-    'auth'           => array(
+    'auth'          => array(
         'authorization' => 'Authorization',
         'logout'        => 'Logout',
         // Вход
@@ -927,14 +927,15 @@ return array(
             ),
             // Сообщения
             'notices' => array(
-                'already_registered' => 'You`re already registered and the account is activated!',
-                'success'            => 'Congrats with successful registration',
-                'success_activate'   => 'Congrats! Your account is activated now.',
-                'error_login'        => 'Unaccepted username. Must be 3 to 30 characters long.',
-                'error_login_used'   => 'This username is already taken.',
-                'error_mail_used'    => 'This e-mail is already in use.',
-                'error_reactivate'   => 'Your account is already active',
-                'error_code'         => 'Wrong activation code!'
+                'already_registered'   => 'You`re already registered and the account is activated!',
+                'success'              => 'Congrats with successful registration',
+                'success_activate'     => 'Congrats! Your account is activated now.',
+                'error_login'          => 'Unaccepted username. Must be 3 to 30 characters long.',
+                'error_login_used'     => 'This username is already taken.',
+                'error_mail_used'      => 'This e-mail is already in use.',
+                'error_reactivate'     => 'Your account is already active',
+                'error_code'           => 'Wrong activation code!',
+                'error_password_equal' => 'Passwords do not match',
             ),
         ),
         // Общие лэйблы
@@ -952,7 +953,7 @@ return array(
     /**
      * Активность
      */
-    'activity'       => array(
+    'activity'      => array(
         'title'        => 'Activity',
         // Навигация
         'nav'          => array(
@@ -1022,7 +1023,7 @@ return array(
     /**
      * Лента
      */
-    'feed'           => array(
+    'feed'          => array(
         'title' => 'News feed',
         // Блоги
         'blogs' => array(
@@ -1039,7 +1040,7 @@ return array(
     /**
      * Топик
      */
-    'topic'          => array(
+    'topic'         => array(
         'topics'       => 'Posts',
         'topic_plural' => 'post;posts;posts',
         'drafts'       => 'Draft',
@@ -1149,7 +1150,7 @@ return array(
      * Пользователь
      * !user
      */
-    'user'           => array(
+    'user'          => array(
         'user'              => 'User',
         'users'             => 'Users',
         'rating'            => '___vote.rating___',
@@ -1163,7 +1164,7 @@ return array(
             'report'       => '___report.report___',
         ),
         // Действия
-        'choose'           => array(
+        'choose'            => array(
             'label'  => '___user.users___',
             'choose' => 'Select from friend list',
         ),
@@ -1473,7 +1474,7 @@ return array(
     /**
      * Поля
      */
-    'field'          => array(
+    'field'         => array(
         'email'       => array(
             'label'   => 'E-mail',
             'notices' => array(
@@ -1546,7 +1547,7 @@ return array(
     /**
      * Админка
      */
-    'admin'          => array(
+    'admin'         => array(
         'title'                => 'Admin panel',
         'items'                => array(
             'plugins' => '___admin.plugins.title___',
@@ -1584,7 +1585,7 @@ return array(
     /**
      * Жалобы
      */
-    'report'         => array(
+    'report'        => array(
         'report'  => 'Report',
         'form'    => array(
             'title'  => '___report.report___',
@@ -1607,14 +1608,14 @@ return array(
     /**
      * Загрузка изображений
      */
-    'media'          => array(
+    'media'         => array(
         'title'       => 'Media files upload',
         'error'       => array(
-            'upload'         => 'Was not able to upload the file',
-            'not_image'      => 'File is not an image',
-            'too_large'      => 'Exceeded maximum file size limit: %%size%%Kb',
-            'incorrect_type' => 'Wrong file type',
-            'max_count_files' => 'Maximum amount of files reached',
+            'upload'            => 'Was not able to upload the file',
+            'not_image'         => 'File is not an image',
+            'too_large'         => 'Exceeded maximum file size limit: %%size%%Kb',
+            'incorrect_type'    => 'Wrong file type',
+            'max_count_files'   => 'Maximum amount of files reached',
             'need_choose_items' => 'Need to choose elements',
         ),
         'nav'         => array(
@@ -1672,7 +1673,7 @@ return array(
     /**
      * Теги
      */
-    'tags'           => array(
+    'tags'          => array(
         'tags'       => 'Tags',
         'tag'        => 'Tag',
         'search'     => array(
@@ -1699,7 +1700,7 @@ return array(
     /**
      * Toolbar
      */
-    'toolbar'        => array(
+    'toolbar'       => array(
         'scrollup'  => array(
             'title' => 'Up',
         ),
@@ -1711,7 +1712,7 @@ return array(
     /**
      * Создание
      */
-    'modal_create'   => array(
+    'modal_create'  => array(
         'title' => 'Create',
         'items' => array(
             'blog' => 'Blog',
@@ -1721,13 +1722,13 @@ return array(
     /**
      * Обрезка изображения
      */
-    'crop'           => array(
+    'crop'          => array(
         'title' => 'Image crop'
     ),
     /**
      * Экшнбар
      */
-    'actionbar'      => array(
+    'actionbar'     => array(
         'select' => array(
             'title' => 'Select',
             'menu'  => array(
@@ -1740,7 +1741,7 @@ return array(
     /**
      * Управление правами (RBAC)
      */
-    'rbac'           => array(
+    'rbac'          => array(
         'permission' => array(
             'create_blog'              => array(
                 'title' => 'Blog creation',
