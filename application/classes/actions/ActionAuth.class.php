@@ -435,6 +435,7 @@ class ActionAuth extends Action
              * Получаем ошибки
              */
             $this->Viewer_AssignAjax('errors', $oUser->_getValidateErrors());
+            $this->Message_AddErrorSingle(null);
         }
     }
 
