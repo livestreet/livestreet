@@ -9,12 +9,14 @@
         </h1>
 
         {* Главное меню *}
-        {component 'nav' hook='main' activeItem=$sMenuHeadItemSelect classes='ls-userbar-nav' items=[
-            [ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
-            [ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
-            [ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],
-            [ 'text' => $aLang.activity.title, 'url' => {router page='stream'}, 'name' => 'stream' ]
-        ]}
+        {block 'nav_main'}
+            {component 'nav' hook='main' activeItem=$sMenuHeadItemSelect classes='ls-userbar-nav' items=[
+                [ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
+                [ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
+                [ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],
+                [ 'text' => $aLang.activity.title, 'url' => {router page='stream'}, 'name' => 'stream' ]
+            ]}
+        {/block}
 
         {if $oUserCurrent}
             <div class="ls-userbar-notifications">

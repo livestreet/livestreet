@@ -76,12 +76,14 @@
      * Основная навигация
      *}
     <nav class="ls-grid-row layout-nav">
-        {component 'nav' hook='main' activeItem=$sMenuHeadItemSelect mods='main' items=[
-            [ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
-            [ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
-            [ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],
-            [ 'text' => $aLang.activity.title, 'url' => {router page='stream'}, 'name' => 'stream' ]
-        ]}
+        {block 'nav_main'}
+            {component 'nav' hook='main' activeItem=$sMenuHeadItemSelect mods='main' items=[
+                [ 'text' => $aLang.topic.topics,   'url' => {router page='/'},      'name' => 'blog' ],
+                [ 'text' => $aLang.blog.blogs,     'url' => {router page='blogs'},  'name' => 'blogs' ],
+                [ 'text' => $aLang.user.users,     'url' => {router page='people'}, 'name' => 'people' ],
+                [ 'text' => $aLang.activity.title, 'url' => {router page='stream'}, 'name' => 'stream' ]
+            ]}
+        {/block}
     </nav>
 
 
