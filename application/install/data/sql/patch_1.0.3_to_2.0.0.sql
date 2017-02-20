@@ -1,3 +1,7 @@
+-- 12.10.2016 выполняем первым для корректной работы патча на mysql 5.7
+ALTER TABLE `prefix_session` CHANGE `session_date_create` `session_date_create` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `prefix_reminder` CHANGE `reminder_date_used` `reminder_date_used` DATETIME NULL DEFAULT NULL;
+
 ALTER TABLE `prefix_subscribe` ADD `user_id` INT( 11 ) UNSIGNED NULL DEFAULT NULL AFTER `target_id` ,
 ADD INDEX ( `user_id` ) ;
 
@@ -877,7 +881,7 @@ ALTER TABLE `prefix_user` CHANGE `user_referal_code` `user_referral_code` VARCHA
 ALTER TABLE `prefix_topic` ADD `topic_slug` VARCHAR(500) NOT NULL DEFAULT '' AFTER `topic_title`, ADD INDEX (`topic_slug`) ;
 
 -- 27.03.2015
-ALTER TABLE `prefix_topic` ADD `topic_date_publish` DATETIME NOT NULL AFTER `topic_date_edit_content`, ADD INDEX (`topic_date_publish`) ;
+ALTER TABLE `prefix_topic` ADD `topic_date_publish` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `topic_date_edit_content`, ADD INDEX (`topic_date_publish`);
 UPDATE `prefix_topic` SET `topic_date_publish` = `topic_date_add`;
 
 -- 09.09.2015
@@ -963,10 +967,6 @@ ALTER TABLE `prefix_wall` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREM
 ALTER TABLE `prefix_wall` CHANGE `pid` `pid` INT(11) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_invite_code` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_invite_use` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
--- 12.10.2016
-ALTER TABLE `prefix_session` CHANGE `session_date_create` `session_date_create` DATETIME NULL DEFAULT NULL;
-ALTER TABLE `prefix_reminder` CHANGE `reminder_date_used` `reminder_date_used` DATETIME NULL DEFAULT NULL;
 
 -- 27.01.2017
 ALTER TABLE `prefix_notify_task` ADD `notify_text_alt` TEXT NULL DEFAULT NULL AFTER `notify_text`;
