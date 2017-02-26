@@ -37,6 +37,7 @@
          */
         _create: function () {
             this._super();
+            var _this = this;
 
             // Экшнбар
             $('.js-talk-actionbar-select').lsActionbarItemSelect({
@@ -46,8 +47,8 @@
             });
 
             this.elements.buttonMarkAsRead.on('click', function (e) {
-                this.setAction( $(this).data('action') );
-            }.bind(this));
+                _this.setAction( $(this).data('action') );
+            });
 
             this.elements.buttonRemove.lsConfirm({
                 message: this._i18n('remove_confirm'),
