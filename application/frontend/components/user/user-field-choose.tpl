@@ -20,7 +20,7 @@
 {component 'field.autocomplete'
     label         = $label
     name          = $name
-    inputClasses  = 'js-user-field-choose-users'
+    inputClasses  = 'js-user-field-choose-users ls-hidden'
     isMultiple    = true
     placeholder   = " "
     note          = $smarty.capture.user_field_choose

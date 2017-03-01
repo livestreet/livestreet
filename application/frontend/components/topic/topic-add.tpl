@@ -49,7 +49,7 @@
             label         = $aLang.topic.add.fields.blog.label
             name          = ''
             placeholder   = $aLang.topic.add.fields.blog.placeholder
-            inputClasses  = 'js-topic-add-blogs'
+            inputClasses  = 'js-topic-add-blogs ls-hidden'
             isMultiple    = true
             selectedValue = $blogsSelectedId
             inputAttributes    = [ 'data-chosen-order' => {$chosenOrder} ]
