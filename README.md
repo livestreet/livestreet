@@ -1,15 +1,11 @@
-[![Build Status](https://secure.travis-ci.org/livestreet/livestreet.png?branch=master)](https://travis-ci.org/livestreet/livestreet)
-
 [LiveStreet CMS](http://livestreetcms.ru) - бесплатный блого-социальный движок. Позволяет удобно и быстро создать сообщество с коллективными блогами.
 
 ### Текущая версия
-На данный момент релизная версия LS 1.0.3, вышла она около двух лет назад.
+На данный момент релизная версия LS 2.0.0
 
-Сейчас в разработке находится вторая версия (2.0.0.dev - master ветка), скачать ежедневную ночную сборку можно здесь [http://livestreetcms.ru/uploads/ls_last.zip](http://livestreetcms.ru/uploads/ls_last.zip)
+Каталог плагинов доступен на официальном сайте - [catalog.livestreetcms.com](https://catalog.livestreetcms.com).
 
 ### Контакты
-
-You can communicate with us using the following mediums:
 
 * [Сайт сообщества](http://livestreet.ru)
 * [Каталог плагинов и шаблонов](https://catalog.livestreetcms.com/)
@@ -20,7 +16,7 @@ LiveStreet - open-source проект под лицензией [GPL-2.0](http:/
 
 
 
-Documentation
+Readme
 -------------
 
 *   [English README](https://github.com/livestreet/livestreet/blob/master/Readme.EN.txt)
