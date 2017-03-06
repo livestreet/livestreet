@@ -909,6 +909,9 @@ class ModuleTopic_EntityTopic extends Entity
         if (is_null($this->aExtra)) {
             $this->aExtra = @unserialize($this->getExtra());
         }
+        if (!is_array($this->aExtra)) {
+            $this->aExtra = array();
+        }
     }
 
     /**
