@@ -51,7 +51,8 @@ class InstallStepInstallAdmin extends InstallStep
 			SET
 				`user_mail`	 = '{$sMail}',
 				`user_admin`	 = '1',
-				`user_password` = '" . md5($sPasswd) . "'
+				`user_password` = '" . md5($sPasswd) . "',
+				`user_referral_code` = 'welcome'
 			WHERE `user_id` = 1";
 
         if (!mysqli_query($oDb, $sQuery)) {
