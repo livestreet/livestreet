@@ -9,7 +9,7 @@
     {$layoutNav = [[
         name       => 'topics',
         activeItem => $sMenuItemSelect,
-        showSingle => false,
+        showSingle => true,
         items => [
             [ 'name' => 'index', 'url' => {router page='/'},    'text' => {lang name='blog.menu.all'}, 'count' => $iCountTopicsNew ],
             [ 'name' => 'feed',  'url' => {router page='feed'}, 'text' => $aLang.feed.title, 'is_enabled' => !! $oUserCurrent ]
