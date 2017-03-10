@@ -22,6 +22,8 @@
     line-height: 49px;
     margin: 0 30px 0 18px;
     font-family: 'PT Sans';
+    max-width: 300px;
+    height: 51px;
 }
 .ls-userbar-logo a {
     color: #fff;
