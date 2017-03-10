@@ -29,8 +29,7 @@
                 activeItem => $periodSelectCurrent,
                 items => [
                     [
-                        'name' => 'good',
-                        'text' => {lang name='blog.menu.all_good'},
+                        'text' => $periodSelectCurrentTitle|escape,
                         'menu' => [
                             activeItem => $periodSelectCurrent,
                             items => [

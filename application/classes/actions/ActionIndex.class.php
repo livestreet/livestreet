@@ -156,6 +156,7 @@ class ActionIndex extends Action
         $this->Viewer_Assign('topics', $aTopics);
         $this->Viewer_Assign('paging', $aPaging);
         $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+        $this->Viewer_Assign('periodSelectCurrentTitle', $this->Lang_Get('blog.menu.top_period_' . $sPeriod));
         $this->Viewer_Assign('periodSelectRoot', Router::GetPath('index') . 'top/');
         /**
          * Устанавливаем шаблон вывода
@@ -217,6 +218,7 @@ class ActionIndex extends Action
         $this->Viewer_Assign('topics', $aTopics);
         $this->Viewer_Assign('paging', $aPaging);
         $this->Viewer_Assign('periodSelectCurrent', $sPeriod);
+        $this->Viewer_Assign('periodSelectCurrentTitle', $this->Lang_Get('blog.menu.top_period_' . $sPeriod));
         $this->Viewer_Assign('periodSelectRoot', Router::GetPath('index') . 'discussed/');
         /**
          * Устанавливаем шаблон вывода
