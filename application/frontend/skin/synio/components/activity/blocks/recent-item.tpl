@@ -1,6 +1,6 @@
-{component_define_params params=[ 'user', 'topic', 'date' ]}
+{component_define_params params=[ 'user', 'topic', 'date', 'classes', 'attributes' ]}
 
-<div class="ls-activity-block-recent-item">
+<div class="ls-activity-block-recent-item {$classes}" {cattr list=$attributes}>
     <a href="{$user->getUserWebPath()}" class="ls-activity-block-recent-user">{$user->getDisplayName()}</a>
 
     <time datetime="{date_format date=$date format='c'}" class="ls-activity-block-recent-date">
