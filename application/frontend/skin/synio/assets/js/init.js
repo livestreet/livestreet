@@ -141,7 +141,7 @@ jQuery(document).ready(function($){
     $('.js-popover-default').lsTooltip({
         useAttrTitle: false,
         trigger: 'click',
-        classes: 'tooltip-light'
+        classes: 'ls-tooltip-light'
     });
 
     if (ls.registry.get('block_stream_show_tip')) {
