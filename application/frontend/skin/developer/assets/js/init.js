@@ -163,7 +163,7 @@ jQuery(document).ready(function($){
             $(this).lsTooltip({
                 position: {
                     my: "right center",
-                    at: "left left"
+                    at: "left center"
                 },
                 show: {
                     delay: 1500

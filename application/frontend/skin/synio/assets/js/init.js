@@ -148,8 +148,8 @@ jQuery(document).ready(function($){
         $('.js-title-comment, .js-title-topic').livequery(function () {
             $(this).lsTooltip({
                 position: {
-                    my: "right center",
-                    at: "left left"
+                    my: "right-15 center",
+                    at: "left center"
                 },
                 show: {
                     delay: 1500
