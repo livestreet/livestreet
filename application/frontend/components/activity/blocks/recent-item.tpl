@@ -23,4 +23,5 @@
     image=[
         'path' => $user->getProfileAvatarPath(48),
         'url' => $user->getUserWebPath()
-    ]}
+    ]
+    params=$params}

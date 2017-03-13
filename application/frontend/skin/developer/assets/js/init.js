@@ -155,7 +155,7 @@ jQuery(document).ready(function($){
     $('.js-popover-default').lsTooltip({
         useAttrTitle: false,
         trigger: 'click',
-        classes: 'tooltip-light'
+        classes: 'ls-tooltip-light'
     });
 
     if (ls.registry.get('block_stream_show_tip')) {
@@ -163,7 +163,7 @@ jQuery(document).ready(function($){
             $(this).lsTooltip({
                 position: {
                     my: "right center",
-                    at: "left left"
+                    at: "left center"
                 },
                 show: {
                     delay: 1500

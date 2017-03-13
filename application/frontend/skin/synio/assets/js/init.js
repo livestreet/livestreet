@@ -141,15 +141,15 @@ jQuery(document).ready(function($){
     $('.js-popover-default').lsTooltip({
         useAttrTitle: false,
         trigger: 'click',
-        classes: 'tooltip-light'
+        classes: 'ls-tooltip-light'
     });
 
     if (ls.registry.get('block_stream_show_tip')) {
         $('.js-title-comment, .js-title-topic').livequery(function () {
             $(this).lsTooltip({
                 position: {
-                    my: "right center",
-                    at: "left left"
+                    my: "right-15 center",
+                    at: "left center"
                 },
                 show: {
                     delay: 1500
