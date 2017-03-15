@@ -14,7 +14,7 @@
     {$items[] = [
         'title' => $blog->getTitle()|escape,
         'titleUrl' => $blog->getUrlFull(),
-        'mods' => $blog->getUrlFull(),
+        'mods' => 'blog',
         'content' => $smarty.capture.item_content,
         'image' => [
             'path' => $blog->getAvatarPath(48),
