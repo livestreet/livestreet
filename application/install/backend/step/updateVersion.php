@@ -86,6 +86,22 @@ class InstallStepUpdateVersion extends InstallStep
     }
 
     /**
+     * Конвертор версии 1.0.3 в 2.0.1
+     *
+     * @param $oDb
+     *
+     * @return bool
+     */
+    public function convertFrom_1_0_3_to_2_0_1($oDb)
+    {
+        $mResult = $this->convertFrom_1_0_3_to_2_0_0($oDb);
+        if ($mResult == true) {
+            $mResult = $this->convertFrom_2_0_0_to_2_0_1($oDb);
+        }
+        return $mResult;
+    }
+
+    /**
      * Конвертор версии 1.0.3 в 2.0.0
      *
      * @param $oDb
