@@ -454,27 +454,37 @@ class ModuleMedia extends ModuleORM
          */
         $sFileResult = null;
         $mOriginalSize = $this->GetConfigParam('image.original', $sTargetType);
-        if ($mOriginalSize === true) {
-            if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName, array('skip_watermark' => true))) {
-                $this->Fs_RemoveFileLocal($sFileTmp);
-                return $this->Image_GetLastError();
-            }
-        } elseif (is_string($mOriginalSize)) {
+        if ($mOriginalSize !== false && $oImage->getFormat() == 'gif') {
             /**
-             * Ресайзим оригинал
+             * Если gif, то сохраняем без изменений
              */
-            $aOriginalSize = $this->ParsedImageSize($mOriginalSize);
-            if ($aOriginalSize['crop']) {
-                $oImage->cropProportion($aOriginalSize['w'] / $aOriginalSize['h'], 'center');
-            }
-            if (!$sFileResult = $oImage->resize($aOriginalSize['w'], $aOriginalSize['h'], true)->saveSmart($sPath, $sFileName, array('skip_watermark' => true))
-            ) {
+            if (!$sFileResult = $oImage->saveOriginalSmart($sPath, $sFileName)) {
                 $this->Fs_RemoveFileLocal($sFileTmp);
                 return $this->Image_GetLastError();
             }
-            $iFileSize = $this->Fs_GetFileSize($sFileResult);
+        } else {
+            if ($mOriginalSize === true) {
+                if (!$sFileResult = $oImage->saveSmart($sPath, $sFileName, array('skip_watermark' => true))) {
+                    $this->Fs_RemoveFileLocal($sFileTmp);
+                    return $this->Image_GetLastError();
+                }
+            } elseif (is_string($mOriginalSize)) {
+                /**
+                 * Ресайзим оригинал
+                 */
+                $aOriginalSize = $this->ParsedImageSize($mOriginalSize);
+                if ($aOriginalSize['crop']) {
+                    $oImage->cropProportion($aOriginalSize['w'] / $aOriginalSize['h'], 'center');
+                }
+                if (!$sFileResult = $oImage->resize($aOriginalSize['w'], $aOriginalSize['h'], true)->saveSmart($sPath, $sFileName,
+                    array('skip_watermark' => true))
+                ) {
+                    $this->Fs_RemoveFileLocal($sFileTmp);
+                    return $this->Image_GetLastError();
+                }
+                $iFileSize = $this->Fs_GetFileSize($sFileResult);
+            }
         }
-
 
         $aSizes = $this->GetConfigParam('image.sizes', $sTargetType);
         /**
