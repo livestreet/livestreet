@@ -122,6 +122,10 @@ class InstallStepUpdateVersion extends InstallStep
                 }
             }
             /**
+             * Дата публикации
+             */
+            $this->dbQuery("UPDATE prefix_topic SET topic_date_publish = topic_date_add");
+            /**
              * Конвертируем опросы
              * Сначала проверяем необходимость конвертации опросов
              */
