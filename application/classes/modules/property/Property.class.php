@@ -434,13 +434,6 @@ class ModuleProperty extends ModuleORM
         if (!$oEntityFirst->property) {
             return;
         }
-        $sTargetType = $oEntityFirst->property->getPropertyTargetType();
-        /**
-         * Проверяем зарегистрирован ли такой тип
-         */
-        if (!$this->IsAllowTargetType($sTargetType)) {
-            return;
-        }
         /**
          * Проверяем необходимость цеплять свойства
          */
@@ -448,8 +441,11 @@ class ModuleProperty extends ModuleORM
             $aEntitiesId = array();
             $aTargetTypes = array();
             foreach ($aEntitiesWork as $oEntity) {
-                $aEntitiesId[] = $oEntity->getId();
-                $aTargetTypes[] = $oEntity->getPropertyTargetType();
+                $sTargetType = $oEntity->property->getPropertyTargetType();
+                if ($this->IsAllowTargetType($sTargetType)) {
+                    $aEntitiesId[] = $oEntity->getId();
+                    $aTargetTypes[] = $sTargetType;
+                }
             }
             $aTargetTypes = array_unique($aTargetTypes);
             /**
@@ -488,6 +484,9 @@ class ModuleProperty extends ModuleORM
                 foreach ($aEntitiesWork as $oEntity) {
                     $aPropertiesClone = array();
                     foreach ($aProperties as $oProperty) {
+                        if ($oEntity->property->getPropertyTargetType() != $oProperty->getTargetType()) {
+                            continue;
+                        }
                         $oPropertyNew = clone $oProperty;
                         $sKey = $oProperty->getId() . '_' . $oEntity->getId();
                         if (isset($aValues[$sKey])) {
