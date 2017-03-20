@@ -69,7 +69,6 @@ class InstallStepUpdateVersion extends InstallStep
      */
     public function convertFrom_2_0_0_to_2_0_1($oDb)
     {
-
         /**
          * Запускаем SQL патч
          */
@@ -137,10 +136,6 @@ class InstallStepUpdateVersion extends InstallStep
                     return $this->addError(join('<br/>', $aErrors));
                 }
             }
-            /**
-             * Дата публикации
-             */
-            $this->dbQuery("UPDATE prefix_topic SET topic_date_publish = topic_date_add");
             /**
              * Конвертируем опросы
              * Сначала проверяем необходимость конвертации опросов
@@ -751,7 +746,7 @@ class InstallStepUpdateVersion extends InstallStep
             }
 
 
-            if ($this->getErrors()) {
+            if ($aErrors = $this->getErrors()) {
                 return $this->addError(join('<br/>', $aErrors));
             }
             return true;

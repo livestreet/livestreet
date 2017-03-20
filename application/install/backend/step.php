@@ -279,8 +279,7 @@ abstract class InstallStep
         if ($rResult = mysqli_query($this->rDbLink, $sQuery)) {
             return $rResult;
         }
-        $aErrors[] = mysqli_error($this->rDbLink);
-        return false;
+        return $this->addError(mysqli_error($this->rDbLink));
     }
 
     protected function dbSelect($sQuery)
@@ -310,6 +309,8 @@ abstract class InstallStep
         foreach ($aFields as $sFields => $sValue) {
             if (is_int($sValue)) {
                 $aPath[] = "`{$sFields}` = " . $sValue;
+            } elseif (is_null($sValue)) {
+                $aPath[] = "`{$sFields}` = 'NULL'";
             } else {
                 $aPath[] = "`{$sFields}` = '" . mysqli_escape_string($this->rDbLink, $sValue) . "'";
             }
