@@ -75,6 +75,7 @@
     {/if}
 
     {block 'add_topic_form_text_before'}{/block}
+    {hook run="form_add_topic_text_before" topic=$topic}
 
 
     {* Текст топика *}
@@ -91,6 +92,7 @@
     {/if}
 
     {block 'add_topic_form_text_after'}{/block}
+    {hook run="form_add_topic_text_after" topic=$topic}
 
 
     {* Теги *}
