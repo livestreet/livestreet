@@ -392,7 +392,7 @@ jQuery(document).ready(function($){
         },
         changeavatar: function ( event, _this, avatars ) {
             $( '.js-user-profile-avatar, .js-wall-entry[data-user-id=' + _this.option( 'params.target_id' ) + '] .ls-comment-avatar img' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
-            $( '.nav-item--userbar-username img' ).attr( 'src', avatars[ '24crop' ] + '?' + Math.random() );
+            $( '.ls-nav-item--userbar-username img' ).attr( 'src', avatars[ '24crop' ] + '?' + Math.random() );
         }
     });
 
