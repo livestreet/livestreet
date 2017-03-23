@@ -10,7 +10,7 @@
 {component_define_params params=[ 'topic', 'type', 'skipBlogs', 'blogs', 'classes' ]}
 
 <form action="" method="POST" enctype="multipart/form-data" id="topic-add-form" class="{$classes} js-form-validate" data-content-action="{( $topic ) ? 'edit' : 'add'}">
-    {hook run="form_add_topic_begin"}
+    {hook run="form_add_topic_begin" topic=$topic}
     {block 'add_topic_form_begin'}{/block}
 
     {* Выбор блога *}
@@ -158,7 +158,7 @@
 
 
     {block 'add_topic_form_end'}{/block}
-    {hook run="form_add_topic_end"}
+    {hook run="form_add_topic_end" topic=$topic}
 
 
     {* Скрытые поля *}

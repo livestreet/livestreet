@@ -484,7 +484,7 @@ class ModuleUser_EntityUser extends Entity
         }
 
         if ($this->getProfileAvatar()) {
-            return $this->Media_GetImageWebPath($this->getProfileAvatar(), $iSize);
+            return $this->Media_GetImageWebPath($this->getProfileAvatar(), $iSize) . '?' . date('His', strtotime($this->getProfileDate()));
         } else {
             return $this->Media_GetImagePathBySize(Router::GetFixPathWeb(Config::Get('path.skin.assets.web')) . '/images/avatars/avatar_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '.png',
                 $iSize);
