@@ -57,6 +57,8 @@
             folding: true,
             // Показать/скрыть форму по умолчанию
             show_form: false,
+            // Включена или нет пагинация
+            use_paging: false,
             // Ajax параметры
             params: {},
             i18n: {
@@ -171,7 +173,7 @@
                 target_type: this._targetType,
                 last_comment_id: this.getLastCommentId(),
                 self_comment_id: commentSelfId || undefined,
-                use_paging: false
+                use_paging: this.option( 'use_paging' )
             };
 
             this._load( 'load', params, function( response ) {

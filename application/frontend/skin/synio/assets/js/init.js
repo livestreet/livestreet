@@ -589,6 +589,7 @@ jQuery(document).ready(function($){
             load: aRouter['blog'] + 'ajaxresponsecomment/'
         },
         show_form: ls.registry.get('comment_show_form'),
+        use_paging: ls.registry.get('comment_use_paging'),
         loaded: function () {
             if (activityBlockRecent.length) {
                 activityBlockRecent.lsBlock('getElement', 'tabs').lsTabs('getActiveTab').lsTab('activate');
