@@ -833,11 +833,6 @@ class ActionBlog extends Action
         if (Config::Get('module.comment.use_nested') and Config::Get('module.comment.nested_per_page')) {
             $aPaging = $this->Viewer_MakePaging($aReturn['count'], $iPage,
                 Config::Get('module.comment.nested_per_page'), Config::Get('pagination.pages.count'), '');
-            if (!Config::Get('module.comment.nested_page_reverse') and $aPaging) {
-                // переворачиваем страницы в обратном порядке
-                $aPaging['aPagesLeft'] = array_reverse($aPaging['aPagesLeft']);
-                $aPaging['aPagesRight'] = array_reverse($aPaging['aPagesRight']);
-            }
             $this->Viewer_Assign('pagingComments', $aPaging);
         }
         /**
