@@ -48,6 +48,8 @@
         mediaTargetType = 'blog'
         mediaTargetId   = $_aRequest.blog_id
         name            = 'blog_description'
+        value           = ( $_aRequest ) ? $_aRequest.blog_description : ''
+        escape          = false
         rules           = [ 'required' => true, 'length' => '[10,3000]' ]
         inputClasses    = 'js-editor-default'
         label           = $aLang.blog.add.fields.description.label}
