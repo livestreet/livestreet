@@ -77,6 +77,7 @@ class HookMain extends Hook
                 'recaptcha.site_key'    => Config::Get('module.validate.recaptcha.site_key'),
                 'comment_max_tree'      => Config::Get('module.comment.max_tree'),
                 'comment_show_form'     => Config::Get('module.comment.show_form'),
+                'comment_use_paging'    => Config::Get('module.comment.use_nested'),
                 'topic_max_blog_count'  => Config::Get('module.topic.max_blog_count'),
                 'block_stream_show_tip' => Config::Get('block.stream.show_tip'),
                 'poll_max_answers'      => Config::Get('module.poll.max_answers'),
