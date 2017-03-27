@@ -7,6 +7,7 @@
 {block 'layout_options' append}
     {$layoutNav = [[
         hook       => 'activity',
+        showSingle => false,
         activeItem => $sMenuItemSelect,
         items => [
             [ 'name' => 'user', 'url' => "{router page='stream'}personal/", 'text' => $aLang.activity.nav.personal, 'is_enabled' => !! $oUserCurrent ],
