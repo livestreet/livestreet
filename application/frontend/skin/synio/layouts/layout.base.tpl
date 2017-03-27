@@ -180,6 +180,7 @@
                     {layout_footer_links title=$oUserCurrent->getLogin() hook='layout_footer_links_user' items=[
                         [ text => {lang 'user.profile.nav.info'}, url => $oUserCurrent->getUserWebPath() ],
                         [ text => {lang 'user.profile.nav.settings'}, url => {router page='settings'} ],
+                        [ text => {lang 'modal_create.title'}, url => '#', classes => 'js-modal-toggle-default', attributes => [ 'data-lsmodaltoggle-modal' => 'syn-create-modal' ] ],
                         [ text => {lang 'auth.logout'}, url => "{router page='auth'}logout/?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
                     ]}
                 {else}
