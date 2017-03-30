@@ -2002,4 +2002,37 @@ class ModuleTopic extends Module
         );
         return true;
     }
+
+    /**
+     * Регистрация сайтмапа для топиков
+     */
+    public function RegisterSitemap()
+    {
+        $aFilter = array(
+            'blog_type'     => array(
+                'open',
+                'personal',
+            ),
+            'topic_publish' => 1,
+            'order'         => 't.topic_id asc'
+        );
+        $this->Sitemap_AddTargetType('topics', array(
+            'callback_data'     => function ($iPage) use ($aFilter) {
+                $aTopics = $this->GetTopicsByFilter($aFilter, $iPage, 500, array('blog' => array()));
+                $aData = array();
+                foreach ($aTopics['collection'] as $oTopic) {
+                    $aData[] = $this->Sitemap_GetDataForSitemapRow(
+                        $oTopic->getUrl(),
+                        is_null($oTopic->getDateEdit()) ? $oTopic->getDatePublish() : $oTopic->getDateEdit(),
+                        '0.9', 'weekly'
+                    );
+                }
+                return $aData;
+            },
+            'callback_counters' => function () use ($aFilter) {
+                $iCount = (int)$this->GetCountTopicsByFilter($aFilter);
+                return ceil($iCount / 500);
+            }
+        ));
+    }
 }

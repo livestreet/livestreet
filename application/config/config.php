@@ -422,6 +422,8 @@ $config['router']['rewrite'] = array();
 $config['router']['uri'] = array(
     // короткий вызов топиков из личных блогов
     '~^(\d+)\.html~i' => "blog/\\1.html",
+    '~^sitemap\.xml~i' => "sitemap",
+    '~^sitemap_(\w+)_(\d+)\.xml~i' => "sitemap/\\1/\\2",
 );
 // Распределение action
 $config['router']['page']['error'] = 'ActionError';
@@ -445,6 +447,9 @@ $config['router']['page']['subscribe'] = 'ActionSubscribe';
 $config['router']['page']['content'] = 'ActionContent';
 $config['router']['page']['property'] = 'ActionProperty';
 $config['router']['page']['wall'] = 'ActionWall';
+$config['router']['page']['sitemap'] = function() {
+    return LS::Sitemap_ShowSitemap();
+};
 // Глобальные настройки роутинга
 $config['router']['config']['default']['action'] = 'index';
 $config['router']['config']['default']['event'] = null;

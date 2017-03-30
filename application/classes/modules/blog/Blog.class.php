@@ -1195,4 +1195,31 @@ class ModuleBlog extends Module
             )
         );
     }
+
+    /**
+     * Регистрация сайтмапа для блогов
+     */
+    public function RegisterSitemap()
+    {
+        $aFilter = array(
+            'type' => array(
+                'open',
+            ),
+        );
+        $this->Sitemap_AddTargetType('blogs', array(
+            'callback_data'     => function ($iPage) use ($aFilter) {
+                $aBlogs = $this->GetBlogsByFilter($aFilter, array('blog_id' => 'asc'), $iPage, 500, array());
+                $aData = array();
+                foreach ($aBlogs['collection'] as $oBlog) {
+                    $aData[] = $this->Sitemap_GetDataForSitemapRow($oBlog->getUrlFull(), null, '0.8', 'weekly');
+                }
+                return $aData;
+            },
+            'callback_counters' => function () use ($aFilter) {
+                $aBlogs = $this->GetBlogsByFilter($aFilter, array(), 1, 1, array());
+                $iCount = (int)$aBlogs['count'];
+                return ceil($iCount / 500);
+            }
+        ));
+    }
 }

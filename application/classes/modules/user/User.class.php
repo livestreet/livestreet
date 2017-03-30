@@ -1985,4 +1985,30 @@ class ModuleUser extends Module
     {
         return true;
     }
+
+    /**
+     * Регистрация сайтмапа для пользователей
+     */
+    public function RegisterSitemap()
+    {
+        $aFilter = array(
+            'activate' => 1,
+        );
+        $this->Sitemap_AddTargetType('users', array(
+            'callback_data'     => function ($iPage) use ($aFilter) {
+                $aUsers = $this->GetUsersByFilter($aFilter, array('user_id' => 'asc'), $iPage, 500, array());
+                $aData = array();
+                foreach ($aUsers['collection'] as $oUser) {
+                    $aData[] = $this->Sitemap_GetDataForSitemapRow($oUser->getUserWebPath(),
+                        is_null($oUser->getProfileDate()) ? $oUser->getDateRegister() : $oUser->getProfileDate(), '0.5', 'weekly');
+                }
+                return $aData;
+            },
+            'callback_counters' => function () use ($aFilter) {
+                $aUsers = $this->GetUsersByFilter($aFilter, array(), 1, 1, array());
+                $iCount = (int)$aUsers['count'];
+                return ceil($iCount / 500);
+            }
+        ));
+    }
 }

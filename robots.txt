@@ -13,3 +13,4 @@ Disallow: /error/$
 Disallow: /settings/$
 Disallow: /content/$
 Disallow: /talk/$
+# Sitemap: http://example.com/sitemap.xml

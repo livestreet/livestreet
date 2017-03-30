@@ -59,6 +59,23 @@ class HookMain extends Hook
     {
         $this->LoadDefaultJsVarAndLang();
         /**
+         * Обработка сайтмапа
+         */
+        $this->Sitemap_AddTargetType('general', array(
+            'callback_counters' => function () {
+                return 1;
+            },
+            'callback_data'     => function () {
+                return array(
+                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('/'), time(), '1', 'hourly'),
+                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('stream/all'), time(), '0.7', 'hourly'),
+                );
+            }
+        ));
+        $this->Topic_RegisterSitemap();
+        $this->Blog_RegisterSitemap();
+        $this->User_RegisterSitemap();
+        /**
          * Запуск обработки сборщика
          */
         $this->Ls_SenderRun();
