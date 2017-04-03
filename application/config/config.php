@@ -269,6 +269,27 @@ $config['module']['wall']['count_last_reply'] = 3;    // Число послед
 $config['module']['wall']['per_page'] = 10;                // Число сообщений на стене на одну страницу
 $config['module']['wall']['text_max'] = 250;            // Ограничение на максимальное количество символов в одном сообщении на стене
 $config['module']['wall']['text_min'] = 1;              // Ограничение на минимальное количество символов в одном сообщении на стене
+// Модуль Sitemap
+$config['module']['sitemap']['index'] = array(  // Главная страница
+    'priority' => '1',
+    'changefreq' => 'hourly' // Вероятная частота изменения этой страницы (https://www.sitemaps.org/ru/protocol.html#changefreqdef)
+);
+$config['module']['sitemap']['stream'] = array( // Вся активность
+    'priority' => '0.7',
+    'changefreq' => 'hourly'
+);
+$config['module']['sitemap']['topic'] = array(  // Топики
+    'priority' => '0.9',
+    'changefreq' => 'weekly'
+);
+$config['module']['sitemap']['blog'] = array(   // Блоги
+    'priority' => '0.8',
+    'changefreq' => 'weekly'
+);
+$config['module']['sitemap']['user'] = array(   // Пользователи
+    'priority' => '0.5',
+    'changefreq' => 'weekly'
+);
 
 /**
  * Модуль опросов (Poll)
