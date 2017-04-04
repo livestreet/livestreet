@@ -67,8 +67,10 @@ class HookMain extends Hook
             },
             'callback_data'     => function () {
                 return array(
-                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('/'), time(), '1', 'hourly'),
-                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('stream/all'), time(), '0.7', 'hourly'),
+                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('/'), time(), Config::Get('module.sitemap.index.priority'),
+                        Config::Get('module.sitemap.index.changefreq')),
+                    $this->Sitemap_GetDataForSitemapRow(Router::GetPath('stream/all'), time(), Config::Get('module.sitemap.stream.priority'),
+                        Config::Get('module.sitemap.stream.changefreq')),
                 );
             }
         ));

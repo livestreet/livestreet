@@ -2024,7 +2024,8 @@ class ModuleTopic extends Module
                     $aData[] = $this->Sitemap_GetDataForSitemapRow(
                         $oTopic->getUrl(),
                         is_null($oTopic->getDateEdit()) ? $oTopic->getDatePublish() : $oTopic->getDateEdit(),
-                        '0.9', 'weekly'
+                        Config::Get('module.sitemap.topic.priority'),
+                        Config::Get('module.sitemap.topic.changefreq')
                     );
                 }
                 return $aData;

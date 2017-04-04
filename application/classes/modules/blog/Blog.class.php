@@ -1211,7 +1211,11 @@ class ModuleBlog extends Module
                 $aBlogs = $this->GetBlogsByFilter($aFilter, array('blog_id' => 'asc'), $iPage, 500, array());
                 $aData = array();
                 foreach ($aBlogs['collection'] as $oBlog) {
-                    $aData[] = $this->Sitemap_GetDataForSitemapRow($oBlog->getUrlFull(), null, '0.8', 'weekly');
+                    $aData[] = $this->Sitemap_GetDataForSitemapRow(
+                        $oBlog->getUrlFull(), null,
+                        Config::Get('module.sitemap.blog.priority'),
+                        Config::Get('module.sitemap.blog.changefreq')
+                    );
                 }
                 return $aData;
             },

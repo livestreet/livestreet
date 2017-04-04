@@ -1999,8 +1999,12 @@ class ModuleUser extends Module
                 $aUsers = $this->GetUsersByFilter($aFilter, array('user_id' => 'asc'), $iPage, 500, array());
                 $aData = array();
                 foreach ($aUsers['collection'] as $oUser) {
-                    $aData[] = $this->Sitemap_GetDataForSitemapRow($oUser->getUserWebPath(),
-                        is_null($oUser->getProfileDate()) ? $oUser->getDateRegister() : $oUser->getProfileDate(), '0.5', 'weekly');
+                    $aData[] = $this->Sitemap_GetDataForSitemapRow(
+                        $oUser->getUserWebPath(),
+                        is_null($oUser->getProfileDate()) ? $oUser->getDateRegister() : $oUser->getProfileDate(),
+                        Config::Get('module.sitemap.user.priority'),
+                        Config::Get('module.sitemap.user.changefreq')
+                    );
                 }
                 return $aData;
             },
