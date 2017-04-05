@@ -11,7 +11,7 @@
 
 {component 'block'
     mods     = 'primary activity-recent'
-    classes  = 'js-block-default'
+    classes  = 'js-block-default js-activity-block-recent'
     title    = {lang 'activity.block_recent.title'}
     titleUrl = {router 'stream'}
     footer   = $smarty.capture.block_footer
