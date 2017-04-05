@@ -20,6 +20,8 @@
 
         {if $oUserCurrent}
             <div class="ls-userbar-notifications">
+                {hook run='userbar_notifications_items_before'}
+
                 {* Новые сообщения *}
                 {if $iUserCurrentCountTalkNew}
                     <a href="{router page='talk'}" class="ls-userbar-notifications-item ls-userbar-messages" title="{lang 'talk.new_messages'}">
