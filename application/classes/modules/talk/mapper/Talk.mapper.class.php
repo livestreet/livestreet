@@ -402,7 +402,7 @@ class ModuleTalk_MapperTalk extends Mapper
 			WHERE
 				talk_id = ? 
 				{ AND user_id NOT IN (?a) }";
-        $res = $this->oDb->select($sql, $sTalkId, !is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
+        $res = $this->oDb->query($sql, $sTalkId, !is_null($aExcludeId) ? $aExcludeId : DBSIMPLE_SKIP);
         return $this->IsSuccessful($res);
     }
 
