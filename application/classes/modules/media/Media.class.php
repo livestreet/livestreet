@@ -1150,6 +1150,38 @@ class ModuleMedia extends ModuleORM
     }
 
     /**
+     * Перегенерация всех превью
+     *
+     * @param array|string|null $aTypes Список типов для перегенерации
+     */
+    public function ReCreateFilePreviewAll($aTypes = null)
+    {
+        $iPage = 1;
+        $aFilter = array(
+            'is_preview'   => 1,
+            'target_id <>' => null,
+            '#with'        => array('media'),
+            '#page'        => array($iPage, 100)
+        );
+        if ($aTypes) {
+            if (!is_array($aTypes)) {
+                $aTypes = array($aTypes);
+            }
+            $aFilter['target_type in'] = $aTypes;
+        }
+
+        while ($aRes = $this->GetTargetItemsByFilter($aFilter) and $aRes['collection']) {
+            foreach ($aRes['collection'] as $oTarget) {
+                if ($oMedia = $oTarget->getMedia()) {
+                    $this->CreateFilePreview($oMedia, $oTarget);
+                }
+            }
+            $iPage++;
+            $aFilter['#page'][0] = $iPage;
+        }
+    }
+
+    /**
      * Создает превью у файла для определенного типа
      *
      * @param $oMedia
