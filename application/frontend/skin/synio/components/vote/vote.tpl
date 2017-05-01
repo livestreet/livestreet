@@ -12,16 +12,17 @@
 {component_define_params params=[ 'showRating', 'target', 'isLocked', 'useAbstain', 'mods', 'classes', 'attributes' ]}
 
 {* Параметры для тестирования *}
-{component_define_params params=[ 'isVoted', 'targetId', 'rating', 'direction' ]}
+{component_define_params params=[ 'targetId', 'rating']}
 
 {* Установка дефолтных значений *}
 {$showRating = $showRating|default:true}
 
 {* Рейтинг *}
 {$rating = $rating|default:$target->getRating()}
-{$_direction = $direction|default:$target->getDirection()}
 {$_id = $targetId|default:$target->getId()}
-{$_isVoted = $isVoted|default:$target->getVote()}
+{$_vote = $target->getVote()}
+{$_direction = ($_vote) ? $_vote->getDirection() : 0}
+
 
 {* Получаем модификаторы *}
 {if $showRating}
@@ -34,7 +35,7 @@
     {/if}
 {/if}
 
-{if $_isVoted}
+{if $_vote}
     {$mods = "$mods voted"}
 
     {if $_direction > 0}
@@ -76,15 +77,15 @@
             </div>
 
             {* Нравится *}
-            <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $_isVoted}title="{$aLang.$component.up}"{/if} data-vote-value="1"></div>
+            <div class="{$component}-item {$component}-item-up js-vote-item" {if ! $_vote}title="{$aLang.$component.up}"{/if} data-vote-value="1"></div>
 
             {* Воздержаться *}
             {if $useAbstain}
-                <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $_isVoted}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"></div>
+                <div class="{$component}-item {$component}-item-abstain js-vote-item" {if ! $_vote}title="{$aLang.$component.abstain}"{/if} data-vote-value="0"></div>
             {/if}
 
             {* Не нравится *}
-            <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $_isVoted}title="{$aLang.$component.down}"{/if} data-vote-value="-1"></div>
+            <div class="{$component}-item {$component}-item-down js-vote-item" {if ! $_vote}title="{$aLang.$component.down}"{/if} data-vote-value="-1"></div>
         {/block}
     </div>
 </div>
