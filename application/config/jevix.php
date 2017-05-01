@@ -30,6 +30,15 @@ return array(
                 array('data-rel' => '#text', 'class' => array('js-lbx'))
             ),
         ),
+        // Теги с обязательными параметрами
+        'cfgSetTagParamDefault'     => array(
+            array(
+                'a',
+                'target',
+                '_blank',
+                true
+            ),
+        ),
         'cfgSetTagCallbackFull' => array(
             array(
                 'ls',
