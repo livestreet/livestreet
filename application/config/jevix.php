@@ -38,6 +38,12 @@ return array(
                 '_blank',
                 true
             ),
+            array(
+                'a',
+                'rel',
+                'noreferrer noopener',
+                true
+            ),
         ),
         'cfgSetTagCallbackFull' => array(
             array(
