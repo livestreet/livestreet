@@ -42,7 +42,8 @@
     filter: alpha(opacity=100);
 }
 
-.ls-comment.ls-comment--deleted { background: #efd5d5; }
+.ls-comment--deleted       .ls-comment-content        { background: #efd5d5; }
+.ls-comment--deleted       .ls-comment-content:after  { border-top-color: #efd5d5; }
 .ls-user-role-not-admin .ls-comment.ls-comment--deleted {
     padding: 10px 15px;
     min-height: 0;
