@@ -57,8 +57,9 @@
                         {/foreach}
                     {/if}
 
-                    <li class="{$component}-info-item {$component}-info-item--date">
-                        <time datetime="{date_format date=$topic->getDatePublish() format='c'}" title="{date_format date=$topic->getDatePublish() format='j F Y, H:i'}">
+                    {$isDeferred = (strtotime($topic->getDatePublish())>time()) ? true : false}
+                    <li class="{$component}-info-item {$component}-info-item--date{if $isDeferred}--deferred{/if}">
+                        <time datetime="{date_format date=$topic->getDatePublish() format='c'}" title="{if $isDeferred}{lang 'topic.is_deferred'}{else}{date_format date=$topic->getDatePublish() format='j F Y, H:i'}{/if}">
                             {date_format date=$topic->getDatePublish() format="j F Y, H:i"}
                         </time>
                     </li>

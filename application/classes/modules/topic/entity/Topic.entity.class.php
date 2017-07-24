@@ -87,6 +87,7 @@ class ModuleTopic_EntityTopic extends Entity
         $this->aValidateRules[] = array('blogs_id_raw', 'blogs');
         $this->aValidateRules[] = array('topic_text_source', 'topic_unique');
         $this->aValidateRules[] = array('topic_slug_raw', 'slug_check');
+        $this->aValidateRules[] = array('publish_date_raw', 'publish_date_check');
     }
 
     /**
@@ -130,6 +131,45 @@ class ModuleTopic_EntityTopic extends Entity
             return true;
         }
         return $this->Lang_Get('topic.add.notices.error_type');
+    }
+
+    /**
+     * Проверка даты отложенной публикации
+     *
+     * @param array $aValue Проверяемое значение
+     * @param array $aParams Параметры
+     * @return bool|string
+     */
+    public function ValidatePublishDateCheck($aValue, $aParams)
+    {
+        $oTopicType = $this->getTypeObject();
+        if ($oTopicType and ($oTopicType->getParam('allow_deferred_all') or ($oTopicType->getParam('allow_deferred_admin') and $oUser = $this->getUserCreator() and $oUser->isAdministrator()))) {
+            if ((!$this->getId() or !$this->getPublishDraft()) and isset($aValue['date']) and is_string($aValue['date']) and isset($aValue['time']) and is_string($aValue['time'])) {
+                $sDateFull = $aValue['date'] . ' ' . $aValue['time'];
+                if ($this->Validate_Validate('date', $sDateFull, array('format' => 'dd.MM.yyyy HH:mm', 'allowEmpty' => true))) {
+                    $sDateFull = strtotime($sDateFull); // для охвата всей минуты
+                    /**
+                     * Переводим дату к серверному часовому поясу
+                     */
+                    if ($oUser = $this->getUserCreator() and $sTz = $oUser->getSettingsTimezone()) {
+                        $oNow = new DateTime(null, new DateTimeZone($sTz));
+                        $iTz = $oNow->getOffset() / 3600;
+                        $iDiff = (date('I') + $iTz - (strtotime(date("Y-m-d H:i:s")) - strtotime(gmdate("Y-m-d H:i:s"))) / 3600) * 3600;
+                        $sDateFull = $sDateFull - $iDiff;
+                    }
+                    if ($sDateFull >= strtotime(date('Y-m-d H:i:00'))) {
+                        $this->setPublishDateRaw($sDateFull);
+                        return true;
+                    } else {
+                        return $this->Lang_Get('topic.add.notices.error_publish_date');
+                    }
+                } else {
+                    return $this->Lang_Get('topic.add.notices.error_publish_date');
+                }
+            }
+        }
+        $this->setPublishDateRaw(null);
+        return true;
     }
 
     /**

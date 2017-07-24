@@ -120,6 +120,10 @@
     top: -2px;
 }
 
+.ls-topic-info-item.ls-topic-info-item--date--deferred {
+    color: #ff0000;
+}
+
 /* Ссылка на комментарии */
 .ls-topic-info-item.ls-topic-info-item--comments a {
     text-decoration: none;

@@ -132,6 +132,33 @@
             targetId   = ( $topic ) ? $topic->getId() : ''}
     {/if}
 
+    {if $type->getParam('allow_deferred_all') or ($type->getParam('allow_deferred_admin') and $oUserCurrent->isAdministrator())}
+        {if !$topic or !$topic->getPublishDraft() or ($topic->getDatePublish() and strtotime($topic->getDatePublish()) > time())}
+            {$iDatePublish = null}
+            {if $topic}
+                {$iDatePublish = strtotime($topic->getDatePublish())}
+                {if $iDatePublish < time()}
+                    {$iDatePublish = null}
+                {/if}
+            {/if}
+            <div>
+                <div>{lang 'topic.add.fields.publish_date.label'}:</div>
+                {component 'field.date' mods = 'inline'
+                    name         = "topic[publish_date_raw][date]"
+                    inputAttributes=[ "data-lsdate-format" => 'DD.MM.YYYY' ]
+                    inputClasses = "js-field-date-default"
+                    placeholder = {lang 'topic.add.fields.publish_date.label_date'}
+                    value        = ($iDatePublish) ? {date_format date=$iDatePublish format='d.m.Y'} : ''}
+
+                {component 'field.time' mods = 'inline'
+                    name         = "topic[publish_date_raw][time]"
+                    inputAttributes=[ "data-lstime-time-format" => 'H:i' ]
+                    inputClasses = "js-field-time-default"
+                    placeholder = {lang 'topic.add.fields.publish_date.label_time'}
+                    value        = ($iDatePublish) ? {date_format date=$iDatePublish format='H:i'} : ''}
+            </div>
+        {/if}
+    {/if}
 
     {* Запретить комментарии *}
     {component 'field' template='checkbox'

@@ -177,9 +177,10 @@ class ModuleStream extends Module
      * @param string $sEventType Тип события
      * @param int $iTargetId ID владельца
      * @param int $iPublish Статус
+     * @param string|int|null $sDateCreate Дата создания события
      * @return bool
      */
-    public function Write($iUserId, $sEventType, $iTargetId, $iPublish = 1)
+    public function Write($iUserId, $sEventType, $iTargetId, $iPublish = 1, $sDateCreate = null)
     {
         $iPublish = (int)$iPublish;
         if (!$this->IsAllowEventType($sEventType)) {
@@ -218,6 +219,11 @@ class ModuleStream extends Module
         }
 
         if ($iPublish) {
+            if (is_null($sDateCreate)) {
+                $sDateCreate = date("Y-m-d H:i:s");
+            } elseif (is_numeric($sDateCreate)) {
+                $sDateCreate = date("Y-m-d H:i:s", $sDateCreate);
+            }
             /**
              * Создаем новое событие
              */
@@ -225,7 +231,7 @@ class ModuleStream extends Module
             $oEvent->setEventType($sEventType);
             $oEvent->setUserId($iUserId);
             $oEvent->setTargetId($iTargetId);
-            $oEvent->setDateAdded(date("Y-m-d H:i:s"));
+            $oEvent->setDateAdded($sDateCreate);
             $oEvent->setPublish($iPublish);
             $this->AddEvent($oEvent);
         }

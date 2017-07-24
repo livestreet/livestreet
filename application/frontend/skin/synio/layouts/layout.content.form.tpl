@@ -23,6 +23,14 @@
             'count' => $iUserCurrentCountTopicDraft
         ]}
 
+        {* Пункт "Отложенные" *}
+        {$_items[] = [
+            'name'  => 'deferred',
+            'url'   => "{router page='content'}deferred/",
+            'text'  => $aLang.topic.deferred,
+            'count' => $iUserCurrentCountTopicDeferred
+            ]}
+
         {$layoutNav = [[
             name       => 'content_form',
             activeItem => $sMenuSubItemSelect,

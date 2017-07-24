@@ -30,6 +30,7 @@ class ModuleTopic extends Module
 
     const TOPIC_TYPE_STATE_ACTIVE = 1;
     const TOPIC_TYPE_STATE_NOT_ACTIVE = 0;
+    
     /**
      * Объект маппера
      *
@@ -631,6 +632,14 @@ class ModuleTopic extends Module
             : $this->Favourite_GetCountFavouriteOpenTopicsByUserId($sUserId);
     }
 
+    public function GetTimelifeCacheForTopics()
+    {
+        if ($sDate = $this->oMapperTopic->GetNextTopicDatePublish()) {
+            return abs(strtotime($sDate) - time());
+        }
+        return 60 * 60 * 24 * 1;
+    }
+
     /**
      * Список топиков по фильтру
      *
@@ -652,7 +661,7 @@ class ModuleTopic extends Module
                 'count'      => $iCount
             );
             $this->Cache_Set($data, "topic_filter_{$s}_{$iPage}_{$iPerPage}", array('topic_update', 'topic_new'),
-                60 * 60 * 24 * 3);
+                $this->GetTimelifeCacheForTopics());
         }
         $data['collection'] = $this->GetTopicsAdditionalData($data['collection'], $aAllowData);
         return $data;
@@ -669,7 +678,7 @@ class ModuleTopic extends Module
         $s = serialize($aFilter);
         if (false === ($data = $this->Cache_Get("topic_count_{$s}"))) {
             $data = $this->oMapperTopic->GetCountTopics($aFilter);
-            $this->Cache_Set($data, "topic_count_{$s}", array('topic_update', 'topic_new'), 60 * 60 * 24 * 1);
+            $this->Cache_Set($data, "topic_count_{$s}", array('topic_update', 'topic_new'), $this->GetTimelifeCacheForTopics());
         }
         return $data;
     }
@@ -685,6 +694,21 @@ class ModuleTopic extends Module
         return $this->GetCountTopicsByFilter(array(
             'user_id'       => $iUserId,
             'topic_publish' => 0
+        ));
+    }
+
+    /**
+     * Количество отложенных у пользователя
+     *
+     * @param int $iUserId ID пользователя
+     * @return int
+     */
+    public function GetCountDeferredTopicsByUserId($iUserId)
+    {
+        return $this->GetCountTopicsByFilter(array(
+            'user_id'            => $iUserId,
+            'topic_publish_only' => 1,
+            'topic_new'          => date('Y-m-d H:i:s', time() + 1)
         ));
     }
 
@@ -1015,6 +1039,34 @@ class ModuleTopic extends Module
             'topic_publish' => $iPublish,
             'user_id'       => $sUserId,
             'blog_type'     => array('open', 'personal'),
+        );
+        /**
+         * Если пользователь смотрит свой профиль, то добавляем в выдачу
+         * закрытые блоги в которых он состоит
+         */
+        if ($this->oUserCurrent && $this->oUserCurrent->getId() == $sUserId) {
+            $aFilter['blog_type'][] = 'close';
+        }
+        $this->Hook_Run('get_topics_by_custom_filter',
+            array('aFilter' => &$aFilter, 'iPage' => $iPage, 'iPerPage' => $iPerPage, 'sMethod' => __FUNCTION__));
+        return $this->GetTopicsByFilter($aFilter, $iPage, $iPerPage);
+    }
+
+    /**
+     * Получает список отложенных топиков по юзеру
+     *
+     * @param int $sUserId ID пользователя
+     * @param int $iPage Номер страницы
+     * @param int $iPerPage Количество элементов на страницу
+     * @return array
+     */
+    public function GetTopicsPersonalDeferredByUser($sUserId, $iPage, $iPerPage)
+    {
+        $aFilter = array(
+            'topic_publish_only' => 1,
+            'topic_new'          => date('Y-m-d H:i:s', time() + 1),
+            'user_id'            => $sUserId,
+            'blog_type'          => array('open', 'personal'),
         );
         /**
          * Если пользователь смотрит свой профиль, то добавляем в выдачу

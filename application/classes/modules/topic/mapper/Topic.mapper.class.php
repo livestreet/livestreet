@@ -341,18 +341,20 @@ class ModuleTopic_MapperTopic extends Mapper
     {
         $sql = "
 							SELECT 		
-								topic_id										
+								tt.topic_id
 							FROM 
-								" . Config::Get('db.table.topic_tag') . "
-							WHERE 
-								topic_tag_text = ? 	
-								{ AND blog_id NOT IN (?a) }
-                            ORDER BY topic_id DESC	
+								" . Config::Get('db.table.topic_tag') . " as tt,
+								" . Config::Get('db.table.topic') . " as t
+							WHERE
+								tt.topic_tag_text = ?
+								AND tt.topic_id = t.topic_id AND t.topic_publish = 1 AND t.topic_date_publish <= ?
+								{ AND tt.blog_id NOT IN (?a) }
+                            ORDER BY tt.topic_id DESC
                             LIMIT ?d, ?d ";
 
         $aTopics = array();
         if ($aRows = $this->oDb->selectPage(
-            $iCount, $sql, $sTag,
+            $iCount, $sql, $sTag, date('Y-m-d H:i:s'),
             (is_array($aExcludeBlog) && count($aExcludeBlog)) ? $aExcludeBlog : DBSIMPLE_SKIP,
             ($iCurrPage - 1) * $iPerPage, $iPerPage
         )
@@ -414,9 +416,10 @@ class ModuleTopic_MapperTopic extends Mapper
 			tt.topic_tag_text,
 			count(tt.topic_tag_text)	as count		 
 			FROM 
-				" . Config::Get('db.table.topic_tag') . " as tt
+				" . Config::Get('db.table.topic_tag') . " as tt,
+				" . Config::Get('db.table.topic') . " as t
 			WHERE 
-				1=1
+				tt.topic_id = t.topic_id AND t.topic_publish = 1 AND t.topic_date_publish <= ?
 				{AND tt.topic_id NOT IN(?a) }		
 			GROUP BY 
 				tt.topic_tag_text
@@ -427,7 +430,7 @@ class ModuleTopic_MapperTopic extends Mapper
         $aReturn = array();
         $aReturnSort = array();
         if ($aRows = $this->oDb->select(
-            $sql,
+            $sql, date('Y-m-d H:i:s'),
             (is_array($aExcludeTopic) && count($aExcludeTopic)) ? $aExcludeTopic : DBSIMPLE_SKIP,
             $iLimit
         )
@@ -458,7 +461,8 @@ class ModuleTopic_MapperTopic extends Mapper
 				count(tt.topic_tag_text)	as count		 
 			FROM 
 				" . Config::Get('db.table.topic_tag') . " as tt,
-				" . Config::Get('db.table.blog') . " as b
+				" . Config::Get('db.table.blog') . " as b,
+				" . Config::Get('db.table.topic') . " as t
 			WHERE
 				1 = 1
 				{ AND tt.user_id = ?d }
@@ -466,6 +470,8 @@ class ModuleTopic_MapperTopic extends Mapper
 				tt.blog_id = b.blog_id
 				AND
 				b.blog_type <> 'close'
+				AND
+				tt.topic_id = t.topic_id AND t.topic_publish = 1 AND t.topic_date_publish <= ?
 			GROUP BY 
 				tt.topic_tag_text
 			ORDER BY 
@@ -474,7 +480,7 @@ class ModuleTopic_MapperTopic extends Mapper
 				";
         $aReturn = array();
         $aReturnSort = array();
-        if ($aRows = $this->oDb->select($sql, is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId, $iLimit)) {
+        if ($aRows = $this->oDb->select($sql, is_null($iUserId) ? DBSIMPLE_SKIP : $iUserId, date('Y-m-d H:i:s'), $iLimit)) {
             foreach ($aRows as $aRow) {
                 $aReturn[mb_strtolower($aRow['topic_tag_text'], 'UTF-8')] = $aRow;
             }
@@ -590,7 +596,7 @@ class ModuleTopic_MapperTopic extends Mapper
      */
     protected function buildFilter($aFilter)
     {
-        $sDateNow=date('Y-m-d H:i:s');
+        $sDateNow = date('Y-m-d H:i:s');
         $sWhere = '';
         if (isset($aFilter['topic_date_more'])) {
             $sWhere .= " AND t.topic_date_publish >  " . $this->oDb->escape($aFilter['topic_date_more']);
@@ -600,6 +606,9 @@ class ModuleTopic_MapperTopic extends Mapper
         }
         if (isset($aFilter['topic_publish'])) {
             $sWhere .= " AND t.topic_publish =  " . (int)$aFilter['topic_publish'] . " AND t.topic_date_publish <= '{$sDateNow}' ";
+        }
+        if (isset($aFilter['topic_publish_only'])) {
+            $sWhere .= " AND t.topic_publish =  " . (int)$aFilter['topic_publish_only'] . " ";
         }
         if (isset($aFilter['topic_rating']) and is_array($aFilter['topic_rating'])) {
             $sPublishIndex = '';
@@ -793,8 +802,8 @@ class ModuleTopic_MapperTopic extends Mapper
      */
     public function MoveTopics($sBlogId, $sBlogIdNew)
     {
-        $aFields=array('blog_id','blog_id2','blog_id3','blog_id4','blog_id5');
-        foreach($aFields as $sField) {
+        $aFields = array('blog_id', 'blog_id2', 'blog_id3', 'blog_id4', 'blog_id5');
+        foreach ($aFields as $sField) {
             $sql = "UPDATE " . Config::Get('db.table.topic') . "
                 SET
                     {$sField} = ?d
@@ -1002,5 +1011,14 @@ class ModuleTopic_MapperTopic extends Mapper
             return true;
         }
         return false;
+    }
+
+    public function GetNextTopicDatePublish()
+    {
+        $sql = 'SELECT min(topic_date_publish) FROM ' . Config::Get('db.table.topic') . ' WHERE topic_date_publish > ? and topic_publish = 1';
+        if ($sDate = $this->oDb->selectCell($sql, date('Y-m-d H:i:s'))) {
+            return $sDate;
+        }
+        return null;
     }
 }

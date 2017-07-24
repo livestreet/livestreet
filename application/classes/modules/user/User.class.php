@@ -453,6 +453,7 @@ class ModuleUser extends Module
         if ($this->oUserCurrent) {
             $this->Viewer_Assign('iUserCurrentCountTalkNew', $this->Talk_GetCountTalkNew($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountTopicDraft', $this->Topic_GetCountDraftTopicsByUserId($this->oUserCurrent->getId()));
+            $this->Viewer_Assign('iUserCurrentCountTopicDeferred', $this->Topic_GetCountDeferredTopicsByUserId($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountWall', $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)));
             $this->Viewer_Assign('iUserCurrentCountFriends', $this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
 

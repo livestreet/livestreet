@@ -116,13 +116,14 @@ class ModuleStream_MapperStream extends Mapper
 					event_type IN (?a) 
 					{ AND user_id IN (?a) }
 					AND publish = 1
+					AND date_added <= ?
 					{ AND id < ?d }	
 				ORDER BY id DESC
 				{ LIMIT 0,?d }';
 
         $aReturn = array();
         if ($aRows = $this->oDb->select($sql, $aEventTypes,
-            (!is_null($aUsersList) and count($aUsersList)) ? $aUsersList : DBSIMPLE_SKIP,
+            (!is_null($aUsersList) and count($aUsersList)) ? $aUsersList : DBSIMPLE_SKIP, date('Y-m-d H:i:s'),
             !is_null($iFromId) ? $iFromId : DBSIMPLE_SKIP, !is_null($iCount) ? $iCount : DBSIMPLE_SKIP)
         ) {
             foreach ($aRows as $aRow) {
@@ -148,9 +149,9 @@ class ModuleStream_MapperStream extends Mapper
 				WHERE
 					event_type IN (?a)
 					{ AND user_id IN (?a) }
-					AND publish = 1 ';
+					AND publish = 1 AND date_added <= ? ';
         if ($aRow = $this->oDb->selectRow($sql, $aEventTypes,
-            (!is_null($aUserId) and count($aUserId)) ? $aUserId : DBSIMPLE_SKIP)
+            (!is_null($aUserId) and count($aUserId)) ? $aUserId : DBSIMPLE_SKIP, date('Y-m-d H:i:s'))
         ) {
             return $aRow['c'];
         }

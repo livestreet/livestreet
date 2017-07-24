@@ -87,6 +87,7 @@ class ActionContent extends Action
 
         $this->AddEventPreg('/^published$/i', '/^(page([1-9]\d{0,5}))?$/i', 'EventShowTopics');
         $this->AddEventPreg('/^drafts$/i', '/^(page([1-9]\d{0,5}))?$/i', 'EventShowTopics');
+        $this->AddEventPreg('/^deferred$/i', '/^(page([1-9]\d{0,5}))?$/i', 'EventShowTopics');
 
         $this->AddEventPreg('/^ajax$/i', '/^add$/i', '/^$/i', 'EventAjaxAdd');
         $this->AddEventPreg('/^ajax$/i', '/^edit$/i', '/^$/i', 'EventAjaxEdit');
@@ -116,8 +117,13 @@ class ActionContent extends Action
         /**
          * Получаем список топиков
          */
-        $aResult = $this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),
-            $this->sCurrentEvent == 'published' ? 1 : 0, $iPage, Config::Get('module.topic.per_page'));
+        if ($this->sCurrentEvent == 'deferred') {
+            $aResult = $this->Topic_GetTopicsPersonalDeferredByUser($this->oUserCurrent->getId(), $iPage, Config::Get('module.topic.per_page'));
+            $this->SetTemplateAction('drafts');
+        } else {
+            $aResult = $this->Topic_GetTopicsPersonalByUser($this->oUserCurrent->getId(),
+                $this->sCurrentEvent == 'published' ? 1 : 0, $iPage, Config::Get('module.topic.per_page'));
+        }
         $aTopics = $aResult['collection'];
         /**
          * Формируем постраничность
@@ -341,20 +347,6 @@ class ActionContent extends Action
             $oTopic->setTags('');
         }
         /**
-         * Публикуем или сохраняем в черновиках
-         */
-        $bSendNotify = false;
-        if (!isset($_REQUEST['is_draft'])) {
-            $oTopic->setPublish(1);
-            if ($oTopic->getPublishDraft() == 0) {
-                $oTopic->setPublishDraft(1);
-                $oTopic->setDatePublish(date("Y-m-d H:i:s"));
-                $bSendNotify = true;
-            }
-        } else {
-            $oTopic->setPublish(0);
-        }
-        /**
          * Принудительный вывод на главную
          */
         if ($this->ACL_IsAllowTopicPublishIndex($this->oUserCurrent)) {
@@ -388,6 +380,27 @@ class ActionContent extends Action
 
         $this->Hook_Run('topic_edit_validate_before', array('oTopic' => $oTopic));
         if ($oTopic->_Validate()) {
+            /**
+             * Публикуем или сохраняем в черновиках
+             */
+            $bSendNotify = false;
+            if (!isset($_REQUEST['is_draft'])) {
+                $oTopic->setPublish(1);
+                if ($oTopic->getPublishDraft() == 0) {
+                    $oTopic->setPublishDraft(1);
+                    $oTopic->setDatePublish(date("Y-m-d H:i:s"));
+                    $bSendNotify = true;
+                }
+            } else {
+                $oTopic->setPublish(0);
+            }
+            /**
+             * Отложенная публикация
+             */
+            if ($oTopic->getPublishDateRaw()) {
+                $oTopic->setDatePublish(date("Y-m-d H:i:s", $oTopic->getPublishDateRaw()));
+                $bSendNotify = false;
+            }
             $oBlog = $oTopic->getBlog();
             /**
              * Получаемый и устанавливаем разрезанный текст по тегу <cut>
@@ -433,7 +446,7 @@ class ActionContent extends Action
                  * Добавляем событие в ленту
                  */
                 $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),
-                    $oTopic->getPublish() && $oBlog->getType() != 'close');
+                    $oTopic->getPublish() && $oBlog->getType() != 'close', $oTopic->getDatePublish());
                 /**
                  * Рассылаем о новом топике подписчикам блога
                  */
@@ -526,6 +539,9 @@ class ActionContent extends Action
 
         $this->Hook_Run('topic_add_validate_before', array('oTopic' => $oTopic));
         if ($oTopic->_Validate()) {
+            if ($oTopic->getPublishDateRaw()) {
+                $oTopic->setDatePublish(date("Y-m-d H:i:s", $oTopic->getPublishDateRaw()));
+            }
             $oBlog = $oTopic->getBlog();
             /**
              * Получаем и устанавливаем разрезанный текст по тегу <cut>
@@ -578,15 +594,14 @@ class ActionContent extends Action
                 /**
                  * Делаем рассылку спама всем, кто состоит в этом блоге
                  */
-                if ($oTopic->getPublish() == 1 and $oBlog->getType() != 'personal') {
+                if ($oTopic->getPublish() == 1 and $oBlog->getType() != 'personal' and strtotime($oTopic->getDatePublish()) <= time()) {
                     $this->Topic_SendNotifyTopicNew($oTopic, $oUser);
                 }
                 /**
                  * Добавляем событие в ленту
                  */
                 $this->Stream_write($oTopic->getUserId(), 'add_topic', $oTopic->getId(),
-                    $oTopic->getPublish() && $oBlog->getType() != 'close');
-
+                    $oTopic->getPublish() && $oBlog->getType() != 'close', $oTopic->getDatePublish());
 
                 $this->Viewer_AssignAjax('sUrlRedirect', $oTopic->getUrl());
                 $this->Message_AddNotice($this->Lang_Get('topic.add.notices.create_complete'), $this->Lang_Get('common.attention'));
