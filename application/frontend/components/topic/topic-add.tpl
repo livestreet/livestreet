@@ -132,7 +132,7 @@
             targetId   = ( $topic ) ? $topic->getId() : ''}
     {/if}
 
-    {if $type->getParam('allow_deferred_all') or ($type->getParam('allow_deferred_admin') and $oUserCurrent->isAdministrator())}
+    {if $type->isAllowCreateDeferredTopic($oUserCurrent)}
         {if !$topic or !$topic->getPublishDraft() or ($topic->getDatePublish() and strtotime($topic->getDatePublish()) > time())}
             {$iDatePublish = null}
             {if $topic}

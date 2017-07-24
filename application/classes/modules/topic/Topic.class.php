@@ -30,7 +30,7 @@ class ModuleTopic extends Module
 
     const TOPIC_TYPE_STATE_ACTIVE = 1;
     const TOPIC_TYPE_STATE_NOT_ACTIVE = 0;
-    
+
     /**
      * Объект маппера
      *

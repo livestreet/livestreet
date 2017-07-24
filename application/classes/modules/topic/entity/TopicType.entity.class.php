@@ -135,4 +135,12 @@ class ModuleTopic_EntityTopicType extends Entity
     {
         return 'topic_' . $this->getCode();
     }
+
+    public function isAllowCreateDeferredTopic($oUser)
+    {
+        if (!$oUser) {
+            return false;
+        }
+        return $this->getParam('allow_deferred_all') or ($this->getParam('allow_deferred_admin') and $oUser->isAdministrator());
+    }
 }
