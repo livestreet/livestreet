@@ -20,6 +20,7 @@
     margin-bottom: 2px;
     position: relative;
     background: #fafafa;
+    word-wrap: break-word;
 }
 
 .ls-comment--self {
