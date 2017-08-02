@@ -145,7 +145,7 @@ class ModuleTopic_EntityTopic extends Entity
         $oTopicType = $this->getTypeObject();
         $oUser = $this->getUserCreator();
         if ($oTopicType and $oTopicType->isAllowCreateDeferredTopic($oUser)) {
-            if ((!$this->getId() or !$this->getPublishDraft() or ($this->getDatePublish() and strtotime($this->getDatePublish()) > time())) and isset($aValue['date']) and is_string($aValue['date']) and isset($aValue['time']) and is_string($aValue['time'])) {
+            if ((!$this->getId() or !$this->getPublishDraft() or ($this->getDatePublish() and strtotime($this->getDatePublish()) > time())) and isset($aValue['date']) and is_string($aValue['date']) and $aValue['date'] and isset($aValue['time']) and is_string($aValue['time'])) {
                 $sDateFull = $aValue['date'] . ' ' . $aValue['time'];
                 if ($this->Validate_Validate('date', $sDateFull, array('format' => 'dd.MM.yyyy HH:mm', 'allowEmpty' => true))) {
                     $sDateFull = strtotime($sDateFull); // для охвата всей минуты

@@ -400,6 +400,19 @@ class ActionContent extends Action
             if ($oTopic->getPublishDateRaw()) {
                 $oTopic->setDatePublish(date("Y-m-d H:i:s", $oTopic->getPublishDateRaw()));
                 $bSendNotify = false;
+            } else {
+                /**
+                 * Снятие даты публикации, только при условии, что была установлена дата в будущем
+                 */
+                if ($oTopic->getDatePublish() and strtotime($oTopic->getDatePublish()) > time()) {
+                    $oTopic->setDatePublish(date("Y-m-d H:i:s"));
+                    /**
+                     * Если сохраняем отложенный в черновик, то считаем, что он еще ниразу не публиковался
+                     */
+                    if (isset($_REQUEST['is_draft'])) {
+                        $oTopic->setPublishDraft(0);
+                    }
+                }
             }
             $oBlog = $oTopic->getBlog();
             /**
