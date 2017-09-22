@@ -83,7 +83,7 @@
             ]}
         {/if}
 
-        {component 'user.info-group' title={lang name='user.profile.personal.title'} items=$items}
+        {component 'user.info-group' title={lang name='user.profile.personal.title'} items=$items hookParams = [ 'user' => $user ]}
 
         {**
          * Активность
@@ -185,7 +185,7 @@
             ]}
         {/if}
 
-        {component 'user.info-group' name='activity' title={lang name='user.profile.activity.title'} items=$items}
+        {component 'user.info-group' name='activity' title={lang name='user.profile.activity.title'} items=$items hookParams = [ 'user' => $user ]}
     </div>
 
     <div class="user-info-group-col">
@@ -218,7 +218,7 @@
             ]}
         {/foreach}
 
-        {component 'user.info-group' name='social-networks' title={lang name='user.profile.social_networks'} items=$items}
+        {component 'user.info-group' name='social-networks' title={lang name='user.profile.social_networks'} items=$items hookParams = [ 'user' => $user ]}
     </div>
 </div>
 
@@ -250,4 +250,4 @@
     ]}
 {/capture}
 
-{component 'user.info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
+{component 'user.info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall hookParams = [ 'user' => $user ]}
