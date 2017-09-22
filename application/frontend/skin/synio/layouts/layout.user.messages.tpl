@@ -6,7 +6,7 @@
 
 {block 'layout_options' append}
     {$layoutNav = [[
-        name       => 'talk',
+        hook       => 'talk',
         activeItem => $sMenuSubItemSelect,
         items => [
             [ 'name' => 'inbox',      'url' => "{router page='talk'}",            'text' => $aLang.talk.nav.inbox ],

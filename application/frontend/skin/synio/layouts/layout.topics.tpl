@@ -12,7 +12,7 @@
         {/if}
 
         {$layoutNav[] = [
-            name       => 'topics_sub',
+            hook       => 'topics_sub',
             activeItem => $sMenuSubItemSelect,
             items => [
                 [ 'name' => 'good',      'url' => $sNavTopicsSubUrl,               'text' => {lang name='blog.menu.all_good'} ],
