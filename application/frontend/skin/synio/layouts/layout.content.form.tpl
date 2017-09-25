@@ -32,7 +32,7 @@
             ]}
 
         {$layoutNav = [[
-            name       => 'content_form',
+            hook       => 'content_form',
             activeItem => $sMenuSubItemSelect,
             items => $_items
         ]]}

@@ -6,7 +6,7 @@
 
 {block 'layout_options' append}
     {$layoutNav = [[
-        name       => 'profile_favourite',
+        hook       => 'profile_favourite',
         hookParams => [ 'oUserProfile' => $oUserProfile ],
         activeItem => $sMenuSubItemSelect,
         items => [

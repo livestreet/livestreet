@@ -7,7 +7,7 @@
 {block 'layout_options' append}
     {if $sEvent != 'add'}
         {$layoutNav = [[
-            name       => 'blog_edit',
+            hook       => 'blog_edit',
             activeItem => $sMenuItemSelect,
             items => [
                 [ 'name' => 'profile', 'url' => "{router page='blog'}edit/{$blogEdit->getId()}/",  'text' => $aLang.blog.admin.nav.profile ],

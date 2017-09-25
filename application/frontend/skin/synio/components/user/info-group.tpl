@@ -3,12 +3,12 @@
  *}
 
 {$component = 'user-info-group'}
-{component_define_params params=[ 'url', 'count', 'html', 'items', 'name', 'title', 'mods', 'classes', 'attributes' ]}
+{component_define_params params=[ 'url', 'hookParams','count', 'html', 'items', 'name', 'title', 'mods', 'classes', 'attributes' ]}
 
 {hook run="{$component}-{$name}-before"}
 
 {* Получаем пункты установленные плагинами *}
-{hook run="{$component}-{$name}-items" assign='itemsHook' items=$items array=true}
+{hook run="{$component}-{$name}-items" assign='itemsHook' items=$items array=true params=$hookParams}
 {$items = ($itemsHook) ? $itemsHook : $items}
 
 {if $html || $items}
