@@ -3,10 +3,12 @@
  *}
 
 {capture 'block_content'}
-    <h3>{lang 'blog.blocks.search.categories.title'}</h3>
 
     {* Категории *}
     {if $aBlogCategories}
+
+        <h3>{lang 'blog.blocks.search.categories.title'}</h3>
+
         {$items = [[
             'name'       => 'all',
             'text'       => {lang 'blog.blocks.search.categories.all'},
@@ -33,11 +35,9 @@
             activeItem = 'all'
             mods       = 'stacked pills'
             items      = $items}
-    {else}
-        {component 'blankslate' text=$aLang.blog.categories.empty}
-    {/if}
 
-    <br>
+        <br>
+    {/if}
 
     {* Тип блога *}
     <h3>{lang 'blog.blocks.search.type.title'}</h3>
