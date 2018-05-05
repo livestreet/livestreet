@@ -662,6 +662,17 @@ jQuery(document).ready(function($){
     $( '.fotorama' ).livequery(function() {
         $( this ).lsSlider();
     });
+    
+    /*
+     * imageset property
+     */
+    
+//    $('.js-imageset-field .js-field-image-ajax-show-modal').on('click', function(){
+//        $('.js-modal-media').lsMedia('show');
+//        $('.js-tab-show-gallery').click();
+//    });
+    
+    $('.js-imageset-field').lsFieldImageAjax();
 
     // Хук конца инициализации javascript-составляющих шаблона
     ls.hook.run('ls_template_init_end',[],window);

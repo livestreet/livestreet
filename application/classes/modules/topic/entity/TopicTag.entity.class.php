@@ -25,7 +25,7 @@
  * @package application.modules.topic
  * @since 1.0
  */
-class ModuleTopic_EntityTopicTag extends Entity
+class ModuleTopic_EntityTopicTag extends EntityORM
 {
     /**
      * Возвращает ID тега

@@ -1790,8 +1790,8 @@ class ModuleTopic extends Module
      * @param array $aFilter Фильтр, который содержит список id топиков в параметре "id in"
      * @return array
      */
-    public function GetTopicItemsByFilter($aFilter)
-    {
+    public function GetTopicItemsByFilter($aFilter) 
+    {        $this->Logger_Notice('no orm GetTopicItemsByFilter');
         if (isset($aFilter['id in'])) {
             return $this->GetTopicsByArrayId($aFilter['id in']);
         }
