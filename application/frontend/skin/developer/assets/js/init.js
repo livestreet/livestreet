@@ -672,7 +672,7 @@ jQuery(document).ready(function($){
 //        $('.js-tab-show-gallery').click();
 //    });
     
-    $('.js-imageset-field').lsFieldImageAjax();
+    $('.js-field-imageset-ajax').lsFieldImagesetAjax();
 
     // Хук конца инициализации javascript-составляющих шаблона
     ls.hook.run('ls_template_init_end',[],window);
