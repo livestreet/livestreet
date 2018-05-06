@@ -2,6 +2,7 @@
 {$imagePreviewItems = []}
     
 {component 'field' template='imageset-ajax'
+        name       = "property[{$property->getId()}]"
         label      = 'Фотосет'
         modalTitle = 'Выбор фото'
         targetType = 'imageset'
