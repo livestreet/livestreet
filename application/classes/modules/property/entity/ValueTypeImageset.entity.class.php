@@ -27,20 +27,42 @@
  */
 class ModuleProperty_EntityValueTypeImageset extends ModuleProperty_EntityValueType
 {
-    public function getValueForDisplay()
+    public function getValueForDisplay($aFilter = [])
     {
-        return $this->getValueObject()->getValueInt();
+        $aMedia = $this->Media_GetMediaItemsByFilter(array_merge([
+            '#join' => [
+                "JOIN ".Config::Get('db.table.media_target')." as mt ON mt.media_id = t.id "
+                . "AND mt.target_type = 'imageset' AND mt.target_id = ?d" => 
+                [$this->oValue->getId()]
+            ]
+        ], $aFilter));
+        return $aMedia;
+    }
+    
+    public function getMedia($aFilter = []) {
+        return $this->getValueForDisplay($aFilter);
     }
 
     public function isEmpty()
     {
-        return is_null($this->getValueObject()->getValueInt()) ? true : false;
+        $aData = $this->oValue->getData();
+        return !sizeof($aData);
     }
     
     public function beforeSaveValue() { 
-        $aMediaTargets = $this->getMediaTargetsImageset();  
+        $mValue = $this->getValueForValidate();
         
-        $this->oValue->setData( array_keys($aMediaTargets) );
+        $aMediaTargets = $this->getMediaTargetsImageset($mValue, 'media_id');        
+        
+        $this->Media_DeleteTargetItemsByFilter( $this->getMediaTargetsFilter($mValue) );
+        
+        $aMediaTargetIds = [];        $this->Logger_Notice(print_r($aMediaTargets, true));
+        foreach($aMediaTargets as $oMediaTarget){
+            $oMediaTarget->Add();
+            $aMediaTargetIds[] = $oMediaTarget->getId();
+        }
+        
+        $this->oValue->setData( $aMediaTargetIds );
                 
         $this->Media_ReplaceTargetTmpById('imageset', $this->oValue->getId());
         
@@ -49,33 +71,50 @@ class ModuleProperty_EntityValueTypeImageset extends ModuleProperty_EntityValueT
 
     public function getValueForForm()
     {
-        $oValue = $this->getValueObject();
-        $oProperty = $oValue->getProperty();
-        return $oValue->_isNew() ? $oProperty->getParam('default') : $oValue->getValueInt();
+        return $this->oValue->getId();
     }
     
-    public function getMediaTargetsImageset() {
-        $mValue = $this->getValueForValidate();
-        $aFilter = [
-            '#where' => [
-                "(t.target_id = ?d OR t.target_tmp = ?d)" => [$mValue, $mValue]
-            ],
-            '#index-from' => 'id',
-            'target_type' => 'imageset'
-        ];        
+    public function getImageSize()
+    {
+        return $this->getDataOne('size');
+    }
+    
+    public function getMediaTargetsImageset($iTargetForm, $indexFrom = 'id') {
+        
+        $aFilter = $this->getMediaTargetsFilter($iTargetForm);
+
+        $aFilter['#index-from'] = $indexFrom;
+            
         return $this->Media_GetTargetItemsByFilter($aFilter);
+    }
+    
+    public function getMediaTargetsFilter($iTargetForm) {
+        $aFilter = [
+            'target_type' => 'imageset'
+        ];
+        if( $this->oValue->_isNew() ){
+            $aFilter['#where'] = [
+                "(t.target_id = ?d OR t.target_tmp = ?d)" => [$iTargetForm, $iTargetForm]
+            ];
+        }else{
+            $aFilter['#where'] = [
+                "(t.target_id = ?d OR t.target_id = ?d OR t.target_tmp = ?d)" => [$this->oValue->getId(), $iTargetForm, $iTargetForm]
+            ];
+        } 
+        
+        return $aFilter;
     }
 
     public function validate()
     {
         $mValue = $this->getValueForValidate();
-        
-        $oProperty = $this->oValue->getProperty();
-        if( !$mValue and $oProperty->getValidateRuleOne('allowEmpty')){
-            return true;
+                
+        $oProperty = $this->oValue->getProperty();        
+        if( !$mValue and !$oProperty->getValidateRuleOne('allowEmpty')){
+            return $this->Lang_Get('property.notices.validate_value_file_empty');
         }
-        
-        $aMediaTargets = $this->getMediaTargetsImageset();                
+
+        $aMediaTargets = $this->getMediaTargetsImageset($mValue);                
 
         if($iMin = $oProperty->getValidateRuleOne('count_min') and $iMin > sizeof($aMediaTargets)){
             return $this->Lang_Get('property.notices.validate_value_select_min', array('count' => $iMin));
@@ -114,8 +153,12 @@ class ModuleProperty_EntityValueTypeImageset extends ModuleProperty_EntityValueT
             $aParams['count_min'] = htmlspecialchars($aParamsRaw['count_min']);
         }
         
-         if (isset($aParamsRaw['count_max'])) {
+        if (isset($aParamsRaw['count_max'])) {
             $aParams['count_max'] = htmlspecialchars($aParamsRaw['count_max']);
+        }
+        
+        if (isset($aParamsRaw['size']) and preg_match('#^(\d+)?(x)?(\d+)?([a-z]{2,10})?$#Ui', $aParamsRaw['size'])) {
+            $aParams['size'] = htmlspecialchars($aParamsRaw['size']);
         }
 
         return $aParams;
@@ -125,7 +168,8 @@ class ModuleProperty_EntityValueTypeImageset extends ModuleProperty_EntityValueT
     {
         return array(
             'count_min' => 1,
-            'count_max' => 10
+            'count_max' => 10,
+            'size' => '100x100crop'
         );
     }
    

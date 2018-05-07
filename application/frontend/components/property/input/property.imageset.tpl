@@ -1,4 +1,4 @@
-{$valueType = $property->getValue()->getValueTypeObject()}
+{$valueType = $property->getValueTypeObject()}
 {$imagePreviewItems = []}
     
 {component 'field' template='imageset-ajax'
@@ -6,5 +6,5 @@
         label      = 'Фотосет'
         modalTitle = 'Выбор фото'
         targetType = 'imageset'
-        targetId   = ( $valueType ) ? $valueType->getId() : ''
+        targetId   = $valueType->getValueForForm()
         classes    = 'js-imageset-field'}

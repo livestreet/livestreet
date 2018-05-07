@@ -225,6 +225,7 @@ class ModuleMedia extends ModuleORM
         if (!$this->IsAllowTargetType($sTargetType)) {
             return false;
         }
+        
         /**
          * Проверка на максимальное количество файлов
          */
@@ -1402,12 +1403,8 @@ class ModuleMedia extends ModuleORM
         }
         if (in_array($sAllowType,
             array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_PREVIEW, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
-            if (is_null($iTargetId)) {
-                /**
-                 * Разрешаем для всех новых Imageset
-                 */
-                return true;
-            }
+
+            return true;
             
         } else {
             return $this->CheckStandartMediaAllow($sAllowType, $aParams);

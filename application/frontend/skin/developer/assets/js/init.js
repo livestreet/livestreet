@@ -667,12 +667,8 @@ jQuery(document).ready(function($){
      * imageset property
      */
     
-//    $('.js-imageset-field .js-field-image-ajax-show-modal').on('click', function(){
-//        $('.js-modal-media').lsMedia('show');
-//        $('.js-tab-show-gallery').click();
-//    });
-    
     $('.js-field-imageset-ajax').lsFieldImagesetAjax();
+    //$('.js-lbx-imageset').lsLightbox();
 
     // Хук конца инициализации javascript-составляющих шаблона
     ls.hook.run('ls_template_init_end',[],window);
