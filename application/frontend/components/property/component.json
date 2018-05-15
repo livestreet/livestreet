@@ -20,6 +20,7 @@
         "input.property.varchar": "input/property.varchar.tpl",
         "input.property.video_link": "input/property.video_link.tpl",
         "input.property.video-modal": "input/modal.property-input-video.tpl",
+        "input.property.imageset": "input/property.imageset.tpl",
 
         "output.item": "output/item.tpl",
         "output.list": "output/list.tpl",

@@ -41,6 +41,7 @@ class ModuleProperty extends ModuleORM
     const PROPERTY_TYPE_DATE = 'date';
     const PROPERTY_TYPE_FILE = 'file';
     const PROPERTY_TYPE_IMAGE = 'image';
+    const PROPERTY_TYPE_IMAGESET = 'imageset';
     /**
      * Список состояний типов объектов
      */
@@ -65,7 +66,8 @@ class ModuleProperty extends ModuleORM
         self::PROPERTY_TYPE_SELECT,
         self::PROPERTY_TYPE_DATE,
         self::PROPERTY_TYPE_FILE,
-        self::PROPERTY_TYPE_IMAGE
+        self::PROPERTY_TYPE_IMAGE,
+        self::PROPERTY_TYPE_IMAGESET
     );
     /**
      * Список разрешенных типов

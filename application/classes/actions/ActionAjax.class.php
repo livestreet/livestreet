@@ -93,6 +93,7 @@ class ActionAjax extends Action
         $this->AddEventPreg('/^media$/i', '/^remove-file$/', '/^$/', 'EventMediaRemoveFile');
         $this->AddEventPreg('/^media$/i', '/^create-preview-file$/', '/^$/', 'EventMediaCreatePreviewFile');
         $this->AddEventPreg('/^media$/i', '/^remove-preview-file$/', '/^$/', 'EventMediaRemovePreviewFile');
+        $this->AddEventPreg('/^media$/i', '/^remove-target$/', '/^$/', 'EventMediaRemoveTarget');
         $this->AddEventPreg('/^media$/i', '/^load-preview-items$/', '/^$/', 'EventMediaLoadPreviewItems');
         $this->AddEventPreg('/^media$/i', '/^save-data-file$/', '/^$/', 'EventMediaSaveDataFile');
 
@@ -746,6 +747,42 @@ class ActionAjax extends Action
         } else {
             $this->Message_AddErrorSingle(is_string($res) ? $res : $this->Lang_Get('common.error.system.base'));
         }
+    }
+    
+    protected function EventMediaRemoveTarget()
+    {
+        /**
+         * Пользователь авторизован?
+         */
+        if (!$this->oUserCurrent) {
+            $this->Message_AddErrorSingle($this->Lang_Get('common.error.need_authorization'), $this->Lang_Get('common.error.error'));
+            return;
+        }
+        $sId = getRequestStr('id');
+        if (!$oMedia = $this->Media_GetMediaById($sId)) {
+            return $this->EventErrorDebug();
+        }
+
+        $sTargetType = getRequestStr('target_type');
+        $sTargetId = getRequestStr('target_id');
+        $sTargetTmp = getRequestStr('target_tmp');
+
+        /**
+         * Получаем объект связи
+         */
+        $aFilter = array('media_id' => $oMedia->getId(), 'target_type' => $sTargetType);
+        if ($sTargetTmp) {
+            $aFilter['target_tmp'] = $sTargetTmp;
+        } else {
+            $aFilter['target_id'] = $sTargetId;
+        }
+        if (!$oTarget = $this->Media_GetTargetByFilter($aFilter)) {
+            return $this->EventErrorDebug();
+        }
+        $oTarget->Delete();
+
+        $this->Viewer_AssignAjax('bRemoveResult', $oTarget->Delete());
+        
     }
 
     protected function EventMediaLoadGallery()

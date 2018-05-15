@@ -57,6 +57,9 @@ class ModuleMedia extends ModuleORM
         'comment' => array(),
         'blog'    => array(),
         'talk'    => array(),
+        'imageset' => array(
+            'allow_preview' => true
+        )
     );
 
     /**
@@ -222,6 +225,7 @@ class ModuleMedia extends ModuleORM
         if (!$this->IsAllowTargetType($sTargetType)) {
             return false;
         }
+        
         /**
          * Проверка на максимальное количество файлов
          */
@@ -1376,6 +1380,32 @@ class ModuleMedia extends ModuleORM
                     return true;
                 }
             }
+        } else {
+            return $this->CheckStandartMediaAllow($sAllowType, $aParams);
+        }
+        return false;
+    }
+    
+    /**
+     * Проверка владельца с типом "Imageset"
+     * Название метода формируется автоматически
+     *
+     * @param int|null $iTargetId ID владельца, для новых объектов может быть не определен
+     * @param string $sAllowType Тип доступа, константа self::TYPE_CHECK_ALLOW_*
+     * @param array $aParams Дополнительные параметры, всегда есть ключ 'user'
+     *
+     * @return bool
+     */
+    public function CheckTargetImageset($iTargetId, $sAllowType, $aParams)
+    {
+        if (!$oUser = $aParams['user']) {
+            return false;
+        }
+        if (in_array($sAllowType,
+            array(self::TYPE_CHECK_ALLOW_ADD, self::TYPE_CHECK_ALLOW_PREVIEW, self::TYPE_CHECK_ALLOW_VIEW_LIST))) {
+
+            return true;
+            
         } else {
             return $this->CheckStandartMediaAllow($sAllowType, $aParams);
         }
