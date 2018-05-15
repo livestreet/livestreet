@@ -56,7 +56,7 @@ class ModuleProperty_EntityValueTypeImageset extends ModuleProperty_EntityValueT
         
         $this->Media_DeleteTargetItemsByFilter( $this->getMediaTargetsFilter($mValue) );
         
-        $aMediaTargetIds = [];        $this->Logger_Notice(print_r($aMediaTargets, true));
+        $aMediaTargetIds = []; 
         foreach($aMediaTargets as $oMediaTarget){
             $oMediaTarget->Add();
             $aMediaTargetIds[] = $oMediaTarget->getId();
