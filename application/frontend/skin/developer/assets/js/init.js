@@ -668,7 +668,6 @@ jQuery(document).ready(function($){
      */
     
     $('.js-field-imageset-ajax').lsFieldImagesetAjax();
-    //$('.js-lbx-imageset').lsLightbox();
 
     // Хук конца инициализации javascript-составляющих шаблона
     ls.hook.run('ls_template_init_end',[],window);
