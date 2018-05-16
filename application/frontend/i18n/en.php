@@ -1517,6 +1517,10 @@ return array(
         'image'   => array(
             'empty' => 'No image'
         ),
+        'imageset'   => array(
+            'label' => 'Photoset',
+            'modalTitle' => 'Choose file'
+        ),
         'file'    => array(
             'forbidden' => 'You must be authorized to access the file',
             'downloads' => 'Downloads',
