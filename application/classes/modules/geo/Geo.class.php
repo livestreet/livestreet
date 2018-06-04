@@ -193,8 +193,8 @@ class ModuleGeo extends Module
                     'geo_type'    => $oGeoObject->getType(),
                     'geo_id'      => $oGeoObject->getId()
                 ), 1, 1);
-                if (isset($aTargetSelf['collection'][0])) {
-                    return $aTargetSelf['collection'][0];
+                if ($oTargetSelf = array_shift($aTargetSelf['collection'])) {
+                    return $oTargetSelf;
                 }
             } else {
                 /**
@@ -250,8 +250,8 @@ class ModuleGeo extends Module
     public function GetTargetByTarget($sTargetType, $iTargetId)
     {
         $aTargets = $this->GetTargets(array('target_type' => $sTargetType, 'target_id' => $iTargetId), 1, 1);
-        if (isset($aTargets['collection'][0])) {
-            return $aTargets['collection'][0];
+        if ($oTarget = array_shift($aTargets['collection'])) {
+            return $oTarget;
         }
         return null;
     }
@@ -365,8 +365,8 @@ class ModuleGeo extends Module
     public function GetCountryById($iId)
     {
         $aRes = $this->GetCountries(array('id' => $iId), array(), 1, 1);
-        if (isset($aRes['collection'][0])) {
-            return $aRes['collection'][0];
+        if ($oCountry = array_shift($aRes['collection'])) {
+            return $oCountry;
         }
         return null;
     }
@@ -380,8 +380,8 @@ class ModuleGeo extends Module
     public function GetRegionById($iId)
     {
         $aRes = $this->GetRegions(array('id' => $iId), array(), 1, 1);
-        if (isset($aRes['collection'][0])) {
-            return $aRes['collection'][0];
+        if ($oRegion = array_shift($aRes['collection'])) {
+            return $oRegion;
         }
         return null;
     }
@@ -395,8 +395,8 @@ class ModuleGeo extends Module
     public function GetCityById($iId)
     {
         $aRes = $this->GetCities(array('id' => $iId), array(), 1, 1);
-        if (isset($aRes['collection'][0])) {
-            return $aRes['collection'][0];
+        if ($oCity = array_shift($aRes['collection'])) {
+            return $oCity;
         }
         return null;
     }
@@ -439,8 +439,8 @@ class ModuleGeo extends Module
     public function GetGeoObjectByTarget($sTargetType, $iTargetId)
     {
         $aTargets = $this->GetTargets(array('target_type' => $sTargetType, 'target_id' => $iTargetId), 1, 1);
-        if (isset($aTargets['collection'][0])) {
-            $oTarget = $aTargets['collection'][0];
+        if ($oTarget = array_shift($aTargets['collection']) ) {
+            $oTarget = $oTarget;
             return $this->GetGeoObject($oTarget->getGeoType(), $oTarget->getGeoId());
         }
         return null;
@@ -518,5 +518,30 @@ class ModuleGeo extends Module
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Получение всех обьектов по таргетам (для загрузки в шаблон)
+     *
+     * @param arr $aTargets массив таргетов
+     * @return arr
+     */
+    public function GetGeoObjectsByTargets($aTargets)
+    {
+        $aGeoCountryIds = [];
+        $aGeoRegoinIds = [];
+        $aGeoCityIds = [];
+        
+        foreach ($aTargets as $oTarget) {
+            $aGeoCountryIds[] = $oTarget->getCountryId();
+            $aGeoRegoinIds[] = $oTarget->getRegionId();
+            $aGeoCityIds[] = $oTarget->getCityId();
+        }
+
+        return [
+            'countries' => $this->GetCountries(['id' => $aGeoCountryIds], [], 1, 1000)['collection'],
+            'regions' => $this->GetRegions(['id' => $aGeoRegoinIds], [], 1, 1000)['collection'],
+            'cities' => $this->GetCities(['id' => $aGeoCityIds], [], 1, 1000)['collection']
+        ];
     }
 }
