@@ -1,5 +1,5 @@
 --
--- Структура таблицы `ls_menu`
+-- Структура таблицы `prefix_menu`
 --
 
 CREATE TABLE `prefix_menu` (
@@ -12,7 +12,7 @@ CREATE TABLE `prefix_menu` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `ls_menu_item`
+-- Структура таблицы `prefix_menu_item`
 --
 
 CREATE TABLE `prefix_menu_item` (
@@ -31,14 +31,14 @@ CREATE TABLE `prefix_menu_item` (
 --
 
 --
--- Индексы таблицы `ls_menu`
+-- Индексы таблицы `prefix_menu`
 --
 ALTER TABLE `prefix_menu`
   ADD PRIMARY KEY (`id`),
   ADD KEY `name` (`name`);
 
 --
--- Индексы таблицы `ls_menu_item`
+-- Индексы таблицы `prefix_menu_item`
 --
 ALTER TABLE `prefix_menu_item`
   ADD PRIMARY KEY (`id`),
@@ -51,12 +51,29 @@ ALTER TABLE `prefix_menu_item`
 --
 
 --
--- AUTO_INCREMENT для таблицы `ls_menu`
+-- AUTO_INCREMENT для таблицы `prefix_menu`
 --
 ALTER TABLE `prefix_menu`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT для таблицы `ls_menu_item`
+-- AUTO_INCREMENT для таблицы `prefix_menu_item`
 --
 ALTER TABLE `prefix_menu_item`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Дамп данных таблицы `prefix_menu_item`
+--
+
+INSERT INTO `prefix_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `state`, `priority`) VALUES
+(1, 'blog', '/', 1, 0, 'topic.topics', 1, 100),
+(2, 'people', 'people', 1, 0, 'user.users', 1, 98),
+(5, 'blogs', 'blogs', 1, 0, 'blog.blogs', 1, 99),
+(8, 'stream', 'stream', 1, 0, 'activity.title', 1, 97);
+
+--
+-- Дамп данных таблицы `prefix_menu`
+--
+
+INSERT INTO `prefix_menu` (`id`, `name`, `title`, `state`) VALUES
+(1, 'main', 'Главное', 1);
