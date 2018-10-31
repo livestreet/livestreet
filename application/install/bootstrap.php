@@ -1,7 +1,7 @@
 <?php
 
 define('INSTALL_DIR', dirname(__FILE__));
-define('VERSION', '2.0.1');
+define('VERSION', '2.1.0');
 
 function install_func_underscore($sStr)
 {
