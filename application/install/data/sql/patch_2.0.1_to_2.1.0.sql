@@ -9,6 +9,13 @@ CREATE TABLE `prefix_menu` (
   `state` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Дамп данных таблицы `prefix_menu`
+--
+
+INSERT INTO `prefix_menu` (`id`, `name`, `title`, `state`) VALUES
+(1, 'main', 'Главное', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -18,13 +25,23 @@ CREATE TABLE `prefix_menu` (
 CREATE TABLE `prefix_menu_item` (
   `id` smallint(5) UNSIGNED NOT NULL,
   `name` varchar(30) NOT NULL,
-  `url` VARCHAR(1000) NULL DEFAULT NULL,
+  `url` varchar(1000) DEFAULT NULL,
   `menu_id` int(10) UNSIGNED NOT NULL,
-  `pid` INT UNSIGNED NULL DEFAULT NULL,
+  `pid` int(10) UNSIGNED DEFAULT NULL,
   `title` varchar(250) DEFAULT NULL,
   `state` tinyint(3) UNSIGNED NOT NULL,
-  `priority` INT NULL DEFAULT NULL
+  `priority` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prefix_menu_item`
+--
+
+INSERT INTO `prefix_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `state`, `priority`) VALUES
+(1, 'blog', '/', 1, 0, 'topic.topics', 1, 100),
+(2, 'people', 'people', 1, 0, 'user.users', 1, 98),
+(5, 'blogs', 'blogs', 1, 0, 'blog.blogs', 1, 99),
+(8, 'stream', 'stream', 1, 0, 'activity.title', 1, 97);
 
 --
 -- Индексы сохранённых таблиц
@@ -44,7 +61,7 @@ ALTER TABLE `prefix_menu_item`
   ADD PRIMARY KEY (`id`),
   ADD KEY `name` (`name`),
   ADD KEY `state` (`state`),
-  ADD KEY `menu_id` (`menu_id`),
+  ADD KEY `menu_id` (`menu_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -54,26 +71,9 @@ ALTER TABLE `prefix_menu_item`
 -- AUTO_INCREMENT для таблицы `prefix_menu`
 --
 ALTER TABLE `prefix_menu`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `prefix_menu_item`
 --
 ALTER TABLE `prefix_menu_item`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Дамп данных таблицы `prefix_menu_item`
---
-
-INSERT INTO `prefix_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `state`, `priority`) VALUES
-(1, 'blog', '/', 1, 0, 'topic.topics', 1, 100),
-(2, 'people', 'people', 1, 0, 'user.users', 1, 98),
-(5, 'blogs', 'blogs', 1, 0, 'blog.blogs', 1, 99),
-(8, 'stream', 'stream', 1, 0, 'activity.title', 1, 97);
-
---
--- Дамп данных таблицы `prefix_menu`
---
-
-INSERT INTO `prefix_menu` (`id`, `name`, `title`, `state`) VALUES
-(1, 'main', 'Главное', 1);
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;

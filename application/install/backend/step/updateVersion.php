@@ -4,8 +4,9 @@ class InstallStepUpdateVersion extends InstallStep
 {
 
     protected $aVersionConvert = array(
-        '2.0.0',
         '1.0.3',
+        '2.0.0',
+        '2.0.1'        
     );
 
     public function init()
@@ -91,12 +92,12 @@ class InstallStepUpdateVersion extends InstallStep
      *
      * @return bool
      */
-    public function convertFrom_2_0_1_to_2_2_0($oDb)
+    public function convertFrom_2_0_1_to_2_1_0($oDb)
     {
         /**
          * Запускаем SQL патч
          */
-        $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_2.0.0_to_2.1.0.sql';
+        $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_2.0.1_to_2.1.0.sql';
         list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile), array(
             'engine'         => InstallConfig::get('db.tables.engine'),
             'prefix'         => InstallConfig::get('db.table.prefix'),
@@ -122,23 +123,6 @@ class InstallStepUpdateVersion extends InstallStep
         if ($mResult == true) {
             $mResult = $this->convertFrom_2_0_0_to_2_0_1($oDb);
         }
-        if ($mResult == true) {
-            $mResult = $this->convertFrom_2_0_1_to_2_1_0($oDb);
-        }
-        return $mResult;
-    }
-
-    /**
-     * Конвертор версии 2.0.0 в 2.1.0
-     *
-     * @param $oDb
-     *
-     * @return bool
-     */
-    public function convertFrom_1_0_3_to_2_1_0($oDb)
-    {
-        $mResult = $this->convertFrom_2_0_0_to_2_0_1($oDb);
-
         if ($mResult == true) {
             $mResult = $this->convertFrom_2_0_1_to_2_1_0($oDb);
         }

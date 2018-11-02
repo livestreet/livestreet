@@ -63,10 +63,25 @@ class InstallStepInstallDb extends InstallStep
                         'prefix'      => InstallCore::getRequestStr('db.table.prefix'),
                         'check_table' => 'topic'
                     )));
-            if ($bResult) {
-                return true;
-            }
         }
+        
+        if ($bResult) {
+            /**
+             * Запускаем дамп обновления 2.1.0
+             */
+            $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_2.0.0_to_2.0.1.sql';
+            list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile), array(
+                'engine'         => InstallConfig::get('db.tables.engine'),
+                'prefix'         => InstallConfig::get('db.table.prefix'),
+                'skip_fk_errors' => true
+            )));
+            
+            
+        }
+        if ($bResult) {
+            return true;
+        }
+            
         return $this->addError(join('<br/>', $aErrors));
     }
 
