@@ -1,0 +1,16 @@
+{
+    "name": "menu",
+    "version": "1.0.0",
+    "dependencies": {
+    },
+    "templates": {
+        "menu": "menu.tpl",
+        "item":"menu.item.tpl"
+    },
+    "scripts": {
+        
+    },
+    "styles": {
+        
+    }
+}
