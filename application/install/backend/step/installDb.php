@@ -69,10 +69,10 @@ class InstallStepInstallDb extends InstallStep
             /**
              * Запускаем дамп обновления 2.1.0
              */
-            $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_2.0.0_to_2.0.1.sql';
+            $sFile = 'sql' . DIRECTORY_SEPARATOR . 'patch_2.0.1_to_2.1.0.sql';
             list($bResult, $aErrors) = array_values($this->importDumpDB($oDb, InstallCore::getDataFilePath($sFile), array(
-                'engine'         => InstallConfig::get('db.tables.engine'),
-                'prefix'         => InstallConfig::get('db.table.prefix'),
+                'engine'         => $sEngineDB,
+                'prefix'         => InstallCore::getRequestStr('db.table.prefix'),
                 'skip_fk_errors' => true
             )));
             
