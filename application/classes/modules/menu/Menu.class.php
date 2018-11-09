@@ -64,12 +64,13 @@ class ModuleMenu extends ModuleORM {
         }
         $aItemsTree = $this->LoadTreeOfItem([
             'menu_id' => $oMenu->getId(),
-            '#order' => ['priority' => 'asc'],
-            '#where' => ["t.state > ?d" => [0]]
+            '#order' => ['priority' => 'asc']
         ]);
         
-        foreach ($aItemsTree as $oItem) {
-            $oItem->setParent($oMenu);
+        if(is_array($aItemsTree)){
+            foreach ($aItemsTree as $oItem) {
+                $oItem->setParent($oMenu);
+            }
         }
         
         $oMenu->setChildren($aItemsTree);

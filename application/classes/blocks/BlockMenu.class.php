@@ -41,8 +41,9 @@ class BlockMenu extends Block {
         $this->Hook_Run('menu_after_prepare', ['items' => &$ItemsTree['items']]);
         
         $this->Viewer_Assign('activeItem', $this->GetParam('activeItem', null), true);  
-        $this->Viewer_Assign('mods', $this->GetParam('mods', 'main'), true);  
+        $this->Viewer_Assign('mods', $this->GetParam('mods', null), true);  
         $this->Viewer_Assign('classes', $this->GetParam('classes', null), true); 
+        $this->Viewer_Assign('template', $this->GetParam('template', $sNameMenu), true); 
         $this->Viewer_Assign('params', $ItemsTree);
         
         $this->SetTemplate("component@menu");
@@ -57,10 +58,12 @@ class BlockMenu extends Block {
         foreach ($ItemsTree as $ItemTree) {
             $aChildrens = $ItemTree->getChildren();
             $aItemsNav[] = [
-                'url' =>        Router::GetPath( $ItemTree->getUrl() ),
-                'name' =>       $ItemTree->getName(),
-                'text' =>       $this->Lang_Get($ItemTree->getTitle()),
-                'menu' =>       $this->prepareItems( $aChildrens )
+                'url'           => Router::GetPath( $ItemTree->getUrl() ),
+                'name'          => $ItemTree->getName(),
+                'text'          => $this->Lang_Get($ItemTree->getTitle()),
+                'count'         => $ItemTree->getCount(),
+                'is_enabled'    => $ItemTree->getEnable(),
+                'menu'          => $this->prepareItems( $aChildrens )
             ];
         }
         return [ 'items' => $aItemsNav];

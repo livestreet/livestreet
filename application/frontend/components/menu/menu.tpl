@@ -1,11 +1,11 @@
 {**
- * Главное меню
+ * Меню
  *
  * @param string  $mods
  * @param string  $classes
  * @param array   $attributes
  *}
 
-{component_define_params params=[ 'activeItem', 'mods', 'classes' ]}
+{component_define_params params=[ 'activeItem', 'mods', 'classes', 'template' ]} 
 
-{component 'nav' hook='main' activeItem=$activeItem mods=$mods classes=$classes params=$params}
+{component "menu.{$template}" params=$params activeItem=$activeItem mods=$mods classes=$classes}

@@ -27,10 +27,15 @@
  */
 class ModuleMenu_EntityItem extends ModuleMenu_EntityAbstractItem{
     
-   protected $aRelations = [
+    protected $aRelations = [
         'menu' => [self::RELATION_TYPE_BELONGS_TO, "ModuleMenu_EntityMenu", 'menu_id'],
         self::RELATION_TYPE_TREE
     ];
+    
+    public function __construct($aData) {
+        parent::__construct($aData);
+        $this->setState(ModuleMenu::STATE_ITEM_ENABLE);
+    }
     
     /**
      * Определяем правила валидации
@@ -57,7 +62,7 @@ class ModuleMenu_EntityItem extends ModuleMenu_EntityAbstractItem{
     {
         if(!parent::beforeSave()){
             return false;
-        } print_r($this->_getData());
+        }
         
         if(!$this->_getDataOne('enable')){ 
             $this->setState(ModuleMenu::STATE_ITEM_DISABLE);

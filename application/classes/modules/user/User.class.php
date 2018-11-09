@@ -443,6 +443,64 @@ class ModuleUser extends Module
         }
         return null;
     }
+    
+    public function AssetUserMenu() {
+        $oUserMenu = $this->Menu_Get('user');     
+        
+        if($oUserMenu){
+            $iCountTopic = $this->Topic_GetCountTopicsPersonalByUser($this->oUserCurrent->getId(), 1);
+            $iCountComment = $this->Comment_GetCountCommentsByUserId($this->oUserCurrent->getId(), 'topic');
+            $iCountNote = $this->User_GetCountUserNotesByUserId($this->oUserCurrent->getId());
+
+            $iCountTopicFavourite = $this->Topic_GetCountTopicsFavouriteByUserId($this->oUserCurrent->getId());
+            $iCountCommentFavourite = $this->Comment_GetCountCommentsFavouriteByUserId($this->oUserCurrent->getId());
+
+            $oUserMenu->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.info",
+                'url'       => 'profile/'. $this->oUserCurrent->getLogin(),
+                'name'      => 'whois',
+                'priority'  => 80
+            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.messages",
+                'url'       => 'talk',
+                'name'      => 'talk',
+                'count'     => $this->Talk_GetCountTalkNew($this->oUserCurrent->getId()),
+                'priority'  => 70
+            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.publications",
+                'url'       => 'profile/' . $this->oUserCurrent->getLogin(). "/created/topics",
+                'name'      => 'created',
+                'count'     => ($iCountTopic + $iCountComment + $iCountNote),
+                'priority'  => 60
+            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.favourite",
+                'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/favourites/topics",
+                'name'      => "favourites",
+                'count'     => ($iCountTopicFavourite + $iCountCommentFavourite),
+                'priority'  => 50
+            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.friends",
+                'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/friends",
+                'name'      => 'friends',
+                'count'     => $this->User_GetCountUsersFriend($this->oUserCurrent->getId()),
+                'priority'  => 40
+            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.activity",
+                'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/stream",
+                'name'      => 'activity',
+                'priority'  => 30
+            ]));
+
+            if($this->oUserCurrent->isAdministrator()){
+                $oUserMenu->appendChild(Engine::GetEntity('Menu_Item', [
+                    'title'     => "admin.title",
+                    'url'       => 'admin',
+                    'name'      => 'admin',
+                    'priority'  => 10
+                ]));
+            }
+        }
+    }
 
     /**
      * При завершенни модуля загружаем в шалон объект текущего юзера
@@ -451,20 +509,13 @@ class ModuleUser extends Module
     public function Shutdown()
     {
         if ($this->oUserCurrent) {
+            $this->AssetUserMenu();
+
             $this->Viewer_Assign('iUserCurrentCountTalkNew', $this->Talk_GetCountTalkNew($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountTopicDraft', $this->Topic_GetCountDraftTopicsByUserId($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountTopicDeferred', $this->Topic_GetCountDeferredTopicsByUserId($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountWall', $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)));
-            $this->Viewer_Assign('iUserCurrentCountFriends', $this->User_GetCountUsersFriend($this->oUserCurrent->getId()));
-
-            $iCountTopic = $this->Topic_GetCountTopicsPersonalByUser($this->oUserCurrent->getId(), 1);
-            $iCountComment = $this->Comment_GetCountCommentsByUserId($this->oUserCurrent->getId(), 'topic');
-            $iCountNote = $this->User_GetCountUserNotesByUserId($this->oUserCurrent->getId());
-            $this->Viewer_Assign('iUserCurrentCountCreated', $iCountTopic + $iCountComment + $iCountNote);
-
-            $iCountTopicFavourite = $this->Topic_GetCountTopicsFavouriteByUserId($this->oUserCurrent->getId());
-            $iCountCommentFavourite = $this->Comment_GetCountCommentsFavouriteByUserId($this->oUserCurrent->getId());
-            $this->Viewer_Assign('iUserCurrentCountFavourite', $iCountTopicFavourite + $iCountCommentFavourite);
+            
         }
         $this->Viewer_Assign('oUserCurrent', $this->oUserCurrent);
     }

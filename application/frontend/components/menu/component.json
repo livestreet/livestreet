@@ -5,7 +5,8 @@
     },
     "templates": {
         "menu": "menu.tpl",
-        "item":"menu.item.tpl"
+        "main":"main.tpl",
+        "user":"user.tpl"
     },
     "scripts": {
         
