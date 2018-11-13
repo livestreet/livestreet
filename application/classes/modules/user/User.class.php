@@ -455,36 +455,36 @@ class ModuleUser extends Module
             $iCountTopicFavourite = $this->Topic_GetCountTopicsFavouriteByUserId($this->oUserCurrent->getId());
             $iCountCommentFavourite = $this->Comment_GetCountCommentsFavouriteByUserId($this->oUserCurrent->getId());
 
-            $oUserMenu->appendChild(Engine::GetEntity('Menu_Item', [
+            $oUserMenu->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.info",
                 'url'       => 'profile/'. $this->oUserCurrent->getLogin(),
                 'name'      => 'whois',
                 'priority'  => 80
-            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.messages",
                 'url'       => 'talk',
                 'name'      => 'talk',
                 'count'     => $this->Talk_GetCountTalkNew($this->oUserCurrent->getId()),
                 'priority'  => 70
-            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.publications",
                 'url'       => 'profile/' . $this->oUserCurrent->getLogin(). "/created/topics",
                 'name'      => 'created',
                 'count'     => ($iCountTopic + $iCountComment + $iCountNote),
                 'priority'  => 60
-            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.favourite",
                 'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/favourites/topics",
                 'name'      => "favourites",
                 'count'     => ($iCountTopicFavourite + $iCountCommentFavourite),
                 'priority'  => 50
-            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.friends",
                 'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/friends",
                 'name'      => 'friends',
                 'count'     => $this->User_GetCountUsersFriend($this->oUserCurrent->getId()),
                 'priority'  => 40
-            ]))->appendChild(Engine::GetEntity('Menu_Item', [
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.activity",
                 'url'       => 'profile/' .$this->oUserCurrent->getLogin(). "/stream",
                 'name'      => 'activity',

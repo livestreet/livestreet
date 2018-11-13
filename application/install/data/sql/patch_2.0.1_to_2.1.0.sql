@@ -43,7 +43,6 @@ INSERT INTO `ls_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `sta
 (2, 'people', 'people', 1, 0, 'user.users', 1, 98),
 (5, 'blogs', 'blogs', 1, 0, 'blog.blogs', 1, 99),
 (8, 'stream', 'stream', 1, 0, 'activity.title', 1, 97),
-(9, 'dfsdf', 'fgfg', 1, 0, 'Папипп', 1, 55),
 (11, 'settings', 'settings', 2, 0, 'user.profile.nav.settings', 1, 20);
 
 --

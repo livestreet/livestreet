@@ -1,8 +1,0 @@
-/application/config/config.local.php
-/application/config/config.testing.php
-/application/config/config.production.php
-/application/logs/*
-/application/plugins/*
-/application/tmp/*
-/uploads/*
-/.idea/
