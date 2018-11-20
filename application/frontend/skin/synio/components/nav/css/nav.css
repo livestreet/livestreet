@@ -147,55 +147,63 @@
     border: none;
 }
 
+
 /**
- * Вложенная навигация
+ * Вложенная навигация (уровень вложенности > 1)
  */
-.ls-nav--pills .ls-nav--sub {
-    min-width: 150px;
-    display: none;
+.ls-nav--sub {
     position: absolute;
-    z-index: 900;
-    padding: 15px 0;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    display: none;
+    min-width: 150px;
+    z-index: 100;
     background: #fff;
-    border: 3px solid #edf8fd;
-    font-size: 13px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
 }
-.ls-nav--pills .ls-nav--sub .ls-nav--sub {
-    left: 100%;
-    top: -18px;
+.ls-nav.ls-nav--sub > .ls-nav-item > .ls-nav-item-link {
+    padding: 5px 12px;
+    line-height: 20px;
 }
-
-.ls-nav--pills .ls-nav--sub > .ls-nav-item:not(:last-child) {
-    margin-bottom: 7px;
+.ls-userbar-nav .ls-nav--sub > .ls-nav-item {
+    float: none;
+    margin-right: 0;
 }
-.ls-nav--pills .ls-nav--sub .ls-nav-item-link {
-    padding: 0 15px;
+.ls-nav--sub > .ls-nav-item:hover {
+    background: #2196F3;
+    color: #fff;
 }
-.ls-nav--pills .ls-nav--sub .ls-nav-item-text {
-    text-decoration: underline;
+.ls-nav--sub > .ls-nav-item:hover > .ls-nav-item-link {
+    color: #fff;
 }
-.ls-nav--pills .ls-nav--sub > .ls-nav-item.active,
-.ls-nav--pills .ls-nav--sub > .ls-nav-item.active > .ls-nav-item-link {
-    color: #aaa;
+.ls-nav--sub > .ls-nav-item.active {
+    background: #2196F3;
+    color: #fff;
 }
-.ls-nav--pills > .ls-nav-item--has-children {
-    position: relative;
+.ls-nav--sub > .ls-nav-item.active > .ls-nav-item-link {
+    color: #fff;
 }
-
-.ls-nav--pills:not(.ls-nav--sub) > .ls-nav-item > .ls-nav--sub {
-    top: 100%;
-    left: 0;
-}
-.ls-nav--pills .ls-nav--sub > .ls-nav-item:hover > .ls-nav--sub {
-    display: block;
-}
-
 .ls-nav-separator {
     height: 0;
     border-top: 1px solid #eee;
-    margin: 15px 0;
+    margin: 5px 0;
+}
+
+
+/**
+ * Sub
+ */
+.ls-nav--sub .ls-nav--sub {
+    left: 100%;
+    top: 0;
+}
+.ls-nav > .ls-nav-item--has-children {
+    position: relative;
+}
+.ls-nav:not(.ls-nav--sub) > .ls-nav-item > .ls-nav--sub {
+    top: 100%;
+    left: 0;
+}
+.ls-nav .ls-nav-item:hover > .ls-nav--sub {
+    display: block;
 }
 
 

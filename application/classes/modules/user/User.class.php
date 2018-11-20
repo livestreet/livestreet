@@ -461,6 +461,12 @@ class ModuleUser extends Module
                 'name'      => 'whois',
                 'priority'  => 80
             ]))->prependChild(Engine::GetEntity('Menu_Item', [
+                'title'     => "user.profile.nav.wall",
+                'url'       => 'profile/' . $this->oUserCurrent->getLogin(). "/wall",
+                'name'      => 'wall',
+                'count'     => $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)),
+                'priority'  => 75
+            ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.messages",
                 'url'       => 'talk',
                 'name'      => 'talk',
@@ -514,7 +520,6 @@ class ModuleUser extends Module
             $this->Viewer_Assign('iUserCurrentCountTalkNew', $this->Talk_GetCountTalkNew($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountTopicDraft', $this->Topic_GetCountDraftTopicsByUserId($this->oUserCurrent->getId()));
             $this->Viewer_Assign('iUserCurrentCountTopicDeferred', $this->Topic_GetCountDeferredTopicsByUserId($this->oUserCurrent->getId()));
-            $this->Viewer_Assign('iUserCurrentCountWall', $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)));
             
         }
         $this->Viewer_Assign('oUserCurrent', $this->oUserCurrent);
