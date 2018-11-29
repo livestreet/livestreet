@@ -99,7 +99,6 @@ class HookMain extends Hook
                 'comment_use_paging'    => Config::Get('module.comment.use_nested'),
                 'topic_max_blog_count'  => Config::Get('module.topic.max_blog_count'),
                 'block_stream_show_tip' => Config::Get('block.stream.show_tip'),
-                'poll_max_answers'      => Config::Get('module.poll.max_answers'),
             )
         );
 
@@ -114,7 +113,6 @@ class HookMain extends Hook
             'comments.folding.fold',
             'comments.folding.unfold_all',
             'comments.folding.fold_all',
-            'poll.notices.error_answers_max',
             'favourite.add',
             'favourite.remove',
             'field.geo.select_city',

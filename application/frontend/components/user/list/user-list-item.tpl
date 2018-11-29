@@ -24,8 +24,7 @@
 
     {component 'info-list' classes='object-list-item-info' list=[
         [ 'label' => "{$aLang.user.date_last_session}:", 'content' => ( $session ) ? $lastSessionDate : '&mdash;' ],
-        [ 'label' => "{$aLang.user.date_registration}:", 'content' => {date_format date=$user->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ],
-        [ 'label' => "{$aLang.vote.rating}:",            'content' => $user->getRating() ]
+        [ 'label' => "{$aLang.user.date_registration}:", 'content' => {date_format date=$user->getDateRegister() hours_back="12" minutes_back="60" now="60" day="day H:i" format="j F Y, H:i"} ]
     ]}
 {/capture}
 

@@ -45,8 +45,8 @@
         {$_rating = $user->getRating()}
 
         <div class="{$component}-rating {if $_rating < 0}{$component}-rating--negative{/if}">
-            <div class="{$component}-rating-value">{$_rating}</div>
-            <div class="{$component}-rating-label">{lang 'vote.rating'}</div>
+            <div class="{$component}-rating-value"></div>
+            <div class="{$component}-rating-label"></div>
         </div>
     {/hookb}
 

@@ -101,10 +101,6 @@
     color: #777;
 }
 
-/* Голосование */
-.ls-topic-info-item.ls-topic-info-item--vote {
-    padding: 0;
-}
 
 .ls-topic-info-item.ls-topic-info-item--date--deferred {
     color: #ff0000;

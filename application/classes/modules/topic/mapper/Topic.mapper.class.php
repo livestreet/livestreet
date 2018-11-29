@@ -538,10 +538,6 @@ class ModuleTopic_MapperTopic extends Mapper
 				topic_publish_index= ?d,
 				topic_skip_index= ?d,
 				topic_rating= ?f,
-				topic_count_vote= ?d,
-				topic_count_vote_up= ?d,
-				topic_count_vote_down= ?d,
-				topic_count_vote_abstain= ?d,
 				topic_count_read= ?d,
 				topic_count_comment= ?d, 
 				topic_count_favourite= ?d,
@@ -555,8 +551,7 @@ class ModuleTopic_MapperTopic extends Mapper
             $oTopic->getBlogId4(), $oTopic->getBlogId5(), $oTopic->getTitle(), $oTopic->getSlug(), $oTopic->getTags(),
             $oTopic->getDateAdd(), $oTopic->getDateEdit(), $oTopic->getDateEditContent(), $oTopic->getDatePublish(), $oTopic->getUserIp(),
             $oTopic->getPublish(), $oTopic->getPublishDraft(), $oTopic->getPublishIndex(), $oTopic->getSkipIndex(),
-            $oTopic->getRating(), $oTopic->getCountVote(), $oTopic->getCountVoteUp(), $oTopic->getCountVoteDown(),
-            $oTopic->getCountVoteAbstain(), $oTopic->getCountRead(), $oTopic->getCountComment(),
+            $oTopic->getRating(),  $oTopic->getCountRead(), $oTopic->getCountComment(),
             $oTopic->getCountFavourite(), $oTopic->getCutText(), $oTopic->getForbidComment(), $oTopic->getTextHash(),
             $oTopic->getId());
         if ($res !== false and !is_null($res)) {
@@ -859,48 +854,7 @@ class ModuleTopic_MapperTopic extends Mapper
         return $this->IsSuccessful($res);
     }
 
-    /**
-     * Пересчитывает счетчики голосований
-     *
-     * @return bool
-     */
-    public function RecalculateVote()
-    {
-        $sql = "
-                UPDATE " . Config::Get('db.table.topic') . " t
-                SET t.topic_count_vote_up = (
-                    SELECT count(*)
-                    FROM " . Config::Get('db.table.vote') . " v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = 1
-                    AND
-                        v.target_type = 'topic'
-                ), t.topic_count_vote_down = (
-                    SELECT count(*)
-                    FROM " . Config::Get('db.table.vote') . " v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = -1
-                    AND
-                        v.target_type = 'topic'
-                ), t.topic_count_vote_abstain = (
-                    SELECT count(*)
-                    FROM " . Config::Get('db.table.vote') . " v
-                    WHERE
-                        v.target_id = t.topic_id
-                    AND
-                        v.vote_direction = 0
-                    AND
-                        v.target_type = 'topic'
-                )
-            ";
-        $res = $this->oDb->query($sql);
-        return $this->IsSuccessful($res);
-    }
-
+    
 
     public function GetTopicTypeByCode($sCode)
     {

@@ -157,7 +157,7 @@ class ModuleUser extends Module
     public function GetUsersAdditionalData($aUserId, $aAllowData = null)
     {
         if (is_null($aAllowData)) {
-            $aAllowData = array('vote', 'session', 'friend', 'geo_target', 'note');
+            $aAllowData = array( 'session', 'friend', 'geo_target', 'note');
         }
         func_array_simpleflip($aAllowData);
         if (!is_array($aUserId)) {
@@ -172,7 +172,6 @@ class ModuleUser extends Module
          */
         $aSessions = array();
         $aFriends = array();
-        $aVote = array();
         $aGeoTargets = array();
         $aNotes = array();
         if (isset($aAllowData['session'])) {
@@ -182,9 +181,7 @@ class ModuleUser extends Module
             $aFriends = $this->GetFriendsByArray($aUserId, $this->oUserCurrent->getId());
         }
 
-        if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-            $aVote = $this->Vote_GetVoteByArray($aUserId, 'user', $this->oUserCurrent->getId());
-        }
+        
         if (isset($aAllowData['geo_target'])) {
             $aGeoTargets = $this->Geo_GetTargetsByTargetArray('user', $aUserId);
         }
@@ -206,11 +203,7 @@ class ModuleUser extends Module
                 $oUser->setUserFriend(null);
             }
 
-            if (isset($aVote[$oUser->getId()])) {
-                $oUser->setVote($aVote[$oUser->getId()]);
-            } else {
-                $oUser->setVote(null);
-            }
+            
             if (isset($aGeoTargets[$oUser->getId()])) {
                 $aTargets = $aGeoTargets[$oUser->getId()];
                 $oUser->setGeoTarget(isset($aTargets[0]) ? $aTargets[0] : null);
@@ -460,12 +453,6 @@ class ModuleUser extends Module
                 'url'       => 'profile/'. $this->oUserCurrent->getLogin(),
                 'name'      => 'whois',
                 'priority'  => 80
-            ]))->prependChild(Engine::GetEntity('Menu_Item', [
-                'title'     => "user.profile.nav.wall",
-                'url'       => 'profile/' . $this->oUserCurrent->getLogin(). "/wall",
-                'name'      => 'wall',
-                'count'     => $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)),
-                'priority'  => 75
             ]))->prependChild(Engine::GetEntity('Menu_Item', [
                 'title'     => "user.profile.nav.messages",
                 'url'       => 'talk',

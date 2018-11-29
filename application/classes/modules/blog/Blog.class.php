@@ -138,7 +138,7 @@ class ModuleBlog extends Module
     public function GetBlogsAdditionalData($aBlogId, $aAllowData = null, $aOrder = null)
     {
         if (is_null($aAllowData)) {
-            $aAllowData = array('vote', 'owner' => array(), 'relation_user');
+            $aAllowData = array( 'owner' => array(), 'relation_user');
         }
         func_array_simpleflip($aAllowData);
         if (!is_array($aBlogId)) {
@@ -161,15 +161,12 @@ class ModuleBlog extends Module
          * Получаем дополнительные данные
          */
         $aBlogUsers = array();
-        $aBlogsVote = array();
         $aUsers = isset($aAllowData['owner']) && is_array($aAllowData['owner']) ? $this->User_GetUsersAdditionalData($aUserId,
             $aAllowData['owner']) : $this->User_GetUsersAdditionalData($aUserId);
         if (isset($aAllowData['relation_user']) and $this->oUserCurrent) {
             $aBlogUsers = $this->GetBlogUsersByArrayBlog($aBlogId, $this->oUserCurrent->getId());
         }
-        if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-            $aBlogsVote = $this->Vote_GetVoteByArray($aBlogId, 'blog', $this->oUserCurrent->getId());
-        }
+        
         /**
          * Добавляем данные к результату - списку блогов
          */
@@ -188,11 +185,7 @@ class ModuleBlog extends Module
                 $oBlog->setUserIsAdministrator(false);
                 $oBlog->setUserIsModerator(false);
             }
-            if (isset($aBlogsVote[$oBlog->getId()])) {
-                $oBlog->setVote($aBlogsVote[$oBlog->getId()]);
-            } else {
-                $oBlog->setVote(null);
-            }
+            
         }
         return $aBlogs;
     }
@@ -1024,10 +1017,6 @@ class ModuleBlog extends Module
          * Удаляем связи пользователей блога.
          */
         $this->oMapperBlog->DeleteBlogUsersByBlogId($iBlogId);
-        /**
-         * Удаляем голосование за блог
-         */
-        $this->Vote_DeleteVoteByTarget($iBlogId, 'blog');
         /**
          * Удаляем медиа данные
          */

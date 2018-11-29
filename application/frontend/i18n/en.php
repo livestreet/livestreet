@@ -21,26 +21,7 @@
  * Pre alpha translation. Google translate would probably do it better.
  */
 return array(
-    /**
-     * Голосование
-     */
-    'vote'          => array(
-        'up'      => 'Like',
-        'down'    => 'Dislike',
-        'abstain' => 'Skip voting, check the rating',
-        'count'   => 'Voted',
-        'rating'  => 'Rating',
-        // Всплывающие сообщения
-        'notices' => array(
-            'success'             => 'Thank you for your vote',
-            'success_abstain'     => 'You have skipped the voting to check the rating',
-            'error_time'          => 'Votes are not accepted anymore!',
-            'error_already_voted' => 'You have already been voted!',
-            'error_acl'           => 'Not enough rating to vote!',
-            'error_auth'          => 'You have to be logged in to vote',
-            'error_self'          => 'You can not vote for yourself',
-        ),
-    ),
+    
     /**
      * Избранное
      */
@@ -268,15 +249,7 @@ return array(
                 'submit_success' => 'Permissions saved', // TODO: Remove?
             )
         ),
-        /**
-         * Голосование
-         */
-        'vote'                 => array(
-            // Всплывающие сообщения
-            'notices' => array(
-                'error_close' => 'You are not able to vote for a private blog',
-            ),
-        ),
+        
         /**
          * Вступить / покинуть блог
          */
@@ -352,7 +325,6 @@ return array(
                     'self'   => 'Mine',
                 ),
                 'item'         => array(
-                    'rating'  => '___vote.rating___',
                     'private' => '___blog.private___',
                 ),
                 'joined_empty' => '___common.empty___', // TODO: Remove?
@@ -498,53 +470,7 @@ return array(
             'not_found'  => 'Conversation not found'
         ),
     ),
-    /**
-     * Опросы
-     */
-    'poll'          => array(
-        'polls'     => 'Polls',
-        'vote'      => 'Vote',
-        'abstain'   => 'Skip',
-        'only_auth' => 'Only authorized users are allowed to vote',
-        // Результат
-        'result'    => array(
-            'voted_total'     => 'Voted',
-            'abstained_total' => 'Skipped',
-            'sort'            => 'Sorting Enable/Disable',
-        ),
-        // Форма добавления
-        'form'      => array(
-            'title'         => array(
-                'add'  => 'Add poll',
-                'edit' => 'Edit poll',
-            ),
-            'answers_title' => 'Answers',
-            // Поля
-            'fields'        => array(
-                'title'             => 'Question',
-                'is_guest_allow'    => 'Guests allowed',
-                'is_guest_check_ip' => 'Only one vote per IP is allowed',
-                'type'              => array(
-                    'label'      => 'User can select',
-                    'label_one'  => 'Only one answer',
-                    'label_many' => 'Several answers'
-                ),
-            ),
-        ),
-        // Всплывающие сообщения
-        'notices'   => array(
-            'error_answers_max'       => 'Maximum allowed answers %%count%%',
-            'error_not_allow_vote'    => 'Not allowed to vote in this poll',
-            'error_not_allow_remove'  => 'This poll may not be removed',
-            'error_already_vote'      => 'You`ve already been voted',
-            'error_no_answers'        => 'An option should be selected',
-            'error_answers_max_wrong' => 'Maximum answers should be more than one',
-            'error_answers_count'     => 'You must select more than one answer',
-            'error_answer_remove'     => 'Unable to remove an option as someone already used it',
-            'error_target_type'       => 'Wrong answer type',
-            'error_target_tmp'        => 'Timestamp is already in use',
-        ),
-    ),
+    
     /**
      * Комментарии
      */
@@ -766,56 +692,10 @@ return array(
 				<a href="%%url%%">Read a request</a>
 				<br><br>
 				Do not forget to authorize!'
-        ),
-        // Новое сообщение на стене
-        'wall_new'              => array(
-            'subject' => 'New message on your wall',
-            'text'    =>
-                'User <a href="%%user_url%%">%%user_name%%</a>
-				had added a message on <a href="%%wall_url%%">your wall</a>
-				<br><br>
-				Message:<br>
-				%%message_text%%'
-        ),
-        // Ответ на сообщение на стене
-        'wall_reply'            => array(
-            'subject' => 'Reply to your wall message',
-            'text'    =>
-                'User <a href="%%user_url%%">%%user_name%%</a>
-				has replied <a href="%%wall_url%%">on the wall</a>
-				<br><br>
-				<b>Your message:</b><br>
-				<em>%%message_parent_text%%</em>
-				<br><br>
-				Users reply:<br>
-				<em>%%message_text%%</em>'
         )
+        
     ),
-    /**
-     * Стена
-     */
-    'wall'          => array(
-        'title'   => 'Wall',
-        // Форма
-        'form'    => array(
-            // Поля
-            'fields' => array(
-                'text' => array(
-                    'placeholder'       => 'Write on the wall',
-                    'placeholder_reply' => 'Reply...',
-                ),
-            ),
-        ),
-        // Всплывающие сообщения
-        'notices' => array(
-            'error_add_pid'        => 'Impossible to reply to this message',
-            'error_add_time_limit' => 'You`re not allowed to write so often'
-        ),
-        // Сообщения
-        'alerts'  => array(
-            'unregistered' => 'Only registered and authorized users are allowed to write on the wall'
-        ),
-    ),
+    
     /**
      * Авторизация
      */
@@ -965,14 +845,9 @@ return array(
             'title'   => 'Event settings',
             'note'    => 'Select events to track',
             'options' => array(
-                'add_wall'           => 'New wall message',
                 'add_topic'          => 'New post',
                 'add_comment'        => 'New comment',
                 'add_blog'           => 'New blog',
-                'vote_topic'         => 'Vote for a post',
-                'vote_comment_topic' => 'Vote for a comment',
-                'vote_blog'          => 'Vote for a blog',
-                'vote_user'          => 'Vote for a user',
                 'add_friend'         => 'Add to friends',
                 'join_blog'          => 'Join the blog',
             )
@@ -983,24 +858,12 @@ return array(
             'note'  => 'Select users to track their activity',
         ),
         'events'       => array(
-            'add_wall_male'             => 'added message to the %%user%%`s <a href="%%url%%">wall</a>',
-            'add_wall_female'           => 'added message to the %%user%%`s <a href="%%url%%">wall</a>',
-            'add_wall_self_male'        => 'added message on his <a href="%%url%%">wall</a>',
-            'add_wall_self_female'      => 'added message on her <a href="%%url%%">wall</a>',
             'add_topic_male'            => 'added new post %%topic%%',
             'add_topic_female'          => 'added new post %%topic%%',
             'add_comment_male'          => 'commented in %%topic%%',
             'add_comment_female'        => 'commented in %%topic%%',
             'add_blog_male'             => 'added new blog %%blog%%',
             'add_blog_female'           => 'added new blog %%blog%%',
-            'vote_topic_male'           => 'voted for post %%topic%%',
-            'vote_topic_female'         => 'voted for post %%topic%%',
-            'vote_comment_topic_male'   => 'voted for %%topic%% comment',
-            'vote_comment_topic_female' => 'voted for %%topic%% comment',
-            'vote_blog_male'            => 'voted for a blog %%blog%%',
-            'vote_blog_female'          => 'voted for a blog %%blog%%',
-            'vote_user_male'            => 'voted for a user %%user%%',
-            'vote_user_female'          => 'voted for a user %%user%%',
             'join_blog_male'            => 'joined the blog %%blog%%',
             'join_blog_female'          => 'joined the blog %%blog%%',
             'add_friend_male'           => 'added user %%user%% to friends',
@@ -1153,7 +1016,6 @@ return array(
     'user'          => array(
         'user'              => 'User',
         'users'             => 'Users',
-        'rating'            => '___vote.rating___',
         'date_last_session' => 'Last visit',
         'date_registration' => 'Registration date',
         // Действия
@@ -1291,7 +1153,6 @@ return array(
             // Меню
             'nav'             => array(
                 'info'         => '___user.profile.title___',
-                'wall'         => '___wall.title___',
                 'publications' => '___user.publications.title___',
                 'favourite'    => '___favourite.favourite___',
                 'friends'      => '___user.friends.title___',
@@ -1751,17 +1612,9 @@ return array(
                 'title' => 'Blog creation',
                 'error' => 'You have no permission to create a blog',
             ),
-            'vote_blog'                => array(
-                'title' => 'Blog vote',
-                'error' => 'You have no permission to vote for a blog',
-            ),
             'create_comment_favourite' => array(
                 'title' => 'Add to favourites',
                 'error' => 'You have no permissions to add comment to favourites',
-            ),
-            'vote_comment'             => array(
-                'title' => 'Comments vote',
-                'error' => 'You have no permissions to vote for a comment',
             ),
             'create_invite'            => array(
                 'title' => 'Send an invite',
@@ -1775,10 +1628,6 @@ return array(
                 'title' => 'Comment private message',
                 'error' => 'Not allowed to comment a private message',
             ),
-            'vote_user'                => array(
-                'title' => 'Vote for a user',
-                'error' => 'You`re not allowed to vote for a user',
-            ),
             'create_topic'             => array(
                 'title' => 'Create post',
                 'error' => 'Not enough permissions to create a post',
@@ -1791,10 +1640,7 @@ return array(
                 'title' => 'Delete topic',
                 'error' => 'Not enough permissions to delete a post',
             ),
-            'vote_topic'               => array(
-                'title' => 'Post vote',
-                'error' => 'Not enough permissions to vote for a post',
-            ),
+            
         ),
         'notices'    => array(
             'validate_group_code'      => 'Code must be unique',

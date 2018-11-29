@@ -126,7 +126,7 @@ class ModuleComment extends Module
     public function GetCommentsAdditionalData($aCommentId, $aAllowData = null)
     {
         if (is_null($aAllowData)) {
-            $aAllowData = array('vote', 'target', 'favourite', 'user' => array());
+            $aAllowData = array( 'target', 'favourite', 'user' => array());
         }
         func_array_simpleflip($aAllowData);
         if (!is_array($aCommentId)) {
@@ -161,10 +161,7 @@ class ModuleComment extends Module
         //$aTargets['topic']=isset($aAllowData['target']) && is_array($aAllowData['target']) ? $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],$aAllowData['target']) : $this->Topic_GetTopicsAdditionalData($aTargetId['topic']);
         $aTargets['topic'] = $this->Topic_GetTopicsAdditionalData($aTargetId['topic'],
             array('blog' => array('owner' => array()), 'user' => array()));
-        $aVote = array();
-        if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-            $aVote = $this->Vote_GetVoteByArray($aCommentId, 'comment', $this->oUserCurrent->getId());
-        }
+        
         if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
             $aFavouriteComments = $this->Favourite_GetFavouritesByArray($aCommentId, 'comment',
                 $this->oUserCurrent->getId());
@@ -183,11 +180,7 @@ class ModuleComment extends Module
             } else {
                 $oComment->setTarget(null);
             }
-            if (isset($aVote[$oComment->getId()])) {
-                $oComment->setVote($aVote[$oComment->getId()]);
-            } else {
-                $oComment->setVote(null);
-            }
+            
             if (isset($aFavouriteComments[$oComment->getId()])) {
                 $oComment->setIsFavourite(true);
             } else {
@@ -723,7 +716,6 @@ class ModuleComment extends Module
             $oViewerLocal->Assign('bNoCommentFavourites', true);
         } elseif ($sTargetType == 'topic') {
             $oViewerLocal->Assign('useFavourite', true, true);
-            $oViewerLocal->Assign('useVote', true, true);
             $oViewerLocal->Assign('useScroll', true, true);
             $oViewerLocal->Assign('useEdit', true, true);
             $oViewerLocal->Assign('dateReadLast', '1', true);
@@ -957,10 +949,7 @@ class ModuleComment extends Module
              * Удаляем комментарии к топику из прямого эфира
              */
             $this->DeleteCommentOnlineByArrayId($aCommentsId, $sTargetType);
-            /**
-             * Удаляем голосование за комментарии
-             */
-            $this->Vote_DeleteVoteByTarget($aCommentsId, 'comment');
+           
             return true;
         }
         return false;

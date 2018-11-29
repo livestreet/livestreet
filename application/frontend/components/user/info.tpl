@@ -226,17 +226,6 @@
         html  = $smarty.capture.user_info_friends}
 {/if}
 
-{**
- * Стена
- *}
-{capture 'user_info_wall'}
-    {insert name='block' block='wall' params=[
-        'classes' => 'js-wall-default',
-        'user_id' => $user->getId()
-    ]}
-{/capture}
-
-{component 'user' template='info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall}
 
 {* @hook Конец информации о пользователе *}
 {hook run='user_info_end' user=$user}

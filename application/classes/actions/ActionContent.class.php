@@ -590,12 +590,7 @@ class ActionContent extends Action
                  * Фиксируем ID у media файлов топика
                  */
                 $this->Media_ReplaceTargetTmpById('topic', $oTopic->getId());
-                /**
-                 * Фиксируем ID у опросов
-                 */
-                if ($oTopicType->getParam('allow_poll')) {
-                    $this->Poll_ReplaceTargetTmpById('topic', $oTopic->getId());
-                }
+                
                 /**
                  * Добавляем автора топика в подписчики на новые комментарии к этому топику
                  */
@@ -685,20 +680,7 @@ class ActionContent extends Action
             $this->Message_AddErrorSingle($oTopic->_getValidateError());
             return false;
         }
-        /**
-         * Аттачим опросы
-         */
-        if (!$oTopic->getId()) {
-            $aPolls = array();
-            if ($sPollTargetTmp = $this->Session_GetCookie('poll_target_tmp_topic')) {
-                $aPolls = $this->Poll_GetPollItemsByFilter(array(
-                    'target_type' => 'topic',
-                    'target_tmp'  => $sPollTargetTmp,
-                    '#order'      => array('id' => 'asc')
-                ));
-            }
-            $oTopic->setPolls($aPolls);
-        }
+       
         /**
          * Аттачим дополнительные поля к топику
          */

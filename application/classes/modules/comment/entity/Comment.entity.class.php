@@ -167,16 +167,7 @@ class ModuleComment_EntityComment extends Entity
         return number_format(round($this->_getDataOne('comment_rating'), 2), 0, '.', '');
     }
 
-    /**
-     * Возвращает количество проголосовавших
-     *
-     * @return int|null
-     */
-    public function getCountVote()
-    {
-        return $this->_getDataOne('comment_count_vote');
-    }
-
+    
     /**
      * Возвращает количество редактирований комментария
      *
@@ -260,16 +251,7 @@ class ModuleComment_EntityComment extends Entity
         return $this->_getDataOne('target');
     }
 
-    /**
-     * Возвращает объект голосования
-     *
-     * @return ModuleVote_EntityVote|null
-     */
-    public function getVote()
-    {
-        return $this->_getDataOne('vote');
-    }
-
+    
     /**
      * Проверяет является ли комментарий избранным у текущего пользователя
      *
@@ -466,15 +448,6 @@ class ModuleComment_EntityComment extends Entity
         $this->_aData['comment_rating'] = $data;
     }
 
-    /**
-     * Устанавливает количество проголосавших
-     *
-     * @param int $data
-     */
-    public function setCountVote($data)
-    {
-        $this->_aData['comment_count_vote'] = $data;
-    }
 
     /**
      * Устанавливает количество редактирований комментария
@@ -546,15 +519,6 @@ class ModuleComment_EntityComment extends Entity
         $this->_aData['target'] = $data;
     }
 
-    /**
-     * Устанавливает объект голосования
-     *
-     * @param ModuleVote_EntityVote $data
-     */
-    public function setVote($data)
-    {
-        $this->_aData['vote'] = $data;
-    }
 
     /**
      * Устанавливает факт нахождения комментария в избранном у текущего пользователя

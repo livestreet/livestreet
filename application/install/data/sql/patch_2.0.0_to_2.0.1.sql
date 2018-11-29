@@ -11,4 +11,3 @@ ALTER TABLE `prefix_property_value` CHANGE `value_text` `value_text` TEXT CHARAC
 ALTER TABLE `prefix_blog` CHANGE `blog_description` `blog_description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `prefix_comment` CHANGE `comment_text` `comment_text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `prefix_comment` CHANGE `comment_text_source` `comment_text_source` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
-ALTER TABLE `prefix_wall` CHANGE `text` `text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;

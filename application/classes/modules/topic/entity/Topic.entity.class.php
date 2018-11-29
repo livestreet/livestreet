@@ -552,45 +552,7 @@ class ModuleTopic_EntityTopic extends Entity
         return number_format(round($this->_getDataOne('topic_rating'), 2), 0, '.', '');
     }
 
-    /**
-     * Возвращает число проголосовавших за топик
-     *
-     * @return int|null
-     */
-    public function getCountVote()
-    {
-        return $this->_getDataOne('topic_count_vote');
-    }
-
-    /**
-     * Возвращает число проголосовавших за топик положительно
-     *
-     * @return int|null
-     */
-    public function getCountVoteUp()
-    {
-        return $this->_getDataOne('topic_count_vote_up');
-    }
-
-    /**
-     * Возвращает число проголосовавших за топик отрицательно
-     *
-     * @return int|null
-     */
-    public function getCountVoteDown()
-    {
-        return $this->_getDataOne('topic_count_vote_down');
-    }
-
-    /**
-     * Возвращает число воздержавшихся при голосовании за топик
-     *
-     * @return int|null
-     */
-    public function getCountVoteAbstain()
-    {
-        return $this->_getDataOne('topic_count_vote_abstain');
-    }
+   
 
     /**
      * Возвращает число прочтений топика
@@ -781,15 +743,6 @@ class ModuleTopic_EntityTopic extends Entity
         return Router::GetPath('content') . 'delete/' . $this->getId() . '/';
     }
 
-    /**
-     * Возвращает объект голосования за топик текущим пользователем
-     *
-     * @return ModuleVote_EntityVote|null
-     */
-    public function getVote()
-    {
-        return $this->_getDataOne('vote');
-    }
 
     /**
      * Проверяет находится ли данный топик в избранном у текущего пользователя
@@ -898,19 +851,7 @@ class ModuleTopic_EntityTopic extends Entity
         return $this->_getDataOne('type_object');
     }
 
-    /**
-     * Возвращает список опросов, которые есть у топика
-     *
-     * @return array|null
-     */
-    public function getPolls()
-    {
-        if (is_null($this->_getDataOne('polls'))) {
-            $this->_aData['polls'] = $this->Poll_GetPollItemsByTarget('topic', $this->getId());
-        }
-        return $this->_getDataOne('polls');
-    }
-
+    
     /**
      * Возвращает список ID всех блогов
      *
@@ -1263,45 +1204,6 @@ class ModuleTopic_EntityTopic extends Entity
         $this->_aData['topic_rating'] = $data;
     }
 
-    /**
-     * Устанавливает количество проголосовавших
-     *
-     * @param int $data
-     */
-    public function setCountVote($data)
-    {
-        $this->_aData['topic_count_vote'] = $data;
-    }
-
-    /**
-     * Устанавливает количество проголосовавших в плюс
-     *
-     * @param int $data
-     */
-    public function setCountVoteUp($data)
-    {
-        $this->_aData['topic_count_vote_up'] = $data;
-    }
-
-    /**
-     * Устанавливает количество проголосовавших в минус
-     *
-     * @param int $data
-     */
-    public function setCountVoteDown($data)
-    {
-        $this->_aData['topic_count_vote_down'] = $data;
-    }
-
-    /**
-     * Устанавливает число воздержавшихся
-     *
-     * @param int $data
-     */
-    public function setCountVoteAbstain($data)
-    {
-        $this->_aData['topic_count_vote_abstain'] = $data;
-    }
 
     /**
      * Устанавливает число прочтения топика
@@ -1373,25 +1275,6 @@ class ModuleTopic_EntityTopic extends Entity
         $this->_aData['blog'] = $data;
     }
 
-    /**
-     * Устанавливает факт голосования пользователя в топике-опросе
-     *
-     * @param int $data
-     */
-    public function setUserQuestionIsVote($data)
-    {
-        $this->_aData['user_question_is_vote'] = $data;
-    }
-
-    /**
-     * Устанавливает объект голосования за топик
-     *
-     * @param ModuleVote_EntityVote $data
-     */
-    public function setVote($data)
-    {
-        $this->_aData['vote'] = $data;
-    }
 
     /**
      * Устанавливает количество новых комментариев

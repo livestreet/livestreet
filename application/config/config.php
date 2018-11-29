@@ -102,14 +102,8 @@ $config['acl']['create']['talk']['limit_time'] = 300; // время в секу�
 $config['acl']['create']['talk']['limit_time_rating'] = 1;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
 $config['acl']['create']['talk_comment']['limit_time'] = 10; // время в секундах между отправкой инбоксов, если 0 то ограничение по времени не будет работать
 $config['acl']['create']['talk_comment']['limit_time_rating'] = 5;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку инбоксов
-$config['acl']['create']['wall']['limit_time'] = 20;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку сообщений на стену
-$config['acl']['create']['wall']['limit_time_rating'] = 0;   // рейтинг, выше которого перестаёт действовать ограничение по времени на отправку сообщений на стену
 $config['acl']['update']['comment']['rating'] = -5;   // порог рейтинга при котором юзер может редактировать комментарии
 $config['acl']['update']['comment']['limit_time'] = 60 * 3;   // время в секундах после создания комментария, когда можно его отредактировать, если 0 то ограничение по времени не будет работать
-$config['acl']['vote']['comment']['rating'] = -3;  // порог рейтинга при котором юзер может голосовать за комментарии
-$config['acl']['vote']['topic']['rating'] = -7;  // порог рейтинга при котором юзер может голосовать за топик
-$config['acl']['vote']['topic']['limit_time'] = 60 * 60 * 24 * 20; // ограничение времени голосования за топик
-$config['acl']['vote']['comment']['limit_time'] = 60 * 60 * 24 * 5;  // ограничение времени голосования за комментарий
 /**
  * Настройки модулей
  */
@@ -239,7 +233,6 @@ $config['module']['comment']['edit_target_allow'] = array(
     'topic',
     'talk'
 );    // Список типов комментов, которые разрешено редактировать
-$config['module']['comment']['vote_target_allow'] = array('topic');    // Список типов комментов, за которые разрешено голосовать
 $config['module']['comment']['max_rss_count'] = 20; // Максимальное количество комментов в RSS потоке
 // Модуль Talk
 $config['module']['talk']['per_page'] = 30;           // Число приватных сообщений на одну страницу
@@ -260,15 +253,9 @@ $config['module']['security']['hash'] = "livestreet_security_key"; // "прим�
 $config['module']['userfeed']['count_default'] = 10; // Число топиков в ленте по умолчанию
 
 $config['module']['stream']['count_default'] = 20; // Число топиков в ленте по умолчанию
-$config['module']['stream']['disable_vote_events'] = false;
 // Модуль Ls
 $config['module']['ls']['send_general'] = true;    // Отправка на сервер LS общей информации о сайте (домен, версия LS и плагинов)
 $config['module']['ls']['use_counter'] = true;    // Использование счетчика GA
-// Модуль Wall - стена
-$config['module']['wall']['count_last_reply'] = 3;    // Число последних ответов на сообщени на стене для отображения в ленте
-$config['module']['wall']['per_page'] = 10;                // Число сообщений на стене на одну страницу
-$config['module']['wall']['text_max'] = 250;            // Ограничение на максимальное количество символов в одном сообщении на стене
-$config['module']['wall']['text_min'] = 1;              // Ограничение на минимальное количество символов в одном сообщении на стене
 // Модуль Sitemap
 $config['module']['sitemap']['index'] = array(  // Главная страница
     'priority' => '1',
@@ -291,11 +278,6 @@ $config['module']['sitemap']['user'] = array(   // Пользователи
     'changefreq' => 'weekly'
 );
 
-/**
- * Модуль опросов (Poll)
- */
-$config['module']['poll']['max_answers'] = 20;                 // Максимальное количество вариантов которое можно добавить в опрос
-$config['module']['poll']['time_limit_update'] = 60 * 60 * 30; // Время в секундах, в течении которого можно изменять опрос
 /**
  * Модуль Image
  */
@@ -381,7 +363,6 @@ $config['db']['table']['topic'] = '___db.table.prefix___topic';
 $config['db']['table']['topic_tag'] = '___db.table.prefix___topic_tag';
 $config['db']['table']['topic_type'] = '___db.table.prefix___topic_type';
 $config['db']['table']['comment'] = '___db.table.prefix___comment';
-$config['db']['table']['vote'] = '___db.table.prefix___vote';
 $config['db']['table']['topic_read'] = '___db.table.prefix___topic_read';
 $config['db']['table']['blog_user'] = '___db.table.prefix___blog_user';
 $config['db']['table']['favourite'] = '___db.table.prefix___favourite';
@@ -405,7 +386,6 @@ $config['db']['table']['stream_user_type'] = '___db.table.prefix___stream_user_t
 $config['db']['table']['user_field'] = '___db.table.prefix___user_field';
 $config['db']['table']['user_field_value'] = '___db.table.prefix___user_field_value';
 $config['db']['table']['subscribe'] = '___db.table.prefix___subscribe';
-$config['db']['table']['wall'] = '___db.table.prefix___wall';
 $config['db']['table']['user_note'] = '___db.table.prefix___user_note';
 $config['db']['table']['user_complaint'] = '___db.table.prefix___user_complaint';
 $config['db']['table']['geo_country'] = '___db.table.prefix___geo_country';
@@ -426,9 +406,6 @@ $config['db']['table']['rbac_permission'] = '___db.table.prefix___rbac_permissio
 $config['db']['table']['rbac_role_permission'] = '___db.table.prefix___rbac_role_permission';
 $config['db']['table']['rbac_role_user'] = '___db.table.prefix___rbac_role_user';
 $config['db']['table']['storage'] = '___db.table.prefix___storage';
-$config['db']['table']['poll'] = '___db.table.prefix___poll';
-$config['db']['table']['poll_answer'] = '___db.table.prefix___poll_answer';
-$config['db']['table']['poll_vote'] = '___db.table.prefix___poll_vote';
 $config['db']['table']['category'] = '___db.table.prefix___category';
 $config['db']['table']['category_type'] = '___db.table.prefix___category_type';
 $config['db']['table']['category_target'] = '___db.table.prefix___category_target';
@@ -467,7 +444,6 @@ $config['router']['page']['stream'] = 'ActionStream';
 $config['router']['page']['subscribe'] = 'ActionSubscribe';
 $config['router']['page']['content'] = 'ActionContent';
 $config['router']['page']['property'] = 'ActionProperty';
-$config['router']['page']['wall'] = 'ActionWall';
 $config['router']['page']['sitemap'] = function() {
     return LS::Sitemap_ShowSitemap();
 };
@@ -576,9 +552,9 @@ $config['components'] = array(
     'performance', 'toolbar', 'actionbar', 'badge', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron', 'notification', 'blankslate', 'confirm',
 
     // Компоненты LS CMS
-    'favourite', 'vote', 'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
+    'favourite',  'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
     'toolbar-scrollup', 'toolbar-scrollnav', 'tags-personal', 'search-ajax', 'search', 'sort', 'search-form', 'info-list',
-    'tags', 'userbar', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk'
+    'tags', 'userbar', 'admin', 'user',  'blog', 'topic', 'activity', 'feed', 'talk'
 );
 
 $config['head']['default']['js'] = array(
@@ -593,7 +569,6 @@ $config['head']['default']['css'] = array();
 
 // Стили для RTL языков
 if ( $config['view']['rtl'] ) {
-    //$config['head']['default']['css'][] = "___path.skin.web___/components/vote/css/vote-rtl.css";
     //$config['head']['default']['css'][] = "___path.skin.web___/components/alert/css/alert-rtl.css";
 }
 

@@ -121,12 +121,7 @@
             {/if}
         {/block}
 
-        {* Опросы *}
-        {block 'topic_content_polls'}
-            {if ! $isList}
-                {component 'poll' template='list' polls=$topic->getPolls()}
-            {/if}
-        {/block}
+        
     {/block}
 
 
@@ -153,21 +148,7 @@
             {block 'topic_footer_info'}
                 <ul class="{$component}-info ls-clearfix">
                     {block 'topic_footer_info_items'}
-                        {* Голосование *}
-                        {if ! $isPreview}
-                            <li class="{$component}-info-item {$component}-info-item--vote">
-                                {$isExpired = strtotime($topic->getDatePublish()) < $smarty.now - Config::Get('acl.vote.topic.limit_time')}
-
-                                {component 'vote'
-                                         target     = $topic
-                                         classes    = 'js-vote-topic'
-                                         mods       = 'small white topic'
-                                         useAbstain = true
-                                         isLocked   = ( $oUserCurrent && $topic->getUserId() == $oUserCurrent->getId() ) || $isExpired
-                                         showRating = $topic->getVote() || ($oUserCurrent && $topic->getUserId() == $oUserCurrent->getId()) || $isExpired}
-                            </li>
-                        {/if}
-
+                        
                         {* Автор топика *}
                         <li class="{$component}-info-item {$component}-info-item--author">
                             {component 'user' template='avatar' user=$user size='xsmall' mods='inline'}

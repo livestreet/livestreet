@@ -28,11 +28,7 @@
     top: -2px;
     vertical-align: middle;
 }
-.blog-header .vote {
-    position: absolute;
-    top: -15px;
-    right: 0;
-}
+
 
 /* Контент */
 .blog .ls-actionbar {

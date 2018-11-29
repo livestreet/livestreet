@@ -393,88 +393,6 @@ INSERT INTO `prefix_property_target` ( `type`, `date_create`, `date_update`, `st
 ('topic_topic', '2014-01-31 12:01:34', NULL, 1, 'a:2:{s:6:"entity";s:23:"ModuleTopic_EntityTopic";s:4:"name";s:35:"Топик - Стандартный";}');
 
 
--- 04.02.2014
---
--- Структура таблицы `prefix_poll`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `target_type` varchar(50) NOT NULL,
-  `target_id` int(11) DEFAULT NULL,
-  `target_tmp` varchar(50) DEFAULT NULL,
-  `title` varchar(500) NOT NULL,
-  `count_answer_max` tinyint(4) NOT NULL DEFAULT '1',
-  `count_vote` int(11) NOT NULL DEFAULT '0',
-  `count_abstain` int(11) NOT NULL DEFAULT '0',
-  `date_create` datetime NOT NULL,
-  `date_end` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `target_type_target_id` (`target_type`,`target_id`),
-  KEY `target_tmp` (`target_tmp`),
-  KEY `count_vote` (`count_vote`),
-  KEY `count_abstain` (`count_abstain`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `prefix_poll_answer`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `poll_id` int(11) NOT NULL,
-  `title` varchar(500) CHARACTER SET utf8 NOT NULL,
-  `count_vote` int(11) NOT NULL DEFAULT '0',
-  `date_create` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `poll_id` (`poll_id`),
-  KEY `count_vote` (`count_vote`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `prefix_poll_vote`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll_vote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `poll_id` int(11) NOT NULL,
-  `answer_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `date_create` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `poll_id` (`poll_id`),
-  KEY `answer_id` (`answer_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Ограничения внешнего ключа сохраненных таблиц
---
-
---
--- Ограничения внешнего ключа таблицы `prefix_poll_answer`
---
-ALTER TABLE `prefix_poll_answer`
-  ADD CONSTRAINT `prefix_poll_answer_ibfk_1` FOREIGN KEY (`poll_id`) REFERENCES `prefix_poll` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `prefix_poll_vote`
---
-ALTER TABLE `prefix_poll_vote`
-  ADD CONSTRAINT `prefix_poll_vote_ibfk_1` FOREIGN KEY (`poll_id`) REFERENCES `prefix_poll` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prefix_poll_vote_ibfk_2` FOREIGN KEY (`answer_id`) REFERENCES `prefix_poll_answer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-
--- 05.02.2014
-ALTER TABLE `prefix_poll_vote` DROP FOREIGN KEY `prefix_poll_vote_ibfk_2` ;
-ALTER TABLE `prefix_poll_vote` DROP `answer_id` ;
-ALTER TABLE `prefix_poll_vote` ADD `answers` VARCHAR( 500 ) NOT NULL AFTER `user_id` ;
 
 
 -- 11.02.2014
@@ -502,9 +420,7 @@ ALTER TABLE `prefix_comment` ADD `comment_count_edit` INT NOT NULL DEFAULT '0' A
 ADD INDEX ( `comment_count_edit` ) ;
 
 
--- 29.05.2014
-UPDATE `prefix_stream_user_type` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';
-UPDATE `prefix_stream_event` set `event_type`='vote_comment_topic' WHERE `event_type`='vote_comment';
+
 
 
 -- 26.05.2014
@@ -696,10 +612,6 @@ INSERT INTO `prefix_rbac_permission` (`id`, `group_id`, `code`, `plugin`, `title
 (3, 1, 'create_topic_comment', '', 'rbac.permission.create_topic_comment.title', 'rbac.permission.create_topic_comment.error', '2014-10-05 11:02:31', 1),
 (4, 4, 'create_talk', '', 'rbac.permission.create_talk.title', 'rbac.permission.create_talk.error', '2014-10-05 11:54:22', 1),
 (5, 4, 'create_talk_comment', '', 'rbac.permission.create_talk_comment.title', 'rbac.permission.create_talk_comment.error', '2014-10-05 14:08:15', 1),
-(6, 3, 'vote_comment', '', 'rbac.permission.vote_comment.title', 'rbac.permission.vote_comment.error', '2014-10-05 14:31:29', 1),
-(7, 2, 'vote_blog', '', 'rbac.permission.vote_blog.title', 'rbac.permission.vote_blog.error', '2014-10-05 16:51:53', 1),
-(8, 1, 'vote_topic', '', 'rbac.permission.vote_topic.title', 'rbac.permission.vote_topic.error', '2014-10-05 17:22:56', 1),
-(9, 4, 'vote_user', '', 'rbac.permission.vote_user.title', 'rbac.permission.vote_user.error', '2014-10-05 17:27:19', 1),
 (10, 4, 'create_invite', '', 'rbac.permission.create_invite.title', 'rbac.permission.create_invite.error', '2014-10-05 17:28:46', 1),
 (11, 3, 'create_comment_favourite', '', 'rbac.permission.create_comment_favourite.title', 'rbac.permission.create_comment_favourite.error', '2014-10-05 17:56:23', 1),
 (12, 1, 'remove_topic', '', 'rbac.permission.remove_topic.title', 'rbac.permission.remove_topic.error', '2014-10-05 18:06:09', 1);
@@ -764,7 +676,6 @@ ALTER TABLE `prefix_comment_online` CHANGE `target_type` `target_type` VARCHAR(5
 ALTER TABLE `prefix_favourite` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'topic';
 ALTER TABLE `prefix_favourite_tag` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `prefix_user` CHANGE `user_profile_sex` `user_profile_sex` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'other';
-ALTER TABLE `prefix_vote` CHANGE `target_type` `target_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'topic';
 
 ALTER TABLE `prefix_blog` DROP FOREIGN KEY `prefix_blog_fk`;
 ALTER TABLE `prefix_blog_user` DROP FOREIGN KEY `prefix_blog_user_fk`;
@@ -785,8 +696,6 @@ ALTER TABLE `prefix_geo_target` DROP FOREIGN KEY `prefix_geo_target_ibfk_3`;
 ALTER TABLE `prefix_invite` DROP FOREIGN KEY `prefix_invite_fk`;
 ALTER TABLE `prefix_invite` DROP FOREIGN KEY `prefix_invite_fk1`;
 ALTER TABLE `prefix_media_target` DROP FOREIGN KEY `prefix_media_target_ibfk_1`;
-ALTER TABLE `prefix_poll_answer` DROP FOREIGN KEY `prefix_poll_answer_ibfk_1`;
-ALTER TABLE `prefix_poll_vote` DROP FOREIGN KEY `prefix_poll_vote_ibfk_1`;
 ALTER TABLE `prefix_reminder` DROP FOREIGN KEY `prefix_reminder_fk`;
 ALTER TABLE `prefix_stream_event` DROP FOREIGN KEY `prefix_stream_event_ibfk_1`;
 ALTER TABLE `prefix_stream_subscribe` DROP FOREIGN KEY `prefix_stream_subscribe_ibfk_1`;
@@ -812,9 +721,8 @@ ALTER TABLE `prefix_user_field_value` DROP FOREIGN KEY `prefix_user_field_value_
 ALTER TABLE `prefix_user_field_value` DROP FOREIGN KEY `prefix_user_field_value_ibfk_2`;
 ALTER TABLE `prefix_user_note` DROP FOREIGN KEY `prefix_user_note_ibfk_1`;
 ALTER TABLE `prefix_user_note` DROP FOREIGN KEY `prefix_user_note_ibfk_2`;
-ALTER TABLE `prefix_vote` DROP FOREIGN KEY `prefix_topic_vote_fk1`;
-ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_1`;
-ALTER TABLE `prefix_wall` DROP FOREIGN KEY `prefix_wall_ibfk_2`;
+
+
 
 ALTER TABLE `prefix_comment` CHANGE `comment_user_ip` `comment_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `prefix_session` CHANGE `session_ip_create` `session_ip_create` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
@@ -823,8 +731,7 @@ ALTER TABLE `prefix_subscribe` CHANGE `ip` `ip` VARCHAR(40) CHARACTER SET utf8 C
 ALTER TABLE `prefix_talk` CHANGE `talk_user_ip` `talk_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `prefix_topic` CHANGE `topic_user_ip` `topic_user_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `prefix_user` CHANGE `user_ip_register` `user_ip_register` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-ALTER TABLE `prefix_vote` CHANGE `vote_ip` `vote_ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
-ALTER TABLE `prefix_wall` CHANGE `ip` `ip` VARCHAR(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
 
 ALTER TABLE `prefix_topic` ADD `topic_skip_index` TINYINT(1) NOT NULL DEFAULT '0' AFTER `topic_publish_index`, ADD INDEX (`topic_skip_index`) ;
 
@@ -838,11 +745,6 @@ ALTER TABLE `prefix_topic` ADD INDEX(`blog_id5`);
 -- 10.02.2015
 ALTER TABLE `prefix_session` ADD `session_extra` TEXT NULL ;
 
--- 26.02.2015
-ALTER TABLE `prefix_poll` ADD `is_guest_allow` TINYINT(1) NOT NULL DEFAULT '0' AFTER `title`, ADD `is_guest_check_ip` TINYINT(1) NOT NULL DEFAULT '0' AFTER `is_guest_allow`;
-ALTER TABLE `prefix_poll_vote` ADD `guest_key` VARCHAR(32) NULL AFTER `user_id`, ADD `ip` VARCHAR(40) NOT NULL AFTER `guest_key`, ADD INDEX (`guest_key`) ;
-ALTER TABLE `prefix_poll_vote` ADD INDEX(`ip`);
-ALTER TABLE `prefix_poll_vote` CHANGE `user_id` `user_id` INT(11) NULL DEFAULT NULL;
 
 -- 27.02.2015
 DROP TABLE `prefix_invite`;
@@ -924,13 +826,6 @@ ALTER TABLE `prefix_media_target` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUT
 ALTER TABLE `prefix_media_target` CHANGE `media_id` `media_id` INT(11) UNSIGNED NOT NULL;
 ALTER TABLE `prefix_plugin_migration` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_plugin_version` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_poll` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_poll` CHANGE `user_id` `user_id` INT(11) UNSIGNED NOT NULL;
-ALTER TABLE `prefix_poll_answer` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_poll_answer` CHANGE `poll_id` `poll_id` INT(11) UNSIGNED NOT NULL;
-ALTER TABLE `prefix_poll_vote` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_poll_vote` CHANGE `poll_id` `poll_id` INT(11) UNSIGNED NOT NULL;
-ALTER TABLE `prefix_poll_vote` CHANGE `user_id` `user_id` INT(11) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_property` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_property_select` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_property_select` CHANGE `property_id` `property_id` INT(11) UNSIGNED NOT NULL;
@@ -963,8 +858,6 @@ ALTER TABLE `prefix_user_complaint` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL A
 ALTER TABLE `prefix_user_field` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_user_field_value` CHANGE `field_id` `field_id` INT(11) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_user_note` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_wall` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `prefix_wall` CHANGE `pid` `pid` INT(11) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `prefix_invite_code` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `prefix_invite_use` CHANGE `id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 

@@ -18,13 +18,11 @@
         options: {
             // Ссылки
             urls: {
-                vote: aRouter.ajax + 'vote/topic/',
-                voteInfo: aRouter.ajax + 'vote/get/info/topic'
+                
             },
 
             // Селекторы
             selectors: {
-                vote: '.js-vote-topic',
                 favourite: '.js-favourite-topic',
                 tags: '.js-tags-favourite'
             }
@@ -44,13 +42,7 @@
                 tags: this.elements.tags
             });
 
-            // Голосование за топик
-            this.elements.vote.lsVote({
-                urls: {
-                    vote: this.option( 'urls.vote' ),
-                    info: this.option( 'urls.voteInfo' )
-                }
-            });
+            
 
             // Теги
             this.elements.tags.lsTagsFavourite({

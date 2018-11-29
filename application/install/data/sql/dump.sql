@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
   `blog_date_add` datetime NOT NULL,
   `blog_date_edit` datetime DEFAULT NULL,
   `blog_rating` float(9,3) NOT NULL DEFAULT '0.000',
-  `blog_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
   `blog_count_user` int(11) unsigned NOT NULL DEFAULT '0',
   `blog_count_topic` int(10) unsigned NOT NULL DEFAULT '0',
   `blog_limit_rating_topic` float(9,3) NOT NULL DEFAULT '0.000',
@@ -30,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `prefix_blog` (
 -- Дамп данных таблицы `prefix_blog`
 --
 
-INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`, `blog_count_vote`, `blog_count_user`, `blog_count_topic`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`, `blog_skip_index`) VALUES
-(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', NOW(), NULL, 0.000, 0, 0, 0, -1000.000, NULL, '0', 0);
+INSERT INTO `prefix_blog` (`blog_id`, `user_owner_id`, `blog_title`, `blog_description`, `blog_type`, `blog_date_add`, `blog_date_edit`, `blog_rating`,  `blog_count_user`, `blog_count_topic`, `blog_limit_rating_topic`, `blog_url`, `blog_avatar`, `blog_skip_index`) VALUES
+(1, 1, 'Blog by admin', 'This is your personal blog.', 'personal', NOW(), NULL, 0.000,  0, 0, -1000.000, NULL, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +126,6 @@ CREATE TABLE IF NOT EXISTS `prefix_comment` (
   `comment_date_edit` datetime DEFAULT NULL,
   `comment_user_ip` varchar(40) NOT NULL,
   `comment_rating` float(9,3) NOT NULL DEFAULT '0.000',
-  `comment_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
   `comment_count_favourite` int(11) unsigned NOT NULL DEFAULT '0',
   `comment_count_edit` int(11) NOT NULL DEFAULT '0',
   `comment_delete` tinyint(4) NOT NULL DEFAULT '0',
@@ -332,55 +330,6 @@ CREATE TABLE IF NOT EXISTS `prefix_plugin_version` (
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `prefix_poll`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll` (
-  `id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `target_type` varchar(50) NOT NULL,
-  `target_id` int(11) DEFAULT NULL,
-  `target_tmp` varchar(50) DEFAULT NULL,
-  `title` varchar(500) NOT NULL,
-  `is_guest_allow` tinyint(1) NOT NULL DEFAULT '0',
-  `is_guest_check_ip` tinyint(1) NOT NULL DEFAULT '0',
-  `count_answer_max` tinyint(4) NOT NULL DEFAULT '1',
-  `count_vote` int(11) NOT NULL DEFAULT '0',
-  `count_abstain` int(11) NOT NULL DEFAULT '0',
-  `date_create` datetime NOT NULL,
-  `date_end` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `prefix_poll_answer`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll_answer` (
-  `id` int(11) unsigned NOT NULL,
-  `poll_id` int(11) unsigned NOT NULL,
-  `title` varchar(500) CHARACTER SET utf8 NOT NULL,
-  `count_vote` int(11) NOT NULL DEFAULT '0',
-  `date_create` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `prefix_poll_vote`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_poll_vote` (
-  `id` int(11) unsigned NOT NULL,
-  `poll_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  `guest_key` varchar(32) DEFAULT NULL,
-  `ip` varchar(40) NOT NULL,
-  `answers` varchar(500) NOT NULL,
-  `date_create` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -535,10 +484,6 @@ INSERT INTO `prefix_rbac_permission` (`id`, `group_id`, `code`, `plugin`, `title
 (3, 1, 'create_topic_comment', '', 'rbac.permission.create_topic_comment.title', 'rbac.permission.create_topic_comment.error', NOW(), 1),
 (4, 4, 'create_talk', '', 'rbac.permission.create_talk.title', 'rbac.permission.create_talk.error', NOW(), 1),
 (5, 4, 'create_talk_comment', '', 'rbac.permission.create_talk_comment.title', 'rbac.permission.create_talk_comment.error', NOW(), 1),
-(6, 3, 'vote_comment', '', 'rbac.permission.vote_comment.title', 'rbac.permission.vote_comment.error', NOW(), 1),
-(7, 2, 'vote_blog', '', 'rbac.permission.vote_blog.title', 'rbac.permission.vote_blog.error', NOW(), 1),
-(8, 1, 'vote_topic', '', 'rbac.permission.vote_topic.title', 'rbac.permission.vote_topic.error', NOW(), 1),
-(9, 4, 'vote_user', '', 'rbac.permission.vote_user.title', 'rbac.permission.vote_user.error', NOW(), 1),
 (10, 4, 'create_invite', '', 'rbac.permission.create_invite.title', 'rbac.permission.create_invite.error', NOW(), 1),
 (11, 3, 'create_comment_favourite', '', 'rbac.permission.create_comment_favourite.title', 'rbac.permission.create_comment_favourite.error', NOW(), 1),
 (12, 1, 'remove_topic', '', 'rbac.permission.remove_topic.title', 'rbac.permission.remove_topic.error', NOW(), 1);
@@ -791,10 +736,6 @@ CREATE TABLE IF NOT EXISTS `prefix_topic` (
   `topic_publish_index` tinyint(1) NOT NULL DEFAULT '0',
   `topic_skip_index` tinyint(1) NOT NULL DEFAULT '0',
   `topic_rating` float(9,3) NOT NULL DEFAULT '0.000',
-  `topic_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_count_vote_up` int(11) NOT NULL DEFAULT '0',
-  `topic_count_vote_down` int(11) NOT NULL DEFAULT '0',
-  `topic_count_vote_abstain` int(11) NOT NULL DEFAULT '0',
   `topic_count_read` int(11) unsigned NOT NULL DEFAULT '0',
   `topic_count_comment` int(11) unsigned NOT NULL DEFAULT '0',
   `topic_count_favourite` int(11) unsigned NOT NULL DEFAULT '0',
@@ -888,7 +829,6 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
   `user_date_comment_last` datetime DEFAULT NULL,
   `user_ip_register` varchar(40) NOT NULL,
   `user_rating` float(9,3) NOT NULL DEFAULT '0.000',
-  `user_count_vote` int(11) unsigned NOT NULL DEFAULT '0',
   `user_activate` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `user_activate_key` varchar(32) DEFAULT NULL,
   `user_referral_code` varchar(32) DEFAULT NULL,
@@ -914,8 +854,8 @@ CREATE TABLE IF NOT EXISTS `prefix_user` (
 -- Дамп данных таблицы `prefix_user`
 --
 
-INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_admin`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_count_vote`, `user_activate`, `user_activate_key`, `user_referral_code`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`, `user_settings_timezone`) VALUES
-(1, 'admin', '', 'admin@admin.adm', 1, 0.000, NOW(), NULL, NULL, '127.0.0.1', 0.000, 0, 1, NULL, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1, NULL);
+INSERT INTO `prefix_user` (`user_id`, `user_login`, `user_password`, `user_mail`, `user_admin`, `user_skill`, `user_date_register`, `user_date_activate`, `user_date_comment_last`, `user_ip_register`, `user_rating`, `user_activate`, `user_activate_key`, `user_referral_code`, `user_profile_name`, `user_profile_sex`, `user_profile_country`, `user_profile_region`, `user_profile_city`, `user_profile_birthday`, `user_profile_about`, `user_profile_date`, `user_profile_avatar`, `user_profile_foto`, `user_settings_notice_new_topic`, `user_settings_notice_new_comment`, `user_settings_notice_new_talk`, `user_settings_notice_reply_comment`, `user_settings_notice_new_friend`, `user_settings_timezone`) VALUES
+(1, 'admin', '', 'admin@admin.adm', 1, 0.000, NOW(), NULL, NULL, '127.0.0.1', 0.000, 1, NULL, NULL, NULL, 'other', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, 1, 1, 1, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1023,37 +963,10 @@ CREATE TABLE IF NOT EXISTS `prefix_user_note` (
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `prefix_vote`
---
 
-CREATE TABLE IF NOT EXISTS `prefix_vote` (
-  `target_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `target_type` varchar(50) NOT NULL DEFAULT 'topic',
-  `user_voter_id` int(11) unsigned NOT NULL,
-  `vote_direction` tinyint(2) DEFAULT '0',
-  `vote_value` float(9,3) NOT NULL DEFAULT '0.000',
-  `vote_date` datetime NOT NULL,
-  `vote_ip` varchar(40) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `prefix_wall`
---
-
-CREATE TABLE IF NOT EXISTS `prefix_wall` (
-  `id` int(11) unsigned NOT NULL,
-  `pid` int(11) unsigned DEFAULT NULL,
-  `wall_user_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `count_reply` int(11) NOT NULL DEFAULT '0',
-  `last_reply` varchar(100) NOT NULL,
-  `date_add` datetime NOT NULL,
-  `ip` varchar(40) NOT NULL,
-  `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Индексы сохранённых таблиц
@@ -1246,34 +1159,6 @@ ALTER TABLE `prefix_plugin_version`
   ADD KEY `code` (`code`),
   ADD KEY `version` (`version`);
 
---
--- Индексы таблицы `prefix_poll`
---
-ALTER TABLE `prefix_poll`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `target_type_target_id` (`target_type`,`target_id`),
-  ADD KEY `target_tmp` (`target_tmp`),
-  ADD KEY `count_vote` (`count_vote`),
-  ADD KEY `count_abstain` (`count_abstain`);
-
---
--- Индексы таблицы `prefix_poll_answer`
---
-ALTER TABLE `prefix_poll_answer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `poll_id` (`poll_id`),
-  ADD KEY `count_vote` (`count_vote`);
-
---
--- Индексы таблицы `prefix_poll_vote`
---
-ALTER TABLE `prefix_poll_vote`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `poll_id` (`poll_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `guest_key` (`guest_key`),
-  ADD KEY `ip` (`ip`);
 
 --
 -- Индексы таблицы `prefix_property`
@@ -1588,23 +1473,9 @@ ALTER TABLE `prefix_user_note`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `target_user_id` (`target_user_id`);
 
---
--- Индексы таблицы `prefix_vote`
---
-ALTER TABLE `prefix_vote`
-  ADD PRIMARY KEY (`target_id`,`target_type`,`user_voter_id`),
-  ADD KEY `user_voter_id` (`user_voter_id`),
-  ADD KEY `vote_ip` (`vote_ip`);
 
---
--- Индексы таблицы `prefix_wall`
---
-ALTER TABLE `prefix_wall`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pid` (`pid`),
-  ADD KEY `wall_user_id` (`wall_user_id`),
-  ADD KEY `ip` (`ip`),
-  ADD KEY `user_id` (`user_id`);
+
+
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -1680,21 +1551,7 @@ ALTER TABLE `prefix_plugin_migration`
 --
 ALTER TABLE `prefix_plugin_version`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `prefix_poll`
---
-ALTER TABLE `prefix_poll`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `prefix_poll_answer`
---
-ALTER TABLE `prefix_poll_answer`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `prefix_poll_vote`
---
-ALTER TABLE `prefix_poll_vote`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT для таблицы `prefix_property`
 --
@@ -1810,11 +1667,6 @@ ALTER TABLE `prefix_user_field`
 --
 ALTER TABLE `prefix_user_note`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `prefix_wall`
---
-ALTER TABLE `prefix_wall`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 
 
 -- patch from 2.0.1
@@ -1827,4 +1679,3 @@ ALTER TABLE `prefix_property_value` CHANGE `value_text` `value_text` TEXT CHARAC
 ALTER TABLE `prefix_blog` CHANGE `blog_description` `blog_description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `prefix_comment` CHANGE `comment_text` `comment_text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `prefix_comment` CHANGE `comment_text_source` `comment_text_source` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
-ALTER TABLE `prefix_wall` CHANGE `text` `text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;

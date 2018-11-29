@@ -125,13 +125,7 @@
             classes    = 'js-topic-add-field-image-preview'}
     {/if}
 
-    {* Вставка опросов *}
-    {if $type->getParam('allow_poll')}
-        {component 'poll' template='manage'
-            targetType = 'topic'
-            targetId   = ( $topic ) ? $topic->getId() : ''}
-    {/if}
-
+    
     {if $type->isAllowCreateDeferredTopic($oUserCurrent)}
         {if !$topic or !$topic->getPublishDraft() or ($topic->getDatePublish() and strtotime($topic->getDatePublish()) > time())}
             {$iDatePublish = null}

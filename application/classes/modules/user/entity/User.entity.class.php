@@ -231,15 +231,7 @@ class ModuleUser_EntityUser extends Entity
         return number_format(round($this->_getDataOne('user_rating'), 2), 2, '.', '');
     }
 
-    /**
-     * Вовзращает количество проголосовавших
-     *
-     * @return int|null
-     */
-    public function getCountVote()
-    {
-        return $this->_getDataOne('user_count_vote');
-    }
+    
 
     /**
      * Возвращает статус активированности
@@ -531,15 +523,7 @@ class ModuleUser_EntityUser extends Entity
         return Router::GetFixPathWeb(Config::Get('path.skin.assets.web')) . '/images/avatars/user_photo_' . ($this->getProfileSex() == 'woman' ? 'female' : 'male') . '.png';
     }
 
-    /**
-     * Возвращает объект голосования за пользователя текущего пользователя
-     *
-     * @return ModuleVote_EntityVote|null
-     */
-    public function getVote()
-    {
-        return $this->_getDataOne('vote');
-    }
+    
 
     /**
      * Возвращает статус дружбы
@@ -758,15 +742,7 @@ class ModuleUser_EntityUser extends Entity
         $this->_aData['user_rating'] = $data;
     }
 
-    /**
-     * Устанавливает количество проголосовавших
-     *
-     * @param int $data
-     */
-    public function setCountVote($data)
-    {
-        $this->_aData['user_count_vote'] = $data;
-    }
+    
 
     /**
      * Устанавливает статус активированности
@@ -968,15 +944,7 @@ class ModuleUser_EntityUser extends Entity
         $this->_aData['user_is_friend'] = $data;
     }
 
-    /**
-     * Устанавливает объект голосования за пользователя текущего пользователя
-     *
-     * @param ModuleVote_EntityVote $data
-     */
-    public function setVote($data)
-    {
-        $this->_aData['vote'] = $data;
-    }
+    
 
     /**
      * Устанавливаем статус дружбы с текущим пользователем

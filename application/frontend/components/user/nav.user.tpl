@@ -4,7 +4,6 @@
 
 {component 'nav' hook='user_profile' activeItem=$sMenuProfileItemSelect mods='stacked' classes='user-nav' hookParams=[ 'oUserProfile' => $oUserProfile ] items=[
     [ 'name' => 'whois',      'text' => {lang name='user.profile.nav.info'},         'url' => "{$oUserProfile->getUserWebPath()}" ],
-    [ 'name' => 'wall',       'text' => {lang name='user.profile.nav.wall'},         'url' => "{$oUserProfile->getUserWebPath()}wall/", 'count' => $iCountWallUser ],
     [ 'name' => 'created',    'text' => {lang name='user.profile.nav.publications'}, 'url' => "{$oUserProfile->getUserWebPath()}created/topics/", 'count' => $iCountCreated ],
     [ 'name' => 'favourites', 'text' => {lang name='user.profile.nav.favourite'},    'url' => "{$oUserProfile->getUserWebPath()}favourites/topics/", 'count' => $iCountFavourite ],
     [ 'name' => 'friends',    'text' => {lang name='user.profile.nav.friends'},      'url' => "{$oUserProfile->getUserWebPath()}friends/", 'count' => $iCountFriendsUser ],

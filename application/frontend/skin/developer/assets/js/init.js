@@ -391,7 +391,7 @@ jQuery(document).ready(function($){
             cancel_photo: aRouter.settings + 'ajax-crop-cancel-photo'
         },
         changeavatar: function ( event, _this, avatars ) {
-            $( '.js-user-profile-avatar, .js-wall-entry[data-user-id=' + _this.option( 'params.target_id' ) + '] .ls-comment-avatar img' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
+            $( '.js-user-profile-avatar' ).attr( 'src', avatars[ '64crop' ] + '?' + Math.random() );
             $( '.ls-nav-item--userbar-username img' ).attr( 'src', avatars[ '24crop' ] + '?' + Math.random() );
         }
     });
@@ -446,14 +446,6 @@ jQuery(document).ready(function($){
         }
     });
 
-
-    /**
-     * Poll
-     */
-    $('.js-poll').lsPoll();
-    $('.js-poll-manage').lsPollManage({
-        max: ls.registry.get('poll_max_answers')
-    });
 
 
     /**
@@ -626,17 +618,7 @@ jQuery(document).ready(function($){
     });
 
 
-    /**
-     * Стена
-     */
-    $('.js-wall-default').lsWall({
-        urls: {
-            add:           aRouter.ajax + 'wall/add/',
-            remove:        aRouter.ajax + 'wall/remove/',
-            load:          aRouter.ajax + 'wall/load/',
-            load_comments: aRouter.ajax + 'wall/load-comments/'
-        }
-    });
+    
 
 
     /**

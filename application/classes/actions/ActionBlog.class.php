@@ -1390,7 +1390,6 @@ class ActionBlog extends Action
                 $oViewerLocal->Assign('oUserCurrent', $this->oUserCurrent);
                 $oViewerLocal->Assign('oneComment', true, true);
                 $oViewerLocal->Assign('useFavourite', true, true);
-                $oViewerLocal->Assign('useVote', true, true);
                 $oViewerLocal->Assign('comment', $oComment, true);
 
                 $sHtml = $oViewerLocal->Fetch($this->Comment_GetTemplateCommentByTarget($oTopic->getId(), 'topic'));

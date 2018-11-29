@@ -130,16 +130,6 @@
 .ls-comment-date a       { color: #818189; }
 .ls-comment-date a:hover { color: #666; }
 
-/* Голосование */
-.ls-comment-vote {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 0;
-}
-
-.ls-comment-vote.vote--not-voted.vote--count-zero { display: none; }
-.ls-comment:hover .ls-comment-vote { display: block; }
 
 /* Прокрутка к дочернему комментарию */
 .ls-comment-scroll-to {

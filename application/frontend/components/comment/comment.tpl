@@ -126,16 +126,7 @@
                     title="{$aLang.comments.comment.scroll_to_child}">↓</li>
             {/if}
 
-            {* Голосование *}
-            {if $useVote}
-                <li>
-                    {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
-                    {component 'vote'
-                        classes  = "{$component}-vote js-comment-vote"
-                        target   = $comment
-                        isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
-                </li>
-            {/if}
+            
 
             {* @hook Конец блока с информацией *}
             {hook run="{$hookPrefix}_info_end" params=$params}

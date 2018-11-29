@@ -22,7 +22,6 @@
 
             // Ссылки
             urls: {
-                vote: aRouter.ajax + 'vote/comment/',
                 favourite: aRouter.ajax + 'favourite/comment/',
                 // Показать/скрыть комментарий
                 toggle: aRouter.ajax + 'comment/delete/'
@@ -31,7 +30,6 @@
             // Селекторы
             selectors: {
                 wrapper:          '.js-comment-wrapper',
-                vote:             '.js-comment-vote',
                 favourite:        '.js-comment-favourite',
                 reply:            '.js-comment-reply',
                 fold:             '.js-comment-fold',
@@ -72,12 +70,7 @@
             this._scrollChild = null;
             this._countdown = this.elements.update_timer.data( 'seconds' );
 
-            // Голосование за комментарий
-            this.elements.vote.lsVote({
-                urls: {
-                    vote: this.option( 'urls.vote' )
-                }
-            });
+            
 
             // Избранное
             this.elements.favourite.lsFavourite({

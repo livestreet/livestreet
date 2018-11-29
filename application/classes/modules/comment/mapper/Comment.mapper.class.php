@@ -698,7 +698,6 @@ class ModuleComment_MapperComment extends Mapper
 				comment_text= ?,
 				comment_text_source= ?,
 				comment_rating= ?f,
-				comment_count_vote= ?d,
 				comment_count_favourite= ?d,
 				comment_count_edit= ?d,
 				comment_date_edit= ?,
@@ -709,7 +708,7 @@ class ModuleComment_MapperComment extends Mapper
 				comment_id = ?d
 		";
         $res = $this->oDb->query($sql, $oComment->getText(), $oComment->getTextSource(), $oComment->getRating(),
-            $oComment->getCountVote(), $oComment->getCountFavourite(), $oComment->getCountEdit(),
+             $oComment->getCountFavourite(), $oComment->getCountEdit(),
             $oComment->getDateEdit(), $oComment->getDelete(), $oComment->getPublish(), $oComment->getTextHash(),
             $oComment->getId());
         return $this->IsSuccessful($res);

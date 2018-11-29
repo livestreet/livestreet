@@ -11,10 +11,7 @@
     {$usernote = $user->getUserNote()}
     {$isOnline = $user->isOnline()}
 
-    {* Рейтинг *}
-    <div class="{$component}-rating" title="{lang 'vote.rating'}">
-        {component 'syn-icon' icon='rating'} {$user->getRating()}
-    </div>
+    
 
     <div class="{$component}-username">
         {* Логин *}

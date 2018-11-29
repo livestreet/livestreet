@@ -86,8 +86,6 @@ class ActionProfile extends Action
 
         $this->AddEventPreg('/^.+$/i', '/^(whois)?$/i', 'EventWhois');
 
-        $this->AddEventPreg('/^.+$/i', '/^wall$/i', '/^$/i', 'EventWall');
-
         $this->AddEventPreg('/^.+$/i', '/^favourites$/i', '/^comments$/i', '/^(page([1-9]\d{0,5}))?$/i',
             'EventFavouriteComments');
         $this->AddEventPreg('/^.+$/i', '/^favourites$/i', '/^(page([1-9]\d{0,5}))?$/i', 'EventFavourite');
@@ -542,21 +540,7 @@ class ActionProfile extends Action
         $this->SetTemplateAction('info');
     }
 
-    /**
-     * Отображение стены пользователя
-     */
-    public function EventWall()
-    {
-        if (!$this->CheckUserProfile()) {
-            return parent::EventNotFound();
-        }
-        $this->sMenuProfileItemSelect = 'wall';
-        /**
-         * Устанавливаем шаблон вывода
-         */
-        $this->SetTemplateAction('wall');
-    }
-
+    
     /**
      * Сохраняет заметку о пользователе
      */
@@ -1264,8 +1248,7 @@ class ActionProfile extends Action
         $this->Viewer_Assign('iCountTopicFavourite', $iCountTopicFavourite);
         $this->Viewer_Assign('iCountCommentFavourite', $iCountCommentFavourite);
         $this->Viewer_Assign('iCountNoteUser', $iCountNoteUser);
-        $this->Viewer_Assign('iCountWallUser',
-            $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserProfile->getId(), 'pid' => null)));
+       
         /**
          * Общее число публикация и избранного
          */

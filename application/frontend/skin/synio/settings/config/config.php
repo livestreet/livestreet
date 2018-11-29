@@ -28,9 +28,9 @@ $config['components'] = array(
     'performance', 'toolbar', 'actionbar', 'badge', 'autocomplete', 'icon', 'item', 'highlighter', 'jumbotron', 'notification', 'blankslate', 'confirm',
 
     // Компоненты LS CMS
-    'favourite', 'vote', 'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
+    'favourite',  'auth', 'media', 'property', 'photo', 'note', 'user-list-add', 'subscribe', 'content', 'report', 'comment',
     'toolbar-scrollup', 'toolbar-scrollnav', 'tags-personal', 'search-ajax', 'search', 'sort', 'search-form', 'info-list',
-    'tags', 'userbar', 'modal-create', 'admin', 'user', 'wall', 'blog', 'topic', 'poll', 'activity', 'feed', 'talk',
+    'tags', 'userbar', 'modal-create', 'admin', 'user',  'blog', 'topic', 'activity', 'feed', 'talk',
 
     // Компоненты Synio
     'syn-icon', 'syn-create'

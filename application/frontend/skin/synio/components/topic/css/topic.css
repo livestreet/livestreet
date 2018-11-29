@@ -73,11 +73,6 @@
     margin-top: 10px;
 }
 
-/* Опросы */
-.ls-topic .ls-poll {
-    margin-bottom: 20px;
-}
-
 
 /**
  * Подвал
@@ -158,14 +153,6 @@
     text-decoration: none;
 }
 
-/* Голосование */
-.ls-topic-info-item.ls-topic-info-item--vote {
-    margin: 0;
-    padding: 0;
-    float: right;
-    position: relative;
-    top: -1px;
-}
 
 /**
  * Превью (изображение)

@@ -124,7 +124,6 @@ class ModuleTopic extends Module
             $aAllowData = array(
                 'user' => array(),
                 'blog' => array('owner' => array(), 'relation_user'),
-                'vote',
                 'favourite',
                 'comment_new',
                 'properties'
@@ -154,16 +153,13 @@ class ModuleTopic extends Module
         /**
          * Получаем дополнительные данные
          */
-        $aTopicsVote = array();
         $aFavouriteTopics = array();
         $aTopicsRead = array();
         $aUsers = isset($aAllowData['user']) && is_array($aAllowData['user']) ? $this->User_GetUsersAdditionalData($aUserId,
             $aAllowData['user']) : $this->User_GetUsersAdditionalData($aUserId);
         $aBlogs = isset($aAllowData['blog']) && is_array($aAllowData['blog']) ? $this->Blog_GetBlogsAdditionalData($aBlogId,
             $aAllowData['blog']) : $this->Blog_GetBlogsAdditionalData($aBlogId);
-        if (isset($aAllowData['vote']) and $this->oUserCurrent) {
-            $aTopicsVote = $this->Vote_GetVoteByArray($aTopicId, 'topic', $this->oUserCurrent->getId());
-        }
+        
         if (isset($aAllowData['favourite']) and $this->oUserCurrent) {
             $aFavouriteTopics = $this->GetFavouriteTopicsByArray($aTopicId, $this->oUserCurrent->getId());
         }
@@ -186,11 +182,7 @@ class ModuleTopic extends Module
                 }
             }
             $oTopic->setBlogs($aBlogsTopic);
-            if (isset($aTopicsVote[$oTopic->getId()])) {
-                $oTopic->setVote($aTopicsVote[$oTopic->getId()]);
-            } else {
-                $oTopic->setVote(null);
-            }
+            
             if (isset($aFavouriteTopics[$oTopic->getId()])) {
                 $oTopic->setFavourite($aFavouriteTopics[$oTopic->getId()]);
             } else {
@@ -352,11 +344,7 @@ class ModuleTopic extends Module
          * Удаляем топик из прочитанного
          */
         $this->DeleteTopicReadByArrayId($iTopicId);
-        /**
-         * Удаляем голосование к топику
-         */
-        $this->Vote_DeleteVoteByTarget($iTopicId, 'topic');
-        /**
+       /**
          * Удаляем теги
          */
         $this->DeleteTopicTagsByTopicId($iTopicId);
@@ -1774,15 +1762,7 @@ class ModuleTopic extends Module
         return $this->oMapperTopic->RecalculateFavourite();
     }
 
-    /**
-     * Пересчитывает счетчики голосований
-     *
-     * @return bool
-     */
-    public function RecalculateVote()
-    {
-        return $this->oMapperTopic->RecalculateVote();
-    }
+    
 
     /**
      * Алиас для корректной работы ORM

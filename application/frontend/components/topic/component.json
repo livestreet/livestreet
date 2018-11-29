@@ -4,8 +4,7 @@
     "dependencies": {
         "article": "*",
         "favourite": "*",
-        "tags-favourite": "*",
-        "vote": "*"
+        "tags-favourite": "*"
     },
     "templates": {
         "topic": "topic.tpl",

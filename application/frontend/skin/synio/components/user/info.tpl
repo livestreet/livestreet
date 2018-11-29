@@ -240,14 +240,3 @@
 {* @hook Конец информации о пользователе *}
 {hook run='user_info_end' user=$user}
 
-{**
- * Стена
- *}
-{capture 'user_info_wall'}
-    {insert name='block' block='wall' params=[
-        'classes' => 'js-wall-default',
-        'user_id' => $user->getId()
-    ]}
-{/capture}
-
-{component 'user.info-group' name='wall' title={lang name='wall.title'} html=$smarty.capture.user_info_wall hookParams = [ 'user' => $user ]}

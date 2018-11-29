@@ -126,16 +126,7 @@ class ModuleBlog_EntityBlog extends Entity
         return $this->_getDataOne('blog_date_edit');
     }
 
-    /**
-     * Возврщает количество проголосовавших за блог
-     *
-     * @return int|null
-     */
-    public function getCountVote()
-    {
-        return $this->_getDataOne('blog_count_vote');
-    }
-
+    
     /**
      * Возвращает количество пользователей в блоге
      *
@@ -217,16 +208,7 @@ class ModuleBlog_EntityBlog extends Entity
         return $this->_getDataOne('owner');
     }
 
-    /**
-     * Возвращает объект голосования за блог
-     *
-     * @return ModuleVote_EntityVote|null
-     */
-    public function getVote()
-    {
-        return $this->_getDataOne('vote');
-    }
-
+    
     /**
      * Возвращает полный серверный путь до аватара блога определенного размера
      *
@@ -395,16 +377,7 @@ class ModuleBlog_EntityBlog extends Entity
         $this->_aData['blog_date_edit'] = $data;
     }
 
-    /**
-     * Устаналивает количество проголосовавших
-     *
-     * @param int $data
-     */
-    public function setCountVote($data)
-    {
-        $this->_aData['blog_count_vote'] = $data;
-    }
-
+    
     /**
      * Устанавливает количество пользователей блога
      *
@@ -505,13 +478,5 @@ class ModuleBlog_EntityBlog extends Entity
         $this->_aData['user_is_join'] = $data;
     }
 
-    /**
-     * Устанавливает объект голосования за блог
-     *
-     * @param ModuleVote_EntityVote $data
-     */
-    public function setVote($data)
-    {
-        $this->_aData['vote'] = $data;
-    }
+    
 }

@@ -29,8 +29,8 @@
                 {/if}
 
                 {* Рейтинг *}
-                <span class="ls-userbar-notifications-item ls-userbar-rating" title="{lang 'vote.rating'}">
-                    {component 'syn-icon' icon='rating'} {$oUserCurrent->getRating()}
+                <span class="ls-userbar-notifications-item ls-userbar-rating" title="">
+                    {component 'syn-icon' icon='rating'} 
                 </span>
             </div>
 

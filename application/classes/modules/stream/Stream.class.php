@@ -39,11 +39,9 @@ class ModuleStream extends Module
      * @var array
      */
     protected $aEventDefaultTypes = array(
-        'add_wall',
         'add_topic',
         'add_comment',
         'add_blog',
-        'vote_topic',
         'add_friend'
     );
     /**
@@ -52,12 +50,9 @@ class ModuleStream extends Module
      * @var array
      */
     protected $aEventTypes = array(
-        'add_wall'           => array('related' => 'wall', 'unique' => true),
         'add_topic'          => array('related' => 'topic', 'unique' => true),
         'add_comment'        => array('related' => 'comment', 'unique' => true),
         'add_blog'           => array('related' => 'blog', 'unique' => true),
-        'vote_topic'         => array('related' => 'topic'),
-        'vote_comment_topic' => array('related' => 'comment'),
         'add_friend'         => array('related' => 'user', 'unique_user' => true),
         'join_blog'          => array('related' => 'blog', 'unique_user' => true)
     );
@@ -91,13 +86,7 @@ class ModuleStream extends Module
         if (is_null($aTypes)) {
             $aTypes = array_keys($this->getEventTypes());
         }
-        if (Config::Get('module.stream.disable_vote_events')) {
-            foreach ($aTypes as $i => $sType) {
-                if (substr($sType, 0, 4) == 'vote') {
-                    unset ($aTypes[$i]);
-                }
-            }
-        }
+        
         return $aTypes;
     }
 
@@ -555,16 +544,7 @@ class ModuleStream extends Module
         $this->oMapper->unsubscribeUser($iUserId, $iTargetUserId);
     }
 
-    /**
-     * Получает список записей на стене
-     *
-     * @param array $aIds Список  ID записей на стене
-     * @return array
-     */
-    protected function loadRelatedWall($aIds)
-    {
-        return $this->Wall_GetWallAdditionalData($aIds);
-    }
+    
 
     /**
      * Получает список топиков

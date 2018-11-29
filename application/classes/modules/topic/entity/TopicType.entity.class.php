@@ -43,7 +43,6 @@ class ModuleTopic_EntityTopicType extends Entity
         $aParamsResult = array();
         $aParams = $this->getParamsArray();
 
-        $aParamsResult['allow_poll'] = (isset($aParams['allow_poll']) and $aParams['allow_poll']) ? true : false;
         $aParamsResult['allow_preview'] = (isset($aParams['allow_preview']) and $aParams['allow_preview']) ? true : false;
         $aParamsResult['allow_text'] = (isset($aParams['allow_text']) and $aParams['allow_text']) ? true : false;
         $aParamsResult['allow_tags'] = (isset($aParams['allow_tags']) and $aParams['allow_tags']) ? true : false;

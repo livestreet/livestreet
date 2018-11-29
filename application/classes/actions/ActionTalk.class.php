@@ -1282,8 +1282,7 @@ class ActionTalk extends Action
         $iCountNoteUser = $this->User_GetCountUserNotesByUserId($this->oUserCurrent->getId());
 
         $this->Viewer_Assign('oUserProfile', $this->oUserCurrent);
-        $this->Viewer_Assign('iCountWallUser',
-            $this->Wall_GetCountWall(array('wall_user_id' => $this->oUserCurrent->getId(), 'pid' => null)));
+        
         /**
          * Общее число публикация и избранного
          */

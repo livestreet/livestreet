@@ -71,7 +71,6 @@ class ModuleBlog_MapperBlog extends Mapper
 				blog_description= ?,
 				blog_type= ?,
 				blog_date_edit= ?,
-				blog_count_vote = ?d,
 				blog_count_user= ?d,
 				blog_count_topic= ?d,
 				blog_limit_rating_topic= ?f ,
@@ -82,7 +81,7 @@ class ModuleBlog_MapperBlog extends Mapper
 				blog_id = ?d
 		";
         $res = $this->oDb->query($sql, $oBlog->getTitle(), $oBlog->getDescription(), $oBlog->getType(),
-            $oBlog->getDateEdit(), $oBlog->getCountVote(), $oBlog->getCountUser(),
+            $oBlog->getDateEdit(), $oBlog->getCountUser(),
             $oBlog->getCountTopic(), $oBlog->getLimitRatingTopic(), $oBlog->getUrl(), $oBlog->getSkipIndex(), $oBlog->getAvatar(),
             $oBlog->getId());
         return $this->IsSuccessful($res);

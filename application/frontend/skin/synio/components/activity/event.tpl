@@ -51,33 +51,12 @@
     {elseif $type == 'add_blog'}
         {* Создан блог *}
         {lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
-    {elseif $type == 'vote_blog'}
-        {* Проголосовали за блог *}
-        {lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
-    {elseif $type == 'vote_topic'}
-        {* Проголосовали за топик *}
-        {lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getUrl()}\">{$target->getTitle()|escape}</a>"}
-    {elseif $type == 'vote_comment_topic'}
-        {* Проголосовали за комментарий *}
-        {lang "activity.events.{$type}_{$gender}" topic="<a href=\"{$target->getTarget()->getUrl()}#comment{$target->getId()}\">{$target->getTarget()->getTitle()|escape}</a>"}
-    {elseif $type == 'vote_user'}
-        {* Проголосовали за пользователя *}
-        {lang "activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
     {elseif $type == 'join_blog'}
         {* Вступили в блог *}
         {lang "activity.events.{$type}_{$gender}" blog="<a href=\"{$target->getUrlFull()}\">{$target->getTitle()|escape}</a>"}
     {elseif $type == 'add_friend'}
         {* Добавили в друзья *}
         {lang "activity.events.{$type}_{$gender}" user="<a href=\"{$target->getUserWebPath()}\">{$target->getDisplayName()}</a>"}
-    {elseif $type == 'add_wall'}
-        {* Написали на стене *}
-        {if $target->getWallUser()->getId() == $user->getId()}
-            {lang "activity.events.{$type}_self_{$gender}" url=$target->getUrlWall()}
-        {else}
-            {lang "activity.events.{$type}_{$gender}" url=$target->getUrlWall() user=$target->getWallUser()->getDisplayName()}
-        {/if}
-
-        {activity_event_text text=$target->getText()}
     {else}
         {hook run="activity_event_`$type`" event=$event}
     {/if}

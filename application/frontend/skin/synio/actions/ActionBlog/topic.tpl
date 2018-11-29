@@ -35,7 +35,7 @@
             url     => "{$pagingComments.sGetParams}{($pagingComments.sGetParams) ? '&' : '?'}cmtpage=__page__"
         ]
         commentParams = [
-            useVote       => true,
+            useVote       => false,
             useEdit       => true,
             useFavourite  => true
         ]}

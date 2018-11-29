@@ -210,15 +210,7 @@
             {hook run="{$hookPrefix}_actions_end" params=$params}
         </ul>
 
-        {* Голосование *}
-        {if $useVote}
-            {* Блокируем голосование для гостей или если залогиненый пользователь является автором комментария*}
-            {component 'vote'
-                mods     = 'small'
-                classes  = "{$component}-vote js-comment-vote"
-                target   = $comment
-                isLocked = ($oUserCurrent && $oUserCurrent->getId() == $user->getId()) || strtotime($comment->getDate()) < $smarty.now - Config::Get('acl.vote.comment.limit_time')}
-        {/if}
+        
     {else}
         {$aLang.comments.comment.deleted}
     {/if}
