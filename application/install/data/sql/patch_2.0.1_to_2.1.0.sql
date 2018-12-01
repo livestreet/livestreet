@@ -13,7 +13,7 @@ CREATE TABLE `prefix_menu` (
 -- Дамп данных таблицы `prefix_menu`
 --
 
-INSERT INTO `ls_menu` (`id`, `name`, `title`, `state`) VALUES
+INSERT INTO `prefix_menu` (`id`, `name`, `title`, `state`) VALUES
 (1, 'main', 'Главное', 1),
 (2, 'user', 'Пользователь', 1);
 
@@ -38,7 +38,7 @@ CREATE TABLE `prefix_menu_item` (
 -- Дамп данных таблицы `prefix_menu_item`
 --
 
-INSERT INTO `ls_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `state`, `priority`) VALUES
+INSERT INTO `prefix_menu_item` (`id`, `name`, `url`, `menu_id`, `pid`, `title`, `state`, `priority`) VALUES
 (1, 'blog', '/', 1, 0, 'topic.topics', 1, 100),
 (2, 'people', 'people', 1, 0, 'user.users', 1, 98),
 (5, 'blogs', 'blogs', 1, 0, 'blog.blogs', 1, 99),
