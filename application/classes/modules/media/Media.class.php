@@ -1146,7 +1146,7 @@ class ModuleMedia extends ModuleORM
             return false;
         }
         if (in_array($sAllowType, array(self::TYPE_CHECK_ALLOW_REMOVE, self::TYPE_CHECK_ALLOW_UPDATE))) {
-            if ($oMedia->getUserId() == $oUser->getId()) {
+            if ($oMedia->getUserId() == $oUser->getId() or $oUser->isAdministrator()) {
                 return true;
             }
         }
