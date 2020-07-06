@@ -50,7 +50,7 @@ abstract class InstallStep
         array_shift($aPath);
         array_shift($aPath);
         $sName = ucfirst(install_func_camelize(join('_', $aPath)));
-        $sName{0} = strtolower($sName{0});
+        $sName[0] = strtolower($sName[0]);
         return $sName;
     }
 

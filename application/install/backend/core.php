@@ -143,9 +143,6 @@ class InstallCore
     protected function loadStoredData()
     {
         $aData = isset($_COOKIE[self::COOKIE_NAME]) ? $_COOKIE[self::COOKIE_NAME] : '';
-        if (get_magic_quotes_gpc()) {
-            $this->stripslashes($aData);
-        }
         self::$aStoredData = $aData ? @unserialize($aData) : array();
     }
 
