@@ -34,7 +34,7 @@ function install_autoload($sClassName)
             array_shift($aPath);
             $sDir = 'step';
             $sName = ucfirst(install_func_camelize(join('_', $aPath)));
-            $sName{0} = strtolower($sName{0});
+            $sName[0] = strtolower($sName[0]);
         } else {
             $sName = array_pop($aPath);
             $sDir = join(DIRECTORY_SEPARATOR, $aPath);
