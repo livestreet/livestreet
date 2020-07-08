@@ -74,7 +74,7 @@
             </div>
 
             {* Первый уровень навигации *}
-            {if count($layoutNav)}
+            {if is_array($layoutNav) and count($layoutNav)}
                 {component 'nav' classes='layout-nav-top' params=$layoutNav[0]}
             {/if}
         </div>
