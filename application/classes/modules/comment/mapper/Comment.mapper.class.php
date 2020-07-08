@@ -242,7 +242,7 @@ class ModuleComment_MapperComment extends Mapper
         if ($aRows = $this->oDb->select($sql, $sId, $sTargetType)) {
             return $aRows;
         }
-        return null;
+        return array();
     }
 
     /**
