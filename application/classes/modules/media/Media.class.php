@@ -366,8 +366,63 @@ class ModuleMedia extends ModuleORM
         return $this->ProcessingFile($sFileTmp, $sTargetType, $sTargetId, $sTargetTmp);
     }
 
+    /**
+     * Checks that a remote media URL is safe to fetch: only http/https and no private or reserved address.
+     * Protects against Server Side Request Forgery.
+     *
+     * @param string $sUrl
+     * @return bool
+     */
+    protected function IsAllowedRemoteUrl($sUrl)
+    {
+        if (!is_string($sUrl) or $sUrl === '') {
+            return false;
+        }
+        $aUrlParts = parse_url($sUrl);
+        if (!is_array($aUrlParts) or empty($aUrlParts['scheme']) or empty($aUrlParts['host'])) {
+            return false;
+        }
+        if (!in_array(strtolower($aUrlParts['scheme']), array('http', 'https'), true)) {
+            return false;
+        }
+        $sHost = $aUrlParts['host'];
+        if (substr($sHost, 0, 1) === '[') {
+            $sHost = trim($sHost, '[]');
+        }
+        $aIps = array();
+        if (filter_var($sHost, FILTER_VALIDATE_IP)) {
+            $aIps[] = $sHost;
+        } else {
+            if (is_array($aResolved = @gethostbynamel($sHost))) {
+                $aIps = $aResolved;
+            }
+            if (is_array($aRecords = @dns_get_record($sHost, DNS_AAAA))) {
+                foreach ($aRecords as $aRecord) {
+                    if (!empty($aRecord['ipv6'])) {
+                        $aIps[] = $aRecord['ipv6'];
+                    }
+                }
+            }
+        }
+        if (!$aIps) {
+            return false;
+        }
+        foreach ($aIps as $sIp) {
+            if (!filter_var($sIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function UploadUrl($sFileUrl, $sTargetType, $sTargetId, $sTargetTmp = null)
     {
+        /**
+         * Blocks fetching of local or internal resources (SSRF protection)
+         */
+        if (!$this->IsAllowedRemoteUrl($sFileUrl)) {
+            return $this->Lang_Get('media.error.not_image');
+        }
         /**
          * Проверяем, является ли файл изображением
          * TODO: файл может быть не только изображением, поэтому требуется рефакторинг
